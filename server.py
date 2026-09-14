@@ -17,8 +17,8 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
 
     def do_GET(self):
-        # Serve trained mapping database (compressed or merged parts)
-        if self.path in ['/trained_mapping_db.json', '/data/trained_mapping_db.json']:
+        # Serve sales cache or trained mapping database (compressed or raw)
+        if self.path in ['/sales_cache.json', '/data/sales_cache.json', '/trained_mapping_db.json', '/data/trained_mapping_db.json', '/stock_cache.json', '/data/stock_cache.json']:
             rel_path = self.path[1:]
             gz_path = rel_path + '.gz'
             if os.path.exists(gz_path):

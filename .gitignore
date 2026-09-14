@@ -15,8 +15,13 @@ ALL GOOD STOCK/
 *.json
 data/*.json
 
-# Keep compressed dataset files required by server
+# Keep dataset files required by server and UI
+!sales_cache.json
+!data/sales_cache.json
+!sales_cache.json.gz
+!data/sales_cache.json.gz
 !stock_cache.json.gz
 !data/stock_cache.json.gz
 !trained_mapping_db.json.gz
 !data/trained_mapping_db.json.gz
+

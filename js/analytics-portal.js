@@ -78,11 +78,23 @@ window.AnalyticsPortal = {
   async loadSalesCache() {
     try {
       let res = await fetch('data/sales_cache.json');
-      if (!res.ok) {
-        res = await fetch('sales_cache.json');
-      }
+      if (!res.ok) res = await fetch('sales_cache.json');
+      if (!res.ok) res = await fetch('data/sales_cache.json.gz');
+      if (!res.ok) res = await fetch('sales_cache.json.gz');
       if (res.ok) {
-        this.salesCache = await res.json();
+        if (res.url.endsWith('.gz') || res.headers.get('Content-Type')?.includes('gzip') || res.headers.get('Content-Encoding')?.includes('gzip')) {
+          try {
+            const ds = new DecompressionStream('gzip');
+            const decompressedStream = res.body.pipeThrough(ds);
+            const text = await new Response(decompressedStream).text();
+            this.salesCache = JSON.parse(text);
+          } catch (gzErr) {
+            console.warn("DecompressionStream failed, trying res.json():", gzErr);
+            this.salesCache = await res.json();
+          }
+        } else {
+          this.salesCache = await res.json();
+        }
         this.activeMonth = this.salesCache.defaultMonth || 'AUG';
 
         const monthSelect = document.getElementById('sales-month-select');

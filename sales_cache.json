@@ -1,0 +1,5161 @@
+{
+  "availableMonths": [
+    "AUG",
+    "JUL",
+    "JUN",
+    "MAY",
+    "APR",
+    "MAR",
+    "FEB",
+    "JAN"
+  ],
+  "defaultMonth": "AUG",
+  "momTrend": [
+    {
+      "month": "JAN",
+      "revenue": 127381288.81,
+      "margin": 13063500.36,
+      "marginPct": 10.26
+    },
+    {
+      "month": "FEB",
+      "revenue": 132365048.32,
+      "margin": 9756821.18,
+      "marginPct": 7.37
+    },
+    {
+      "month": "MAR",
+      "revenue": 147374000.43,
+      "margin": 14527362.86,
+      "marginPct": 9.86
+    },
+    {
+      "month": "APR",
+      "revenue": 141162291.29,
+      "margin": 12955597.94,
+      "marginPct": 9.18
+    },
+    {
+      "month": "MAY",
+      "revenue": 149602526.86,
+      "margin": 12822486.63,
+      "marginPct": 8.57
+    },
+    {
+      "month": "JUN",
+      "revenue": 154546712.41,
+      "margin": 13851514.58,
+      "marginPct": 8.96
+    },
+    {
+      "month": "JUL",
+      "revenue": 154740101.05,
+      "margin": 12589879.37,
+      "marginPct": 8.14
+    },
+    {
+      "month": "AUG",
+      "revenue": 147280640.65,
+      "margin": 11751187.98,
+      "marginPct": 7.98
+    }
+  ],
+  "data": {
+    "AUG_ALL": {
+      "hasData": true,
+      "totalRevenue": 147280640.65,
+      "totalMargin": 11751187.98,
+      "marginPct": 7.98,
+      "totalUnits": 160488,
+      "totalInvoices": 13468,
+      "categorySales": {
+        "Mechanical Parts": 59131610.51,
+        "Body Parts": 38421746.71,
+        "Lubes": 36043547.39,
+        "Electrical Parts": 10178249.69,
+        "Accessories": 2821964.52
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 71084747.07,
+          "margin": 6805829.75,
+          "marginPct": 9.57,
+          "revenuePct": 48.26,
+          "invoices": 7563
+        },
+        {
+          "region": "NORTH",
+          "revenue": 43933832.07,
+          "margin": 2709636.97,
+          "marginPct": 6.17,
+          "revenuePct": 29.83,
+          "invoices": 2733
+        },
+        {
+          "region": "EAST",
+          "revenue": 19919768.68,
+          "margin": 1282681.09,
+          "marginPct": 6.44,
+          "revenuePct": 13.53,
+          "invoices": 1966
+        },
+        {
+          "region": "WEST",
+          "revenue": 12342292.83,
+          "margin": 953040.16,
+          "marginPct": 7.72,
+          "revenuePct": 8.38,
+          "invoices": 1206
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 67307013.63,
+        "mhmtSharePct": 45.7,
+        "mhmtUnits": 73387,
+        "othersRevenue": 79973627.02,
+        "othersSharePct": 54.3,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 24362855.73,
+            "margin": 2350625.9,
+            "marginPct": 9.65,
+            "sharePct": 16.54,
+            "units": 37547
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 15314656.45,
+            "margin": 1217178.64,
+            "marginPct": 7.95,
+            "sharePct": 10.4,
+            "units": 13649
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 16702886.45,
+            "margin": 1754876.01,
+            "marginPct": 10.51,
+            "sharePct": 11.34,
+            "units": 12933
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 10926615.01,
+            "margin": 972755.32,
+            "marginPct": 8.9,
+            "sharePct": 7.42,
+            "units": 9258
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 79973627.02,
+            "margin": 5455752.11,
+            "marginPct": 6.82,
+            "sharePct": 54.3,
+            "units": 87099
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 45835747.92,
+        "pmsSharePct": 31.12,
+        "totalPmsUnits": 67070,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 31506341.64,
+            "margin": 2333040.02,
+            "marginPct": 7.4,
+            "sharePct": 21.39,
+            "units": 34762
+          },
+          {
+            "name": "Filters",
+            "revenue": 5845475.57,
+            "margin": 925510.74,
+            "marginPct": 15.83,
+            "sharePct": 3.97,
+            "units": 19376
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 5012520.79,
+            "margin": 555049.87,
+            "marginPct": 11.07,
+            "sharePct": 3.4,
+            "units": 5810
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 2323409.29,
+            "margin": 173526.87,
+            "marginPct": 7.47,
+            "sharePct": 1.58,
+            "units": 743
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 702489.95,
+            "margin": 179439.47,
+            "marginPct": 25.54,
+            "sharePct": 0.48,
+            "units": 4160
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 445510.69,
+            "margin": 39545.39,
+            "marginPct": 8.88,
+            "sharePct": 0.3,
+            "units": 2219
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 6866043.66,
+          "margin": 667853.76,
+          "marginPct": 9.73,
+          "sharePct": 4.66,
+          "units": 6727,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 5868847.48,
+          "margin": 927542.0,
+          "marginPct": 15.8,
+          "sharePct": 3.98,
+          "units": 19437,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 5292592.68,
+          "margin": 440724.79,
+          "marginPct": 8.33,
+          "sharePct": 3.59,
+          "units": 3260,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 4438713.06,
+          "margin": 328022.16,
+          "marginPct": 7.39,
+          "sharePct": 3.01,
+          "units": 2169,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 4310983.69,
+          "margin": 316152.89,
+          "marginPct": 7.33,
+          "sharePct": 2.93,
+          "units": 2213,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 3333830.49,
+          "margin": 231145.46,
+          "marginPct": 6.93,
+          "sharePct": 2.26,
+          "units": 3576,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": -4.82
+    },
+    "AUG_RF": {
+      "hasData": true,
+      "totalRevenue": 94853845.41,
+      "totalMargin": 6249935.52,
+      "marginPct": 6.59,
+      "totalUnits": 101254,
+      "totalInvoices": 6801,
+      "categorySales": {
+        "Mechanical Parts": 35037619.85,
+        "Body Parts": 22814006.76,
+        "Lubes": 26116942.23,
+        "Electrical Parts": 8643198.96,
+        "Accessories": 2242077.61
+      },
+      "regionSales": [
+        {
+          "region": "NORTH",
+          "revenue": 35116941.79,
+          "margin": 2086462.25,
+          "marginPct": 5.94,
+          "revenuePct": 37.02,
+          "invoices": 2055
+        },
+        {
+          "region": "SOUTH",
+          "revenue": 33561631.44,
+          "margin": 2421097.9,
+          "marginPct": 7.21,
+          "revenuePct": 35.38,
+          "invoices": 2330
+        },
+        {
+          "region": "EAST",
+          "revenue": 19919768.68,
+          "margin": 1282681.09,
+          "marginPct": 6.44,
+          "revenuePct": 21.0,
+          "invoices": 1966
+        },
+        {
+          "region": "WEST",
+          "revenue": 6255503.5,
+          "margin": 459694.28,
+          "marginPct": 7.35,
+          "revenuePct": 6.59,
+          "invoices": 450
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 32863824.53,
+        "mhmtSharePct": 34.65,
+        "mhmtUnits": 30064,
+        "othersRevenue": 61990020.88,
+        "othersSharePct": 65.35,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 11907757.88,
+            "margin": 822937.14,
+            "marginPct": 6.91,
+            "sharePct": 12.55,
+            "units": 17637
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 7453255.18,
+            "margin": 422390.2,
+            "marginPct": 5.67,
+            "sharePct": 7.86,
+            "units": 4469
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 10089771.85,
+            "margin": 1123046.45,
+            "marginPct": 11.13,
+            "sharePct": 10.64,
+            "units": 6178
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 3413039.62,
+            "margin": 205369.7,
+            "marginPct": 6.02,
+            "sharePct": 3.6,
+            "units": 1780
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 61990020.88,
+            "margin": 3676192.03,
+            "marginPct": 5.93,
+            "sharePct": 65.35,
+            "units": 71190
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 30403717.18,
+        "pmsSharePct": 32.05,
+        "totalPmsUnits": 39317,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 22120106.38,
+            "margin": 302028.38,
+            "marginPct": 1.37,
+            "sharePct": 23.32,
+            "units": 21259
+          },
+          {
+            "name": "Filters",
+            "revenue": 3344806.88,
+            "margin": 529296.82,
+            "marginPct": 15.82,
+            "sharePct": 3.53,
+            "units": 9911
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2773266.14,
+            "margin": 350063.03,
+            "marginPct": 12.62,
+            "sharePct": 2.92,
+            "units": 4020
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 1626998.45,
+            "margin": 127801.08,
+            "marginPct": 7.86,
+            "sharePct": 1.72,
+            "units": 477
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 395818.85,
+            "margin": 110188.95,
+            "marginPct": 27.84,
+            "sharePct": 0.42,
+            "units": 2870
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 142720.48,
+            "margin": 11656.62,
+            "marginPct": 8.17,
+            "sharePct": 0.15,
+            "units": 780
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 4060035.5,
+          "margin": 425381.11,
+          "marginPct": 10.48,
+          "sharePct": 4.28,
+          "units": 4485,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 3367205.06,
+          "margin": 531283.85,
+          "marginPct": 15.78,
+          "sharePct": 3.55,
+          "units": 9971,
+          "topComponent": "AIR FILTER"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 2938553.44,
+          "margin": 226081.37,
+          "marginPct": 7.69,
+          "sharePct": 3.1,
+          "units": 1686,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2782989.83,
+          "margin": 257362.1,
+          "marginPct": 9.25,
+          "sharePct": 2.93,
+          "units": 1783,
+          "topComponent": "REAR SHOCK ABSORBER"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 2586022.47,
+          "margin": 185497.2,
+          "marginPct": 7.17,
+          "sharePct": 2.73,
+          "units": 1089,
+          "topComponent": "HEAD LAMP ASSEMBLY - LH"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 2317240.79,
+          "margin": 159960.25,
+          "marginPct": 6.9,
+          "sharePct": 2.44,
+          "units": 2839,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": -2.89
+    },
+    "AUG_CF": {
+      "hasData": true,
+      "totalRevenue": 52426795.24,
+      "totalMargin": 5501252.46,
+      "marginPct": 10.49,
+      "totalUnits": 59234,
+      "totalInvoices": 6667,
+      "categorySales": {
+        "Mechanical Parts": 24093990.66,
+        "Body Parts": 15607739.95,
+        "Lubes": 9926605.16,
+        "Electrical Parts": 1535050.73,
+        "Accessories": 579886.91
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 37523115.63,
+          "margin": 4384731.85,
+          "marginPct": 11.69,
+          "revenuePct": 71.57,
+          "invoices": 5233
+        },
+        {
+          "region": "NORTH",
+          "revenue": 8816890.28,
+          "margin": 623174.72,
+          "marginPct": 7.07,
+          "revenuePct": 16.82,
+          "invoices": 678
+        },
+        {
+          "region": "WEST",
+          "revenue": 6086789.33,
+          "margin": 493345.88,
+          "marginPct": 8.11,
+          "revenuePct": 11.61,
+          "invoices": 756
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 34443189.1,
+        "mhmtSharePct": 65.7,
+        "mhmtUnits": 43323,
+        "othersRevenue": 17983606.14,
+        "othersSharePct": 34.3,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 12455097.85,
+            "margin": 1527688.76,
+            "marginPct": 12.27,
+            "sharePct": 23.76,
+            "units": 19910
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 7861401.27,
+            "margin": 794788.44,
+            "marginPct": 10.11,
+            "sharePct": 15.0,
+            "units": 9180
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 6613114.6,
+            "margin": 631829.56,
+            "marginPct": 9.55,
+            "sharePct": 12.61,
+            "units": 6755
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 7513575.39,
+            "margin": 767385.62,
+            "marginPct": 10.21,
+            "sharePct": 14.33,
+            "units": 7478
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 17983606.14,
+            "margin": 1779560.08,
+            "marginPct": 9.9,
+            "sharePct": 34.3,
+            "units": 15909
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 15432030.74,
+        "pmsSharePct": 29.44,
+        "totalPmsUnits": 27753,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 9386235.26,
+            "margin": 2031011.64,
+            "marginPct": 21.64,
+            "sharePct": 17.9,
+            "units": 13503
+          },
+          {
+            "name": "Filters",
+            "revenue": 2500668.69,
+            "margin": 396213.92,
+            "marginPct": 15.84,
+            "sharePct": 4.77,
+            "units": 9465
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2239254.65,
+            "margin": 204986.84,
+            "marginPct": 9.15,
+            "sharePct": 4.27,
+            "units": 1790
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 696410.84,
+            "margin": 45725.79,
+            "marginPct": 6.57,
+            "sharePct": 1.33,
+            "units": 266
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 306671.1,
+            "margin": 69250.52,
+            "marginPct": 22.58,
+            "sharePct": 0.58,
+            "units": 1290
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 302790.2,
+            "margin": 27888.77,
+            "marginPct": 9.21,
+            "sharePct": 0.58,
+            "units": 1439
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2806008.16,
+          "margin": 242472.65,
+          "marginPct": 8.64,
+          "sharePct": 5.35,
+          "units": 2242,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2509602.85,
+          "margin": 183362.69,
+          "marginPct": 7.31,
+          "sharePct": 4.79,
+          "units": 1477,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 2501642.42,
+          "margin": 396258.15,
+          "marginPct": 15.84,
+          "sharePct": 4.77,
+          "units": 9466,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 1724961.22,
+          "margin": 130655.69,
+          "marginPct": 7.57,
+          "sharePct": 3.29,
+          "units": 1124,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1500159.62,
+          "margin": 101940.79,
+          "marginPct": 6.8,
+          "sharePct": 2.86,
+          "units": 483,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1016589.7,
+          "margin": 71185.21,
+          "marginPct": 7.0,
+          "sharePct": 1.94,
+          "units": 737,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": -8.12
+    },
+    "JUL_ALL": {
+      "hasData": true,
+      "totalRevenue": 154740101.05,
+      "totalMargin": 12589879.37,
+      "marginPct": 8.14,
+      "totalUnits": 185737,
+      "totalInvoices": 15536,
+      "categorySales": {
+        "Mechanical Parts": 64332560.84,
+        "Body Parts": 39840065.6,
+        "Lubes": 35617885.17,
+        "Electrical Parts": 10863737.84,
+        "Accessories": 2705144.4
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 80622131.91,
+          "margin": 7810455.35,
+          "marginPct": 9.69,
+          "revenuePct": 52.1,
+          "invoices": 9296
+        },
+        {
+          "region": "NORTH",
+          "revenue": 39551765.95,
+          "margin": 2246540.83,
+          "marginPct": 5.68,
+          "revenuePct": 25.56,
+          "invoices": 2892
+        },
+        {
+          "region": "EAST",
+          "revenue": 22041397.54,
+          "margin": 1473532.25,
+          "marginPct": 6.69,
+          "revenuePct": 14.24,
+          "invoices": 2037
+        },
+        {
+          "region": "WEST",
+          "revenue": 12524805.65,
+          "margin": 1059350.94,
+          "marginPct": 8.46,
+          "revenuePct": 8.09,
+          "invoices": 1311
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 73865281.34,
+        "mhmtSharePct": 47.74,
+        "mhmtUnits": 86036,
+        "othersRevenue": 80874819.71,
+        "othersSharePct": 52.26,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 27627556.05,
+            "margin": 2910012.21,
+            "marginPct": 10.53,
+            "sharePct": 17.85,
+            "units": 44749
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 16880882.09,
+            "margin": 1451921.34,
+            "marginPct": 8.6,
+            "sharePct": 10.91,
+            "units": 16114
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 17949696.37,
+            "margin": 1939331.23,
+            "marginPct": 10.8,
+            "sharePct": 11.6,
+            "units": 15557
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 11407146.84,
+            "margin": 1019398.19,
+            "marginPct": 8.94,
+            "sharePct": 7.37,
+            "units": 9616
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 80874819.71,
+            "margin": 5269216.41,
+            "marginPct": 6.52,
+            "sharePct": 52.26,
+            "units": 99700
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 45876816.41,
+        "pmsSharePct": 29.65,
+        "totalPmsUnits": 73603,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 30653139.39,
+            "margin": 1934687.9,
+            "marginPct": 6.31,
+            "sharePct": 19.81,
+            "units": 33754
+          },
+          {
+            "name": "Filters",
+            "revenue": 7001514.55,
+            "margin": 998803.48,
+            "marginPct": 14.27,
+            "sharePct": 4.52,
+            "units": 24959
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 5188992.67,
+            "margin": 534897.46,
+            "marginPct": 10.31,
+            "sharePct": 3.35,
+            "units": 7142
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 1750426.96,
+            "margin": 140851.28,
+            "marginPct": 8.05,
+            "sharePct": 1.13,
+            "units": 736
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 805881.46,
+            "margin": 213973.64,
+            "marginPct": 26.55,
+            "sharePct": 0.52,
+            "units": 4702
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 476861.38,
+            "margin": 54539.99,
+            "marginPct": 11.44,
+            "sharePct": 0.31,
+            "units": 2310
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 7041218.72,
+          "margin": 1003847.46,
+          "marginPct": 14.26,
+          "sharePct": 4.55,
+          "units": 25082,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 6490596.95,
+          "margin": 635692.09,
+          "marginPct": 9.79,
+          "sharePct": 4.19,
+          "units": 8214,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 6008237.52,
+          "margin": 443119.44,
+          "marginPct": 7.38,
+          "sharePct": 3.88,
+          "units": 4186,
+          "topComponent": "REAR SHOCK ABSORBER"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 5468372.71,
+          "margin": 418333.59,
+          "marginPct": 7.65,
+          "sharePct": 3.53,
+          "units": 1854,
+          "topComponent": "HEAD LAMP ASSEMBLY - LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 3430445.31,
+          "margin": 261184.32,
+          "marginPct": 7.61,
+          "sharePct": 2.22,
+          "units": 1194,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 2191677.84,
+          "margin": 158598.4,
+          "marginPct": 7.24,
+          "sharePct": 1.42,
+          "units": 3277,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 0.13
+    },
+    "JUL_RF": {
+      "hasData": true,
+      "totalRevenue": 97680769.57,
+      "totalMargin": 5925655.95,
+      "marginPct": 6.07,
+      "totalUnits": 110732,
+      "totalInvoices": 7152,
+      "categorySales": {
+        "Mechanical Parts": 37744769.11,
+        "Body Parts": 24496306.62,
+        "Lubes": 24210571.99,
+        "Electrical Parts": 9106704.4,
+        "Accessories": 2122417.45
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 37743236.09,
+          "margin": 2332500.88,
+          "marginPct": 6.18,
+          "revenuePct": 38.64,
+          "invoices": 2474
+        },
+        {
+          "region": "NORTH",
+          "revenue": 31451770.48,
+          "margin": 1621987.9,
+          "marginPct": 5.16,
+          "revenuePct": 32.2,
+          "invoices": 2193
+        },
+        {
+          "region": "EAST",
+          "revenue": 22041397.54,
+          "margin": 1473532.25,
+          "marginPct": 6.69,
+          "revenuePct": 22.56,
+          "invoices": 2037
+        },
+        {
+          "region": "WEST",
+          "revenue": 6444365.46,
+          "margin": 497634.91,
+          "marginPct": 7.72,
+          "revenuePct": 6.6,
+          "invoices": 448
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 35679990.38,
+        "mhmtSharePct": 36.53,
+        "mhmtUnits": 29569,
+        "othersRevenue": 62000779.19,
+        "othersSharePct": 63.47,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 13459689.89,
+            "margin": 942492.8,
+            "marginPct": 7.0,
+            "sharePct": 13.78,
+            "units": 15282
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 8159137.85,
+            "margin": 453984.63,
+            "marginPct": 5.56,
+            "sharePct": 8.35,
+            "units": 4977
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 9530176.58,
+            "margin": 1022924.47,
+            "marginPct": 10.73,
+            "sharePct": 9.76,
+            "units": 7038
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 4530986.06,
+            "margin": 265695.4,
+            "marginPct": 5.86,
+            "sharePct": 4.64,
+            "units": 2272
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 62000779.19,
+            "margin": 3240558.65,
+            "marginPct": 5.23,
+            "sharePct": 63.47,
+            "units": 81163
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 28181528.12,
+        "pmsSharePct": 28.85,
+        "totalPmsUnits": 39454,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 19978928.81,
+            "margin": 11986.7,
+            "marginPct": 0.06,
+            "sharePct": 20.45,
+            "units": 17928
+          },
+          {
+            "name": "Filters",
+            "revenue": 4152138.24,
+            "margin": 460460.45,
+            "marginPct": 11.09,
+            "sharePct": 4.25,
+            "units": 12869
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2624196.97,
+            "margin": 286601.39,
+            "marginPct": 10.92,
+            "sharePct": 2.69,
+            "units": 4882
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 954542.81,
+            "margin": 74301.59,
+            "marginPct": 7.78,
+            "sharePct": 0.98,
+            "units": 330
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 357291.84,
+            "margin": 99983.78,
+            "marginPct": 27.98,
+            "sharePct": 0.37,
+            "units": 2801
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 114429.45,
+            "margin": 7978.77,
+            "marginPct": 6.97,
+            "sharePct": 0.12,
+            "units": 644
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 4189616.14,
+          "margin": 465393.12,
+          "marginPct": 11.11,
+          "sharePct": 4.29,
+          "units": 12990,
+          "topComponent": "AIR FILTER"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 3463726.88,
+          "margin": 249388.75,
+          "marginPct": 7.2,
+          "sharePct": 3.55,
+          "units": 576,
+          "topComponent": "HEAD LAMP ASSEMBLY - LH"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 3397317.9,
+          "margin": 346689.13,
+          "marginPct": 10.2,
+          "sharePct": 3.48,
+          "units": 5440,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 3175325.13,
+          "margin": 235670.95,
+          "marginPct": 7.42,
+          "sharePct": 3.25,
+          "units": 2498,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1748340.62,
+          "margin": 129580.0,
+          "marginPct": 7.41,
+          "sharePct": 1.79,
+          "units": 564,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1318324.17,
+          "margin": 94948.04,
+          "marginPct": 7.2,
+          "sharePct": 1.35,
+          "units": 2458,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 7.09
+    },
+    "JUL_CF": {
+      "hasData": true,
+      "totalRevenue": 57059331.48,
+      "totalMargin": 6664223.43,
+      "marginPct": 11.68,
+      "totalUnits": 75005,
+      "totalInvoices": 8384,
+      "categorySales": {
+        "Mechanical Parts": 26587791.73,
+        "Body Parts": 15343758.98,
+        "Lubes": 11407313.18,
+        "Electrical Parts": 1757033.44,
+        "Accessories": 582726.95
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 42878895.82,
+          "margin": 5477954.46,
+          "marginPct": 12.78,
+          "revenuePct": 75.15,
+          "invoices": 6822
+        },
+        {
+          "region": "NORTH",
+          "revenue": 8099995.47,
+          "margin": 624552.93,
+          "marginPct": 7.71,
+          "revenuePct": 14.2,
+          "invoices": 699
+        },
+        {
+          "region": "WEST",
+          "revenue": 6080440.19,
+          "margin": 561716.03,
+          "marginPct": 9.24,
+          "revenuePct": 10.66,
+          "invoices": 863
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 38185290.96,
+        "mhmtSharePct": 66.92,
+        "mhmtUnits": 56467,
+        "othersRevenue": 18874040.52,
+        "othersSharePct": 33.08,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 14167866.16,
+            "margin": 1967519.41,
+            "marginPct": 13.89,
+            "sharePct": 24.83,
+            "units": 29467
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 8721744.24,
+            "margin": 997936.71,
+            "marginPct": 11.44,
+            "sharePct": 15.29,
+            "units": 11137
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 8419519.79,
+            "margin": 916406.76,
+            "marginPct": 10.88,
+            "sharePct": 14.76,
+            "units": 8519
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 6876160.78,
+            "margin": 753702.79,
+            "marginPct": 10.96,
+            "sharePct": 12.05,
+            "units": 7344
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 18874040.52,
+            "margin": 2028657.76,
+            "marginPct": 10.75,
+            "sharePct": 33.08,
+            "units": 18536
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 17695288.29,
+        "pmsSharePct": 31.01,
+        "totalPmsUnits": 34149,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 10674210.58,
+            "margin": 1922701.2,
+            "marginPct": 18.01,
+            "sharePct": 18.71,
+            "units": 15826
+          },
+          {
+            "name": "Filters",
+            "revenue": 2849376.31,
+            "margin": 538343.03,
+            "marginPct": 18.89,
+            "sharePct": 4.99,
+            "units": 12090
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2564795.7,
+            "margin": 248296.07,
+            "marginPct": 9.68,
+            "sharePct": 4.49,
+            "units": 2260
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 795884.15,
+            "margin": 66549.69,
+            "marginPct": 8.36,
+            "sharePct": 1.39,
+            "units": 406
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 448589.62,
+            "margin": 113989.86,
+            "marginPct": 25.41,
+            "sharePct": 0.79,
+            "units": 1901
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 362431.93,
+            "margin": 46561.22,
+            "marginPct": 12.85,
+            "sharePct": 0.64,
+            "units": 1666
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 3093279.05,
+          "margin": 289002.96,
+          "marginPct": 9.34,
+          "sharePct": 5.42,
+          "units": 2774,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 2851602.58,
+          "margin": 538454.34,
+          "marginPct": 18.88,
+          "sharePct": 5.0,
+          "units": 12092,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2832912.39,
+          "margin": 207448.49,
+          "marginPct": 7.32,
+          "sharePct": 4.96,
+          "units": 1688,
+          "topComponent": "REAR SHOCK ABSORBER"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 2004645.83,
+          "margin": 168944.84,
+          "marginPct": 8.43,
+          "sharePct": 3.51,
+          "units": 1278,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1682104.69,
+          "margin": 131604.32,
+          "marginPct": 7.82,
+          "sharePct": 2.95,
+          "units": 630,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 873353.67,
+          "margin": 63650.36,
+          "marginPct": 7.29,
+          "sharePct": 1.53,
+          "units": 819,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": -9.91
+    },
+    "JUN_ALL": {
+      "hasData": true,
+      "totalRevenue": 154546712.41,
+      "totalMargin": 13851514.58,
+      "marginPct": 8.96,
+      "totalUnits": 186128,
+      "totalInvoices": 16249,
+      "categorySales": {
+        "Mechanical Parts": 65675740.81,
+        "Body Parts": 40208265.07,
+        "Lubes": 32106025.17,
+        "Electrical Parts": 9954437.28,
+        "Accessories": 3906192.74
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 81322916.56,
+          "margin": 8947436.07,
+          "marginPct": 11.0,
+          "revenuePct": 52.62,
+          "invoices": 10001
+        },
+        {
+          "region": "NORTH",
+          "revenue": 39756072.33,
+          "margin": 2422998.21,
+          "marginPct": 6.09,
+          "revenuePct": 25.72,
+          "invoices": 2819
+        },
+        {
+          "region": "EAST",
+          "revenue": 20259245.37,
+          "margin": 1293696.77,
+          "marginPct": 6.39,
+          "revenuePct": 13.11,
+          "invoices": 2046
+        },
+        {
+          "region": "WEST",
+          "revenue": 13208478.16,
+          "margin": 1187383.53,
+          "marginPct": 8.99,
+          "revenuePct": 8.55,
+          "invoices": 1383
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 74581443.01,
+        "mhmtSharePct": 48.26,
+        "mhmtUnits": 83643,
+        "othersRevenue": 79965269.41,
+        "othersSharePct": 51.74,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 27767925.1,
+            "margin": 3242888.42,
+            "marginPct": 11.68,
+            "sharePct": 17.97,
+            "units": 41252
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 17014163.99,
+            "margin": 1486836.72,
+            "marginPct": 8.74,
+            "sharePct": 11.01,
+            "units": 16145
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 17204364.85,
+            "margin": 1998997.8,
+            "marginPct": 11.62,
+            "sharePct": 11.13,
+            "units": 15657
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 12594989.07,
+            "margin": 1147164.73,
+            "marginPct": 9.11,
+            "sharePct": 8.15,
+            "units": 10589
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 79965269.41,
+            "margin": 5975626.91,
+            "marginPct": 7.47,
+            "sharePct": 51.74,
+            "units": 102483
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 44128604.13,
+        "pmsSharePct": 28.55,
+        "totalPmsUnits": 70066,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 27770664.54,
+            "margin": 1343226.74,
+            "marginPct": 4.84,
+            "sharePct": 17.97,
+            "units": 29693
+          },
+          {
+            "name": "Filters",
+            "revenue": 6752303.3,
+            "margin": 1222436.13,
+            "marginPct": 18.1,
+            "sharePct": 4.37,
+            "units": 26270
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 5331117.61,
+            "margin": 557243.47,
+            "marginPct": 10.45,
+            "sharePct": 3.45,
+            "units": 5596
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 2943341.09,
+            "margin": 297988.03,
+            "marginPct": 10.12,
+            "sharePct": 1.9,
+            "units": 1149
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 826766.3,
+            "margin": 305535.18,
+            "marginPct": 36.96,
+            "sharePct": 0.53,
+            "units": 4892
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 504411.29,
+            "margin": 56448.1,
+            "marginPct": 11.19,
+            "sharePct": 0.33,
+            "units": 2466
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 7452716.29,
+          "margin": 678322.28,
+          "marginPct": 9.1,
+          "sharePct": 4.82,
+          "units": 6759,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 6763301.44,
+          "margin": 1223451.56,
+          "marginPct": 18.09,
+          "sharePct": 4.38,
+          "units": 26322,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 5678785.38,
+          "margin": 446069.87,
+          "marginPct": 7.86,
+          "sharePct": 3.67,
+          "units": 3766,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 5064830.08,
+          "margin": 493866.42,
+          "marginPct": 9.75,
+          "sharePct": 3.28,
+          "units": 1680,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 4721204.95,
+          "margin": 329749.22,
+          "marginPct": 6.98,
+          "sharePct": 3.05,
+          "units": 1943,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 2753883.34,
+          "margin": 199096.24,
+          "marginPct": 7.23,
+          "sharePct": 1.78,
+          "units": 2357,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 3.3
+    },
+    "JUN_RF": {
+      "hasData": true,
+      "totalRevenue": 91214207.1,
+      "totalMargin": 5805931.25,
+      "marginPct": 6.37,
+      "totalUnits": 110068,
+      "totalInvoices": 6938,
+      "categorySales": {
+        "Mechanical Parts": 34564259.99,
+        "Body Parts": 24231285.68,
+        "Lubes": 20929222.59,
+        "Electrical Parts": 8525141.91,
+        "Accessories": 2964296.93
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 32436769.6,
+          "margin": 2277173.62,
+          "marginPct": 7.02,
+          "revenuePct": 35.56,
+          "invoices": 2413
+        },
+        {
+          "region": "NORTH",
+          "revenue": 31958821.75,
+          "margin": 1692793.59,
+          "marginPct": 5.3,
+          "revenuePct": 35.04,
+          "invoices": 2040
+        },
+        {
+          "region": "EAST",
+          "revenue": 20259245.37,
+          "margin": 1293696.77,
+          "marginPct": 6.39,
+          "revenuePct": 22.21,
+          "invoices": 2046
+        },
+        {
+          "region": "WEST",
+          "revenue": 6559370.38,
+          "margin": 542267.27,
+          "marginPct": 8.27,
+          "revenuePct": 7.19,
+          "invoices": 439
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 35428992.28,
+        "mhmtSharePct": 38.84,
+        "mhmtUnits": 29353,
+        "othersRevenue": 55785214.82,
+        "othersSharePct": 61.16,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 12684570.83,
+            "margin": 841684.57,
+            "marginPct": 6.64,
+            "sharePct": 13.91,
+            "units": 15579
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 8130861.88,
+            "margin": 433806.74,
+            "marginPct": 5.34,
+            "sharePct": 8.91,
+            "units": 5002
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 9578908.54,
+            "margin": 997055.61,
+            "marginPct": 10.41,
+            "sharePct": 10.5,
+            "units": 6516
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 5034651.03,
+            "margin": 261183.55,
+            "marginPct": 5.19,
+            "sharePct": 5.52,
+            "units": 2256
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 55785214.82,
+            "margin": 3272200.78,
+            "marginPct": 5.87,
+            "sharePct": 61.16,
+            "units": 80714
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 26206593.05,
+        "pmsSharePct": 28.73,
+        "totalPmsUnits": 36831,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 17366201.94,
+            "margin": -159234.77,
+            "marginPct": -0.92,
+            "sharePct": 19.04,
+            "units": 14294
+          },
+          {
+            "name": "Filters",
+            "revenue": 3843357.21,
+            "margin": 651889.63,
+            "marginPct": 16.96,
+            "sharePct": 4.21,
+            "units": 14399
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2509119.55,
+            "margin": 260213.42,
+            "marginPct": 10.37,
+            "sharePct": 2.75,
+            "units": 3489
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 1973866.39,
+            "margin": 219329.71,
+            "marginPct": 11.11,
+            "sharePct": 2.16,
+            "units": 759
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 358806.16,
+            "margin": 135304.36,
+            "marginPct": 37.71,
+            "sharePct": 0.39,
+            "units": 3058
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 155241.8,
+            "margin": 12221.28,
+            "marginPct": 7.87,
+            "sharePct": 0.17,
+            "units": 832
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 3853664.98,
+          "margin": 652673.31,
+          "marginPct": 16.94,
+          "sharePct": 4.22,
+          "units": 14448,
+          "topComponent": "AIR FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 3834709.13,
+          "margin": 313131.74,
+          "marginPct": 8.17,
+          "sharePct": 4.2,
+          "units": 4066,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 3003216.64,
+          "margin": 214966.5,
+          "marginPct": 7.16,
+          "sharePct": 3.29,
+          "units": 789,
+          "topComponent": "HEAD LAMP ASSEMBLY - LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 2986907.67,
+          "margin": 318756.6,
+          "marginPct": 10.67,
+          "sharePct": 3.27,
+          "units": 1034,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2545615.29,
+          "margin": 220195.77,
+          "marginPct": 8.65,
+          "sharePct": 2.79,
+          "units": 2026,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1541667.83,
+          "margin": 108837.59,
+          "marginPct": 7.06,
+          "sharePct": 1.69,
+          "units": 1351,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": -0.96
+    },
+    "JUN_CF": {
+      "hasData": true,
+      "totalRevenue": 63332505.31,
+      "totalMargin": 8045583.33,
+      "marginPct": 12.7,
+      "totalUnits": 76060,
+      "totalInvoices": 9311,
+      "categorySales": {
+        "Mechanical Parts": 31111480.82,
+        "Body Parts": 15976979.39,
+        "Lubes": 11176802.58,
+        "Electrical Parts": 1429295.37,
+        "Accessories": 941895.81
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 48886146.96,
+          "margin": 6670262.45,
+          "marginPct": 13.64,
+          "revenuePct": 77.19,
+          "invoices": 7588
+        },
+        {
+          "region": "NORTH",
+          "revenue": 7797250.58,
+          "margin": 730204.62,
+          "marginPct": 9.36,
+          "revenuePct": 12.31,
+          "invoices": 779
+        },
+        {
+          "region": "WEST",
+          "revenue": 6649107.78,
+          "margin": 645116.26,
+          "marginPct": 9.7,
+          "revenuePct": 10.5,
+          "invoices": 944
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 39152450.73,
+        "mhmtSharePct": 61.82,
+        "mhmtUnits": 54289,
+        "othersRevenue": 24180054.59,
+        "othersSharePct": 38.18,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 15083354.27,
+            "margin": 2401203.85,
+            "marginPct": 15.92,
+            "sharePct": 23.82,
+            "units": 25672
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 8883302.11,
+            "margin": 1053029.98,
+            "marginPct": 11.85,
+            "sharePct": 14.03,
+            "units": 11143
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 7625456.31,
+            "margin": 1001942.19,
+            "marginPct": 13.14,
+            "sharePct": 12.04,
+            "units": 9141
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 7560338.04,
+            "margin": 885981.18,
+            "marginPct": 11.72,
+            "sharePct": 11.94,
+            "units": 8333
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 24180054.59,
+            "margin": 2703426.13,
+            "marginPct": 11.18,
+            "sharePct": 38.18,
+            "units": 21769
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 17922011.08,
+        "pmsSharePct": 28.3,
+        "totalPmsUnits": 33235,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 10404462.6,
+            "margin": 1502461.51,
+            "marginPct": 14.44,
+            "sharePct": 16.43,
+            "units": 15399
+          },
+          {
+            "name": "Filters",
+            "revenue": 2908946.09,
+            "margin": 570546.5,
+            "marginPct": 19.61,
+            "sharePct": 4.59,
+            "units": 11871
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2821998.06,
+            "margin": 297030.05,
+            "marginPct": 10.53,
+            "sharePct": 4.46,
+            "units": 2107
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 969474.7,
+            "margin": 78658.32,
+            "marginPct": 8.11,
+            "sharePct": 1.53,
+            "units": 390
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 467960.14,
+            "margin": 170230.82,
+            "marginPct": 36.38,
+            "sharePct": 0.74,
+            "units": 1834
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 349169.49,
+            "margin": 44226.82,
+            "marginPct": 12.67,
+            "sharePct": 0.55,
+            "units": 1634
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 3618007.16,
+          "margin": 365190.54,
+          "marginPct": 10.09,
+          "sharePct": 5.71,
+          "units": 2693,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 3133170.09,
+          "margin": 225874.1,
+          "marginPct": 7.21,
+          "sharePct": 4.95,
+          "units": 1740,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 2909636.46,
+          "margin": 570778.25,
+          "marginPct": 19.62,
+          "sharePct": 4.59,
+          "units": 11874,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 2077922.41,
+          "margin": 175109.82,
+          "marginPct": 8.43,
+          "sharePct": 3.28,
+          "units": 646,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 1717988.31,
+          "margin": 114782.72,
+          "marginPct": 6.68,
+          "sharePct": 2.71,
+          "units": 1154,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1212215.51,
+          "margin": 90258.65,
+          "marginPct": 7.45,
+          "sharePct": 1.91,
+          "units": 1006,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 10.14
+    },
+    "MAY_ALL": {
+      "hasData": true,
+      "totalRevenue": 149602526.86,
+      "totalMargin": 12822486.63,
+      "marginPct": 8.57,
+      "totalUnits": 175816,
+      "totalInvoices": 16115,
+      "categorySales": {
+        "Mechanical Parts": 65032494.45,
+        "Body Parts": 37924572.8,
+        "Lubes": 31167254.63,
+        "Electrical Parts": 9190378.66,
+        "Accessories": 3977738.65
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 79805440.61,
+          "margin": 8040191.58,
+          "marginPct": 10.07,
+          "revenuePct": 53.34,
+          "invoices": 9976
+        },
+        {
+          "region": "NORTH",
+          "revenue": 36961412.86,
+          "margin": 2154665.83,
+          "marginPct": 5.83,
+          "revenuePct": 24.71,
+          "invoices": 2871
+        },
+        {
+          "region": "EAST",
+          "revenue": 19180225.65,
+          "margin": 1416059.25,
+          "marginPct": 7.38,
+          "revenuePct": 12.82,
+          "invoices": 1823
+        },
+        {
+          "region": "WEST",
+          "revenue": 13655447.74,
+          "margin": 1211569.97,
+          "marginPct": 8.87,
+          "revenuePct": 9.13,
+          "invoices": 1445
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 65695928.74,
+        "mhmtSharePct": 43.91,
+        "mhmtUnits": 80660,
+        "othersRevenue": 83906598.11,
+        "othersSharePct": 56.09,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 25401113.26,
+            "margin": 2738013.68,
+            "marginPct": 10.78,
+            "sharePct": 16.98,
+            "units": 40554
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 14787135.97,
+            "margin": 1313762.9,
+            "marginPct": 8.88,
+            "sharePct": 9.88,
+            "units": 15700
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 14155763.44,
+            "margin": 1384114.7,
+            "marginPct": 9.78,
+            "sharePct": 9.46,
+            "units": 14793
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 11351916.06,
+            "margin": 1075956.08,
+            "marginPct": 9.48,
+            "sharePct": 7.59,
+            "units": 9613
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 83906598.11,
+            "margin": 6310639.27,
+            "marginPct": 7.52,
+            "sharePct": 56.09,
+            "units": 95154
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 40895179.39,
+        "pmsSharePct": 27.34,
+        "totalPmsUnits": 63659,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 26383725.73,
+            "margin": 1090741.87,
+            "marginPct": 4.13,
+            "sharePct": 17.64,
+            "units": 28728
+          },
+          {
+            "name": "Filters",
+            "revenue": 5807859.37,
+            "margin": 1016673.67,
+            "marginPct": 17.51,
+            "sharePct": 3.88,
+            "units": 21016
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 4497023.1,
+            "margin": 456859.55,
+            "marginPct": 10.16,
+            "sharePct": 3.01,
+            "units": 4951
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 2928728.45,
+            "margin": 248137.99,
+            "marginPct": 8.47,
+            "sharePct": 1.96,
+            "units": 1203
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 920714.69,
+            "margin": 291599.52,
+            "marginPct": 31.67,
+            "sharePct": 0.62,
+            "units": 5888
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 357128.06,
+            "margin": 42402.68,
+            "marginPct": 11.87,
+            "sharePct": 0.24,
+            "units": 1873
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 5824896.93,
+          "margin": 1017938.5,
+          "marginPct": 17.48,
+          "sharePct": 3.89,
+          "units": 21070,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 5681130.13,
+          "margin": 541300.47,
+          "marginPct": 9.53,
+          "sharePct": 3.8,
+          "units": 5714,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 5049730.1,
+          "margin": 385086.98,
+          "marginPct": 7.63,
+          "sharePct": 3.38,
+          "units": 3155,
+          "topComponent": "REAR SHOCK ABSORBER"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 4271433.22,
+          "margin": 309499.47,
+          "marginPct": 7.25,
+          "sharePct": 2.86,
+          "units": 2158,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 4212423.15,
+          "margin": 366926.51,
+          "marginPct": 8.71,
+          "sharePct": 2.82,
+          "units": 1669,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 2292734.25,
+          "margin": 164228.52,
+          "marginPct": 7.16,
+          "sharePct": 1.53,
+          "units": 1544,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 5.98
+    },
+    "MAY_RF": {
+      "hasData": true,
+      "totalRevenue": 92102183.62,
+      "totalMargin": 5855981.56,
+      "marginPct": 6.36,
+      "totalUnits": 103950,
+      "totalInvoices": 6924,
+      "categorySales": {
+        "Mechanical Parts": 38023951.19,
+        "Body Parts": 22583311.75,
+        "Lubes": 20653993.71,
+        "Electrical Parts": 7735872.77,
+        "Accessories": 3105054.2
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 36652536.15,
+          "margin": 2300522.69,
+          "marginPct": 6.28,
+          "revenuePct": 39.8,
+          "invoices": 2505
+        },
+        {
+          "region": "NORTH",
+          "revenue": 29110333.03,
+          "margin": 1545412.22,
+          "marginPct": 5.31,
+          "revenuePct": 31.61,
+          "invoices": 2116
+        },
+        {
+          "region": "EAST",
+          "revenue": 19180225.65,
+          "margin": 1416059.25,
+          "marginPct": 7.38,
+          "revenuePct": 20.82,
+          "invoices": 1823
+        },
+        {
+          "region": "WEST",
+          "revenue": 7159088.79,
+          "margin": 593987.4,
+          "marginPct": 8.3,
+          "revenuePct": 7.77,
+          "invoices": 480
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 29209352.21,
+        "mhmtSharePct": 31.71,
+        "mhmtUnits": 28717,
+        "othersRevenue": 62892831.41,
+        "othersSharePct": 68.29,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 10971228.13,
+            "margin": 722363.1,
+            "marginPct": 6.58,
+            "sharePct": 11.91,
+            "units": 14926
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 6808159.17,
+            "margin": 379809.18,
+            "marginPct": 5.58,
+            "sharePct": 7.39,
+            "units": 4168
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 7052015.78,
+            "margin": 562945.23,
+            "marginPct": 7.98,
+            "sharePct": 7.66,
+            "units": 7349
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 4377949.13,
+            "margin": 354405.77,
+            "marginPct": 8.1,
+            "sharePct": 4.75,
+            "units": 2274
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 62892831.41,
+            "margin": 3836458.27,
+            "marginPct": 6.1,
+            "sharePct": 68.29,
+            "units": 75233
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 24454810.72,
+        "pmsSharePct": 26.55,
+        "totalPmsUnits": 32106,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 16547706.86,
+            "margin": -54492.84,
+            "marginPct": -0.33,
+            "sharePct": 17.97,
+            "units": 13313
+          },
+          {
+            "name": "Filters",
+            "revenue": 3081014.08,
+            "margin": 540104.65,
+            "marginPct": 17.53,
+            "sharePct": 3.35,
+            "units": 9968
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2264083.67,
+            "margin": 235122.84,
+            "marginPct": 10.38,
+            "sharePct": 2.46,
+            "units": 3330
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 2004376.41,
+            "margin": 164077.77,
+            "marginPct": 8.19,
+            "sharePct": 2.18,
+            "units": 761
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 476401.82,
+            "margin": 138246.21,
+            "marginPct": 29.02,
+            "sharePct": 0.52,
+            "units": 4186
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 81227.88,
+            "margin": 8800.6,
+            "marginPct": 10.83,
+            "sharePct": 0.09,
+            "units": 548
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 3097493.17,
+          "margin": 541330.26,
+          "marginPct": 17.48,
+          "sharePct": 3.36,
+          "units": 10020,
+          "topComponent": "AIR FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2958154.82,
+          "margin": 275386.64,
+          "marginPct": 9.31,
+          "sharePct": 3.21,
+          "units": 3697,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 2625484.87,
+          "margin": 188264.11,
+          "marginPct": 7.17,
+          "sharePct": 2.85,
+          "units": 1122,
+          "topComponent": "HEAD LAMP ASSEMBLY - LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 2603858.42,
+          "margin": 219053.84,
+          "marginPct": 8.41,
+          "sharePct": 2.83,
+          "units": 1021,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2272574.94,
+          "margin": 191235.98,
+          "marginPct": 8.41,
+          "sharePct": 2.47,
+          "units": 1577,
+          "topComponent": "REAR SHOCK ABSORBER"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1126454.94,
+          "margin": 66328.3,
+          "marginPct": 5.89,
+          "sharePct": 1.22,
+          "units": 682,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 4.3
+    },
+    "MAY_CF": {
+      "hasData": true,
+      "totalRevenue": 57500343.24,
+      "totalMargin": 6966505.07,
+      "marginPct": 12.12,
+      "totalUnits": 71865,
+      "totalInvoices": 9191,
+      "categorySales": {
+        "Mechanical Parts": 27008543.26,
+        "Body Parts": 15341261.05,
+        "Lubes": 10513260.92,
+        "Electrical Parts": 1454505.89,
+        "Accessories": 872684.45
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 43152904.46,
+          "margin": 5739668.89,
+          "marginPct": 13.3,
+          "revenuePct": 75.05,
+          "invoices": 7471
+        },
+        {
+          "region": "NORTH",
+          "revenue": 7851079.83,
+          "margin": 609253.61,
+          "marginPct": 7.76,
+          "revenuePct": 13.65,
+          "invoices": 755
+        },
+        {
+          "region": "WEST",
+          "revenue": 6496358.95,
+          "margin": 617582.57,
+          "marginPct": 9.51,
+          "revenuePct": 11.3,
+          "invoices": 965
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 36486576.53,
+        "mhmtSharePct": 63.45,
+        "mhmtUnits": 51942,
+        "othersRevenue": 21013766.7,
+        "othersSharePct": 36.55,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 14429885.13,
+            "margin": 2015650.57,
+            "marginPct": 13.97,
+            "sharePct": 25.1,
+            "units": 25627
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 7978976.8,
+            "margin": 933953.72,
+            "marginPct": 11.71,
+            "sharePct": 13.88,
+            "units": 11532
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 7103747.66,
+            "margin": 821169.47,
+            "marginPct": 11.56,
+            "sharePct": 12.35,
+            "units": 7444
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 6973966.93,
+            "margin": 721550.31,
+            "marginPct": 10.35,
+            "sharePct": 12.13,
+            "units": 7339
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 21013766.7,
+            "margin": 2474180.99,
+            "marginPct": 11.77,
+            "sharePct": 36.55,
+            "units": 19921
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 16440368.67,
+        "pmsSharePct": 28.59,
+        "totalPmsUnits": 31553,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 9836018.87,
+            "margin": 1145234.71,
+            "marginPct": 11.64,
+            "sharePct": 17.11,
+            "units": 15415
+          },
+          {
+            "name": "Filters",
+            "revenue": 2726845.29,
+            "margin": 476569.02,
+            "marginPct": 17.48,
+            "sharePct": 4.74,
+            "units": 11048
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2232939.43,
+            "margin": 221736.71,
+            "marginPct": 9.93,
+            "sharePct": 3.88,
+            "units": 1621
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 924352.04,
+            "margin": 84060.22,
+            "marginPct": 9.09,
+            "sharePct": 1.61,
+            "units": 442
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 444312.87,
+            "margin": 153353.31,
+            "marginPct": 34.51,
+            "sharePct": 0.77,
+            "units": 1702
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 275900.18,
+            "margin": 33602.08,
+            "marginPct": 12.18,
+            "sharePct": 0.48,
+            "units": 1325
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2777155.16,
+          "margin": 193851.01,
+          "marginPct": 6.98,
+          "sharePct": 4.83,
+          "units": 1578,
+          "topComponent": "REAR SHOCK ABSORBER"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 2727403.76,
+          "margin": 476608.24,
+          "marginPct": 17.47,
+          "sharePct": 4.74,
+          "units": 11050,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2722975.31,
+          "margin": 265913.83,
+          "marginPct": 9.77,
+          "sharePct": 4.74,
+          "units": 2017,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 1645948.35,
+          "margin": 121235.36,
+          "marginPct": 7.37,
+          "sharePct": 2.86,
+          "units": 1036,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1608564.73,
+          "margin": 147872.67,
+          "marginPct": 9.19,
+          "sharePct": 2.8,
+          "units": 648,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1166279.31,
+          "margin": 97900.22,
+          "marginPct": 8.39,
+          "sharePct": 2.03,
+          "units": 862,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 8.79
+    },
+    "APR_ALL": {
+      "hasData": true,
+      "totalRevenue": 141162291.29,
+      "totalMargin": 12955597.94,
+      "marginPct": 9.18,
+      "totalUnits": 175745,
+      "totalInvoices": 14596,
+      "categorySales": {
+        "Mechanical Parts": 62995013.46,
+        "Body Parts": 34433515.42,
+        "Lubes": 29174284.55,
+        "Electrical Parts": 8704979.49,
+        "Accessories": 3623363.13
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 76720022.17,
+          "margin": 7813677.08,
+          "marginPct": 10.18,
+          "revenuePct": 54.35,
+          "invoices": 9288
+        },
+        {
+          "region": "NORTH",
+          "revenue": 33808268.26,
+          "margin": 2706727.72,
+          "marginPct": 8.01,
+          "revenuePct": 23.95,
+          "invoices": 2389
+        },
+        {
+          "region": "EAST",
+          "revenue": 17959507.72,
+          "margin": 1279974.09,
+          "marginPct": 7.13,
+          "revenuePct": 12.72,
+          "invoices": 1594
+        },
+        {
+          "region": "WEST",
+          "revenue": 12674493.14,
+          "margin": 1155219.04,
+          "marginPct": 9.11,
+          "revenuePct": 8.98,
+          "invoices": 1325
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 61144970.52,
+        "mhmtSharePct": 43.32,
+        "mhmtUnits": 76317,
+        "othersRevenue": 80017320.77,
+        "othersSharePct": 56.68,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 22372979.47,
+            "margin": 2496508.92,
+            "marginPct": 11.16,
+            "sharePct": 15.85,
+            "units": 37616
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 16245535.8,
+            "margin": 1398780.58,
+            "marginPct": 8.61,
+            "sharePct": 11.51,
+            "units": 15783
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 12302203.09,
+            "margin": 1183679.73,
+            "marginPct": 9.62,
+            "sharePct": 8.71,
+            "units": 13585
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 10224252.15,
+            "margin": 1067656.02,
+            "marginPct": 10.44,
+            "sharePct": 7.24,
+            "units": 9333
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 80017320.77,
+            "margin": 6808972.68,
+            "marginPct": 8.51,
+            "sharePct": 56.68,
+            "units": 99426
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 36503775.15,
+        "pmsSharePct": 25.86,
+        "totalPmsUnits": 65611,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 22815441.79,
+            "margin": 1515616.29,
+            "marginPct": 6.64,
+            "sharePct": 16.16,
+            "units": 28291
+          },
+          {
+            "name": "Filters",
+            "revenue": 6458076.52,
+            "margin": 1033914.76,
+            "marginPct": 16.01,
+            "sharePct": 4.57,
+            "units": 22451
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 4273281.75,
+            "margin": 591921.77,
+            "marginPct": 13.85,
+            "sharePct": 3.03,
+            "units": 5764
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 1702951.76,
+            "margin": 172964.58,
+            "marginPct": 10.16,
+            "sharePct": 1.21,
+            "units": 722
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 899897.78,
+            "margin": 301026.94,
+            "marginPct": 33.45,
+            "sharePct": 0.64,
+            "units": 6526
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 354125.55,
+            "margin": 50506.56,
+            "marginPct": 14.26,
+            "sharePct": 0.25,
+            "units": 1857
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 6468174.17,
+          "margin": 1034787.79,
+          "marginPct": 16.0,
+          "sharePct": 4.58,
+          "units": 22480,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 5268739.16,
+          "margin": 658531.39,
+          "marginPct": 12.5,
+          "sharePct": 3.73,
+          "units": 6421,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 4189506.59,
+          "margin": 359342.91,
+          "marginPct": 8.58,
+          "sharePct": 2.97,
+          "units": 2938,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 3597441.55,
+          "margin": 220694.6,
+          "marginPct": 6.13,
+          "sharePct": 2.55,
+          "units": 2340,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 3136617.97,
+          "margin": 322408.24,
+          "marginPct": 10.28,
+          "sharePct": 2.22,
+          "units": 1062,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 2587150.13,
+          "margin": 148994.1,
+          "marginPct": 5.76,
+          "sharePct": 1.83,
+          "units": 1924,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": -4.21
+    },
+    "APR_RF": {
+      "hasData": true,
+      "totalRevenue": 88307970.97,
+      "totalMargin": 5849300.12,
+      "marginPct": 6.62,
+      "totalUnits": 104490,
+      "totalInvoices": 6033,
+      "categorySales": {
+        "Mechanical Parts": 36612351.53,
+        "Body Parts": 21278744.64,
+        "Lubes": 19941123.77,
+        "Electrical Parts": 7680813.38,
+        "Accessories": 2794937.65
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 36531573.7,
+          "margin": 1907575.0,
+          "marginPct": 5.22,
+          "revenuePct": 41.37,
+          "invoices": 2294
+        },
+        {
+          "region": "NORTH",
+          "revenue": 27064371.59,
+          "margin": 2091641.41,
+          "marginPct": 7.73,
+          "revenuePct": 30.65,
+          "invoices": 1699
+        },
+        {
+          "region": "EAST",
+          "revenue": 17959507.72,
+          "margin": 1279974.09,
+          "marginPct": 7.13,
+          "revenuePct": 20.34,
+          "invoices": 1594
+        },
+        {
+          "region": "WEST",
+          "revenue": 6752517.96,
+          "margin": 570109.62,
+          "marginPct": 8.44,
+          "revenuePct": 7.65,
+          "invoices": 446
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 26073793.63,
+        "mhmtSharePct": 29.53,
+        "mhmtUnits": 24488,
+        "othersRevenue": 62234177.34,
+        "othersSharePct": 70.47,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 9822014.46,
+            "margin": 563998.79,
+            "marginPct": 5.74,
+            "sharePct": 11.12,
+            "units": 13209
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 7937297.36,
+            "margin": 348280.14,
+            "marginPct": 4.39,
+            "sharePct": 8.99,
+            "units": 4283
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 5081467.1,
+            "margin": 346921.32,
+            "marginPct": 6.83,
+            "sharePct": 5.75,
+            "units": 5199
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 3233014.71,
+            "margin": 176724.04,
+            "marginPct": 5.47,
+            "sharePct": 3.66,
+            "units": 1797
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 62234177.34,
+            "margin": 4413375.83,
+            "marginPct": 7.09,
+            "sharePct": 70.47,
+            "units": 80002
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 21233950.8,
+        "pmsSharePct": 24.05,
+        "totalPmsUnits": 34704,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 14202517.7,
+            "margin": 360847.6,
+            "marginPct": 2.54,
+            "sharePct": 16.08,
+            "units": 13958
+          },
+          {
+            "name": "Filters",
+            "revenue": 3715700.39,
+            "margin": 479516.28,
+            "marginPct": 12.91,
+            "sharePct": 4.21,
+            "units": 10914
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2015745.68,
+            "margin": 257004.18,
+            "marginPct": 12.75,
+            "sharePct": 2.28,
+            "units": 4083
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 695003.54,
+            "margin": 53617.95,
+            "marginPct": 7.71,
+            "sharePct": 0.79,
+            "units": 277
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 528161.15,
+            "margin": 172368.61,
+            "marginPct": 32.64,
+            "sharePct": 0.6,
+            "units": 4991
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 76822.34,
+            "margin": 5742.6,
+            "marginPct": 7.48,
+            "sharePct": 0.09,
+            "units": 481
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 3725254.82,
+          "margin": 480362.15,
+          "marginPct": 12.89,
+          "sharePct": 4.22,
+          "units": 10942,
+          "topComponent": "AIR FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2526149.94,
+          "margin": 282939.07,
+          "marginPct": 11.2,
+          "sharePct": 2.86,
+          "units": 4369,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 2392516.63,
+          "margin": 129411.32,
+          "marginPct": 5.41,
+          "sharePct": 2.71,
+          "units": 1347,
+          "topComponent": "HEAD LAMP ASSEMBLY - LH"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2019790.75,
+          "margin": 158765.38,
+          "marginPct": 7.86,
+          "sharePct": 2.29,
+          "units": 1612,
+          "topComponent": "REAR SHOCK ABSORBER"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1516136.17,
+          "margin": 54656.86,
+          "marginPct": 3.61,
+          "sharePct": 1.72,
+          "units": 747,
+          "topComponent": "STEERING WHEEL"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1204550.69,
+          "margin": 101853.15,
+          "marginPct": 8.46,
+          "sharePct": 1.36,
+          "units": 402,
+          "topComponent": "CLUTCH SET"
+        }
+      ],
+      "momRevenueGrowth": -1.88
+    },
+    "APR_CF": {
+      "hasData": true,
+      "totalRevenue": 52854320.32,
+      "totalMargin": 7106297.81,
+      "marginPct": 13.45,
+      "totalUnits": 71255,
+      "totalInvoices": 8563,
+      "categorySales": {
+        "Mechanical Parts": 26382661.93,
+        "Body Parts": 13154770.78,
+        "Lubes": 9233160.78,
+        "Electrical Parts": 1024166.11,
+        "Accessories": 828425.48
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 40188448.47,
+          "margin": 5906102.08,
+          "marginPct": 14.7,
+          "revenuePct": 76.04,
+          "invoices": 6994
+        },
+        {
+          "region": "NORTH",
+          "revenue": 6743896.67,
+          "margin": 615086.31,
+          "marginPct": 9.12,
+          "revenuePct": 12.76,
+          "invoices": 690
+        },
+        {
+          "region": "WEST",
+          "revenue": 5921975.18,
+          "margin": 585109.42,
+          "marginPct": 9.88,
+          "revenuePct": 11.2,
+          "invoices": 879
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 35071176.89,
+        "mhmtSharePct": 66.35,
+        "mhmtUnits": 51829,
+        "othersRevenue": 17783143.43,
+        "othersSharePct": 33.65,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 12550965.01,
+            "margin": 1932510.13,
+            "marginPct": 15.4,
+            "sharePct": 23.75,
+            "units": 24407
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 8308238.44,
+            "margin": 1050500.44,
+            "marginPct": 12.64,
+            "sharePct": 15.72,
+            "units": 11500
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 7220735.99,
+            "margin": 836758.41,
+            "marginPct": 11.59,
+            "sharePct": 13.66,
+            "units": 8386
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 6991237.44,
+            "margin": 890931.98,
+            "marginPct": 12.74,
+            "sharePct": 13.23,
+            "units": 7536
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 17783143.43,
+            "margin": 2395596.85,
+            "marginPct": 13.47,
+            "sharePct": 33.65,
+            "units": 19424
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 15269824.35,
+        "pmsSharePct": 28.89,
+        "totalPmsUnits": 30907,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 8612924.09,
+            "margin": 1154768.69,
+            "marginPct": 13.41,
+            "sharePct": 16.3,
+            "units": 14333
+          },
+          {
+            "name": "Filters",
+            "revenue": 2742376.13,
+            "margin": 554398.48,
+            "marginPct": 20.22,
+            "sharePct": 5.19,
+            "units": 11537
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2257536.07,
+            "margin": 334917.59,
+            "marginPct": 14.84,
+            "sharePct": 4.27,
+            "units": 1681
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 1007948.22,
+            "margin": 119346.63,
+            "marginPct": 11.84,
+            "sharePct": 1.91,
+            "units": 445
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 371736.63,
+            "margin": 128658.33,
+            "marginPct": 34.61,
+            "sharePct": 0.7,
+            "units": 1535
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 277303.21,
+            "margin": 44763.96,
+            "marginPct": 16.14,
+            "sharePct": 0.52,
+            "units": 1376
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 2742919.35,
+          "margin": 554425.64,
+          "marginPct": 20.21,
+          "sharePct": 5.19,
+          "units": 11538,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2742589.22,
+          "margin": 375592.32,
+          "marginPct": 13.69,
+          "sharePct": 5.19,
+          "units": 2052,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2169715.84,
+          "margin": 200577.53,
+          "marginPct": 9.24,
+          "sharePct": 4.11,
+          "units": 1326,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1932067.28,
+          "margin": 220555.09,
+          "marginPct": 11.42,
+          "sharePct": 3.66,
+          "units": 660,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 1204924.92,
+          "margin": 91283.28,
+          "marginPct": 7.58,
+          "sharePct": 2.28,
+          "units": 993,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1071013.96,
+          "margin": 94337.24,
+          "marginPct": 8.81,
+          "sharePct": 2.03,
+          "units": 1177,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": -7.87
+    },
+    "MAR_ALL": {
+      "hasData": true,
+      "totalRevenue": 147374000.43,
+      "totalMargin": 14527362.86,
+      "marginPct": 9.86,
+      "totalUnits": 204764,
+      "totalInvoices": 15358,
+      "categorySales": {
+        "Mechanical Parts": 64064076.87,
+        "Body Parts": 37180408.15,
+        "Lubes": 33233157.54,
+        "Electrical Parts": 9099528.94,
+        "Accessories": 1121901.46
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 81714332.21,
+          "margin": 9413527.6,
+          "marginPct": 11.52,
+          "revenuePct": 55.45,
+          "invoices": 10102
+        },
+        {
+          "region": "NORTH",
+          "revenue": 33588103.31,
+          "margin": 2646683.53,
+          "marginPct": 7.88,
+          "revenuePct": 22.79,
+          "invoices": 2363
+        },
+        {
+          "region": "EAST",
+          "revenue": 18300145.82,
+          "margin": 1442487.14,
+          "marginPct": 7.88,
+          "revenuePct": 12.42,
+          "invoices": 1642
+        },
+        {
+          "region": "WEST",
+          "revenue": 13771419.09,
+          "margin": 1024664.59,
+          "marginPct": 7.44,
+          "revenuePct": 9.34,
+          "invoices": 1251
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 66101092.52,
+        "mhmtSharePct": 44.85,
+        "mhmtUnits": 95145,
+        "othersRevenue": 81272907.91,
+        "othersSharePct": 55.15,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 24727754.76,
+            "margin": 2838186.99,
+            "marginPct": 11.48,
+            "sharePct": 16.78,
+            "units": 43743
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 16082971.8,
+            "margin": 1547038.66,
+            "marginPct": 9.62,
+            "sharePct": 10.91,
+            "units": 17357
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 13249038.23,
+            "margin": 1286018.93,
+            "marginPct": 9.71,
+            "sharePct": 8.99,
+            "units": 22536
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 12041327.73,
+            "margin": 1163174.79,
+            "marginPct": 9.66,
+            "sharePct": 8.17,
+            "units": 11509
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 81272907.91,
+            "margin": 7692943.49,
+            "marginPct": 9.47,
+            "sharePct": 55.15,
+            "units": 109617
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 42519034.0,
+        "pmsSharePct": 28.85,
+        "totalPmsUnits": 68273,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 28437961.02,
+            "margin": 2754067.55,
+            "marginPct": 9.68,
+            "sharePct": 19.3,
+            "units": 31907
+          },
+          {
+            "name": "Filters",
+            "revenue": 6303069.59,
+            "margin": 926371.45,
+            "marginPct": 14.7,
+            "sharePct": 4.28,
+            "units": 22583
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 4501709.16,
+            "margin": 596811.23,
+            "marginPct": 13.26,
+            "sharePct": 3.05,
+            "units": 4376
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 1886865.89,
+            "margin": 212799.86,
+            "marginPct": 11.28,
+            "sharePct": 1.28,
+            "units": 910
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 1021482.53,
+            "margin": 399737.81,
+            "marginPct": 39.13,
+            "sharePct": 0.69,
+            "units": 6687
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 367945.82,
+            "margin": 48182.18,
+            "marginPct": 13.09,
+            "sharePct": 0.25,
+            "units": 1810
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 6316250.5,
+          "margin": 927740.11,
+          "marginPct": 14.69,
+          "sharePct": 4.29,
+          "units": 22618,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 5886747.78,
+          "margin": 711124.55,
+          "marginPct": 12.08,
+          "sharePct": 3.99,
+          "units": 5333,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 4707348.64,
+          "margin": 503416.49,
+          "marginPct": 10.69,
+          "sharePct": 3.19,
+          "units": 3859,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 4572816.35,
+          "margin": 310908.37,
+          "marginPct": 6.8,
+          "sharePct": 3.1,
+          "units": 1810,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 3718569.17,
+          "margin": 371876.3,
+          "marginPct": 10.0,
+          "sharePct": 2.52,
+          "units": 1537,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 2713925.9,
+          "margin": 186412.76,
+          "marginPct": 6.87,
+          "sharePct": 1.84,
+          "units": 3766,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 11.34
+    },
+    "MAR_RF": {
+      "hasData": true,
+      "totalRevenue": 90004065.32,
+      "totalMargin": 6299509.81,
+      "marginPct": 7.0,
+      "totalUnits": 112829,
+      "totalInvoices": 6181,
+      "categorySales": {
+        "Mechanical Parts": 36404640.58,
+        "Body Parts": 22527831.57,
+        "Lubes": 22681555.43,
+        "Electrical Parts": 7807639.25,
+        "Accessories": 582398.49
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 37005864.68,
+          "margin": 2314342.72,
+          "marginPct": 6.25,
+          "revenuePct": 41.12,
+          "invoices": 2446
+        },
+        {
+          "region": "NORTH",
+          "revenue": 26403822.77,
+          "margin": 2061023.64,
+          "marginPct": 7.81,
+          "revenuePct": 29.34,
+          "invoices": 1655
+        },
+        {
+          "region": "EAST",
+          "revenue": 18300145.82,
+          "margin": 1442487.14,
+          "marginPct": 7.88,
+          "revenuePct": 20.33,
+          "invoices": 1642
+        },
+        {
+          "region": "WEST",
+          "revenue": 8294232.05,
+          "margin": 481656.31,
+          "marginPct": 5.81,
+          "revenuePct": 9.22,
+          "invoices": 438
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 28907353.34,
+        "mhmtSharePct": 32.12,
+        "mhmtUnits": 26327,
+        "othersRevenue": 61096711.98,
+        "othersSharePct": 67.88,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 10815753.09,
+            "margin": 614770.35,
+            "marginPct": 5.68,
+            "sharePct": 12.02,
+            "units": 14409
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 7513295.97,
+            "margin": 342013.69,
+            "marginPct": 4.55,
+            "sharePct": 8.35,
+            "units": 5035
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 6027502.74,
+            "margin": 368272.09,
+            "marginPct": 6.11,
+            "sharePct": 6.7,
+            "units": 4541
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 4550801.54,
+            "margin": 235923.69,
+            "marginPct": 5.18,
+            "sharePct": 5.06,
+            "units": 2342
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 61096711.98,
+            "margin": 4738529.99,
+            "marginPct": 7.76,
+            "sharePct": 67.88,
+            "units": 86502
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 25812234.91,
+        "pmsSharePct": 28.68,
+        "totalPmsUnits": 33597,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 18634596.17,
+            "margin": 1467718.17,
+            "marginPct": 7.88,
+            "sharePct": 20.7,
+            "units": 15756
+          },
+          {
+            "name": "Filters",
+            "revenue": 3376035.51,
+            "margin": 367897.63,
+            "marginPct": 10.9,
+            "sharePct": 3.75,
+            "units": 9694
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2214130.16,
+            "margin": 201801.65,
+            "marginPct": 9.11,
+            "sharePct": 2.46,
+            "units": 2608
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 987627.38,
+            "margin": 81293.83,
+            "marginPct": 8.23,
+            "sharePct": 1.1,
+            "units": 369
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 570049.52,
+            "margin": 228572.24,
+            "marginPct": 40.1,
+            "sharePct": 0.63,
+            "units": 4948
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 29796.17,
+            "margin": 2312.22,
+            "marginPct": 7.76,
+            "sharePct": 0.03,
+            "units": 222
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 3388382.51,
+          "margin": 368712.81,
+          "marginPct": 10.88,
+          "sharePct": 3.76,
+          "units": 9728,
+          "topComponent": "AIR FILTER"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 3044330.47,
+          "margin": 184342.48,
+          "marginPct": 6.06,
+          "sharePct": 3.38,
+          "units": 615,
+          "topComponent": "HEAD LAMP ASSEMBLY - LH"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2931137.27,
+          "margin": 249385.17,
+          "marginPct": 8.51,
+          "sharePct": 3.26,
+          "units": 3121,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2407194.19,
+          "margin": 190879.85,
+          "marginPct": 7.93,
+          "sharePct": 2.67,
+          "units": 2380,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1837535.4,
+          "margin": 129227.31,
+          "marginPct": 7.03,
+          "sharePct": 2.04,
+          "units": 741,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1697513.03,
+          "margin": 77972.58,
+          "marginPct": 4.59,
+          "sharePct": 1.89,
+          "units": 2347,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 14.61
+    },
+    "MAR_CF": {
+      "hasData": true,
+      "totalRevenue": 57369935.11,
+      "totalMargin": 8227853.05,
+      "marginPct": 14.34,
+      "totalUnits": 91935,
+      "totalInvoices": 9177,
+      "categorySales": {
+        "Mechanical Parts": 27659436.29,
+        "Body Parts": 14652576.58,
+        "Lubes": 10551602.11,
+        "Electrical Parts": 1291889.69,
+        "Accessories": 539502.97
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 44708467.53,
+          "margin": 7099184.88,
+          "marginPct": 15.88,
+          "revenuePct": 77.93,
+          "invoices": 7656
+        },
+        {
+          "region": "NORTH",
+          "revenue": 7184280.54,
+          "margin": 585659.89,
+          "marginPct": 8.15,
+          "revenuePct": 12.52,
+          "invoices": 708
+        },
+        {
+          "region": "WEST",
+          "revenue": 5477187.04,
+          "margin": 543008.28,
+          "marginPct": 9.91,
+          "revenuePct": 9.55,
+          "invoices": 813
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 37193739.18,
+        "mhmtSharePct": 64.83,
+        "mhmtUnits": 68818,
+        "othersRevenue": 20176195.93,
+        "othersSharePct": 35.17,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 13912001.67,
+            "margin": 2223416.64,
+            "marginPct": 15.98,
+            "sharePct": 24.25,
+            "units": 29334
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 8569675.83,
+            "margin": 1205024.97,
+            "marginPct": 14.06,
+            "sharePct": 14.94,
+            "units": 12322
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 7221535.49,
+            "margin": 917746.84,
+            "marginPct": 12.71,
+            "sharePct": 12.59,
+            "units": 17995
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 7490526.19,
+            "margin": 927251.1,
+            "marginPct": 12.38,
+            "sharePct": 13.06,
+            "units": 9167
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 20176195.93,
+            "margin": 2954413.5,
+            "marginPct": 14.64,
+            "sharePct": 35.17,
+            "units": 23115
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 16706799.09,
+        "pmsSharePct": 29.12,
+        "totalPmsUnits": 34676,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 9803364.85,
+            "margin": 1286349.38,
+            "marginPct": 13.12,
+            "sharePct": 17.09,
+            "units": 16151
+          },
+          {
+            "name": "Filters",
+            "revenue": 2927034.08,
+            "margin": 558473.82,
+            "marginPct": 19.08,
+            "sharePct": 5.1,
+            "units": 12889
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2287579.0,
+            "margin": 395009.58,
+            "marginPct": 17.27,
+            "sharePct": 3.99,
+            "units": 1768
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 899238.51,
+            "margin": 131506.03,
+            "marginPct": 14.62,
+            "sharePct": 1.57,
+            "units": 541
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 451433.01,
+            "margin": 171165.57,
+            "marginPct": 37.92,
+            "sharePct": 0.79,
+            "units": 1739
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 338149.65,
+            "margin": 45869.96,
+            "marginPct": 13.56,
+            "sharePct": 0.59,
+            "units": 1588
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2955610.51,
+          "margin": 461739.38,
+          "marginPct": 15.62,
+          "sharePct": 5.15,
+          "units": 2212,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 2927867.99,
+          "margin": 559027.3,
+          "marginPct": 19.09,
+          "sharePct": 5.1,
+          "units": 12890,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2300154.45,
+          "margin": 312536.64,
+          "marginPct": 13.59,
+          "sharePct": 4.01,
+          "units": 1479,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1881033.77,
+          "margin": 242648.99,
+          "marginPct": 12.9,
+          "sharePct": 3.28,
+          "units": 796,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 1528485.88,
+          "margin": 126565.89,
+          "marginPct": 8.28,
+          "sharePct": 2.66,
+          "units": 1195,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1016412.87,
+          "margin": 108440.18,
+          "marginPct": 10.67,
+          "sharePct": 1.77,
+          "units": 1419,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 6.56
+    },
+    "FEB_ALL": {
+      "hasData": true,
+      "totalRevenue": 132365048.32,
+      "totalMargin": 9756821.18,
+      "marginPct": 7.37,
+      "totalUnits": 177245,
+      "totalInvoices": 14155,
+      "categorySales": {
+        "Mechanical Parts": 58192623.49,
+        "Body Parts": 33217756.91,
+        "Lubes": 28347913.71,
+        "Electrical Parts": 9047294.1,
+        "Accessories": 1279541.52
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 71298007.75,
+          "margin": 7239260.76,
+          "marginPct": 10.15,
+          "revenuePct": 53.86,
+          "invoices": 9233
+        },
+        {
+          "region": "NORTH",
+          "revenue": 32335747.44,
+          "margin": 1114811.17,
+          "marginPct": 3.45,
+          "revenuePct": 24.43,
+          "invoices": 2187
+        },
+        {
+          "region": "EAST",
+          "revenue": 17759761.98,
+          "margin": 828720.49,
+          "marginPct": 4.67,
+          "revenuePct": 13.42,
+          "invoices": 1604
+        },
+        {
+          "region": "WEST",
+          "revenue": 10971531.15,
+          "margin": 574028.75,
+          "marginPct": 5.23,
+          "revenuePct": 8.29,
+          "invoices": 1131
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 60419242.05,
+        "mhmtSharePct": 45.65,
+        "mhmtUnits": 83087,
+        "othersRevenue": 71945806.27,
+        "othersSharePct": 54.35,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 23594870.63,
+            "margin": 2660202.1,
+            "marginPct": 11.27,
+            "sharePct": 17.83,
+            "units": 43926
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 15014786.39,
+            "margin": 1594833.76,
+            "marginPct": 10.62,
+            "sharePct": 11.34,
+            "units": 15939
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 12422471.75,
+            "margin": 1174148.67,
+            "marginPct": 9.45,
+            "sharePct": 9.39,
+            "units": 13719
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 9387113.27,
+            "margin": 985466.17,
+            "marginPct": 10.5,
+            "sharePct": 7.09,
+            "units": 9503
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 71945806.27,
+            "margin": 3342170.47,
+            "marginPct": 4.65,
+            "sharePct": 54.35,
+            "units": 94156
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 36133105.79,
+        "pmsSharePct": 27.3,
+        "totalPmsUnits": 64947,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 22913966.81,
+            "margin": 1137171.81,
+            "marginPct": 4.96,
+            "sharePct": 17.31,
+            "units": 27779
+          },
+          {
+            "name": "Filters",
+            "revenue": 5516467.11,
+            "margin": 702753.22,
+            "marginPct": 12.74,
+            "sharePct": 4.17,
+            "units": 24008
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 4417704.83,
+            "margin": 393891.19,
+            "marginPct": 8.92,
+            "sharePct": 3.34,
+            "units": 5216
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 2018399.68,
+            "margin": 134741.39,
+            "marginPct": 6.68,
+            "sharePct": 1.52,
+            "units": 1008
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 870135.88,
+            "margin": 161416.83,
+            "marginPct": 18.55,
+            "sharePct": 0.66,
+            "units": 4780
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 396431.48,
+            "margin": 51769.42,
+            "marginPct": 13.06,
+            "sharePct": 0.3,
+            "units": 2156
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 5520439.62,
+          "margin": 703960.2,
+          "marginPct": 12.75,
+          "sharePct": 4.17,
+          "units": 24031,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 5448132.57,
+          "margin": 432610.1,
+          "marginPct": 7.94,
+          "sharePct": 4.12,
+          "units": 6219,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 5052137.24,
+          "margin": 417834.35,
+          "marginPct": 8.27,
+          "sharePct": 3.82,
+          "units": 3510,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 4746018.59,
+          "margin": 188189.46,
+          "marginPct": 3.97,
+          "sharePct": 3.59,
+          "units": 2600,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 4050865.01,
+          "margin": 247666.07,
+          "marginPct": 6.11,
+          "sharePct": 3.06,
+          "units": 1799,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 2259009.49,
+          "margin": 180644.97,
+          "marginPct": 8.0,
+          "sharePct": 1.71,
+          "units": 2104,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 3.91
+    },
+    "FEB_RF": {
+      "hasData": true,
+      "totalRevenue": 78527945.87,
+      "totalMargin": 2552957.3,
+      "marginPct": 3.25,
+      "totalUnits": 97782,
+      "totalInvoices": 5856,
+      "categorySales": {
+        "Mechanical Parts": 32012379.57,
+        "Body Parts": 19278298.49,
+        "Lubes": 18553504.63,
+        "Electrical Parts": 7828736.46,
+        "Accessories": 855026.72
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 29340565.08,
+          "margin": 976013.27,
+          "marginPct": 3.33,
+          "revenuePct": 37.36,
+          "invoices": 2344
+        },
+        {
+          "region": "NORTH",
+          "revenue": 25851858.96,
+          "margin": 672644.62,
+          "marginPct": 2.6,
+          "revenuePct": 32.92,
+          "invoices": 1570
+        },
+        {
+          "region": "EAST",
+          "revenue": 17759761.98,
+          "margin": 828720.49,
+          "marginPct": 4.67,
+          "revenuePct": 22.62,
+          "invoices": 1604
+        },
+        {
+          "region": "WEST",
+          "revenue": 5575759.85,
+          "margin": 75578.92,
+          "marginPct": 1.36,
+          "revenuePct": 7.1,
+          "invoices": 338
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 25763845.95,
+        "mhmtSharePct": 32.81,
+        "mhmtUnits": 26317,
+        "othersRevenue": 52764099.92,
+        "othersSharePct": 67.19,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 11230866.42,
+            "margin": 791988.21,
+            "marginPct": 7.05,
+            "sharePct": 14.3,
+            "units": 16953
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 6326692.01,
+            "margin": 533990.24,
+            "marginPct": 8.44,
+            "sharePct": 8.06,
+            "units": 3971
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 5626411.29,
+            "margin": 311163.5,
+            "marginPct": 5.53,
+            "sharePct": 7.16,
+            "units": 3969
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 2579876.23,
+            "margin": 148846.81,
+            "marginPct": 5.77,
+            "sharePct": 3.29,
+            "units": 1424
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 52764099.92,
+            "margin": 766968.54,
+            "marginPct": 1.45,
+            "sharePct": 67.19,
+            "units": 71465
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 20367110.65,
+        "pmsSharePct": 25.94,
+        "totalPmsUnits": 33858,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 13863798.17,
+            "margin": 24081.81,
+            "marginPct": 0.17,
+            "sharePct": 17.65,
+            "units": 12950
+          },
+          {
+            "name": "Filters",
+            "revenue": 2770312.66,
+            "margin": 222416.71,
+            "marginPct": 8.03,
+            "sharePct": 3.53,
+            "units": 13228
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2035385.76,
+            "margin": 47617.35,
+            "marginPct": 2.34,
+            "sharePct": 2.59,
+            "units": 3489
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 1157874.22,
+            "margin": 26516.25,
+            "marginPct": 2.29,
+            "sharePct": 1.47,
+            "units": 470
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 412650.21,
+            "margin": 9010.34,
+            "marginPct": 2.18,
+            "sharePct": 0.53,
+            "units": 2948
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 127089.63,
+            "margin": 8420.96,
+            "marginPct": 6.63,
+            "sharePct": 0.16,
+            "units": 773
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 3293305.55,
+          "margin": 57347.53,
+          "marginPct": 1.74,
+          "sharePct": 4.19,
+          "units": 1376,
+          "topComponent": "HEAD LAMP ASSEMBLY - LH"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 2771933.0,
+          "margin": 223112.22,
+          "marginPct": 8.05,
+          "sharePct": 3.53,
+          "units": 13247,
+          "topComponent": "AIR FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2610113.44,
+          "margin": 49582.0,
+          "marginPct": 1.9,
+          "sharePct": 3.32,
+          "units": 4168,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2598285.87,
+          "margin": 136375.01,
+          "marginPct": 5.25,
+          "sharePct": 3.31,
+          "units": 1955,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 2246609.01,
+          "margin": 38607.68,
+          "marginPct": 1.72,
+          "sharePct": 2.86,
+          "units": 1018,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 974128.78,
+          "margin": 57958.43,
+          "marginPct": 5.95,
+          "sharePct": 1.24,
+          "units": 753,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 7.0
+    },
+    "FEB_CF": {
+      "hasData": true,
+      "totalRevenue": 53837102.45,
+      "totalMargin": 7203863.88,
+      "marginPct": 13.38,
+      "totalUnits": 79463,
+      "totalInvoices": 8299,
+      "categorySales": {
+        "Mechanical Parts": 26180243.92,
+        "Body Parts": 13939458.42,
+        "Lubes": 9794409.08,
+        "Electrical Parts": 1218557.64,
+        "Accessories": 424514.8
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 41957442.67,
+          "margin": 6263247.49,
+          "marginPct": 14.93,
+          "revenuePct": 77.93,
+          "invoices": 6889
+        },
+        {
+          "region": "NORTH",
+          "revenue": 6483888.48,
+          "margin": 442166.55,
+          "marginPct": 6.82,
+          "revenuePct": 12.04,
+          "invoices": 617
+        },
+        {
+          "region": "WEST",
+          "revenue": 5395771.3,
+          "margin": 498449.83,
+          "marginPct": 9.24,
+          "revenuePct": 10.02,
+          "invoices": 793
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 34655396.1,
+        "mhmtSharePct": 64.37,
+        "mhmtUnits": 56770,
+        "othersRevenue": 19181706.35,
+        "othersSharePct": 35.63,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 12364004.21,
+            "margin": 1868213.89,
+            "marginPct": 15.11,
+            "sharePct": 22.97,
+            "units": 26973
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 8688094.38,
+            "margin": 1060843.52,
+            "marginPct": 12.21,
+            "sharePct": 16.14,
+            "units": 11968
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 6796060.46,
+            "margin": 862985.17,
+            "marginPct": 12.7,
+            "sharePct": 12.62,
+            "units": 9750
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 6807237.04,
+            "margin": 836619.36,
+            "marginPct": 12.29,
+            "sharePct": 12.64,
+            "units": 8079
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 19181706.35,
+            "margin": 2575201.94,
+            "marginPct": 13.43,
+            "sharePct": 35.63,
+            "units": 22691
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 15765995.14,
+        "pmsSharePct": 29.28,
+        "totalPmsUnits": 31089,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 9050168.64,
+            "margin": 1113090.0,
+            "marginPct": 12.3,
+            "sharePct": 16.81,
+            "units": 14829
+          },
+          {
+            "name": "Filters",
+            "revenue": 2746154.45,
+            "margin": 480336.51,
+            "marginPct": 17.49,
+            "sharePct": 5.1,
+            "units": 10780
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2382319.07,
+            "margin": 346273.84,
+            "marginPct": 14.54,
+            "sharePct": 4.43,
+            "units": 1727
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 860525.46,
+            "margin": 108225.14,
+            "marginPct": 12.58,
+            "sharePct": 1.6,
+            "units": 538
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 457485.67,
+            "margin": 152406.49,
+            "marginPct": 33.31,
+            "sharePct": 0.85,
+            "units": 1832
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 269341.85,
+            "margin": 43348.46,
+            "marginPct": 16.09,
+            "sharePct": 0.5,
+            "units": 1383
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2838019.13,
+          "margin": 383028.1,
+          "marginPct": 13.5,
+          "sharePct": 5.27,
+          "units": 2051,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 2748506.62,
+          "margin": 480847.98,
+          "marginPct": 17.49,
+          "sharePct": 5.11,
+          "units": 10784,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2453851.37,
+          "margin": 281459.34,
+          "marginPct": 11.47,
+          "sharePct": 4.56,
+          "units": 1555,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1804256.0,
+          "margin": 209058.39,
+          "marginPct": 11.59,
+          "sharePct": 3.35,
+          "units": 781,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 1452713.04,
+          "margin": 130841.93,
+          "marginPct": 9.01,
+          "sharePct": 2.7,
+          "units": 1224,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1284880.71,
+          "margin": 122686.54,
+          "marginPct": 9.55,
+          "sharePct": 2.39,
+          "units": 1351,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": -0.29
+    },
+    "JAN_ALL": {
+      "hasData": true,
+      "totalRevenue": 127381288.81,
+      "totalMargin": 13063500.36,
+      "marginPct": 10.26,
+      "totalUnits": 192382,
+      "totalInvoices": 14212,
+      "categorySales": {
+        "Mechanical Parts": 53340845.27,
+        "Body Parts": 35220401.22,
+        "Lubes": 25088005.01,
+        "Electrical Parts": 8696884.02,
+        "Accessories": 2613468.37
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 66501965.64,
+          "margin": 8062865.28,
+          "marginPct": 12.12,
+          "revenuePct": 52.21,
+          "invoices": 9371
+        },
+        {
+          "region": "NORTH",
+          "revenue": 27135570.56,
+          "margin": 2115472.64,
+          "marginPct": 7.8,
+          "revenuePct": 21.3,
+          "invoices": 1782
+        },
+        {
+          "region": "WEST",
+          "revenue": 18510692.49,
+          "margin": 1775740.06,
+          "marginPct": 9.59,
+          "revenuePct": 14.53,
+          "invoices": 1583
+        },
+        {
+          "region": "EAST",
+          "revenue": 15233060.12,
+          "margin": 1109422.37,
+          "marginPct": 7.28,
+          "revenuePct": 11.96,
+          "invoices": 1476
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 61619305.31,
+        "mhmtSharePct": 48.37,
+        "mhmtUnits": 97560,
+        "othersRevenue": 65761983.49,
+        "othersSharePct": 51.63,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 24042176.69,
+            "margin": 2837072.53,
+            "marginPct": 11.8,
+            "sharePct": 18.87,
+            "units": 54336
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 15373759.22,
+            "margin": 1437268.24,
+            "marginPct": 9.35,
+            "sharePct": 12.07,
+            "units": 17034
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 11375752.3,
+            "margin": 1088104.85,
+            "marginPct": 9.57,
+            "sharePct": 8.93,
+            "units": 15137
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 10827617.1,
+            "margin": 1035445.04,
+            "marginPct": 9.56,
+            "sharePct": 8.5,
+            "units": 11053
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 65761983.49,
+            "margin": 6665609.69,
+            "marginPct": 10.14,
+            "sharePct": 51.63,
+            "units": 94821
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 34259836.19,
+        "pmsSharePct": 26.9,
+        "totalPmsUnits": 68347,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 20920657.55,
+            "margin": 2567380.0,
+            "marginPct": 12.27,
+            "sharePct": 16.42,
+            "units": 25535
+          },
+          {
+            "name": "Filters",
+            "revenue": 5299792.91,
+            "margin": 866736.25,
+            "marginPct": 16.35,
+            "sharePct": 4.16,
+            "units": 28931
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 4162658.71,
+            "margin": 555724.17,
+            "marginPct": 13.35,
+            "sharePct": 3.27,
+            "units": 5299
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 2672209.0,
+            "margin": 298853.89,
+            "marginPct": 11.18,
+            "sharePct": 2.1,
+            "units": 1206
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 774903.83,
+            "margin": 275008.43,
+            "marginPct": 35.49,
+            "sharePct": 0.61,
+            "units": 5241
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 429614.19,
+            "margin": 71316.8,
+            "marginPct": 16.6,
+            "sharePct": 0.34,
+            "units": 2135
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 5309463.54,
+          "margin": 867459.93,
+          "marginPct": 16.34,
+          "sharePct": 4.17,
+          "units": 28951,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 5299799.43,
+          "margin": 648931.32,
+          "marginPct": 12.24,
+          "sharePct": 4.16,
+          "units": 6164,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 4598275.37,
+          "margin": 309252.79,
+          "marginPct": 6.73,
+          "sharePct": 3.61,
+          "units": 2560,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 4488409.17,
+          "margin": 451445.05,
+          "marginPct": 10.06,
+          "sharePct": 3.52,
+          "units": 1770,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 4477716.25,
+          "margin": 439364.85,
+          "marginPct": 9.81,
+          "sharePct": 3.52,
+          "units": 3049,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 2330777.43,
+          "margin": 190483.65,
+          "marginPct": 8.17,
+          "sharePct": 1.83,
+          "units": 6220,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 0.0
+    },
+    "JAN_RF": {
+      "hasData": true,
+      "totalRevenue": 73388466.28,
+      "totalMargin": 5739926.12,
+      "marginPct": 7.82,
+      "totalUnits": 99307,
+      "totalInvoices": 5751,
+      "categorySales": {
+        "Mechanical Parts": 27710299.32,
+        "Body Parts": 21461381.01,
+        "Lubes": 14755495.0,
+        "Electrical Parts": 7197510.72,
+        "Accessories": 2263780.23
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 25380032.76,
+          "margin": 1782052.61,
+          "marginPct": 7.02,
+          "revenuePct": 34.58,
+          "invoices": 2251
+        },
+        {
+          "region": "NORTH",
+          "revenue": 20304294.12,
+          "margin": 1655886.16,
+          "marginPct": 8.16,
+          "revenuePct": 27.67,
+          "invoices": 1254
+        },
+        {
+          "region": "EAST",
+          "revenue": 15233060.12,
+          "margin": 1109422.37,
+          "marginPct": 7.28,
+          "revenuePct": 20.76,
+          "invoices": 1476
+        },
+        {
+          "region": "WEST",
+          "revenue": 12471079.28,
+          "margin": 1192564.98,
+          "marginPct": 9.56,
+          "revenuePct": 16.99,
+          "invoices": 770
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 27085620.03,
+        "mhmtSharePct": 36.91,
+        "mhmtUnits": 31844,
+        "othersRevenue": 46302846.25,
+        "othersSharePct": 63.09,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 11810490.92,
+            "margin": 909984.32,
+            "marginPct": 7.7,
+            "sharePct": 16.09,
+            "units": 21744
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 6671678.35,
+            "margin": 323525.57,
+            "marginPct": 4.85,
+            "sharePct": 9.09,
+            "units": 4480
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 5324713.41,
+            "margin": 287187.43,
+            "marginPct": 5.39,
+            "sharePct": 7.26,
+            "units": 3962
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 3278737.35,
+            "margin": 146524.02,
+            "marginPct": 4.47,
+            "sharePct": 4.47,
+            "units": 1658
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 46302846.25,
+            "margin": 4072704.78,
+            "marginPct": 8.8,
+            "sharePct": 63.09,
+            "units": 67463
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 17503905.2,
+        "pmsSharePct": 23.85,
+        "totalPmsUnits": 36476,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 11289851.17,
+            "margin": 1251745.35,
+            "marginPct": 11.09,
+            "sharePct": 15.38,
+            "units": 9696
+          },
+          {
+            "name": "Filters",
+            "revenue": 2283911.6,
+            "margin": 347610.57,
+            "marginPct": 15.22,
+            "sharePct": 3.11,
+            "units": 18572
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 1738080.13,
+            "margin": 232465.31,
+            "marginPct": 13.37,
+            "sharePct": 2.37,
+            "units": 3436
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 1736573.58,
+            "margin": 190448.97,
+            "marginPct": 10.97,
+            "sharePct": 2.37,
+            "units": 680
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 381111.38,
+            "margin": 152511.52,
+            "marginPct": 40.02,
+            "sharePct": 0.52,
+            "units": 3536
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 74377.34,
+            "margin": 4856.38,
+            "marginPct": 6.53,
+            "sharePct": 0.1,
+            "units": 556
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 2920221.05,
+          "margin": 140335.69,
+          "marginPct": 4.81,
+          "sharePct": 3.98,
+          "units": 1385,
+          "topComponent": "HEAD LAMP ASSEMBLY - LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 2675478.47,
+          "margin": 261030.48,
+          "marginPct": 9.76,
+          "sharePct": 3.65,
+          "units": 985,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2332003.69,
+          "margin": 284008.2,
+          "marginPct": 12.18,
+          "sharePct": 3.18,
+          "units": 3902,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "FILTERS",
+          "revenue": 2294409.96,
+          "margin": 348225.56,
+          "marginPct": 15.18,
+          "sharePct": 3.13,
+          "units": 18591,
+          "topComponent": "AIR FILTER"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 1940204.65,
+          "margin": 182415.53,
+          "marginPct": 9.4,
+          "sharePct": 2.64,
+          "units": 1445,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1109002.34,
+          "margin": 79140.63,
+          "marginPct": 7.14,
+          "sharePct": 1.51,
+          "units": 5101,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 0.0
+    },
+    "JAN_CF": {
+      "hasData": true,
+      "totalRevenue": 53992822.53,
+      "totalMargin": 7323574.24,
+      "marginPct": 13.56,
+      "totalUnits": 93075,
+      "totalInvoices": 8461,
+      "categorySales": {
+        "Mechanical Parts": 25630545.95,
+        "Body Parts": 13759020.21,
+        "Lubes": 10332510.01,
+        "Electrical Parts": 1499373.3,
+        "Accessories": 349688.14
+      },
+      "regionSales": [
+        {
+          "region": "SOUTH",
+          "revenue": 41121932.88,
+          "margin": 6280812.67,
+          "marginPct": 15.27,
+          "revenuePct": 76.16,
+          "invoices": 7120
+        },
+        {
+          "region": "NORTH",
+          "revenue": 6831276.44,
+          "margin": 459586.48,
+          "marginPct": 6.73,
+          "revenuePct": 12.65,
+          "invoices": 528
+        },
+        {
+          "region": "WEST",
+          "revenue": 6039613.21,
+          "margin": 583175.08,
+          "marginPct": 9.66,
+          "revenuePct": 11.19,
+          "invoices": 813
+        }
+      ],
+      "makeSales": {
+        "mhmtRevenue": 34533685.28,
+        "mhmtSharePct": 63.96,
+        "mhmtUnits": 65716,
+        "othersRevenue": 19459137.24,
+        "othersSharePct": 36.04,
+        "items": [
+          {
+            "make": "MARUTI",
+            "isMhmt": true,
+            "revenue": 12231685.77,
+            "margin": 1927088.21,
+            "marginPct": 15.75,
+            "sharePct": 22.65,
+            "units": 32592
+          },
+          {
+            "make": "HYUNDAI",
+            "isMhmt": true,
+            "revenue": 8702080.87,
+            "margin": 1113742.67,
+            "marginPct": 12.8,
+            "sharePct": 16.12,
+            "units": 12554
+          },
+          {
+            "make": "MAHINDRA",
+            "isMhmt": true,
+            "revenue": 6051038.89,
+            "margin": 800917.42,
+            "marginPct": 13.24,
+            "sharePct": 11.21,
+            "units": 11175
+          },
+          {
+            "make": "TATA",
+            "isMhmt": true,
+            "revenue": 7548879.75,
+            "margin": 888921.02,
+            "marginPct": 11.78,
+            "sharePct": 13.98,
+            "units": 9395
+          },
+          {
+            "make": "OTHERS",
+            "isMhmt": false,
+            "revenue": 19459137.24,
+            "margin": 2592904.91,
+            "marginPct": 13.32,
+            "sharePct": 36.04,
+            "units": 27358
+          }
+        ]
+      },
+      "pmsSales": {
+        "totalPmsRevenue": 16755930.99,
+        "pmsSharePct": 31.03,
+        "totalPmsUnits": 31871,
+        "items": [
+          {
+            "name": "Engine Oil",
+            "revenue": 9630806.38,
+            "margin": 1315634.65,
+            "marginPct": 13.66,
+            "sharePct": 17.84,
+            "units": 15839
+          },
+          {
+            "name": "Filters",
+            "revenue": 3015881.31,
+            "margin": 519125.68,
+            "marginPct": 17.21,
+            "sharePct": 5.59,
+            "units": 10359
+          },
+          {
+            "name": "Brake Pads & Discs",
+            "revenue": 2424578.58,
+            "margin": 323258.86,
+            "marginPct": 13.33,
+            "sharePct": 4.49,
+            "units": 1863
+          },
+          {
+            "name": "Clutch Disc & Cover",
+            "revenue": 935635.42,
+            "margin": 108404.92,
+            "marginPct": 11.59,
+            "sharePct": 1.73,
+            "units": 526
+          },
+          {
+            "name": "Coolant & Fluids",
+            "revenue": 393792.45,
+            "margin": 122496.91,
+            "marginPct": 31.11,
+            "sharePct": 0.73,
+            "units": 1705
+          },
+          {
+            "name": "Spark / Glow Plugs",
+            "revenue": 355236.85,
+            "margin": 66460.42,
+            "marginPct": 18.71,
+            "sharePct": 0.66,
+            "units": 1579
+          }
+        ]
+      },
+      "mechAggregatesSales": [
+        {
+          "aggregate": "FILTERS",
+          "revenue": 3015053.58,
+          "margin": 519234.37,
+          "marginPct": 17.22,
+          "sharePct": 5.58,
+          "units": 10360,
+          "topComponent": "OIL FILTER"
+        },
+        {
+          "aggregate": "BRAKE SYSTEM",
+          "revenue": 2967795.74,
+          "margin": 364923.12,
+          "marginPct": 12.3,
+          "sharePct": 5.5,
+          "units": 2262,
+          "topComponent": "BRAKE PAD - FRONT"
+        },
+        {
+          "aggregate": "SUSPENSION",
+          "revenue": 2537511.6,
+          "margin": 256949.32,
+          "marginPct": 10.13,
+          "sharePct": 4.7,
+          "units": 1603,
+          "topComponent": "FRONT STRUT ASSEMBLY-LH"
+        },
+        {
+          "aggregate": "CLUTCH SYSTEM",
+          "revenue": 1812930.7,
+          "margin": 190414.57,
+          "marginPct": 10.5,
+          "sharePct": 3.36,
+          "units": 785,
+          "topComponent": "CLUTCH SET"
+        },
+        {
+          "aggregate": "LIGHTING",
+          "revenue": 1678054.32,
+          "margin": 168917.1,
+          "marginPct": 10.07,
+          "sharePct": 3.11,
+          "units": 1175,
+          "topComponent": "BULB"
+        },
+        {
+          "aggregate": "STEERING",
+          "revenue": 1221775.09,
+          "margin": 111343.02,
+          "marginPct": 9.11,
+          "sharePct": 2.26,
+          "units": 1119,
+          "topComponent": "STEERING WHEEL"
+        }
+      ],
+      "momRevenueGrowth": 0.0
+    }
+  }
+}
