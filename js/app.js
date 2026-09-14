@@ -161,10 +161,56 @@ window.App = {
       toast.style.transform = 'translateX(100%)';
       setTimeout(() => toast.remove(), 300);
     }, 3500);
+  },
+
+  checkAuth() {
+    const isLoggedIn = localStorage.getItem('mytvs_logged_in') === 'true';
+    const loginOverlay = document.getElementById('mytvs-login-screen');
+    if (!isLoggedIn && loginOverlay) {
+      loginOverlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    } else if (loginOverlay) {
+      loginOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  },
+
+  handleLogin(e) {
+    if (e) e.preventDefault();
+    const email = document.getElementById('login-email')?.value || 'jino.gj@mytvs.in';
+    const branch = document.getElementById('login-branch')?.value || 'Head Office - TVS Mobility';
+    const btn = document.getElementById('btn-login-submit');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> Authenticating with myTVS SSO...';
+    }
+
+    setTimeout(() => {
+      localStorage.setItem('mytvs_logged_in', 'true');
+      localStorage.setItem('mytvs_user_email', email);
+      localStorage.setItem('mytvs_branch', branch);
+      const loginOverlay = document.getElementById('mytvs-login-screen');
+      if (loginOverlay) {
+        loginOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🔐</span> Sign In to myTVS Enterprise Platform';
+      }
+      this.showToast(`Authenticated! Welcome to myTVS Enterprise Hub (${branch})`, "success");
+    }, 500);
+  },
+
+  logout() {
+    localStorage.removeItem('mytvs_logged_in');
+    this.checkAuth();
+    this.showToast("Signed out of myTVS Session", "info");
   }
 };
 
 // Initialize App on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
   window.App.init();
+  window.App.checkAuth();
 });

@@ -19,16 +19,73 @@
 </head>
 <body>
 
-  <!-- Premium AUTO NEXA Command Header -->
+  <!-- myTVS Corporate Enterprise Login Overlay -->
+  <div id="mytvs-login-screen" class="mytvs-login-overlay" style="display: none;">
+    <div class="mytvs-login-card">
+      <div class="login-brand-header">
+        <div class="login-logo-box">
+          <span class="login-mytvs-my">my</span><span class="login-mytvs-tvs">TVS</span>
+        </div>
+        <h2>AUTO-NEXA</h2>
+        <p class="login-subtitle">TVS Mobility Automotive Parts Intelligence Enterprise Hub</p>
+      </div>
+
+      <form id="mytvs-login-form" onsubmit="App.handleLogin(event)">
+        <div class="form-group">
+          <label for="login-email">Employee Work Email / ID</label>
+          <div class="input-with-icon">
+            <span class="input-icon">👤</span>
+            <input type="email" id="login-email" value="jino.gj@mytvs.in" placeholder="name@mytvs.in" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Enterprise Password</label>
+          <div class="input-with-icon">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="login-password" value="••••••••••••" placeholder="Enter password" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-branch">Authorized Branch / Region</label>
+          <select id="login-branch" class="form-select">
+            <option value="Head Office - TVS Mobility" selected>Head Office - TVS Mobility (HQ)</option>
+            <option value="Madurai EWH">Madurai EWH Branch</option>
+            <option value="Chennai GPO">Chennai GPO Hub</option>
+            <option value="Bangalore Regional">Bangalore Regional Office</option>
+            <option value="Pune EWH">Pune EWH Branch</option>
+          </select>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-container">
+            <input type="checkbox" id="login-remember" checked>
+            <span>Keep session active</span>
+          </label>
+          <a href="#" onclick="alert('Contact TVS Mobility IT Helpdesk for password reset.'); return false;" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" id="btn-login-submit" class="btn-mytvs-primary">
+          <span>🔐</span> Sign In to myTVS Enterprise Platform
+        </button>
+
+        <div class="login-footer-note">
+          Protected by TVS Mobility Corporate SSO Security • Version 8.2 Enterprise
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Premium myTVS AUTO NEXA Command Header -->
   <header class="app-header">
-    <div class="brand-logo-container" id="brand-home-btn" title="Return to Home Page">
-      <div class="brand-mark" aria-hidden="true">
-        <span class="brand-mark-line"></span>
-        <span class="brand-mark-node"></span>
+    <div class="brand-logo-container" id="brand-home-btn" title="myTVS Parts Intelligence Hub">
+      <div class="mytvs-brand-badge">
+        <span class="mytvs-my">my</span><span class="mytvs-tvs">TVS</span>
       </div>
       <div class="brand-copy">
-        <div class="brand-nexa-title">AUTO<span>NEXA</span></div>
-        <div class="brand-nexa-tag">AUTOMOTIVE PARTS INTELLIGENCE</div>
+        <div class="brand-nexa-title">AUTO<span class="brand-nexa-red">NEXA</span></div>
+        <div class="brand-nexa-tag">TVS MOBILITY INTELLIGENCE</div>
       </div>
     </div>
 
@@ -44,7 +101,14 @@
 
     <div class="header-right">
       <button id="btn-theme-toggle" class="btn-icon" title="Toggle Theme (Dark / Light)" aria-label="Toggle theme">◐</button>
-      <div class="profile-chip"><span class="profile-avatar">JG</span><span class="profile-name">Jino G J</span></div>
+      <div class="profile-chip" title="Click to Logout / Switch Account" onclick="App.logout()" style="cursor: pointer;">
+        <span class="profile-avatar">JG</span>
+        <div style="display: flex; flex-direction: column; line-height: 1.1;">
+          <span class="profile-name" style="font-weight: 800; font-size: 11px;">Jino G J</span>
+          <small style="font-size: 8.5px; color: #3b82f6; font-weight: 700;">myTVS Mobility</small>
+        </div>
+        <span style="font-size: 9px; opacity: 0.6; margin-left: 2px;">🔒</span>
+      </div>
     </div>
   </header>
 
