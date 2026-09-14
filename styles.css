@@ -2740,7 +2740,8 @@ body.is-authenticated #mytvs-login-screen {
   z-index: 999999;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end; /* Floating card on RIGHT-HAND SIDE */
+  padding-right: 7vw;
   background: #040a14;
   overflow: hidden;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -2762,8 +2763,8 @@ body.is-authenticated #mytvs-login-screen {
   inset: 0;
   z-index: 2;
   background: 
-    radial-gradient(circle at 50% 50%, rgba(4, 10, 20, 0.4), rgba(4, 10, 20, 0.82) 80%),
-    linear-gradient(180deg, rgba(4, 10, 20, 0.65) 0%, rgba(4, 10, 20, 0.35) 50%, rgba(4, 10, 20, 0.85) 100%);
+    radial-gradient(circle at 75% 50%, rgba(4, 10, 20, 0.2), rgba(4, 10, 20, 0.75) 80%),
+    linear-gradient(180deg, rgba(4, 10, 20, 0.6) 0%, rgba(4, 10, 20, 0.3) 50%, rgba(4, 10, 20, 0.8) 100%);
 }
 
 .login-top-brand-badge {
@@ -2779,534 +2780,621 @@ body.is-authenticated #mytvs-login-screen {
   position: relative;
   z-index: 10;
   width: 100%;
+  max-width: 320px; /* Reduced max-width for small compact size */
+}
+
+/* Compact White Login Card on Right Side */
+.login-white-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  padding: 16px 20px !important; /* Short height compact padding! */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e2e8f0 !important;
+  text-align: left;
+}
+
+.white-card-logo {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.card-mytvs-my {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: #FF6600;
+  letter-spacing: -0.04em;
+}
+
+.card-mytvs-tvs {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: #2B549A;
+  letter-spacing: -0.02em;
+  margin-left: 2px;
+}
+
+.card-tagline {
+  font-size: 8px;
+  font-weight: 850;
+  color: #2B549A;
+  letter-spacing: 0.12em;
+  margin-top: 1px;
+  text-transform: uppercase;
+}
+
+.card-heading {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a !important;
+  text-align: center;
+  margin-bottom: 1px;
+}
+
+.card-subheading {
+  font-size: 10.5px !important;
+  color: #64748b !important;
+  text-align: center;
+  margin-bottom: 10px !important;
+}
+
+.input-group-modern {
+  margin-bottom: 8px !important;
+}
+
+.input-group-modern label {
+  display: block;
+  font-size: 10px !important;
+  font-weight: 750 !important;
+  color: #475569 !important;
+  margin-bottom: 3px !important;
+  text-transform: none !important;
+}
+
+.input-field-wrapper {
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 20px;
+}
+
+.field-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 12px;
+  color: #64748b;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.login-white-card input,
+.login-white-card input[type=text],
+.login-white-card input[type=password] {
+  width: 100% !important;
+  height: 34px !important; /* Compact input height */
+  padding: 0 10px 0 30px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  color: #0f172a !important;
+  outline: none !important;
+}
+
+.btn-toggle-pw {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: 0;
+  font-size: 12px;
+  color: #64748b;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.form-row-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.checkbox-remember {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #475569;
+  cursor: pointer;
+}
+
+.checkbox-remember input {
+  accent-color: #2563eb;
+  width: 13px;
+  height: 13px;
+}
+
+.link-forgot {
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.btn-gradient-submit {
+  width: 100%;
+  height: 36px !important; /* Compact button height */
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: linear-gradient(135deg, #FF6600 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25) !important;
+}
+
+.login-or-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 8px 0 !important;
+  color: #94a3b8;
+  font-size: 9px !important;
+  font-weight: 750;
+}
+
+.login-or-divider::before,
+.login-or-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.login-or-divider span {
+  padding: 0 8px;
+}
+
+.btn-sso-login {
+  width: 100%;
+  height: 30px !important;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 11px !important;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.login-card-footer-text {
+  text-align: center;
+  font-size: 10.5px !important;
+  color: #64748b;
+  margin-top: 10px !important;
 }
 
 .login-bottom-motto {
   position: absolute;
-  bottom: 24px;
-  right: 36px;
+  bottom: 20px;
+  right: 28px;
   z-index: 10;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 750;
   color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.05em;
+}
+
+@media (max-width: 900px) {
+  .mytvs-fullscreen-login-page {
+    justify-content: center;
+    padding-right: 0;
+  }
 }
 
 /* ==========================================================================
    SCENIC HOME PAGE REDESIGN (Exact Reference Mockup Image 2 Alignment)
    ========================================================================== */
 
-/* 1. Hero Scenic Container */
+/* Hero Scenic Container */
 .home-hero-scenic {
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  min-height: 400px;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 48px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #091322;
+  position: relative !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  min-height: 380px !important;
+  margin-bottom: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 40px 48px !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: #091322 !important;
 }
 
-.scenic-hero-bg-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  z-index: 1;
-  filter: brightness(0.78) contrast(1.1);
+.scenic-hero-img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  z-index: 1 !important;
+  filter: brightness(0.68) contrast(1.1) !important;
 }
 
 .scenic-hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(90deg, rgba(8, 17, 32, 0.94) 0%, rgba(8, 17, 32, 0.75) 45%, rgba(8, 17, 32, 0.2) 100%);
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  background: linear-gradient(90deg, rgba(8, 17, 32, 0.95) 0%, rgba(8, 17, 32, 0.75) 45%, rgba(8, 17, 32, 0.25) 100%) !important;
 }
 
-.scenic-hero-left-content {
-  position: relative;
-  z-index: 3;
-  max-width: 580px;
+.scenic-hero-left {
+  position: relative !important;
+  z-index: 3 !important;
+  max-width: 540px !important;
 }
 
-.scenic-hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  font-weight: 850;
-  color: #38d7ff;
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
+.scenic-eyebrow {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+  color: #38d7ff !important;
+  letter-spacing: 0.08em !important;
+  margin-bottom: 6px !important;
 }
 
-.scenic-badge-brand {
-  color: #FF6600;
+.eyebrow-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #FF6600 !important;
+  display: inline-block !important;
 }
 
-.scenic-badge-nexa {
-  color: #ffffff;
+.scenic-kicker {
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.16em !important;
+  color: #94a3b8 !important;
+  text-transform: uppercase !important;
+  margin-bottom: 12px !important;
 }
 
-.scenic-hero-platform-tag {
-  font-size: 10px;
-  font-weight: 850;
-  letter-spacing: 0.16em;
-  color: #94a3b8;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
-.scenic-hero-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 42px;
-  font-weight: 850;
-  line-height: 1.1;
-  color: #ffffff;
-  margin-bottom: 14px;
-  letter-spacing: -0.02em;
-}
-
-.scenic-title-orange {
-  color: #FF6600;
-}
-
-.scenic-hero-desc {
-  font-size: 13.5px;
-  color: #cbd5e1;
-  line-height: 1.55;
-  margin-bottom: 24px;
-  max-width: 480px;
-}
-
-.scenic-hero-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.btn-scenic-orange {
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #FF6600 0%, #e05500 100%);
+.scenic-headline {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 38px !important;
+  font-weight: 850 !important;
+  line-height: 1.1 !important;
   color: #ffffff !important;
-  font-weight: 800;
-  font-size: 13px;
-  border-radius: 30px;
-  border: 0;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(255, 102, 0, 0.35);
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
+  margin-bottom: 12px !important;
+  letter-spacing: -0.02em !important;
 }
 
-.btn-scenic-orange:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(255, 102, 0, 0.45);
+.scenic-orange {
+  color: #FF6600 !important;
 }
 
-.btn-scenic-outline {
-  padding: 12px 22px;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+.scenic-lead {
+  font-size: 13px !important;
+  color: #cbd5e1 !important;
+  line-height: 1.55 !important;
+  margin-bottom: 22px !important;
+  max-width: 460px !important;
+}
+
+.scenic-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.btn-hero-primary {
+  padding: 10px 22px !important;
+  background: linear-gradient(135deg, #FF6600 0%, #e05500 100%) !important;
   color: #ffffff !important;
-  font-weight: 700;
-  font-size: 13px;
-  border-radius: 30px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
-  text-decoration: none;
+  font-weight: 800 !important;
+  font-size: 13px !important;
+  border-radius: 30px !important;
+  border: 0 !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 20px rgba(255, 102, 0, 0.35) !important;
 }
 
-.btn-scenic-outline:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #ffffff;
+.btn-hero-glass {
+  padding: 10px 20px !important;
+  background: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  border-radius: 30px !important;
+  cursor: pointer !important;
 }
 
+/* Glass Card Right Side */
 .scenic-hero-right-glass {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 260px;
+  position: relative !important;
+  z-index: 3 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  width: 250px !important;
 }
 
-.scenic-glass-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+.glass-feature-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 12px 14px !important;
+  background: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
 }
 
-.scenic-glass-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
+.glass-icon {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 15px !important;
+  flex-shrink: 0 !important;
 }
 
-.scenic-glass-info strong {
-  display: block;
-  font-size: 12.5px;
-  color: #ffffff;
-  font-weight: 800;
-  margin-bottom: 2px;
+.glass-feature-row strong {
+  display: block !important;
+  font-size: 12px !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
 }
 
-.scenic-glass-info span {
-  font-size: 10.5px;
-  color: #94a3b8;
+.glass-feature-row small {
+  font-size: 10px !important;
+  color: #94a3b8 !important;
 }
 
-/* 2. Scenic Module Grid (01 to 05 Numbered Cards) */
+/* 5 Module Cards Grid */
 .scenic-module-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 16px !important;
+  margin-bottom: 24px !important;
 }
 
-.scenic-mod-card {
-  position: relative;
-  border-radius: 16px;
-  padding: 20px 18px;
-  min-height: 220px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+.scenic-module-card {
+  position: relative !important;
+  border-radius: 16px !important;
+  padding: 20px 18px !important;
+  min-height: 210px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  cursor: pointer !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+  transition: transform 0.2s ease !important;
 }
 
-.scenic-mod-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
-  border-color: rgba(255, 255, 255, 0.3);
+.scenic-module-card:hover {
+  transform: translateY(-4px) !important;
 }
 
-.scenic-mod-num {
-  font-size: 11px;
-  font-weight: 850;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.05em;
+.card-num-badge {
+  font-size: 11px !important;
+  font-weight: 850 !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
-.scenic-mod-icon-box {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  margin: 14px 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.scenic-mod-icon {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+  margin: 12px 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.scenic-mod-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 6px;
+.scenic-module-card h3 {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  margin-bottom: 6px !important;
 }
 
-.scenic-mod-desc {
-  font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.45;
-  margin-bottom: 16px;
-  flex-grow: 1;
+.scenic-module-card p {
+  font-size: 11.5px !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  line-height: 1.45 !important;
+  margin-bottom: 14px !important;
+  flex-grow: 1 !important;
 }
 
-.scenic-mod-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 11.5px;
-  font-weight: 800;
-  color: #ffffff;
-  text-decoration: none;
+.scenic-mod-action {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
 }
 
-.scenic-mod-circle-btn {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
+.circle-arrow {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
 }
 
-/* Specific Card Background Gradients matching Mockup 2 */
-.mod-card-cat {
-  background: linear-gradient(145deg, #091b2c 0%, #0c2b48 100%);
-}
-.mod-card-cat .scenic-mod-icon-box { background: rgba(2, 132, 199, 0.3); color: #38bdf8; }
+.mod-cat { background: linear-gradient(145deg, #091b2c 0%, #0c2b48 100%) !important; }
+.mod-inv { background: linear-gradient(145deg, #062322 0%, #0d3b37 100%) !important; }
+.mod-sales { background: linear-gradient(145deg, #2b1806 0%, #462507 100%) !important; }
+.mod-plan { background: linear-gradient(145deg, #181031 0%, #291754 100%) !important; }
+.mod-rep { background: linear-gradient(145deg, #081a36 0%, #102d59 100%) !important; }
 
-.mod-card-inv {
-  background: linear-gradient(145deg, #062322 0%, #0d3b37 100%);
-}
-.mod-card-inv .scenic-mod-icon-box { background: rgba(16, 185, 129, 0.3); color: #34d399; }
-
-.mod-card-sal {
-  background: linear-gradient(145deg, #2b1806 0%, #462507 100%);
-}
-.mod-card-sal .scenic-mod-icon-box { background: rgba(245, 158, 11, 0.3); color: #fbbf24; }
-
-.mod-card-pla {
-  background: linear-gradient(145deg, #181031 0%, #291754 100%);
-}
-.mod-card-pla .scenic-mod-icon-box { background: rgba(139, 92, 246, 0.3); color: #a78bfa; }
-
-.mod-card-rep {
-  background: linear-gradient(145deg, #081a36 0%, #102d59 100%);
-}
-.mod-card-rep .scenic-mod-icon-box { background: rgba(59, 130, 246, 0.3); color: #60a5fa; }
-
-
-/* 3. Scenic Quick Insights KPI Bar */
+/* Quick Insights Bar */
 .scenic-quick-insights-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 16px 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
-  border: 1px solid #e2e8f0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  padding: 16px 24px !important;
+  margin-bottom: 24px !important;
+  border: 1px solid #e2e8f0 !important;
 }
 
 [data-theme="dark"] .scenic-quick-insights-bar {
-  background: #0f172a;
-  border-color: rgba(255, 255, 255, 0.1);
+  background: #0f172a !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.scenic-qi-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.quick-insights-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
 }
 
-.scenic-qi-icon {
-  font-size: 20px;
-  color: #2563eb;
+.insights-icon {
+  font-size: 20px !important;
 }
 
-.scenic-qi-left strong {
-  display: block;
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  font-weight: 850;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #0f172a;
+.quick-insights-header strong {
+  display: block !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.06em !important;
+  color: #0f172a !important;
 }
 
-[data-theme="dark"] .scenic-qi-left strong { color: #f8fafc; }
+[data-theme="dark"] .quick-insights-header strong { color: #f8fafc !important; }
 
-.scenic-qi-left span {
-  font-size: 11.5px;
-  color: #64748b;
+.quick-insights-header small {
+  font-size: 11px !important;
+  color: #64748b !important;
 }
 
-.scenic-qi-pills {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.quick-insights-pills {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
 }
 
-.scenic-qi-pill {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  background: #f8fafc;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  font-size: 12px;
+.kpi-pill-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 14px !important;
+  background: #f8fafc !important;
+  border-radius: 10px !important;
+  border: 1px solid #e2e8f0 !important;
+  font-size: 11.5px !important;
+  cursor: pointer !important;
 }
 
-[data-theme="dark"] .scenic-qi-pill {
-  background: #1e293b;
-  border-color: rgba(255, 255, 255, 0.1);
+[data-theme="dark"] .kpi-pill-item {
+  background: #1e293b !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.scenic-pill-label {
-  font-weight: 600;
-  color: #64748b;
+.kpi-pill-label {
+  font-weight: 600 !important;
+  color: #64748b !important;
 }
 
-.scenic-pill-val {
-  font-weight: 850;
-  color: #0f172a;
+.kpi-pill-val {
+  font-weight: 850 !important;
+  color: #0f172a !important;
 }
 
-[data-theme="dark"] .scenic-pill-val { color: #f8fafc; }
+[data-theme="dark"] .kpi-pill-val { color: #f8fafc !important; }
+.kpi-pill-val.positive { color: #16a34a !important; }
+.kpi-pill-val.amber { color: #d97706 !important; }
 
-.val-green { color: #16a34a !important; }
-
-
-/* 4. Scenic Aftermarket Bottom Wall Banner */
+/* Bottom Aftermarket Wall Banner */
 .scenic-aftermarket-banner {
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  padding: 32px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #091322;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.2);
+  position: relative !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  padding: 28px 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  background: #091322 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
 
-.scenic-after-bg-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center bottom;
-  z-index: 1;
-  filter: brightness(0.4) contrast(1.1);
+.aftermarket-copy h2 {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 850 !important;
+  color: #ffffff !important;
+  margin-bottom: 4px !important;
 }
 
-.scenic-after-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: linear-gradient(90deg, rgba(8, 17, 32, 0.92) 0%, rgba(8, 17, 32, 0.75) 50%, rgba(8, 17, 32, 0.92) 100%);
+.aftermarket-copy p {
+  font-size: 11.5px !important;
+  color: #cbd5e1 !important;
+  max-width: 320px !important;
 }
 
-.scenic-after-left {
-  position: relative;
-  z-index: 3;
-  max-width: 320px;
+.aftermarket-brands-wall {
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  flex-wrap: wrap !important;
 }
 
-.scenic-after-left h3 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 20px;
-  font-weight: 850;
-  color: #ffffff;
-  margin-bottom: 6px;
+.aftermarket-brands-wall span {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 12.5px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
-.scenic-after-left p {
-  font-size: 11.5px;
-  color: #cbd5e1;
-  line-height: 1.5;
+.aftermarket-tagline-box {
+  border-left: 2px solid #FF6600 !important;
+  padding-left: 14px !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  line-height: 1.45 !important;
 }
 
-.scenic-after-logos {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
+.tag-line-white { color: #ffffff !important; }
+.tag-line-blue { color: #38bdf8 !important; }
+.tag-line-orange { color: #FF6600 !important; }
 
-.scenic-brand-name {
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.85);
-  text-transform: uppercase;
-}
-
-.scenic-after-right {
-  position: relative;
-  z-index: 3;
-  border-left: 2px solid #FF6600;
-  padding-left: 16px;
-}
-
-.scenic-after-right div {
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1.45;
-}
-
-.t-white { color: #ffffff; }
-.t-blue-bright { color: #38bdf8; }
-.t-orange-bright { color: #FF6600; }
-
-@media (max-width: 1200px) {
-  .scenic-module-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 900px) {
-  .home-hero-scenic {
-    flex-direction: column;
-    padding: 28px 20px;
-  }
-  .scenic-hero-right-glass {
-    width: 100%;
-    margin-top: 20px;
-  }
-  .scenic-module-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .scenic-quick-insights-bar {
-    flex-direction: column;
-    gap: 16px;
-    align-items: stretch;
-  }
-  .scenic-qi-pills {
-    flex-wrap: wrap;
-  }
-  .scenic-aftermarket-banner {
-    flex-direction: column;
-    gap: 20px;
-    padding: 24px 20px;
-  }
-}
-
-@media (max-width: 600px) {
-  .scenic-module-grid {
-    grid-template-columns: 1fr;
-  }
-}
