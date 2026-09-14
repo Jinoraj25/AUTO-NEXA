@@ -1,0 +1,22 @@
+# Ignore executables
+*.exe
+
+# Ignore Python caches
+__pycache__/
+*.pyc
+
+# Ignore large raw dataset files
+*.xls
+*.xlsx
+*.xlsb
+ALL GOOD STOCK/
+
+# Ignore large uncompressed JSON files (we deploy .json.gz versions under 10MB)
+*.json
+data/*.json
+
+# Keep compressed dataset files required by server
+!stock_cache.json.gz
+!data/stock_cache.json.gz
+!trained_mapping_db.json.gz
+!data/trained_mapping_db.json.gz

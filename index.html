@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUTO NEXA | Automotive Parts Intelligence Platform</title>
+  
+  <!-- Modern Typography (Outfit + Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=4.2.0">
+
+  <!-- Local JS Libraries -->
+  <script src="chart.umd.min.js" onerror="this.onerror=null;this.src='lib/chart.umd.min.js'"></script>
+  <script src="xlsx.full.min.js" onerror="this.onerror=null;this.src='lib/xlsx.full.min.js'"></script>
+</head>
+<body>
+
+  <!-- Premium AUTO NEXA Command Header -->
+  <header class="app-header">
+    <div class="brand-logo-container" id="brand-home-btn" title="Return to Home Page">
+      <div class="brand-mark" aria-hidden="true">
+        <span class="brand-mark-line"></span>
+        <span class="brand-mark-node"></span>
+      </div>
+      <div class="brand-copy">
+        <div class="brand-nexa-title">AUTO<span>NEXA</span></div>
+        <div class="brand-nexa-tag">AUTOMOTIVE PARTS INTELLIGENCE</div>
+      </div>
+    </div>
+
+    <nav class="nav-menu-group" aria-label="Primary navigation">
+      <div class="nav-section-label">WORKSPACE</div>
+      <button class="nav-menu-item active" data-tab="home"><span class="nav-icon">⌂</span><span>Overview</span></button>
+      <button class="nav-menu-item" data-tab="catalogue"><span class="nav-icon">⌘</span><span>Catalogue</span></button>
+      <button class="nav-menu-item" data-tab="inventory"><span class="nav-icon">▣</span><span>Inventory</span></button>
+      <button class="nav-menu-item" data-tab="analytics"><span class="nav-icon">◒</span><span>Sales</span></button>
+      <button class="nav-menu-item" data-tab="forecasting"><span class="nav-icon">⌁</span><span>Planning</span></button>
+      <button class="nav-menu-item" data-tab="deviation"><span class="nav-icon">≡</span><span>Reports</span></button>
+    </nav>
+
+    <div class="header-right">
+      <div class="system-status">
+        <span class="status-dot"></span>
+        <div><strong>ENGINE ONLINE</strong><small>Data services active</small></div>
+      </div>
+      <div class="header-divider"></div>
+      <button id="btn-theme-toggle" class="btn-icon" title="Toggle Theme (Dark / Light)" aria-label="Toggle theme">◐</button>
+      <div class="profile-chip"><span class="profile-avatar">JG</span><span class="profile-name">Jino G J</span></div>
+    </div>
+  </header>
+
+  <!-- Main Content Body -->
+  <main class="main-content">
+
+    <!-- ==================== TAB 0: EXECUTIVE OVERVIEW ==================== -->
+    <section id="tab-home" class="tab-pane active">
+      <div class="home-shell">
+        <div class="home-hero">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-dot"></span> AUTOMOTIVE DATA &amp; DECISION INTELLIGENCE</div>
+            <h1>EVERY PART.<br><span>EVERY DECISION.</span></h1>
+            <p class="hero-lead">AUTO NEXA connects catalogue intelligence, OEM component mapping, sales performance, inventory health and demand planning in one operating workspace.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" onclick="App.switchTab('catalogue')"><span>⌘</span> Open Catalogue</button>
+              <button class="btn btn-ghost" onclick="App.switchTab('analytics')">Explore Sales Intelligence <span>→</span></button>
+            </div>
+            <div class="hero-proof">
+              <div><strong>1,037+</strong><span>Master mapping rules</span></div>
+              <div><strong>305K+</strong><span>Indexed part numbers</span></div>
+              <div><strong>6</strong><span>Core intelligence modules</span></div>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="visual-grid"></div>
+            <div class="visual-orbit orbit-one"></div>
+            <div class="visual-orbit orbit-two"></div>
+            <div class="hero-car-frame">
+              <img src="luxury_car_front.jpg" onerror="this.onerror=null;this.src='images/luxury_car_front.jpg'" alt="Premium passenger vehicle" class="luxury-car-img">
+              <div class="hero-image-shade"></div>
+            </div>
+            <div class="floating-metric metric-top"><span class="metric-label">SYSTEM COVERAGE</span><strong>PCV / MULTI-MAKE</strong><small>OEM intelligence layer</small></div>
+            <div class="floating-metric metric-bottom"><span class="metric-label">LIVE ENGINE</span><strong><span class="live-pulse"></span> READY</strong><small>Mapping • Stock • Sales • Planning</small></div>
+          </div>
+        </div>
+
+        <div class="section-heading home-section-heading">
+          <div><span class="section-kicker">COMMAND CENTRE</span><h2>Everything your parts operation needs.</h2></div>
+          <span class="section-note">One workspace • One data language • One source of truth</span>
+        </div>
+
+        <div class="module-grid">
+          <article class="module-card module-catalogue" onclick="App.switchTab('catalogue')"><div class="module-number">01</div><div class="module-icon">⌘</div><h3>Catalogue Intelligence</h3><p>Map descriptions and part numbers into Aggregate → Sub-Aggregate → Component with a searchable master.</p><span>Launch Catalogue <b>↗</b></span></article>
+          <article class="module-card module-inventory" onclick="App.switchTab('inventory')"><div class="module-number">02</div><div class="module-icon">▣</div><h3>Inventory Control</h3><p>Monitor valuation, stock quantity, DoD/WoW movement and searchable SKU-level inventory health.</p><span>Open Inventory <b>↗</b></span></article>
+          <article class="module-card module-sales" onclick="App.switchTab('analytics')"><div class="module-number">03</div><div class="module-icon">◒</div><h3>Sales Intelligence</h3><p>Read RF and CF performance through revenue, margin, make, region, PMS and aggregate analytics.</p><span>View Sales <b>↗</b></span></article>
+          <article class="module-card module-planning" onclick="App.switchTab('forecasting')"><div class="module-number">04</div><div class="module-icon">⌁</div><h3>Demand Planning</h3><p>Convert sales velocity and stock position into MSL, safety stock, reorder and PO recommendations.</p><span>Plan Demand <b>↗</b></span></article>
+          <article class="module-card module-reports" onclick="App.switchTab('deviation')"><div class="module-number">05</div><div class="module-icon">≡</div><h3>Audit &amp; Reports</h3><p>Surface outside-purchase deviations, financial leakage and actionable exceptions for review.</p><span>Open Reports <b>↗</b></span></article>
+        </div>
+
+        <div class="intelligence-band">
+          <div class="band-copy"><span class="section-kicker">AUTOMOTIVE ECOSYSTEM</span><h2>Built for multi-make PCV operations.</h2><p>Designed around real automotive terminology, component hierarchies and business workflows.</p></div>
+          <div class="brand-wall" aria-label="Supported vehicle makes"><span>MARUTI SUZUKI</span><span>HYUNDAI</span><span>MAHINDRA</span><span>TATA MOTORS</span><span>TOYOTA</span><span>HONDA</span><span>KIA</span><span>RENAULT</span><span>NISSAN</span><span>VOLKSWAGEN</span><span>SKODA</span><span>FORD</span></div>
+        </div>
+
+        <div class="home-bottom-grid">
+          <div class="data-preview-card"><div class="preview-top"><div><span class="section-kicker">COMPONENT GENOME</span><h3>From raw description to structured intelligence.</h3></div><span class="status-badge">1,037 RULES</span></div><div class="genome-flow"><div><small>AGGREGATE</small><strong>Brake System</strong></div><span>→</span><div><small>SUB-AGGREGATE</small><strong>Disc Brake</strong></div><span>→</span><div><small>COMPONENT</small><strong>Brake Pad</strong></div></div></div>
+          <div class="insight-card"><span class="section-kicker">DECISION LAYER</span><h3>Know what to buy, where to focus and why.</h3><div class="insight-list"><div><span>01</span><p>Identify slow / critical stock</p></div><div><span>02</span><p>Prioritise demand-driven replenishment</p></div><div><span>03</span><p>Audit purchasing against internal availability</p></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 1: CATALOGUE STUDIO ==================== -->
+    <section id="tab-catalogue" class="tab-pane">
+      <div style="margin-bottom: 1.25rem;">
+        <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.25rem;">Smart Catalogue & Component Mapping Studio</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Upload your monthly sales Excel file to generate the 1st-cut Component Genome mapping for Passenger Car Vehicles (PCV).
+        </p>
+      </div>
+
+      <!-- File Upload Dropzone -->
+      <div class="dropzone-container" id="sales-dropzone">
+        <input type="file" id="sales-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
+        <div class="dropzone-icon">📥</div>
+        <div class="dropzone-text">Upload Monthly Sales Excel File (.xlsx, .xlsb, .csv, .xls)</div>
+        <div class="dropzone-sub" style="margin-bottom: 0.75rem;">Drag & drop your PCV sales file here, or click anywhere inside this box to browse.</div>
+        <button class="btn btn-amber" type="button" onclick="document.getElementById('sales-file-input').click(); event.stopPropagation();">
+          📁 Select Excel File
+        </button>
+        <div id="catalogue-upload-status" class="upload-status-box" style="display: none; max-width: 600px; margin: 1rem auto 0 auto;"></div>
+      </div>
+
+      <!-- Mapped Output Analytics Summary Cards -->
+      <div id="mapping-summary-section" style="display: none; margin-bottom: 1.75rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-amber);">📊 1st-Cut Mapped Dataset Summary & Metrics</h3>
+          
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button id="btn-export-mapped" class="btn btn-success">
+              📤 Export Mapped Excel Output
+            </button>
+            <button id="btn-move-to-rf" class="btn btn-amber" onclick="MappingPortal.moveToSalesDashboard('RF')">
+              🏬 Move to RF Sales Dashboard
+            </button>
+            <button id="btn-move-to-cf" class="btn btn-primary" onclick="MappingPortal.moveToSalesDashboard('CF')">
+              🏢 Move to CF Sales Dashboard
+            </button>
+          </div>
+        </div>
+
+        <div class="nexa-portals-grid" style="grid-template-columns: repeat(5, 1fr); margin: 0;">
+          <div class="card">
+            <div class="card-title">Total Rows Mapped</div>
+            <div id="map-stat-total" class="card-value" style="font-size: 1.6rem;">0</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Unique Aggregates</div>
+            <div id="map-stat-aggregates" class="card-value" style="font-size: 1.6rem; color: var(--accent-amber);">0</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Sub-Aggregates</div>
+            <div id="map-stat-sub-aggregates" class="card-value" style="font-size: 1.6rem; color: var(--accent-purple);">0</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Components</div>
+            <div id="map-stat-components" class="card-value" style="font-size: 1.6rem; color: var(--accent-emerald);">0</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Confidence Metric</div>
+            <div id="map-stat-confidence" class="card-value" style="font-size: 1.3rem; color: var(--accent-blue);">100% High</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aggregate Master System Lookup Table -->
+      <div class="card" style="margin-top: 1.25rem;">
+        <div class="card-header" style="flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);">📐 Aggregate Master System Lookup & Search</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+              Search any component (e.g. "BRAKE PAD", "OIL FILTER", "RELAY") to inspect its Aggregate, Sub-Aggregate & Category.
+            </div>
+          </div>
+          <span class="badge badge-info">1,037 Pre-Loaded Master Rules</span>
+        </div>
+
+        <div class="table-wrapper" style="margin-top: 0.75rem;">
+          <div class="table-toolbar">
+            <input type="text" id="master-search-input" class="search-input" placeholder="🔍 Search component (e.g. BRAKE PAD, OIL FILTER, RELAY)...">
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Aggregate</th>
+                <th>Sub-Aggregate</th>
+                <th>Component</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody id="master-rules-list">
+              <!-- Dynamically populated via mapping-portal.js -->
+            </tbody>
+          </table>
+
+          <div id="master-pagination" class="table-toolbar">
+            <!-- Pagination Controls -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==================== TAB 2: INVENTORY DASHBOARD ==================== -->
+    <section id="tab-inventory" class="tab-pane">
+      <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); padding: 0.75rem 1.25rem; border-radius: var(--radius-md); margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <span style="font-size: 1.1rem; color: var(--accent-emerald);">🟢</span>
+          <div>
+            <span style="font-weight: 800; font-size: 0.88rem; color: var(--accent-emerald);">STOCK DATA SYNC: READY</span>
+            <span style="font-size: 0.82rem; color: var(--text-muted); margin-left: 0.5rem;">
+              Stock analytics are ready. Upload the latest stock workbook whenever you need to refresh inventory intelligence.
+            </span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+          <input type="file" id="inventory-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
+          <button class="btn btn-emerald" onclick="document.getElementById('inventory-file-input').click()" style="padding: 0.45rem 1rem; font-size: 0.82rem; font-weight: 800;">
+            📁 Upload Stock Workbook
+          </button>
+
+          <button id="btn-sync-stock-folder" class="btn btn-amber" style="padding: 0.45rem 1rem; font-size: 0.82rem; font-weight: 800;">
+            🔄 Refresh Stock Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Inventory Live Sync Progress Status Box -->
+      <div id="inventory-sync-status" class="upload-status-box" style="display: none; margin-bottom: 1.25rem;"></div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.25rem;">📦 Daily Inventory Stock & Valuation Dashboard</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Valuation-centric inventory monitoring, Category-wise holding breakdown, Day-over-Day & Week-over-Week financial variance analysis.
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Stock Date:</label>
+          <select id="inventory-date-select" class="search-input" style="width: 200px; padding: 0.5rem 0.85rem;">
+            <!-- Populated dynamically via inventory-portal.js -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Valuation-Centric Primary KPI Cards -->
+      <div class="nexa-portals-grid" style="grid-template-columns: 2fr 1fr 1fr 1fr; margin-bottom: 1.5rem;">
+        <div class="card card-emerald-tint" style="padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div class="card-title" style="color: var(--accent-emerald); font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">💰 TOTAL INVENTORY HOLDING VALUATION</div>
+            <span class="badge badge-emerald" style="font-size: 0.75rem;">Primary Metric</span>
+          </div>
+          <div id="kpi-stock-valuation" class="card-value" style="font-size: 2.2rem; font-weight: 900; color: var(--accent-emerald); margin: 0.4rem 0;">₹169.60 Cr</div>
+          <div id="kpi-stock-valuation-sub" class="card-subtext" style="color: var(--text-muted); font-size: 0.8rem;">Total inventory monetary value in warehouse stock</div>
+        </div>
+
+        <div class="card card-amber-tint">
+          <div class="card-title">Total Active SKUs</div>
+          <div id="kpi-stock-skus" class="card-value" style="color: var(--accent-amber); font-size: 1.5rem;">473,209 SKUs</div>
+          <div class="card-subtext">Unique part number records</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Total Physical Quantity</div>
+          <div id="kpi-stock-qty" class="card-value" style="font-size: 1.5rem;">5,559,427 units</div>
+          <div class="card-subtext">Physical warehouse stock units</div>
+        </div>
+
+        <div class="card card-blue-tint">
+          <div class="card-title">DoD Valuation Shift</div>
+          <div id="kpi-dod-val-net" class="card-value" style="color: var(--accent-blue); font-size: 1.5rem;">+₹0.00</div>
+          <div class="card-subtext">Net holding value vs prev day</div>
+        </div>
+      </div>
+
+      <!-- CATEGORY-WISE VALUATION HOLDING BREAKDOWN -->
+      <div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div style="font-size: 1.05rem; font-weight: 800; color: var(--accent-amber);">🏷️ Category-wise Inventory Valuation Holding Breakdown</div>
+          <span class="badge badge-info">Category Valuations</span>
+        </div>
+        <div id="category-valuation-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem;">
+          <!-- Dynamically populated via inventory-portal.js -->
+        </div>
+      </div>
+
+      <!-- DAY-OVER-DAY & WEEK-OVER-WEEK CATEGORY VARIANCE TABLES -->
+      <div class="charts-grid inventory-variance-grid" style="margin-bottom: 1.5rem;">
+        <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="font-size: 0.95rem; font-weight: 800; color: var(--accent-amber);">📆 Day-over-Day (DoD) Category Value Difference</div>
+            <span class="badge badge-info" id="dod-date-badge">DoD Variance</span>
+          </div>
+          <div class="table-wrapper variance-table-wrapper">
+            <table class="data-table variance-data-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Prev Day Value</th>
+                  <th>Latest Value</th>
+                  <th>Value Diff (₹)</th>
+                  <th>DoD %</th>
+                </tr>
+              </thead>
+              <tbody id="dod-category-table-body">
+                <!-- Populated via inventory-portal.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="font-size: 0.95rem; font-weight: 800; color: var(--accent-blue);">📈 Week-over-Week (WoW) Category Value Difference</div>
+            <span class="badge badge-high" id="wow-date-badge">WoW Variance</span>
+          </div>
+          <div class="table-wrapper variance-table-wrapper">
+            <table class="data-table variance-data-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Week Start Value</th>
+                  <th>Latest Value</th>
+                  <th>WoW Value Diff (₹)</th>
+                  <th>WoW %</th>
+                </tr>
+              </thead>
+              <tbody id="wow-category-table-body">
+                <!-- Populated via inventory-portal.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Part Number Search Grid -->
+      <div class="card">
+        <div class="card-header" style="flex-wrap: wrap; gap: 0.85rem; align-items: center;">
+          <div>
+            <div style="font-size: 1rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <span>🔍 Part Number Master Search & Inspection Grid</span>
+              <span class="badge badge-amber" style="font-size: 0.78rem; font-weight: 800;" id="search-grid-date-badge">Stock Date: 14-Sep-2026</span>
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">
+              Showing records strictly for the selected date. Excludes STATUS, GRN, LOCATION, GRN/AGE DATE, GOOD/DAMAGE, CARS columns.
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-left: auto;">
+            <div style="display: flex; align-items: center; gap: 0.35rem;">
+              <label style="font-size: 0.8rem; font-weight: 700; color: var(--accent-amber);">FILTER:</label>
+              <select id="inventory-tag-select" class="search-input" style="width: 160px; padding: 0.4rem 0.65rem; font-size: 0.82rem;">
+                <option value="CONSIDER" selected>CONSIDER Only</option>
+                <option value="NOT CONSIDER">NOT CONSIDER Only</option>
+                <option value="ALL">All Records</option>
+              </select>
+            </div>
+
+            <input type="text" id="inventory-search-input" class="search-input" style="width: 280px; padding: 0.4rem 0.75rem; font-size: 0.82rem;" placeholder="Search Part No, Desc, Brand, Branch...">
+          </div>
+        </div>
+
+        <div class="table-wrapper inventory-table-wrapper" style="margin-top: 0.75rem; overflow-x: auto; width: 100%;">
+          <table class="data-table inventory-data-table" style="min-width: 1300px; width: 100%;">
+            <thead>
+              <tr>
+                <th>Part Number</th>
+                <th>Description</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Line Code</th>
+                <th>Branch</th>
+                <th>Branch Name</th>
+                <th>Stock Qty</th>
+                <th>Unit Cost (₹)</th>
+                <th>MRP (₹)</th>
+                <th>Value (₹)</th>
+                <th>Age Days</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-table-body">
+              <!-- Populated via inventory-portal.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==================== TAB 3: SALES DASHBOARD (RF vs CF) ==================== -->
+    <section id="tab-analytics" class="tab-pane">
+      
+      <!-- Top Control Header Bar -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 0.25rem; font-family: 'Outfit', sans-serif;">📊 Retail & Corporate Franchisee Sales Intelligence</h2>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Month-wise ERP Franchisee Sales Analytics, Sourcing Segment Breakdown (OEM/CASTROL), Gross Margin Profiling & Region-wise Matrix.
+          </p>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
+          <!-- Month Dropdown Selector -->
+          <div style="display: flex; align-items: center; gap: 0.45rem; background: var(--bg-card); padding: 0.35rem 0.75rem; border-radius: var(--radius-md); border: 1.5px solid var(--border-amber);">
+            <label style="font-size: 0.85rem; font-weight: 800; color: var(--accent-amber);">📅 Month:</label>
+            <select id="sales-month-select" class="search-input" style="width: 200px; padding: 0.35rem 0.65rem; font-size: 0.85rem; font-weight: 800; color: var(--accent-amber); border: none; background: transparent;">
+              <option value="AUG" selected>August 2026 (AUG)</option>
+              <option value="JUL">July 2026 (JUL)</option>
+              <option value="JUN">June 2026 (JUN)</option>
+              <option value="MAY">May 2026 (MAY)</option>
+              <option value="APR">April 2026 (APR)</option>
+              <option value="MAR">March 2026 (MAR)</option>
+              <option value="FEB">February 2026 (FEB)</option>
+              <option value="JAN">January 2026 (JAN)</option>
+              <option value="ALL">All Months (Jan-Aug 2026)</option>
+            </select>
+          </div>
+
+          <!-- Channel Filter Tabs (ALL, RF, CF) -->
+          <div style="display: flex; gap: 0.5rem; background: var(--bg-card); padding: 0.35rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <button class="btn btn-secondary channel-filter-btn" data-channel="ALL" style="padding: 0.4rem 1rem; font-size: 0.82rem;">All Franchisees</button>
+            <button class="btn btn-amber channel-filter-btn active" data-channel="RF" style="padding: 0.4rem 1rem; font-size: 0.82rem; font-weight: 800;">🏬 Retail Franchisee (RF)</button>
+            <button class="btn btn-secondary channel-filter-btn" data-channel="CF" style="padding: 0.4rem 1rem; font-size: 0.82rem;">🏢 Corporate Franchisee (CF)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dedicated Franchisee Monthly Sales Upload Area -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+        
+        <!-- RF Sales Upload Card -->
+        <div class="card" style="border: 1.5px solid rgba(245, 158, 11, 0.35);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.95rem; font-weight: 800; color: var(--accent-amber);">🏬 Retail Franchisee (RF) Monthly Sales Upload</span>
+            <span class="badge badge-amber">RF Channel</span>
+          </div>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+            Upload month-wise Retail Franchisee sales report (.xlsx, .xlsb, .csv).
+          </p>
+          <input type="file" id="rf-sales-input" accept=".xlsx, .csv, .xlsb, .xls" style="display: none;">
+          <button class="btn btn-amber" onclick="document.getElementById('rf-sales-input').click()" style="width: 100%; font-weight: 800; padding: 0.6rem;">
+            📁 Upload RF Monthly Sales Excel Report
+          </button>
+          <div id="rf-upload-status" class="upload-status-box" style="display: none;"></div>
+        </div>
+
+        <!-- CF Sales Upload Card -->
+        <div class="card" style="border: 1.5px solid rgba(59, 130, 246, 0.35);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.95rem; font-weight: 800; color: var(--accent-blue);">🏢 Corporate Franchisee (CF) Monthly Sales Upload</span>
+            <span class="badge badge-blue">CF Channel</span>
+          </div>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+            Upload month-wise Corporate Franchisee sales report (.xlsx, .xlsb, .csv).
+          </p>
+          <input type="file" id="cf-sales-input" accept=".xlsx, .csv, .xlsb, .xls" style="display: none;">
+          <button class="btn btn-primary" onclick="document.getElementById('cf-sales-input').click()" style="width: 100%; font-weight: 800; padding: 0.6rem;">
+            📁 Upload CF Monthly Sales Excel Report
+          </button>
+          <div id="cf-upload-status" class="upload-status-box" style="display: none;"></div>
+        </div>
+
+      </div>
+
+      <!-- Placeholder Card when CF selected and no CF file loaded -->
+      <div id="cf-empty-notice" style="display: none; margin-bottom: 1.5rem;">
+        <div class="card" style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.3); text-align: center; padding: 2rem;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏢</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-red);">Corporate Franchisee (CF) Sales Data Not Uploaded</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            You have selected the Corporate Franchisee (CF) channel view. Upload your CF Sales Excel report above to display Corporate Franchisee sales dashboards.
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 CORE METRIC TELEMETRY CARDS -->
+      <div id="sales-kpi-container" class="nexa-portals-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
+        <!-- Card 1: Total Sales Revenue -->
+        <div class="card card-amber-tint">
+          <div class="card-title" style="color: var(--accent-amber); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">💰 TOTAL SALES REVENUE</div>
+          <div id="kpi-total-revenue" class="card-value" style="color: var(--accent-amber); font-size: 1.85rem; font-weight: 900; margin: 0.3rem 0;">₹70.61 Cr</div>
+          <div id="kpi-mom-shift" class="card-subtext" style="color: var(--accent-emerald); font-weight: 700;">+6.8% MoM Shift vs JUL</div>
+        </div>
+
+        <!-- Card 2: Gross Profit Margin -->
+        <div class="card card-emerald-tint">
+          <div class="card-title" style="color: var(--accent-emerald); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">📈 GROSS PROFIT MARGIN</div>
+          <div id="kpi-total-margin" class="card-value" style="color: var(--accent-emerald); font-size: 1.85rem; font-weight: 900; margin: 0.3rem 0;">₹4.43 Cr</div>
+          <div id="kpi-margin-rate" class="card-subtext" style="color: var(--text-muted); font-weight: 700;">6.27% Gross Margin Rate</div>
+        </div>
+
+        <!-- Card 3: MHMT Vehicle Make Share -->
+        <div class="card card-blue-tint">
+          <div class="card-title" style="color: var(--accent-blue); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">🚗 MHMT VEHICLE MAKE SHARE</div>
+          <div id="kpi-mhmt-rev" class="card-value" style="color: var(--accent-blue); font-size: 1.85rem; font-weight: 900; margin: 0.3rem 0;">₹3.45 Cr</div>
+          <div id="kpi-mhmt-subtext" class="card-subtext" style="color: var(--text-muted); font-weight: 700;">65.70% Share (Maruti, Hyundai, Mahindra, Tata)</div>
+        </div>
+
+        <!-- Card 4: Invoice Line Volume -->
+        <div class="card">
+          <div class="card-title">Total Invoice Lines</div>
+          <div id="kpi-invoice-volume" class="card-value" style="font-size: 1.6rem;">26,807</div>
+          <div id="kpi-units-volume" class="card-subtext">840,412 Physical Units Sold</div>
+        </div>
+      </div>
+
+      <!-- 5 OFFICIAL MASTER CATEGORIES REVENUE VALUE & SHARE CARDS -->
+      <div id="category-cards-wrapper" class="card card-purple-tint" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div>
+            <div style="font-size: 1.05rem; font-weight: 900; color: var(--accent-purple); font-family: 'Outfit', sans-serif;">📦 5 Official Master Categories Revenue & Values Breakdown</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">Exact Sales Value (in ₹ Crores) & Percentage Share across all 5 official Aggregate Master categories.</div>
+          </div>
+          <span class="badge badge-purple" style="font-size: 0.75rem;">Master Taxonomy Values</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem;">
+          <!-- Category 1: Mechanical Parts -->
+          <div class="card card-purple-tint" style="padding: 1rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-purple); text-transform: uppercase;">🛠️ MECHANICAL PARTS</div>
+            <div id="cat-val-mech" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-purple); margin: 0.25rem 0;">₹27.81 Cr</div>
+            <div id="cat-pct-mech" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">39.39% Sales Share</div>
+            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
+              <div id="cat-bar-mech" style="background: var(--accent-purple); height: 100%; width: 39.39%;"></div>
+            </div>
+          </div>
+
+          <!-- Category 2: Body Parts -->
+          <div class="card card-blue-tint" style="padding: 1rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-blue); text-transform: uppercase;">🚗 BODY PARTS</div>
+            <div id="cat-val-body" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-blue); margin: 0.25rem 0;">₹17.87 Cr</div>
+            <div id="cat-pct-body" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">25.30% Sales Share</div>
+            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
+              <div id="cat-bar-body" style="background: var(--accent-blue); height: 100%; width: 25.3%;"></div>
+            </div>
+          </div>
+
+          <!-- Category 3: Lubes -->
+          <div class="card card-emerald-tint" style="padding: 1rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-emerald); text-transform: uppercase;">🛢️ LUBES</div>
+            <div id="cat-val-lubes" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-emerald); margin: 0.25rem 0;">₹16.78 Cr</div>
+            <div id="cat-pct-lubes" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">23.77% Sales Share</div>
+            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
+              <div id="cat-bar-lubes" style="background: var(--accent-emerald); height: 100%; width: 23.77%;"></div>
+            </div>
+          </div>
+
+          <!-- Category 4: Electrical Parts -->
+          <div class="card card-amber-tint" style="padding: 1rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-amber); text-transform: uppercase;">⚡ ELECTRICAL PARTS</div>
+            <div id="cat-val-elec" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-amber); margin: 0.25rem 0;">₹6.45 Cr</div>
+            <div id="cat-pct-elec" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">9.14% Sales Share</div>
+            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
+              <div id="cat-bar-elec" style="background: var(--accent-amber); height: 100%; width: 9.14%;"></div>
+            </div>
+          </div>
+
+          <!-- Category 5: Accessories -->
+          <div class="card card-red-tint" style="padding: 1rem;">
+            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-red); text-transform: uppercase;">🔧 ACCESSORIES</div>
+            <div id="cat-val-acc" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-red); margin: 0.25rem 0;">₹1.69 Cr</div>
+            <div id="cat-pct-acc" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">2.40% Sales Share</div>
+            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
+              <div id="cat-bar-acc" style="background: var(--accent-red); height: 100%; width: 2.4%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHART 1 (FULL WIDTH): Month-over-Month (MoM) Sales Revenue & Gross Margin Trajectory -->
+      <div id="mom-chart-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+          <div>
+            <div style="font-size: 1.05rem; font-weight: 800; color: var(--accent-amber);">📈 Month-over-Month (MoM) Sales Revenue & Gross Margin Trajectory (Jan - Aug 2026)</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">Tracks monthly revenue growth rates and gross profit margins.</div>
+          </div>
+          <span class="badge badge-amber">MoM Growth Trend</span>
+        </div>
+        <div style="height: 280px; position: relative;">
+          <canvas id="chart-mom-trend"></canvas>
+        </div>
+      </div>
+
+      <!-- CHARTS GRID 2 COLUMNS: Vehicle Make Share (MHMT vs Others) & 5 Categories Distribution -->
+      <div id="charts-grid-2col" class="charts-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+        
+        <!-- Chart 2: Vehicle Make Revenue Share (MHMT vs Others) -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">🚗 Vehicle Make Share (MHMT vs OTHERS)</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Maruti, Hyundai, Mahindra, Tata (MHMT) vs Remaining OEM Makes.</div>
+            </div>
+            <span class="badge badge-blue">Make Analysis</span>
+          </div>
+          <div class="chart-container"><canvas id="chart-make-distribution"></canvas></div>
+        </div>
+
+        <!-- Chart 3: 5 Official Master Categories Revenue Share -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div>
+              <div class="chart-title">📦 5 Master Categories Revenue Share Chart</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Mechanical Parts, Body Parts, Lubes, Electrical Parts & Accessories.</div>
+            </div>
+            <span class="badge badge-high">Master Taxonomy</span>
+          </div>
+          <div class="chart-container"><canvas id="chart-category-holding"></canvas></div>
+        </div>
+      </div>
+
+      <!-- REGION-WISE SALES PERFORMANCE MATRIX TABLE -->
+      <div id="region-matrix-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+          <div>
+            <div style="font-size: 1.05rem; font-weight: 800; color: var(--accent-emerald);">MAP Region-Wise Sales Performance Matrix</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">Region-wise sales revenue, gross margin (₹ Lakhs), margin rate (%), and territory share.</div>
+          </div>
+          <span class="badge badge-emerald">Territory Matrix</span>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" style="font-size: 0.85rem;">
+            <thead>
+              <tr>
+                <th>Region</th>
+                <th>Invoice Lines</th>
+                <th>Sales Revenue (₹)</th>
+                <th>Revenue Share (%)</th>
+                <th>Gross Margin (₹)</th>
+                <th>Margin Rate (%)</th>
+              </tr>
+            </thead>
+            <tbody id="region-matrix-body">
+              <!-- Populated via analytics-portal.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SEGMENT: VEHICLE MAKE ANALYSIS (MHMT vs OTHERS) -->
+      <div id="make-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem; border: 1.5px solid rgba(59, 130, 246, 0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: var(--accent-blue); font-family: 'Outfit', sans-serif;">🚗 Corporate Franchisee (CF) Vehicle Make Analysis (MHMT vs OTHERS)</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">
+              Revenue & Share Breakdown for Maruti, Hyundai, Mahindra, and Tata (MHMT) vs Remaining OEM Makes.
+            </div>
+          </div>
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <span id="mhmt-total-badge" class="badge badge-blue" style="font-size: 0.82rem; font-weight: 800;">MHMT Sales: ₹0.00 Cr</span>
+            <span id="others-total-badge" class="badge badge-purple" style="font-size: 0.82rem; font-weight: 800;">OTHERS: ₹0.00 Cr</span>
+          </div>
+        </div>
+
+        <!-- Make Items Cards Grid -->
+        <div id="make-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem;">
+          <!-- Dynamically populated via analytics-portal.js -->
+        </div>
+      </div>
+
+      <!-- SEGMENT 1: PMS SALES DASHBOARD -->
+      <div id="pms-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem; border: 1.5px solid rgba(245, 158, 11, 0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: var(--accent-amber); font-family: 'Outfit', sans-serif;">🛠️ Periodic Maintenance Service (PMS) Sales Intelligence</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">
+              Fast-moving consumable maintenance drivers: Engine Oil, Brake Pads & Discs, Clutch Disc & Cover, Filters, Coolant & Spark Plugs.
+            </div>
+          </div>
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <span id="pms-total-badge" class="badge badge-amber" style="font-size: 0.82rem; font-weight: 800;">PMS Sales: ₹0.00 Cr</span>
+            <span id="pms-share-badge" class="badge badge-purple" style="font-size: 0.82rem; font-weight: 800;">0% of Total Revenue</span>
+          </div>
+        </div>
+
+        <!-- PMS Items Cards Grid -->
+        <div id="pms-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem;">
+          <!-- Dynamically populated via analytics-portal.js -->
+        </div>
+      </div>
+
+      <!-- SEGMENT 2: MOST COMMON MECHANICAL AGGREGATES BREAKDOWN -->
+      <div id="mech-aggregates-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem; border: 1.5px solid rgba(139, 92, 246, 0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: var(--accent-purple); font-family: 'Outfit', sans-serif;">⚙️ Most Common Mechanical Aggregates Performance</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">
+              Revenue & Unit Breakdown across the 6 major mechanical systems: Brake System, Clutch System, Filters, Suspension, Steering & Lighting.
+            </div>
+          </div>
+          <span class="badge badge-purple" style="font-size: 0.82rem; font-weight: 800;">6 Mechanical Core Systems</span>
+        </div>
+
+        <!-- Mechanical Aggregates Cards Grid -->
+        <div id="mech-aggregates-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+          <!-- Dynamically populated via analytics-portal.js -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ==================== TAB 4: REPORTS & DEVIATION AUDITS ==================== -->
+    <section id="tab-deviation" class="tab-pane">
+      <div style="margin-bottom: 1.25rem;">
+        <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.25rem;">Purchase Deviation & Audit Reports Portal</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Detects PCV sales invoice lines where parts were purchased from outside vendors despite existing warehouse stock.</p>
+      </div>
+
+      <div class="nexa-portals-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 1.5rem;">
+        <div class="card" style="border-color: var(--border-red);">
+          <div class="card-title" style="color: var(--accent-red);">Total Financial Leakage</div>
+          <div id="kpi-total-leakage" class="card-value" style="color: var(--accent-red);">₹0</div>
+          <div class="card-subtext">Outside purchase price premium</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Deviating Purchase Lines</div>
+          <div id="kpi-deviation-lines" class="card-value">0 Lines</div>
+          <div class="card-subtext">Outside purchases vs internal stock</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Top Outside Vendors</div>
+          <div id="kpi-top-vendor" class="card-value" style="font-size: 1.4rem; color: var(--accent-blue);">Vendor A & C</div>
+          <div class="card-subtext">Leakage sources</div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <div class="table-toolbar">
+          <span style="font-weight: 800; font-size: 0.9rem;">⚠️ Purchase Deviation Audit Table</span>
+          <button class="btn btn-secondary" onclick="DeviationPortal.updateDeviationAnalysis()">🔄 Re-run Audit</button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Invoice #</th>
+              <th>Part Number</th>
+              <th>Description</th>
+              <th>Vendor</th>
+              <th>Purchase Price (₹)</th>
+              <th>Internal Stock Cost (₹)</th>
+              <th>Leakage Premium (₹)</th>
+            </tr>
+          </thead>
+          <tbody id="deviation-table-body">
+            <!-- Dynamically populated via deviation-portal.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- ==================== TAB 5: DEMAND FORECASTING ==================== -->
+    <section id="tab-forecasting" class="tab-pane">
+      <div style="margin-bottom: 1.25rem;">
+        <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.25rem;">🔮 Demand Forecasting & Dynamic MSL Planning</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Predicts 30/60/90 day demand based on 1st-cut component genome velocity and adjusts Minimum Stock Levels (MSL).</p>
+      </div>
+
+      <div class="planning-control-bar">
+        <div><span class="section-kicker">PLANNING CONTROLS</span><strong>Adjust the planning assumptions</strong><small>Recalculate MSL and reorder priorities instantly.</small></div>
+        <div class="planning-control"><label for="slider-lead-time">Supplier Lead Time</label><input id="slider-lead-time" type="range" min="1" max="45" value="14"><b id="val-lead-time">14 Days</b></div>
+        <div class="planning-control"><label for="slider-safety-days">Safety Stock Buffer</label><input id="slider-safety-days" type="range" min="1" max="30" value="7"><b id="val-safety-days">7 Days</b></div>
+        <button id="btn-generate-po" class="btn btn-primary">Generate PO Draft <span>↗</span></button>
+      </div>
+
+      <div class="nexa-portals-grid planning-kpis" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
+        <div class="card"><div class="card-title">Critical Components</div><div id="kpi-msl-critical" class="card-value" style="color:var(--red)">0 Components</div><div class="card-subtext">Below critical safety threshold</div></div>
+        <div class="card"><div class="card-title">Reorder Required</div><div id="kpi-msl-reorder" class="card-value" style="color:var(--amber)">0 Components</div><div class="card-subtext">At or below calculated MSL</div></div>
+        <div class="card"><div class="card-title">Optimal Stock</div><div id="kpi-msl-optimal" class="card-value" style="color:var(--green)">0 Components</div><div class="card-subtext">Within healthy inventory range</div></div>
+        <div class="card"><div class="card-title">Planning Horizon</div><div id="kpi-forecast-qty" class="card-value" style="color:var(--cyan)">30 Days</div><div class="card-subtext">Forecast window used by the engine</div></div>
+      </div>
+
+      <div class="table-wrapper">
+        <div class="table-toolbar"><span style="font-weight:800;font-size:.9rem">Dynamic MSL &amp; Recommended Purchase Order Draft</span><button class="btn btn-amber" onclick="ForecastingPortal.exportPODraft()">Export PO Draft Excel <span>↓</span></button></div>
+        <table class="data-table"><thead><tr><th>Component</th><th>Aggregate</th><th>Avg Daily Sales</th><th>Current Stock</th><th>Calculated MSL</th><th>30-Day Forecast</th><th>Suggested Order Qty</th><th>Priority</th></tr></thead><tbody id="forecast-table-body"></tbody></table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div>Designed & Developed by Jino G J</div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- App Core JS Modules -->
+  <script src="nexa-app.js"></script>
+</body>
+</html>
