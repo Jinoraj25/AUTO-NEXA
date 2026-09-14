@@ -286,7 +286,7 @@ window.InventoryPortal = {
     dateSelect.innerHTML = html;
   },
 
-      renderAll() {
+        renderAll() {
     if (!this.inventoryData || !this.inventoryData.dailySummaries) return;
 
     const dates = this.inventoryData.dates || ['14-Sep-2026', '13-Sep-2026', '12-Sep-2026', '11-Sep-2026', '10-Sep-2026', '09-Sep-2026', '08-Sep-2026', '07-Sep-2026'];
@@ -295,7 +295,6 @@ window.InventoryPortal = {
     const summary = this.inventoryData.dailySummaries[this.selectedDate] || this.inventoryData.dailySummaries[this.inventoryData.latestDate];
     if (!summary) return;
 
-    // 1. Top 4 Scorecards
     const totalVal = summary.totalValuation || 1711700000;
     const totalSkus = summary.totalSKUs || 473209;
     const totalQty = summary.totalQty || 5561604;
@@ -311,44 +310,35 @@ window.InventoryPortal = {
     if (elQty) elQty.innerText = `${Math.round(totalQty).toLocaleString('en-IN')} Units`;
     if (dateBadge) dateBadge.innerText = `Stock Date: ${this.selectedDate}`;
 
-    // Exact Daily Valuation Table for dynamic DoD computation
-    const dailyValuationTable = {
-      '14-Sep-2026': { val: 1711700000, vDiff: -3300000 },
-      '13-Sep-2026': { val: 1715000000, vDiff: -3000000 },
-      '12-Sep-2026': { val: 1718000000, vDiff: -3000000 },
-      '11-Sep-2026': { val: 1721000000, vDiff: -5000000 },
-      '10-Sep-2026': { val: 1726000000, vDiff: -5000000 },
-      '09-Sep-2026': { val: 1731000000, vDiff: -7000000 },
-      '08-Sep-2026': { val: 1738000000, vDiff: -7000000 },
-      '07-Sep-2026': { val: 1745000000, vDiff: -8000000 }
-    };
+    // Dynamic DOD Net Value Shift = TODAY'S VALUE - YESTERDAY'S VALUE
+    const currIdx = dates.indexOf(this.selectedDate);
+    let todayVal = totalVal;
+    let yesterdayVal = totalVal + 3300000; // default fallback
 
-    const currEntry = dailyValuationTable[this.selectedDate] || { val: totalVal, vDiff: -3300000 };
-    const vDiff = currEntry.vDiff;
-
-    if (elDodVal) {
-      const sign = vDiff >= 0 ? '+' : '';
-      const formattedDiff = Math.abs(vDiff) >= 10000000 
-        ? `${sign}₹${(vDiff / 10000000).toFixed(2)} Cr`
-        : `${sign}₹${(vDiff / 100000).toFixed(2)} Lakhs`;
-      
-      elDodVal.innerText = `↓ ${formattedDiff}`;
-      elDodVal.style.color = '#ff3b30'; // Always Red negative stock reduction
+    if (currIdx >= 0 && currIdx < dates.length - 1) {
+      const yesterdayDateStr = dates[currIdx + 1];
+      const yesterdaySummary = this.inventoryData.dailySummaries[yesterdayDateStr];
+      if (yesterdaySummary && yesterdaySummary.totalValuation) {
+        yesterdayVal = yesterdaySummary.totalValuation;
+      }
     }
 
-    // 2. Render Category Valuation Cards
+    const dodValueShift = todayVal - yesterdayVal; // EXACT FORMULA: TODAY - YESTERDAY
+
+    if (elDodVal) {
+      const sign = dodValueShift >= 0 ? '+' : '';
+      const formattedDiff = Math.abs(dodValueShift) >= 10000000 
+        ? `${sign}₹${(dodValueShift / 10000000).toFixed(2)} Cr`
+        : `${sign}₹${(dodValueShift / 100000).toFixed(2)} Lakhs`;
+      
+      elDodVal.innerText = formattedDiff;
+      elDodVal.style.color = dodValueShift >= 0 ? '#29d391' : '#ff3b30'; // Red if negative stock reduction
+    }
+
     this.renderCategoryValuationCards(summary);
-
-    // 3. Render Day-over-Day Category Valuation Variance Table
     this.renderDoDCategoryTable();
-
-    // 4. Render Week-over-Week Category Valuation Variance Table
     this.renderWoWCategoryTable();
-
-    // 5. Render Trend Chart
     this.renderTrendChart();
-
-    // 6. Apply filters and render main part search table
     this.applyFiltersAndRenderTable();
   },
 

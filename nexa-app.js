@@ -1203,7 +1203,7 @@ window.InventoryPortal = {
     dateSelect.innerHTML = html;
   },
 
-      renderAll() {
+        renderAll() {
     if (!this.inventoryData || !this.inventoryData.dailySummaries) return;
 
     const dates = this.inventoryData.dates || ['14-Sep-2026', '13-Sep-2026', '12-Sep-2026', '11-Sep-2026', '10-Sep-2026', '09-Sep-2026', '08-Sep-2026', '07-Sep-2026'];
@@ -1212,7 +1212,6 @@ window.InventoryPortal = {
     const summary = this.inventoryData.dailySummaries[this.selectedDate] || this.inventoryData.dailySummaries[this.inventoryData.latestDate];
     if (!summary) return;
 
-    // 1. Top 4 Scorecards
     const totalVal = summary.totalValuation || 1711700000;
     const totalSkus = summary.totalSKUs || 473209;
     const totalQty = summary.totalQty || 5561604;
@@ -1228,44 +1227,35 @@ window.InventoryPortal = {
     if (elQty) elQty.innerText = `${Math.round(totalQty).toLocaleString('en-IN')} Units`;
     if (dateBadge) dateBadge.innerText = `Stock Date: ${this.selectedDate}`;
 
-    // Exact Daily Valuation Table for dynamic DoD computation
-    const dailyValuationTable = {
-      '14-Sep-2026': { val: 1711700000, vDiff: -3300000 },
-      '13-Sep-2026': { val: 1715000000, vDiff: -3000000 },
-      '12-Sep-2026': { val: 1718000000, vDiff: -3000000 },
-      '11-Sep-2026': { val: 1721000000, vDiff: -5000000 },
-      '10-Sep-2026': { val: 1726000000, vDiff: -5000000 },
-      '09-Sep-2026': { val: 1731000000, vDiff: -7000000 },
-      '08-Sep-2026': { val: 1738000000, vDiff: -7000000 },
-      '07-Sep-2026': { val: 1745000000, vDiff: -8000000 }
-    };
+    // Dynamic DOD Net Value Shift = TODAY'S VALUE - YESTERDAY'S VALUE
+    const currIdx = dates.indexOf(this.selectedDate);
+    let todayVal = totalVal;
+    let yesterdayVal = totalVal + 3300000; // default fallback
 
-    const currEntry = dailyValuationTable[this.selectedDate] || { val: totalVal, vDiff: -3300000 };
-    const vDiff = currEntry.vDiff;
-
-    if (elDodVal) {
-      const sign = vDiff >= 0 ? '+' : '';
-      const formattedDiff = Math.abs(vDiff) >= 10000000 
-        ? `${sign}₹${(vDiff / 10000000).toFixed(2)} Cr`
-        : `${sign}₹${(vDiff / 100000).toFixed(2)} Lakhs`;
-      
-      elDodVal.innerText = `↓ ${formattedDiff}`;
-      elDodVal.style.color = '#ff3b30'; // Always Red negative stock reduction
+    if (currIdx >= 0 && currIdx < dates.length - 1) {
+      const yesterdayDateStr = dates[currIdx + 1];
+      const yesterdaySummary = this.inventoryData.dailySummaries[yesterdayDateStr];
+      if (yesterdaySummary && yesterdaySummary.totalValuation) {
+        yesterdayVal = yesterdaySummary.totalValuation;
+      }
     }
 
-    // 2. Render Category Valuation Cards
+    const dodValueShift = todayVal - yesterdayVal; // EXACT FORMULA: TODAY - YESTERDAY
+
+    if (elDodVal) {
+      const sign = dodValueShift >= 0 ? '+' : '';
+      const formattedDiff = Math.abs(dodValueShift) >= 10000000 
+        ? `${sign}₹${(dodValueShift / 10000000).toFixed(2)} Cr`
+        : `${sign}₹${(dodValueShift / 100000).toFixed(2)} Lakhs`;
+      
+      elDodVal.innerText = formattedDiff;
+      elDodVal.style.color = dodValueShift >= 0 ? '#29d391' : '#ff3b30'; // Red if negative stock reduction
+    }
+
     this.renderCategoryValuationCards(summary);
-
-    // 3. Render Day-over-Day Category Valuation Variance Table
     this.renderDoDCategoryTable();
-
-    // 4. Render Week-over-Week Category Valuation Variance Table
     this.renderWoWCategoryTable();
-
-    // 5. Render Trend Chart
     this.renderTrendChart();
-
-    // 6. Apply filters and render main part search table
     this.applyFiltersAndRenderTable();
   },
 
@@ -2130,96 +2120,80 @@ window.AnalyticsPortal = {
     grid.innerHTML = html;
   },
 
-    renderMakeDashboard(makeSales) {
+      renderMakeDashboard(makeSales) {
     const grid = document.getElementById('make-cards-grid');
-    const badgeMhmt = document.getElementById('mhmt-total-badge');
-    const badgeOthers = document.getElementById('others-total-badge');
+    const distList = document.getElementById('make-distribution-list');
 
-    const totalRev = (makeSales && makeSales.totalRevenue) || 73400000;
-    const mhmtRev = (makeSales && makeSales.mhmtRevenue) || 48200000;
-    const othersRev = (makeSales && makeSales.othersRevenue) || 25200000;
-
-    const mhmtCr = (mhmtRev / 10000000).toFixed(2);
-    const othersCr = (othersRev / 10000000).toFixed(2);
-
-    if (badgeMhmt) badgeMhmt.innerText = `MHMT Sales: ₹${mhmtCr} Cr (65.7%)`;
-    if (badgeOthers) badgeOthers.innerText = `OTHERS: ₹${othersCr} Cr (34.3%)`;
-
-    // 12 MAJOR MAKES LIST WITH ENHANCED LOGO BADGES
     const makesList = [
-      { key: 'MARUTI', name: 'MARUTI SUZUKI', color: '#ff3838', img: 'images/brand_maruti.png', rev: 22400000, units: 14200, share: '30.5%', grp: 'MHMT Core' },
-      { key: 'HYUNDAI', name: 'HYUNDAI MOTORS', color: '#38bdf8', img: 'images/brand_hyundai.png', rev: 14800000, units: 8900, share: '20.1%', grp: 'MHMT Core' },
-      { key: 'MAHINDRA', name: 'MAHINDRA SUV', color: '#f59e0b', img: 'images/brand_mahindra.png', rev: 6800000, units: 4200, share: '9.3%', grp: 'MHMT Core' },
-      { key: 'TATA', name: 'TATA MOTORS', color: '#a855f7', img: 'images/brand_tata.png', rev: 4200000, units: 2800, share: '5.8%', grp: 'MHMT Core' },
-      { key: 'HONDA', name: 'HONDA CARS', color: '#ff5252', img: 'images/brand_honda.png', rev: 4500000, units: 2400, share: '6.1%', grp: 'OTHERS' },
-      { key: 'TOYOTA', name: 'TOYOTA KIRLOSKAR', color: '#38bdf8', img: 'images/brand_toyota.png', rev: 4100000, units: 2100, share: '5.6%', grp: 'OTHERS' },
-      { key: 'FORD', name: 'FORD INDIA', color: '#2563eb', img: 'images/brand_ford.png', rev: 3800000, units: 1900, share: '5.2%', grp: 'OTHERS' },
-      { key: 'VOLKSWAGEN', name: 'VOLKSWAGEN', color: '#0284c7', img: 'images/brand_volkswagen.png', rev: 3400000, units: 1600, share: '4.6%', grp: 'OTHERS' },
-      { key: 'SKODA', name: 'SKODA AUTO', color: '#16a34a', img: 'images/brand_skoda.png', rev: 2900000, units: 1400, share: '4.0%', grp: 'OTHERS' },
-      { key: 'RENAULT', name: 'RENAULT INDIA', color: '#eab308', img: 'images/brand_renault.png', rev: 2500000, units: 1200, share: '3.4%', grp: 'OTHERS' },
-      { key: 'NISSAN', name: 'NISSAN MOTORS', color: '#dc2626', img: 'images/brand_nissan.svg', rev: 2100000, units: 950, share: '2.8%', grp: 'OTHERS' },
-      { key: 'OTHERS', name: 'ALL OTHER MAKES', color: '#ec4899', img: 'images/brand_others.svg', rev: 1900000, units: 850, share: '2.5%', grp: 'OTHERS' }
+      { num: '01', key: 'MARUTI', name: 'MARUTI SUZUKI', color: '#ff3838', img: 'images/brand_maruti.png', rev: 2.24, units: 14200, share: '30.5%', growth: '+6.8%', grp: 'MHMT Core' },
+      { num: '02', key: 'HYUNDAI', name: 'HYUNDAI MOTORS', color: '#38bdf8', img: 'images/brand_hyundai.png', rev: 1.48, units: 8900, share: '20.1%', growth: '+4.3%', grp: 'MHMT Core' },
+      { num: '03', key: 'MAHINDRA', name: 'MAHINDRA SUV', color: '#f59e0b', img: 'images/brand_mahindra.png', rev: 0.68, units: 4200, share: '9.3%', growth: '-1.2%', grp: 'MHMT Core' },
+      { num: '04', key: 'TATA', name: 'TATA MOTORS', color: '#a855f7', img: 'images/brand_tata.png', rev: 0.42, units: 2800, share: '5.8%', growth: '+3.6%', grp: 'Others' },
+      { num: '05', key: 'HONDA', name: 'HONDA CARS', color: '#ff5252', img: 'images/brand_honda.png', rev: 0.45, units: 2400, share: '6.1%', growth: '+2.1%', grp: 'Others' },
+      { num: '06', key: 'TOYOTA', name: 'TOYOTA KIRLOSKAR', color: '#38bdf8', img: 'images/brand_toyota.png', rev: 0.41, units: 2100, share: '5.6%', growth: '+1.8%', grp: 'Others' },
+      { num: '07', key: 'FORD', name: 'FORD INDIA', color: '#2563eb', img: 'images/brand_ford.png', rev: 0.38, units: 1900, share: '5.2%', growth: '-0.7%', grp: 'Others' },
+      { num: '08', key: 'VOLKSWAGEN', name: 'VOLKSWAGEN', color: '#0284c7', img: 'images/brand_volkswagen.png', rev: 0.34, units: 1600, share: '4.6%', growth: '+3.4%', grp: 'Others' },
+      { num: '09', key: 'SKODA', name: 'SKODA AUTO', color: '#16a34a', img: 'images/brand_skoda.png', rev: 0.29, units: 1400, share: '4.0%', growth: '+2.9%', grp: 'Others' },
+      { num: '10', key: 'RENAULT', name: 'RENAULT INDIA', color: '#eab308', img: 'images/brand_renault.png', rev: 0.25, units: 1200, share: '3.4%', growth: '-1.4%', grp: 'Others' },
+      { num: '11', key: 'NISSAN', name: 'NISSAN MOTORS', color: '#dc2626', img: 'images/brand_nissan.svg', rev: 0.21, units: 950, share: '2.8%', growth: '-2.6%', grp: 'Others' },
+      { num: '12', key: 'OTHERS', name: 'ALL OTHER MAKES', color: '#ec4899', img: 'images/brand_others.svg', rev: 0.19, units: 850, share: '2.5%', growth: '+1.1%', grp: 'Others' }
     ];
 
-    let html = '';
+    // 1. Render Left Grid Cards
+    let htmlGrid = '';
     makesList.forEach(m => {
-      const revCr = (m.rev / 10000000).toFixed(2);
-      const displayRev = `₹${revCr} Cr`;
+      const isPos = !m.growth.startswith('-');
+      const growColor = isPos ? '#29d391' : '#ff3b30';
 
-      html += `
-        <div class="card" style="background: linear-gradient(135deg, ${m.color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${m.color}45; padding: 1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; position: relative; z-index: 2;">
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-              <img src="${m.img}" alt="${m.name}" style="height: 32px; max-width: 45px; object-fit: contain; background: #ffffff; padding: 3px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
-              <span style="font-size: 0.85rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif;">${m.name}</span>
+      htmlGrid += `
+        <div class="card" style="background: linear-gradient(135deg, ${m.color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${m.color}45; padding: 1rem; border-radius: 14px; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+          <div style="position: absolute; top: 8px; left: 10px; font-size: 0.72rem; font-weight: 900; opacity: 0.4; color: #ffffff;">${m.num}</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; padding-left: 1.1rem; position: relative; z-index: 2;">
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <img src="${m.img}" alt="${m.name}" style="height: 26px; max-width: 38px; object-fit: contain; background: #ffffff; padding: 2px; border-radius: 5px;">
+              <span style="font-size: 0.8rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif;">${m.name}</span>
             </div>
-            <span class="badge" style="background: ${m.color}30; color: ${m.color}; border: 1px solid ${m.color}50; font-size: 0.72rem; font-weight: 850;">${m.share}</span>
+            <span class="badge" style="background: ${m.color}30; color: ${m.color}; border: 1px solid ${m.color}50; font-size: 0.7rem; font-weight: 850;">${m.share}</span>
           </div>
 
-          <div style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; position: relative; z-index: 2;">${displayRev}</div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.2rem 0; position: relative; z-index: 2;">
+            <div style="font-size: 1.45rem; font-weight: 900; color: #ffffff;">₹${m.rev.toFixed(2)} Cr</div>
+            <div style="font-size: 0.75rem; font-weight: 850; color: ${growColor};">${isPos ? '▲' : '▼'} ${m.growth}</div>
+          </div>
 
-          <div style="display: flex; justify-content: space-between; font-size: 0.76rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.4rem; position: relative; z-index: 2;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.4rem; position: relative; z-index: 2;">
             <span>Units Sold: <strong>${m.units.toLocaleString()}</strong></span>
-            <span style="color: ${m.grp === 'MHMT Core' ? '#ffb84d' : '#38bdf8'}; font-weight: 850;">${m.grp}</span>
+            <span style="color: ${m.grp === 'MHMT Core' ? '#ffb84d' : '#cbd5e1'}; font-weight: 800;">${m.grp}</span>
           </div>
 
-          <div style="background: rgba(255,255,255,0.15); height: 5px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
-            <div style="background: ${m.color}; height: 100%; width: ${parseFloat(m.share) * 3.2}%;"></div>
+          <div style="background: rgba(255,255,255,0.15); height: 4px; border-radius: 2px; overflow: hidden; position: relative; z-index: 2;">
+            <div style="background: ${m.color}; height: 100%; width: ${parseFloat(m.share) * 3}%;"></div>
           </div>
         </div>
       `;
     });
 
-    if (grid) grid.innerHTML = html;
+    if (grid) grid.innerHTML = htmlGrid;
 
-    // RENDER DEDICATED MHMT VS OTHERS DONUT CHART
-    const ctxMhmt = document.getElementById('chart-mhmt-vs-others')?.getContext('2d');
-    if (ctxMhmt && typeof Chart !== 'undefined') {
-      if (this.charts.mhmtVsOthers) this.charts.mhmtVsOthers.destroy();
-      this.charts.mhmtVsOthers = new Chart(ctxMhmt, {
-        type: 'doughnut',
-        data: {
-          labels: ['MHMT Makes (65.7%)', 'OTHERS Makes (34.3%)'],
-          datasets: [{
-            data: [4.82, 2.52],
-            backgroundColor: ['#ffb84d', '#38bdf8'],
-            borderWidth: 0,
-            hoverOffset: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          cutout: '68%',
-          plugins: {
-            legend: {
-              position: 'right',
-              labels: { color: '#ffffff', font: { size: 11, weight: '700' }, padding: 12 }
-            }
-          }
-        }
-      });
-    }
+    # 2. Render Right Progress Bar Rows List
+    let htmlDist = '';
+    makesList.forEach(m => {
+      htmlDist += `
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.76rem;">
+          <div style="display: flex; align-items: center; gap: 0.4rem; width: 110px; min-width: 110px;">
+            <img src="${m.img}" alt="${m.name}" style="height: 14px; width: 18px; object-fit: contain;">
+            <span style="color: #f1f5f9; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.name}</span>
+          </div>
+          <div style="flex: 1; background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden;">
+            <div style="background: ${m.color}; height: 100%; width: ${parseFloat(m.share) * 3}%;"></div>
+          </div>
+          <div style="width: 42px; text-align: right; font-weight: 800; color: #cbd5e1;">${m.share}</div>
+          <div style="width: 55px; text-align: right; font-weight: 900; color: #ffffff;">₹${m.rev.toFixed(2)} Cr</div>
+        </div>
+      `;
+    });
+
+    if (distList) distList.innerHTML = htmlDist;
   },
 
       renderPmsDashboard(pmsData) {
