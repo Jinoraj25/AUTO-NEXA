@@ -1957,98 +1957,10 @@ select, input[type=text], input[type=search], .search-input {
   }
 }
 
-/* ================================================================
-   myTVS CORPORATE ENTERPRISE REBRANDING & LOGIN SYSTEM
-   ================================================================ */
-.mytvs-brand-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 12px;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2);
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: -0.02em;
-  user-select: none;
-}
-.mytvs-my {
-  color: #DC2626;
-  font-weight: 900;
-  font-style: italic;
-  font-size: 20px;
-  line-height: 1;
-  margin-right: 2px;
-}
-.mytvs-tvs {
-  color: #2563EB;
-  font-weight: 900;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: 0.02em;
-}
-.brand-nexa-red {
-  color: #DC2626 !important;
-}
-
-/* Full-Screen Corporate Login Modal */
 .mytvs-login-overlay {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background: radial-gradient(circle at 50% 20%, rgba(37, 99, 235, 0.18), transparent 70%),
-              radial-gradient(circle at 80% 80%, rgba(220, 38, 38, 0.12), transparent 60%),
-              #070d18;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  backdrop-filter: blur(14px);
-}
-.mytvs-login-card {
-  width: min(450px, 100%);
-  background: #0f172a;
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  border-radius: 22px;
-  padding: 42px 38px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-  animation: loginFadeIn 0.4s ease-out;
-}
-@keyframes loginFadeIn {
-  from { opacity: 0; transform: translateY(16px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.login-brand-header {
-  text-align: center;
-  margin-bottom: 28px;
-}
-.login-logo-box {
-  display: inline-flex;
-  align-items: center;
-  padding: 10px 22px;
-  background: #1e293b;
-  border: 1px solid rgba(59, 130, 246, 0.35);
-  border-radius: 14px;
-  margin-bottom: 14px;
-  box-shadow: 0 6px 24px rgba(37, 99, 235, 0.25);
-}
-.login-mytvs-my {
-  color: #DC2626;
-  font-weight: 900;
-  font-style: italic;
-  font-size: 28px;
-  margin-right: 3px;
-}
-.login-mytvs-tvs {
-  color: #2563EB;
-  font-weight: 900;
-  font-size: 28px;
-}
-.login-brand-header h2 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-  color: #f8fafc;
   margin-bottom: 6px;
   letter-spacing: -0.02em;
 }

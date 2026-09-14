@@ -166,20 +166,53 @@ window.App = {
   checkAuth() {
     const isLoggedIn = localStorage.getItem('mytvs_logged_in') === 'true';
     const loginOverlay = document.getElementById('mytvs-login-screen');
+    const userCode = localStorage.getItem('mytvs_user_code') || 'SM0237';
+    const userName = localStorage.getItem('mytvs_user_name') || 'Jino George';
+
     if (!isLoggedIn && loginOverlay) {
       loginOverlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     } else if (loginOverlay) {
       loginOverlay.style.display = 'none';
       document.body.style.overflow = '';
+      this.updateHeaderProfile(userCode, userName);
+    }
+  },
+
+  updateHeaderProfile(code, name) {
+    const elName = document.getElementById('header-user-name');
+    const elCode = document.getElementById('header-user-code');
+    const elAvatar = document.getElementById('header-user-avatar');
+
+    if (elName) elName.innerText = name;
+    if (elCode) elCode.innerText = `${code} • myTVS`;
+    if (elAvatar) {
+      const parts = name.split(' ');
+      const initials = parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : name.slice(0, 2).toUpperCase();
+      elAvatar.innerText = initials;
     }
   },
 
   handleLogin(e) {
     if (e) e.preventDefault();
-    const email = document.getElementById('login-email')?.value || 'jino.gj@mytvs.in';
-    const branch = document.getElementById('login-branch')?.value || 'Head Office - TVS Mobility';
+    const userCode = (document.getElementById('login-username')?.value || 'SM0237').trim().toUpperCase();
+    const password = document.getElementById('login-password')?.value || '';
     const btn = document.getElementById('btn-login-submit');
+
+    if (password !== 'Catalog@2026') {
+      alert("Invalid password! Please use password: Catalog@2026");
+      return;
+    }
+
+    let displayName = "Jino George";
+    if (userCode === "SM0216") {
+      displayName = "Catalogue Admin (SM0216)";
+    } else if (userCode === "SM0237") {
+      displayName = "Jino George";
+    } else {
+      displayName = `Employee ${userCode}`;
+    }
+
     if (btn) {
       btn.disabled = true;
       btn.innerHTML = '<span>⏳</span> Authenticating with myTVS SSO...';
@@ -187,8 +220,9 @@ window.App = {
 
     setTimeout(() => {
       localStorage.setItem('mytvs_logged_in', 'true');
-      localStorage.setItem('mytvs_user_email', email);
-      localStorage.setItem('mytvs_branch', branch);
+      localStorage.setItem('mytvs_user_code', userCode);
+      localStorage.setItem('mytvs_user_name', displayName);
+
       const loginOverlay = document.getElementById('mytvs-login-screen');
       if (loginOverlay) {
         loginOverlay.style.display = 'none';
@@ -198,12 +232,30 @@ window.App = {
         btn.disabled = false;
         btn.innerHTML = '<span>🔐</span> Sign In to myTVS Enterprise Platform';
       }
-      this.showToast(`Authenticated! Welcome to myTVS Enterprise Hub (${branch})`, "success");
-    }, 500);
+
+      this.updateHeaderProfile(userCode, displayName);
+
+      // Trigger Welcome Popup
+      const welcomePopup = document.getElementById('mytvs-welcome-popup');
+      const welcomeHead = document.getElementById('welcome-user-heading');
+      const welcomeSub = document.getElementById('welcome-user-sub');
+
+      if (welcomeHead) welcomeHead.innerText = `Welcome ${displayName}`;
+      if (welcomeSub) welcomeSub.innerText = `Authenticated as ${userCode} • TVS Mobility Corporate Hub`;
+      if (welcomePopup) welcomePopup.style.display = 'flex';
+
+    }, 400);
+  },
+
+  closeWelcomePopup() {
+    const welcomePopup = document.getElementById('mytvs-welcome-popup');
+    if (welcomePopup) welcomePopup.style.display = 'none';
   },
 
   logout() {
     localStorage.removeItem('mytvs_logged_in');
+    localStorage.removeItem('mytvs_user_code');
+    localStorage.removeItem('mytvs_user_name');
     this.checkAuth();
     this.showToast("Signed out of myTVS Session", "info");
   }
