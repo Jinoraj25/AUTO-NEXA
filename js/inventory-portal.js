@@ -318,8 +318,79 @@ window.InventoryPortal = {
     // 4. Render Week-over-Week Category Valuation Variance Table
     this.renderWoWCategoryTable();
 
-    // 5. Apply filters and render main part search table
+    // 5. Render Canvas Charts (Valuation Trend Line Chart & Inventory Health Donut)
+    this.renderCharts();
+
+    // 6. Apply filters and render main part search table
     this.applyFiltersAndRenderTable();
+  },
+
+  renderCharts() {
+    if (typeof Chart === 'undefined') return;
+
+    // 1. Valuation Trend Chart
+    const ctxTrend = document.getElementById('chart-inventory-valuation-trend');
+    if (ctxTrend) {
+      if (this.trendChartInstance) this.trendChartInstance.destroy();
+      this.trendChartInstance = new Chart(ctxTrend, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+          datasets: [
+            {
+              label: 'Current Period (₹ Cr)',
+              data: [152.4, 155.8, 158.2, 161.0, 164.5, 167.1, 168.4, 169.6, 171.2],
+              borderColor: '#38bdf8',
+              backgroundColor: 'rgba(56, 189, 248, 0.1)',
+              tension: 0.35,
+              fill: true,
+              borderWidth: 3
+            },
+            {
+              label: 'Previous Period (₹ Cr)',
+              data: [145.0, 148.2, 150.1, 153.4, 156.0, 159.2, 162.5, 164.0, 165.8],
+              borderColor: 'rgba(148, 163, 184, 0.4)',
+              borderDash: [5, 5],
+              tension: 0.35,
+              fill: false,
+              borderWidth: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: true, labels: { color: '#94a3b8', font: { size: 10 } } } },
+          scales: {
+            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+          }
+        }
+      });
+    }
+
+    // 2. Inventory Health Donut
+    const ctxHealth = document.getElementById('chart-inventory-health-donut');
+    if (ctxHealth) {
+      if (this.healthChartInstance) this.healthChartInstance.destroy();
+      this.healthChartInstance = new Chart(ctxHealth, {
+        type: 'doughnut',
+        data: {
+          labels: ['Healthy', 'Attention', 'Critical', 'Dead Stock'],
+          datasets: [{
+            data: [72, 18, 7, 3],
+            backgroundColor: ['#29d391', '#ffb84d', '#ff3b30', '#64748b'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '72%',
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
   },
 
   renderCategoryValuationCards(summary) {

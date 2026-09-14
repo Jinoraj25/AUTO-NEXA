@@ -4027,3 +4027,145 @@ input[type=checkbox]#login-remember {
   height: 100% !important;
   width: 100% !important;
 }
+
+/* Universal Page Scenic Hero Banner Component */
+.page-hero-scenic {
+  position: relative !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  min-height: 140px !important;
+  margin-bottom: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 28px 36px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  background: #071220 !important;
+}
+
+.page-hero-bg-img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  z-index: 1 !important;
+  filter: brightness(0.55) contrast(1.15) !important;
+}
+
+.page-hero-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  background: linear-gradient(90deg, rgba(6, 14, 26, 0.96) 0%, rgba(6, 14, 26, 0.8) 50%, rgba(6, 14, 26, 0.45) 100%) !important;
+}
+
+.page-hero-left {
+  position: relative !important;
+  z-index: 3 !important;
+  max-width: 650px !important;
+}
+
+.page-hero-kicker {
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.18em !important;
+  color: #38bdf8 !important;
+  text-transform: uppercase !important;
+  margin-bottom: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.page-hero-headline {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 850 !important;
+  line-height: 1.15 !important;
+  color: #ffffff !important;
+  margin-bottom: 6px !important;
+  letter-spacing: -0.02em !important;
+}
+
+.page-hero-lead {
+  font-size: 13px !important;
+  color: #cbd5e1 !important;
+  line-height: 1.45 !important;
+}
+
+.page-hero-right {
+  position: relative !important;
+  z-index: 3 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+}
+
+/* Reference Card Styling & Progress Bar Utilities */
+.ref-kpi-strip {
+  display: grid !important;
+  gap: 12px !important;
+  margin-bottom: 20px !important;
+}
+
+.ref-kpi-card {
+  background: rgba(13, 26, 45, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 14px !important;
+  padding: 16px 18px !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.ref-kpi-title {
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.08em !important;
+  color: #94a3b8 !important;
+  text-transform: uppercase !important;
+  margin-bottom: 6px !important;
+}
+
+.ref-kpi-value {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 26px !important;
+  font-weight: 850 !important;
+  color: #ffffff !important;
+  line-height: 1.1 !important;
+}
+
+.ref-kpi-subtext {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #94a3b8 !important;
+  margin-top: 4px !important;
+}
+
+.ref-progress-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 10px !important;
+}
+
+.ref-progress-bar-track {
+  height: 8px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  margin-top: 4px !important;
+  margin-bottom: 12px !important;
+}
+
+.ref-progress-bar-fill {
+  height: 100% !important;
+  border-radius: 4px !important;
+  transition: width 0.6s ease !important;
+}

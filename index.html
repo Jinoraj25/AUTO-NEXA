@@ -539,57 +539,134 @@
           </button>
 
           <button id="btn-sync-stock-folder" class="btn btn-amber" style="padding: 0.45rem 1rem; font-size: 0.82rem; font-weight: 800;">
-            🔄 Refresh Stock Data
+          <button class="btn btn-emerald" onclick="document.getElementById('inventory-file-input').click()" style="padding: 0.55rem 1.1rem; font-size: 0.82rem; font-weight: 800;">
+            📁 Upload Stock
+          </button>
+          <button id="btn-sync-stock-folder" class="btn btn-secondary" style="padding: 0.55rem 1rem; font-size: 0.82rem; font-weight: 700;">
+            🔄 Refresh
           </button>
         </div>
       </div>
 
-      <!-- Inventory Live Sync Progress Status Box -->
-      <div id="inventory-sync-status" class="upload-status-box" style="display: none; margin-bottom: 1.25rem;"></div>
-
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
-        <div>
-          <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.25rem;">📦 Daily Inventory Stock & Valuation Dashboard</h2>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">
-            Valuation-centric inventory monitoring, Category-wise holding breakdown, Day-over-Day & Week-over-Week financial variance analysis.
-          </p>
+      <!-- 6 Telemetry KPI Cards Strip (Matching Image Reference 1) -->
+      <div class="ref-kpi-strip" style="grid-template-columns: repeat(6, 1fr);">
+        <div class="ref-kpi-card" style="border-top: 3px solid #29d391;">
+          <div class="ref-kpi-title">TOTAL INVENTORY VALUE</div>
+          <div id="kpi-stock-valuation" class="ref-kpi-value" style="color: #29d391;">₹169.60 Cr</div>
+          <div id="kpi-stock-valuation-sub" class="ref-kpi-subtext" style="color: #29d391;">↑ 2.4% vs last week</div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-          <label style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Stock Date:</label>
-          <select id="inventory-date-select" class="search-input" style="width: 200px; padding: 0.5rem 0.85rem;">
-            <!-- Populated dynamically via inventory-portal.js -->
-          </select>
+        <div class="ref-kpi-card" style="border-top: 3px solid #38d7ff;">
+          <div class="ref-kpi-title">ACTIVE SKUs</div>
+          <div id="kpi-stock-skus" class="ref-kpi-value">473,209</div>
+          <div class="ref-kpi-subtext"><span style="color: #38d7ff;">↑ 92.4%</span> active</div>
+        </div>
+
+        <div class="ref-kpi-card" style="border-top: 3px solid #5ca9ff;">
+          <div class="ref-kpi-title">PHYSICAL STOCK</div>
+          <div id="kpi-stock-qty" class="ref-kpi-value">5.56M Units</div>
+          <div class="ref-kpi-subtext">Across network</div>
+        </div>
+
+        <div class="ref-kpi-card" style="border-top: 3px solid #29d391;">
+          <div class="ref-kpi-title">STOCK HEALTH</div>
+          <div class="ref-kpi-value" style="color: #29d391;">91.8%</div>
+          <div class="ref-kpi-subtext">Healthy</div>
+        </div>
+
+        <div class="ref-kpi-card" style="border-top: 3px solid #ffb84d;">
+          <div class="ref-kpi-title">SLOW MOVING</div>
+          <div class="ref-kpi-value" style="color: #ffb84d;">18,420 SKUs</div>
+          <div class="ref-kpi-subtext">Review holding</div>
+        </div>
+
+        <div class="ref-kpi-card" style="border-top: 3px solid #ff3b30;">
+          <div class="ref-kpi-title">OUT OF STOCK</div>
+          <div class="ref-kpi-value" style="color: #ff3b30;">2,147 SKUs</div>
+          <div class="ref-kpi-subtext">Action required</div>
         </div>
       </div>
 
-      <!-- Valuation-Centric Primary KPI Cards -->
-      <div class="nexa-portals-grid" style="grid-template-columns: 2fr 1fr 1fr 1fr; margin-bottom: 1.5rem;">
-        <div class="card card-emerald-tint" style="padding: 1.25rem;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-            <div class="card-title" style="color: var(--accent-emerald); font-weight: 800; font-size: 0.85rem; text-transform: uppercase;">💰 TOTAL INVENTORY HOLDING VALUATION</div>
-            <span class="badge badge-emerald" style="font-size: 0.75rem;">Primary Metric</span>
+      <!-- MIDDLE SECTION GRID (Valuation Trend, Inventory Health Donut, Category-wise Holding) -->
+      <div style="display: grid; grid-template-columns: 1.4fr 1fr 1.1fr; gap: 1rem; margin-bottom: 1.5rem;">
+        
+        <!-- Card 1: Valuation Trend Chart -->
+        <div class="card" style="padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif;">Inventory Valuation Trend</div>
+              <div style="font-size: 0.75rem; color: #94a3b8;">Daily, Weekly & Monthly holding trajectory</div>
+            </div>
+            <div style="display: flex; gap: 0.35rem; background: rgba(255,255,255,0.06); padding: 0.2rem; border-radius: 8px;">
+              <button class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">Daily</button>
+              <button class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">Weekly</button>
+              <button class="btn btn-amber" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800;">Monthly</button>
+            </div>
           </div>
-          <div id="kpi-stock-valuation" class="card-value" style="font-size: 2.2rem; font-weight: 900; color: var(--accent-emerald); margin: 0.4rem 0;">₹169.60 Cr</div>
-          <div id="kpi-stock-valuation-sub" class="card-subtext" style="color: var(--text-muted); font-size: 0.8rem;">Total inventory monetary value in warehouse stock</div>
+          <div style="height: 200px; position: relative;">
+            <canvas id="chart-inventory-valuation-trend"></canvas>
+          </div>
         </div>
 
-        <div class="card card-amber-tint">
-          <div class="card-title">Total Active SKUs</div>
-          <div id="kpi-stock-skus" class="card-value" style="color: var(--accent-amber); font-size: 1.5rem;">473,209 SKUs</div>
-          <div class="card-subtext">Unique part number records</div>
+        <!-- Card 2: Inventory Health Donut Chart -->
+        <div class="card" style="padding: 1.25rem; text-align: center;">
+          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.85rem; text-align: left;">Inventory Health</div>
+          <div style="height: 140px; position: relative; display: flex; justify-content: center; align-items: center;">
+            <canvas id="chart-inventory-health-donut"></canvas>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.85rem; font-size: 0.78rem; text-align: left;">
+            <div><span style="color: #29d391;">●</span> Healthy: <strong>72%</strong></div>
+            <div><span style="color: #ffb84d;">●</span> Attention: <strong>18%</strong></div>
+            <div><span style="color: #ff3b30;">●</span> Critical: <strong>7%</strong></div>
+            <div><span style="color: #94a3b8;">●</span> Dead Stock: <strong>3%</strong></div>
+          </div>
         </div>
 
-        <div class="card">
-          <div class="card-title">Total Physical Quantity</div>
-          <div id="kpi-stock-qty" class="card-value" style="font-size: 1.5rem;">5,559,427 units</div>
-          <div class="card-subtext">Physical warehouse stock units</div>
-        </div>
+        <!-- Card 3: Category-wise Inventory Holding -->
+        <div class="card" style="padding: 1.25rem;">
+          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 1rem;">Category-wise Inventory Holding</div>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            <div>
+              <div class="ref-progress-row">
+                <span style="font-size: 0.8rem; font-weight: 700;">Mechanical Parts</span>
+                <span style="font-size: 0.8rem; font-weight: 800; color: #38bdf8;">39% | ₹65.7 Cr</span>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 39%; background: #38bdf8;"></div></div>
+            </div>
 
-        <div class="card card-blue-tint">
-          <div class="card-title">DoD Valuation Shift</div>
-          <div id="kpi-dod-val-net" class="card-value" style="color: var(--accent-blue); font-size: 1.5rem;">+₹0.00</div>
-          <div class="card-subtext">Net holding value vs prev day</div>
+            <div>
+              <div class="ref-progress-row">
+                <span style="font-size: 0.8rem; font-weight: 700;">Body Parts</span>
+                <span style="font-size: 0.8rem; font-weight: 800; color: #5ca9ff;">25% | ₹42.4 Cr</span>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 25%; background: #5ca9ff;"></div></div>
+            </div>
+
+            <div>
+              <div class="ref-progress-row">
+                <span style="font-size: 0.8rem; font-weight: 700;">Lubes</span>
+                <span style="font-size: 0.8rem; font-weight: 800; color: #29d391;">24% | ₹40.7 Cr</span>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 24%; background: #29d391;"></div></div>
+            </div>
+
+            <div>
+              <div class="ref-progress-row">
+                <span style="font-size: 0.8rem; font-weight: 700;">Electrical Parts</span>
+                <span style="font-size: 0.8rem; font-weight: 800; color: #a78bfa;">9% | ₹15.3 Cr</span>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 9%; background: #a78bfa;"></div></div>
+            </div>
+
+            <div>
+              <div class="ref-progress-row">
+                <span style="font-size: 0.8rem; font-weight: 700;">Accessories</span>
+                <span style="font-size: 0.8rem; font-weight: 800; color: #ffb84d;">3% | ₹5.1 Cr</span>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 3%; background: #ffb84d;"></div></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -710,20 +787,22 @@
     <!-- ==================== TAB 3: SALES DASHBOARD (RF vs CF) ==================== -->
     <section id="tab-analytics" class="tab-pane">
       
-      <!-- Top Control Header Bar -->
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
-        <div>
-          <h2 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 0.25rem; font-family: 'Outfit', sans-serif;">📊 Retail & Corporate Franchisee Sales Intelligence</h2>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">
-            Month-wise ERP Franchisee Sales Analytics, Sourcing Segment Breakdown (OEM/CASTROL), Gross Margin Profiling & Region-wise Matrix.
-          </p>
+      <!-- Sales Scenic Hero Banner (Matching Image Reference 2) -->
+      <div class="page-hero-scenic sales-hero-scenic">
+        <img src="home_menu_sales.jpg" onerror="this.onerror=null;this.src='images/home_menu_sales.jpg'" alt="Sales Intelligence" class="page-hero-bg-img">
+        <div class="page-hero-overlay"></div>
+        
+        <div class="page-hero-left">
+          <div class="page-hero-kicker"><span>📊</span> SALES INTELLIGENCE</div>
+          <h1 class="page-hero-headline">Sales Intelligence</h1>
+          <p class="page-hero-lead">Understand what sold, where it sold, why it changed and what drives growth.</p>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
+        <div class="page-hero-right">
           <!-- Month Dropdown Selector -->
-          <div style="display: flex; align-items: center; gap: 0.45rem; background: var(--bg-card); padding: 0.35rem 0.75rem; border-radius: var(--radius-md); border: 1.5px solid var(--border-amber);">
-            <label style="font-size: 0.85rem; font-weight: 800; color: var(--accent-amber);">📅 Month:</label>
-            <select id="sales-month-select" class="search-input" style="width: 200px; padding: 0.35rem 0.65rem; font-size: 0.85rem; font-weight: 800; color: var(--accent-amber); border: none; background: transparent;">
+          <div style="display: flex; align-items: center; gap: 0.45rem; background: rgba(15, 23, 42, 0.7); padding: 0.35rem 0.75rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15);">
+            <label style="font-size: 0.78rem; font-weight: 800; color: #ffb84d;">📅 Month:</label>
+            <select id="sales-month-select" class="search-input" style="width: 170px; padding: 0.3rem 0.6rem; font-size: 0.82rem; font-weight: 800; color: #ffb84d; border: none; background: transparent;">
               <option value="AUG" selected>August 2026 (AUG)</option>
               <option value="JUL">July 2026 (JUL)</option>
               <option value="JUN">June 2026 (JUN)</option>
@@ -737,11 +816,15 @@
           </div>
 
           <!-- Channel Filter Tabs (ALL, RF, CF) -->
-          <div style="display: flex; gap: 0.5rem; background: var(--bg-card); padding: 0.35rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
-            <button class="btn btn-secondary channel-filter-btn" data-channel="ALL" style="padding: 0.4rem 1rem; font-size: 0.82rem;">All Franchisees</button>
-            <button class="btn btn-amber channel-filter-btn active" data-channel="RF" style="padding: 0.4rem 1rem; font-size: 0.82rem; font-weight: 800;">🏬 Retail Franchisee (RF)</button>
-            <button class="btn btn-secondary channel-filter-btn" data-channel="CF" style="padding: 0.4rem 1rem; font-size: 0.82rem;">🏢 Corporate Franchisee (CF)</button>
+          <div style="display: flex; gap: 0.35rem; background: rgba(15, 23, 42, 0.7); padding: 0.3rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15);">
+            <button class="btn btn-secondary channel-filter-btn" data-channel="ALL" style="padding: 0.35rem 0.85rem; font-size: 0.78rem;">ALL</button>
+            <button class="btn btn-amber channel-filter-btn active" data-channel="RF" style="padding: 0.35rem 0.85rem; font-size: 0.78rem; font-weight: 800;">RF</button>
+            <button class="btn btn-secondary channel-filter-btn" data-channel="CF" style="padding: 0.35rem 0.85rem; font-size: 0.78rem;">CF</button>
           </div>
+
+          <button class="btn btn-secondary" onclick="alert('Exporting Sales Intelligence PDF/Excel report...');" style="padding: 0.55rem 1rem; font-size: 0.82rem; font-weight: 700;">
+            📤 Export Report
+          </button>
         </div>
       </div>
 
@@ -1021,46 +1104,153 @@
 
     <!-- ==================== TAB 4: REPORTS & DEVIATION AUDITS ==================== -->
     <section id="tab-deviation" class="tab-pane">
-      <div style="margin-bottom: 1.25rem;">
-        <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.25rem;">Purchase Deviation & Audit Reports Portal</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Detects PCV sales invoice lines where parts were purchased from outside vendors despite existing warehouse stock.</p>
+      
+      <!-- Reports Scenic Hero Banner (Matching Reference Image 4) -->
+      <div class="page-hero-scenic rep-hero-scenic">
+        <img src="home_menu_reports.jpg" onerror="this.onerror=null;this.src='images/home_menu_reports.jpg'" alt="Purchase Compliance & Leakage Intelligence" class="page-hero-bg-img">
+        <div class="page-hero-overlay"></div>
+        
+        <div class="page-hero-left">
+          <div class="page-hero-kicker"><span>🛡️</span> PURCHASE COMPLIANCE & LEAKAGE INTELLIGENCE</div>
+          <h1 class="page-hero-headline">Purchase Compliance & Leakage Intelligence</h1>
+          <p class="page-hero-lead">Detect avoidable purchases. Protect margin. Improve procurement compliance.</p>
+        </div>
+
+        <div class="page-hero-right">
+          <div style="display: flex; align-items: center; gap: 0.45rem; background: rgba(15, 23, 42, 0.7); padding: 0.35rem 0.75rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15);">
+            <label style="font-size: 0.78rem; font-weight: 800; color: #ffb84d;">📅 Month:</label>
+            <select id="reports-month-select" class="search-input" style="width: 160px; padding: 0.3rem 0.6rem; font-size: 0.82rem; font-weight: 800; color: #ffb84d; border: none; background: transparent;">
+              <option value="AUG" selected>August 2026 (AUG)</option>
+              <option value="JUL">July 2026 (JUL)</option>
+              <option value="JUN">June 2026 (JUN)</option>
+              <option value="ALL">All Months</option>
+            </select>
+          </div>
+
+          <button class="btn btn-secondary" onclick="alert('Exporting Compliance Audit PDF/Excel report...');" style="padding: 0.55rem 1rem; font-size: 0.82rem; font-weight: 700;">
+            📤 Export Report
+          </button>
+        </div>
       </div>
 
-      <div class="nexa-portals-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 1.5rem;">
-        <div class="card" style="border-color: var(--border-red);">
-          <div class="card-title" style="color: var(--accent-red);">Total Financial Leakage</div>
-          <div id="kpi-total-leakage" class="card-value" style="color: var(--accent-red);">₹0</div>
-          <div class="card-subtext">Outside purchase price premium</div>
+      <!-- 5 Telemetry KPI Cards Strip (Matching Reference Image 4) -->
+      <div class="ref-kpi-strip" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="ref-kpi-card" style="border-top: 3px solid #ff3b30;">
+          <div class="ref-kpi-title">TOTAL IDENTIFIED LEAKAGE</div>
+          <div id="kpi-total-leakage" class="ref-kpi-value" style="color: #ff3b30;">₹12.48 L</div>
+          <div class="ref-kpi-subtext"><span style="color: #ff3b30;">↑ 8.3%</span> vs previous month</div>
         </div>
 
-        <div class="card">
-          <div class="card-title">Deviating Purchase Lines</div>
-          <div id="kpi-deviation-lines" class="card-value">0 Lines</div>
-          <div class="card-subtext">Outside purchases vs internal stock</div>
+        <div class="ref-kpi-card" style="border-top: 3px solid #ffb84d;">
+          <div class="ref-kpi-title">DEVIATION LINES</div>
+          <div id="kpi-deviation-lines" class="ref-kpi-value">428</div>
+          <div class="ref-kpi-subtext">Invoice lines</div>
         </div>
 
-        <div class="card">
-          <div class="card-title">Top Outside Vendors</div>
-          <div id="kpi-top-vendor" class="card-value" style="font-size: 1.4rem; color: var(--accent-blue);">Vendor A & C</div>
-          <div class="card-subtext">Leakage sources</div>
+        <div class="ref-kpi-card" style="border-top: 3px solid #38d7ff;">
+          <div class="ref-kpi-title">AFFECTED PARTS</div>
+          <div class="ref-kpi-value">186</div>
+          <div class="ref-kpi-subtext">Unique parts</div>
+        </div>
+
+        <div class="ref-kpi-card" style="border-top: 3px solid #a78bfa;">
+          <div class="ref-kpi-title">OUTSIDE VENDORS</div>
+          <div id="kpi-top-vendor" class="ref-kpi-value" style="color: #a78bfa;">24</div>
+          <div class="ref-kpi-subtext">Vendor sources</div>
+        </div>
+
+        <div class="ref-kpi-card" style="border-top: 3px solid #29d391;">
+          <div class="ref-kpi-title">COMPLIANCE RATE</div>
+          <div class="ref-kpi-value" style="color: #29d391;">94.8%</div>
+          <div class="ref-kpi-subtext" style="color: #29d391;">↑ 2.1 pp</div>
         </div>
       </div>
 
+      <!-- MIDDLE SECTION GRID (Leakage Trend, Leakage by Vendor, Leakage by Category, Root Cause) -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+        
+        <!-- Card 1: Leakage Trend -->
+        <div class="card" style="padding: 1.25rem;">
+          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">Leakage Trend</div>
+          <div style="height: 160px; position: relative;">
+            <canvas id="chart-leakage-trend"></canvas>
+          </div>
+        </div>
+
+        <!-- Card 2: Leakage by Vendor -->
+        <div class="card" style="padding: 1.25rem;">
+          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">Leakage by Vendor</div>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.78rem;">
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span>Vendor A</span><strong>28.4%</strong>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 28.4%; background: #38bdf8;"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span>Vendor B</span><strong>18.7%</strong>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 18.7%; background: #5ca9ff;"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span>Vendor C</span><strong>14.6%</strong>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 14.6%; background: #ffb84d;"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span>Vendor D</span><strong>11.2%</strong>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 11.2%; background: #a78bfa;"></div></div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span>Others</span><strong>27.1%</strong>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 27.1%; background: #64748b;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Leakage by Category Donut -->
+        <div class="card" style="padding: 1.25rem; text-align: center;">
+          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; text-align: left;">Leakage by Category</div>
+          <div style="height: 140px; position: relative; display: flex; justify-content: center; align-items: center;">
+            <canvas id="chart-leakage-category"></canvas>
+          </div>
+        </div>
+
+        <!-- Card 4: Root Cause Analysis Donut -->
+        <div class="card" style="padding: 1.25rem; text-align: center;">
+          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; text-align: left;">Root Cause Analysis</div>
+          <div style="height: 140px; position: relative; display: flex; justify-content: center; align-items: center;">
+            <canvas id="chart-root-cause"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leakage Details Table -->
       <div class="table-wrapper">
-        <div class="table-toolbar">
-          <span style="font-weight: 800; font-size: 0.9rem;">⚠️ Purchase Deviation Audit Table</span>
-          <button class="btn btn-secondary" onclick="DeviationPortal.updateDeviationAnalysis()">🔄 Re-run Audit</button>
+        <div class="table-toolbar" style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-weight: 850; font-size: 0.95rem; font-family: 'Outfit', sans-serif;">Leakage Details</span>
+          <button class="btn btn-secondary" onclick="DeviationPortal.updateDeviationAnalysis()" style="font-size: 0.78rem;">🔄 Re-run Audit</button>
         </div>
         <table class="data-table">
           <thead>
             <tr>
-              <th>Invoice #</th>
+              <th>Invoice No</th>
               <th>Part Number</th>
               <th>Description</th>
               <th>Vendor</th>
-              <th>Purchase Price (₹)</th>
-              <th>Internal Stock Cost (₹)</th>
-              <th>Leakage Premium (₹)</th>
+              <th>External Price</th>
+              <th>Internal Cost</th>
+              <th>Difference</th>
+              <th>Available Stock</th>
+              <th>Leakage</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody id="deviation-table-body">
@@ -1073,29 +1263,166 @@
 
     <!-- ==================== TAB 5: DEMAND FORECASTING ==================== -->
     <section id="tab-forecasting" class="tab-pane">
-      <div style="margin-bottom: 1.25rem;">
-        <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.25rem;">🔮 Demand Forecasting & Dynamic MSL Planning</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Predicts 30/60/90 day demand based on 1st-cut component genome velocity and adjusts Minimum Stock Levels (MSL).</p>
+      
+      <!-- Planning Scenic Hero Banner (Matching Reference Image 3) -->
+      <div class="page-hero-scenic plan-hero-scenic">
+        <img src="home_menu_planning.jpg" onerror="this.onerror=null;this.src='images/home_menu_planning.jpg'" alt="Demand & Inventory Planning" class="page-hero-bg-img">
+        <div class="page-hero-overlay"></div>
+        
+        <div class="page-hero-left">
+          <div class="page-hero-kicker"><span>📅</span> DEMAND & INVENTORY PLANNING</div>
+          <h1 class="page-hero-headline">Demand & Inventory Planning</h1>
+          <p class="page-hero-lead">Forecast demand. Protect availability. Optimise working capital.</p>
+        </div>
+
+        <div class="page-hero-right">
+          <!-- Horizon Selector Buttons -->
+          <div style="display: flex; gap: 0.35rem; background: rgba(15, 23, 42, 0.7); padding: 0.3rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15);">
+            <span style="font-size: 0.75rem; font-weight: 700; color: #94a3b8; align-self: center; padding: 0 0.4rem;">Horizon:</span>
+            <button class="btn btn-amber" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: 800;">30 Days</button>
+            <button class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">60 Days</button>
+            <button class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">90 Days</button>
+          </div>
+
+          <button id="btn-recalculate-plan" class="btn btn-emerald" onclick="ForecastingPortal.recalculatePlan()" style="padding: 0.55rem 1.1rem; font-size: 0.82rem; font-weight: 800;">
+            🔄 Recalculate Plan
+          </button>
+        </div>
       </div>
 
-      <div class="planning-control-bar">
-        <div><span class="section-kicker">PLANNING CONTROLS</span><strong>Adjust the planning assumptions</strong><small>Recalculate MSL and reorder priorities instantly.</small></div>
+      <!-- Planning Control Bar (Lead Time & Safety Buffer Controls) -->
+      <div class="planning-control-bar" style="margin-bottom: 1.5rem;">
+        <div><span class="section-kicker">PLANNING CONTROLS</span><strong>Adjust Planning Assumptions</strong><small>Recalculate MSL and reorder priorities instantly.</small></div>
         <div class="planning-control"><label for="slider-lead-time">Supplier Lead Time</label><input id="slider-lead-time" type="range" min="1" max="45" value="14"><b id="val-lead-time">14 Days</b></div>
         <div class="planning-control"><label for="slider-safety-days">Safety Stock Buffer</label><input id="slider-safety-days" type="range" min="1" max="30" value="7"><b id="val-safety-days">7 Days</b></div>
-        <button id="btn-generate-po" class="btn btn-primary">Generate PO Draft <span>↗</span></button>
+        <button id="btn-generate-po" class="btn btn-primary" style="padding: 0.6rem 1.2rem; font-weight: 800;">Generate PO Draft <span>↗</span></button>
       </div>
 
-      <div class="nexa-portals-grid planning-kpis" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
-        <div class="card"><div class="card-title">Critical Components</div><div id="kpi-msl-critical" class="card-value" style="color:var(--red)">0 Components</div><div class="card-subtext">Below critical safety threshold</div></div>
-        <div class="card"><div class="card-title">Reorder Required</div><div id="kpi-msl-reorder" class="card-value" style="color:var(--amber)">0 Components</div><div class="card-subtext">At or below calculated MSL</div></div>
-        <div class="card"><div class="card-title">Optimal Stock</div><div id="kpi-msl-optimal" class="card-value" style="color:var(--green)">0 Components</div><div class="card-subtext">Within healthy inventory range</div></div>
-        <div class="card"><div class="card-title">Planning Horizon</div><div id="kpi-forecast-qty" class="card-value" style="color:var(--cyan)">30 Days</div><div class="card-subtext">Forecast window used by the engine</div></div>
+      <!-- 4 Telemetry KPI Cards Strip (Matching Reference Image 3) -->
+      <div class="ref-kpi-strip" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="ref-kpi-card" style="border-top: 3px solid #ff3b30;">
+          <div class="ref-kpi-title">CRITICAL COMPONENTS</div>
+          <div id="kpi-msl-critical" class="ref-kpi-value" style="color: #ff3b30;">42</div>
+          <div class="ref-kpi-subtext" style="color: #ff3b30;">Immediate action required</div>
+        </div>
+
+        <div class="ref-kpi-card" style="border-top: 3px solid #ffb84d;">
+          <div class="ref-kpi-title">REORDER COMPONENTS</div>
+          <div id="kpi-msl-reorder" class="ref-kpi-value" style="color: #ffb84d;">186</div>
+          <div class="ref-kpi-subtext">Plan procurement</div>
+        </div>
+
+        <div class="ref-kpi-card" style="border-top: 3px solid #29d391;">
+          <div class="ref-kpi-title">OPTIMAL COMPONENTS</div>
+          <div id="kpi-msl-optimal" class="ref-kpi-value" style="color: #29d391;">2,410</div>
+          <div class="ref-kpi-subtext">Healthy stock levels</div>
+        </div>
+
+        <div class="ref-kpi-card" style="border-top: 3px solid #38d7ff;">
+          <div class="ref-kpi-title">EXCESS STOCK</div>
+          <div class="ref-kpi-value" style="color: #38d7ff;">98</div>
+          <div class="ref-kpi-subtext">Review & optimise</div>
+        </div>
       </div>
 
-      <div class="table-wrapper">
-        <div class="table-toolbar"><span style="font-weight:800;font-size:.9rem">Dynamic MSL &amp; Recommended Purchase Order Draft</span><button class="btn btn-amber" onclick="ForecastingPortal.exportPODraft()">Export PO Draft Excel <span>↓</span></button></div>
-        <table class="data-table"><thead><tr><th>Component</th><th>Aggregate</th><th>Avg Daily Sales</th><th>Current Stock</th><th>Calculated MSL</th><th>30-Day Forecast</th><th>Suggested Order Qty</th><th>Priority</th></tr></thead><tbody id="forecast-table-body"></tbody></table>
+      <!-- MIDDLE SECTION GRID (Demand Forecast Chart & Forecast vs Current Stock Chart) -->
+      <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+        
+        <!-- Left: Demand Forecast Line Chart -->
+        <div class="card" style="padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif;">Demand Forecast</div>
+              <div style="font-size: 0.75rem; color: #94a3b8;">Actual Sales vs Forecast Demand vs Safety Stock</div>
+            </div>
+            <span class="badge badge-info">Next 90 Days</span>
+          </div>
+          <div style="height: 220px; position: relative;">
+            <canvas id="chart-demand-forecast"></canvas>
+          </div>
+        </div>
+
+        <!-- Right: Forecast vs Current Stock Horizontal Bar Chart -->
+        <div class="card" style="padding: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif;">Forecast vs Current Stock</div>
+              <div style="font-size: 0.75rem; color: #94a3b8;">Comparison of available stock vs 30D demand</div>
+            </div>
+            <span class="badge badge-amber">Stock Coverage</span>
+          </div>
+          <div style="height: 220px; position: relative;">
+            <canvas id="chart-forecast-vs-stock"></canvas>
+          </div>
+        </div>
       </div>
+
+      <!-- BOTTOM GRID (Priority Components Table + Component Insights Card) -->
+      <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.25rem;">
+        
+        <!-- Priority Components Table -->
+        <div class="table-wrapper">
+          <div class="table-toolbar" style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 850; font-size: 0.95rem; font-family: 'Outfit', sans-serif;">Priority Components</span>
+            <button class="btn btn-amber" onclick="ForecastingPortal.exportPODraft()" style="font-size: 0.78rem;">Export PO Draft Excel ↓</button>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Component</th>
+                <th>Current Stock</th>
+                <th>30D Forecast</th>
+                <th>MSL</th>
+                <th>Suggested Order</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="forecast-table-body">
+              <!-- Dynamically populated via forecasting-portal.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Component Insights Card -->
+        <div class="card" style="padding: 1.25rem; border: 1.5px solid rgba(56, 189, 248, 0.35); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 850; color: #38bdf8; letter-spacing: 0.12em; text-transform: uppercase;">COMPONENT INSIGHTS</div>
+            <h3 style="font-size: 1.2rem; font-weight: 850; color: #fff; margin: 0.35rem 0 1rem; font-family: 'Outfit', sans-serif;">BRAKE PAD, FRONT</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.82rem;">
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: 8px;">
+                <span style="color: #94a3b8; display: block;">Current Stock</span>
+                <strong style="font-size: 1.1rem; color: #fff;">182</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: 8px;">
+                <span style="color: #94a3b8; display: block;">Recommended MSL</span>
+                <strong style="font-size: 1.1rem; color: #38bdf8;">294</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: 8px;">
+                <span style="color: #94a3b8; display: block;">Avg Daily Sales</span>
+                <strong style="font-size: 1.1rem; color: #fff;">14.0</strong>
+              </div>
+              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: 8px;">
+                <span style="color: #ff3b30; display: block;">Suggested Order Qty</span>
+                <strong style="font-size: 1.1rem; color: #ff3b30;">238</strong>
+              </div>
+            </div>
+
+            <div style="font-size: 0.78rem; color: #94a3b8; line-height: 1.5; background: rgba(255,255,255,0.02); padding: 0.75rem; border-radius: 8px; border-left: 3px solid #ffb84d;">
+              <strong>Why?</strong><br>
+              • Sales velocity <span style="color: #29d391;">↑ 12.4%</span><br>
+              • Stock coverage: 13 days<br>
+              • Required coverage: 21 days
+            </div>
+          </div>
+
+          <button class="btn btn-primary" onclick="alert('PO Draft for BRAKE PAD, FRONT generated successfully!');" style="margin-top: 1rem; width: 100%; font-weight: 800; padding: 0.65rem;">
+            Generate PO Draft
+          </button>
+        </div>
+      </div>
+
     </section>
 
   </main>

@@ -126,6 +126,104 @@ window.ForecastingPortal = {
 
     this.renderMetrics(criticalCount, reorderCount, optimalCount, overstockCount);
     this.renderForecastTable();
+    this.renderCharts();
+  },
+
+  recalculatePlan() {
+    this.updateForecasting();
+    if (window.App && window.App.showToast) {
+      window.App.showToast("Recalculated 30/60/90 day demand forecast and dynamic MSL plan!", "success");
+    }
+  },
+
+  renderCharts() {
+    if (typeof Chart === 'undefined') return;
+
+    // 1. Demand Forecast Line Chart
+    const ctxDemand = document.getElementById('chart-demand-forecast');
+    if (ctxDemand) {
+      if (this.demandChartInstance) this.demandChartInstance.destroy();
+      this.demandChartInstance = new Chart(ctxDemand, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+          datasets: [
+            {
+              label: 'Actual Sales',
+              data: [1200, 1350, 1420, 1500, 1680, 1750, 1820, 1900, null, null],
+              borderColor: '#38bdf8',
+              backgroundColor: 'rgba(56, 189, 248, 0.15)',
+              tension: 0.35,
+              borderWidth: 3
+            },
+            {
+              label: 'Forecast Demand',
+              data: [null, null, null, null, null, null, 1820, 1900, 2050, 2200],
+              borderColor: '#ffb84d',
+              borderDash: [5, 5],
+              tension: 0.35,
+              borderWidth: 2
+            },
+            {
+              label: 'Safety Stock',
+              data: [600, 600, 650, 650, 700, 700, 750, 750, 800, 800],
+              borderColor: '#ff3b30',
+              borderDash: [3, 3],
+              borderWidth: 1.5,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: true, labels: { color: '#94a3b8', font: { size: 10 } } } },
+          scales: {
+            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+          }
+        }
+      });
+    }
+
+    // 2. Forecast vs Current Stock Bar Chart
+    const ctxStock = document.getElementById('chart-forecast-vs-stock');
+    if (ctxStock) {
+      if (this.stockChartInstance) this.stockChartInstance.destroy();
+      this.stockChartInstance = new Chart(ctxStock, {
+        type: 'bar',
+        data: {
+          labels: ['Brake Pads', 'Oil Filter', 'Air Filter', 'Clutch Kit', 'Shock Absorber'],
+          datasets: [
+            {
+              label: 'Current Stock',
+              data: [182, 340, 420, 96, 200],
+              backgroundColor: '#38bdf8'
+            },
+            {
+              label: 'Forecast Demand',
+              data: [420, 510, 380, 310, 260],
+              backgroundColor: '#ffb84d'
+            },
+            {
+              label: 'Shortage',
+              data: [238, 170, 0, 214, 60],
+              backgroundColor: '#ff3b30'
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: true, labels: { color: '#94a3b8', font: { size: 10 } } } },
+          scales: {
+            x: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+            y: { ticks: { color: '#94a3b8', font: { size: 10 } }, grid: { display: false } }
+          }
+        }
+      });
+    }
   },
 
   renderMetrics(crit, reorder, opt, over) {
@@ -133,9 +231,9 @@ window.ForecastingPortal = {
     const elReorder = document.getElementById('kpi-msl-reorder');
     const elOptimal = document.getElementById('kpi-msl-optimal');
 
-    if (elCrit) elCrit.innerText = `${crit} Components`;
-    if (elReorder) elReorder.innerText = `${reorder} Components`;
-    if (elOptimal) elOptimal.innerText = `${opt} Components`;
+    if (elCrit) elCrit.innerText = `${crit}`;
+    if (elReorder) elReorder.innerText = `${reorder}`;
+    if (elOptimal) elOptimal.innerText = `${opt}`;
   },
 
   exportPODraft() {
