@@ -3034,8 +3034,11 @@ window.App = {
     }
   },
 
-    checkAuth() {
-    const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true' || localStorage.getItem('mytvs_logged_in') === 'true';
+      checkAuth() {
+    // Default to true so user lands directly on the executive dashboard without any login barrier
+    sessionStorage.setItem('mytvs_logged_in', 'true');
+    localStorage.setItem('mytvs_logged_in', 'true');
+
     const loginOverlay = document.getElementById('mytvs-login-screen');
     const header = document.getElementById('app-header');
     const mainContent = document.getElementById('main-app-content');
@@ -3043,22 +3046,13 @@ window.App = {
     const userCode = sessionStorage.getItem('mytvs_user_code') || localStorage.getItem('mytvs_user_code') || 'SM0237';
     const userName = sessionStorage.getItem('mytvs_user_name') || localStorage.getItem('mytvs_user_name') || 'Jino George';
 
-    if (!isLoggedIn) {
-      document.body.classList.remove('is-authenticated');
-      if (loginOverlay) loginOverlay.style.setProperty('display', 'grid', 'important');
-      if (header) header.style.setProperty('display', 'none', 'important');
-      if (mainContent) mainContent.style.setProperty('display', 'none', 'important');
-      if (footer) footer.style.setProperty('display', 'none', 'important');
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.classList.add('is-authenticated');
-      if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
-      if (header) header.style.setProperty('display', 'flex', 'important');
-      if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
-      if (footer) footer.style.setProperty('display', 'block', 'important');
-      document.body.style.overflow = '';
-      this.updateHeaderProfile(userCode, userName);
-    }
+    document.body.classList.add('is-authenticated');
+    if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
+    if (header) header.style.setProperty('display', 'flex', 'important');
+    if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
+    if (footer) footer.style.setProperty('display', 'block', 'important');
+    document.body.style.overflow = '';
+    this.updateHeaderProfile(userCode, userName);
   },
 
   updateHeaderProfile(code, name) {

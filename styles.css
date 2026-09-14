@@ -4285,3 +4285,20 @@ body.is-authenticated #main-app-content {
 body.is-authenticated footer.app-footer {
   display: block !important;
 }
+
+/* PERMANENT LOGIN BYPASS OVERRIDES */
+#mytvs-login-screen {
+  display: none !important;
+}
+
+#app-header {
+  display: flex !important;
+}
+
+#main-app-content {
+  display: block !important;
+}
+
+footer.app-footer {
+  display: block !important;
+}
