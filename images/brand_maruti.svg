@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="g-maruti" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff4b4b"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="24" fill="#0f172a" stroke="#ef4444" stroke-width="2"/>
+  <path d="M30 85 L60 30 L90 85 L72 85 L60 60 L48 85 Z" fill="url(#g-maruti)"/>
+  <path d="M42 75 L60 40 L78 75 L68 75 L60 58 L52 75 Z" fill="#ffffff" opacity="0.9"/>
+  <text x="60" y="105" font-size="11" font-family="'Outfit', sans-serif" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">MARUTI</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <rect width="160" height="160" rx="28" fill="url(#bg-pl)"/>
+  <defs>
+    <linearGradient id="bg-pl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <path d="M80 35 L115 55 V90 L80 110 L45 90 V55 Z" fill="#a78bfa" stroke="#ffffff" stroke-width="4"/>
+  <text x="80" y="138" font-size="14" font-family="'Outfit', sans-serif" font-weight="900" fill="#ffffff" text-anchor="middle">PL LINE</text>
+</svg>

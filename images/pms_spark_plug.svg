@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
+  <rect width="160" height="160" rx="24" fill="#0f172a" stroke="#10b981" stroke-width="2"/>
+  <path d="M80 30 V50 M70 50 H90 V75 H70 Z M75 75 H85 V105 H75 Z" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+  <path d="M80 105 L80 115 M75 115 H85" stroke="#10b981" stroke-width="3"/>
+  <text x="80" y="148" font-size="11" font-family="'Outfit', sans-serif" font-weight="900" fill="#10b981" text-anchor="middle">SPARK PLUGS</text>
+</svg>

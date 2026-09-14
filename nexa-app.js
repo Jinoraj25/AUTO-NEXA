@@ -1354,12 +1354,12 @@ window.InventoryPortal = {
     const strictOrder = ['OEM', 'PRIMARY', 'SECONDARY', 'PL', 'CASTROL', 'UNCATEGORISED'];
 
     const meta = {
-      'OEM': { color: '#38bdf8', icon: '🏭', desc: 'Original Equipment Parts', bg: 'linear-gradient(135deg, rgba(56,189,248,0.12), rgba(15,23,42,0.9))' },
-      'PRIMARY': { color: '#5ca9ff', icon: '📦', desc: 'Primary Core Stock', bg: 'linear-gradient(135deg, rgba(92,169,255,0.12), rgba(15,23,42,0.9))' },
-      'SECONDARY': { color: '#29d391', icon: '⚙️', desc: 'Secondary Spares', bg: 'linear-gradient(135deg, rgba(41,211,145,0.12), rgba(15,23,42,0.9))' },
-      'PL': { color: '#a78bfa', icon: '🛡️', desc: 'Private Label Line', bg: 'linear-gradient(135deg, rgba(167,139,250,0.12), rgba(15,23,42,0.9))' },
-      'CASTROL': { color: '#ffb84d', icon: '🛢️', desc: 'Castrol Official Lubes', bg: 'linear-gradient(135deg, rgba(255,184,77,0.12), rgba(15,23,42,0.9))' },
-      'UNCATEGORISED': { color: '#94a3b8', icon: '❓', desc: 'Pending Categorisation', bg: 'linear-gradient(135deg, rgba(148,163,184,0.12), rgba(15,23,42,0.9))' }
+      'OEM': { color: '#38bdf8', img: 'cat_oem.svg', desc: 'Original Equipment Parts', bg: 'linear-gradient(135deg, rgba(56,189,248,0.15), rgba(15,23,42,0.95))' },
+      'PRIMARY': { color: '#5ca9ff', img: 'cat_primary.svg', desc: 'Primary Core Stock', bg: 'linear-gradient(135deg, rgba(92,169,255,0.15), rgba(15,23,42,0.95))' },
+      'SECONDARY': { color: '#29d391', img: 'cat_secondary.svg', desc: 'Secondary Spares', bg: 'linear-gradient(135deg, rgba(41,211,145,0.15), rgba(15,23,42,0.95))' },
+      'PL': { color: '#a78bfa', img: 'cat_pl.svg', desc: 'Private Label Line', bg: 'linear-gradient(135deg, rgba(167,139,250,0.15), rgba(15,23,42,0.95))' },
+      'CASTROL': { color: '#ffb84d', img: 'cat_castrol.svg', desc: 'Castrol Official Lubes', bg: 'linear-gradient(135deg, rgba(255,184,77,0.15), rgba(15,23,42,0.95))' },
+      'UNCATEGORISED': { color: '#94a3b8', img: 'cat_uncategorised.svg', desc: 'Pending Categorisation', bg: 'linear-gradient(135deg, rgba(148,163,184,0.15), rgba(15,23,42,0.95))' }
     };
 
     let html = '';
@@ -1373,17 +1373,18 @@ window.InventoryPortal = {
       const cfg = meta[catKey];
 
       html += `
-        <div style="background: ${cfg.bg}; border: 1.5px solid ${cfg.color}35; padding: 1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <div style="display: flex; align-items: center; gap: 0.4rem;">
-              <span style="font-size: 1.2rem;">${cfg.icon}</span>
+        <div style="background: ${cfg.bg}; border: 1.5px solid ${cfg.color}40; padding: 1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+          <img src="${cfg.img}" alt="${catKey}" style="position: absolute; right: -12px; bottom: -12px; width: 85px; height: 85px; opacity: 0.25; pointer-events: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; position: relative; z-index: 2;">
+            <div style="display: flex; align-items: center; gap: 0.45rem;">
+              <img src="${cfg.img}" alt="${catKey}" style="width: 24px; height: 24px; object-fit: contain;">
               <span style="font-weight: 900; font-size: 0.88rem; color: ${cfg.color}; font-family: 'Outfit', sans-serif;">${catKey}</span>
             </div>
             <span class="badge" style="background: ${cfg.color}20; color: ${cfg.color}; border: 1px solid ${cfg.color}40; font-size: 0.72rem; font-weight: 850;">${pct}%</span>
           </div>
-          <div style="font-size: 1.35rem; font-weight: 900; color: #ffffff; margin: 0.35rem 0;">${valFormatted}</div>
-          <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.6rem;">${cfg.desc}</div>
-          <div style="width: 100%; background: rgba(255,255,255,0.1); height: 5px; border-radius: 3px; overflow: hidden;">
+          <div style="font-size: 1.35rem; font-weight: 900; color: #ffffff; margin: 0.35rem 0; position: relative; z-index: 2;">${valFormatted}</div>
+          <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.6rem; position: relative; z-index: 2;">${cfg.desc}</div>
+          <div style="width: 100%; background: rgba(255,255,255,0.1); height: 5px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
             <div style="width: ${pct}%; background: ${cfg.color}; height: 100%; border-radius: 3px;"></div>
           </div>
         </div>
@@ -2142,11 +2143,11 @@ window.AnalyticsPortal = {
 
     // BRAND LOGO BADGES & STYLING FOR MARUTI, HYUNDAI, MAHINDRA, TATA, TOYOTA, HONDA, ETC.
     const brandMeta = {
-      'MARUTI': { name: 'MARUTI SUZUKI', color: '#ff3838', icon: '🏎️', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(255,56,56,0.15), rgba(15,23,42,0.95))' },
-      'HYUNDAI': { name: 'HYUNDAI MOTORS', color: '#38bdf8', icon: '🚙', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(56,189,248,0.15), rgba(15,23,42,0.95))' },
-      'MAHINDRA': { name: 'MAHINDRA & MAHINDRA', color: '#f59e0b', icon: '🚜', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(15,23,42,0.95))' },
-      'TATA': { name: 'TATA MOTORS', color: '#a855f7', icon: '🚘', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(168,85,247,0.15), rgba(15,23,42,0.95))' },
-      'OTHERS': { name: 'OTHERS (TOYOTA/HONDA)', color: '#ec4899', icon: '🚐', badge: 'Others Group', bg: 'linear-gradient(135deg, rgba(236,72,153,0.15), rgba(15,23,42,0.95))' }
+      'MARUTI': { name: 'MARUTI SUZUKI', color: '#ff3838', img: 'brand_maruti.svg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(255,56,56,0.18), rgba(15,23,42,0.95))' },
+      'HYUNDAI': { name: 'HYUNDAI MOTORS', color: '#38bdf8', img: 'brand_hyundai.svg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(56,189,248,0.18), rgba(15,23,42,0.95))' },
+      'MAHINDRA': { name: 'MAHINDRA SUV', color: '#f59e0b', img: 'brand_mahindra.svg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(245,158,11,0.18), rgba(15,23,42,0.95))' },
+      'TATA': { name: 'TATA MOTORS', color: '#a855f7', img: 'brand_tata.svg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(15,23,42,0.95))' },
+      'OTHERS': { name: 'OTHERS (TOYOTA/HONDA)', color: '#ec4899', img: 'brand_castrol.svg', badge: 'Others Group', bg: 'linear-gradient(135deg, rgba(236,72,153,0.18), rgba(15,23,42,0.95))' }
     };
 
     let html = '';
@@ -2158,20 +2159,21 @@ window.AnalyticsPortal = {
       const cfg = brandMeta[item.make] || brandMeta['OTHERS'];
 
       html += `
-        <div class="card" style="background: ${cfg.bg}; border: 1.5px solid ${cfg.color}40; padding: 1.1rem; border-radius: var(--radius-md); box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-            <div style="display: flex; align-items: center; gap: 0.45rem;">
-              <span style="font-size: 1.25rem;">${cfg.icon}</span>
-              <span style="font-size: 0.88rem; font-weight: 900; color: ${cfg.color}; font-family: 'Outfit', sans-serif;">${cfg.name}</span>
+        <div class="card" style="background: ${cfg.bg}; border: 1.5px solid ${cfg.color}45; padding: 1.1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+          <img src="${cfg.img}" alt="${cfg.name}" style="position: absolute; right: -10px; bottom: -10px; width: 90px; height: 90px; opacity: 0.22; pointer-events: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; position: relative; z-index: 2;">
+            <div style="display: flex; align-items: center; gap: 0.55rem;">
+              <img src="${cfg.img}" alt="${cfg.name}" style="width: 32px; height: 32px; object-fit: contain;">
+              <span style="font-size: 0.9rem; font-weight: 900; color: ${cfg.color}; font-family: 'Outfit', sans-serif;">${cfg.name}</span>
             </div>
             <span class="badge" style="background: ${cfg.color}20; color: ${cfg.color}; border: 1px solid ${cfg.color}40; font-size: 0.72rem; font-weight: 850;">${item.sharePct}%</span>
           </div>
-          <div style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.25rem 0;">${displayRev}</div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.5rem;">
+          <div style="font-size: 1.5rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; position: relative; z-index: 2;">${displayRev}</div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.5rem; position: relative; z-index: 2;">
             <span>Units Sold: <strong>${item.units.toLocaleString()}</strong></span>
-            <span>Category: <strong>${cfg.badge}</strong></span>
+            <span>Group: <strong>${cfg.badge}</strong></span>
           </div>
-          <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden;">
+          <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
             <div style="background: ${cfg.color}; height: 100%; width: ${Math.min(item.sharePct * 2.8, 100)}%;"></div>
           </div>
         </div>
@@ -2192,13 +2194,13 @@ window.AnalyticsPortal = {
     if (badgeTotal) badgeTotal.innerText = `PMS Sales: ₹${totPmsCr} Cr`;
     if (badgeShare) badgeShare.innerText = `${pmsData.pmsSharePct}% of Total Revenue`;
 
-    const iconMap = {
-      'Engine Oil': '🛢️',
-      'Brake Pads & Discs': '🛑',
-      'Clutch Disc & Cover': '⚙️',
-      'Filters': '🌀',
-      'Coolant & Fluids': '❄️',
-      'Spark / Glow Plugs': '⚡'
+    const imgMap = {
+      'Engine Oil': 'pms_engine_oil.svg',
+      'Brake Pads & Discs': 'pms_brake_pads.svg',
+      'Clutch Disc & Cover': 'pms_clutch.svg',
+      'Filters': 'pms_filters.svg',
+      'Coolant & Fluids': 'pms_coolant.svg',
+      'Spark / Glow Plugs': 'pms_spark_plug.svg'
     };
 
     const colorMap = {
@@ -2219,18 +2221,23 @@ window.AnalyticsPortal = {
       const icon = iconMap[item.name] || '🛠️';
       const color = colorMap[item.name] || '#ffb84d';
 
+      const pmsImg = imgMap[item.name] || 'pms_engine_oil.svg';
       html += `
-        <div class="card" style="background: linear-gradient(135deg, ${color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${color}40; padding: 1.1rem; border-radius: var(--radius-md); box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-            <span style="font-size: 0.85rem; font-weight: 900; color: ${color}; text-transform: uppercase;">${icon} ${item.name}</span>
+        <div class="card" style="background: linear-gradient(135deg, ${color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${color}40; padding: 1.1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
+          <img src="${pmsImg}" alt="${item.name}" style="position: absolute; right: -10px; bottom: -10px; width: 85px; height: 85px; opacity: 0.25; pointer-events: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; position: relative; z-index: 2;">
+            <div style="display: flex; align-items: center; gap: 0.45rem;">
+              <img src="${pmsImg}" alt="${item.name}" style="width: 26px; height: 26px; object-fit: contain;">
+              <span style="font-size: 0.85rem; font-weight: 900; color: ${color}; text-transform: uppercase;">${item.name}</span>
+            </div>
             <span class="badge" style="background: ${color}20; color: ${color}; border: 1px solid ${color}40; font-size: 0.72rem; font-weight: 850;">${item.units.toLocaleString()} units</span>
           </div>
-          <div style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.25rem 0;">${displayRev}</div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.5rem;">
+          <div style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.25rem 0; position: relative; z-index: 2;">${displayRev}</div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.5rem; position: relative; z-index: 2;">
             <span>Share: ${item.sharePct}%</span>
             <span>Margin: <strong style="color: #29d391;">${item.marginPct}%</strong></span>
           </div>
-          <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden;">
+          <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
             <div style="background: ${color}; height: 100%; width: ${Math.min(item.sharePct * 3.5, 100)}%;"></div>
           </div>
         </div>
