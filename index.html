@@ -218,7 +218,7 @@
         <div class="scenic-module-grid">
           <!-- 01 Catalogue -->
           <article class="scenic-module-card mod-cat" onclick="App.switchTab('catalogue')">
-            <img src="aggregate_clutch.jpg" onerror="this.onerror=null;this.src='images/aggregate_clutch.jpg'" alt="Catalogue" class="scenic-mod-bg-img">
+            <img src="home_menu_catalogue.jpg" onerror="this.onerror=null;this.src='images/home_menu_catalogue.jpg'" alt="Catalogue" class="scenic-mod-bg-img">
             <div class="scenic-mod-bg-overlay"></div>
             <div class="scenic-mod-card-body">
               <div class="card-num-badge">01</div>
@@ -234,7 +234,7 @@
 
           <!-- 02 Inventory -->
           <article class="scenic-module-card mod-inv" onclick="App.switchTab('inventory')">
-            <img src="aggregate_filters.jpg" onerror="this.onerror=null;this.src='images/aggregate_filters.jpg'" alt="Inventory" class="scenic-mod-bg-img">
+            <img src="home_menu_inventory.jpg" onerror="this.onerror=null;this.src='images/home_menu_inventory.jpg'" alt="Inventory" class="scenic-mod-bg-img">
             <div class="scenic-mod-bg-overlay"></div>
             <div class="scenic-mod-card-body">
               <div class="card-num-badge">02</div>
@@ -250,7 +250,7 @@
 
           <!-- 03 Sales -->
           <article class="scenic-module-card mod-sales" onclick="App.switchTab('analytics')">
-            <img src="aggregate_brake.jpg" onerror="this.onerror=null;this.src='images/aggregate_brake.jpg'" alt="Sales" class="scenic-mod-bg-img">
+            <img src="home_menu_sales.jpg" onerror="this.onerror=null;this.src='images/home_menu_sales.jpg'" alt="Sales" class="scenic-mod-bg-img">
             <div class="scenic-mod-bg-overlay"></div>
             <div class="scenic-mod-card-body">
               <div class="card-num-badge">03</div>
@@ -266,7 +266,7 @@
 
           <!-- 04 Planning -->
           <article class="scenic-module-card mod-plan" onclick="App.switchTab('forecasting')">
-            <img src="aggregate_lighting.jpg" onerror="this.onerror=null;this.src='images/aggregate_lighting.jpg'" alt="Planning" class="scenic-mod-bg-img">
+            <img src="home_menu_planning.jpg" onerror="this.onerror=null;this.src='images/home_menu_planning.jpg'" alt="Planning" class="scenic-mod-bg-img">
             <div class="scenic-mod-bg-overlay"></div>
             <div class="scenic-mod-card-body">
               <div class="card-num-badge">04</div>
@@ -282,7 +282,7 @@
 
           <!-- 05 Reports -->
           <article class="scenic-module-card mod-rep" onclick="App.switchTab('deviation')">
-            <img src="aggregate_suspension.jpg" onerror="this.onerror=null;this.src='images/aggregate_suspension.jpg'" alt="Reports" class="scenic-mod-bg-img">
+            <img src="home_menu_reports.jpg" onerror="this.onerror=null;this.src='images/home_menu_reports.jpg'" alt="Reports" class="scenic-mod-bg-img">
             <div class="scenic-mod-bg-overlay"></div>
             <div class="scenic-mod-card-body">
               <div class="card-num-badge">05</div>
@@ -412,83 +412,30 @@
           </div>
         </div>
 
-        <!-- Browse by Aggregate Cards Section (Matching Image 1 Reference) -->
-        <div class="cat-aggregate-section">
-          <div class="cat-section-header">
-            <div>
-              <h3 class="cat-section-title">Browse by Aggregate</h3>
-              <p class="cat-section-sub">Select an aggregate to explore sub-aggregates and components.</p>
-            </div>
-            <button type="button" class="btn-view-all" onclick="MappingPortal.resetAggregateFilter()">View All Aggregates →</button>
+        <!-- 1st-Cut Component Mapping File Upload Dropzone -->
+        <div id="sales-dropzone" class="upload-dropzone dropzone-container" style="margin-top: 1.75rem; margin-bottom: 1.5rem; padding: 2.25rem 1.5rem; text-align: center; cursor: pointer; position: relative; border: 2px dashed rgba(56, 189, 248, 0.35) !important; background: linear-gradient(145deg, rgba(8, 28, 48, 0.6), rgba(13, 26, 45, 0.95)) !important; border-radius: 18px !important;">
+          <div class="dropzone-icon" style="font-size: 2.5rem; margin-bottom: 0.5rem; color: #38bdf8;">📁</div>
+          <h3 style="font-size: 1.25rem; font-weight: 850; color: #ffffff; margin-bottom: 0.35rem; font-family: 'Outfit', sans-serif;">
+            Upload Sales / Catalogue Excel File for Component Mapping
+          </h3>
+          <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1.25rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Drag & drop your sales or catalogue Excel file (.xlsx, .xlsb, .csv, .xls) here or click to browse. Performs 1st-cut aggregate & sub-aggregate mapping.
+          </p>
+          <div style="display: flex; gap: 0.85rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <input type="file" id="sales-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
+            <button type="button" class="btn btn-amber" onclick="document.getElementById('sales-file-input').click();" style="padding: 0.65rem 1.5rem; font-weight: 800; font-size: 0.88rem; border-radius: 10px;">
+              📁 Browse Excel File
+            </button>
+            <a href="#" onclick="alert('Sample Sales Catalogue Template downloading...'); return false;" class="btn btn-secondary" style="padding: 0.65rem 1.25rem; font-weight: 750; font-size: 0.82rem; border-radius: 10px;">
+              📥 Download Sample Template
+            </a>
           </div>
-
-          <div class="cat-aggregate-grid">
-            <!-- Card 1: Brake System -->
-            <div class="cat-agg-card agg-card-brake" onclick="MappingPortal.filterByAggregateCard('BRAKE SYSTEM')">
-              <img src="aggregate_brake.jpg" onerror="this.onerror=null;this.src='images/aggregate_brake.jpg'" alt="Brake System" class="agg-card-img">
-              <div class="agg-card-overlay"></div>
-              <div class="agg-card-content">
-                <div>
-                  <h4>Brake System</h4>
-                  <span>120+ Components</span>
-                </div>
-                <div class="agg-arrow-btn">→</div>
-              </div>
-            </div>
-
-            <!-- Card 2: Clutch System -->
-            <div class="cat-agg-card agg-card-clutch" onclick="MappingPortal.filterByAggregateCard('TRANSMISSION')">
-              <img src="aggregate_clutch.jpg" onerror="this.onerror=null;this.src='images/aggregate_clutch.jpg'" alt="Clutch System" class="agg-card-img">
-              <div class="agg-card-overlay"></div>
-              <div class="agg-card-content">
-                <div>
-                  <h4>Clutch System</h4>
-                  <span>85+ Components</span>
-                </div>
-                <div class="agg-arrow-btn">→</div>
-              </div>
-            </div>
-
-            <!-- Card 3: Filters -->
-            <div class="cat-agg-card agg-card-filters" onclick="MappingPortal.filterByAggregateCard('FILTERS')">
-              <img src="aggregate_filters.jpg" onerror="this.onerror=null;this.src='images/aggregate_filters.jpg'" alt="Filters" class="agg-card-img">
-              <div class="agg-card-overlay"></div>
-              <div class="agg-card-content">
-                <div>
-                  <h4>Filters</h4>
-                  <span>160+ Components</span>
-                </div>
-                <div class="agg-arrow-btn">→</div>
-              </div>
-            </div>
-
-            <!-- Card 4: Lighting -->
-            <div class="cat-agg-card agg-card-lighting" onclick="MappingPortal.filterByAggregateCard('LIGHTING')">
-              <img src="aggregate_lighting.jpg" onerror="this.onerror=null;this.src='images/aggregate_lighting.jpg'" alt="Lighting" class="agg-card-img">
-              <div class="agg-card-overlay"></div>
-              <div class="agg-card-content">
-                <div>
-                  <h4>Lighting</h4>
-                  <span>95+ Components</span>
-                </div>
-                <div class="agg-arrow-btn">→</div>
-              </div>
-            </div>
-
-            <!-- Card 5: Suspension -->
-            <div class="cat-agg-card agg-card-suspension" onclick="MappingPortal.filterByAggregateCard('SUSPENSION')">
-              <img src="aggregate_suspension.jpg" onerror="this.onerror=null;this.src='images/aggregate_suspension.jpg'" alt="Suspension" class="agg-card-img">
-              <div class="agg-card-overlay"></div>
-              <div class="agg-card-content">
-                <div>
-                  <h4>Suspension</h4>
-                  <span>140+ Components</span>
-                </div>
-                <div class="agg-arrow-btn">→</div>
-              </div>
-            </div>
+          <div style="margin-top: 1rem; font-size: 0.78rem; color: #64748b;">
+            Automatically maps OEM Part Descriptions & Numbers to TVS Aggregate Master definitions.
           </div>
         </div>
+
+        <div id="catalogue-upload-status" class="upload-status-box" style="display: none; margin-bottom: 1.5rem;"></div>
 
         <!-- Mapped Output Analytics Summary Cards (Shown on File Upload) -->
         <div id="mapping-summary-section" style="display: none; margin-bottom: 1.75rem;">
@@ -526,27 +473,21 @@
           </div>
         </div>
 
-        <!-- Recent Catalogue Activity & Search Table Section -->
+        <!-- Aggregate Master System Lookup & Data Table Section -->
         <div class="cat-recent-activity-card">
           <div class="cat-recent-header">
             <div class="header-left-info">
-              <span class="clock-icon">⏱️</span>
+              <span class="clock-icon">📖</span>
               <div>
-                <h3>Recent Catalogue Activity</h3>
-                <p>Quick access to recently viewed and mapped parts.</p>
+                <h3 style="font-size: 1.2rem; font-weight: 850; color: #ffffff;">Aggregate Master System Lookup</h3>
+                <p style="font-size: 0.82rem; color: #94a3b8;">Explore and search TVS Aggregate Master rules and component mappings.</p>
               </div>
             </div>
 
             <div class="header-right-actions">
-              <!-- Upload Sales/Catalogue File Trigger -->
-              <input type="file" id="sales-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
-              <button type="button" class="btn btn-amber" onclick="document.getElementById('sales-file-input').click();">
-                📁 Upload Catalogue Excel
-              </button>
+              <input type="text" id="master-search-input" placeholder="Search Master Rules..." oninput="MappingPortal.filterMasterTable(this.value)" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 9px; padding: 0.45rem 0.9rem; color: #fff; font-size: 0.85rem; width: 240px;">
             </div>
           </div>
-
-          <div id="catalogue-upload-status" class="upload-status-box" style="display: none; margin: 1rem 0;"></div>
 
           <!-- Dynamic Data Table -->
           <div class="table-wrapper">
