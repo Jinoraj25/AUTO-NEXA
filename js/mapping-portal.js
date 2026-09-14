@@ -266,7 +266,7 @@ window.MappingPortal = {
     if (!this.filteredMaster || this.filteredMaster.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="8" style="text-align:center; padding: 2rem; color: var(--text-muted);">
+          <td colspan="3" style="text-align:center; padding: 2rem; color: var(--text-muted);">
             No matching catalogue component items found for your search query.
           </td>
         </tr>
@@ -278,31 +278,17 @@ window.MappingPortal = {
     const endIdx = startIdx + this.masterPageSize;
     const pageRows = this.filteredMaster.slice(startIdx, endIdx);
 
-    const defaultMakes = ['Toyota', 'Hyundai', 'Maruti Suzuki', 'Mahindra', 'Tata Motors'];
-    const defaultModels = ['Fortuner', 'Creta', 'Innova', 'Thar', 'Nexon', 'Swift', 'Scorpio'];
-    const defaultDates = ['12 May 2025', '11 May 2025', '10 May 2025', '09 May 2025', '08 May 2025'];
-
     let html = '';
-    pageRows.forEach((item, idx) => {
-      const partNo = item.partNo || item.partNumber || `${9091002160 + idx}`;
-      const desc = item.component || item.description || "AUTOMOTIVE COMPONENT PART";
-      const make = item.make || defaultMakes[idx % defaultMakes.length];
-      const model = item.model || defaultModels[idx % defaultModels.length];
+    pageRows.forEach((item) => {
       const agg = item.aggregate || "ENGINE";
       const subAgg = item.subAggregate || "FILTERS";
-      const comp = item.component || desc;
-      const date = item.lastUpdated || defaultDates[idx % defaultDates.length];
+      const comp = item.component || item.description || "AUTOMOTIVE COMPONENT";
 
       html += `
         <tr>
-          <td style="font-weight:700; color: #38bdf8;">${partNo}</td>
-          <td style="color: var(--text-main); font-weight:600;">${desc}</td>
-          <td>${make}</td>
-          <td>${model}</td>
-          <td style="font-weight:700; color: #FF6600;">${agg}</td>
-          <td style="color: var(--text-muted);">${subAgg}</td>
-          <td style="color: var(--accent-cyan); font-weight:700;">${comp}</td>
-          <td style="font-size: 11px; color: var(--text-muted);">${date}</td>
+          <td style="font-weight:800; color: #FF6600;">${agg}</td>
+          <td style="color: var(--text-muted); font-weight: 600;">${subAgg}</td>
+          <td style="color: #38bdf8; font-weight:700;">${comp}</td>
         </tr>
       `;
     });

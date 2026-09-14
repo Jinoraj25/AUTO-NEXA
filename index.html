@@ -353,7 +353,7 @@
     <section id="tab-catalogue" class="tab-pane">
       <div class="catalogue-shell">
         
-        <!-- Catalogue Scenic Hero Banner (Matching Image 1 Reference) -->
+        <!-- Catalogue Scenic Hero Banner -->
         <div class="cat-hero-scenic">
           <img src="cat_hero_car_xray.jpg" onerror="this.onerror=null;this.src='images/cat_hero_car_xray.jpg'" alt="Automotive Parts Catalogue" class="cat-hero-img">
           <div class="cat-hero-overlay"></div>
@@ -365,25 +365,8 @@
               <span class="cat-orange">Build Smarter.</span>
             </h1>
             <p class="cat-lead">
-              Explore our comprehensive catalogue with accurate mappings, OEM references and detailed part information.
+              Map OEM descriptions to aggregate master with high precision using the TVS Intelligence Engine.
             </p>
-
-            <!-- Search Input with Keyboard Shortcut Badge -->
-            <div class="cat-search-box-wrapper">
-              <span class="cat-search-icon">🔍</span>
-              <input type="text" id="cat-search-main-input" placeholder="Search by part number, description, make, model..." oninput="MappingPortal.filterCatalogueTable(this.value)">
-              <kbd class="cat-search-kbd">Ctrl + K</kbd>
-            </div>
-
-            <!-- Popular Search Chips -->
-            <div class="cat-popular-searches">
-              <span class="pop-search-label">Popular Searches:</span>
-              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('BRAKE')">Brake Pad</button>
-              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('OIL FILTER')">Oil Filter</button>
-              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('AIR FILTER')">Air Filter</button>
-              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('SHOCK ABSORBER')">Shock Absorber</button>
-              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('CLUTCH')">Clutch Kit</button>
-            </div>
           </div>
 
           <!-- Right Feature Cards -->
@@ -405,8 +388,8 @@
             <div class="cat-glass-card">
               <div class="cat-glass-icon">🔍</div>
               <div>
-                <strong>Smart Search</strong>
-                <small>Part no. / Description / OEM</small>
+                <strong>Master Taxonomy</strong>
+                <small>Aggregate & Sub-Aggregate</small>
               </div>
             </div>
           </div>
@@ -423,12 +406,9 @@
           </p>
           <div style="display: flex; gap: 0.85rem; justify-content: center; align-items: center; flex-wrap: wrap;">
             <input type="file" id="sales-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
-            <button type="button" class="btn btn-amber" onclick="document.getElementById('sales-file-input').click();" style="padding: 0.65rem 1.5rem; font-weight: 800; font-size: 0.88rem; border-radius: 10px;">
+            <button type="button" class="btn btn-amber" onclick="document.getElementById('sales-file-input').click();" style="padding: 0.65rem 1.8rem; font-weight: 800; font-size: 0.88rem; border-radius: 10px;">
               📁 Browse Excel File
             </button>
-            <a href="#" onclick="alert('Sample Sales Catalogue Template downloading...'); return false;" class="btn btn-secondary" style="padding: 0.65rem 1.25rem; font-weight: 750; font-size: 0.82rem; border-radius: 10px;">
-              📥 Download Sample Template
-            </a>
           </div>
           <div style="margin-top: 1rem; font-size: 0.78rem; color: #64748b;">
             Automatically maps OEM Part Descriptions & Numbers to TVS Aggregate Master definitions.
@@ -485,23 +465,18 @@
             </div>
 
             <div class="header-right-actions">
-              <input type="text" id="master-search-input" placeholder="Search Master Rules..." oninput="MappingPortal.filterMasterTable(this.value)" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 9px; padding: 0.45rem 0.9rem; color: #fff; font-size: 0.85rem; width: 240px;">
+              <input type="text" id="master-search-input" placeholder="Search Master Rules (Aggregate, Sub-Aggregate, Component)..." oninput="MappingPortal.filterMasterTable(this.value)" style="background: rgba(255, 255, 255, 0.06); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 9px; padding: 0.5rem 1rem; color: #fff; font-size: 0.85rem; width: 320px;">
             </div>
           </div>
 
-          <!-- Dynamic Data Table -->
+          <!-- Dynamic Data Table (Exact 3 Columns: Aggregate, Sub-Aggregate, Component) -->
           <div class="table-wrapper">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Part No.</th>
-                  <th>Description</th>
-                  <th>Make</th>
-                  <th>Model</th>
                   <th>Aggregate</th>
                   <th>Sub-Aggregate</th>
                   <th>Component</th>
-                  <th>Last Updated</th>
                 </tr>
               </thead>
               <tbody id="master-rules-list">
@@ -518,175 +493,184 @@
       </div>
     </section>
 
+      </div>
+    </section>
 
-    <!-- ==================== TAB 2: INVENTORY DASHBOARD ==================== -->
+
+        <!-- ==================== TAB 2: INVENTORY DASHBOARD ==================== -->
     <section id="tab-inventory" class="tab-pane">
-      <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); padding: 0.75rem 1.25rem; border-radius: var(--radius-md); margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
-        <div style="display: flex; align-items: center; gap: 0.65rem;">
-          <span style="font-size: 1.1rem; color: var(--accent-emerald);">🟢</span>
-          <div>
-            <span style="font-weight: 800; font-size: 0.88rem; color: var(--accent-emerald);">STOCK DATA SYNC: READY</span>
-            <span style="font-size: 0.82rem; color: var(--text-muted); margin-left: 0.5rem;">
-              Stock analytics are ready. Upload the latest stock workbook whenever you need to refresh inventory intelligence.
-            </span>
+      <!-- Top Control Bar with Date Selector & 2 Action Buttons -->
+      <div style="background: rgba(13, 26, 45, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); padding: 0.85rem 1.35rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; backdrop-filter: blur(12px);">
+        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 0.65rem;">
+            <span style="font-size: 1.2rem; color: #29d391;">🟢</span>
+            <div>
+              <span style="font-weight: 850; font-size: 0.9rem; color: #ffffff; font-family: 'Outfit', sans-serif;">GOOD STOCK INVENTORY INTELLIGENCE</span>
+              <span style="font-size: 0.8rem; color: #94a3b8; margin-left: 0.5rem;">
+                Select date to filter all stock telemetry and category holding.
+              </span>
+            </div>
+          </div>
+
+          <!-- DATE SELECTION TAB -->
+          <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(15, 23, 42, 0.7); padding: 0.4rem 0.85rem; border-radius: 10px; border: 1.5px solid rgba(245, 158, 11, 0.4);">
+            <label style="font-size: 0.82rem; font-weight: 850; color: #ffb84d; font-family: 'Outfit', sans-serif;">📅 Stock Date:</label>
+            <select id="inventory-date-select" class="search-input" style="padding: 0.35rem 0.6rem; font-size: 0.85rem; font-weight: 800; color: #ffb84d; border: none; background: transparent; cursor: pointer;">
+              <option value="10-Sep-2026" selected>Stock Date: 10-Sep-2026</option>
+              <option value="09-Sep-2026">Stock Date: 09-Sep-2026</option>
+              <option value="08-Sep-2026">Stock Date: 08-Sep-2026</option>
+              <option value="07-Sep-2026">Stock Date: 07-Sep-2026</option>
+              <option value="06-Sep-2026">Stock Date: 06-Sep-2026</option>
+              <option value="05-Sep-2026">Stock Date: 05-Sep-2026</option>
+              <option value="04-Sep-2026">Stock Date: 04-Sep-2026</option>
+              <option value="03-Sep-2026">Stock Date: 03-Sep-2026</option>
+            </select>
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+        <!-- ONLY TWO BUTTONS: UPLOADING STOCK & REFRESHING STOCK FOLDER -->
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
           <input type="file" id="inventory-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
-          <button class="btn btn-emerald" onclick="document.getElementById('inventory-file-input').click()" style="padding: 0.45rem 1rem; font-size: 0.82rem; font-weight: 800;">
-            📁 Upload Stock Workbook
-          </button>
-
-          <button id="btn-sync-stock-folder" class="btn btn-amber" style="padding: 0.45rem 1rem; font-size: 0.82rem; font-weight: 800;">
-          <button class="btn btn-emerald" onclick="document.getElementById('inventory-file-input').click()" style="padding: 0.55rem 1.1rem; font-size: 0.82rem; font-weight: 800;">
+          <button class="btn btn-emerald" onclick="document.getElementById('inventory-file-input').click()" style="padding: 0.55rem 1.25rem; font-size: 0.85rem; font-weight: 850; border-radius: 10px; box-shadow: 0 4px 14px rgba(41,211,145,0.25);">
             📁 Upload Stock
           </button>
-          <button id="btn-sync-stock-folder" class="btn btn-secondary" style="padding: 0.55rem 1rem; font-size: 0.82rem; font-weight: 700;">
+
+          <button id="btn-sync-stock-folder" class="btn btn-amber" style="padding: 0.55rem 1.25rem; font-size: 0.85rem; font-weight: 850; border-radius: 10px; box-shadow: 0 4px 14px rgba(245,158,11,0.25);">
             🔄 Refresh
           </button>
         </div>
       </div>
 
-      <!-- 6 Telemetry KPI Cards Strip (Matching Image Reference 1) -->
-      <div class="ref-kpi-strip" style="grid-template-columns: repeat(6, 1fr);">
-        <div class="ref-kpi-card" style="border-top: 3px solid #29d391;">
-          <div class="ref-kpi-title">TOTAL INVENTORY VALUE</div>
-          <div id="kpi-stock-valuation" class="ref-kpi-value" style="color: #29d391;">₹169.60 Cr</div>
-          <div id="kpi-stock-valuation-sub" class="ref-kpi-subtext" style="color: #29d391;">↑ 2.4% vs last week</div>
+      <div id="inventory-sync-status" class="upload-status-box" style="display: none; margin-bottom: 1.25rem;"></div>
+
+      <!-- 4 CORE SCORECARDS ONLY (Original Restored: Total Value, SKUs, Physical Stock, DoD Shift) -->
+      <div class="ref-kpi-strip" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
+        <div class="ref-kpi-card" style="border-top: 3px solid #29d391; background: linear-gradient(145deg, rgba(41,211,145,0.08), var(--surface));">
+          <div class="ref-kpi-title" style="color: #29d391; font-weight: 850; font-size: 0.78rem;">💰 TOTAL INVENTORY VALUE</div>
+          <div id="kpi-stock-valuation" class="ref-kpi-value" style="color: #29d391; font-size: 1.9rem; font-weight: 900;">₹171.17 Cr</div>
+          <div id="kpi-stock-valuation-sub" class="ref-kpi-subtext" style="color: #29d391; font-weight: 700;">↑ 2.4% vs last week</div>
         </div>
 
-        <div class="ref-kpi-card" style="border-top: 3px solid #38d7ff;">
-          <div class="ref-kpi-title">ACTIVE SKUs</div>
-          <div id="kpi-stock-skus" class="ref-kpi-value">473,209</div>
-          <div class="ref-kpi-subtext"><span style="color: #38d7ff;">↑ 92.4%</span> active</div>
+        <div class="ref-kpi-card" style="border-top: 3px solid #38d7ff; background: linear-gradient(145deg, rgba(56,215,255,0.08), var(--surface));">
+          <div class="ref-kpi-title" style="color: #38d7ff; font-weight: 850; font-size: 0.78rem;">📦 TOTAL ACTIVE SKUs</div>
+          <div id="kpi-stock-skus" class="ref-kpi-value" style="color: #ffffff; font-size: 1.9rem; font-weight: 900;">473,209</div>
+          <div class="ref-kpi-subtext"><span style="color: #38d7ff; font-weight: 700;">100% Active</span> Catalogued SKUs</div>
         </div>
 
-        <div class="ref-kpi-card" style="border-top: 3px solid #5ca9ff;">
-          <div class="ref-kpi-title">PHYSICAL STOCK</div>
-          <div id="kpi-stock-qty" class="ref-kpi-value">5.56M Units</div>
-          <div class="ref-kpi-subtext">Across network</div>
+        <div class="ref-kpi-card" style="border-top: 3px solid #5ca9ff; background: linear-gradient(145deg, rgba(92,169,255,0.08), var(--surface));">
+          <div class="ref-kpi-title" style="color: #5ca9ff; font-weight: 850; font-size: 0.78rem;">📊 TOTAL PHYSICAL QUANTITY</div>
+          <div id="kpi-stock-qty" class="ref-kpi-value" style="color: #ffffff; font-size: 1.9rem; font-weight: 900;">5,561,604 Units</div>
+          <div class="ref-kpi-subtext" style="color: #94a3b8;">Across warehouse network</div>
         </div>
 
-        <div class="ref-kpi-card" style="border-top: 3px solid #29d391;">
-          <div class="ref-kpi-title">STOCK HEALTH</div>
-          <div class="ref-kpi-value" style="color: #29d391;">91.8%</div>
-          <div class="ref-kpi-subtext">Healthy</div>
-        </div>
-
-        <div class="ref-kpi-card" style="border-top: 3px solid #ffb84d;">
-          <div class="ref-kpi-title">SLOW MOVING</div>
-          <div class="ref-kpi-value" style="color: #ffb84d;">18,420 SKUs</div>
-          <div class="ref-kpi-subtext">Review holding</div>
-        </div>
-
-        <div class="ref-kpi-card" style="border-top: 3px solid #ff3b30;">
-          <div class="ref-kpi-title">OUT OF STOCK</div>
-          <div class="ref-kpi-value" style="color: #ff3b30;">2,147 SKUs</div>
-          <div class="ref-kpi-subtext">Action required</div>
+        <div class="ref-kpi-card" style="border-top: 3px solid #ffb84d; background: linear-gradient(145deg, rgba(255,184,77,0.08), var(--surface));">
+          <div class="ref-kpi-title" style="color: #ffb84d; font-weight: 850; font-size: 0.78rem;">📈 DOD NET VALUE SHIFT</div>
+          <div id="kpi-dod-val-net" class="ref-kpi-value" style="color: #29d391; font-size: 1.9rem; font-weight: 900;">+₹2.45 Cr</div>
+          <div class="ref-kpi-subtext" style="color: #94a3b8;">vs previous day stock valuation</div>
         </div>
       </div>
 
-      <!-- MIDDLE SECTION GRID (Valuation Trend, Inventory Health Donut, Category-wise Holding) -->
-      <div style="display: grid; grid-template-columns: 1.4fr 1fr 1.1fr; gap: 1rem; margin-bottom: 1.5rem;">
+      <!-- MIDDLE SECTION GRID (Valuation Trend Line Chart & Category Holding Summary) -->
+      <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
         
-        <!-- Card 1: Valuation Trend Chart -->
+        <!-- Card 1: Valuation Trend Chart with Daily, Weekly, Monthly Functional Toggles -->
         <div class="card" style="padding: 1.25rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
             <div>
-              <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif;">Inventory Valuation Trend</div>
-              <div style="font-size: 0.75rem; color: #94a3b8;">Daily, Weekly & Monthly holding trajectory</div>
+              <div style="font-size: 1.05rem; font-weight: 900; color: #fff; font-family: 'Outfit', sans-serif;">📈 Inventory Valuation Trend</div>
+              <div style="font-size: 0.78rem; color: #94a3b8;">Daily, Weekly & Monthly holding trajectory across historical snapshots</div>
             </div>
-            <div style="display: flex; gap: 0.35rem; background: rgba(255,255,255,0.06); padding: 0.2rem; border-radius: 8px;">
-              <button class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">Daily</button>
-              <button class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.72rem;">Weekly</button>
-              <button class="btn btn-amber" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; font-weight: 800;">Monthly</button>
+
+            <!-- Interactive Granularity Toggle Buttons -->
+            <div style="display: flex; gap: 0.35rem; background: rgba(15, 23, 42, 0.7); padding: 0.25rem; border-radius: 9px; border: 1px solid rgba(255,255,255,0.12);">
+              <button id="btn-trend-daily" class="btn btn-secondary trend-toggle-btn" onclick="InventoryPortal.setTrendGranularity('daily')" style="padding: 0.25rem 0.65rem; font-size: 0.75rem; font-weight: 700;">Daily</button>
+              <button id="btn-trend-weekly" class="btn btn-secondary trend-toggle-btn" onclick="InventoryPortal.setTrendGranularity('weekly')" style="padding: 0.25rem 0.65rem; font-size: 0.75rem; font-weight: 700;">Weekly</button>
+              <button id="btn-trend-monthly" class="btn btn-amber trend-toggle-btn active" onclick="InventoryPortal.setTrendGranularity('monthly')" style="padding: 0.25rem 0.65rem; font-size: 0.75rem; font-weight: 850;">Monthly</button>
             </div>
           </div>
-          <div style="height: 200px; position: relative;">
+
+          <div style="height: 220px; position: relative;">
             <canvas id="chart-inventory-valuation-trend"></canvas>
           </div>
         </div>
 
-        <!-- Card 2: Inventory Health Donut Chart -->
-        <div class="card" style="padding: 1.25rem; text-align: center;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.85rem; text-align: left;">Inventory Health</div>
-          <div style="height: 140px; position: relative; display: flex; justify-content: center; align-items: center;">
-            <canvas id="chart-inventory-health-donut"></canvas>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.85rem; font-size: 0.78rem; text-align: left;">
-            <div><span style="color: #29d391;">●</span> Healthy: <strong>72%</strong></div>
-            <div><span style="color: #ffb84d;">●</span> Attention: <strong>18%</strong></div>
-            <div><span style="color: #ff3b30;">●</span> Critical: <strong>7%</strong></div>
-            <div><span style="color: #94a3b8;">●</span> Dead Stock: <strong>3%</strong></div>
-          </div>
-        </div>
-
-        <!-- Card 3: Category-wise Inventory Holding -->
+        <!-- Card 2: Category-wise Inventory Holding Progress -->
         <div class="card" style="padding: 1.25rem;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 1rem;">Category-wise Inventory Holding</div>
+          <div style="font-size: 1.05rem; font-weight: 900; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 1rem;">🏷️ Holding Summary</div>
           
-          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+          <div id="holding-summary-list" style="display: flex; flex-direction: column; gap: 0.7rem;">
             <div>
-              <div class="ref-progress-row">
-                <span style="font-size: 0.8rem; font-weight: 700;">Mechanical Parts</span>
-                <span style="font-size: 0.8rem; font-weight: 800; color: #38bdf8;">39% | ₹65.7 Cr</span>
+              <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-size: 0.82rem; font-weight: 850; color: #38bdf8;">OEM</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #38bdf8;" id="summary-val-oem">34.2% | ₹58.5 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 39%; background: #38bdf8;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-oem" class="ref-progress-bar-fill" style="width: 34.2%; background: #38bdf8; height: 100%; border-radius: 3px;"></div></div>
             </div>
 
             <div>
-              <div class="ref-progress-row">
-                <span style="font-size: 0.8rem; font-weight: 700;">Body Parts</span>
-                <span style="font-size: 0.8rem; font-weight: 800; color: #5ca9ff;">25% | ₹42.4 Cr</span>
+              <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-size: 0.82rem; font-weight: 850; color: #5ca9ff;">PRIMARY</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #5ca9ff;" id="summary-val-primary">28.4% | ₹48.6 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 25%; background: #5ca9ff;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-primary" class="ref-progress-bar-fill" style="width: 28.4%; background: #5ca9ff; height: 100%; border-radius: 3px;"></div></div>
             </div>
 
             <div>
-              <div class="ref-progress-row">
-                <span style="font-size: 0.8rem; font-weight: 700;">Lubes</span>
-                <span style="font-size: 0.8rem; font-weight: 800; color: #29d391;">24% | ₹40.7 Cr</span>
+              <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-size: 0.82rem; font-weight: 850; color: #29d391;">SECONDARY</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #29d391;" id="summary-val-secondary">19.1% | ₹32.7 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 24%; background: #29d391;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-secondary" class="ref-progress-bar-fill" style="width: 19.1%; background: #29d391; height: 100%; border-radius: 3px;"></div></div>
             </div>
 
             <div>
-              <div class="ref-progress-row">
-                <span style="font-size: 0.8rem; font-weight: 700;">Electrical Parts</span>
-                <span style="font-size: 0.8rem; font-weight: 800; color: #a78bfa;">9% | ₹15.3 Cr</span>
+              <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-size: 0.82rem; font-weight: 850; color: #a78bfa;">PL</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #a78bfa;" id="summary-val-pl">11.5% | ₹19.7 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 9%; background: #a78bfa;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-pl" class="ref-progress-bar-fill" style="width: 11.5%; background: #a78bfa; height: 100%; border-radius: 3px;"></div></div>
             </div>
 
             <div>
-              <div class="ref-progress-row">
-                <span style="font-size: 0.8rem; font-weight: 700;">Accessories</span>
-                <span style="font-size: 0.8rem; font-weight: 800; color: #ffb84d;">3% | ₹5.1 Cr</span>
+              <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-size: 0.82rem; font-weight: 850; color: #ffb84d;">CASTROL</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #ffb84d;" id="summary-val-castrol">5.2% | ₹8.9 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 3%; background: #ffb84d;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-castrol" class="ref-progress-bar-fill" style="width: 5.2%; background: #ffb84d; height: 100%; border-radius: 3px;"></div></div>
+            </div>
+
+            <div>
+              <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="font-size: 0.82rem; font-weight: 850; color: #94a3b8;">UNCATEGORISED</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #94a3b8;" id="summary-val-uncat">1.6% | ₹2.7 Cr</span>
+              </div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-uncat" class="ref-progress-bar-fill" style="width: 1.6%; background: #94a3b8; height: 100%; border-radius: 3px;"></div></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- CATEGORY-WISE VALUATION HOLDING BREAKDOWN -->
+      <!-- CATEGORY-WISE VALUATION HOLDING BREAKDOWN (ORDER STRICTLY: OEM, PRIMARY, SECONDARY, PL, CASTROL, UNCATEGORISED) -->
       <div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-          <div style="font-size: 1.05rem; font-weight: 800; color: var(--accent-amber);">🏷️ Category-wise Inventory Valuation Holding Breakdown</div>
-          <span class="badge badge-info">Category Valuations</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #ffb84d; font-family: 'Outfit', sans-serif;">🏷️ Category-wise Inventory Valuation Holding Breakdown</div>
+            <div style="font-size: 0.78rem; color: #94a3b8;">Ordered strictly: OEM, PRIMARY, SECONDARY, PL, CASTROL, UNCATEGORISED with appropriate visual images.</div>
+          </div>
+          <span class="badge badge-amber" style="font-weight: 850;">6 Official Stock Categories</span>
         </div>
-        <div id="category-valuation-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem;">
-          <!-- Dynamically populated via inventory-portal.js -->
+
+        <div id="category-valuation-cards-grid" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem;">
+          <!-- Dynamically populated in strict order: OEM, PRIMARY, SECONDARY, PL, CASTROL, UNCATEGORISED via inventory-portal.js -->
         </div>
       </div>
 
       <!-- DAY-OVER-DAY & WEEK-OVER-WEEK CATEGORY VARIANCE TABLES -->
-      <div class="charts-grid inventory-variance-grid" style="margin-bottom: 1.5rem;">
+      <div class="charts-grid inventory-variance-grid" style="grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
         <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
-            <div style="font-size: 0.95rem; font-weight: 800; color: var(--accent-amber);">📆 Day-over-Day (DoD) Category Value Difference</div>
-            <span class="badge badge-info" id="dod-date-badge">DoD Variance</span>
+            <div style="font-size: 1rem; font-weight: 850; color: #ffb84d;">📆 Day-over-Day (DoD) Category Value Difference</div>
+            <span class="badge badge-amber" id="dod-date-badge">DoD Variance</span>
           </div>
           <div class="table-wrapper variance-table-wrapper">
             <table class="data-table variance-data-table">
@@ -708,8 +692,8 @@
 
         <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
-            <div style="font-size: 0.95rem; font-weight: 800; color: var(--accent-blue);">📈 Week-over-Week (WoW) Category Value Difference</div>
-            <span class="badge badge-high" id="wow-date-badge">WoW Variance</span>
+            <div style="font-size: 1rem; font-weight: 850; color: #38bdf8;">📈 Week-over-Week (WoW) Category Value Difference</div>
+            <span class="badge badge-info" id="wow-date-badge">WoW Variance</span>
           </div>
           <div class="table-wrapper variance-table-wrapper">
             <table class="data-table variance-data-table">
@@ -734,19 +718,19 @@
       <div class="card">
         <div class="card-header" style="flex-wrap: wrap; gap: 0.85rem; align-items: center;">
           <div>
-            <div style="font-size: 1rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <div style="font-size: 1.05rem; font-weight: 900; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; color: #ffffff;">
               <span>🔍 Part Number Master Search & Inspection Grid</span>
-              <span class="badge badge-amber" style="font-size: 0.78rem; font-weight: 800;" id="search-grid-date-badge">Stock Date: 14-Sep-2026</span>
+              <span class="badge badge-amber" style="font-size: 0.78rem; font-weight: 850;" id="search-grid-date-badge">Stock Date: 10-Sep-2026</span>
             </div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 0.15rem;">
               Showing records strictly for the selected date. Excludes STATUS, GRN, LOCATION, GRN/AGE DATE, GOOD/DAMAGE, CARS columns.
             </div>
           </div>
 
           <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-left: auto;">
             <div style="display: flex; align-items: center; gap: 0.35rem;">
-              <label style="font-size: 0.8rem; font-weight: 700; color: var(--accent-amber);">FILTER:</label>
-              <select id="inventory-tag-select" class="search-input" style="width: 160px; padding: 0.4rem 0.65rem; font-size: 0.82rem;">
+              <label style="font-size: 0.8rem; font-weight: 850; color: #ffb84d;">FILTER:</label>
+              <select id="inventory-tag-select" class="search-input" style="width: 160px; padding: 0.4rem 0.65rem; font-size: 0.82rem; font-weight: 700;">
                 <option value="CONSIDER" selected>CONSIDER Only</option>
                 <option value="NOT CONSIDER">NOT CONSIDER Only</option>
                 <option value="ALL">All Records</option>
@@ -758,21 +742,21 @@
         </div>
 
         <div class="table-wrapper inventory-table-wrapper" style="margin-top: 0.75rem; overflow-x: auto; width: 100%;">
-          <table class="data-table inventory-data-table" style="min-width: 1300px; width: 100%;">
+          <table class="data-table inventory-data-table" style="min-width: 1400px; width: 100%;">
             <thead>
               <tr>
-                <th>Part Number</th>
-                <th>Description</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Line Code</th>
-                <th>Branch</th>
-                <th>Branch Name</th>
-                <th>Stock Qty</th>
-                <th>Unit Cost (₹)</th>
-                <th>MRP (₹)</th>
-                <th>Value (₹)</th>
-                <th>Age Days</th>
+                <th style="width: 140px;">Part Number</th>
+                <th style="width: 260px;">Description</th>
+                <th style="width: 110px;">Brand</th>
+                <th style="width: 130px;">Category</th>
+                <th style="width: 100px;">Line Code</th>
+                <th style="width: 90px;">Branch</th>
+                <th style="width: 120px;">Branch Name</th>
+                <th style="width: 90px; text-align: right;">Stock Qty</th>
+                <th style="width: 100px; text-align: right;">Unit Cost (₹)</th>
+                <th style="width: 100px; text-align: right;">MRP (₹)</th>
+                <th style="width: 120px; text-align: right;">Valuation (₹)</th>
+                <th style="width: 80px; text-align: right;">Age</th>
               </tr>
             </thead>
             <tbody id="inventory-table-body">
@@ -784,25 +768,25 @@
     </section>
 
 
-    <!-- ==================== TAB 3: SALES DASHBOARD (RF vs CF) ==================== -->
+        <!-- ==================== TAB 3: SALES DASHBOARD (RF vs CF) ==================== -->
     <section id="tab-analytics" class="tab-pane">
       
-      <!-- Sales Scenic Hero Banner (Matching Image Reference 2) -->
-      <div class="page-hero-scenic sales-hero-scenic">
+      <!-- Sales Scenic Hero Banner -->
+      <div class="page-hero-scenic sales-hero-scenic" style="position: relative; overflow: hidden; border-radius: 18px; margin-bottom: 1.5rem; border: 1px solid rgba(56, 189, 248, 0.25);">
         <img src="home_menu_sales.jpg" onerror="this.onerror=null;this.src='images/home_menu_sales.jpg'" alt="Sales Intelligence" class="page-hero-bg-img">
         <div class="page-hero-overlay"></div>
         
-        <div class="page-hero-left">
-          <div class="page-hero-kicker"><span>📊</span> SALES INTELLIGENCE</div>
-          <h1 class="page-hero-headline">Sales Intelligence</h1>
-          <p class="page-hero-lead">Understand what sold, where it sold, why it changed and what drives growth.</p>
+        <div class="page-hero-left" style="position: relative; z-index: 2; padding: 2.25rem;">
+          <div class="page-hero-kicker" style="font-size: 0.8rem; font-weight: 850; color: #38bdf8; letter-spacing: 0.15em;"><span>📊</span> SALES INTELLIGENCE DASHBOARD</div>
+          <h1 class="page-hero-headline" style="font-size: 2.2rem; font-weight: 900; color: #ffffff; margin: 0.35rem 0;">Sales Intelligence & Performance Analytics</h1>
+          <p class="page-hero-lead" style="color: #cbd5e1; max-width: 650px; font-size: 0.92rem;">Understand what sold, where it sold, why it changed and what drives franchisee growth.</p>
         </div>
 
-        <div class="page-hero-right">
+        <div class="page-hero-right" style="position: relative; z-index: 2; padding: 2.25rem; display: flex; gap: 0.85rem; align-items: center; justify-content: flex-end; flex-wrap: wrap;">
           <!-- Month Dropdown Selector -->
-          <div style="display: flex; align-items: center; gap: 0.45rem; background: rgba(15, 23, 42, 0.7); padding: 0.35rem 0.75rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15);">
-            <label style="font-size: 0.78rem; font-weight: 800; color: #ffb84d;">📅 Month:</label>
-            <select id="sales-month-select" class="search-input" style="width: 170px; padding: 0.3rem 0.6rem; font-size: 0.82rem; font-weight: 800; color: #ffb84d; border: none; background: transparent;">
+          <div style="display: flex; align-items: center; gap: 0.45rem; background: rgba(15, 23, 42, 0.85); padding: 0.4rem 0.85rem; border-radius: 10px; border: 1.5px solid rgba(245, 158, 11, 0.4);">
+            <label style="font-size: 0.82rem; font-weight: 850; color: #ffb84d; font-family: 'Outfit', sans-serif;">📅 Month:</label>
+            <select id="sales-month-select" class="search-input" style="width: 170px; padding: 0.3rem 0.6rem; font-size: 0.85rem; font-weight: 850; color: #ffb84d; border: none; background: transparent; cursor: pointer;">
               <option value="AUG" selected>August 2026 (AUG)</option>
               <option value="JUL">July 2026 (JUL)</option>
               <option value="JUN">June 2026 (JUN)</option>
@@ -816,48 +800,44 @@
           </div>
 
           <!-- Channel Filter Tabs (ALL, RF, CF) -->
-          <div style="display: flex; gap: 0.35rem; background: rgba(15, 23, 42, 0.7); padding: 0.3rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15);">
-            <button class="btn btn-secondary channel-filter-btn" data-channel="ALL" style="padding: 0.35rem 0.85rem; font-size: 0.78rem;">ALL</button>
-            <button class="btn btn-amber channel-filter-btn active" data-channel="RF" style="padding: 0.35rem 0.85rem; font-size: 0.78rem; font-weight: 800;">RF</button>
-            <button class="btn btn-secondary channel-filter-btn" data-channel="CF" style="padding: 0.35rem 0.85rem; font-size: 0.78rem;">CF</button>
+          <div style="display: flex; gap: 0.35rem; background: rgba(15, 23, 42, 0.85); padding: 0.3rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15);">
+            <button class="btn btn-secondary channel-filter-btn" data-channel="ALL" style="padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 800;">ALL</button>
+            <button class="btn btn-amber channel-filter-btn active" data-channel="RF" style="padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 850;">RF</button>
+            <button class="btn btn-secondary channel-filter-btn" data-channel="CF" style="padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 800;">CF</button>
           </div>
-
-          <button class="btn btn-secondary" onclick="alert('Exporting Sales Intelligence PDF/Excel report...');" style="padding: 0.55rem 1rem; font-size: 0.82rem; font-weight: 700;">
-            📤 Export Report
-          </button>
         </div>
       </div>
 
       <!-- Dedicated Franchisee Monthly Sales Upload Area -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
         
         <!-- RF Sales Upload Card -->
-        <div class="card" style="border: 1.5px solid rgba(245, 158, 11, 0.35);">
+        <div class="card" style="border: 1.5px solid rgba(245, 158, 11, 0.35); background: linear-gradient(145deg, rgba(245,158,11,0.06), var(--surface));">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-            <span style="font-size: 0.95rem; font-weight: 800; color: var(--accent-amber);">🏬 Retail Franchisee (RF) Monthly Sales Upload</span>
-            <span class="badge badge-amber">RF Channel</span>
+            <span style="font-size: 0.95rem; font-weight: 850; color: #ffb84d; font-family: 'Outfit', sans-serif;">🏬 Retail Franchisee (RF) Monthly Sales Upload</span>
+            <span class="badge badge-amber" style="font-weight: 850;">RF Channel</span>
           </div>
-          <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.75rem;">
             Upload month-wise Retail Franchisee sales report (.xlsx, .xlsb, .csv).
           </p>
           <input type="file" id="rf-sales-input" accept=".xlsx, .csv, .xlsb, .xls" style="display: none;">
-          <button class="btn btn-amber" onclick="document.getElementById('rf-sales-input').click()" style="width: 100%; font-weight: 800; padding: 0.6rem;">
+          <button class="btn btn-amber" onclick="document.getElementById('rf-sales-input').click()" style="width: 100%; font-weight: 850; padding: 0.65rem; border-radius: 10px;">
             📁 Upload RF Monthly Sales Excel Report
           </button>
           <div id="rf-upload-status" class="upload-status-box" style="display: none;"></div>
         </div>
 
         <!-- CF Sales Upload Card -->
-        <div class="card" style="border: 1.5px solid rgba(59, 130, 246, 0.35);">
+        <div class="card" style="border: 1.5px solid rgba(59, 130, 246, 0.35); background: linear-gradient(145deg, rgba(59,130,246,0.06), var(--surface));">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-            <span style="font-size: 0.95rem; font-weight: 800; color: var(--accent-blue);">🏢 Corporate Franchisee (CF) Monthly Sales Upload</span>
-            <span class="badge badge-blue">CF Channel</span>
+            <span style="font-size: 0.95rem; font-weight: 850; color: #38bdf8; font-family: 'Outfit', sans-serif;">🏢 Corporate Franchisee (CF) Monthly Sales Upload</span>
+            <span class="badge badge-blue" style="font-weight: 850;">CF Channel</span>
           </div>
-          <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.75rem;">
             Upload month-wise Corporate Franchisee sales report (.xlsx, .xlsb, .csv).
           </p>
           <input type="file" id="cf-sales-input" accept=".xlsx, .csv, .xlsb, .xls" style="display: none;">
-          <button class="btn btn-primary" onclick="document.getElementById('cf-sales-input').click()" style="width: 100%; font-weight: 800; padding: 0.6rem;">
+          <button class="btn btn-primary" onclick="document.getElementById('cf-sales-input').click()" style="width: 100%; font-weight: 850; padding: 0.65rem; border-radius: 10px;">
             📁 Upload CF Monthly Sales Excel Report
           </button>
           <div id="cf-upload-status" class="upload-status-box" style="display: none;"></div>
@@ -867,117 +847,132 @@
 
       <!-- Placeholder Card when CF selected and no CF file loaded -->
       <div id="cf-empty-notice" style="display: none; margin-bottom: 1.5rem;">
-        <div class="card" style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.3); text-align: center; padding: 2rem;">
-          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏢</div>
-          <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-red);">Corporate Franchisee (CF) Sales Data Not Uploaded</div>
-          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <div class="card" style="background: rgba(239, 68, 68, 0.08); border: 1.5px solid rgba(239, 68, 68, 0.35); text-align: center; padding: 2rem; border-radius: 16px;">
+          <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🏢</div>
+          <div style="font-size: 1.15rem; font-weight: 900; color: #ff3b30;">Corporate Franchisee (CF) Sales Data Not Uploaded</div>
+          <div style="font-size: 0.85rem; color: #cbd5e1; margin-top: 0.35rem; max-width: 600px; margin-left: auto; margin-right: auto;">
             You have selected the Corporate Franchisee (CF) channel view. Upload your CF Sales Excel report above to display Corporate Franchisee sales dashboards.
           </div>
         </div>
       </div>
 
       <!-- 4 CORE METRIC TELEMETRY CARDS -->
-      <div id="sales-kpi-container" class="nexa-portals-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
+      <div id="sales-kpi-container" class="nexa-portals-grid" style="grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 1.5rem;">
         <!-- Card 1: Total Sales Revenue -->
-        <div class="card card-amber-tint">
-          <div class="card-title" style="color: var(--accent-amber); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">💰 TOTAL SALES REVENUE</div>
-          <div id="kpi-total-revenue" class="card-value" style="color: var(--accent-amber); font-size: 1.85rem; font-weight: 900; margin: 0.3rem 0;">₹70.61 Cr</div>
-          <div id="kpi-mom-shift" class="card-subtext" style="color: var(--accent-emerald); font-weight: 700;">+6.8% MoM Shift vs JUL</div>
+        <div class="card" style="border-top: 3px solid #ffb84d; background: linear-gradient(145deg, rgba(255,184,77,0.08), var(--surface));">
+          <div class="card-title" style="color: #ffb84d; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">💰 TOTAL SALES REVENUE</div>
+          <div id="kpi-total-revenue" class="card-value" style="color: #ffb84d; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">₹70.61 Cr</div>
+          <div id="kpi-mom-shift" class="card-subtext" style="color: #29d391; font-weight: 800;">+6.8% MoM Shift vs JUL</div>
         </div>
 
         <!-- Card 2: Gross Profit Margin -->
-        <div class="card card-emerald-tint">
-          <div class="card-title" style="color: var(--accent-emerald); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">📈 GROSS PROFIT MARGIN</div>
-          <div id="kpi-total-margin" class="card-value" style="color: var(--accent-emerald); font-size: 1.85rem; font-weight: 900; margin: 0.3rem 0;">₹4.43 Cr</div>
-          <div id="kpi-margin-rate" class="card-subtext" style="color: var(--text-muted); font-weight: 700;">6.27% Gross Margin Rate</div>
+        <div class="card" style="border-top: 3px solid #29d391; background: linear-gradient(145deg, rgba(41,211,145,0.08), var(--surface));">
+          <div class="card-title" style="color: #29d391; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">📈 GROSS PROFIT MARGIN</div>
+          <div id="kpi-total-margin" class="card-value" style="color: #29d391; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">₹4.43 Cr</div>
+          <div id="kpi-margin-rate" class="card-subtext" style="color: #cbd5e1; font-weight: 700;">6.27% Gross Margin Rate</div>
         </div>
 
         <!-- Card 3: MHMT Vehicle Make Share -->
-        <div class="card card-blue-tint">
-          <div class="card-title" style="color: var(--accent-blue); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">🚗 MHMT VEHICLE MAKE SHARE</div>
-          <div id="kpi-mhmt-rev" class="card-value" style="color: var(--accent-blue); font-size: 1.85rem; font-weight: 900; margin: 0.3rem 0;">₹3.45 Cr</div>
-          <div id="kpi-mhmt-subtext" class="card-subtext" style="color: var(--text-muted); font-weight: 700;">65.70% Share (Maruti, Hyundai, Mahindra, Tata)</div>
+        <div class="card" style="border-top: 3px solid #38d7ff; background: linear-gradient(145deg, rgba(56,215,255,0.08), var(--surface));">
+          <div class="card-title" style="color: #38d7ff; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">🚗 MHMT VEHICLE MAKE SHARE</div>
+          <div id="kpi-mhmt-rev" class="card-value" style="color: #38d7ff; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">₹3.45 Cr</div>
+          <div id="kpi-mhmt-subtext" class="card-subtext" style="color: #cbd5e1; font-weight: 700;">65.70% Share (Maruti, Hyundai, Mahindra, Tata)</div>
         </div>
 
         <!-- Card 4: Invoice Line Volume -->
-        <div class="card">
-          <div class="card-title">Total Invoice Lines</div>
-          <div id="kpi-invoice-volume" class="card-value" style="font-size: 1.6rem;">26,807</div>
-          <div id="kpi-units-volume" class="card-subtext">840,412 Physical Units Sold</div>
+        <div class="card" style="border-top: 3px solid #a78bfa; background: linear-gradient(145deg, rgba(167,139,250,0.08), var(--surface));">
+          <div class="card-title" style="color: #a78bfa; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">📄 TOTAL INVOICE LINES</div>
+          <div id="kpi-invoice-volume" class="card-value" style="color: #ffffff; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">26,807</div>
+          <div id="kpi-units-volume" class="card-subtext" style="color: #cbd5e1; font-weight: 700;">840,412 Physical Units Sold</div>
         </div>
       </div>
 
-      <!-- 5 OFFICIAL MASTER CATEGORIES REVENUE VALUE & SHARE CARDS -->
-      <div id="category-cards-wrapper" class="card card-purple-tint" style="margin-bottom: 1.5rem; padding: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <!-- 5 OFFICIAL MASTER CATEGORIES REVENUE VALUE & SHARE CARDS (WITH HIGH CONTRAST VISIBLE HEADING & IMAGES) -->
+      <div id="category-cards-wrapper" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; background: linear-gradient(145deg, rgba(167,139,250,0.08), var(--surface)); border: 1.5px solid rgba(167,139,250,0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
           <div>
-            <div style="font-size: 1.05rem; font-weight: 900; color: var(--accent-purple); font-family: 'Outfit', sans-serif;">📦 5 Official Master Categories Revenue & Values Breakdown</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">Exact Sales Value (in ₹ Crores) & Percentage Share across all 5 official Aggregate Master categories.</div>
+            <div style="font-size: 1.2rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; letter-spacing: -0.01em;">📦 5 Official Master Categories Revenue & Values Breakdown</div>
+            <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 0.2rem;">Exact Sales Value (in ₹ Crores) & Percentage Share across all 5 official Aggregate Master categories.</div>
           </div>
-          <span class="badge badge-purple" style="font-size: 0.75rem;">Master Taxonomy Values</span>
+          <span class="badge badge-purple" style="font-size: 0.8rem; font-weight: 850; padding: 0.4rem 0.8rem;">Master Taxonomy Values</span>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem;">
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.1rem;">
           <!-- Category 1: Mechanical Parts -->
-          <div class="card card-purple-tint" style="padding: 1rem;">
-            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-purple); text-transform: uppercase;">🛠️ MECHANICAL PARTS</div>
-            <div id="cat-val-mech" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-purple); margin: 0.25rem 0;">₹27.81 Cr</div>
-            <div id="cat-pct-mech" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">39.39% Sales Share</div>
-            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
-              <div id="cat-bar-mech" style="background: var(--accent-purple); height: 100%; width: 39.39%;"></div>
+          <div class="card" style="padding: 1.1rem; background: linear-gradient(135deg, rgba(167,139,250,0.15), rgba(15,23,42,0.95)); border: 1.5px solid rgba(167,139,250,0.4); border-radius: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <span style="font-size: 0.8rem; font-weight: 900; color: #a78bfa; text-transform: uppercase;">🛠️ MECHANICAL</span>
+              <span class="badge" style="background: rgba(167,139,250,0.2); color: #a78bfa; font-weight: 850;">39.4%</span>
+            </div>
+            <div id="cat-val-mech" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0;">₹27.81 Cr</div>
+            <div id="cat-pct-mech" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">39.39% Sales Share</div>
+            <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-bar-mech" style="background: #a78bfa; height: 100%; width: 39.39%;"></div>
             </div>
           </div>
 
           <!-- Category 2: Body Parts -->
-          <div class="card card-blue-tint" style="padding: 1rem;">
-            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-blue); text-transform: uppercase;">🚗 BODY PARTS</div>
-            <div id="cat-val-body" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-blue); margin: 0.25rem 0;">₹17.87 Cr</div>
-            <div id="cat-pct-body" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">25.30% Sales Share</div>
-            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
-              <div id="cat-bar-body" style="background: var(--accent-blue); height: 100%; width: 25.3%;"></div>
+          <div class="card" style="padding: 1.1rem; background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(15,23,42,0.95)); border: 1.5px solid rgba(56,189,248,0.4); border-radius: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <span style="font-size: 0.8rem; font-weight: 900; color: #38bdf8; text-transform: uppercase;">🚗 BODY PARTS</span>
+              <span class="badge" style="background: rgba(56,189,248,0.2); color: #38bdf8; font-weight: 850;">25.3%</span>
+            </div>
+            <div id="cat-val-body" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0;">₹17.87 Cr</div>
+            <div id="cat-pct-body" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">25.30% Sales Share</div>
+            <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-bar-body" style="background: #38bdf8; height: 100%; width: 25.3%;"></div>
             </div>
           </div>
 
           <!-- Category 3: Lubes -->
-          <div class="card card-emerald-tint" style="padding: 1rem;">
-            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-emerald); text-transform: uppercase;">🛢️ LUBES</div>
-            <div id="cat-val-lubes" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-emerald); margin: 0.25rem 0;">₹16.78 Cr</div>
-            <div id="cat-pct-lubes" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">23.77% Sales Share</div>
-            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
-              <div id="cat-bar-lubes" style="background: var(--accent-emerald); height: 100%; width: 23.77%;"></div>
+          <div class="card" style="padding: 1.1rem; background: linear-gradient(135deg, rgba(41,211,145,0.15), rgba(15,23,42,0.95)); border: 1.5px solid rgba(41,211,145,0.4); border-radius: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <span style="font-size: 0.8rem; font-weight: 900; color: #29d391; text-transform: uppercase;">🛢️ LUBES</span>
+              <span class="badge" style="background: rgba(41,211,145,0.2); color: #29d391; font-weight: 850;">23.8%</span>
+            </div>
+            <div id="cat-val-lubes" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0;">₹16.78 Cr</div>
+            <div id="cat-pct-lubes" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">23.77% Sales Share</div>
+            <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-bar-lubes" style="background: #29d391; height: 100%; width: 23.77%;"></div>
             </div>
           </div>
 
           <!-- Category 4: Electrical Parts -->
-          <div class="card card-amber-tint" style="padding: 1rem;">
-            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-amber); text-transform: uppercase;">⚡ ELECTRICAL PARTS</div>
-            <div id="cat-val-elec" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-amber); margin: 0.25rem 0;">₹6.45 Cr</div>
-            <div id="cat-pct-elec" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">9.14% Sales Share</div>
-            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
-              <div id="cat-bar-elec" style="background: var(--accent-amber); height: 100%; width: 9.14%;"></div>
+          <div class="card" style="padding: 1.1rem; background: linear-gradient(135deg, rgba(255,184,77,0.15), rgba(15,23,42,0.95)); border: 1.5px solid rgba(255,184,77,0.4); border-radius: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <span style="font-size: 0.8rem; font-weight: 900; color: #ffb84d; text-transform: uppercase;">⚡ ELECTRICAL</span>
+              <span class="badge" style="background: rgba(255,184,77,0.2); color: #ffb84d; font-weight: 850;">9.1%</span>
+            </div>
+            <div id="cat-val-elec" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0;">₹6.45 Cr</div>
+            <div id="cat-pct-elec" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">9.14% Sales Share</div>
+            <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-bar-elec" style="background: #ffb84d; height: 100%; width: 9.14%;"></div>
             </div>
           </div>
 
           <!-- Category 5: Accessories -->
-          <div class="card card-red-tint" style="padding: 1rem;">
-            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-red); text-transform: uppercase;">🔧 ACCESSORIES</div>
-            <div id="cat-val-acc" style="font-size: 1.35rem; font-weight: 900; color: var(--accent-red); margin: 0.25rem 0;">₹1.69 Cr</div>
-            <div id="cat-pct-acc" style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted);">2.40% Sales Share</div>
-            <div style="background: rgba(148,163,184,0.2); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
-              <div id="cat-bar-acc" style="background: var(--accent-red); height: 100%; width: 2.4%;"></div>
+          <div class="card" style="padding: 1.1rem; background: linear-gradient(135deg, rgba(255,59,48,0.15), rgba(15,23,42,0.95)); border: 1.5px solid rgba(255,59,48,0.4); border-radius: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <span style="font-size: 0.8rem; font-weight: 900; color: #ff3b30; text-transform: uppercase;">🔧 ACCESSORIES</span>
+              <span class="badge" style="background: rgba(255,59,48,0.2); color: #ff3b30; font-weight: 850;">2.4%</span>
+            </div>
+            <div id="cat-val-acc" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0;">₹1.69 Cr</div>
+            <div id="cat-pct-acc" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">2.40% Sales Share</div>
+            <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-bar-acc" style="background: #ff3b30; height: 100%; width: 2.4%;"></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- CHART 1 (FULL WIDTH): Month-over-Month (MoM) Sales Revenue & Gross Margin Trajectory -->
-      <div id="mom-chart-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+      <!-- CHART 1 (FULL WIDTH): Month-over-Month (MoM) Sales Revenue & Gross Margin Trajectory (FIXED HIGH CONTRAST FONTS) -->
+      <div id="mom-chart-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
           <div>
-            <div style="font-size: 1.05rem; font-weight: 800; color: var(--accent-amber);">📈 Month-over-Month (MoM) Sales Revenue & Gross Margin Trajectory (Jan - Aug 2026)</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">Tracks monthly revenue growth rates and gross profit margins.</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #ffb84d; font-family: 'Outfit', sans-serif;">📈 Month-over-Month (MoM) Sales Revenue & Gross Margin Trajectory (Jan - Aug 2026)</div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.15rem;">Tracks monthly revenue growth rates and gross profit margins.</div>
           </div>
-          <span class="badge badge-amber">MoM Growth Trend</span>
+          <span class="badge badge-amber" style="font-weight: 850;">MoM Growth Trend</span>
         </div>
         <div style="height: 280px; position: relative;">
           <canvas id="chart-mom-trend"></canvas>
@@ -985,117 +980,105 @@
       </div>
 
       <!-- CHARTS GRID 2 COLUMNS: Vehicle Make Share (MHMT vs Others) & 5 Categories Distribution -->
-      <div id="charts-grid-2col" class="charts-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+      <div id="charts-grid-2col" class="charts-grid" style="grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
         
         <!-- Chart 2: Vehicle Make Revenue Share (MHMT vs Others) -->
-        <div class="chart-card">
-          <div class="chart-header">
+        <div class="chart-card" style="padding: 1.35rem;">
+          <div class="chart-header" style="margin-bottom: 0.85rem;">
             <div>
-              <div class="chart-title">🚗 Vehicle Make Share (MHMT vs OTHERS)</div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">Maruti, Hyundai, Mahindra, Tata (MHMT) vs Remaining OEM Makes.</div>
+              <div class="chart-title" style="font-size: 1.05rem; font-weight: 900; color: #ffffff;">🚗 Vehicle Make Share (MHMT vs OTHERS)</div>
+              <div style="font-size: 0.78rem; color: #cbd5e1;">Maruti, Hyundai, Mahindra, Tata (MHMT) vs Remaining OEM Makes.</div>
             </div>
-            <span class="badge badge-blue">Make Analysis</span>
+            <span class="badge badge-blue" style="font-weight: 850;">Make Analysis</span>
           </div>
-          <div class="chart-container"><canvas id="chart-make-distribution"></canvas></div>
+          <div class="chart-container" style="min-height: 260px; position: relative;"><canvas id="chart-make-distribution"></canvas></div>
         </div>
 
         <!-- Chart 3: 5 Official Master Categories Revenue Share -->
-        <div class="chart-card">
-          <div class="chart-header">
+        <div class="chart-card" style="padding: 1.35rem;">
+          <div class="chart-header" style="margin-bottom: 0.85rem;">
             <div>
-              <div class="chart-title">📦 5 Master Categories Revenue Share Chart</div>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">Mechanical Parts, Body Parts, Lubes, Electrical Parts & Accessories.</div>
+              <div class="chart-title" style="font-size: 1.05rem; font-weight: 900; color: #ffffff;">📦 5 Master Categories Revenue Share Chart</div>
+              <div style="font-size: 0.78rem; color: #cbd5e1;">Mechanical Parts, Body Parts, Lubes, Electrical Parts & Accessories.</div>
             </div>
-            <span class="badge badge-high">Master Taxonomy</span>
+            <span class="badge badge-purple" style="font-weight: 850;">Master Taxonomy</span>
           </div>
-          <div class="chart-container"><canvas id="chart-category-holding"></canvas></div>
+          <div class="chart-container" style="min-height: 260px; position: relative;"><canvas id="chart-category-holding"></canvas></div>
         </div>
       </div>
 
-      <!-- REGION-WISE SALES PERFORMANCE MATRIX TABLE -->
-      <div id="region-matrix-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+      <!-- REGION-WISE SALES PERFORMANCE MATRIX (REDESIGNED IN VISUAL MAP DASHBOARD FORM) -->
+      <div id="region-matrix-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; border: 1.5px solid rgba(41, 211, 145, 0.35); background: linear-gradient(145deg, rgba(41,211,145,0.06), var(--surface));">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
           <div>
-            <div style="font-size: 1.05rem; font-weight: 800; color: var(--accent-emerald);">MAP Region-Wise Sales Performance Matrix</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">Region-wise sales revenue, gross margin (₹ Lakhs), margin rate (%), and territory share.</div>
+            <div style="font-size: 1.15rem; font-weight: 900; color: #29d391; font-family: 'Outfit', sans-serif;">🗺️ India Region-Wise Sales Performance Matrix</div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.15rem;">Interactive territorial sales distribution, revenue share %, margin rate %, and order line density across India regions.</div>
           </div>
-          <span class="badge badge-emerald">Territory Matrix</span>
+          <span class="badge badge-emerald" style="font-size: 0.8rem; font-weight: 850;">4 Strategic Sales Regions</span>
         </div>
-        <div class="table-wrapper">
-          <table class="data-table" style="font-size: 0.85rem;">
-            <thead>
-              <tr>
-                <th>Region</th>
-                <th>Invoice Lines</th>
-                <th>Sales Revenue (₹)</th>
-                <th>Revenue Share (%)</th>
-                <th>Gross Margin (₹)</th>
-                <th>Margin Rate (%)</th>
-              </tr>
-            </thead>
-            <tbody id="region-matrix-body">
-              <!-- Populated via analytics-portal.js -->
-            </tbody>
-          </table>
+
+        <!-- Visual Map Cards Dashboard Grid -->
+        <div id="region-map-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; margin-bottom: 1rem;">
+          <!-- Dynamically populated via analytics-portal.js with visual Region Map Cards -->
         </div>
       </div>
 
-      <!-- SEGMENT: VEHICLE MAKE ANALYSIS (MHMT vs OTHERS) -->
-      <div id="make-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem; border: 1.5px solid rgba(59, 130, 246, 0.35);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+      <!-- SEGMENT: VEHICLE MAKE ANALYSIS (MHMT vs OTHERS) WITH BRAND LOGOS -->
+      <div id="make-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; border: 1.5px solid rgba(59, 130, 246, 0.35); background: linear-gradient(145deg, rgba(59,130,246,0.06), var(--surface));">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
           <div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: var(--accent-blue); font-family: 'Outfit', sans-serif;">🚗 Corporate Franchisee (CF) Vehicle Make Analysis (MHMT vs OTHERS)</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">
-              Revenue & Share Breakdown for Maruti, Hyundai, Mahindra, and Tata (MHMT) vs Remaining OEM Makes.
+            <div style="font-size: 1.15rem; font-weight: 900; color: #38bdf8; font-family: 'Outfit', sans-serif;">🚗 Corporate Franchisee (CF) Vehicle Make Analysis (MHMT vs OTHERS)</div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.15rem;">
+              Revenue & Share Breakdown for Maruti, Hyundai, Mahindra, and Tata (MHMT) vs Remaining OEM Makes with official brand badges.
             </div>
           </div>
-          <div style="display: flex; gap: 1rem; align-items: center;">
-            <span id="mhmt-total-badge" class="badge badge-blue" style="font-size: 0.82rem; font-weight: 800;">MHMT Sales: ₹0.00 Cr</span>
-            <span id="others-total-badge" class="badge badge-purple" style="font-size: 0.82rem; font-weight: 800;">OTHERS: ₹0.00 Cr</span>
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <span id="mhmt-total-badge" class="badge badge-blue" style="font-size: 0.82rem; font-weight: 850;">MHMT Sales: ₹0.00 Cr</span>
+            <span id="others-total-badge" class="badge badge-purple" style="font-size: 0.82rem; font-weight: 850;">OTHERS: ₹0.00 Cr</span>
           </div>
         </div>
 
         <!-- Make Items Cards Grid -->
-        <div id="make-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem;">
+        <div id="make-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.1rem;">
           <!-- Dynamically populated via analytics-portal.js -->
         </div>
       </div>
 
       <!-- SEGMENT 1: PMS SALES DASHBOARD -->
-      <div id="pms-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem; border: 1.5px solid rgba(245, 158, 11, 0.35);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+      <div id="pms-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; border: 1.5px solid rgba(245, 158, 11, 0.35); background: linear-gradient(145deg, rgba(245,158,11,0.06), var(--surface));">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
           <div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: var(--accent-amber); font-family: 'Outfit', sans-serif;">🛠️ Periodic Maintenance Service (PMS) Sales Intelligence</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">
+            <div style="font-size: 1.15rem; font-weight: 900; color: #ffb84d; font-family: 'Outfit', sans-serif;">🛠️ Periodic Maintenance Service (PMS) Sales Intelligence</div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.15rem;">
               Fast-moving consumable maintenance drivers: Engine Oil, Brake Pads & Discs, Clutch Disc & Cover, Filters, Coolant & Spark Plugs.
             </div>
           </div>
-          <div style="display: flex; gap: 1rem; align-items: center;">
-            <span id="pms-total-badge" class="badge badge-amber" style="font-size: 0.82rem; font-weight: 800;">PMS Sales: ₹0.00 Cr</span>
-            <span id="pms-share-badge" class="badge badge-purple" style="font-size: 0.82rem; font-weight: 800;">0% of Total Revenue</span>
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <span id="pms-total-badge" class="badge badge-amber" style="font-size: 0.82rem; font-weight: 850;">PMS Sales: ₹0.00 Cr</span>
+            <span id="pms-share-badge" class="badge badge-purple" style="font-size: 0.82rem; font-weight: 850;">0% of Total Revenue</span>
           </div>
         </div>
 
         <!-- PMS Items Cards Grid -->
-        <div id="pms-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem;">
+        <div id="pms-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.1rem;">
           <!-- Dynamically populated via analytics-portal.js -->
         </div>
       </div>
 
       <!-- SEGMENT 2: MOST COMMON MECHANICAL AGGREGATES BREAKDOWN -->
-      <div id="mech-aggregates-container" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem; border: 1.5px solid rgba(139, 92, 246, 0.35);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+      <div id="mech-aggregates-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; border: 1.5px solid rgba(167, 139, 250, 0.35); background: linear-gradient(145deg, rgba(167,139,250,0.06), var(--surface));">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
           <div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: var(--accent-purple); font-family: 'Outfit', sans-serif;">⚙️ Most Common Mechanical Aggregates Performance</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">
+            <div style="font-size: 1.15rem; font-weight: 900; color: #a78bfa; font-family: 'Outfit', sans-serif;">⚙️ Most Common Mechanical Aggregates Performance</div>
+            <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.15rem;">
               Revenue & Unit Breakdown across the 6 major mechanical systems: Brake System, Clutch System, Filters, Suspension, Steering & Lighting.
             </div>
           </div>
-          <span class="badge badge-purple" style="font-size: 0.82rem; font-weight: 800;">6 Mechanical Core Systems</span>
+          <span class="badge badge-purple" style="font-size: 0.82rem; font-weight: 850;">6 Mechanical Core Systems</span>
         </div>
 
         <!-- Mechanical Aggregates Cards Grid -->
-        <div id="mech-aggregates-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        <div id="mech-aggregates-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.1rem;">
           <!-- Dynamically populated via analytics-portal.js -->
         </div>
       </div>
@@ -1436,6 +1419,6 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- App Core JS Modules -->
-  <script src="nexa-app.js?v=5.0.0"></script>
+  <script src="nexa-app.js?v=6.0.0"></script>
 </body>
 </html>

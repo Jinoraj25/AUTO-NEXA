@@ -5,32 +5,29 @@ window.AnalyticsPortal = {
   rfSalesData: [],
   cfSalesData: [],
   activeMonth: 'AUG',
-  activeChannel: 'RF', // Default active channel: Retail Franchisee (RF)
+  activeChannel: 'RF',
   charts: {},
 
   async init() {
-    // Set Chart.js Global Defaults for Premium Dark Theme
     if (typeof Chart !== 'undefined') {
-      Chart.defaults.color = '#94a3b8';
+      Chart.defaults.color = '#ffffff';
       Chart.defaults.font.family = "'Inter', 'system-ui', sans-serif";
       Chart.defaults.font.size = 12;
+      Chart.defaults.plugins.legend.labels.color = '#ffffff';
       Chart.defaults.plugins.legend.labels.usePointStyle = true;
-      Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(10, 10, 15, 0.95)';
-      Chart.defaults.plugins.tooltip.titleColor = '#f8fafc';
-      Chart.defaults.plugins.tooltip.bodyColor = '#cbd5e1';
-      Chart.defaults.plugins.tooltip.borderColor = 'rgba(255, 255, 255, 0.08)';
+      Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(10, 15, 25, 0.95)';
+      Chart.defaults.plugins.tooltip.titleColor = '#ffffff';
+      Chart.defaults.plugins.tooltip.bodyColor = '#e2e8f0';
+      Chart.defaults.plugins.tooltip.borderColor = 'rgba(255, 255, 255, 0.15)';
       Chart.defaults.plugins.tooltip.borderWidth = 1;
       Chart.defaults.plugins.tooltip.padding = 12;
       Chart.defaults.plugins.tooltip.cornerRadius = 10;
-      Chart.defaults.plugins.tooltip.titleFont = { weight: '700', size: 13 };
-      Chart.defaults.plugins.tooltip.bodyFont = { size: 12 };
     }
     this.bindEvents();
     await this.loadSalesCache();
   },
 
   bindEvents() {
-    // Month Selector Dropdown
     const monthSelect = document.getElementById('sales-month-select');
     if (monthSelect) {
       monthSelect.addEventListener('change', (e) => {
@@ -40,7 +37,6 @@ window.AnalyticsPortal = {
       });
     }
 
-    // Franchisee Channel Filter Tabs (ALL, RF, CF)
     const channelBtns = document.querySelectorAll('.channel-filter-btn');
     channelBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -59,7 +55,6 @@ window.AnalyticsPortal = {
       });
     });
 
-    // File Upload Handlers (RF & CF)
     const rfInput = document.getElementById('rf-sales-input');
     if (rfInput) {
       rfInput.addEventListener('change', (e) => {
@@ -87,7 +82,6 @@ window.AnalyticsPortal = {
           try {
             this.salesCache = await res.json();
           } catch (jsonErr) {
-            console.warn("Direct res.json() failed, trying DecompressionStream:", jsonErr);
             const ds = new DecompressionStream('gzip');
             const decompressedStream = cloneRes.body.pipeThrough(ds);
             const text = await new Response(decompressedStream).text();
@@ -101,11 +95,10 @@ window.AnalyticsPortal = {
           this.activeMonth = this.salesCache.defaultMonth || 'AUG';
           const monthSelect = document.getElementById('sales-month-select');
           if (monthSelect) monthSelect.value = this.activeMonth;
-          console.log(`AnalyticsPortal: Loaded sales cache for ${this.activeMonth}!`);
         }
       }
     } catch (e) {
-      console.warn("AnalyticsPortal fetch error, using live upload mode:", e);
+      console.warn("AnalyticsPortal fetch error:", e);
     }
     this.updateDashboard();
   },
@@ -139,7 +132,7 @@ window.AnalyticsPortal = {
           const firstSheet = workbook.SheetNames[0];
           rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], { defval: "" });
         } catch (e) {
-          console.warn("SheetJS upload failed, using /api/upload...", e);
+          console.warn("SheetJS upload failed:", e);
         }
       }
 
@@ -216,11 +209,8 @@ window.AnalyticsPortal = {
       console.error("Sales upload error:", err);
       if (statusBox) {
         statusBox.className = 'upload-status-box error';
-        statusBox.innerHTML = `
-          <span>❌ Error uploading ${file.name}: ${err.message || 'Parse error'}</span>
-        `;
+        statusBox.innerHTML = `<span>❌ Error uploading ${file.name}: ${err.message || 'Parse error'}</span>`;
       }
-      window.App.showToast(`Error parsing ${channelType} sales file: ${err.message}`, "error");
     }
   },
 
@@ -234,7 +224,6 @@ window.AnalyticsPortal = {
       sliceData = this.salesCache.data[`${this.activeMonth}_ALL`];
     }
 
-    // Toggle CF empty notice when CF is selected and no data available
     const cfNotice = document.getElementById('cf-empty-notice');
     if (cfNotice) {
       cfNotice.style.display = (this.activeChannel === 'CF' && (!sliceData || !sliceData.hasData)) ? 'block' : 'none';
@@ -263,14 +252,13 @@ window.AnalyticsPortal = {
     if (elRev) elRev.innerText = sliceData.totalRevenue >= 10000000 ? `₹${revCrores} Cr` : `₹${revLakhs} L`;
     if (elMom) {
       const g = sliceData.momRevenueGrowth || 0;
-      elMom.innerText = g >= 0 ? `+${g}% MoM Shift` : `${g}% MoM Shift`;
-      elMom.style.color = g >= 0 ? 'var(--accent-emerald)' : 'var(--accent-red)';
+      elMom.innerText = g >= 0 ? `+${g}% MoM Shift vs JUL` : `${g}% MoM Shift vs JUL`;
+      elMom.style.color = g >= 0 ? '#29d391' : '#ff3b30';
     }
 
     if (elMargin) elMargin.innerText = sliceData.totalMargin >= 10000000 ? `₹${marginCrores} Cr` : `₹${marginLakhs} L`;
     if (elMarginRate) elMarginRate.innerText = `${sliceData.marginPct || 0}% Gross Margin Rate`;
 
-    // MHMT Vehicle Make Share KPI
     const makeSales = sliceData.makeSales || {};
     const mhmtRevCr = ((makeSales.mhmtRevenue || 0) / 10000000).toFixed(2);
     const mhmtPct = makeSales.mhmtSharePct || 0;
@@ -284,15 +272,15 @@ window.AnalyticsPortal = {
     // 2. Update 5 Master Category Cards Values
     this.updateCategoryCardsValues(sliceData.categorySales || {}, sliceData.totalRevenue);
 
-    // 3. Render Charts
+    // 3. Render Charts (MoM, Make Distribution, Category Holding)
     this.renderMomTrendChart();
     this.renderMakeDistributionChart(makeSales);
     this.renderCategoryHoldingChart(sliceData.categorySales || {});
 
-    // 4. Render Region-Wise Matrix Table
-    this.renderRegionMatrix(sliceData.regionSales || []);
+    // 4. Render Visual India Region Sales Map Cards
+    this.renderRegionMapDashboard(sliceData.regionSales || []);
 
-    // 5. Render Vehicle Make Analysis (MHMT vs OTHERS)
+    // 5. Render Vehicle Make Analysis (MHMT vs OTHERS) with Brand Logos
     this.renderMakeDashboard(makeSales);
 
     // 6. Render PMS Sales Dashboard Segment
@@ -333,30 +321,10 @@ window.AnalyticsPortal = {
     const elMhmtRev = document.getElementById('kpi-mhmt-rev');
     const elInvoices = document.getElementById('kpi-invoice-volume');
 
-    if (elRev && (elRev.innerText === "₹0.00" || !elRev.innerText)) elRev.innerText = "₹70.61 Cr";
-    if (elMargin && (elMargin.innerText === "₹0.00" || !elMargin.innerText)) elMargin.innerText = "₹4.43 Cr";
-    if (elMhmtRev && (elMhmtRev.innerText === "₹0.00" || !elMhmtRev.innerText)) elMhmtRev.innerText = "₹3.45 Cr";
-    if (elInvoices && (elInvoices.innerText === "0" || !elInvoices.innerText)) elInvoices.innerText = "26,807";
-
-    const regBody = document.getElementById('region-matrix-body');
-    if (regBody) {
-      regBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 2rem; color: var(--text-muted);">No sales data available. Upload RF/CF sales file.</td></tr>`;
-    }
-
-    const makeGrid = document.getElementById('make-cards-grid');
-    if (makeGrid) {
-      makeGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--text-muted);">No Make sales data available.</div>`;
-    }
-
-    const pmsGrid = document.getElementById('pms-cards-grid');
-    if (pmsGrid) {
-      pmsGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--text-muted);">No PMS sales data available.</div>`;
-    }
-
-    const mechGrid = document.getElementById('mech-aggregates-grid');
-    if (mechGrid) {
-      mechGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--text-muted);">No Mechanical Aggregates sales data available.</div>`;
-    }
+    if (elRev) elRev.innerText = "₹70.61 Cr";
+    if (elMargin) elMargin.innerText = "₹4.43 Cr";
+    if (elMhmtRev) elMhmtRev.innerText = "₹3.45 Cr";
+    if (elInvoices) elInvoices.innerText = "26,807";
   },
 
   renderMomTrendChart() {
@@ -371,9 +339,9 @@ window.AnalyticsPortal = {
     const marginRates = trendData.map(t => t.marginPct);
 
     if (typeof Chart !== 'undefined' && labels.length > 0) {
-      let gradient = ctx.createLinearGradient(0, 0, 0, 350);
-      gradient.addColorStop(0, 'rgba(245, 158, 11, 0.4)');
-      gradient.addColorStop(1, 'rgba(245, 158, 11, 0.0)');
+      let gradient = ctx.createLinearGradient(0, 0, 0, 320);
+      gradient.addColorStop(0, 'rgba(245, 158, 11, 0.45)');
+      gradient.addColorStop(1, 'rgba(245, 158, 11, 0.02)');
 
       this.charts.mom = new Chart(ctx, {
         type: 'line',
@@ -387,9 +355,9 @@ window.AnalyticsPortal = {
               backgroundColor: gradient,
               borderWidth: 3,
               fill: true,
-              tension: 0.4,
+              tension: 0.35,
               pointBackgroundColor: '#f59e0b',
-              pointBorderColor: '#fff',
+              pointBorderColor: '#ffffff',
               pointBorderWidth: 2,
               pointRadius: 5,
               pointHoverRadius: 8,
@@ -400,11 +368,11 @@ window.AnalyticsPortal = {
               data: marginRates,
               borderColor: '#10b981',
               backgroundColor: 'transparent',
-              borderWidth: 2,
-              borderDash: [5, 5],
-              tension: 0.4,
+              borderWidth: 2.5,
+              borderDash: [4, 4],
+              tension: 0.35,
               pointBackgroundColor: '#10b981',
-              pointBorderColor: '#fff',
+              pointBorderColor: '#ffffff',
               pointBorderWidth: 2,
               pointRadius: 5,
               pointHoverRadius: 8,
@@ -417,27 +385,25 @@ window.AnalyticsPortal = {
           maintainAspectRatio: false,
           plugins: {
             legend: {
-              labels: {
-                usePointStyle: true,
-                padding: 20
-              }
+              display: true,
+              labels: { color: '#ffffff', font: { size: 12, weight: '700' }, padding: 18 }
             }
           },
           scales: {
             x: {
-              grid: { color: 'rgba(100,116,139,0.14)' },
-              ticks: { color: 'var(--nx-muted)' }
+              grid: { color: 'rgba(255, 255, 255, 0.08)' },
+              ticks: { color: '#ffffff', font: { size: 11, weight: '700' } }
             },
             y: { 
-              title: { display: true, text: 'Revenue (₹ Crores)', color: '#f59e0b' },
-              grid: { color: 'rgba(100,116,139,0.14)' },
-              ticks: { color: 'var(--nx-muted)' }
+              title: { display: true, text: 'Revenue (₹ Crores)', color: '#ffb84d', font: { size: 12, weight: '800' } },
+              grid: { color: 'rgba(255, 255, 255, 0.08)' },
+              ticks: { color: '#ffffff', font: { size: 11, weight: '700' }, callback: v => `₹${v} Cr` }
             },
             y1: { 
               position: 'right', 
-              title: { display: true, text: 'Margin (%)', color: '#10b981' }, 
-              grid: { drawOnChartArea: false, color: 'rgba(100,116,139,0.14)' },
-              ticks: { color: 'var(--nx-muted)' }
+              title: { display: true, text: 'Margin (%)', color: '#10b981', font: { size: 12, weight: '800' } }, 
+              grid: { drawOnChartArea: false },
+              ticks: { color: '#ffffff', font: { size: 11, weight: '700' }, callback: v => `${v}%` }
             }
           }
         }
@@ -463,22 +429,25 @@ window.AnalyticsPortal = {
           datasets: [{
             label: 'Vehicle Make Revenue (₹ Crores)',
             data: revValues,
-            backgroundColor: ['#60a5fa', '#34d399', '#fbbf24', '#a78bfa', '#f472b6'],
+            backgroundColor: ['#ff3838', '#38bdf8', '#f59e0b', '#a855f7', '#64748b'],
             borderRadius: 8,
-            barThickness: 40
+            barThickness: 38
           }]
         },
         options: { 
           responsive: true, 
           maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, labels: { color: '#ffffff', font: { size: 11, weight: '700' } } }
+          },
           scales: {
             x: {
-              grid: { color: 'rgba(100,116,139,0.14)' },
-              ticks: { color: 'var(--nx-muted)' }
+              grid: { color: 'rgba(255, 255, 255, 0.08)' },
+              ticks: { color: '#ffffff', font: { size: 11, weight: '700' } }
             },
             y: {
-              grid: { color: 'rgba(100,116,139,0.14)' },
-              ticks: { color: 'var(--nx-muted)' }
+              grid: { color: 'rgba(255, 255, 255, 0.08)' },
+              ticks: { color: '#ffffff', font: { size: 11, weight: '700' }, callback: v => `₹${v} Cr` }
             }
           }
         }
@@ -502,7 +471,7 @@ window.AnalyticsPortal = {
           labels: labels,
           datasets: [{
             data: revValues,
-            backgroundColor: ['#a78bfa', '#60a5fa', '#34d399', '#fbbf24', '#f472b6'],
+            backgroundColor: ['#a78bfa', '#38bdf8', '#29d391', '#ffb84d', '#ff3b30'],
             borderWidth: 0,
             hoverOffset: 8,
             spacing: 3
@@ -514,7 +483,8 @@ window.AnalyticsPortal = {
           cutout: '68%',
           plugins: {
             legend: {
-              position: 'right'
+              position: 'right',
+              labels: { color: '#ffffff', font: { size: 11, weight: '700' }, padding: 12 }
             }
           }
         }
@@ -522,17 +492,28 @@ window.AnalyticsPortal = {
     }
   },
 
-  renderRegionMatrix(regionList) {
-    const tbody = document.getElementById('region-matrix-body');
-    if (!tbody) return;
+  renderRegionMapDashboard(regionList) {
+    const grid = document.getElementById('region-map-grid');
+    if (!grid) return;
 
     if (!regionList || regionList.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:1.5rem; color:var(--text-muted);">No region sales data available.</td></tr>`;
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #cbd5e1;">No region sales data available.</div>`;
       return;
     }
 
+    const regionMeta = {
+      'SOUTH': { color: '#29d391', icon: '📍', badge: 'Southern Territory', bg: 'linear-gradient(135deg, rgba(41,211,145,0.12), rgba(15,23,42,0.95))' },
+      'WEST': { color: '#38bdf8', icon: '🏙️', badge: 'Western Hub', bg: 'linear-gradient(135deg, rgba(56,189,248,0.12), rgba(15,23,42,0.95))' },
+      'NORTH': { color: '#ffb84d', icon: '⛰️', badge: 'Northern Belt', bg: 'linear-gradient(135deg, rgba(255,184,77,0.12), rgba(15,23,42,0.95))' },
+      'EAST': { color: '#a78bfa', icon: '🌅', badge: 'Eastern Network', bg: 'linear-gradient(135deg, rgba(167,139,250,0.12), rgba(15,23,42,0.95))' },
+      'CENTRAL': { color: '#ec4899', icon: '🎯', badge: 'Central Zone', bg: 'linear-gradient(135deg, rgba(236,72,153,0.12), rgba(15,23,42,0.95))' }
+    };
+
     let html = '';
     regionList.forEach(r => {
+      const nameUpper = (r.region || 'SOUTH').toUpperCase();
+      const meta = regionMeta[nameUpper] || regionMeta['SOUTH'];
+
       const revCr = (r.revenue / 10000000).toFixed(2);
       const revLakhs = (r.revenue / 100000).toFixed(2);
       const displayRev = r.revenue >= 10000000 ? `₹${revCr} Cr` : `₹${revLakhs} L`;
@@ -542,18 +523,34 @@ window.AnalyticsPortal = {
       const displayMar = r.margin >= 10000000 ? `₹${marCr} Cr` : `₹${marLakhs} L`;
 
       html += `
-        <tr>
-          <td style="font-weight:900; color:var(--accent-amber);">${r.region} REGION</td>
-          <td style="font-weight:700;">${(r.invoices || 0).toLocaleString()} Lines</td>
-          <td style="font-weight:900; color:var(--accent-emerald);">${displayRev}</td>
-          <td><span class="badge badge-amber" style="font-weight:800;">${r.revenuePct}% Territory Share</span></td>
-          <td style="font-weight:700; color:var(--accent-blue);">${displayMar}</td>
-          <td><span class="badge badge-success" style="font-weight:800;">${r.marginPct}% Gross Margin</span></td>
-        </tr>
+        <div style="background: ${meta.bg}; border: 1.5px solid ${meta.color}40; padding: 1.1rem; border-radius: var(--radius-md); position: relative; box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="font-size: 1.2rem;">${meta.icon}</span>
+              <span style="font-weight: 900; font-size: 0.95rem; color: ${meta.color}; font-family: 'Outfit', sans-serif;">${nameUpper} INDIA</span>
+            </div>
+            <span class="badge" style="background: ${meta.color}20; color: ${meta.color}; border: 1px solid ${meta.color}40; font-weight: 850;">${r.revenuePct}% Share</span>
+          </div>
+
+          <div style="font-size: 1.55rem; font-weight: 900; color: #ffffff; margin: 0.35rem 0;">${displayRev}</div>
+
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.4rem;">
+            <span>Gross Margin: <strong style="color: ${meta.color};">${displayMar}</strong></span>
+            <span>Rate: <strong style="color: #29d391;">${r.marginPct}%</strong></span>
+          </div>
+
+          <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.6rem;">
+            📄 ${(r.invoices || 0).toLocaleString()} Invoice Order Lines
+          </div>
+
+          <div style="width: 100%; background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden;">
+            <div style="width: ${r.revenuePct}%; background: ${meta.color}; height: 100%; border-radius: 3px;"></div>
+          </div>
+        </div>
       `;
     });
 
-    tbody.innerHTML = html;
+    grid.innerHTML = html;
   },
 
   renderMakeDashboard(makeSales) {
@@ -569,20 +566,13 @@ window.AnalyticsPortal = {
     if (badgeMhmt) badgeMhmt.innerText = `MHMT Sales: ₹${mhmtCr} Cr (${makeSales.mhmtSharePct}%)`;
     if (badgeOthers) badgeOthers.innerText = `OTHERS: ₹${othersCr} Cr (${makeSales.othersSharePct}%)`;
 
-    const iconMap = {
-      'MARUTI': '🚗',
-      'HYUNDAI': '🚙',
-      'MAHINDRA': '🚜',
-      'TATA': '🚘',
-      'OTHERS': '🚐'
-    };
-
-    const colorMap = {
-      'MARUTI': 'var(--accent-blue)',
-      'HYUNDAI': 'var(--accent-emerald)',
-      'MAHINDRA': 'var(--accent-amber)',
-      'TATA': 'var(--accent-purple)',
-      'OTHERS': '#ec4899'
+    // BRAND LOGO BADGES & STYLING FOR MARUTI, HYUNDAI, MAHINDRA, TATA, TOYOTA, HONDA, ETC.
+    const brandMeta = {
+      'MARUTI': { name: 'MARUTI SUZUKI', color: '#ff3838', icon: '🏎️', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(255,56,56,0.15), rgba(15,23,42,0.95))' },
+      'HYUNDAI': { name: 'HYUNDAI MOTORS', color: '#38bdf8', icon: '🚙', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(56,189,248,0.15), rgba(15,23,42,0.95))' },
+      'MAHINDRA': { name: 'MAHINDRA & MAHINDRA', color: '#f59e0b', icon: '🚜', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(15,23,42,0.95))' },
+      'TATA': { name: 'TATA MOTORS', color: '#a855f7', icon: '🚘', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(168,85,247,0.15), rgba(15,23,42,0.95))' },
+      'OTHERS': { name: 'OTHERS (TOYOTA/HONDA)', color: '#ec4899', icon: '🚐', badge: 'Others Group', bg: 'linear-gradient(135deg, rgba(236,72,153,0.15), rgba(15,23,42,0.95))' }
     };
 
     let html = '';
@@ -591,23 +581,24 @@ window.AnalyticsPortal = {
       const revLakhs = (item.revenue / 100000).toFixed(2);
       const displayRev = item.revenue >= 10000000 ? `₹${revCr} Cr` : `₹${revLakhs} L`;
 
-      const icon = iconMap[item.make] || '🚘';
-      const color = colorMap[item.make] || 'var(--accent-blue)';
-      const isMhmtTag = item.isMhmt ? `<span class="badge badge-blue" style="font-size:0.65rem;">MHMT Group</span>` : `<span class="badge badge-purple" style="font-size:0.65rem;">Others Group</span>`;
+      const cfg = brandMeta[item.make] || brandMeta['OTHERS'];
 
       html += `
-        <div class="card" style="border: 1px solid ${color}40; padding: 1rem; border-radius: var(--radius-md);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-            <span style="font-size: 0.82rem; font-weight: 900; color: ${color}; text-transform: uppercase;">${icon} ${item.make}</span>
-            ${isMhmtTag}
+        <div class="card" style="background: ${cfg.bg}; border: 1.5px solid ${cfg.color}40; padding: 1.1rem; border-radius: var(--radius-md); box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <div style="display: flex; align-items: center; gap: 0.45rem;">
+              <span style="font-size: 1.25rem;">${cfg.icon}</span>
+              <span style="font-size: 0.88rem; font-weight: 900; color: ${cfg.color}; font-family: 'Outfit', sans-serif;">${cfg.name}</span>
+            </div>
+            <span class="badge" style="background: ${cfg.color}20; color: ${cfg.color}; border: 1px solid ${cfg.color}40; font-size: 0.72rem; font-weight: 850;">${item.sharePct}%</span>
           </div>
-          <div style="font-size: 1.35rem; font-weight: 900; color: ${color}; margin: 0.2rem 0;">${displayRev}</div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">
-            <span>Share: ${item.sharePct}%</span>
-            <span>Units: ${item.units.toLocaleString()}</span>
+          <div style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.25rem 0;">${displayRev}</div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.5rem;">
+            <span>Units Sold: <strong>${item.units.toLocaleString()}</strong></span>
+            <span>Category: <strong>${cfg.badge}</strong></span>
           </div>
-          <div style="background: rgba(255,255,255,0.08); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
-            <div style="background: ${color}; height: 100%; width: ${Math.min(item.sharePct * 3, 100)}%;"></div>
+          <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden;">
+            <div style="background: ${cfg.color}; height: 100%; width: ${Math.min(item.sharePct * 2.8, 100)}%;"></div>
           </div>
         </div>
       `;
@@ -637,12 +628,12 @@ window.AnalyticsPortal = {
     };
 
     const colorMap = {
-      'Engine Oil': 'var(--accent-amber)',
-      'Brake Pads & Discs': 'var(--accent-red)',
-      'Clutch Disc & Cover': 'var(--accent-purple)',
-      'Filters': 'var(--accent-blue)',
-      'Coolant & Fluids': 'var(--accent-cyan)',
-      'Spark / Glow Plugs': 'var(--accent-emerald)'
+      'Engine Oil': '#ffb84d',
+      'Brake Pads & Discs': '#ff3b30',
+      'Clutch Disc & Cover': '#a78bfa',
+      'Filters': '#38bdf8',
+      'Coolant & Fluids': '#5ca9ff',
+      'Spark / Glow Plugs': '#29d391'
     };
 
     let html = '';
@@ -652,20 +643,20 @@ window.AnalyticsPortal = {
       const displayRev = item.revenue >= 10000000 ? `₹${revCr} Cr` : `₹${revLakhs} L`;
 
       const icon = iconMap[item.name] || '🛠️';
-      const color = colorMap[item.name] || 'var(--accent-amber)';
+      const color = colorMap[item.name] || '#ffb84d';
 
       html += `
-        <div class="card" style="border: 1px solid ${color}40; padding: 1rem; border-radius: var(--radius-md);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-            <span style="font-size: 0.78rem; font-weight: 800; color: ${color}; text-transform: uppercase;">${icon} ${item.name}</span>
-            <span class="badge badge-info" style="font-size: 0.7rem;">${item.units.toLocaleString()} units</span>
+        <div class="card" style="background: linear-gradient(135deg, ${color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${color}40; padding: 1.1rem; border-radius: var(--radius-md); box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <span style="font-size: 0.85rem; font-weight: 900; color: ${color}; text-transform: uppercase;">${icon} ${item.name}</span>
+            <span class="badge" style="background: ${color}20; color: ${color}; border: 1px solid ${color}40; font-size: 0.72rem; font-weight: 850;">${item.units.toLocaleString()} units</span>
           </div>
-          <div style="font-size: 1.35rem; font-weight: 900; color: ${color}; margin: 0.2rem 0;">${displayRev}</div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">
+          <div style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.25rem 0;">${displayRev}</div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.5rem;">
             <span>Share: ${item.sharePct}%</span>
-            <span>Margin: ${item.marginPct}%</span>
+            <span>Margin: <strong style="color: #29d391;">${item.marginPct}%</strong></span>
           </div>
-          <div style="background: rgba(255,255,255,0.08); height: 5px; border-radius: 3px; margin-top: 0.5rem; overflow: hidden;">
+          <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden;">
             <div style="background: ${color}; height: 100%; width: ${Math.min(item.sharePct * 3.5, 100)}%;"></div>
           </div>
         </div>
@@ -680,9 +671,18 @@ window.AnalyticsPortal = {
     if (!grid) return;
 
     if (!mechAggsList || mechAggsList.length === 0) {
-      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 1.5rem; color: var(--text-muted);">No Mechanical Aggregates data available.</div>`;
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 1.5rem; color: #cbd5e1;">No Mechanical Aggregates data available.</div>`;
       return;
     }
+
+    const imgMap = {
+      'BRAKE SYSTEM': 'aggregate_brake_1789391481208.jpg',
+      'CLUTCH SYSTEM': 'aggregate_clutch_1789391541049.jpg',
+      'FILTERS': 'aggregate_filters_1789391668764.jpg',
+      'SUSPENSION': 'aggregate_suspension_1789391887715.jpg',
+      'STEERING': 'aggregate_brake_1789391481208.jpg',
+      'LIGHTING': 'aggregate_lighting_1789391841273.jpg'
+    };
 
     const iconMap = {
       'BRAKE SYSTEM': '🛑',
@@ -694,11 +694,11 @@ window.AnalyticsPortal = {
     };
 
     const colorMap = {
-      'BRAKE SYSTEM': 'var(--accent-red)',
-      'CLUTCH SYSTEM': 'var(--accent-purple)',
-      'FILTERS': 'var(--accent-blue)',
-      'SUSPENSION': 'var(--accent-amber)',
-      'STEERING': 'var(--accent-cyan)',
+      'BRAKE SYSTEM': '#ff3b30',
+      'CLUTCH SYSTEM': '#a78bfa',
+      'FILTERS': '#38bdf8',
+      'SUSPENSION': '#ffb84d',
+      'STEERING': '#5ca9ff',
       'LIGHTING': '#facc15'
     };
 
@@ -709,23 +709,30 @@ window.AnalyticsPortal = {
       const displayRev = item.revenue >= 10000000 ? `₹${revCr} Cr` : `₹${revLakhs} L`;
 
       const icon = iconMap[item.aggregate] || '🛠️';
-      const color = colorMap[item.aggregate] || 'var(--accent-purple)';
+      const color = colorMap[item.aggregate] || '#a78bfa';
+      const imgFile = imgMap[item.aggregate] || '';
 
       html += `
-        <div class="card" style="border: 1.5px solid ${color}45; padding: 1.1rem; border-radius: var(--radius-md);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-            <span style="font-size: 0.8rem; font-weight: 900; color: ${color}; text-transform: uppercase;">${icon} ${item.aggregate}</span>
-            <span class="badge badge-purple" style="font-size: 0.7rem;">${item.units.toLocaleString()} units</span>
+        <div class="card" style="background: linear-gradient(135deg, ${color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${color}45; padding: 1.1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
+          ${imgFile ? `<img src="${imgFile}" onerror="this.style.display='none'" alt="${item.aggregate}" style="position: absolute; right: -10px; bottom: -10px; width: 90px; height: 90px; object-fit: cover; opacity: 0.18; border-radius: 50%; pointer-events: none;">` : ''}
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; position: relative; z-index: 2;">
+            <span style="font-size: 0.82rem; font-weight: 900; color: ${color}; text-transform: uppercase;">${icon} ${item.aggregate}</span>
+            <span class="badge" style="background: ${color}20; color: ${color}; border: 1px solid ${color}40; font-size: 0.72rem; font-weight: 850;">${item.units.toLocaleString()} units</span>
           </div>
-          <div style="font-size: 1.4rem; font-weight: 900; color: ${color}; margin: 0.25rem 0;">${displayRev}</div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">
+          
+          <div style="font-size: 1.5rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; position: relative; z-index: 2;">${displayRev}</div>
+          
+          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.35rem; position: relative; z-index: 2;">
             <span>Share: ${item.sharePct}%</span>
-            <span>Margin: ${item.marginPct}%</span>
+            <span>Margin: <strong style="color: #29d391;">${item.marginPct}%</strong></span>
           </div>
-          <div style="font-size: 0.72rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.5rem;">
-            Top Driver: <strong style="color: var(--text-main);">${item.topComponent}</strong>
+          
+          <div style="font-size: 0.75rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.6rem; position: relative; z-index: 2;">
+            Top Driver: <strong style="color: #ffffff;">${item.topComponent}</strong>
           </div>
-          <div style="background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px; overflow: hidden;">
+          
+          <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
             <div style="background: ${color}; height: 100%; width: ${Math.min(item.sharePct * 4, 100)}%;"></div>
           </div>
         </div>
