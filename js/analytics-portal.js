@@ -492,19 +492,18 @@ window.AnalyticsPortal = {
     }
   },
 
-    renderRegionMapDashboard(regionList) {
+      renderRegionMapDashboard(regionList) {
     const grid = document.getElementById('region-map-grid');
     if (!grid) return;
 
-    const defaultRegions = [
-      { region: 'SOUTH', name: 'SOUTH INDIA (HQ CORE)', revenue: 209000000, margin: 30932000, revenuePct: 29.6, marginPct: 14.8, invoices: 8920, color: '#ff3b30', badge: 'HQ Territory' },
-      { region: 'WEST', name: 'WEST & CENTRAL HUB', revenue: 188200000, margin: 23336800, revenuePct: 26.7, marginPct: 12.4, invoices: 7140, color: '#38bdf8', badge: 'Western Hub' },
-      { region: 'NORTH', name: 'NORTH BELT ZONE', revenue: 124500000, margin: 14691000, revenuePct: 17.6, marginPct: 11.8, invoices: 4890, color: '#29d391', badge: 'Northern Belt' },
-      { region: 'EAST', name: 'EAST & NORTH-EAST', revenue: 95200000, margin: 9996000, revenuePct: 13.5, marginPct: 10.5, invoices: 3420, color: '#a78bfa', badge: 'Eastern Zone' },
-      { region: 'CENTRAL', name: 'NORTH CENTRAL (UP/BIHAR)', revenue: 89200000, margin: 8741600, revenuePct: 12.6, marginPct: 9.8, invoices: 2437, color: '#ffb84d', badge: 'UP/Bihar Belt' }
+    const default4Regions = [
+      { region: 'NORTH', name: 'NORTH REGION', revenue: 213700000, margin: 23432600, revenuePct: 30.2, marginPct: 11.0, invoices: 7327, color: '#29d391', badge: 'Northern Territory' },
+      { region: 'EAST', name: 'EAST REGION', revenue: 95200000, margin: 9996000, revenuePct: 13.5, marginPct: 10.5, invoices: 3420, color: '#a78bfa', badge: 'Eastern Network' },
+      { region: 'WEST', name: 'WEST REGION', revenue: 188200000, margin: 23336800, revenuePct: 26.7, marginPct: 12.4, invoices: 7140, color: '#38bdf8', badge: 'Western Hub' },
+      { region: 'SOUTH', name: 'SOUTH REGION', revenue: 209000000, margin: 30932000, revenuePct: 29.6, marginPct: 14.8, invoices: 8920, color: '#ff3b30', badge: 'Southern HQ' }
     ];
 
-    const list = (regionList && regionList.length > 0) ? regionList : defaultRegions;
+    const list = (regionList && regionList.length === 4) ? regionList : default4Regions;
 
     let html = '';
     list.forEach(r => {
@@ -513,25 +512,25 @@ window.AnalyticsPortal = {
       const marCr = (r.margin / 10000000).toFixed(2);
 
       html += `
-        <div class="card" style="background: linear-gradient(135deg, ${color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${color}45; padding: 1.15rem; border-radius: 14px; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div class="card" style="background: linear-gradient(135deg, ${color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${color}45; padding: 1.25rem; border-radius: 14px; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <span style="font-weight: 900; font-size: 0.9rem; color: ${color}; font-family: 'Outfit', sans-serif;">📍 ${r.name || r.region}</span>
-            <span class="badge" style="background: ${color}25; color: ${color}; border: 1px solid ${color}40; font-weight: 850; font-size: 0.72rem;">${r.revenuePct}% Share</span>
+            <span style="font-weight: 900; font-size: 0.95rem; color: ${color}; font-family: 'Outfit', sans-serif;">📍 ${r.name || r.region}</span>
+            <span class="badge" style="background: ${color}25; color: ${color}; border: 1px solid ${color}40; font-weight: 850; font-size: 0.75rem;">${r.revenuePct}% Share</span>
           </div>
 
-          <div style="font-size: 1.6rem; font-weight: 900; color: #ffffff; margin: 0.35rem 0;">₹${revCr} Cr</div>
+          <div style="font-size: 1.7rem; font-weight: 900; color: #ffffff; margin: 0.35rem 0;">₹${revCr} Cr</div>
 
-          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.45rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.5rem;">
             <span>Gross Margin: <strong style="color: ${color};">₹${marCr} Cr</strong></span>
             <span>Rate: <strong style="color: #29d391;">${r.marginPct}%</strong></span>
           </div>
 
-          <div style="font-size: 0.76rem; color: #94a3b8; margin-bottom: 0.6rem;">
+          <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 0.65rem;">
             📄 ${(r.invoices || 0).toLocaleString()} Invoice Order Lines
           </div>
 
           <div style="width: 100%; background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="width: ${r.revenuePct * 2.8}%; background: ${color}; height: 100%; border-radius: 3px;"></div>
+            <div style="width: ${r.revenuePct * 3.2}%; background: ${color}; height: 100%; border-radius: 3px;"></div>
           </div>
         </div>
       `;
