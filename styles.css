@@ -2896,26 +2896,122 @@ body.is-authenticated #mytvs-login-screen {
   z-index: 2;
 }
 
+/* Left Side Hero Content (Fills empty dark space on login wallpaper) */
+.login-left-hero-text {
+  position: absolute !important;
+  left: 6vw !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 10 !important;
+  max-width: 520px !important;
+  color: #ffffff !important;
+  pointer-events: none !important;
+}
+
+.login-tagline-quote {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 13px !important;
+  font-style: italic !important;
+  color: #cbd5e1 !important;
+  border-left: 3px solid #FF6600 !important;
+  padding-left: 12px !important;
+  margin-bottom: 16px !important;
+}
+
+.login-kicker-tag {
+  font-size: 10.5px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.18em !important;
+  color: #38d7ff !important;
+  text-transform: uppercase !important;
+  margin-bottom: 12px !important;
+}
+
+.login-hero-headline {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 40px !important;
+  font-weight: 850 !important;
+  line-height: 1.1 !important;
+  color: #ffffff !important;
+  margin-bottom: 14px !important;
+  letter-spacing: -0.02em !important;
+}
+
+.login-hero-desc {
+  font-size: 13.5px !important;
+  color: #cbd5e1 !important;
+  line-height: 1.55 !important;
+  margin-bottom: 22px !important;
+  max-width: 440px !important;
+}
+
+.login-feature-pills-row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-bottom: 24px !important;
+  pointer-events: auto !important;
+}
+
+.pill-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 7px 14px !important;
+  background: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 8px !important;
+  font-size: 11.5px !important;
+  font-weight: 750 !important;
+  color: #f8fafc !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.login-hero-footer-tag {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+}
+
+.mytvs-bold-orange {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 900 !important;
+  color: #FF6600 !important;
+}
+
 .form-row-options {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  font-size: 10.5px !important;
   margin-bottom: 10px !important;
 }
 
 .checkbox-remember {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #475569;
-  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #475569 !important;
+  cursor: pointer !important;
 }
 
-.checkbox-remember input {
-  accent-color: #2563eb;
-  width: 13px;
-  height: 13px;
+/* High-specificity Checkbox Size Fix (14px x 14px) */
+.checkbox-remember input,
+.checkbox-remember input[type=checkbox],
+input[type=checkbox]#login-remember {
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  min-height: 14px !important;
+  max-width: 14px !important;
+  max-height: 14px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  accent-color: #2563eb !important;
+  cursor: pointer !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
 }
 
 .link-forgot {
@@ -3398,3 +3494,98 @@ body.is-authenticated #mytvs-login-screen {
 .tag-line-blue { color: #38bdf8 !important; }
 .tag-line-orange { color: #FF6600 !important; }
 
+/* ==========================================================================
+   HEADER TOP-LEFT myTVS x AUTONEXA BRAND LOGO SYSTEM
+   ========================================================================== */
+.brand-logo-container {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  min-width: auto !important;
+}
+
+.mytvs-brand-badge {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.mytvs-logo-row {
+  display: flex !important;
+  align-items: center !important;
+  line-height: 1 !important;
+}
+
+.mytvs-my {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  color: #FF6600 !important;
+  letter-spacing: -0.04em !important;
+}
+
+.mytvs-tvs {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  color: #2B549A !important;
+  letter-spacing: -0.02em !important;
+  margin-left: 2px !important;
+}
+
+[data-theme="dark"] .mytvs-tvs {
+  color: #38bdf8 !important; /* High-contrast vibrant blue in dark mode */
+}
+
+.mytvs-tagline {
+  font-size: 8.5px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.08em !important;
+  margin-top: 2px !important;
+  text-transform: uppercase !important;
+  display: flex !important;
+  gap: 3px !important;
+}
+
+.t-orange { color: #FF6600 !important; }
+.t-blue { color: #2563eb !important; }
+[data-theme="dark"] .t-blue { color: #38bdf8 !important; }
+
+.brand-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  border-left: 1.5px solid rgba(148, 163, 184, 0.3) !important;
+  padding-left: 12px !important;
+}
+
+.brand-nexa-title {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.03em !important;
+  color: #0f172a !important;
+  line-height: 1 !important;
+}
+
+[data-theme="dark"] .brand-nexa-title {
+  color: #ffffff !important;
+}
+
+.brand-nexa-red {
+  color: #e21b23 !important;
+}
+
+.brand-nexa-tag {
+  font-size: 8px !important;
+  font-weight: 850 !important;
+  letter-spacing: 0.14em !important;
+  color: #64748b !important;
+  margin-top: 3px !important;
+  text-transform: uppercase !important;
+}
+
+[data-theme="dark"] .brand-nexa-tag {
+  color: #94a3b8 !important;
+}
