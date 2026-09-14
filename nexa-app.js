@@ -2776,14 +2776,23 @@ window.App = {
   checkAuth() {
     const isLoggedIn = localStorage.getItem('mytvs_logged_in') === 'true';
     const loginOverlay = document.getElementById('mytvs-login-screen');
+    const header = document.getElementById('app-header');
+    const mainContent = document.getElementById('main-app-content');
+    const footer = document.querySelector('footer.app-footer');
     const userCode = localStorage.getItem('mytvs_user_code') || 'SM0237';
     const userName = localStorage.getItem('mytvs_user_name') || 'Jino George';
 
-    if (!isLoggedIn && loginOverlay) {
-      loginOverlay.style.display = 'flex';
+    if (!isLoggedIn) {
+      if (loginOverlay) loginOverlay.style.display = 'flex';
+      if (header) header.style.display = 'none';
+      if (mainContent) mainContent.style.display = 'none';
+      if (footer) footer.style.display = 'none';
       document.body.style.overflow = 'hidden';
-    } else if (loginOverlay) {
-      loginOverlay.style.display = 'none';
+    } else {
+      if (loginOverlay) loginOverlay.style.display = 'none';
+      if (header) header.style.display = 'flex';
+      if (mainContent) mainContent.style.display = 'block';
+      if (footer) footer.style.display = 'block';
       document.body.style.overflow = '';
       this.updateHeaderProfile(userCode, userName);
     }
@@ -2834,10 +2843,16 @@ window.App = {
       localStorage.setItem('mytvs_user_name', displayName);
 
       const loginOverlay = document.getElementById('mytvs-login-screen');
-      if (loginOverlay) {
-        loginOverlay.style.display = 'none';
-        document.body.style.overflow = '';
-      }
+      const header = document.getElementById('app-header');
+      const mainContent = document.getElementById('main-app-content');
+      const footer = document.querySelector('footer.app-footer');
+
+      if (loginOverlay) loginOverlay.style.display = 'none';
+      if (header) header.style.display = 'flex';
+      if (mainContent) mainContent.style.display = 'block';
+      if (footer) footer.style.display = 'block';
+      document.body.style.overflow = '';
+
       if (btn) {
         btn.disabled = false;
         btn.innerHTML = '<span>🔐</span> Sign In to myTVS Enterprise Platform';
@@ -2854,6 +2869,7 @@ window.App = {
       if (welcomeSub) welcomeSub.innerText = `Authenticated as ${userCode} • TVS Mobility Corporate Hub`;
       if (welcomePopup) welcomePopup.style.display = 'flex';
 
+      this.switchTab('home');
     }, 400);
   },
 
