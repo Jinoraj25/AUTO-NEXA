@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
-  <rect width="160" height="160" rx="24" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
-  <rect x="50" y="40" width="60" height="65" rx="8" fill="#0284c7" stroke="#38bdf8" stroke-width="4"/>
-  <path d="M60 40 V105 M73 40 V105 M86 40 V105 M99 40 V105" stroke="#ffffff" stroke-width="2"/>
-  <text x="80" y="148" font-size="11" font-family="'Outfit', sans-serif" font-weight="900" fill="#38bdf8" text-anchor="middle">FILTERS</text>
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'>
+  <circle cx='60' cy='60' r='54' fill='#38bdf8' opacity='0.2'/>
+  <rect x='35' y='25' width='50' height='70' rx='10' fill='none' stroke='#38bdf8' stroke-width='6'/>
+  <line x1='35' y1='45' x2='85' y2='45' stroke='#38bdf8' stroke-width='4'/>
+  <line x1='35' y1='65' x2='85' y2='65' stroke='#38bdf8' stroke-width='4'/>
+  <line x1='35' y1='85' x2='85' y2='85' stroke='#38bdf8' stroke-width='4'/>
 </svg>
