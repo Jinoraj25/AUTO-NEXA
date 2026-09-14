@@ -5,7 +5,7 @@ window.InventoryPortal = {
   selectedDate: null,
   selectedTag: 'CONSIDER',
   searchQuery: '',
-  trendGranularity: 'monthly',
+  trendGranularity: 'daily',
   filteredItems: [],
 
   init() {
@@ -347,9 +347,9 @@ window.InventoryPortal = {
     let prevData = [];
 
     if (this.trendGranularity === 'daily') {
-      labels = ['03-Sep', '04-Sep', '05-Sep', '06-Sep', '07-Sep', '08-Sep', '09-Sep', '10-Sep'];
-      currentData = [167.2, 167.8, 168.1, 168.9, 169.4, 170.1, 170.8, 171.2];
-      prevData = [164.0, 164.5, 165.0, 165.2, 165.8, 166.4, 167.0, 167.5];
+      labels = ['07-Sep', '08-Sep', '09-Sep', '10-Sep', '11-Sep', '12-Sep', '13-Sep', '14-Sep'];
+      currentData = [174.5, 173.8, 173.1, 172.6, 172.1, 171.8, 171.5, 171.17];
+      prevData = [175.0, 174.5, 174.0, 173.5, 173.0, 172.5, 172.0, 171.8];
     } else if (this.trendGranularity === 'weekly') {
       labels = ['Wk 32 (Aug 1)', 'Wk 33 (Aug 8)', 'Wk 34 (Aug 15)', 'Wk 35 (Aug 22)', 'Wk 36 (Aug 29)', 'Wk 37 (Sep 5)'];
       currentData = [164.5, 166.2, 167.8, 168.9, 170.1, 171.2];

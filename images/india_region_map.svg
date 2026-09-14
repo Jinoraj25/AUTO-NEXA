@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" width="100%" height="480">
+  <defs>
+    <linearGradient id="bg-map" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09182b"/>
+      <stop offset="100%" stop-color="#050d18"/>
+    </linearGradient>
+    <linearGradient id="grad-south" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#29d391"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="grad-west" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="grad-north" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb84d"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="grad-east" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="900" height="480" rx="20" fill="url(#bg-map)" stroke="rgba(56,189,248,0.3)" stroke-width="2"/>
+  
+  <!-- Decorative Grid & Orbit Lines -->
+  <g opacity="0.12" stroke="#38bdf8" stroke-width="1" stroke-dasharray="4 4">
+    <line x1="100" y1="0" x2="100" y2="480"/>
+    <line x1="300" y1="0" x2="300" y2="480"/>
+    <line x1="500" y1="0" x2="500" y2="480"/>
+    <line x1="700" y1="0" x2="700" y2="480"/>
+    <line x1="0" y1="120" x2="900" y2="120"/>
+    <line x1="0" y1="240" x2="900" y2="240"/>
+    <line x1="0" y1="360" x2="900" y2="360"/>
+  </g>
+
+  <!-- Stylized India Map Contour SVG Path -->
+  <g transform="translate(320, 30) scale(0.85)" opacity="0.95">
+    <!-- North Region Path -->
+    <path d="M120 40 L160 20 L200 40 L210 90 L170 140 L110 130 L100 80 Z" fill="url(#grad-north)" opacity="0.3" stroke="#ffb84d" stroke-width="2" filter="url(#glow)"/>
+    
+    <!-- West Region Path -->
+    <path d="M60 140 L120 140 L130 230 L50 250 L30 180 Z" fill="url(#grad-west)" opacity="0.3" stroke="#38bdf8" stroke-width="2" filter="url(#glow)"/>
+    
+    <!-- South Region Path -->
+    <path d="M130 230 L220 230 L180 380 L140 390 L100 320 Z" fill="url(#grad-south)" opacity="0.35" stroke="#29d391" stroke-width="2" filter="url(#glow)"/>
+    
+    <!-- East Region Path -->
+    <path d="M220 150 L320 130 L360 170 L300 240 L210 220 Z" fill="url(#grad-east)" opacity="0.3" stroke="#a78bfa" stroke-width="2" filter="url(#glow)"/>
+  </g>
+
+  <!-- REGION OVERLAY PIN CARDS -->
+
+  <!-- NORTH REGION CARD (Top Left) -->
+  <g transform="translate(40, 40)">
+    <rect width="240" height="170" rx="14" fill="rgba(15,23,42,0.92)" stroke="#ffb84d" stroke-width="2" filter="url(#glow)"/>
+    <rect width="240" height="32" rx="14" fill="rgba(255,184,77,0.2)"/>
+    <text x="16" y="22" font-size="13" font-family="'Outfit', sans-serif" font-weight="900" fill="#ffb84d">⛰️ NORTH INDIA REGION</text>
+    <text x="16" y="60" font-size="22" font-family="'Outfit', sans-serif" font-weight="900" fill="#ffffff">₹18.42 Cr</text>
+    <text x="16" y="82" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Territory Share: <tspan fill="#ffb84d" font-weight="900">26.1%</tspan></text>
+    <text x="16" y="104" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Gross Margin: <tspan fill="#29d391" font-weight="900">₹1.15 Cr (6.24%)</tspan></text>
+    <text x="16" y="126" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Order Lines: <tspan fill="#ffffff" font-weight="900">7,024 Lines</tspan></text>
+    <rect x="16" y="142" width="208" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+    <rect x="16" y="142" width="54" height="6" rx="3" fill="#ffb84d"/>
+  </g>
+  <!-- Connector line North -->
+  <line x1="280" y1="125" x2="430" y2="100" stroke="#ffb84d" stroke-width="2" stroke-dasharray="4 4"/>
+  <circle cx="430" cy="100" r="6" fill="#ffb84d" filter="url(#glow)"/>
+
+  <!-- WEST REGION CARD (Bottom Left) -->
+  <g transform="translate(40, 260)">
+    <rect width="240" height="170" rx="14" fill="rgba(15,23,42,0.92)" stroke="#38bdf8" stroke-width="2" filter="url(#glow)"/>
+    <rect width="240" height="32" rx="14" fill="rgba(56,189,248,0.2)"/>
+    <text x="16" y="22" font-size="13" font-family="'Outfit', sans-serif" font-weight="900" fill="#38bdf8">🏙️ WEST INDIA REGION</text>
+    <text x="16" y="60" font-size="22" font-family="'Outfit', sans-serif" font-weight="900" fill="#ffffff">₹20.15 Cr</text>
+    <text x="16" y="82" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Territory Share: <tspan fill="#38bdf8" font-weight="900">28.5%</tspan></text>
+    <text x="16" y="104" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Gross Margin: <tspan fill="#29d391" font-weight="900">₹1.26 Cr (6.25%)</tspan></text>
+    <text x="16" y="126" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Order Lines: <tspan fill="#ffffff" font-weight="900">7,640 Lines</tspan></text>
+    <rect x="16" y="142" width="208" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+    <rect x="16" y="142" width="60" height="6" rx="3" fill="#38bdf8"/>
+  </g>
+  <!-- Connector line West -->
+  <line x1="280" y1="345" x2="380" y2="230" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 4"/>
+  <circle cx="380" cy="230" r="6" fill="#38bdf8" filter="url(#glow)"/>
+
+  <!-- SOUTH REGION CARD (Bottom Right) -->
+  <g transform="translate(620, 260)">
+    <rect width="240" height="170" rx="14" fill="rgba(15,23,42,0.92)" stroke="#29d391" stroke-width="2" filter="url(#glow)"/>
+    <rect width="240" height="32" rx="14" fill="rgba(41,211,145,0.2)"/>
+    <text x="16" y="22" font-size="13" font-family="'Outfit', sans-serif" font-weight="900" fill="#29d391">📍 SOUTH INDIA REGION</text>
+    <text x="16" y="60" font-size="22" font-family="'Outfit', sans-serif" font-weight="900" fill="#ffffff">₹24.81 Cr</text>
+    <text x="16" y="82" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Territory Share: <tspan fill="#29d391" font-weight="900">35.1%</tspan></text>
+    <text x="16" y="104" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Gross Margin: <tspan fill="#29d391" font-weight="900">₹1.56 Cr (6.29%)</tspan></text>
+    <text x="16" y="126" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Order Lines: <tspan fill="#ffffff" font-weight="900">9,415 Lines</tspan></text>
+    <rect x="16" y="142" width="208" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+    <rect x="16" y="142" width="75" height="6" rx="3" fill="#29d391"/>
+  </g>
+  <!-- Connector line South -->
+  <line x1="620" y1="345" x2="470" y2="300" stroke="#29d391" stroke-width="2" stroke-dasharray="4 4"/>
+  <circle cx="470" cy="300" r="6" fill="#29d391" filter="url(#glow)"/>
+
+  <!-- EAST REGION CARD (Top Right) -->
+  <g transform="translate(620, 40)">
+    <rect width="240" height="170" rx="14" fill="rgba(15,23,42,0.92)" stroke="#a78bfa" stroke-width="2" filter="url(#glow)"/>
+    <rect width="240" height="32" rx="14" fill="rgba(167,139,250,0.2)"/>
+    <text x="16" y="22" font-size="13" font-family="'Outfit', sans-serif" font-weight="900" fill="#a78bfa">🌅 EAST INDIA REGION</text>
+    <text x="16" y="60" font-size="22" font-family="'Outfit', sans-serif" font-weight="900" fill="#ffffff">₹7.23 Cr</text>
+    <text x="16" y="82" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Territory Share: <tspan fill="#a78bfa" font-weight="900">10.3%</tspan></text>
+    <text x="16" y="104" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Gross Margin: <tspan fill="#29d391" font-weight="900">₹0.46 Cr (6.36%)</tspan></text>
+    <text x="16" y="126" font-size="11" font-family="'Inter', sans-serif" font-weight="700" fill="#94a3b8">Order Lines: <tspan fill="#ffffff" font-weight="900">2,732 Lines</tspan></text>
+    <rect x="16" y="142" width="208" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+    <rect x="16" y="142" width="22" height="6" rx="3" fill="#a78bfa"/>
+  </g>
+  <!-- Connector line East -->
+  <line x1="620" y1="125" x2="540" y2="180" stroke="#a78bfa" stroke-width="2" stroke-dasharray="4 4"/>
+  <circle cx="540" cy="180" r="6" fill="#a78bfa" filter="url(#glow)"/>
+</svg>
