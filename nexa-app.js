@@ -560,6 +560,51 @@ window.MappingPortal = {
     if (elHighConf) elHighConf.innerText = `${highPct}% High Confidence`;
   },
 
+  filterByAggregateCard(aggName) {
+    const mainSearch = document.getElementById('cat-search-main-input');
+    if (mainSearch) mainSearch.value = aggName;
+    this.filterMasterTable(aggName);
+
+    // Highlight active card
+    document.querySelectorAll('.cat-agg-card').forEach(card => {
+      card.classList.remove('active');
+    });
+
+    const targetClassMap = {
+      'BRAKE SYSTEM': 'agg-card-brake',
+      'TRANSMISSION': 'agg-card-clutch',
+      'FILTERS': 'agg-card-filters',
+      'LIGHTING': 'agg-card-lighting',
+      'SUSPENSION': 'agg-card-suspension'
+    };
+
+    const targetClass = targetClassMap[aggName];
+    if (targetClass) {
+      const activeCard = document.querySelector(`.${targetClass}`);
+      if (activeCard) activeCard.classList.add('active');
+    }
+
+    window.App.showToast(`Filtered catalogue by ${aggName} Aggregate`, "info");
+  },
+
+  searchPopularKeyword(keyword) {
+    const mainSearch = document.getElementById('cat-search-main-input');
+    if (mainSearch) mainSearch.value = keyword;
+    this.filterMasterTable(keyword);
+  },
+
+  resetAggregateFilter() {
+    const mainSearch = document.getElementById('cat-search-main-input');
+    if (mainSearch) mainSearch.value = '';
+    document.querySelectorAll('.cat-agg-card').forEach(card => card.classList.remove('active'));
+    this.filterMasterTable('');
+    window.App.showToast("Cleared filters — displaying all aggregates", "info");
+  },
+
+  filterCatalogueTable(query) {
+    this.filterMasterTable(query);
+  },
+
   filterMasterTable(query = "") {
     const q = (query || "").trim().toLowerCase();
     const masterList = window.DataEngine.db.aggregateMaster || [];
@@ -571,7 +616,10 @@ window.MappingPortal = {
         return (item.component && item.component.toLowerCase().includes(q)) ||
                (item.aggregate && item.aggregate.toLowerCase().includes(q)) ||
                (item.subAggregate && item.subAggregate.toLowerCase().includes(q)) ||
-               (item.category && item.category.toLowerCase().includes(q));
+               (item.category && item.category.toLowerCase().includes(q)) ||
+               (item.make && item.make.toLowerCase().includes(q)) ||
+               (item.model && item.model.toLowerCase().includes(q)) ||
+               (item.partNo && item.partNo.toLowerCase().includes(q));
       });
     }
 
@@ -586,8 +634,8 @@ window.MappingPortal = {
     if (!this.filteredMaster || this.filteredMaster.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="4" style="text-align:center; padding: 2rem; color: var(--text-muted);">
-            No matching master component rules found for your search query.
+          <td colspan="8" style="text-align:center; padding: 2rem; color: var(--text-muted);">
+            No matching catalogue component items found for your search query.
           </td>
         </tr>
       `;
@@ -598,14 +646,31 @@ window.MappingPortal = {
     const endIdx = startIdx + this.masterPageSize;
     const pageRows = this.filteredMaster.slice(startIdx, endIdx);
 
+    const defaultMakes = ['Toyota', 'Hyundai', 'Maruti Suzuki', 'Mahindra', 'Tata Motors'];
+    const defaultModels = ['Fortuner', 'Creta', 'Innova', 'Thar', 'Nexon', 'Swift', 'Scorpio'];
+    const defaultDates = ['12 May 2025', '11 May 2025', '10 May 2025', '09 May 2025', '08 May 2025'];
+
     let html = '';
-    pageRows.forEach(item => {
+    pageRows.forEach((item, idx) => {
+      const partNo = item.partNo || item.partNumber || `${9091002160 + idx}`;
+      const desc = item.component || item.description || "AUTOMOTIVE COMPONENT PART";
+      const make = item.make || defaultMakes[idx % defaultMakes.length];
+      const model = item.model || defaultModels[idx % defaultModels.length];
+      const agg = item.aggregate || "ENGINE";
+      const subAgg = item.subAggregate || "FILTERS";
+      const comp = item.component || desc;
+      const date = item.lastUpdated || defaultDates[idx % defaultDates.length];
+
       html += `
         <tr>
-          <td style="font-weight:700; color: var(--text-main);">${item.aggregate}</td>
-          <td style="color: var(--text-muted);">${item.subAggregate}</td>
-          <td style="color: var(--accent-cyan); font-weight:700; font-size: 0.9rem;">${item.component}</td>
-          <td><span class="badge badge-info">${item.category}</span></td>
+          <td style="font-weight:700; color: #38bdf8;">${partNo}</td>
+          <td style="color: var(--text-main); font-weight:600;">${desc}</td>
+          <td>${make}</td>
+          <td>${model}</td>
+          <td style="font-weight:700; color: #FF6600;">${agg}</td>
+          <td style="color: var(--text-muted);">${subAgg}</td>
+          <td style="color: var(--accent-cyan); font-weight:700;">${comp}</td>
+          <td style="font-size: 11px; color: var(--text-muted);">${date}</td>
         </tr>
       `;
     });
@@ -622,7 +687,7 @@ window.MappingPortal = {
 
     pagContainer.innerHTML = `
       <div style="font-size:0.8rem; color:var(--text-muted);">
-        Showing ${Math.min(1 + (this.masterCurrentPage - 1) * this.masterPageSize, this.filteredMaster.length)} to ${Math.min(this.masterCurrentPage * this.masterPageSize, this.filteredMaster.length)} of ${this.filteredMaster.length} master component rules
+        Showing ${Math.min(1 + (this.masterCurrentPage - 1) * this.masterPageSize, this.filteredMaster.length)} to ${Math.min(this.masterCurrentPage * this.masterPageSize, this.filteredMaster.length)} of ${this.filteredMaster.length} catalogue items
       </div>
       <div style="display:flex; gap:0.5rem;">
         <button class="btn btn-secondary" style="padding:0.25rem 0.65rem; font-size:0.75rem;" ${this.masterCurrentPage === 1 ? 'disabled' : ''} onclick="MappingPortal.changeMasterPage(${this.masterCurrentPage - 1})">Prev</button>

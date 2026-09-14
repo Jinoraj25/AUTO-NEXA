@@ -218,61 +218,81 @@
         <div class="scenic-module-grid">
           <!-- 01 Catalogue -->
           <article class="scenic-module-card mod-cat" onclick="App.switchTab('catalogue')">
-            <div class="card-num-badge">01</div>
-            <div class="scenic-mod-icon">📖</div>
-            <h3>Catalogue</h3>
-            <p>Map OEM descriptions to aggregate master with precision.</p>
-            <div class="scenic-mod-action">
-              <span>Explore Catalogue</span>
-              <span class="circle-arrow">→</span>
+            <img src="aggregate_clutch.jpg" onerror="this.onerror=null;this.src='images/aggregate_clutch.jpg'" alt="Catalogue" class="scenic-mod-bg-img">
+            <div class="scenic-mod-bg-overlay"></div>
+            <div class="scenic-mod-card-body">
+              <div class="card-num-badge">01</div>
+              <div class="scenic-mod-icon">📖</div>
+              <h3>Catalogue</h3>
+              <p>Map OEM descriptions to aggregate master with precision.</p>
+              <div class="scenic-mod-action">
+                <span>Explore Catalogue</span>
+                <span class="circle-arrow">→</span>
+              </div>
             </div>
           </article>
 
           <!-- 02 Inventory -->
           <article class="scenic-module-card mod-inv" onclick="App.switchTab('inventory')">
-            <div class="card-num-badge">02</div>
-            <div class="scenic-mod-icon">📦</div>
-            <h3>Inventory</h3>
-            <p>Track stock, value and availability in real-time.</p>
-            <div class="scenic-mod-action">
-              <span>Explore Inventory</span>
-              <span class="circle-arrow">→</span>
+            <img src="aggregate_filters.jpg" onerror="this.onerror=null;this.src='images/aggregate_filters.jpg'" alt="Inventory" class="scenic-mod-bg-img">
+            <div class="scenic-mod-bg-overlay"></div>
+            <div class="scenic-mod-card-body">
+              <div class="card-num-badge">02</div>
+              <div class="scenic-mod-icon">📦</div>
+              <h3>Inventory</h3>
+              <p>Track stock, value and availability in real-time.</p>
+              <div class="scenic-mod-action">
+                <span>Explore Inventory</span>
+                <span class="circle-arrow">→</span>
+              </div>
             </div>
           </article>
 
           <!-- 03 Sales -->
           <article class="scenic-module-card mod-sales" onclick="App.switchTab('analytics')">
-            <div class="card-num-badge">03</div>
-            <div class="scenic-mod-icon">📊</div>
-            <h3>Sales</h3>
-            <p>Analyse revenue, trends and customer performance.</p>
-            <div class="scenic-mod-action">
-              <span>Explore Sales</span>
-              <span class="circle-arrow">→</span>
+            <img src="aggregate_brake.jpg" onerror="this.onerror=null;this.src='images/aggregate_brake.jpg'" alt="Sales" class="scenic-mod-bg-img">
+            <div class="scenic-mod-bg-overlay"></div>
+            <div class="scenic-mod-card-body">
+              <div class="card-num-badge">03</div>
+              <div class="scenic-mod-icon">📊</div>
+              <h3>Sales</h3>
+              <p>Analyse revenue, trends and customer performance.</p>
+              <div class="scenic-mod-action">
+                <span>Explore Sales</span>
+                <span class="circle-arrow">→</span>
+              </div>
             </div>
           </article>
 
           <!-- 04 Planning -->
           <article class="scenic-module-card mod-plan" onclick="App.switchTab('forecasting')">
-            <div class="card-num-badge">04</div>
-            <div class="scenic-mod-icon">📅</div>
-            <h3>Planning</h3>
-            <p>Forecast demand, manage stock and optimise orders.</p>
-            <div class="scenic-mod-action">
-              <span>Explore Planning</span>
-              <span class="circle-arrow">→</span>
+            <img src="aggregate_lighting.jpg" onerror="this.onerror=null;this.src='images/aggregate_lighting.jpg'" alt="Planning" class="scenic-mod-bg-img">
+            <div class="scenic-mod-bg-overlay"></div>
+            <div class="scenic-mod-card-body">
+              <div class="card-num-badge">04</div>
+              <div class="scenic-mod-icon">📅</div>
+              <h3>Planning</h3>
+              <p>Forecast demand, manage stock and optimise orders.</p>
+              <div class="scenic-mod-action">
+                <span>Explore Planning</span>
+                <span class="circle-arrow">→</span>
+              </div>
             </div>
           </article>
 
           <!-- 05 Reports -->
           <article class="scenic-module-card mod-rep" onclick="App.switchTab('deviation')">
-            <div class="card-num-badge">05</div>
-            <div class="scenic-mod-icon">📄</div>
-            <h3>Reports</h3>
-            <p>Detect deviations, track leakages and ensure compliance.</p>
-            <div class="scenic-mod-action">
-              <span>Explore Reports</span>
-              <span class="circle-arrow">→</span>
+            <img src="aggregate_suspension.jpg" onerror="this.onerror=null;this.src='images/aggregate_suspension.jpg'" alt="Reports" class="scenic-mod-bg-img">
+            <div class="scenic-mod-bg-overlay"></div>
+            <div class="scenic-mod-card-body">
+              <div class="card-num-badge">05</div>
+              <div class="scenic-mod-icon">📄</div>
+              <h3>Reports</h3>
+              <p>Detect deviations, track leakages and ensure compliance.</p>
+              <div class="scenic-mod-action">
+                <span>Explore Reports</span>
+                <span class="circle-arrow">→</span>
+              </div>
             </div>
           </article>
         </div>
@@ -331,102 +351,229 @@
 
     <!-- ==================== TAB 1: CATALOGUE STUDIO ==================== -->
     <section id="tab-catalogue" class="tab-pane">
-      <div style="margin-bottom: 1.25rem;">
-        <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.25rem;">Smart Catalogue & Component Mapping Studio</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">
-          Upload your monthly sales Excel file to generate the 1st-cut Component Genome mapping for Passenger Car Vehicles (PCV).
-        </p>
-      </div>
-
-      <!-- File Upload Dropzone -->
-      <div class="dropzone-container" id="sales-dropzone">
-        <input type="file" id="sales-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
-        <div class="dropzone-icon">📥</div>
-        <div class="dropzone-text">Upload Monthly Sales Excel File (.xlsx, .xlsb, .csv, .xls)</div>
-        <div class="dropzone-sub" style="margin-bottom: 0.75rem;">Drag & drop your PCV sales file here, or click anywhere inside this box to browse.</div>
-        <button class="btn btn-amber" type="button" onclick="document.getElementById('sales-file-input').click(); event.stopPropagation();">
-          📁 Select Excel File
-        </button>
-        <div id="catalogue-upload-status" class="upload-status-box" style="display: none; max-width: 600px; margin: 1rem auto 0 auto;"></div>
-      </div>
-
-      <!-- Mapped Output Analytics Summary Cards -->
-      <div id="mapping-summary-section" style="display: none; margin-bottom: 1.75rem;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
-          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-amber);">📊 1st-Cut Mapped Dataset Summary & Metrics</h3>
+      <div class="catalogue-shell">
+        
+        <!-- Catalogue Scenic Hero Banner (Matching Image 1 Reference) -->
+        <div class="cat-hero-scenic">
+          <img src="cat_hero_car_xray.jpg" onerror="this.onerror=null;this.src='images/cat_hero_car_xray.jpg'" alt="Automotive Parts Catalogue" class="cat-hero-img">
+          <div class="cat-hero-overlay"></div>
           
-          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <button id="btn-export-mapped" class="btn btn-success">
-              📤 Export Mapped Excel Output
-            </button>
-            <button id="btn-move-to-rf" class="btn btn-amber" onclick="MappingPortal.moveToSalesDashboard('RF')">
-              🏬 Move to RF Sales Dashboard
-            </button>
-            <button id="btn-move-to-cf" class="btn btn-primary" onclick="MappingPortal.moveToSalesDashboard('CF')">
-              🏢 Move to CF Sales Dashboard
-            </button>
-          </div>
-        </div>
+          <div class="cat-hero-left">
+            <div class="cat-kicker-tag">AUTOMOTIVE PARTS CATALOGUE</div>
+            <h1 class="cat-headline">
+              Find the Right Part.<br>
+              <span class="cat-orange">Build Smarter.</span>
+            </h1>
+            <p class="cat-lead">
+              Explore our comprehensive catalogue with accurate mappings, OEM references and detailed part information.
+            </p>
 
-        <div class="nexa-portals-grid" style="grid-template-columns: repeat(5, 1fr); margin: 0;">
-          <div class="card">
-            <div class="card-title">Total Rows Mapped</div>
-            <div id="map-stat-total" class="card-value" style="font-size: 1.6rem;">0</div>
-          </div>
-          <div class="card">
-            <div class="card-title">Unique Aggregates</div>
-            <div id="map-stat-aggregates" class="card-value" style="font-size: 1.6rem; color: var(--accent-amber);">0</div>
-          </div>
-          <div class="card">
-            <div class="card-title">Sub-Aggregates</div>
-            <div id="map-stat-sub-aggregates" class="card-value" style="font-size: 1.6rem; color: var(--accent-purple);">0</div>
-          </div>
-          <div class="card">
-            <div class="card-title">Components</div>
-            <div id="map-stat-components" class="card-value" style="font-size: 1.6rem; color: var(--accent-emerald);">0</div>
-          </div>
-          <div class="card">
-            <div class="card-title">Confidence Metric</div>
-            <div id="map-stat-confidence" class="card-value" style="font-size: 1.3rem; color: var(--accent-blue);">100% High</div>
-          </div>
-        </div>
-      </div>
+            <!-- Search Input with Keyboard Shortcut Badge -->
+            <div class="cat-search-box-wrapper">
+              <span class="cat-search-icon">🔍</span>
+              <input type="text" id="cat-search-main-input" placeholder="Search by part number, description, make, model..." oninput="MappingPortal.filterCatalogueTable(this.value)">
+              <kbd class="cat-search-kbd">Ctrl + K</kbd>
+            </div>
 
-      <!-- Aggregate Master System Lookup Table -->
-      <div class="card" style="margin-top: 1.25rem;">
-        <div class="card-header" style="flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);">📐 Aggregate Master System Lookup & Search</div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
-              Search any component (e.g. "BRAKE PAD", "OIL FILTER", "RELAY") to inspect its Aggregate, Sub-Aggregate & Category.
+            <!-- Popular Search Chips -->
+            <div class="cat-popular-searches">
+              <span class="pop-search-label">Popular Searches:</span>
+              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('BRAKE')">Brake Pad</button>
+              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('OIL FILTER')">Oil Filter</button>
+              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('AIR FILTER')">Air Filter</button>
+              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('SHOCK ABSORBER')">Shock Absorber</button>
+              <button type="button" class="pop-chip" onclick="MappingPortal.searchPopularKeyword('CLUTCH')">Clutch Kit</button>
             </div>
           </div>
-          <span id="badge-master-rules-count" class="badge badge-info">923 Pre-Loaded Master Rules</span>
+
+          <!-- Right Feature Cards -->
+          <div class="cat-hero-right-cards">
+            <div class="cat-glass-card">
+              <div class="cat-glass-icon">🛡️</div>
+              <div>
+                <strong>OEM Mapping</strong>
+                <small>Accurate & verified</small>
+              </div>
+            </div>
+            <div class="cat-glass-card">
+              <div class="cat-glass-icon">🚗</div>
+              <div>
+                <strong>Multi-Make Support</strong>
+                <small>Maruti | Hyundai | Mahindra | Tata</small>
+              </div>
+            </div>
+            <div class="cat-glass-card">
+              <div class="cat-glass-icon">🔍</div>
+              <div>
+                <strong>Smart Search</strong>
+                <small>Part no. / Description / OEM</small>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="table-wrapper" style="margin-top: 0.75rem;">
-          <div class="table-toolbar">
-            <input type="text" id="master-search-input" class="search-input" placeholder="🔍 Search component (e.g. BRAKE PAD, OIL FILTER, RELAY)...">
+        <!-- Browse by Aggregate Cards Section (Matching Image 1 Reference) -->
+        <div class="cat-aggregate-section">
+          <div class="cat-section-header">
+            <div>
+              <h3 class="cat-section-title">Browse by Aggregate</h3>
+              <p class="cat-section-sub">Select an aggregate to explore sub-aggregates and components.</p>
+            </div>
+            <button type="button" class="btn-view-all" onclick="MappingPortal.resetAggregateFilter()">View All Aggregates →</button>
           </div>
 
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Aggregate</th>
-                <th>Sub-Aggregate</th>
-                <th>Component</th>
-                <th>Category</th>
-              </tr>
-            </thead>
-            <tbody id="master-rules-list">
-              <!-- Dynamically populated via mapping-portal.js -->
-            </tbody>
-          </table>
+          <div class="cat-aggregate-grid">
+            <!-- Card 1: Brake System -->
+            <div class="cat-agg-card agg-card-brake" onclick="MappingPortal.filterByAggregateCard('BRAKE SYSTEM')">
+              <img src="aggregate_brake.jpg" onerror="this.onerror=null;this.src='images/aggregate_brake.jpg'" alt="Brake System" class="agg-card-img">
+              <div class="agg-card-overlay"></div>
+              <div class="agg-card-content">
+                <div>
+                  <h4>Brake System</h4>
+                  <span>120+ Components</span>
+                </div>
+                <div class="agg-arrow-btn">→</div>
+              </div>
+            </div>
 
-          <div id="master-pagination" class="table-toolbar">
-            <!-- Pagination Controls -->
+            <!-- Card 2: Clutch System -->
+            <div class="cat-agg-card agg-card-clutch" onclick="MappingPortal.filterByAggregateCard('TRANSMISSION')">
+              <img src="aggregate_clutch.jpg" onerror="this.onerror=null;this.src='images/aggregate_clutch.jpg'" alt="Clutch System" class="agg-card-img">
+              <div class="agg-card-overlay"></div>
+              <div class="agg-card-content">
+                <div>
+                  <h4>Clutch System</h4>
+                  <span>85+ Components</span>
+                </div>
+                <div class="agg-arrow-btn">→</div>
+              </div>
+            </div>
+
+            <!-- Card 3: Filters -->
+            <div class="cat-agg-card agg-card-filters" onclick="MappingPortal.filterByAggregateCard('FILTERS')">
+              <img src="aggregate_filters.jpg" onerror="this.onerror=null;this.src='images/aggregate_filters.jpg'" alt="Filters" class="agg-card-img">
+              <div class="agg-card-overlay"></div>
+              <div class="agg-card-content">
+                <div>
+                  <h4>Filters</h4>
+                  <span>160+ Components</span>
+                </div>
+                <div class="agg-arrow-btn">→</div>
+              </div>
+            </div>
+
+            <!-- Card 4: Lighting -->
+            <div class="cat-agg-card agg-card-lighting" onclick="MappingPortal.filterByAggregateCard('LIGHTING')">
+              <img src="aggregate_lighting.jpg" onerror="this.onerror=null;this.src='images/aggregate_lighting.jpg'" alt="Lighting" class="agg-card-img">
+              <div class="agg-card-overlay"></div>
+              <div class="agg-card-content">
+                <div>
+                  <h4>Lighting</h4>
+                  <span>95+ Components</span>
+                </div>
+                <div class="agg-arrow-btn">→</div>
+              </div>
+            </div>
+
+            <!-- Card 5: Suspension -->
+            <div class="cat-agg-card agg-card-suspension" onclick="MappingPortal.filterByAggregateCard('SUSPENSION')">
+              <img src="aggregate_suspension.jpg" onerror="this.onerror=null;this.src='images/aggregate_suspension.jpg'" alt="Suspension" class="agg-card-img">
+              <div class="agg-card-overlay"></div>
+              <div class="agg-card-content">
+                <div>
+                  <h4>Suspension</h4>
+                  <span>140+ Components</span>
+                </div>
+                <div class="agg-arrow-btn">→</div>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Mapped Output Analytics Summary Cards (Shown on File Upload) -->
+        <div id="mapping-summary-section" style="display: none; margin-bottom: 1.75rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--accent-amber);">📊 Mapped Dataset Summary & Metrics</h3>
+            
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button id="btn-export-mapped" class="btn btn-success">
+                📤 Export Mapped Excel Output
+              </button>
+            </div>
+          </div>
+
+          <div class="nexa-portals-grid" style="grid-template-columns: repeat(5, 1fr); margin: 0;">
+            <div class="card">
+              <div class="card-title">Total Rows Mapped</div>
+              <div id="map-stat-total" class="card-value" style="font-size: 1.6rem;">0</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Unique Aggregates</div>
+              <div id="map-stat-aggregates" class="card-value" style="font-size: 1.6rem; color: var(--accent-amber);">0</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Sub-Aggregates</div>
+              <div id="map-stat-sub-aggregates" class="card-value" style="font-size: 1.6rem; color: var(--accent-purple);">0</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Components</div>
+              <div id="map-stat-components" class="card-value" style="font-size: 1.6rem; color: var(--accent-emerald);">0</div>
+            </div>
+            <div class="card">
+              <div class="card-title">Confidence Metric</div>
+              <div id="map-stat-confidence" class="card-value" style="font-size: 1.3rem; color: var(--accent-blue);">100% High</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Catalogue Activity & Search Table Section -->
+        <div class="cat-recent-activity-card">
+          <div class="cat-recent-header">
+            <div class="header-left-info">
+              <span class="clock-icon">⏱️</span>
+              <div>
+                <h3>Recent Catalogue Activity</h3>
+                <p>Quick access to recently viewed and mapped parts.</p>
+              </div>
+            </div>
+
+            <div class="header-right-actions">
+              <!-- Upload Sales/Catalogue File Trigger -->
+              <input type="file" id="sales-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
+              <button type="button" class="btn btn-amber" onclick="document.getElementById('sales-file-input').click();">
+                📁 Upload Catalogue Excel
+              </button>
+            </div>
+          </div>
+
+          <div id="catalogue-upload-status" class="upload-status-box" style="display: none; margin: 1rem 0;"></div>
+
+          <!-- Dynamic Data Table -->
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Part No.</th>
+                  <th>Description</th>
+                  <th>Make</th>
+                  <th>Model</th>
+                  <th>Aggregate</th>
+                  <th>Sub-Aggregate</th>
+                  <th>Component</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody id="master-rules-list">
+                <!-- Dynamically Populated by MappingPortal.renderAggregateMasterTable() -->
+              </tbody>
+            </table>
+
+            <div id="master-pagination" class="table-toolbar">
+              <!-- Pagination controls -->
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
