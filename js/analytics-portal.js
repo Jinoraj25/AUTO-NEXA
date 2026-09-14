@@ -568,11 +568,11 @@ window.AnalyticsPortal = {
 
     // BRAND LOGO BADGES & STYLING FOR MARUTI, HYUNDAI, MAHINDRA, TATA, TOYOTA, HONDA, ETC.
     const brandMeta = {
-      'MARUTI': { name: 'MARUTI SUZUKI', color: '#ff3838', img: 'brand_maruti.svg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(255,56,56,0.18), rgba(15,23,42,0.95))' },
-      'HYUNDAI': { name: 'HYUNDAI MOTORS', color: '#38bdf8', img: 'brand_hyundai.svg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(56,189,248,0.18), rgba(15,23,42,0.95))' },
-      'MAHINDRA': { name: 'MAHINDRA SUV', color: '#f59e0b', img: 'brand_mahindra.svg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(245,158,11,0.18), rgba(15,23,42,0.95))' },
-      'TATA': { name: 'TATA MOTORS', color: '#a855f7', img: 'brand_tata.svg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(15,23,42,0.95))' },
-      'OTHERS': { name: 'OTHERS (TOYOTA/HONDA)', color: '#ec4899', img: 'brand_castrol.svg', badge: 'Others Group', bg: 'linear-gradient(135deg, rgba(236,72,153,0.18), rgba(15,23,42,0.95))' }
+      'MARUTI': { name: 'MARUTI SUZUKI', color: '#ff3838', img: 'real_maruti.jpg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(255,56,56,0.18), rgba(15,23,42,0.95))' },
+      'HYUNDAI': { name: 'HYUNDAI MOTORS', color: '#38bdf8', img: 'real_hyundai.jpg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(56,189,248,0.18), rgba(15,23,42,0.95))' },
+      'MAHINDRA': { name: 'MAHINDRA SUV', color: '#f59e0b', img: 'real_mahindra.jpg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(245,158,11,0.18), rgba(15,23,42,0.95))' },
+      'TATA': { name: 'TATA MOTORS', color: '#a855f7', img: 'real_tata.jpg', badge: 'MHMT Core', bg: 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(15,23,42,0.95))' },
+      'OTHERS': { name: 'OTHERS (TOYOTA/HONDA)', color: '#ec4899', img: 'cat_pl.svg', badge: 'Others Group', bg: 'linear-gradient(135deg, rgba(236,72,153,0.18), rgba(15,23,42,0.95))' }
     };
 
     let html = '';
@@ -584,21 +584,20 @@ window.AnalyticsPortal = {
       const cfg = brandMeta[item.make] || brandMeta['OTHERS'];
 
       html += `
-        <div class="card" style="background: ${cfg.bg}; border: 1.5px solid ${cfg.color}45; padding: 1.1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
-          <img src="${cfg.img}" alt="${cfg.name}" style="position: absolute; right: -10px; bottom: -10px; width: 90px; height: 90px; opacity: 0.22; pointer-events: none;">
+        <div class="card" style="background: ${cfg.bg}; border: 1.5px solid ${cfg.color}45; padding: 1.1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+          <img src="${cfg.img}" alt="${cfg.name}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.22; pointer-events: none;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; position: relative; z-index: 2;">
             <div style="display: flex; align-items: center; gap: 0.55rem;">
-              <img src="${cfg.img}" alt="${cfg.name}" style="width: 32px; height: 32px; object-fit: contain;">
               <span style="font-size: 0.9rem; font-weight: 900; color: ${cfg.color}; font-family: 'Outfit', sans-serif;">${cfg.name}</span>
             </div>
-            <span class="badge" style="background: ${cfg.color}20; color: ${cfg.color}; border: 1px solid ${cfg.color}40; font-size: 0.72rem; font-weight: 850;">${item.sharePct}%</span>
+            <span class="badge" style="background: ${cfg.color}30; color: #ffffff; border: 1px solid ${cfg.color}50; font-size: 0.72rem; font-weight: 850;">${item.sharePct}%</span>
           </div>
           <div style="font-size: 1.5rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; position: relative; z-index: 2;">${displayRev}</div>
           <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.5rem; position: relative; z-index: 2;">
             <span>Units Sold: <strong>${item.units.toLocaleString()}</strong></span>
             <span>Group: <strong>${cfg.badge}</strong></span>
           </div>
-          <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
+          <div style="background: rgba(255,255,255,0.15); height: 6px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
             <div style="background: ${cfg.color}; height: 100%; width: ${Math.min(item.sharePct * 2.8, 100)}%;"></div>
           </div>
         </div>
@@ -649,9 +648,9 @@ window.AnalyticsPortal = {
       const pmsImg = imgMap[item.name] || 'pms_engine_oil.svg';
       html += `
         <div class="card" style="background: linear-gradient(135deg, ${color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${color}40; padding: 1.1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
-          <img src="${pmsImg}" alt="${item.name}" style="position: absolute; right: -10px; bottom: -10px; width: 85px; height: 85px; opacity: 0.25; pointer-events: none;">
+          <img src="${pmsImg}" alt="${item.name}" style="position: absolute; right: -10px; bottom: -10px; width: 85px; height: 85px; opacity: 0.3; pointer-events: none;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; position: relative; z-index: 2;">
-            <div style="display: flex; align-items: center; gap: 0.45rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
               <img src="${pmsImg}" alt="${item.name}" style="width: 26px; height: 26px; object-fit: contain;">
               <span style="font-size: 0.85rem; font-weight: 900; color: ${color}; text-transform: uppercase;">${item.name}</span>
             </div>

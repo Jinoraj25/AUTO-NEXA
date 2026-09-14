@@ -456,18 +456,18 @@ window.InventoryPortal = {
       const cfg = meta[catKey];
 
       html += `
-        <div style="background: ${cfg.bg}; border: 1.5px solid ${cfg.color}40; padding: 1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
-          <img src="${cfg.img}" alt="${catKey}" style="position: absolute; right: -12px; bottom: -12px; width: 85px; height: 85px; opacity: 0.25; pointer-events: none;">
+        <div style="background: ${cfg.bg}; border: 1.5px solid ${cfg.color}45; padding: 1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.25);">
+          <img src="${cfg.img}" alt="${catKey}" style="position: absolute; right: -12px; bottom: -12px; width: 90px; height: 90px; opacity: 0.3; pointer-events: none;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; position: relative; z-index: 2;">
-            <div style="display: flex; align-items: center; gap: 0.45rem;">
-              <img src="${cfg.img}" alt="${catKey}" style="width: 24px; height: 24px; object-fit: contain;">
-              <span style="font-weight: 900; font-size: 0.88rem; color: ${cfg.color}; font-family: 'Outfit', sans-serif;">${catKey}</span>
+            <div style="display: flex; align-items: center; gap: 0.55rem;">
+              <img src="${cfg.img}" alt="${catKey}" style="width: 28px; height: 28px; object-fit: contain;">
+              <span style="font-weight: 900; font-size: 0.9rem; color: ${cfg.color}; font-family: 'Outfit', sans-serif;">${catKey}</span>
             </div>
-            <span class="badge" style="background: ${cfg.color}20; color: ${cfg.color}; border: 1px solid ${cfg.color}40; font-size: 0.72rem; font-weight: 850;">${pct}%</span>
+            <span class="badge" style="background: ${cfg.color}25; color: ${cfg.color}; border: 1px solid ${cfg.color}50; font-size: 0.72rem; font-weight: 850;">${pct}%</span>
           </div>
           <div style="font-size: 1.35rem; font-weight: 900; color: #ffffff; margin: 0.35rem 0; position: relative; z-index: 2;">${valFormatted}</div>
-          <div style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 0.6rem; position: relative; z-index: 2;">${cfg.desc}</div>
-          <div style="width: 100%; background: rgba(255,255,255,0.1); height: 5px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
+          <div style="font-size: 0.72rem; color: #cbd5e1; margin-bottom: 0.6rem; position: relative; z-index: 2;">${cfg.desc}</div>
+          <div style="width: 100%; background: rgba(255,255,255,0.15); height: 5px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
             <div style="width: ${pct}%; background: ${cfg.color}; height: 100%; border-radius: 3px;"></div>
           </div>
         </div>
