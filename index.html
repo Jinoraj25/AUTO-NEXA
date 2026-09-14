@@ -31,62 +31,147 @@
     </div>
   </div>
 
-  <!-- Standalone myTVS Enterprise Login Page -->
-  <div id="mytvs-login-screen" class="mytvs-login-page" style="display: none;">
-    <div class="login-hero-wallpaper">
-      <img src="luxury_car_front.jpg" onerror="this.onerror=null;this.src='images/luxury_car_front.jpg'" alt="myTVS Automotive Hub">
-      <div class="login-wallpaper-overlay"></div>
+  <!-- Standalone myTVS Enterprise Split-Screen Login Page (Matching Image 2 Reference) -->
+  <div id="mytvs-login-screen" class="mytvs-split-login-page">
+    <!-- Left Hero Side -->
+    <div class="login-left-hero">
+      <img class="login-left-bg-img" src="mytvs_login_car_sunset.jpg" onerror="this.onerror=null;this.src='images/mytvs_login_car_sunset.jpg'" alt="myTVS Automotive Hub">
+      <div class="login-left-overlay"></div>
+      
+      <!-- Top Left Brand & Tagline -->
+      <div class="login-left-top-bar">
+        <div class="login-left-logo-box">
+          <div class="mytvs-logo-row">
+            <span class="mytvs-my-text">my</span><span class="mytvs-tvs-text">TVS</span>
+          </div>
+          <div class="mytvs-sub-tagline"><span class="t-org">Trusted.</span> <span class="t-org">Tested.</span> <span class="t-blu">True.</span></div>
+        </div>
+        <div class="login-left-top-tagline">
+          <span class="tagline-bar">|</span> "Better Parts. Smoother Journeys."
+        </div>
+      </div>
+
+      <!-- Center Hero Content -->
+      <div class="login-left-content">
+        <div class="login-kicker">AUTOMOTIVE PARTS INTELLIGENCE PLATFORM</div>
+        <h1 class="login-title-main">
+          Smarter Decisions.<br>
+          <span class="highlight-orange">Stronger Performance.</span>
+        </h1>
+        <p class="login-desc">
+          Access real-time insights, streamline operations and drive growth with myTVS.
+        </p>
+
+        <!-- Feature Pills Row -->
+        <div class="login-feature-pills">
+          <div class="pill-item">
+            <span class="pill-icon">📦</span>
+            <span>Smarter Inventory</span>
+          </div>
+          <div class="pill-item">
+            <span class="pill-icon">📊</span>
+            <span>Data-Driven Sales</span>
+          </div>
+          <div class="pill-item">
+            <span class="pill-icon">⏱️</span>
+            <span>Efficient Planning</span>
+          </div>
+          <div class="pill-item">
+            <span class="pill-icon">📋</span>
+            <span>Accurate Catalogue</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Partner Footer Bar -->
+      <div class="login-left-footer">
+        <div class="footer-brand-info">
+          <span class="footer-mytvs-bold">myTVS</span>
+          <span class="footer-sub-text">Empowering the Automotive Aftermarket with Intelligence.</span>
+        </div>
+        <div class="partner-logos-bar">
+          <span class="partner-item">TVS 🐎</span>
+          <span class="partner-sep">•</span>
+          <span class="partner-item">PHOENIX</span>
+          <span class="partner-sep">•</span>
+          <span class="partner-item">GABRIEL</span>
+          <span class="partner-sep">•</span>
+          <span class="partner-item">BRISK</span>
+        </div>
+      </div>
     </div>
 
-    <div class="login-content-wrapper">
-      <div class="mytvs-login-card">
-        <div class="login-brand-header">
-          <div class="login-logo-box">
-            <div class="mytvs-logo-row">
-              <span class="login-mytvs-my">my</span><span class="login-mytvs-tvs">TVS</span>
-            </div>
-            <div class="mytvs-tagline" style="font-size: 8.5px; margin-top: 3px;"><span class="t-orange">Certified.</span> <span class="t-orange">Tested.</span> <span class="t-blue">Trusted.</span></div>
-          </div>
-          <h2>AUTO-NEXA</h2>
-          <p class="login-subtitle">TVS Mobility Automotive Parts Intelligence Enterprise Hub</p>
+    <!-- Right Login Form Side with Curved Transition -->
+    <div class="login-right-form-side">
+      <!-- Organic SVG Wave Divider -->
+      <svg class="login-curve-svg" viewBox="0 0 120 800" preserveAspectRatio="none">
+        <path d="M0,0 Q90,300 30,500 T120,800 L120,0 Z" fill="#f8fafc" />
+      </svg>
+      
+      <!-- Ambient Top Right Wave Accent -->
+      <div class="login-right-ambient-accent"></div>
+
+      <!-- Floating White Login Card Container -->
+      <div class="login-white-card">
+        <div class="white-card-logo">
+          <span class="card-mytvs-my">my</span><span class="card-mytvs-tvs">TVS</span>
+          <div class="card-tagline">Trusted. Tested. True.</div>
         </div>
 
+        <h2 class="card-heading">Welcome Back</h2>
+        <p class="card-subheading">Sign in to your account to access the platform</p>
+
         <form id="mytvs-login-form" onsubmit="App.handleLogin(event)">
-          <div class="form-group">
-            <label for="login-username">Employee Code / Username</label>
-            <div class="input-with-icon">
-              <span class="input-icon">🪪</span>
-              <input type="text" id="login-username" value="SM0237" placeholder="e.g. SM0237" required>
+          <div class="input-group-modern">
+            <label for="login-username">Username or Employee Code</label>
+            <div class="input-field-wrapper">
+              <span class="field-icon">👤</span>
+              <input type="text" id="login-username" value="SM0237" placeholder="e.g. SM0237 or SM0216" required>
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="input-group-modern">
             <label for="login-password">Password</label>
-            <div class="input-with-icon">
-              <span class="input-icon">🔒</span>
+            <div class="input-field-wrapper">
+              <span class="field-icon">🔒</span>
               <input type="password" id="login-password" value="Catalog@2026" placeholder="Enter password" required>
+              <button type="button" class="btn-toggle-pw" onclick="App.togglePasswordVisibility()">👁️</button>
             </div>
           </div>
 
-          <div class="form-options">
-            <label class="checkbox-container">
+          <div class="form-row-options">
+            <label class="checkbox-remember">
               <input type="checkbox" id="login-remember" checked>
-              <span>Keep session active</span>
+              <span>Remember me</span>
             </label>
-            <a href="#" onclick="alert('Contact TVS Mobility IT Helpdesk for password reset.'); return false;" class="forgot-link">Forgot password?</a>
+            <a href="#" onclick="alert('Contact TVS Mobility IT Helpdesk for password reset.'); return false;" class="link-forgot">Forgot Password?</a>
           </div>
 
-          <button type="submit" id="btn-login-submit" class="btn-mytvs-primary">
-            <span>🔐</span> Sign In to myTVS Enterprise Platform
+          <button type="submit" id="btn-login-submit" class="btn-gradient-submit">
+            <span>Sign In</span> <span class="arrow-icon">→</span>
           </button>
 
-          <div class="login-footer-note">
-            Protected by TVS Mobility Corporate SSO Security • Version 8.2 Enterprise
+          <div class="login-or-divider">
+            <span>OR</span>
+          </div>
+
+          <button type="button" class="btn-sso-login" onclick="alert('Logging in with TVS Corporate SSO...'); App.handleLogin(event)">
+            <span class="sso-icon">🔑</span> Continue with TVS Corporate SSO
+          </button>
+
+          <div class="login-card-footer-text">
+            Don't have an account? <a href="#" onclick="alert('Please contact TVS Mobility System Administrator.'); return false;">Contact Admin</a>
           </div>
         </form>
       </div>
+
+      <!-- Bottom Right Motto -->
+      <div class="login-bottom-right-motto">
+        🚗 Driving a Smarter Tomorrow
+      </div>
     </div>
   </div>
+
 
   <!-- Premium myTVS AUTO NEXA Command Header -->
   <header id="app-header" class="app-header">

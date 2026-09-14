@@ -163,6 +163,13 @@ window.App = {
     }, 3500);
   },
 
+  togglePasswordVisibility() {
+    const pwInput = document.getElementById('login-password');
+    if (pwInput) {
+      pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+    }
+  },
+
   checkAuth() {
     const isLoggedIn = localStorage.getItem('mytvs_logged_in') === 'true';
     const loginOverlay = document.getElementById('mytvs-login-screen');
@@ -173,12 +180,14 @@ window.App = {
     const userName = localStorage.getItem('mytvs_user_name') || 'Jino George';
 
     if (!isLoggedIn) {
-      if (loginOverlay) loginOverlay.style.display = 'flex';
+      document.body.classList.remove('is-authenticated');
+      if (loginOverlay) loginOverlay.style.display = 'grid';
       if (header) header.style.display = 'none';
       if (mainContent) mainContent.style.display = 'none';
       if (footer) footer.style.display = 'none';
       document.body.style.overflow = 'hidden';
     } else {
+      document.body.classList.add('is-authenticated');
       if (loginOverlay) loginOverlay.style.display = 'none';
       if (header) header.style.display = 'flex';
       if (mainContent) mainContent.style.display = 'block';
@@ -224,13 +233,15 @@ window.App = {
 
     if (btn) {
       btn.disabled = true;
-      btn.innerHTML = '<span>⏳</span> Authenticating with myTVS SSO...';
+      btn.innerHTML = '<span>⏳</span> Authenticating with myTVS...';
     }
 
     setTimeout(() => {
       localStorage.setItem('mytvs_logged_in', 'true');
       localStorage.setItem('mytvs_user_code', userCode);
       localStorage.setItem('mytvs_user_name', displayName);
+
+      document.body.classList.add('is-authenticated');
 
       const loginOverlay = document.getElementById('mytvs-login-screen');
       const header = document.getElementById('app-header');
@@ -245,7 +256,7 @@ window.App = {
 
       if (btn) {
         btn.disabled = false;
-        btn.innerHTML = '<span>🔐</span> Sign In to myTVS Enterprise Platform';
+        btn.innerHTML = '<span>Sign In</span> <span class="arrow-icon">→</span>';
       }
 
       this.updateHeaderProfile(userCode, displayName);
@@ -272,6 +283,7 @@ window.App = {
     localStorage.removeItem('mytvs_logged_in');
     localStorage.removeItem('mytvs_user_code');
     localStorage.removeItem('mytvs_user_name');
+    document.body.classList.remove('is-authenticated');
     this.checkAuth();
     this.showToast("Signed out of myTVS Session", "info");
   }
