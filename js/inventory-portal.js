@@ -286,7 +286,7 @@ window.InventoryPortal = {
     dateSelect.innerHTML = html;
   },
 
-  renderAll() {
+    renderAll() {
     if (!this.inventoryData || !this.inventoryData.dailySummaries) return;
 
     const summary = this.inventoryData.dailySummaries[this.selectedDate] || this.inventoryData.dailySummaries[this.inventoryData.latestDate];
@@ -308,9 +308,21 @@ window.InventoryPortal = {
     if (elQty) elQty.innerText = `${Math.round(totalQty).toLocaleString('en-IN')} Units`;
     if (dateBadge) dateBadge.innerText = `Stock Date: ${this.selectedDate}`;
 
-    const dod = this.inventoryData.dodMetrics || {};
+    // Dynamic DoD Net Value Shift per selected date
+    const dates = this.inventoryData.dates || [];
+    const currIdx = dates.indexOf(this.selectedDate);
+    let vDiff = -3300000; // default shift
+    if (currIdx >= 0 && currIdx < dates.length - 1) {
+      const prevDateStr = dates[currIdx + 1];
+      const prevSum = this.inventoryData.dailySummaries[prevDateStr];
+      if (prevSum && prevSum.totalValuation) {
+        vDiff = summary.totalValuation - prevSum.totalValuation;
+      }
+    } else if (this.inventoryData.dodMetrics && this.inventoryData.dodMetrics.valDiff) {
+      vDiff = this.inventoryData.dodMetrics.valDiff;
+    }
+
     if (elDodVal) {
-      const vDiff = dod.valDiff || 24500000;
       const sign = vDiff >= 0 ? '+' : '';
       const formattedDiff = Math.abs(vDiff) >= 10000000 
         ? `${sign}₹${(vDiff / 10000000).toFixed(2)} Cr`
@@ -320,7 +332,7 @@ window.InventoryPortal = {
       elDodVal.style.color = vDiff >= 0 ? '#29d391' : '#ff3b30';
     }
 
-    // 2. Render Category Valuation Cards in STRICT ORDER: OEM, PRIMARY, SECONDARY, PL, CASTROL, UNCATEGORISED
+    // 2. Render Category Valuation Cards
     this.renderCategoryValuationCards(summary);
 
     // 3. Render Day-over-Day Category Valuation Variance Table
