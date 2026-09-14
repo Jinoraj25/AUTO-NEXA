@@ -2781,13 +2781,13 @@ window.App = {
   },
 
   checkAuth() {
-    const isLoggedIn = localStorage.getItem('mytvs_logged_in') === 'true';
+    const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true';
     const loginOverlay = document.getElementById('mytvs-login-screen');
     const header = document.getElementById('app-header');
     const mainContent = document.getElementById('main-app-content');
     const footer = document.querySelector('footer.app-footer');
-    const userCode = localStorage.getItem('mytvs_user_code') || 'SM0237';
-    const userName = localStorage.getItem('mytvs_user_name') || 'Jino George';
+    const userCode = sessionStorage.getItem('mytvs_user_code') || localStorage.getItem('mytvs_user_code') || 'SM0237';
+    const userName = sessionStorage.getItem('mytvs_user_name') || localStorage.getItem('mytvs_user_name') || 'Jino George';
 
     if (!isLoggedIn) {
       document.body.classList.remove('is-authenticated');
@@ -2847,9 +2847,10 @@ window.App = {
     }
 
     setTimeout(() => {
+      sessionStorage.setItem('mytvs_logged_in', 'true');
+      sessionStorage.setItem('mytvs_user_code', userCode);
+      sessionStorage.setItem('mytvs_user_name', displayName);
       localStorage.setItem('mytvs_logged_in', 'true');
-      localStorage.setItem('mytvs_user_code', userCode);
-      localStorage.setItem('mytvs_user_name', displayName);
 
       document.body.classList.add('is-authenticated');
 
@@ -2890,9 +2891,10 @@ window.App = {
   },
 
   logout() {
+    sessionStorage.removeItem('mytvs_logged_in');
+    sessionStorage.removeItem('mytvs_user_code');
+    sessionStorage.removeItem('mytvs_user_name');
     localStorage.removeItem('mytvs_logged_in');
-    localStorage.removeItem('mytvs_user_code');
-    localStorage.removeItem('mytvs_user_name');
     document.body.classList.remove('is-authenticated');
     this.checkAuth();
     this.showToast("Signed out of myTVS Session", "info");
