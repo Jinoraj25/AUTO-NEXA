@@ -2816,7 +2816,7 @@ window.App = {
 
     let displayName = "Jino George";
     if (userCode === "SM0216") {
-      displayName = "Catalogue Admin (SM0216)";
+      displayName = "Prasanna";
     } else if (userCode === "SM0237") {
       displayName = "Jino George";
     } else {
