@@ -19,90 +19,27 @@
 </head>
 <body>
 
-  <!-- Welcome Pop-Up Modal -->
-  <div id="mytvs-welcome-popup" class="mytvs-login-overlay" style="display: none; background: rgba(7, 13, 24, 0.88); z-index: 9999999;">
-    <div class="mytvs-login-card" style="text-align: center; max-width: 440px; border-color: rgba(255, 102, 0, 0.45); background: #0f172a !important;">
-      <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🏢</div>
-      <h2 id="welcome-user-heading" style="font-size: 1.65rem; color: #f8fafc; margin-bottom: 0.25rem;">Welcome Jino George</h2>
-      <p id="welcome-user-sub" style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 1.5rem;">Authenticated as SM0237 • TVS Mobility Corporate Hub</p>
-      <button class="btn-mytvs-primary" style="margin: 0 auto; width: 100%;" onclick="App.closeWelcomePopup()">
-        🚀 Enter myTVS Workspace
-      </button>
-    </div>
+  <!-- Welcome Pop-Up Notification (1-2 Sec Auto-fading Toast) -->
+  <div id="mytvs-welcome-popup" class="welcome-toast-popup" style="display: none;">
+    <span class="welcome-toast-icon">👋</span>
+    <span id="welcome-user-heading" class="welcome-toast-text">Welcome Jino George</span>
   </div>
 
-  <!-- Standalone myTVS Enterprise Split-Screen Login Page (Matching Image 2 Reference) -->
-  <div id="mytvs-login-screen" class="mytvs-split-login-page">
-    <!-- Left Hero Side -->
-    <div class="login-left-hero">
-      <img class="login-left-bg-img" src="mytvs_login_car_sunset.jpg" onerror="this.onerror=null;this.src='images/mytvs_login_car_sunset.jpg'" alt="myTVS Automotive Hub">
-      <div class="login-left-overlay"></div>
-      
-      <!-- Top Left Brand & Tagline -->
-      <div class="login-left-top-bar">
-        <div class="login-left-logo-box">
-          <div class="mytvs-logo-row">
-            <span class="mytvs-my-text">my</span><span class="mytvs-tvs-text">TVS</span>
-          </div>
-          <div class="mytvs-sub-tagline"><span class="t-org">Trusted.</span> <span class="t-org">Tested.</span> <span class="t-blu">True.</span></div>
-        </div>
-        <div class="login-left-top-tagline">
-          <span class="tagline-bar">|</span> "Better Parts. Smoother Journeys."
-        </div>
+  <!-- Standalone myTVS Full-Screen Login Page (No white split background) -->
+  <div id="mytvs-login-screen" class="mytvs-fullscreen-login-page">
+    <img class="login-fullscreen-bg-img" src="mytvs_login_car_sunset.jpg" onerror="this.onerror=null;this.src='images/mytvs_login_car_sunset.jpg'" alt="myTVS Automotive Hub">
+    <div class="login-fullscreen-overlay"></div>
+    
+    <!-- Top Left Brand Badge -->
+    <div class="login-top-brand-badge">
+      <div class="mytvs-logo-row">
+        <span class="mytvs-my-text">my</span><span class="mytvs-tvs-text">TVS</span>
       </div>
-
-      <!-- Center Hero Content -->
-      <div class="login-left-content">
-        <div class="login-kicker">AUTOMOTIVE PARTS INTELLIGENCE PLATFORM</div>
-        <h1 class="login-title-main">
-          Smarter Decisions.<br>
-          <span class="highlight-orange">Stronger Performance.</span>
-        </h1>
-        <p class="login-desc">
-          Access real-time insights, streamline operations and drive growth with myTVS.
-        </p>
-
-        <!-- Feature Pills Row -->
-        <div class="login-feature-pills">
-          <div class="pill-item">
-            <span class="pill-icon">📦</span>
-            <span>Smarter Inventory</span>
-          </div>
-          <div class="pill-item">
-            <span class="pill-icon">📊</span>
-            <span>Data-Driven Sales</span>
-          </div>
-          <div class="pill-item">
-            <span class="pill-icon">⏱️</span>
-            <span>Efficient Planning</span>
-          </div>
-          <div class="pill-item">
-            <span class="pill-icon">📋</span>
-            <span>Accurate Catalogue</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom Footer Bar -->
-      <div class="login-left-footer">
-        <div class="footer-brand-info">
-          <span class="footer-mytvs-bold">myTVS</span>
-          <span class="footer-sub-text">Empowering the Automotive Aftermarket with Intelligence.</span>
-        </div>
-      </div>
+      <div class="mytvs-sub-tagline"><span class="t-org">Trusted.</span> <span class="t-org">Tested.</span> <span class="t-blu">True.</span></div>
     </div>
 
-    <!-- Right Login Form Side with Curved Transition -->
-    <div class="login-right-form-side">
-      <!-- Organic SVG Wave Divider -->
-      <svg class="login-curve-svg" viewBox="0 0 120 800" preserveAspectRatio="none">
-        <path d="M0,0 Q80,300 25,500 T120,800 L120,0 Z" fill="#f8fafc" />
-      </svg>
-      
-      <!-- Ambient Top Right Wave Accent -->
-      <div class="login-right-ambient-accent"></div>
-
-      <!-- Floating White Login Card Container -->
+    <!-- Centered Compact Floating Login Card -->
+    <div class="login-compact-card-wrapper">
       <div class="login-white-card">
         <div class="white-card-logo">
           <span class="card-mytvs-my">my</span><span class="card-mytvs-tvs">TVS</span>
@@ -155,11 +92,11 @@
           </div>
         </form>
       </div>
+    </div>
 
-      <!-- Bottom Right Motto -->
-      <div class="login-bottom-right-motto">
-        🚗 Driving a Smarter Tomorrow
-      </div>
+    <!-- Bottom Right Motto -->
+    <div class="login-bottom-motto">
+      🚗 Driving a Smarter Tomorrow
     </div>
   </div>
 
@@ -181,7 +118,7 @@
 
     <nav class="nav-menu-group" aria-label="Primary navigation">
       <div class="nav-section-label">WORKSPACE</div>
-      <button class="nav-menu-item active" data-tab="home"><span class="nav-icon">⌂</span><span>Overview</span></button>
+      <button class="nav-menu-item active" data-tab="home"><span class="nav-icon">⌂</span><span>Home</span></button>
       <button class="nav-menu-item" data-tab="catalogue"><span class="nav-icon">⌘</span><span>Catalogue</span></button>
       <button class="nav-menu-item" data-tab="inventory"><span class="nav-icon">▣</span><span>Inventory</span></button>
       <button class="nav-menu-item" data-tab="analytics"><span class="nav-icon">◒</span><span>Sales</span></button>
@@ -208,56 +145,164 @@
     <!-- ==================== TAB 0: EXECUTIVE OVERVIEW ==================== -->
     <section id="tab-home" class="tab-pane active">
       <div class="home-shell">
-        <div class="home-hero">
-          <div class="hero-copy">
-            <div class="eyebrow"><span class="eyebrow-dot"></span> AUTOMOTIVE DATA &amp; DECISION INTELLIGENCE</div>
-            <h1>EVERY PART.<br><span>EVERY DECISION.</span></h1>
-            <p class="hero-lead">AUTO NEXA connects catalogue intelligence, OEM component mapping, sales performance, inventory health and demand planning in one operating workspace.</p>
-            <div class="hero-actions">
-              <button class="btn btn-primary" onclick="App.switchTab('catalogue')"><span>⌘</span> Open Catalogue</button>
-              <button class="btn btn-ghost" onclick="App.switchTab('analytics')">Explore Sales Intelligence <span>→</span></button>
-            </div>
-            <div class="hero-proof">
-              <div><strong id="stat-hero-rules">923</strong><span>Master component rules</span></div>
-              <div><strong>305K+</strong><span>Indexed part numbers</span></div>
-              <div><strong>6</strong><span>Core intelligence modules</span></div>
+        <!-- Main Scenic Hero Banner (Matching Image 2 Reference) -->
+        <div class="home-hero-scenic">
+          <img src="mytvs_home_hero_car.jpg" onerror="this.onerror=null;this.src='images/mytvs_home_hero_car.jpg'" alt="myTVS Automotive Intelligence" class="scenic-hero-img">
+          <div class="scenic-hero-overlay"></div>
+          
+          <div class="scenic-hero-left">
+            <div class="scenic-eyebrow"><span class="eyebrow-dot"></span> myTVS × AUTONEXA</div>
+            <div class="scenic-kicker">AUTOMOTIVE PARTS INTELLIGENCE PLATFORM</div>
+            <h1 class="scenic-headline">
+              Smarter Insights.<br>
+              <span class="scenic-orange">Stronger Performance.</span>
+            </h1>
+            <p class="scenic-lead">
+              The power of data. The precision of automotive intelligence. Helping you make better decisions, faster.
+            </p>
+            <div class="scenic-actions">
+              <button class="btn btn-hero-primary" onclick="App.switchTab('catalogue')">Explore Modules <span>→</span></button>
+              <button class="btn btn-hero-glass" onclick="App.switchTab('analytics')"><span>▶</span> Learn More</button>
             </div>
           </div>
 
-          <div class="hero-visual">
-            <div class="visual-grid"></div>
-            <div class="visual-orbit orbit-one"></div>
-            <div class="visual-orbit orbit-two"></div>
-            <div class="hero-car-frame">
-              <img src="luxury_car_front.jpg" onerror="this.onerror=null;this.src='images/luxury_car_front.jpg'" alt="Premium passenger vehicle" class="luxury-car-img">
-              <div class="hero-image-shade"></div>
+          <!-- Floating Glass Feature Card (Right Side of Hero) -->
+          <div class="scenic-hero-right-glass">
+            <div class="glass-feature-row">
+              <div class="glass-icon">⚙️</div>
+              <div>
+                <strong>Better Visibility</strong>
+                <small>Across Your Business</small>
+              </div>
             </div>
-            <div class="floating-metric metric-top"><span class="metric-label">SYSTEM COVERAGE</span><strong>PCV / MULTI-MAKE</strong><small>OEM intelligence layer</small></div>
-            <div class="floating-metric metric-bottom"><span class="metric-label">LIVE ENGINE</span><strong><span class="live-pulse"></span> READY</strong><small>Mapping • Stock • Sales • Planning</small></div>
+            <div class="glass-feature-row">
+              <div class="glass-icon">📈</div>
+              <div>
+                <strong>Smarter Decisions</strong>
+                <small>With Real-Time Intelligence</small>
+              </div>
+            </div>
+            <div class="glass-feature-row">
+              <div class="glass-icon">🛡️</div>
+              <div>
+                <strong>Sustainable Growth</strong>
+                <small>For a Stronger Tomorrow</small>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="section-heading home-section-heading">
-          <div><span class="section-kicker">COMMAND CENTRE</span><h2>Everything your parts operation needs.</h2></div>
-          <span class="section-note">One workspace • One data language • One source of truth</span>
+        <!-- 5 Module Cards Grid (Matching Image 2 Reference) -->
+        <div class="scenic-module-grid">
+          <!-- 01 Catalogue -->
+          <article class="scenic-module-card mod-cat" onclick="App.switchTab('catalogue')">
+            <div class="card-num-badge">01</div>
+            <div class="scenic-mod-icon">📖</div>
+            <h3>Catalogue</h3>
+            <p>Map OEM descriptions to aggregate master with precision.</p>
+            <div class="scenic-mod-action">
+              <span>Explore Catalogue</span>
+              <span class="circle-arrow">→</span>
+            </div>
+          </article>
+
+          <!-- 02 Inventory -->
+          <article class="scenic-module-card mod-inv" onclick="App.switchTab('inventory')">
+            <div class="card-num-badge">02</div>
+            <div class="scenic-mod-icon">📦</div>
+            <h3>Inventory</h3>
+            <p>Track stock, value and availability in real-time.</p>
+            <div class="scenic-mod-action">
+              <span>Explore Inventory</span>
+              <span class="circle-arrow">→</span>
+            </div>
+          </article>
+
+          <!-- 03 Sales -->
+          <article class="scenic-module-card mod-sales" onclick="App.switchTab('analytics')">
+            <div class="card-num-badge">03</div>
+            <div class="scenic-mod-icon">📊</div>
+            <h3>Sales</h3>
+            <p>Analyse revenue, trends and customer performance.</p>
+            <div class="scenic-mod-action">
+              <span>Explore Sales</span>
+              <span class="circle-arrow">→</span>
+            </div>
+          </article>
+
+          <!-- 04 Planning -->
+          <article class="scenic-module-card mod-plan" onclick="App.switchTab('forecasting')">
+            <div class="card-num-badge">04</div>
+            <div class="scenic-mod-icon">📅</div>
+            <h3>Planning</h3>
+            <p>Forecast demand, manage stock and optimise orders.</p>
+            <div class="scenic-mod-action">
+              <span>Explore Planning</span>
+              <span class="circle-arrow">→</span>
+            </div>
+          </article>
+
+          <!-- 05 Reports -->
+          <article class="scenic-module-card mod-rep" onclick="App.switchTab('deviation')">
+            <div class="card-num-badge">05</div>
+            <div class="scenic-mod-icon">📄</div>
+            <h3>Reports</h3>
+            <p>Detect deviations, track leakages and ensure compliance.</p>
+            <div class="scenic-mod-action">
+              <span>Explore Reports</span>
+              <span class="circle-arrow">→</span>
+            </div>
+          </article>
         </div>
 
-        <div class="module-grid">
-          <article class="module-card module-catalogue" onclick="App.switchTab('catalogue')"><div class="module-number">01</div><div class="module-icon">⌘</div><h3>Catalogue Intelligence</h3><p>Map descriptions and part numbers into Aggregate → Sub-Aggregate → Component with a searchable master.</p><span>Launch Catalogue <b>↗</b></span></article>
-          <article class="module-card module-inventory" onclick="App.switchTab('inventory')"><div class="module-number">02</div><div class="module-icon">▣</div><h3>Inventory Control</h3><p>Monitor valuation, stock quantity, DoD/WoW movement and searchable SKU-level inventory health.</p><span>Open Inventory <b>↗</b></span></article>
-          <article class="module-card module-sales" onclick="App.switchTab('analytics')"><div class="module-number">03</div><div class="module-icon">◒</div><h3>Sales Intelligence</h3><p>Read RF and CF performance through revenue, margin, make, region, PMS and aggregate analytics.</p><span>View Sales <b>↗</b></span></article>
-          <article class="module-card module-planning" onclick="App.switchTab('forecasting')"><div class="module-number">04</div><div class="module-icon">⌁</div><h3>Demand Planning</h3><p>Convert sales velocity and stock position into MSL, safety stock, reorder and PO recommendations.</p><span>Plan Demand <b>↗</b></span></article>
-          <article class="module-card module-reports" onclick="App.switchTab('deviation')"><div class="module-number">05</div><div class="module-icon">≡</div><h3>Audit &amp; Reports</h3><p>Surface outside-purchase deviations, financial leakage and actionable exceptions for review.</p><span>Open Reports <b>↗</b></span></article>
+        <!-- Quick Insights Horizontal Strip -->
+        <div class="scenic-quick-insights-bar">
+          <div class="quick-insights-header">
+            <span class="insights-icon">📊</span>
+            <div>
+              <strong>QUICK INSIGHTS</strong>
+              <small>A quick glance at your key performance indicators.</small>
+            </div>
+          </div>
+          <div class="quick-insights-pills">
+            <div class="kpi-pill-item" onclick="App.switchTab('analytics')">
+              <span class="kpi-pill-label">Sales Performance</span>
+              <strong class="kpi-pill-val positive">+12% vs last month ↑</strong>
+            </div>
+            <div class="kpi-pill-item" onclick="App.switchTab('analytics')">
+              <span class="kpi-pill-label">Top Make</span>
+              <strong class="kpi-pill-val">Maruti Suzuki &gt;</strong>
+            </div>
+            <div class="kpi-pill-item" onclick="App.switchTab('inventory')">
+              <span class="kpi-pill-label">Inventory Health</span>
+              <strong class="kpi-pill-val positive">92% &gt;</strong>
+            </div>
+            <div class="kpi-pill-item" onclick="App.switchTab('forecasting')">
+              <span class="kpi-pill-label">Pending POs</span>
+              <strong class="kpi-pill-val amber">142 &gt;</strong>
+            </div>
+          </div>
         </div>
 
-        <div class="intelligence-band">
-          <div class="band-copy"><span class="section-kicker">AUTOMOTIVE ECOSYSTEM</span><h2>Built for multi-make PCV operations.</h2><p>Designed around real automotive terminology, component hierarchies and business workflows.</p></div>
-          <div class="brand-wall" aria-label="Supported vehicle makes"><span>MARUTI SUZUKI</span><span>HYUNDAI</span><span>MAHINDRA</span><span>TATA MOTORS</span><span>TOYOTA</span><span>HONDA</span><span>KIA</span><span>RENAULT</span><span>NISSAN</span><span>VOLKSWAGEN</span><span>SKODA</span><span>FORD</span></div>
-        </div>
-
-        <div class="home-bottom-grid">
-          <div class="data-preview-card"><div class="preview-top"><div><span class="section-kicker">COMPONENT GENOME</span><h3>From raw description to structured intelligence.</h3></div><span id="badge-master-rules-genome" class="status-badge">923 RULES</span></div><div class="genome-flow"><div><small>AGGREGATE</small><strong>Brake System</strong></div><span>→</span><div><small>SUB-AGGREGATE</small><strong>Disc Brake</strong></div><span>→</span><div><small>COMPONENT</small><strong>Brake Pad</strong></div></div></div>
-          <div class="insight-card"><span class="section-kicker">DECISION LAYER</span><h3>Know what to buy, where to focus and why.</h3><div class="insight-list"><div><span>01</span><p>Identify slow / critical stock</p></div><div><span>02</span><p>Prioritise demand-driven replenishment</p></div><div><span>03</span><p>Audit purchasing against internal availability</p></div></div></div>
+        <!-- Bottom Brand Wall & Tagline Banner -->
+        <div class="scenic-aftermarket-banner">
+          <div class="aftermarket-copy">
+            <h2>Built for the Automotive Aftermarket.</h2>
+            <p>From catalogue to customer, AUTO NEXA brings together everything you need in one powerful platform.</p>
+          </div>
+          <div class="aftermarket-brands-wall">
+            <span>MARUTI SUZUKI</span>
+            <span>HYUNDAI</span>
+            <span>MAHINDRA</span>
+            <span>TATA MOTORS</span>
+            <span>TOYOTA</span>
+            <span class="more-tag">and more...</span>
+          </div>
+          <div class="aftermarket-tagline-box">
+            <div class="tag-line-white">The right part.</div>
+            <div class="tag-line-blue">The right decision.</div>
+            <div class="tag-line-orange">At the right time.</div>
+          </div>
         </div>
       </div>
     </section>

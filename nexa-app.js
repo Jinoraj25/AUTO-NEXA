@@ -2871,23 +2871,33 @@ window.App = {
       }
 
       this.updateHeaderProfile(userCode, displayName);
+      this.switchTab('home');
 
-      // Trigger Welcome Popup
+      // Trigger 1.5-second Auto-fading Welcome Pop-Up Notification
       const welcomePopup = document.getElementById('mytvs-welcome-popup');
       const welcomeHead = document.getElementById('welcome-user-heading');
-      const welcomeSub = document.getElementById('welcome-user-sub');
 
       if (welcomeHead) welcomeHead.innerText = `Welcome ${displayName}`;
-      if (welcomeSub) welcomeSub.innerText = `Authenticated as ${userCode} • TVS Mobility Corporate Hub`;
-      if (welcomePopup) welcomePopup.style.display = 'flex';
+      if (welcomePopup) {
+        welcomePopup.style.display = 'flex';
+        setTimeout(() => welcomePopup.classList.add('show'), 20);
 
-      this.switchTab('home');
-    }, 400);
+        setTimeout(() => {
+          welcomePopup.classList.remove('show');
+          setTimeout(() => {
+            welcomePopup.style.display = 'none';
+          }, 400);
+        }, 1500);
+      }
+    }, 300);
   },
 
   closeWelcomePopup() {
     const welcomePopup = document.getElementById('mytvs-welcome-popup');
-    if (welcomePopup) welcomePopup.style.display = 'none';
+    if (welcomePopup) {
+      welcomePopup.classList.remove('show');
+      welcomePopup.style.display = 'none';
+    }
   },
 
   logout() {
