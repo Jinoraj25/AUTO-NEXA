@@ -4262,3 +4262,26 @@ select option {
 #tab-inventory > div:first-child label {
   color: #ffb84d !important;
 }
+
+/* AUTHENTICATION DISPLAY OVERRIDES */
+body.is-authenticated #mytvs-login-screen {
+  display: none !important;
+}
+
+body:not(.is-authenticated) #app-header,
+body:not(.is-authenticated) #main-app-content,
+body:not(.is-authenticated) footer.app-footer {
+  display: none !important;
+}
+
+body.is-authenticated #app-header {
+  display: flex !important;
+}
+
+body.is-authenticated #main-app-content {
+  display: block !important;
+}
+
+body.is-authenticated footer.app-footer {
+  display: block !important;
+}

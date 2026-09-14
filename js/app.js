@@ -170,8 +170,8 @@ window.App = {
     }
   },
 
-  checkAuth() {
-    const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true';
+    checkAuth() {
+    const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true' || localStorage.getItem('mytvs_logged_in') === 'true';
     const loginOverlay = document.getElementById('mytvs-login-screen');
     const header = document.getElementById('app-header');
     const mainContent = document.getElementById('main-app-content');
@@ -181,17 +181,17 @@ window.App = {
 
     if (!isLoggedIn) {
       document.body.classList.remove('is-authenticated');
-      if (loginOverlay) loginOverlay.style.display = 'grid';
-      if (header) header.style.display = 'none';
-      if (mainContent) mainContent.style.display = 'none';
-      if (footer) footer.style.display = 'none';
+      if (loginOverlay) loginOverlay.style.setProperty('display', 'grid', 'important');
+      if (header) header.style.setProperty('display', 'none', 'important');
+      if (mainContent) mainContent.style.setProperty('display', 'none', 'important');
+      if (footer) footer.style.setProperty('display', 'none', 'important');
       document.body.style.overflow = 'hidden';
     } else {
       document.body.classList.add('is-authenticated');
-      if (loginOverlay) loginOverlay.style.display = 'none';
-      if (header) header.style.display = 'flex';
-      if (mainContent) mainContent.style.display = 'block';
-      if (footer) footer.style.display = 'block';
+      if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
+      if (header) header.style.setProperty('display', 'flex', 'important');
+      if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
+      if (footer) footer.style.setProperty('display', 'block', 'important');
       document.body.style.overflow = '';
       this.updateHeaderProfile(userCode, userName);
     }
@@ -211,16 +211,14 @@ window.App = {
     }
   },
 
-  handleLogin(e) {
-    if (e) e.preventDefault();
-    const userCode = (document.getElementById('login-username')?.value || 'SM0237').trim().toUpperCase();
-    const password = document.getElementById('login-password')?.value || '';
-    const btn = document.getElementById('btn-login-submit');
-
-    if (password !== 'Catalog@2026') {
-      alert("Invalid password! Please use password: Catalog@2026");
-      return;
+    handleLogin(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
+    const userCodeInput = document.getElementById('login-username');
+    const userCode = (userCodeInput && userCodeInput.value ? userCodeInput.value : 'SM0237').trim().toUpperCase();
+    const btn = document.getElementById('btn-login-submit');
 
     let displayName = "Jino George";
     if (userCode === "SM0216") {
@@ -236,50 +234,53 @@ window.App = {
       btn.innerHTML = '<span>⏳</span> Authenticating with myTVS...';
     }
 
-    setTimeout(() => {
-      sessionStorage.setItem('mytvs_logged_in', 'true');
-      sessionStorage.setItem('mytvs_user_code', userCode);
-      sessionStorage.setItem('mytvs_user_name', displayName);
-      localStorage.setItem('mytvs_logged_in', 'true');
+    // Save auth state
+    sessionStorage.setItem('mytvs_logged_in', 'true');
+    sessionStorage.setItem('mytvs_user_code', userCode);
+    sessionStorage.setItem('mytvs_user_name', displayName);
+    localStorage.setItem('mytvs_logged_in', 'true');
+    localStorage.setItem('mytvs_user_code', userCode);
+    localStorage.setItem('mytvs_user_name', displayName);
 
-      document.body.classList.add('is-authenticated');
+    // Update DOM instantly
+    document.body.classList.add('is-authenticated');
 
-      const loginOverlay = document.getElementById('mytvs-login-screen');
-      const header = document.getElementById('app-header');
-      const mainContent = document.getElementById('main-app-content');
-      const footer = document.querySelector('footer.app-footer');
+    const loginOverlay = document.getElementById('mytvs-login-screen');
+    const header = document.getElementById('app-header');
+    const mainContent = document.getElementById('main-app-content');
+    const footer = document.querySelector('footer.app-footer');
 
-      if (loginOverlay) loginOverlay.style.display = 'none';
-      if (header) header.style.display = 'flex';
-      if (mainContent) mainContent.style.display = 'block';
-      if (footer) footer.style.display = 'block';
-      document.body.style.overflow = '';
+    if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
+    if (header) header.style.setProperty('display', 'flex', 'important');
+    if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
+    if (footer) footer.style.setProperty('display', 'block', 'important');
+    document.body.style.overflow = '';
 
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = '<span>Sign In</span> <span class="arrow-icon">→</span>';
-      }
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<span>Sign In</span> <span class="arrow-icon">→</span>';
+    }
 
-      this.updateHeaderProfile(userCode, displayName);
-      this.switchTab('home');
+    this.updateHeaderProfile(userCode, displayName);
+    this.switchTab('home');
 
-      // Trigger 1.5-second Auto-fading Welcome Pop-Up Notification
-      const welcomePopup = document.getElementById('mytvs-welcome-popup');
-      const welcomeHead = document.getElementById('welcome-user-heading');
+    // Trigger Welcome Toast Notification
+    this.showToast(`Welcome back, ${displayName}!`, "success");
 
-      if (welcomeHead) welcomeHead.innerText = `Welcome ${displayName}`;
-      if (welcomePopup) {
-        welcomePopup.style.display = 'flex';
-        setTimeout(() => welcomePopup.classList.add('show'), 20);
-
+    // Welcome Pop-Up
+    const welcomePopup = document.getElementById('mytvs-welcome-popup');
+    const welcomeHead = document.getElementById('welcome-user-heading');
+    if (welcomeHead) welcomeHead.innerText = `Welcome ${displayName}`;
+    if (welcomePopup) {
+      welcomePopup.style.display = 'flex';
+      setTimeout(() => welcomePopup.classList.add('show'), 20);
+      setTimeout(() => {
+        welcomePopup.classList.remove('show');
         setTimeout(() => {
-          welcomePopup.classList.remove('show');
-          setTimeout(() => {
-            welcomePopup.style.display = 'none';
-          }, 400);
-        }, 1500);
-      }
-    }, 300);
+          welcomePopup.style.display = 'none';
+        }, 400);
+      }, 1800);
+    }
   },
 
   closeWelcomePopup() {
@@ -303,6 +304,6 @@ window.App = {
 
 // Initialize App on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
-  window.App.init();
   window.App.checkAuth();
+  window.App.init();
 });
