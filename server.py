@@ -526,6 +526,33 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode('utf-8'))
                 return
 
+        if self.path == '/api/sales/commit':
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                body_bytes = self.rfile.read(content_length)
+                payload = json.loads(body_bytes.decode('utf-8'))
+                
+                channel_type = payload.get('channel', 'RF').upper()
+                rows = payload.get('rows', [])
+                
+                print(f"API Sales Commit: Received {len(rows)} mapped sales rows for channel {channel_type}")
+                
+                # Insert rows into MySQL & SQLite DB
+                insert_daily_sales_db('15-Sep-2026', '202609', channel_type, rows)
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "success", "rowsCommitted": len(rows), "channel": channel_type, "message": f"Successfully committed {len(rows)} rows to {channel_type} Sales SQL DB"}).encode('utf-8'))
+                return
+            except Exception as e:
+                print(f"API Sales Commit Exception: {e}")
+                self.send_response(400)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode('utf-8'))
+                return
+
         if self.path == '/api/sales/upload' or self.path == '/api/upload':
             try:
                 content_length = int(self.headers.get('Content-Length', 0))

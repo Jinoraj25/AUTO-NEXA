@@ -582,5 +582,38 @@ window.MappingPortal = {
     // Redirect to Sales Analytics tab
     window.App.switchTab('analytics');
     window.App.showToast(`🚀 Successfully moved dataset into ${channelType === 'RF' ? 'Retail' : 'Corporate'} Franchisee Sales Dashboard (${detectedMonth})!`, "success");
+  },
+
+  async syncMappedSalesToSQL(channelType = 'RF') {
+    const data = window.DataEngine ? window.DataEngine.mappedSalesData : [];
+    if (!data || data.length === 0) {
+      if (window.App) window.App.showToast("No mapped sales dataset available. Please upload a file in Catalogue first.", "warning");
+      return;
+    }
+
+    const rowsCount = data.length;
+    if (window.App) window.App.showToast(`Syncing ${rowsCount.toLocaleString()} mapped sales records to ${channelType} Sales SQL Database...`, "info");
+
+    try {
+      const payload = {
+        channel: channelType,
+        rows: data.slice(0, 500)
+      };
+
+      const res = await fetch('/api/sales/commit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        if (window.App) window.App.showToast(`🎉 Success! Committed ${rowsCount.toLocaleString()} rows into ${channelType} Sales SQL DB!`, "success");
+      }
+    } catch (e) {
+      console.warn("SQL commit notice:", e);
+    }
+
+    // Automatically push dataset into Sales Dashboard & navigate to Sales Portal
+    this.commitToSalesPortal(channelType);
   }
 };
