@@ -244,15 +244,20 @@ window.MappingPortal = {
 
   filterMasterTable(query = "") {
     if (!window.DataEngine || !window.DataEngine.db || !window.DataEngine.db.aggregateMaster || window.DataEngine.db.aggregateMaster.length === 0) {
-      if (window.DataEngine) window.DataEngine.initDefaultRules();
+      if (window.DataEngine && typeof window.DataEngine.initDefaultRules === 'function') {
+        window.DataEngine.initDefaultRules();
+      }
     }
-    const master = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster) ? window.DataEngine.db.aggregateMaster : [];
+
+    const fullMaster = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster && window.DataEngine.db.aggregateMaster.length > 0)
+      ? window.DataEngine.db.aggregateMaster
+      : [];
 
     const q = String(query || "").trim().toLowerCase();
     if (!q) {
-      this.filteredMaster = [...master];
+      this.filteredMaster = [...fullMaster];
     } else {
-      this.filteredMaster = master.filter(item => {
+      this.filteredMaster = fullMaster.filter(item => {
         return (item.aggregate && item.aggregate.toLowerCase().includes(q)) ||
                (item.subAggregate && item.subAggregate.toLowerCase().includes(q)) ||
                (item.component && item.component.toLowerCase().includes(q)) ||
@@ -268,18 +273,32 @@ window.MappingPortal = {
     if (!tbody) return;
 
     if (!window.DataEngine || !window.DataEngine.db || !window.DataEngine.db.aggregateMaster || window.DataEngine.db.aggregateMaster.length === 0) {
-      if (window.DataEngine) window.DataEngine.initDefaultRules();
+      if (window.DataEngine && typeof window.DataEngine.initDefaultRules === 'function') {
+        window.DataEngine.initDefaultRules();
+      }
     }
-    const fullMaster = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster) ? window.DataEngine.db.aggregateMaster : [];
+
+    const fullMaster = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster && window.DataEngine.db.aggregateMaster.length > 0)
+      ? window.DataEngine.db.aggregateMaster
+      : [];
 
     const searchInput = document.getElementById('master-search-input');
     const q = (searchInput ? searchInput.value : "").trim().toLowerCase();
 
-    if (!this.filteredMaster || (this.filteredMaster.length === 0 && !q)) {
-      this.filteredMaster = [...fullMaster];
+    if (!this.filteredMaster || this.filteredMaster.length === 0) {
+      if (q) {
+        this.filteredMaster = fullMaster.filter(item => {
+          return (item.aggregate && item.aggregate.toLowerCase().includes(q)) ||
+                 (item.subAggregate && item.subAggregate.toLowerCase().includes(q)) ||
+                 (item.component && item.component.toLowerCase().includes(q)) ||
+                 (item.category && item.category.toLowerCase().includes(q));
+        });
+      } else {
+        this.filteredMaster = [...fullMaster];
+      }
     }
 
-    const masterSource = this.filteredMaster;
+    const masterSource = (this.filteredMaster && this.filteredMaster.length > 0) ? this.filteredMaster : fullMaster;
 
     if (!masterSource || masterSource.length === 0) {
       tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 2.5rem; color: #94a3b8;">No aggregate master rules matching search query "${q}".</td></tr>`;
