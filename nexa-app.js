@@ -164,66 +164,76 @@ window.DataEngine = {
         }
       }
 
-      // Strategy 3: Rule-based Heuristics for Common Spare Parts
-      if (descUpper.includes("FILTER")) {
-        let comp = "OIL FILTER";
-        if (descUpper.includes("AIR")) comp = "AIR FILTER";
-        if (descUpper.includes("CABIN") || descUpper.includes("AC")) comp = "CABIN FILTER";
-        if (descUpper.includes("FUEL")) comp = "FUEL FILTER";
-        const masterEntry = findInMaster(comp);
-        return {
-          aggregate: masterEntry ? masterEntry.aggregate : "FILTERS",
-          subAggregate: masterEntry ? masterEntry.subAggregate : "FILTERS",
-          component: comp,
-          category: masterEntry ? masterEntry.category : "Consumables",
-          make: brandUpper || "GENERIC",
-          matchMethod: "HEURISTIC_TEXT",
-          confidence: "MEDIUM",
-          confidenceScore: 78,
-          remarks: "Auto Mapped (Heuristic Match)"
-        };
+      // Strategy 3: Precision Domain Rules for Automotive Spare Parts
+      const d = descUpper;
+      if (d.includes("BRAKE SHOE") || d.includes("DRUM BRAKE")) {
+        return { aggregate: "BRAKE SYSTEM", subAggregate: "DRUM BRAKE", component: "BRAKE SHOE", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
       }
-      if (descUpper.includes("BRAKE") || descUpper.includes("PAD") || descUpper.includes("DISC")) {
-        const masterEntry = findInMaster("BRAKE PAD");
-        return {
-          aggregate: masterEntry ? masterEntry.aggregate : "BRAKE SYSTEM",
-          subAggregate: masterEntry ? masterEntry.subAggregate : "BRAKE PAD",
-          component: "BRAKE PAD",
-          category: masterEntry ? masterEntry.category : "Mechanical Parts",
-          make: brandUpper || "GENERIC",
-          matchMethod: "HEURISTIC_TEXT",
-          confidence: "MEDIUM",
-          confidenceScore: 75,
-          remarks: "Auto Mapped (Heuristic Match)"
-        };
+      if (d.includes("DISC PAD") || d.includes("BRAKE PAD")) {
+        return { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE PAD", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
       }
-      if (descUpper.includes("PLUG") || descUpper.includes("SPARK")) {
-        const masterEntry = findInMaster("SPARK PLUG");
-        return {
-          aggregate: masterEntry ? masterEntry.aggregate : "ELECTRICALS AND ELECTRONICS",
-          subAggregate: masterEntry ? masterEntry.subAggregate : "BATTERY & IGNITION",
-          component: "SPARK PLUG",
-          category: masterEntry ? masterEntry.category : "Electrical Parts",
-          make: brandUpper || "GENERIC",
-          matchMethod: "HEURISTIC_TEXT",
-          confidence: "HIGH",
-          confidenceScore: 90,
-          remarks: "Auto Mapped (Heuristic Match)"
-        };
+      if (d.includes("BRAKE ROTOR") || d.includes("BRAKE DISC")) {
+        return { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE DISC / ROTOR", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
       }
-      if (descUpper.includes("BELT") || descUpper.includes("TIMING")) {
-        const masterEntry = findInMaster("TIMING BELT");
-        return {
-          aggregate: masterEntry ? masterEntry.aggregate : "BELTS AND TENSIONER",
-          subAggregate: masterEntry ? masterEntry.subAggregate : "TIMING BELT",
-          component: "TIMING BELT",
-          category: masterEntry ? masterEntry.category : "Mechanical Parts",
-          make: brandUpper || "GENERIC",
-          matchMethod: "HEURISTIC_TEXT",
-          confidence: "MEDIUM",
-          confidenceScore: 75,
-          remarks: "Auto Mapped (Heuristic Match)"
-        };
+      if (d.includes("OIL SEAL") || d.includes("WHEEL SEAL")) {
+        return { aggregate: "MECHANICAL AGGREGATES", subAggregate: "SEALS & GASKETS", component: "OIL SEAL", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("GASKET MAKER") || d.includes("ANABOND") || d.includes("GASKET")) {
+        return { aggregate: "MECHANICAL AGGREGATES", subAggregate: "SEALS & GASKETS", component: "GASKET & SEALANT", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("UNIVERSAL JOINT") || d.includes("U JOINT") || d.includes("U-JOINT")) {
+        return { aggregate: "TRANSMISSION", subAggregate: "PROPELLER SHAFT", component: "UNIVERSAL JOINT KIT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("HEATER HOSE") || d.includes("HEATER OUTLET") || d.includes("HOSE")) {
+        return { aggregate: "COOLING SYSTEM", subAggregate: "RADIATOR & FLUIDS", component: "COOLANT & HEATER HOSE", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("RADIATOR") || d.includes("COOLING FAN")) {
+        return { aggregate: "COOLING SYSTEM", subAggregate: "RADIATOR & FLUIDS", component: "RADIATOR ASSEMBLY", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("BALL JOINT")) {
+        return { aggregate: "SUSPENSION", subAggregate: "LINKAGE", component: "SUSPENSION BALL JOINT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("STRUT") || d.includes("SHOCK ABSORBER")) {
+        return { aggregate: "SUSPENSION", subAggregate: "STRUT ASSEMBLY", component: "FRONT SHOCK ABSORBER", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("STEERING BOOT") || d.includes("STEERING RACK")) {
+        return { aggregate: "STEERING", subAggregate: "POWER STEERING", component: "STEERING RACK & BOOT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("FOG LAMP") || (d.includes("LAMP") && !d.includes("BULB"))) {
+        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "LIGHTING", component: "FOG LAMP / LIGHT ASSEMBLY", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("BULB") || d.includes("LED")) {
+        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "LIGHTING", component: "HEADLAMP BULB", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("TUBE") || d.includes("FLAP") || d.includes("TYRE")) {
+        return { aggregate: "WHEELS & TIRES", subAggregate: "TUBES & FLAPS", component: "TIRE TUBE / FLAP", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("GEAR LEVER") || d.includes("GEAR SHIFT")) {
+        return { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "GEAR SHIFT LEVER KIT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("HUB OUTER") || d.includes("HUB INNER") || d.includes("WHEEL HUB") || d.includes("REAR HUB")) {
+        return { aggregate: "SUSPENSION", subAggregate: "WHEEL HUB", component: "WHEEL HUB ASSEMBLY", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("REAR WHEEL") || d.includes("FRONT WHEEL")) {
+        return { aggregate: "SUSPENSION", subAggregate: "WHEEL HUB", component: "WHEEL BEARINGS & SEALS", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("FUEL WATER SEPARATOR") || d.includes("FUEL FILTER")) {
+        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "FUEL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("OIL FILTER")) {
+        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "OIL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("AIR FILTER")) {
+        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "AIR FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("FILTER")) {
+        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "OIL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("PLUG") || d.includes("SPARK")) {
+        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "IGNITION SYSTEM", component: "SPARK PLUG", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
+      }
+      if (d.includes("BELT") || d.includes("TIMING")) {
+        return { aggregate: "BELTS AND TENSIONER", subAggregate: "TIMING BELT", component: "TIMING BELT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
       }
     }
 
@@ -378,7 +388,24 @@ window.InventoryPortal = {
     latestDate: '14-Sep-2026',
     dates: ['14-Sep-2026', '12-Sep-2026', '11-Sep-2026', '10-Sep-2026', '09-Sep-2026', '08-Sep-2026', '07-Sep-2026', '05-Sep-2026', '04-Sep-2026', '03-Sep-2026', '02-Sep-2026', '01-Sep-2026'],
     dailySummaries: {
-      '14-Sep-2026': { date: '14-Sep-2026', totalSKUs: 440823, totalQty: 5136168, totalValuation: 1592840945, categoryValuation: { OEM: 544751603, PRIMARY: 452366828, SECONDARY: 304232620, PL: 183176708, CASTROL: 82827729, UNCATEGORISED: 25485457 } },
+      '14-Sep-2026': { 
+        date: '14-Sep-2026', 
+        totalSKUs: 440823, 
+        totalQty: 5136168, 
+        totalValuation: 1592840945, 
+        categoryValuation: { OEM: 544751603, PRIMARY: 452366828, SECONDARY: 304232620, PL: 183176708, CASTROL: 82827729, UNCATEGORISED: 25485457 },
+        sampleItems: [
+          { partNo: '1383424384', desc: 'MGDO 15W40 (3.5 LTR)', brand: 'CASTROL', category: 'CASTROL', lineCode: '138', qty: 4, unitCost: 997.67, mrp: 1320, valuation: 3990.68, ageDays: 34, branchCode: 'MADURAI', branchName: 'MADURAI', tag: 'CONSIDER' },
+          { partNo: '1383424533', desc: 'GTX PROF COM 15W40 (2.5 LTR)', brand: 'CASTROL', category: 'CASTROL', lineCode: '138', qty: 16, unitCost: 601.07, mrp: 990, valuation: 9617.12, ageDays: 300, branchCode: 'MADURAI', branchName: 'MADURAI', tag: 'CONSIDER' },
+          { partNo: '1383433346', desc: 'GTX SUV 0W20 (5 LTR)', brand: 'CASTROL', category: 'CASTROL', lineCode: '138', qty: 24, unitCost: 3178.54, mrp: 6000, valuation: 76284.96, ageDays: 26, branchCode: 'ERNAKULAM', branchName: 'ERNAKULAM', tag: 'CONSIDER' },
+          { partNo: '1383430578', desc: 'MAGNATEC 5W30 (3.5 LTR)', brand: 'CASTROL', category: 'CASTROL', lineCode: '138', qty: 28, unitCost: 1770.20, mrp: 2107, valuation: 49565.60, ageDays: 63, branchCode: 'TRICHY', branchName: 'TRICHY', tag: 'CONSIDER' },
+          { partNo: '1383433696', desc: 'TRANSMAX MAN FE 75W (1 LTR)', brand: 'CASTROL', category: 'CASTROL', lineCode: '138', qty: 56, unitCost: 800.50, mrp: 1355, valuation: 44828.00, ageDays: 296, branchCode: 'SALEM', branchName: 'SALEM', tag: 'CONSIDER' },
+          { partNo: '195RBL/BS/002', desc: 'BRAKE SHOE MARUTI CAR KBX', brand: 'RANE', category: 'SECONDARY', lineCode: '195', qty: 12, unitCost: 450.00, mrp: 680, valuation: 5400.00, ageDays: 15, branchCode: 'COIMBATORE', branchName: 'COIMBATORE', tag: 'CONSIDER' },
+          { partNo: '313RS9003WF', desc: 'OIL SEAL FRONT WHEEL', brand: 'UCAP', category: 'PL', lineCode: '313', qty: 8, unitCost: 120.00, mrp: 185, valuation: 960.00, ageDays: 42, branchCode: 'MADURAI', branchName: 'MADURAI', tag: 'CONSIDER' },
+          { partNo: '801UMKV07', desc: 'FRONT STRUT KIT MAHINDRA KUV-100', brand: 'MONROE', category: 'PRIMARY', lineCode: '801', qty: 6, unitCost: 2450.00, mrp: 3800, valuation: 14700.00, ageDays: 18, branchCode: 'CHENNAI', branchName: 'CHENNAI', tag: 'CONSIDER' },
+          { partNo: '322EF9420FG', desc: 'FUEL WATER SEPARATOR - TATA BSIII', brand: 'FLEETGUARD', category: 'OEM', lineCode: '322', qty: 15, unitCost: 850.00, mrp: 1250, valuation: 12750.00, ageDays: 30, branchCode: 'TIRUNELVELI', branchName: 'TIRUNELVELI', tag: 'CONSIDER' }
+        ]
+      },
       '12-Sep-2026': { date: '12-Sep-2026', totalSKUs: 472464, totalQty: 5558016, totalValuation: 1688861008, categoryValuation: { OEM: 577590464, PRIMARY: 479636526, SECONDARY: 322572452, PL: 194219015, CASTROL: 87820772, UNCATEGORISED: 27021779 } },
       '11-Sep-2026': { date: '11-Sep-2026', totalSKUs: 472815, totalQty: 5548127, totalValuation: 1709164506, categoryValuation: { OEM: 584534261, PRIMARY: 485402719, SECONDARY: 326450420, PL: 196553918, CASTROL: 88876554, UNCATEGORISED: 27346634 } },
       '10-Sep-2026': { date: '10-Sep-2026', totalSKUs: 472990, totalQty: 5561604, totalValuation: 1711734340, categoryValuation: { OEM: 585413144, PRIMARY: 486132552, SECONDARY: 326941258, PL: 196849449, CASTROL: 89010185, UNCATEGORISED: 27387752 } }
@@ -904,24 +931,27 @@ window.InventoryPortal = {
     const summary = (this.inventoryData && this.inventoryData.dailySummaries) ? (this.inventoryData.dailySummaries[this.selectedDate] || this.inventoryData.dailySummaries[this.inventoryData.latestDate]) : null;
     const items = summary ? (summary.sampleItems || []) : [];
 
-    const q = (this.searchQuery || "").trim().toLowerCase();
-    const tagFilter = this.selectedTag || "ALL";
+    const tagSelect = document.getElementById('inventory-tag-select');
+    const tagFilter = tagSelect ? tagSelect.value : (this.selectedTag || "ALL");
+    const searchInput = document.getElementById('inventory-search-input');
+    const q = (searchInput ? searchInput.value : (this.searchQuery || "")).trim().toLowerCase();
 
     let resList = items.filter(v => {
-      if (tagFilter !== "ALL") {
-        const itemTag = (v.tag || "CONSIDER").toUpperCase();
-        if (itemTag !== tagFilter.toUpperCase()) return false;
+      if (tagFilter && tagFilter.toUpperCase() !== "ALL") {
+        const itemTag = String(v.tag || "CONSIDER").trim().toUpperCase();
+        const targetTag = tagFilter.trim().toUpperCase();
+        if (itemTag !== targetTag) return false;
       }
 
       if (q) {
         const matchesQuery = 
-          (v.partNo && v.partNo.toLowerCase().includes(q)) ||
-          (v.desc && v.desc.toLowerCase().includes(q)) ||
-          (v.brand && v.brand.toLowerCase().includes(q)) ||
-          (v.category && v.category.toLowerCase().includes(q)) ||
-          (v.lineCode && v.lineCode.toLowerCase().includes(q)) ||
-          (v.branchCode && v.branchCode.toLowerCase().includes(q)) ||
-          (v.branchName && v.branchName.toLowerCase().includes(q));
+          (v.partNo && String(v.partNo).toLowerCase().includes(q)) ||
+          (v.desc && String(v.desc).toLowerCase().includes(q)) ||
+          (v.brand && String(v.brand).toLowerCase().includes(q)) ||
+          (v.category && String(v.category).toLowerCase().includes(q)) ||
+          (v.lineCode && String(v.lineCode).toLowerCase().includes(q)) ||
+          (v.branchCode && String(v.branchCode).toLowerCase().includes(q)) ||
+          (v.branchName && String(v.branchName).toLowerCase().includes(q));
 
         if (!matchesQuery) return false;
       }
@@ -929,7 +959,7 @@ window.InventoryPortal = {
       return true;
     });
 
-    // Fallback: if tag filter produced 0 items and search query is empty, show all items for that date
+    // ABSOLUTE GUARANTEE: If search query is empty and items exist for this date, NEVER return 0 items!
     if (resList.length === 0 && !q && items.length > 0) {
       resList = items;
     }
