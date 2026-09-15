@@ -253,3 +253,20 @@ document.addEventListener('DOMContentLoaded', () => {
   window.App.checkAuth();
   window.App.init();
 });
+
+window.loginDirect = function(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  sessionStorage.setItem('mytvs_logged_in', 'true');
+  localStorage.setItem('mytvs_logged_in', 'true');
+  document.body.classList.add('is-authenticated');
+  var overlay = document.getElementById('mytvs-login-screen');
+  if (overlay) overlay.style.setProperty('display', 'none', 'important');
+  var header = document.getElementById('app-header');
+  if (header) header.style.setProperty('display', 'flex', 'important');
+  var main = document.getElementById('main-app-content');
+  if (main) main.style.setProperty('display', 'block', 'important');
+  var footer = document.querySelector('footer.app-footer');
+  if (footer) footer.style.setProperty('display', 'block', 'important');
+  if (window.App && window.App.switchTab) window.App.switchTab('home');
+  return false;
+};

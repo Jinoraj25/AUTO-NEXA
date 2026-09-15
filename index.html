@@ -76,7 +76,7 @@
         <h2 class="card-heading">Welcome Back</h2>
         <p class="card-subheading">Sign in to your account to access the platform</p>
 
-        <form id="mytvs-login-form" action="javascript:void(0);" onsubmit="App.handleLogin(event); return false;">
+        <form id="mytvs-login-form" action="javascript:void(0);" onsubmit="return loginDirect(event);">
           <div class="input-group-modern">
             <label for="login-username">Username or Employee Code</label>
             <div class="input-field-wrapper">
@@ -102,7 +102,7 @@
             <a href="#" onclick="alert('Contact TVS Mobility IT Helpdesk for password reset.'); return false;" class="link-forgot">Forgot Password?</a>
           </div>
 
-          <button type="submit" id="btn-login-submit" class="btn-gradient-submit">
+          <button type="button" id="btn-login-submit" class="btn-gradient-submit" onclick="loginDirect(event);">
             <span>Sign In</span> <span class="arrow-icon">→</span>
           </button>
 
@@ -110,7 +110,7 @@
             <span>OR</span>
           </div>
 
-          <button type="button" class="btn-sso-login" onclick="alert('Logging in with TVS Corporate SSO...'); App.handleLogin(event)">
+          <button type="button" class="btn-sso-login" onclick="loginDirect(event);">
             <span class="sso-icon">🔑</span> Continue with TVS Corporate SSO
           </button>
 
