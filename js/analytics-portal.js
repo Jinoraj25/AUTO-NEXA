@@ -561,7 +561,7 @@ window.AnalyticsPortal = {
     // 1. Render Left Grid Cards
     let htmlGrid = '';
     makesList.forEach(m => {
-      const isPos = !m.growth.startswith('-');
+      const isPos = !m.growth.startsWith('-');
       const growColor = isPos ? '#29d391' : '#ff3b30';
 
       htmlGrid += `

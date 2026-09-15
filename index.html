@@ -594,8 +594,8 @@
       <div class="ref-kpi-strip" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
         <div class="ref-kpi-card" style="border-top: 3px solid #29d391; background: linear-gradient(145deg, rgba(41,211,145,0.1), var(--surface));">
           <div class="ref-kpi-title" style="color: #29d391; font-weight: 850; font-size: 0.78rem;">💰 TOTAL INVENTORY VALUE</div>
-          <div id="kpi-stock-valuation" class="ref-kpi-value" style="color: #29d391; font-size: 1.9rem; font-weight: 900;">₹171.17 Cr</div>
-          <div id="kpi-stock-valuation-sub" class="ref-kpi-subtext" style="color: #29d391; font-weight: 700;">↓ -0.33 Cr vs yesterday</div>
+          <div id="kpi-stock-valuation" class="ref-kpi-value" style="color: #29d391; font-size: 1.9rem; font-weight: 900;">₹159.28 Cr</div>
+          <div id="kpi-stock-valuation-sub" class="ref-kpi-subtext" style="color: #29d391; font-weight: 700;">↓ -9.61 Cr vs yesterday</div>
         </div>
 
         <div class="ref-kpi-card" style="border-top: 3px solid #38d7ff; background: linear-gradient(145deg, rgba(56,215,255,0.1), var(--surface));">
@@ -612,19 +612,8 @@
 
         <div class="ref-kpi-card" style="border-top: 3px solid #ffb84d; background: linear-gradient(145deg, rgba(255,184,77,0.1), var(--surface));">
           <div class="ref-kpi-title" style="color: #ffb84d; font-weight: 850; font-size: 0.78rem;">📈 DOD NET VALUE SHIFT</div>
-          <div id="kpi-dod-val-net" class="ref-kpi-value" style="color: #ff3b30; font-size: 1.9rem; font-weight: 900;">-₹0.33 Cr</div>
+          <div id="kpi-dod-val-net" class="ref-kpi-value" style="color: #ff3b30; font-size: 1.9rem; font-weight: 900;">-₹9.61 Cr</div>
           <div class="ref-kpi-subtext" style="color: #cbd5e1;">vs previous day stock valuation</div>
-        </div>
-      </div>
-
-      <!-- 6 OFFICIAL MASTER CATEGORY CARDS GRID -->
-      <div style="margin-bottom: 1.5rem;">
-        <div style="font-size: 1.05rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
-          <span>🏷️ Official Category Valuation Breakdown</span>
-          <span style="font-size: 0.78rem; font-weight: 700; color: #94a3b8;">(OEM, PRIMARY, SECONDARY, PL, CASTROL, UNCATEGORISED)</span>
-        </div>
-        <div id="category-valuation-cards-grid" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem;">
-          <!-- Dynamically populated by InventoryPortal.renderCategoryValuationCards() -->
         </div>
       </div>
 
@@ -889,9 +878,7 @@
       </div>
 
       <!-- 4 CORE METRIC TELEMETRY CARDS -->
-      <div id="cf-empty-notice" class="card" style="display: none; margin-bottom: 1.25rem; padding: 1rem; border-left: 4px solid #38bdf8; background: rgba(56, 189, 248, 0.08);">
-        <div style="font-weight: 800; color: #38bdf8; font-size: 0.9rem;">ℹ️ Corporate Franchisee (CF) Data Notice</div>
-        <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.25rem;">No separate CF report uploaded for this month. Showing consolidated Sales view. Upload CF report above to view dedicated channel metrics.</div>
+      <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.25rem;">No separate CF report uploaded for this month. Showing consolidated Sales view. Upload CF report above to view dedicated channel metrics.</div>
       </div>
 
       <div id="sales-kpi-container" class="nexa-portals-grid" style="grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 1.5rem;">
@@ -925,93 +912,94 @@
       </div>
 
       <!-- 5 OFFICIAL MASTER CATEGORIES REVENUE VALUE & SHARE CARDS WITH SCENIC MENU BACKGROUND IMAGES -->
-      <div id="category-cards-wrapper" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(8,18,31,0.98)); border: 2px solid rgba(255,184,77,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+      <!-- 5 OFFICIAL MASTER CATEGORIES REVENUE VALUE & SHARE CARDS WITH USER IMAGES (SINGLE LINE) -->
+      <div id="category-cards-wrapper" class="card" style="margin-bottom: 1.5rem; padding: 1.1rem; background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(8,18,31,0.98)); border: 2px solid rgba(255,184,77,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
           <div>
-            <div style="font-size: 1.2rem; font-weight: 900; color: #ffffff !important; font-family: 'Outfit', sans-serif; letter-spacing: -0.01em; text-shadow: 0 2px 8px rgba(0,0,0,0.8);">
+            <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff !important; font-family: 'Outfit', sans-serif; letter-spacing: -0.01em;">
               📦 5 Official Master Categories Revenue & Values Breakdown
             </div>
-            <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 0.2rem;">Exact Sales Value (in ₹ Crores) & Percentage Share across all 5 official Aggregate Master categories.</div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 0.15rem;">Sales Value (in ₹ Crores) & Percentage Share across all 5 official Aggregate Master categories.</div>
           </div>
-          <span class="badge badge-amber" style="font-size: 0.8rem; font-weight: 850; padding: 0.4rem 0.8rem; border: 1px solid #ffb84d;">Master Taxonomy Values</span>
+          <span class="badge badge-amber" style="font-size: 0.76rem; font-weight: 850; padding: 0.3rem 0.7rem; border: 1px solid #ffb84d;">Master Taxonomy</span>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem;">
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem;">
           <!-- Category 1: Mechanical Parts -->
-          <div class="card" style="padding: 1.1rem; position: relative; overflow: hidden; border: 1.5px solid rgba(167,139,250,0.4); border-radius: 14px; background: #0f172a;">
-            <img src="cat_bg_mechanical.svg" onerror="this.onerror=null;this.src='images/cat_bg_mechanical.svg'" alt="Mechanical Parts" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.28; pointer-events: none;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(167,139,250,0.5); border-radius: 12px; background: #0f172a;">
+            <img src="cat_user_mech.png" onerror="this.onerror=null;this.src='images/cat_user_mech.png'" alt="Mechanical Parts" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                <span style="font-size: 0.8rem; font-weight: 900; color: #a78bfa; text-transform: uppercase;">🛠️ MECHANICAL</span>
-                <span class="badge" style="background: rgba(167,139,250,0.3); color: #ffffff; font-weight: 850;">39.4%</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span style="font-size: 0.74rem; font-weight: 900; color: #a78bfa; text-transform: uppercase;">🛠️ MECHANICAL</span>
+                <span class="badge" style="background: rgba(167,139,250,0.35); color: #ffffff; font-weight: 850; font-size: 0.68rem; padding: 2px 6px;">39.4%</span>
               </div>
-              <div id="cat-val-mech" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; text-shadow: 0 2px 6px #000;">₹27.81 Cr</div>
-              <div id="cat-pct-mech" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">39.39% Sales Share</div>
-              <div style="background: rgba(255,255,255,0.15); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-val-mech" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0.2rem 0; text-shadow: 0 2px 6px #000;">₹27.81 Cr</div>
+              <div id="cat-pct-mech" style="font-size: 0.72rem; font-weight: 700; color: #e2e8f0;">39.39% Sales Share</div>
+              <div style="background: rgba(255,255,255,0.2); height: 5px; border-radius: 3px; margin-top: 0.45rem; overflow: hidden;">
                 <div id="cat-bar-mech" style="background: #a78bfa; height: 100%; width: 39.39%;"></div>
               </div>
             </div>
           </div>
 
           <!-- Category 2: Body Parts -->
-          <div class="card" style="padding: 1.1rem; position: relative; overflow: hidden; border: 1.5px solid rgba(56,189,248,0.4); border-radius: 14px; background: #0f172a;">
-            <img src="luxury_car_front.jpg" onerror="this.onerror=null;this.src='images/luxury_car_front.jpg'" alt="Body Parts" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.28; pointer-events: none;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(56,189,248,0.5); border-radius: 12px; background: #0f172a;">
+            <img src="cat_user_body.png" onerror="this.onerror=null;this.src='images/cat_user_body.png'" alt="Body Parts" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                <span style="font-size: 0.8rem; font-weight: 900; color: #38bdf8; text-transform: uppercase;">🚗 BODY PARTS</span>
-                <span class="badge" style="background: rgba(56,189,248,0.3); color: #ffffff; font-weight: 850;">25.3%</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span style="font-size: 0.74rem; font-weight: 900; color: #38bdf8; text-transform: uppercase;">🚗 BODY PARTS</span>
+                <span class="badge" style="background: rgba(56,189,248,0.35); color: #ffffff; font-weight: 850; font-size: 0.68rem; padding: 2px 6px;">25.3%</span>
               </div>
-              <div id="cat-val-body" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; text-shadow: 0 2px 6px #000;">₹17.87 Cr</div>
-              <div id="cat-pct-body" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">25.30% Sales Share</div>
-              <div style="background: rgba(255,255,255,0.15); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-val-body" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0.2rem 0; text-shadow: 0 2px 6px #000;">₹17.87 Cr</div>
+              <div id="cat-pct-body" style="font-size: 0.72rem; font-weight: 700; color: #e2e8f0;">25.30% Sales Share</div>
+              <div style="background: rgba(255,255,255,0.2); height: 5px; border-radius: 3px; margin-top: 0.45rem; overflow: hidden;">
                 <div id="cat-bar-body" style="background: #38bdf8; height: 100%; width: 25.3%;"></div>
               </div>
             </div>
           </div>
 
           <!-- Category 3: Lubes -->
-          <div class="card" style="padding: 1.1rem; position: relative; overflow: hidden; border: 1.5px solid rgba(41,211,145,0.4); border-radius: 14px; background: #0f172a;">
-            <img src="home_menu_inventory.jpg" onerror="this.onerror=null;this.src='images/home_menu_inventory.jpg'" alt="Lubes" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.28; pointer-events: none;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(41,211,145,0.5); border-radius: 12px; background: #0f172a;">
+            <img src="cat_user_lubes.png" onerror="this.onerror=null;this.src='images/cat_user_lubes.png'" alt="Lubes" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                <span style="font-size: 0.8rem; font-weight: 900; color: #29d391; text-transform: uppercase;">🛢️ LUBES</span>
-                <span class="badge" style="background: rgba(41,211,145,0.3); color: #ffffff; font-weight: 850;">23.8%</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span style="font-size: 0.74rem; font-weight: 900; color: #29d391; text-transform: uppercase;">🛢️ LUBES</span>
+                <span class="badge" style="background: rgba(41,211,145,0.35); color: #ffffff; font-weight: 850; font-size: 0.68rem; padding: 2px 6px;">23.8%</span>
               </div>
-              <div id="cat-val-lubes" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; text-shadow: 0 2px 6px #000;">₹16.78 Cr</div>
-              <div id="cat-pct-lubes" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">23.77% Sales Share</div>
-              <div style="background: rgba(255,255,255,0.15); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-val-lubes" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0.2rem 0; text-shadow: 0 2px 6px #000;">₹16.78 Cr</div>
+              <div id="cat-pct-lubes" style="font-size: 0.72rem; font-weight: 700; color: #e2e8f0;">23.77% Sales Share</div>
+              <div style="background: rgba(255,255,255,0.2); height: 5px; border-radius: 3px; margin-top: 0.45rem; overflow: hidden;">
                 <div id="cat-bar-lubes" style="background: #29d391; height: 100%; width: 23.77%;"></div>
               </div>
             </div>
           </div>
 
           <!-- Category 4: Electrical Parts -->
-          <div class="card" style="padding: 1.1rem; position: relative; overflow: hidden; border: 1.5px solid rgba(255,184,77,0.4); border-radius: 14px; background: #0f172a;">
-            <img src="aggregate_lighting.jpg" onerror="this.onerror=null;this.src='images/aggregate_lighting.jpg'" alt="Electrical Parts" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.28; pointer-events: none;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(255,184,77,0.5); border-radius: 12px; background: #0f172a;">
+            <img src="cat_user_elec.png" onerror="this.onerror=null;this.src='images/cat_user_elec.png'" alt="Electrical Parts" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                <span style="font-size: 0.8rem; font-weight: 900; color: #ffb84d; text-transform: uppercase;">⚡ ELECTRICAL</span>
-                <span class="badge" style="background: rgba(255,184,77,0.3); color: #ffffff; font-weight: 850;">9.1%</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span style="font-size: 0.74rem; font-weight: 900; color: #ffb84d; text-transform: uppercase;">⚡ ELECTRICAL</span>
+                <span class="badge" style="background: rgba(255,184,77,0.35); color: #ffffff; font-weight: 850; font-size: 0.68rem; padding: 2px 6px;">9.1%</span>
               </div>
-              <div id="cat-val-elec" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; text-shadow: 0 2px 6px #000;">₹6.45 Cr</div>
-              <div id="cat-pct-elec" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">9.14% Sales Share</div>
-              <div style="background: rgba(255,255,255,0.15); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-val-elec" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0.2rem 0; text-shadow: 0 2px 6px #000;">₹6.45 Cr</div>
+              <div id="cat-pct-elec" style="font-size: 0.72rem; font-weight: 700; color: #e2e8f0;">9.14% Sales Share</div>
+              <div style="background: rgba(255,255,255,0.2); height: 5px; border-radius: 3px; margin-top: 0.45rem; overflow: hidden;">
                 <div id="cat-bar-elec" style="background: #ffb84d; height: 100%; width: 9.14%;"></div>
               </div>
             </div>
           </div>
 
           <!-- Category 5: Accessories -->
-          <div class="card" style="padding: 1.1rem; position: relative; overflow: hidden; border: 1.5px solid rgba(255,59,48,0.4); border-radius: 14px; background: #0f172a;">
-            <img src="home_menu_planning.jpg" onerror="this.onerror=null;this.src='images/home_menu_planning.jpg'" alt="Accessories" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.28; pointer-events: none;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(255,59,48,0.5); border-radius: 12px; background: #0f172a;">
+            <img src="cat_user_acc.png" onerror="this.onerror=null;this.src='images/cat_user_acc.png'" alt="Accessories" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-                <span style="font-size: 0.8rem; font-weight: 900; color: #ff3b30; text-transform: uppercase;">🔧 ACCESSORIES</span>
-                <span class="badge" style="background: rgba(255,59,48,0.3); color: #ffffff; font-weight: 850;">2.4%</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                <span style="font-size: 0.74rem; font-weight: 900; color: #ff3b30; text-transform: uppercase;">🔧 ACCESSORIES</span>
+                <span class="badge" style="background: rgba(255,59,48,0.35); color: #ffffff; font-weight: 850; font-size: 0.68rem; padding: 2px 6px;">2.4%</span>
               </div>
-              <div id="cat-val-acc" style="font-size: 1.45rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; text-shadow: 0 2px 6px #000;">₹1.69 Cr</div>
-              <div id="cat-pct-acc" style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1;">2.40% Sales Share</div>
-              <div style="background: rgba(255,255,255,0.15); height: 6px; border-radius: 3px; margin-top: 0.6rem; overflow: hidden;">
+              <div id="cat-val-acc" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0.2rem 0; text-shadow: 0 2px 6px #000;">₹1.69 Cr</div>
+              <div id="cat-pct-acc" style="font-size: 0.72rem; font-weight: 700; color: #e2e8f0;">2.40% Sales Share</div>
+              <div style="background: rgba(255,255,255,0.2); height: 5px; border-radius: 3px; margin-top: 0.45rem; overflow: hidden;">
                 <div id="cat-bar-acc" style="background: #ff3b30; height: 100%; width: 2.4%;"></div>
               </div>
             </div>
@@ -1036,18 +1024,6 @@
       <!-- CHARTS GRID 2 COLUMNS: Vehicle Make Share (MHMT vs Others) & 5 Categories Distribution -->
       <div id="charts-grid-2col" class="charts-grid" style="grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
         
-        <!-- Chart 2: Vehicle Make Revenue Share (MHMT vs Others) -->
-        <div class="chart-card" style="padding: 1.35rem;">
-          <div class="chart-header" style="margin-bottom: 0.85rem;">
-            <div>
-              <div class="chart-title" style="font-size: 1.05rem; font-weight: 900; color: #ffffff;">🚗 Vehicle Make Share (MHMT vs OTHERS)</div>
-              <div style="font-size: 0.78rem; color: #cbd5e1;">Maruti, Hyundai, Mahindra, Tata (MHMT) vs Remaining OEM Makes.</div>
-            </div>
-            <span class="badge badge-blue" style="font-weight: 850;">Make Analysis</span>
-          </div>
-          <div class="chart-container" style="min-height: 260px; position: relative;"><canvas id="chart-make-distribution"></canvas></div>
-        </div>
-
         <!-- Chart 3: 5 Official Master Categories Revenue Share -->
         <div class="chart-card" style="padding: 1.35rem;">
           <div class="chart-header" style="margin-bottom: 0.85rem;">
@@ -1058,26 +1034,6 @@
             <span class="badge badge-purple" style="font-weight: 850;">Master Taxonomy</span>
           </div>
           <div class="chart-container" style="min-height: 260px; position: relative;"><canvas id="chart-category-holding"></canvas></div>
-        </div>
-      </div>
-
-      <!-- INDIA REGION-WISE SALES PERFORMANCE MATRIX (EMBEDDED VISUAL INDIA REGION MAP DIAGRAM) -->
-      <div id="region-matrix-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; border: 1.5px solid rgba(41, 211, 145, 0.35); background: linear-gradient(145deg, rgba(41,211,145,0.06), var(--surface));">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-          <div>
-            <div style="font-size: 1.2rem; font-weight: 900; color: #29d391; font-family: 'Outfit', sans-serif;">🗺️ India Region-Wise Sales Performance Matrix</div>
-            <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 0.15rem;">Interactive territorial sales distribution, revenue share %, margin rate %, and order line density plotted on India region map.</div>
-          </div>
-          <span class="badge badge-emerald" style="font-size: 0.8rem; font-weight: 850;">4 Strategic Sales Regions</span>
-        </div>
-
-        <!-- Embedded India Region Map SVG Graphic -->
-        <div style="margin-bottom: 1.25rem; text-align: center; overflow: hidden; border-radius: 16px; border: 1px solid rgba(56,189,248,0.25);">
-          <img src="india_region_map.svg" onerror="this.onerror=null;this.src='images/india_region_map.svg'" alt="India Region Sales Map" style="width: 100%; max-height: 460px; object-fit: contain;">
-        </div>
-
-        <div id="region-map-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem;">
-          <!-- Dynamically populated via analytics-portal.js -->
         </div>
       </div>
 

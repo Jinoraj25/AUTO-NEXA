@@ -1089,7 +1089,7 @@ window.InventoryPortal = {
 
       const summary = (this.inventoryData && this.inventoryData.dailySummaries) ? this.inventoryData.dailySummaries[parsedDate] : null;
       const totalUnits = summary ? summary.totalQty : 5561604;
-      const totalVal = summary ? (summary.totalValuation / 10000000).toFixed(2) : '171.17';
+      const totalVal = summary ? (summary.totalValuation / 10000000).toFixed(2) : '159.28';
 
       if (statusBox) {
         statusBox.className = 'upload-status-box success';
@@ -1149,7 +1149,7 @@ window.InventoryPortal = {
       const latestDate = (this.inventoryData && this.inventoryData.latestDate) ? this.inventoryData.latestDate : todayDate;
       const summary = (this.inventoryData && this.inventoryData.dailySummaries) ? this.inventoryData.dailySummaries[latestDate] : null;
       const totalUnits = summary ? summary.totalQty : 5561604;
-      const totalVal = summary ? (summary.totalValuation / 10000000).toFixed(2) : '171.17';
+      const totalVal = summary ? (summary.totalValuation / 10000000).toFixed(2) : '159.28';
 
       statusBox.className = 'upload-status-box success';
       statusBox.innerHTML = `
@@ -1212,7 +1212,7 @@ window.InventoryPortal = {
     const summary = this.inventoryData.dailySummaries[this.selectedDate] || this.inventoryData.dailySummaries[this.inventoryData.latestDate];
     if (!summary) return;
 
-    const totalVal = summary.totalValuation || 1711700000;
+    const totalVal = summary.totalValuation || 1592800000;
     const totalSkus = summary.totalSKUs || 473209;
     const totalQty = summary.totalQty || 5561604;
 
@@ -1230,7 +1230,7 @@ window.InventoryPortal = {
     // Dynamic DOD Net Value Shift = TODAY'S VALUE - YESTERDAY'S VALUE
     const currIdx = dates.indexOf(this.selectedDate);
     let todayVal = totalVal;
-    let yesterdayVal = totalVal + 3300000; // default fallback
+    let yesterdayVal = 1688900000; // default fallback
 
     if (currIdx >= 0 && currIdx < dates.length - 1) {
       const yesterdayDateStr = dates[currIdx + 1];
@@ -1271,7 +1271,7 @@ window.InventoryPortal = {
 
     if (this.trendGranularity === 'daily') {
       labels = ['07-Sep', '08-Sep', '09-Sep', '10-Sep', '11-Sep', '12-Sep', '13-Sep', '14-Sep'];
-      currentData = [174.5, 173.8, 173.1, 172.6, 172.1, 171.8, 171.5, 171.17];
+      currentData = [174.5, 173.8, 173.1, 172.6, 172.1, 171.8, 171.5, 159.28];
       prevData = [175.0, 174.5, 174.0, 173.5, 173.0, 172.5, 172.0, 171.8];
     } else if (this.trendGranularity === 'weekly') {
       labels = ['Wk 32 (Aug 1)', 'Wk 33 (Aug 8)', 'Wk 34 (Aug 15)', 'Wk 35 (Aug 22)', 'Wk 36 (Aug 29)', 'Wk 37 (Sep 5)'];
@@ -2142,7 +2142,7 @@ window.AnalyticsPortal = {
     // 1. Render Left Grid Cards
     let htmlGrid = '';
     makesList.forEach(m => {
-      const isPos = !m.growth.startswith('-');
+      const isPos = !m.growth.startsWith('-');
       const growColor = isPos ? '#29d391' : '#ff3b30';
 
       htmlGrid += `
