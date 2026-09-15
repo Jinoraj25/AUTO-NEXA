@@ -2869,6 +2869,10 @@ window.App = {
 
   async init() {
     console.log("Initializing AUTO NEXA Intelligence Platform...");
+    
+    // Ensure tab-home is active immediately
+    this.switchTab('home');
+
     const savedTheme = localStorage.getItem('auto-nexa-theme');
     if (savedTheme === 'light' || savedTheme === 'dark') {
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -2876,41 +2880,37 @@ window.App = {
     }
     this.bindEvents();
     
-    // Step 1: Initialize Data Engine (Loads pre-trained DB)
-    await window.DataEngine.init();
+    // Wrap all sub-portal inits in safe try/catch
+    try {
+      if (window.DataEngine && window.DataEngine.init) await window.DataEngine.init();
+    } catch (e) { console.warn("DataEngine init warning:", e); }
 
-    // Step 2: Initialize Sub-Portals
-    window.MappingPortal.init();
-    window.InventoryPortal.init();
-    window.AnalyticsPortal.init();
-    window.DeviationPortal.init();
-    window.ForecastingPortal.init();
+    try {
+      if (window.MappingPortal && window.MappingPortal.init) window.MappingPortal.init();
+      if (window.InventoryPortal && window.InventoryPortal.init) window.InventoryPortal.init();
+      if (window.AnalyticsPortal && window.AnalyticsPortal.init) window.AnalyticsPortal.init();
+      if (window.DeviationPortal && window.DeviationPortal.init) window.DeviationPortal.init();
+      if (window.ForecastingPortal && window.ForecastingPortal.init) window.ForecastingPortal.init();
+    } catch (e) { console.warn("Sub-portal init warning:", e); }
 
-    // Step 3: Default to Home Landing Page on initialization / refresh
     this.switchTab('home');
-
     this.showToast("AUTO NEXA Ready — Intelligence workspace online.", "success");
   },
 
   bindEvents() {
-    // Navigation Menu Link Switching
     const menuItems = document.querySelectorAll('.nav-menu-item');
     menuItems.forEach(item => {
       item.addEventListener('click', () => {
         const targetTab = item.getAttribute('data-tab');
-        if (targetTab) {
-          this.switchTab(targetTab);
-        }
+        if (targetTab) this.switchTab(targetTab);
       });
     });
 
-    // Brand Logo Home Link
     const brandBtn = document.getElementById('brand-home-btn');
     if (brandBtn) {
       brandBtn.addEventListener('click', () => this.switchTab('home'));
     }
 
-    // Theme Toggle
     const themeBtn = document.getElementById('btn-theme-toggle');
     if (themeBtn) {
       themeBtn.addEventListener('click', () => this.toggleTheme());
@@ -2918,37 +2918,35 @@ window.App = {
   },
 
   switchTab(tabId) {
-    this.activeTab = tabId;
+    this.activeTab = tabId || 'home';
 
-    // Update Nav Menu Active Highlight
     document.querySelectorAll('.nav-menu-item').forEach(link => {
-      if (link.getAttribute('data-tab') === tabId) {
+      if (link.getAttribute('data-tab') === this.activeTab) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
       }
     });
 
-    // Update Visible Tab Content Pane
     document.querySelectorAll('.tab-pane').forEach(pane => {
-      if (pane.id === `tab-${tabId}`) {
+      if (pane.id === `tab-${this.activeTab}`) {
         pane.classList.add('active');
+        pane.style.setProperty('display', 'block', 'important');
       } else {
         pane.classList.remove('active');
+        pane.style.setProperty('display', 'none', 'important');
       }
     });
 
-    // Scroll smoothly to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Trigger tab specific refresh actions
-    if (tabId === 'inventory') {
+    if (this.activeTab === 'inventory' && window.InventoryPortal) {
       window.InventoryPortal.fetchInventoryData();
-    } else if (tabId === 'analytics') {
+    } else if (this.activeTab === 'analytics' && window.AnalyticsPortal) {
       window.AnalyticsPortal.updateDashboard();
-    } else if (tabId === 'deviation') {
+    } else if (this.activeTab === 'deviation' && window.DeviationPortal) {
       window.DeviationPortal.updateDeviationAnalysis();
-    } else if (tabId === 'forecasting') {
+    } else if (this.activeTab === 'forecasting' && window.ForecastingPortal) {
       window.ForecastingPortal.updateForecasting();
     }
   },
@@ -2981,22 +2979,6 @@ window.App = {
     Chart.defaults.plugins.tooltip.backgroundColor = dark ? 'rgba(8,17,29,.96)' : 'rgba(15,27,45,.96)';
     Chart.defaults.plugins.tooltip.borderColor = dark ? 'rgba(255,255,255,.12)' : 'rgba(15,27,45,.16)';
     Chart.defaults.plugins.tooltip.borderWidth = 1;
-    Object.values(window.AnalyticsPortal?.charts || {}).forEach(chart => {
-      if (!chart || !chart.options) return;
-      const scales = chart.options.scales || {};
-      Object.values(scales).forEach(scale => {
-        scale.grid = scale.grid || {};
-        scale.grid.color = grid;
-        scale.ticks = scale.ticks || {};
-        scale.ticks.color = muted;
-        if (scale.title) scale.title.color = text;
-      });
-      chart.options.plugins = chart.options.plugins || {};
-      chart.options.plugins.legend = chart.options.plugins.legend || {};
-      chart.options.plugins.legend.labels = chart.options.plugins.legend.labels || {};
-      chart.options.plugins.legend.labels.color = text;
-      chart.update('none');
-    });
   },
 
   showToast(message, type = 'info') {
@@ -3005,19 +2987,8 @@ window.App = {
 
     const toast = document.createElement('div');
     toast.className = 'toast';
-    
-    const iconMap = {
-      success: '✅',
-      error: '❌',
-      info: 'ℹ️',
-      warning: '⚠️'
-    };
-
-    toast.innerHTML = `
-      <span>${iconMap[type] || 'ℹ️'}</span>
-      <span>${message}</span>
-    `;
-
+    const iconMap = { success: '✅', error: '❌', info: 'ℹ️', warning: '⚠️' };
+    toast.innerHTML = `<span>${iconMap[type] || 'ℹ️'}</span><span>${message}</span>`;
     container.appendChild(toast);
 
     setTimeout(() => {
@@ -3034,25 +3005,36 @@ window.App = {
     }
   },
 
-          checkAuth() {
+  checkAuth() {
     if (window.location.search) {
-      try {
-        window.history.replaceState({}, document.title, window.location.pathname);
-      } catch (e) {}
+      try { window.history.replaceState({}, document.title, window.location.pathname); } catch (e) {}
     }
 
     const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true' || localStorage.getItem('mytvs_logged_in') === 'true';
     const loginOverlay = document.getElementById('mytvs-login-screen');
+    const header = document.getElementById('app-header');
+    const mainContent = document.getElementById('main-app-content');
+    const footer = document.querySelector('footer.app-footer');
     const userCode = sessionStorage.getItem('mytvs_user_code') || localStorage.getItem('mytvs_user_code') || 'SM0237';
     const userName = sessionStorage.getItem('mytvs_user_name') || localStorage.getItem('mytvs_user_name') || 'Jino George';
+
+    this.switchTab(this.activeTab || 'home');
 
     if (isLoggedIn) {
       document.body.classList.add('is-authenticated');
       if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
+      if (header) header.style.setProperty('display', 'flex', 'important');
+      if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
+      if (footer) footer.style.setProperty('display', 'block', 'important');
+      document.body.style.overflow = '';
       this.updateHeaderProfile(userCode, userName);
     } else {
       document.body.classList.remove('is-authenticated');
-      if (loginOverlay) loginOverlay.style.setProperty('display', 'grid', 'important');
+      if (loginOverlay) loginOverlay.style.setProperty('display', 'flex', 'important');
+      if (header) header.style.setProperty('display', 'none', 'important');
+      if (mainContent) mainContent.style.setProperty('display', 'none', 'important');
+      if (footer) footer.style.setProperty('display', 'none', 'important');
+      document.body.style.overflow = 'hidden';
     }
   },
 
@@ -3070,7 +3052,7 @@ window.App = {
     }
   },
 
-      handleLogin(e) {
+  handleLogin(e) {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -3087,7 +3069,6 @@ window.App = {
       displayName = `Employee ${userCode}`;
     }
 
-    // Save login state
     sessionStorage.setItem('mytvs_logged_in', 'true');
     sessionStorage.setItem('mytvs_user_code', userCode);
     sessionStorage.setItem('mytvs_user_name', displayName);
@@ -3095,10 +3076,17 @@ window.App = {
     localStorage.setItem('mytvs_user_code', userCode);
     localStorage.setItem('mytvs_user_name', displayName);
 
-    // Transition body state
     document.body.classList.add('is-authenticated');
     const loginOverlay = document.getElementById('mytvs-login-screen');
+    const header = document.getElementById('app-header');
+    const mainContent = document.getElementById('main-app-content');
+    const footer = document.querySelector('footer.app-footer');
+
     if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
+    if (header) header.style.setProperty('display', 'flex', 'important');
+    if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
+    if (footer) footer.style.setProperty('display', 'block', 'important');
+    document.body.style.overflow = '';
 
     this.updateHeaderProfile(userCode, displayName);
     this.switchTab('home');
@@ -3124,8 +3112,8 @@ window.App = {
   }
 };
 
-// Initialize App on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
+  window.App.switchTab('home');
   window.App.checkAuth();
   window.App.init();
 });
