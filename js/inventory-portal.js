@@ -603,8 +603,7 @@ window.InventoryPortal = {
       return;
     }
 
-    // Performance Optimization: Render up to 500 rows for instant, silky smooth DOM responsiveness
-    const displayItems = this.filteredItems.slice(0, 500);
+    const displayItems = this.filteredItems;
 
     let html = '';
     displayItems.forEach(item => {
@@ -630,16 +629,6 @@ window.InventoryPortal = {
         </tr>
       `;
     });
-
-    if (this.filteredItems.length > 500) {
-      html += `
-        <tr>
-          <td colspan="13" style="text-align: center; padding: 0.75rem; background: rgba(56, 189, 248, 0.08); color: #38bdf8; font-size: 0.82rem; font-weight: 800;">
-            ⚡ Showing top 500 of ${this.filteredItems.length.toLocaleString()} total stock records for ${this.selectedDate}. Type in the search box above to filter specific parts instantly!
-          </td>
-        </tr>
-      `;
-    }
 
     tbody.innerHTML = html;
   },
