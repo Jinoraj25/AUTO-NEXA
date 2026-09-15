@@ -3028,11 +3028,28 @@ window.App = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.App.switchTab('home');
-  window.App.checkAuth();
-  window.App.init();
-});
+window.switchTab = function(tabId) {
+  if (window.App && window.App.switchTab) {
+    window.App.switchTab(tabId);
+  }
+};
+
+function autoInitApp() {
+  try {
+    if (window.App) {
+      window.App.checkAuth();
+      window.App.init();
+    }
+  } catch(e) {
+    console.error("AutoInit error:", e);
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', autoInitApp);
+} else {
+  autoInitApp();
+}
 
 window.loginDirect = function(e) {
   if (e && e.preventDefault) e.preventDefault();
