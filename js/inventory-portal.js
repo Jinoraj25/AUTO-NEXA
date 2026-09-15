@@ -13,7 +13,7 @@ window.InventoryPortal = {
     }
   },
   selectedDate: '14-Sep-2026',
-  selectedTag: 'CONSIDER',
+  selectedTag: 'ALL',
   searchQuery: '',
   trendGranularity: 'daily',
   filteredItems: [],
@@ -533,9 +533,9 @@ window.InventoryPortal = {
     const items = summary ? (summary.sampleItems || []) : [];
 
     const q = (this.searchQuery || "").trim().toLowerCase();
-    const tagFilter = this.selectedTag || "CONSIDER";
+    const tagFilter = this.selectedTag || "ALL";
 
-    this.filteredItems = items.filter(v => {
+    let resList = items.filter(v => {
       if (tagFilter !== "ALL") {
         const itemTag = (v.tag || "CONSIDER").toUpperCase();
         if (itemTag !== tagFilter.toUpperCase()) return false;
@@ -557,6 +557,12 @@ window.InventoryPortal = {
       return true;
     });
 
+    // Fallback: if tag filter produced 0 items and search query is empty, show all items for that date
+    if (resList.length === 0 && !q && items.length > 0) {
+      resList = items;
+    }
+
+    this.filteredItems = resList;
     this.renderTable();
   },
 

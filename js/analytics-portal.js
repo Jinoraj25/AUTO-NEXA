@@ -742,7 +742,7 @@ window.AnalyticsPortal = {
 
     function resolvePmsBgImage(name) {
       const n = (name || '').toLowerCase();
-      if (n.includes('clutch')) return 'pms_clutch_3d.jpg';
+      if (n.includes('clutch')) return 'pms_clutch_v2_3d.jpg';
       if (n.includes('oil') && !n.includes('filter')) return 'card_bg_pms_engine_oil.jpg';
       if (n.includes('filter')) return 'pms_filters_3d.jpg';
       if (n.includes('brake') || n.includes('pad')) return 'pms_brakes_3d.jpg';
