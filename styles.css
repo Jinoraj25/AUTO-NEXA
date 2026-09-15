@@ -4288,3 +4288,23 @@ body.is-authenticated #mytvs-login-screen {
 footer.app-footer {
   display: block !important;
 }
+
+/* FINAL BULLETPROOF AUTHENTICATION RULES */
+body.is-authenticated #mytvs-login-screen {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+body.is-authenticated #app-header {
+  display: flex !important;
+}
+
+body.is-authenticated #main-app-content {
+  display: block !important;
+}
+
+body.is-authenticated footer.app-footer {
+  display: block !important;
+}

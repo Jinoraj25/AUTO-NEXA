@@ -3,7 +3,53 @@
 <head>
   <script>
     if (window.location.search) {
-      window.history.replaceState({}, document.title, window.location.pathname);
+      try { window.history.replaceState({}, document.title, window.location.pathname); } catch(e) {}
+    }
+
+    function togglePasswordDirect() {
+      var pwInput = document.getElementById('login-password');
+      if (pwInput) {
+        pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+      }
+    }
+
+    function loginDirect(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      try {
+        sessionStorage.setItem('mytvs_logged_in', 'true');
+        localStorage.setItem('mytvs_logged_in', 'true');
+      } catch(err) {}
+
+      document.body.classList.add('is-authenticated');
+
+      var overlay = document.getElementById('mytvs-login-screen');
+      if (overlay) {
+        overlay.style.display = 'none';
+        overlay.setAttribute('style', 'display: none !important; opacity: 0 !important; pointer-events: none !important;');
+      }
+
+      var header = document.getElementById('app-header');
+      if (header) {
+        header.style.display = 'flex';
+        header.setAttribute('style', 'display: flex !important;');
+      }
+
+      var main = document.getElementById('main-app-content');
+      if (main) {
+        main.style.display = 'block';
+        main.setAttribute('style', 'display: block !important;');
+      }
+
+      var footer = document.querySelector('footer.app-footer');
+      if (footer) {
+        footer.style.display = 'block';
+        footer.setAttribute('style', 'display: block !important;');
+      }
+
+      if (window.App && window.App.handleLogin) {
+        try { window.App.handleLogin(e); } catch(err) {}
+      }
+      return false;
     }
   </script>
   <meta charset="UTF-8">
@@ -90,7 +136,7 @@
             <div class="input-field-wrapper">
               <span class="field-icon">🔒</span>
               <input type="password" id="login-password" value="Catalog@2026" placeholder="Enter password" required>
-              <button type="button" class="btn-toggle-pw" onclick="App.togglePasswordVisibility()">👁️</button>
+              <button type="button" class="btn-toggle-pw" onclick="togglePasswordDirect();">👁️</button>
             </div>
           </div>
 
