@@ -613,24 +613,110 @@ window.AnalyticsPortal = {
 
     if (grid) grid.innerHTML = htmlGrid;
 
-    // 2. Render Right Progress Bar Rows List
-    let htmlDist = '';
-    makesList.forEach(m => {
-      htmlDist += `
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.76rem;">
-          <div style="display: flex; align-items: center; gap: 0.4rem; width: 110px; min-width: 110px;">
-            <img src="${m.img}" alt="${m.name}" style="height: 14px; width: 18px; object-fit: contain;">
-            <span style="color: #f1f5f9; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.name}</span>
+    // 2. Render Right Side MHMT vs Others Chart & Analytics Panel
+    this.renderMHMTvsOthersChart();
+  },
+
+  renderMHMTvsOthersChart() {
+    const statsContainer = document.getElementById('mhmt-breakdown-stats');
+    
+    // Calculate MHMT vs Others Totals
+    // MHMT Core = Maruti (2.24 Cr), Hyundai (1.48 Cr), Mahindra (0.68 Cr), Tata (0.42 Cr) -> Total = 4.82 Cr (65.7%)
+    // Others = Honda (0.45), Toyota (0.41), Ford (0.38), VW (0.34), Skoda (0.29), Renault (0.25), Nissan (0.21), Others (0.19) -> Total = 2.52 Cr (34.3%)
+    const mhmtRev = 4.82;
+    const othersRev = 2.52;
+
+    if (statsContainer) {
+      statsContainer.innerHTML = `
+        <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 0.75rem; color: #ffb84d; font-weight: 850; text-transform: uppercase;">🔥 MHMT Core OEMs</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; font-weight: 600; margin-top: 0.15rem;">Maruti, Hyundai, Mahindra, Tata</div>
           </div>
-          <div style="flex: 1; background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="background: ${m.color}; height: 100%; width: ${parseFloat(m.share) * 3}%;"></div>
+          <div style="text-align: right;">
+            <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff;">₹${mhmtRev.toFixed(2)} Cr</div>
+            <div style="font-size: 0.72rem; font-weight: 850; color: #29d391;">65.7% Share</div>
           </div>
-          <div style="width: 42px; text-align: right; font-weight: 800; color: #cbd5e1;">${m.share}</div>
-          <div style="width: 55px; text-align: right; font-weight: 900; color: #ffffff;">₹${m.rev.toFixed(2)} Cr</div>
+        </div>
+
+        <div style="background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 10px; padding: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 0.75rem; color: #cbd5e1; font-weight: 850; text-transform: uppercase;">🚗 All Other Makes</div>
+            <div style="font-size: 0.72rem; color: #94a3b8; font-weight: 600; margin-top: 0.15rem;">Honda, Toyota, Ford, VW, etc.</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff;">₹${othersRev.toFixed(2)} Cr</div>
+            <div style="font-size: 0.72rem; font-weight: 850; color: #38bdf8;">34.3% Share</div>
+          </div>
+        </div>
+
+        <!-- MHMT Core Contribution Mini Breakdown -->
+        <div style="margin-top: 0.25rem;">
+          <div style="font-size: 0.74rem; font-weight: 800; color: #94a3b8; margin-bottom: 0.4rem;">MHMT Core Breakdown:</div>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem; font-size: 0.72rem;">
+            <div style="background: rgba(255,56,56,0.15); border: 1px solid rgba(255,56,56,0.3); padding: 0.35rem 0.5rem; border-radius: 6px; display: flex; justify-content: space-between;">
+              <span style="color: #ff6b6b; font-weight: 800;">Maruti</span>
+              <span style="color: #ffffff; font-weight: 900;">30.5%</span>
+            </div>
+            <div style="background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.3); padding: 0.35rem 0.5rem; border-radius: 6px; display: flex; justify-content: space-between;">
+              <span style="color: #38bdf8; font-weight: 800;">Hyundai</span>
+              <span style="color: #ffffff; font-weight: 900;">20.1%</span>
+            </div>
+            <div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); padding: 0.35rem 0.5rem; border-radius: 6px; display: flex; justify-content: space-between;">
+              <span style="color: #ffb84d; font-weight: 800;">Mahindra</span>
+              <span style="color: #ffffff; font-weight: 900;">9.3%</span>
+            </div>
+            <div style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.3); padding: 0.35rem 0.5rem; border-radius: 6px; display: flex; justify-content: space-between;">
+              <span style="color: #c084fc; font-weight: 800;">Tata</span>
+              <span style="color: #ffffff; font-weight: 900;">5.8%</span>
+            </div>
+          </div>
         </div>
       `;
+    }
+
+    if (typeof Chart !== 'undefined') {
+      var _c = Chart.getChart('chart-mhmt-vs-others');
+      if (_c) _c.destroy();
+    }
+
+    const ctx = document.getElementById('chart-mhmt-vs-others')?.getContext('2d');
+    if (!ctx) return;
+
+    if (this.charts.mhmt) this.charts.mhmt.destroy();
+
+    this.charts.mhmt = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['MHMT Core (Maruti, Hyundai, Mahindra, Tata)', 'Others (Honda, Toyota, Ford, VW, etc.)'],
+        datasets: [{
+          data: [mhmtRev, othersRev],
+          backgroundColor: ['#f59e0b', '#38bdf8'],
+          borderWidth: 0,
+          hoverOffset: 6,
+          spacing: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '70%',
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: '#ffffff', font: { size: 10, weight: '700' }, boxWidth: 12, padding: 8 }
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const pct = ctx.raw === mhmtRev ? '65.7%' : '34.3%';
+                return ` ${ctx.label}: ₹${ctx.raw} Cr (${pct})`;
+              }
+            }
+          }
+        }
+      }
     });
-    if (distList) distList.innerHTML = htmlDist;
   },
 
   renderPmsDashboard(pmsData) {
