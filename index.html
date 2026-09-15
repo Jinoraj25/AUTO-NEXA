@@ -2,10 +2,6 @@
 <html lang="en" data-theme="dark">
 <head>
   <script>
-    try {
-      sessionStorage.setItem('mytvs_logged_in', 'true');
-      localStorage.setItem('mytvs_logged_in', 'true');
-    } catch(e) {}
     if (window.location.search) {
       try { window.history.replaceState({}, document.title, window.location.pathname); } catch(e) {}
     }
@@ -114,7 +110,7 @@
   <script src="chart.umd.min.js" onerror="this.onerror=null;this.src='lib/chart.umd.min.js'"></script>
   <script src="xlsx.full.min.js" onerror="this.onerror=null;this.src='lib/xlsx.full.min.js'"></script>
 </head>
-<body class="is-authenticated">
+<body>
 
   <!-- Welcome Pop-Up Notification (1-2 Sec Auto-fading Toast) -->
   <div id="mytvs-welcome-popup" class="welcome-toast-popup" style="display: none;">

@@ -42,9 +42,9 @@ window.InventoryPortal = {
 
   async fetchInventoryData() {
     try {
-      let res = await fetch('data/stock_cache.json.gz');
+      let res = await fetch('/api/inventory');
       if (!res.ok) res = await fetch('data/stock_cache.json');
-      if (!res.ok) res = await fetch('/api/inventory');
+      if (!res.ok) res = await fetch('stock_cache.json');
       
       if (res.ok) {
         const data = await res.json();

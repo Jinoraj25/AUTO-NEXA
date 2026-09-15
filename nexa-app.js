@@ -16,10 +16,10 @@ window.DataEngine = {
 
     async init() {
     try {
-      console.log("DataEngine: Loading fast aggregate master rules (8.7 KB)...");
-      let res = await fetch('data/aggregate_master_rules.json.gz');
-      if (!res.ok) res = await fetch('data/aggregate_master_rules.json');
+      console.log("DataEngine: Loading fast aggregate master rules...");
+      let res = await fetch('data/aggregate_master_rules.json');
       if (!res.ok) res = await fetch('aggregate_master_rules.json');
+      if (!res.ok) res = await fetch('/api/master_rules');
 
       if (res.ok) {
         const rulesData = await res.json();
@@ -433,9 +433,9 @@ window.InventoryPortal = {
 
   async fetchInventoryData() {
     try {
-      let res = await fetch('data/stock_cache.json.gz');
+      let res = await fetch('/api/inventory');
       if (!res.ok) res = await fetch('data/stock_cache.json');
-      if (!res.ok) res = await fetch('/api/inventory');
+      if (!res.ok) res = await fetch('stock_cache.json');
       
       if (res.ok) {
         const data = await res.json();

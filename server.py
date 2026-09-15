@@ -243,19 +243,19 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             target_file = os.path.join('data', clean_file) if os.path.exists(os.path.join('data', clean_file)) else clean_file
             gz_path = (os.path.join('data', clean_file + '.gz')) if os.path.exists(os.path.join('data', clean_file + '.gz')) else (target_file + '.gz')
             
-            if os.path.exists(gz_path):
+            if os.path.exists(target_file):
                 self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.send_header('Content-Encoding', 'gzip')
-                self.end_headers()
-                with open(gz_path, 'rb') as f:
-                    self.wfile.write(f.read())
-                return
-            elif os.path.exists(target_file):
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
                 with open(target_file, 'rb') as f:
+                    self.wfile.write(f.read())
+                return
+            elif os.path.exists(gz_path):
+                import gzip
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                with gzip.open(gz_path, 'rb') as f:
                     self.wfile.write(f.read())
                 return
             elif os.path.exists('trained_db_part1.json') or os.path.exists(os.path.join('data', 'trained_db_part1.json')):
