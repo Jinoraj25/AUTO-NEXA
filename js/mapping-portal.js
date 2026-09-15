@@ -243,13 +243,13 @@ window.MappingPortal = {
   },
 
   filterMasterTable(query = "") {
-    if (!window.DataEngine || !window.DataEngine.db || !window.DataEngine.db.aggregateMaster || window.DataEngine.db.aggregateMaster.length === 0) {
+    if (!window.DataEngine || !window.DataEngine.db || !Array.isArray(window.DataEngine.db.aggregateMaster) || window.DataEngine.db.aggregateMaster.length === 0) {
       if (window.DataEngine && typeof window.DataEngine.initDefaultRules === 'function') {
         window.DataEngine.initDefaultRules();
       }
     }
 
-    const fullMaster = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster && window.DataEngine.db.aggregateMaster.length > 0)
+    const fullMaster = (window.DataEngine && window.DataEngine.db && Array.isArray(window.DataEngine.db.aggregateMaster))
       ? window.DataEngine.db.aggregateMaster
       : [];
 
@@ -272,20 +272,20 @@ window.MappingPortal = {
     const tbody = document.getElementById('master-rules-list');
     if (!tbody) return;
 
-    if (!window.DataEngine || !window.DataEngine.db || !window.DataEngine.db.aggregateMaster || window.DataEngine.db.aggregateMaster.length === 0) {
+    if (!window.DataEngine || !window.DataEngine.db || !Array.isArray(window.DataEngine.db.aggregateMaster) || window.DataEngine.db.aggregateMaster.length === 0) {
       if (window.DataEngine && typeof window.DataEngine.initDefaultRules === 'function') {
         window.DataEngine.initDefaultRules();
       }
     }
 
-    const fullMaster = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster && window.DataEngine.db.aggregateMaster.length > 0)
+    const fullMaster = (window.DataEngine && window.DataEngine.db && Array.isArray(window.DataEngine.db.aggregateMaster))
       ? window.DataEngine.db.aggregateMaster
       : [];
 
     const searchInput = document.getElementById('master-search-input');
     const q = (searchInput ? searchInput.value : "").trim().toLowerCase();
 
-    if (!this.filteredMaster || this.filteredMaster.length === 0) {
+    if (!this.filteredMaster || (!q && this.filteredMaster.length === 0 && fullMaster.length > 0)) {
       if (q) {
         this.filteredMaster = fullMaster.filter(item => {
           return (item.aggregate && item.aggregate.toLowerCase().includes(q)) ||
@@ -298,9 +298,9 @@ window.MappingPortal = {
       }
     }
 
-    const masterSource = (this.filteredMaster && this.filteredMaster.length > 0) ? this.filteredMaster : fullMaster;
+    const listToRender = (this.filteredMaster !== undefined && this.filteredMaster !== null) ? this.filteredMaster : fullMaster;
 
-    if (!masterSource || masterSource.length === 0) {
+    if (!listToRender || listToRender.length === 0) {
       tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 2.5rem; color: #94a3b8;">No aggregate master rules matching search query "${q}".</td></tr>`;
       this.renderMasterPagination(0);
       return;
@@ -308,12 +308,12 @@ window.MappingPortal = {
 
     const start = (this.masterCurrentPage - 1) * this.masterPageSize;
     const end = start + this.masterPageSize;
-    const pageItems = masterSource.slice(start, end);
+    const pageItems = listToRender.slice(start, end);
 
     let html = '';
     pageItems.forEach(item => {
       const cat = item.category || 'Mechanical Parts';
-      const catColor = cat === 'Consumables' ? '#ffb84d' : (cat === 'Electrical Parts' ? '#a78bfa' : '#29d391');
+      const catColor = cat === 'Consumables' ? '#ffb84d' : (cat === 'Electrical Parts' ? '#a78bfa' : (cat === 'Lubes' ? '#e11d48' : '#29d391'));
 
       html += `
         <tr>
@@ -326,79 +326,30 @@ window.MappingPortal = {
     });
 
     tbody.innerHTML = html;
-    this.renderMasterPagination(masterSource.length);
+    this.renderMasterPagination(listToRender.length);
   },
 
-  renderMasterPagination() {
+  renderMasterPagination(totalCount) {
     const pagContainer = document.getElementById('master-pagination');
     if (!pagContainer) return;
 
-    const totalPages = Math.ceil(this.filteredMaster.length / this.masterPageSize) || 1;
+    const count = (typeof totalCount === 'number') ? totalCount : (this.filteredMaster ? this.filteredMaster.length : 0);
+    const totalPages = Math.ceil(count / this.masterPageSize) || 1;
+    if (this.masterCurrentPage > totalPages) this.masterCurrentPage = totalPages;
+
+    const startItem = count > 0 ? (this.masterCurrentPage - 1) * this.masterPageSize + 1 : 0;
+    const endItem = Math.min(this.masterCurrentPage * this.masterPageSize, count);
 
     pagContainer.innerHTML = `
       <div style="font-size:0.8rem; color:var(--text-muted);">
-        Showing ${Math.min(1 + (this.masterCurrentPage - 1) * this.masterPageSize, this.filteredMaster.length)} to ${Math.min(this.masterCurrentPage * this.masterPageSize, this.filteredMaster.length)} of ${this.filteredMaster.length} catalogue items
+        Showing ${startItem} to ${endItem} of ${count} catalogue items
       </div>
       <div style="display:flex; gap:0.5rem;">
-        <button class="btn btn-secondary" style="padding:0.25rem 0.65rem; font-size:0.75rem;" ${this.masterCurrentPage === 1 ? 'disabled' : ''} onclick="MappingPortal.changeMasterPage(${this.masterCurrentPage - 1})">Prev</button>
+        <button class="btn btn-secondary" style="padding:0.25rem 0.65rem; font-size:0.75rem;" ${this.masterCurrentPage <= 1 ? 'disabled' : ''} onclick="MappingPortal.changeMasterPage(${this.masterCurrentPage - 1})">Prev</button>
         <span style="font-size:0.85rem; font-weight:700; padding: 0.2rem 0.5rem;">${this.masterCurrentPage} / ${totalPages}</span>
         <button class="btn btn-secondary" style="padding:0.25rem 0.65rem; font-size:0.75rem;" ${this.masterCurrentPage >= totalPages ? 'disabled' : ''} onclick="MappingPortal.changeMasterPage(${this.masterCurrentPage + 1})">Next</button>
       </div>
     `;
-  },
-
-  changeMasterPage(page) {
-    this.masterCurrentPage = page;
-    this.renderAggregateMasterTable();
-  },
-
-  // Export Mapped Excel File - Preserves ALL original columns & appends 4 new genome columns at the very end
-  exportMappedExcel() {
-    const rawRows = window.DataEngine.rawUploadedRows || [];
-    const dataToExport = window.DataEngine.mappedSalesData;
-
-    if (!dataToExport || dataToExport.length === 0) {
-      window.App.showToast("No mapped catalogue data available to export yet. Upload your catalogue Excel file first.", "error");
-      return;
-    }
-
-    const exportRows = dataToExport.map((r, idx) => {
-      // Retain original uploaded row object
-      const orig = rawRows[idx] ? { ...rawRows[idx] } : {
-        'Part Number': r.partNo,
-        'Description': r.description,
-        'Brand / Make': r.brand
-      };
-
-      // Append Aggregate, Sub-Aggregate, Component, Category, and Remarks at the end
-      return {
-        ...orig,
-        'Aggregate': r.aggregate,
-        'Sub-Aggregate': r.subAggregate,
-        'Component': r.component,
-        'Category': r.category || 'Uncategorized',
-        'Remarks': r.remarks || (r.confidence === 'LOW' ? 'Unmapped - Manual Review Required' : 'Auto Mapped')
-      };
-    });
-
-    if (typeof XLSX !== 'undefined') {
-      const ws = XLSX.utils.json_to_sheet(exportRows);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Mapped_Catalogue");
-      XLSX.writeFile(wb, "Mapped_Catalogue_Output.xlsx");
-      window.App.showToast("Exported Mapped Catalogue Output (All original columns preserved + Aggregate, Sub-Aggregate, Component, Category & Remarks at end)!", "success");
-    } else {
-      let csv = Object.keys(exportRows[0]).join(',') + '\n';
-      exportRows.forEach(r => {
-        csv += Object.values(r).map(v => `"${v}"`).join(',') + '\n';
-      });
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'Mapped_Catalogue_Output.csv';
-      link.click();
-      window.App.showToast("Exported Mapped Catalogue CSV file!", "success");
-    }
   },
 
   // Directly Move Mapped Dataset into Sales Dashboard (RF or CF) & Redirect Page
