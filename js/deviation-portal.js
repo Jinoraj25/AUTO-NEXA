@@ -69,6 +69,7 @@ window.DeviationPortal = {
     if (typeof Chart === 'undefined') return;
 
     // 1. Leakage Trend Bar Chart
+    if (typeof Chart !== 'undefined') { var _c = Chart.getChart('chart-leakage-trend'); if (_c) _c.destroy(); }
     const ctxTrend = document.getElementById('chart-leakage-trend');
     if (ctxTrend) {
       if (this.trendChartInstance) this.trendChartInstance.destroy();
@@ -98,6 +99,7 @@ window.DeviationPortal = {
     }
 
     // 2. Leakage by Category Donut Chart
+    if (typeof Chart !== 'undefined') { var _c = Chart.getChart('chart-leakage-category'); if (_c) _c.destroy(); }
     const ctxCat = document.getElementById('chart-leakage-category');
     if (ctxCat) {
       if (this.catChartInstance) this.catChartInstance.destroy();
@@ -121,6 +123,7 @@ window.DeviationPortal = {
     }
 
     // 3. Root Cause Analysis Donut Chart
+    if (typeof Chart !== 'undefined') { var _c = Chart.getChart('chart-root-cause'); if (_c) _c.destroy(); }
     const ctxRoot = document.getElementById('chart-root-cause');
     if (ctxRoot) {
       if (this.rootChartInstance) this.rootChartInstance.destroy();

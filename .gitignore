@@ -5,23 +5,28 @@
 __pycache__/
 *.pyc
 
-# Ignore large raw dataset files
+# Ignore SQLite DBs
+*.db
+
+# Ignore raw dataset files & archives
 *.xls
 *.xlsx
 *.xlsb
 ALL GOOD STOCK/
+uploaded_data_archive/
 
-# Ignore large uncompressed JSON files (we deploy .json.gz versions under 10MB)
+# Ignore large uncompressed JSON files (we deploy .json.gz versions)
 *.json
 data/*.json
 
 # Keep dataset files required by server and UI
-!sales_cache.json
-!data/sales_cache.json
 !sales_cache.json.gz
 !data/sales_cache.json.gz
 !stock_cache.json.gz
 !data/stock_cache.json.gz
 !trained_mapping_db.json.gz
 !data/trained_mapping_db.json.gz
+!aggregate_master_rules.json.gz
+!data/aggregate_master_rules.json.gz
+
 

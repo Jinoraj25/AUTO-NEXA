@@ -12,39 +12,83 @@ window.DataEngine = {
   mappedSalesData: [],
   isLoaded: false,
 
-  async init() {
+    async init() {
     try {
-      console.log("DataEngine: Loading pre-trained lookup database...");
-      let res = await fetch('data/trained_mapping_db.json');
-      if (!res.ok) {
-        res = await fetch('trained_mapping_db.json');
-      }
+      console.log("DataEngine: Loading fast aggregate master rules (8.7 KB)...");
+      let res = await fetch('data/aggregate_master_rules.json.gz');
+      if (!res.ok) res = await fetch('data/aggregate_master_rules.json');
+      if (!res.ok) res = await fetch('aggregate_master_rules.json');
+
       if (res.ok) {
-        this.db = await res.json();
-        this.isLoaded = true;
-        console.log(`DataEngine: Success! Loaded ${Object.keys(this.db.partNoLookup || {}).length} pre-indexed parts.`);
+        const rulesData = await res.json();
+        if (rulesData && rulesData.aggregateMaster) {
+          this.db.aggregateMaster = rulesData.aggregateMaster;
+          this.isLoaded = true;
+          console.log(`DataEngine: Success! Instant loaded ${this.db.aggregateMaster.length} Aggregate Master rules.`);
+          
+          if (window.MappingPortal && window.MappingPortal.renderAggregateMasterTable) {
+            window.MappingPortal.filteredMaster = [...this.db.aggregateMaster];
+            window.MappingPortal.renderAggregateMasterTable();
+          }
+        }
       } else {
-        console.warn("DataEngine: JSON not found yet, initializing default fallback rules.");
         this.initDefaultRules();
       }
     } catch (e) {
-      console.warn("DataEngine fetch error, using default rules:", e);
+      console.warn("DataEngine fast rules notice, using defaults:", e);
       this.initDefaultRules();
+    }
+
+    // Non-blocking background lazy-load for 360,000 partNoLookup table
+    setTimeout(() => this.lazyLoadPartLookup(), 300);
+  },
+
+  async lazyLoadPartLookup() {
+    try {
+      console.log("DataEngine: Background loading full part number lookup genome...");
+      let res = await fetch('data/trained_mapping_db.json.gz');
+      if (!res.ok) res = await fetch('data/trained_mapping_db.json');
+      if (!res.ok) res = await fetch('trained_mapping_db.json');
+
+      if (res.ok) {
+        const fullDb = await res.json();
+        if (fullDb) {
+          this.db.partNoLookup = fullDb.partNoLookup || this.db.partNoLookup;
+          this.db.tokenIndex = fullDb.tokenIndex || this.db.tokenIndex;
+          if (fullDb.aggregateMaster && fullDb.aggregateMaster.length > this.db.aggregateMaster.length) {
+            this.db.aggregateMaster = fullDb.aggregateMaster;
+            if (window.MappingPortal && window.MappingPortal.renderAggregateMasterTable) {
+              window.MappingPortal.filteredMaster = [...this.db.aggregateMaster];
+              window.MappingPortal.renderAggregateMasterTable();
+            }
+          }
+          console.log(`DataEngine: Full genome background loaded (${Object.keys(this.db.partNoLookup || {}).length} parts active).`);
+        }
+      }
+    } catch(err) {
+      console.warn("Background part lookup load notice:", err);
     }
   },
 
-  initDefaultRules() {
+    initDefaultRules() {
     this.db.aggregateMaster = [
-      { aggregate: "HVAC/THERMAL", subAggregate: "REFRIGERANT", component: "A/C GAS", category: "Mechanical Parts" },
-      { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "RELAY AND FUSE", component: "A/C RELAY", category: "Electrical Parts" },
-      { aggregate: "BRAKE SYSTEM", subAggregate: "ABS SYSTEM", component: "ABS MODULATOR", category: "Mechanical Parts" },
       { aggregate: "ENGINE", subAggregate: "FILTERS", component: "OIL FILTER", category: "Consumables" },
       { aggregate: "ENGINE", subAggregate: "FILTERS", component: "AIR FILTER", category: "Consumables" },
+      { aggregate: "ENGINE", subAggregate: "FILTERS", component: "FUEL FILTER", category: "Consumables" },
+      { aggregate: "ENGINE", subAggregate: "VALVE & PISTON", component: "PISTON RING", category: "Mechanical Parts" },
       { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE PAD", category: "Mechanical Parts" },
+      { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE DISC / ROTOR", category: "Mechanical Parts" },
+      { aggregate: "BRAKE SYSTEM", subAggregate: "DRUM BRAKE", component: "BRAKE SHOE", category: "Mechanical Parts" },
       { aggregate: "SUSPENSION", subAggregate: "STRUT ASSEMBLY", component: "FRONT SHOCK ABSORBER", category: "Mechanical Parts" },
-      { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "CLUTCH PLATE", category: "Mechanical Parts" },
-      { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "BATTERY & IGNITION", component: "SPARK PLUG", category: "Electrical Parts" },
-      { aggregate: "STEERING", subAggregate: "POWER STEERING", component: "STEERING RACK", category: "Mechanical Parts" }
+      { aggregate: "SUSPENSION", subAggregate: "LINKAGE", component: "STABILIZER BAR LINK", category: "Mechanical Parts" },
+      { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "CLUTCH DISC & PLATE", category: "Mechanical Parts" },
+      { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "CLUTCH COVER / PRESSURE PLATE", category: "Mechanical Parts" },
+      { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "IGNITION SYSTEM", component: "SPARK PLUG", category: "Electrical Parts" },
+      { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "IGNITION SYSTEM", component: "GLOW PLUG", category: "Electrical Parts" },
+      { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "LIGHTING", component: "HEADLAMP BULB", category: "Electrical Parts" },
+      { aggregate: "STEERING", subAggregate: "POWER STEERING", component: "STEERING RACK ASSEMBLY", category: "Mechanical Parts" },
+      { aggregate: "HVAC/THERMAL", subAggregate: "REFRIGERANT", component: "A/C GAS", category: "Mechanical Parts" },
+      { aggregate: "COOLING SYSTEM", subAggregate: "RADIATOR & FLUIDS", component: "ENGINE COOLANT", category: "Consumables" }
     ];
     this.isLoaded = true;
   },

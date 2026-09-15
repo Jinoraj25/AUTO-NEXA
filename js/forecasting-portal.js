@@ -140,6 +140,7 @@ window.ForecastingPortal = {
     if (typeof Chart === 'undefined') return;
 
     // 1. Demand Forecast Line Chart
+    if (typeof Chart !== 'undefined') { var _c = Chart.getChart('chart-demand-forecast'); if (_c) _c.destroy(); }
     const ctxDemand = document.getElementById('chart-demand-forecast');
     if (ctxDemand) {
       if (this.demandChartInstance) this.demandChartInstance.destroy();
@@ -187,6 +188,7 @@ window.ForecastingPortal = {
     }
 
     // 2. Forecast vs Current Stock Bar Chart
+    if (typeof Chart !== 'undefined') { var _c = Chart.getChart('chart-forecast-vs-stock'); if (_c) _c.destroy(); }
     const ctxStock = document.getElementById('chart-forecast-vs-stock');
     if (ctxStock) {
       if (this.stockChartInstance) this.stockChartInstance.destroy();

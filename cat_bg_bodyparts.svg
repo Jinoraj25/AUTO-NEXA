@@ -1,8 +1,0 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200'>
-  <rect width='320' height='200' rx='16' fill='#0f172a'/>
-  <!-- Car Door Silhouette -->
-  <path d='M40 140 L50 70 Q120 50 200 50 L270 70 L280 140 Q160 165 40 140 Z' fill='none' stroke='#38bdf8' stroke-width='6'/>
-  <path d='M60 70 L140 70 L140 110 L55 110 Z' fill='#0284c7' opacity='0.6'/>
-  <path d='M150 70 L255 70 L255 110 L150 110 Z' fill='#0284c7' opacity='0.6'/>
-  <rect x='130' y='120' width='35' height='8' rx='4' fill='#ffb84d'/>
-</svg>

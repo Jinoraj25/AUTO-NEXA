@@ -2,8 +2,11 @@
 
 window.App = {
   activeTab: 'home',
+  _initialized: false,
 
   async init() {
+    if (this._initialized) return;
+    this._initialized = true;
     console.log("Initializing AUTO NEXA Intelligence Platform...");
     
     // Ensure tab-home is active immediately
@@ -34,12 +37,15 @@ window.App = {
   },
 
   bindEvents() {
-    const menuItems = document.querySelectorAll('.nav-menu-item');
-    menuItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const targetTab = item.getAttribute('data-tab');
-        if (targetTab) this.switchTab(targetTab);
-      });
+    document.addEventListener('click', (e) => {
+      const tabBtn = e.target.closest('[data-tab]');
+      if (tabBtn) {
+        const targetTab = tabBtn.getAttribute('data-tab');
+        if (targetTab) {
+          e.preventDefault();
+          this.switchTab(targetTab);
+        }
+      }
     });
 
     const brandBtn = document.getElementById('brand-home-btn');
@@ -76,15 +82,23 @@ window.App = {
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    if (this.activeTab === 'inventory' && window.InventoryPortal) {
-      window.InventoryPortal.fetchInventoryData();
-    } else if (this.activeTab === 'analytics' && window.AnalyticsPortal) {
-      window.AnalyticsPortal.updateDashboard();
-    } else if (this.activeTab === 'deviation' && window.DeviationPortal) {
-      window.DeviationPortal.updateDeviationAnalysis();
-    } else if (this.activeTab === 'forecasting' && window.ForecastingPortal) {
-      window.ForecastingPortal.updateForecasting();
-    }
+    setTimeout(() => {
+      try {
+        if (this.activeTab === 'inventory' && window.InventoryPortal) {
+          window.InventoryPortal.renderAll();
+        } else if (this.activeTab === 'analytics' && window.AnalyticsPortal) {
+          window.AnalyticsPortal.updateDashboard();
+        } else if (this.activeTab === 'catalogue' && window.MappingPortal) {
+          window.MappingPortal.renderAggregateMasterTable();
+        } else if (this.activeTab === 'deviation' && window.DeviationPortal) {
+          window.DeviationPortal.updateDeviationAnalysis();
+        } else if (this.activeTab === 'forecasting' && window.ForecastingPortal) {
+          window.ForecastingPortal.updateForecasting();
+        }
+      } catch (tabErr) {
+        console.warn("Tab switch callback warning:", tabErr);
+      }
+    }, 60);
   },
 
   toggleTheme() {

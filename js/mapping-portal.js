@@ -7,7 +7,12 @@ window.MappingPortal = {
 
   init() {
     this.bindEvents();
-    this.filteredMaster = [...(window.DataEngine.db.aggregateMaster || [])];
+    if (window.DataEngine) {
+      if (!window.DataEngine.db.aggregateMaster || window.DataEngine.db.aggregateMaster.length === 0) {
+        window.DataEngine.initDefaultRules();
+      }
+      this.filteredMaster = [...(window.DataEngine.db.aggregateMaster || [])];
+    }
     this.renderAggregateMasterTable();
   },
 
@@ -237,24 +242,22 @@ window.MappingPortal = {
     this.filterMasterTable(query);
   },
 
-  filterMasterTable(query = "") {
-    const q = (query || "").trim().toLowerCase();
-    const masterList = window.DataEngine.db.aggregateMaster || [];
+    filterMasterTable(query = "") {
+    const master = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster && window.DataEngine.db.aggregateMaster.length > 0)
+      ? window.DataEngine.db.aggregateMaster
+      : (this.filteredMaster || []);
 
+    const q = String(query || "").trim().toLowerCase();
     if (!q) {
-      this.filteredMaster = [...masterList];
+      this.filteredMaster = [...master];
     } else {
-      this.filteredMaster = masterList.filter(item => {
-        return (item.component && item.component.toLowerCase().includes(q)) ||
-               (item.aggregate && item.aggregate.toLowerCase().includes(q)) ||
+      this.filteredMaster = master.filter(item => {
+        return (item.aggregate && item.aggregate.toLowerCase().includes(q)) ||
                (item.subAggregate && item.subAggregate.toLowerCase().includes(q)) ||
-               (item.category && item.category.toLowerCase().includes(q)) ||
-               (item.make && item.make.toLowerCase().includes(q)) ||
-               (item.model && item.model.toLowerCase().includes(q)) ||
-               (item.partNo && item.partNo.toLowerCase().includes(q));
+               (item.component && item.component.toLowerCase().includes(q)) ||
+               (item.category && item.category.toLowerCase().includes(q));
       });
     }
-
     this.masterCurrentPage = 1;
     this.renderAggregateMasterTable();
   },
@@ -263,38 +266,32 @@ window.MappingPortal = {
     const tbody = document.getElementById('master-rules-list');
     if (!tbody) return;
 
-    if (!this.filteredMaster || this.filteredMaster.length === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="3" style="text-align:center; padding: 2rem; color: var(--text-muted);">
-            No matching catalogue component items found for your search query.
-          </td>
-        </tr>
-      `;
+    const masterSource = (this.filteredMaster && this.filteredMaster.length > 0)
+      ? this.filteredMaster
+      : ((window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster) ? window.DataEngine.db.aggregateMaster : []);
+
+    if (!masterSource || masterSource.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 2.5rem; color: #94a3b8;">No aggregate master rules matching search query.</td></tr>`;
       return;
     }
 
-    const startIdx = (this.masterCurrentPage - 1) * this.masterPageSize;
-    const endIdx = startIdx + this.masterPageSize;
-    const pageRows = this.filteredMaster.slice(startIdx, endIdx);
+    const start = (this.masterCurrentPage - 1) * this.masterPageSize;
+    const end = start + this.masterPageSize;
+    const pageItems = masterSource.slice(start, end);
 
     let html = '';
-    pageRows.forEach((item) => {
-      const agg = item.aggregate || "ENGINE";
-      const subAgg = item.subAggregate || "FILTERS";
-      const comp = item.component || item.description || "AUTOMOTIVE COMPONENT";
-
+    pageItems.forEach(item => {
       html += `
         <tr>
-          <td style="font-weight:800; color: #FF6600;">${agg}</td>
-          <td style="color: var(--text-muted); font-weight: 600;">${subAgg}</td>
-          <td style="color: #38bdf8; font-weight:700;">${comp}</td>
+          <td style="font-weight: 850; color: #38bdf8;">${item.aggregate || 'GENERAL'}</td>
+          <td style="font-weight: 700; color: #a78bfa;">${item.subAggregate || 'GENERAL'}</td>
+          <td style="font-weight: 850; color: #ffffff;">${item.component || 'UNMAPPED'}</td>
         </tr>
       `;
     });
 
     tbody.innerHTML = html;
-    this.renderMasterPagination();
+    this.renderMasterPagination(masterSource.length);
   },
 
   renderMasterPagination() {

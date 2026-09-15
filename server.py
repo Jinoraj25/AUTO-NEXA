@@ -1,3 +1,208 @@
+
+import os
+import sqlite3
+import json
+import sys
+import glob
+import re
+import threading
+
+try:
+    import pymysql
+except ImportError:
+    pymysql = None
+
+DB_PATH = os.path.join(os.getcwd(), 'data', 'autonexa.db')
+
+MYSQL_HOST = os.environ.get("MYSQL_HOST", "127.0.0.1")
+MYSQL_PORT = int(os.environ.get("MYSQL_PORT", 3306))
+MYSQL_USER = os.environ.get("MYSQL_USER", "root")
+MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD", "Jino@2003")
+MYSQL_DB = os.environ.get("MYSQL_DB", "autonexa")
+
+def get_mysql_connection():
+    if pymysql:
+        try:
+            conn = pymysql.connect(
+                host=MYSQL_HOST,
+                port=MYSQL_PORT,
+                user=MYSQL_USER,
+                password=MYSQL_PASSWORD,
+                database=MYSQL_DB,
+                charset='utf8mb4',
+                autocommit=True,
+                connect_timeout=2
+            )
+            return conn
+        except Exception as e:
+            pass
+    return None
+
+def get_db_connection():
+    if os.path.exists(DB_PATH):
+        conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        return conn
+    return None
+
+def get_db_stats():
+    mysql_conn = get_mysql_connection()
+    sqlite_conn = get_db_connection()
+    
+    res = {
+        "status": "online",
+        "mysql": {"status": "offline"},
+        "sqlite": {"status": "offline"}
+    }
+
+    if mysql_conn:
+        try:
+            cursor = mysql_conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM mapping_reference_master")
+            m1 = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM daily_stock_telemetry")
+            m2 = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM daily_sales_consolidated")
+            m3 = cursor.fetchone()[0]
+            mysql_conn.close()
+            res["mysql"] = {
+                "status": "online",
+                "host": f"{MYSQL_HOST}:{MYSQL_PORT}",
+                "database": MYSQL_DB,
+                "mappingMasterCount": m1,
+                "stockTelemetryCount": m2,
+                "salesConsolidatedCount": m3
+            }
+        except Exception as e:
+            res["mysql"] = {"status": "error", "error": str(e)}
+
+    if sqlite_conn:
+        try:
+            cursor = sqlite_conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM mapping_reference_master")
+            s1 = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM daily_stock_telemetry")
+            s2 = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM daily_sales_consolidated")
+            s3 = cursor.fetchone()[0]
+            sqlite_conn.close()
+            res["sqlite"] = {
+                "status": "online",
+                "dbPath": DB_PATH,
+                "mappingMasterCount": s1,
+                "stockTelemetryCount": s2,
+                "salesConsolidatedCount": s3
+            }
+        except Exception as e:
+            res["sqlite"] = {"status": "error", "error": str(e)}
+
+    return res
+
+def insert_daily_stock_db(stock_date, filename, items):
+    # Insert to MySQL
+    m_conn = get_mysql_connection()
+    if m_conn:
+        try:
+            cursor = m_conn.cursor()
+            rows = []
+            for it in items:
+                rows.append((
+                    stock_date, filename, it.get('partNo', ''), it.get('desc', ''),
+                    it.get('brand', 'GENERIC'), it.get('category', 'OEM'), it.get('lineCode', ''),
+                    it.get('branchCode', 'WHM'), it.get('branchName', 'MADURAI'),
+                    it.get('qty', 0), it.get('unitCost', 0), it.get('mrp', 0),
+                    it.get('valuation', 0), it.get('ageDays', 12), it.get('tag', 'CONSIDER')
+                ))
+            cursor.executemany("""
+                INSERT INTO daily_stock_telemetry 
+                (stock_date, filename, part_number, description, brand, category, line_code, branch_code, branch_name, stock_qty, unit_cost, mrp, total_valuation, age_days, tag)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, rows)
+            m_conn.close()
+            print(f"MySQL DB: Inserted {len(rows)} stock items into daily_stock_telemetry")
+        except Exception as e:
+            print(f"MySQL DB Stock Insert Error: {e}")
+
+    # Insert to SQLite
+    s_conn = get_db_connection()
+    if s_conn:
+        try:
+            cursor = s_conn.cursor()
+            rows = []
+            for it in items:
+                rows.append((
+                    stock_date, filename, it.get('partNo', ''), it.get('desc', ''),
+                    it.get('brand', 'GENERIC'), it.get('category', 'OEM'), it.get('lineCode', ''),
+                    it.get('branchCode', 'WHM'), it.get('branchName', 'MADURAI'),
+                    it.get('qty', 0), it.get('unitCost', 0), it.get('mrp', 0),
+                    it.get('valuation', 0), it.get('ageDays', 12), it.get('tag', 'CONSIDER')
+                ))
+            cursor.executemany("""
+                INSERT INTO daily_stock_telemetry 
+                (stock_date, filename, part_number, description, brand, category, line_code, branch_code, branch_name, stock_qty, unit_cost, mrp, total_valuation, age_days, tag)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, rows)
+            s_conn.commit()
+            s_conn.close()
+            print(f"SQLite DB: Inserted {len(rows)} stock items into daily_stock_telemetry")
+        except Exception as e:
+            print(f"SQLite DB Stock Insert Error: {e}")
+
+def insert_daily_sales_db(transaction_date, month_code, channel_type, sales_rows):
+    # Insert to MySQL
+    m_conn = get_mysql_connection()
+    if m_conn:
+        try:
+            cursor = m_conn.cursor()
+            rows = []
+            for r in sales_rows:
+                rows.append((
+                    transaction_date, month_code, channel_type,
+                    r.get('invoice_number', 'INV-DAILY'), r.get('part_number', ''), r.get('description', ''),
+                    r.get('brand', 'GENERIC'), r.get('category', 'Mechanical Parts'), r.get('aggregate', 'ENGINE'),
+                    r.get('sub_aggregate', 'FILTERS'), r.get('component', r.get('description', '')),
+                    float(r.get('qty_sold', 1)), float(r.get('unit_price', 250)), float(r.get('total_revenue', 250)),
+                    float(r.get('gross_margin', 37.5)), float(r.get('margin_pct', 15.0)),
+                    r.get('region', 'SOUTH'), r.get('remarks', 'Daily Upload Consolidated')
+                ))
+            cursor.executemany("""
+                INSERT INTO daily_sales_consolidated
+                (transaction_date, month_code, channel_type, invoice_number, part_number, description, brand, category, aggregate, sub_aggregate, component, qty_sold, unit_price, total_revenue, gross_margin, margin_pct, region, remarks)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, rows)
+            m_conn.close()
+            print(f"MySQL DB: Consolidated {len(rows)} daily sales lines")
+        except Exception as e:
+            print(f"MySQL DB Sales Insert Error: {e}")
+
+    # Insert to SQLite
+    s_conn = get_db_connection()
+    if s_conn:
+        try:
+            cursor = s_conn.cursor()
+            rows = []
+            for r in sales_rows:
+                rows.append((
+                    transaction_date, month_code, channel_type,
+                    r.get('invoice_number', 'INV-DAILY'), r.get('part_number', ''), r.get('description', ''),
+                    r.get('brand', 'GENERIC'), r.get('category', 'Mechanical Parts'), r.get('aggregate', 'ENGINE'),
+                    r.get('sub_aggregate', 'FILTERS'), r.get('component', r.get('description', '')),
+                    float(r.get('qty_sold', 1)), float(r.get('unit_price', 250)), float(r.get('total_revenue', 250)),
+                    float(r.get('gross_margin', 37.5)), float(r.get('margin_pct', 15.0)),
+                    r.get('region', 'SOUTH'), r.get('remarks', 'Daily Upload Consolidated')
+                ))
+            cursor.executemany("""
+                INSERT INTO daily_sales_consolidated
+                (transaction_date, month_code, channel_type, invoice_number, part_number, description, brand, category, aggregate, sub_aggregate, component, qty_sold, unit_price, total_revenue, gross_margin, margin_pct, region, remarks)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, rows)
+            s_conn.commit()
+            s_conn.close()
+            print(f"SQLite DB: Consolidated {len(rows)} daily sales lines")
+        except Exception as e:
+            print(f"SQLite DB Sales Insert Error: {e}")
+
+import sqlite3
 import http.server
 import socketserver
 import os
@@ -11,6 +216,21 @@ import pandas as pd
 PORT = int(os.environ.get("PORT", 8000))
 
 class CustomHandler(http.server.SimpleHTTPRequestHandler):
+    def translate_path(self, path):
+        # Clean path and handle fallback subfolder routing for organized structure
+        req_path = super().translate_path(path)
+        if os.path.exists(req_path):
+            return req_path
+        
+        # Check subfolders (images/, data/, lib/, js/)
+        clean_name = os.path.basename(path.split('?')[0])
+        for subfolder in ['images', 'data', 'lib', 'js']:
+            alt_path = os.path.join(os.getcwd(), subfolder, clean_name)
+            if os.path.exists(alt_path):
+                return alt_path
+                
+        return req_path
+
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
@@ -18,9 +238,11 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         # Serve sales cache or trained mapping database (compressed or raw)
-        if self.path in ['/sales_cache.json', '/data/sales_cache.json', '/trained_mapping_db.json', '/data/trained_mapping_db.json', '/stock_cache.json', '/data/stock_cache.json']:
-            rel_path = self.path[1:]
-            gz_path = rel_path + '.gz'
+        clean_file = os.path.basename(self.path.split('?')[0])
+        if clean_file in ['sales_cache.json', 'trained_mapping_db.json', 'stock_cache.json', 'aggregate_master_rules.json']:
+            target_file = os.path.join('data', clean_file) if os.path.exists(os.path.join('data', clean_file)) else clean_file
+            gz_path = (os.path.join('data', clean_file + '.gz')) if os.path.exists(os.path.join('data', clean_file + '.gz')) else (target_file + '.gz')
+            
             if os.path.exists(gz_path):
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
@@ -29,11 +251,11 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 with open(gz_path, 'rb') as f:
                     self.wfile.write(f.read())
                 return
-            elif os.path.exists(rel_path):
+            elif os.path.exists(target_file):
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
-                with open(rel_path, 'rb') as f:
+                with open(target_file, 'rb') as f:
                     self.wfile.write(f.read())
                 return
             elif os.path.exists('trained_db_part1.json') or os.path.exists(os.path.join('data', 'trained_db_part1.json')):
@@ -54,7 +276,13 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps(merged, ensure_ascii=False).encode('utf-8'))
-                return
+        if self.path == '/api/db/stats':
+            stats = get_db_stats()
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps(stats, ensure_ascii=False).encode('utf-8'))
+            return
 
         if self.path.startswith('/api/inventory'):
             try:
@@ -272,10 +500,12 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                     except Exception as err:
                         print(f"Instant summary update error: {err}")
 
-                # Trigger non-blocking background thread to update stock_cache.json
+                # Trigger non-blocking background thread to update MySQL DB & stock_cache.json
                 def update_cache_bg():
                     try:
                         import subprocess, sys
+                        print(f"🚀 Launching MySQL Auto-Sync for {save_path}...")
+                        subprocess.run([sys.executable, "scripts/auto_sync_file.py", "stock", save_path], check=False)
                         subprocess.run([sys.executable, "scripts/build_all_stock_instantly.py"], check=False)
                     except Exception as err:
                         print(f"Background cache build error: {err}")
@@ -285,7 +515,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps({"status": "success", "filename": filename, "date": date_str, "message": f"Successfully uploaded and synced {filename}"}).encode('utf-8'))
+                self.wfile.write(json.dumps({"status": "success", "filename": filename, "date": date_str, "message": f"Successfully uploaded and synced {filename} to MySQL & Website"}).encode('utf-8'))
                 return
 
             except Exception as e:
@@ -296,13 +526,15 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode('utf-8'))
                 return
 
-        if self.path == '/api/upload':
+        if self.path == '/api/sales/upload' or self.path == '/api/upload':
             try:
                 content_length = int(self.headers.get('Content-Length', 0))
                 body_bytes = self.rfile.read(content_length)
                 content_type = self.headers.get('Content-Type', '')
 
                 file_bytes = body_bytes
+                filename = "Sales_Upload.xlsx"
+                channel_type = "RF"
 
                 if 'boundary=' in content_type:
                     boundary_str = content_type.split('boundary=')[1]
@@ -310,11 +542,36 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                     parts = body_bytes.split(b'--' + boundary)
                     for part in parts:
                         if b'filename=' in part or b'name="file"' in part:
+                            fn_match = re.search(rb'filename="([^"]+)"', part)
+                            if fn_match:
+                                filename = fn_match.group(1).decode('utf-8', errors='ignore')
                             if b'\r\n\r\n' in part:
                                 _, content = part.split(b'\r\n\r\n', 1)
                                 content = content.rsplit(b'\r\n', 1)[0]
                                 file_bytes = content
-                                break
+                        elif b'name="channel"' in part:
+                            if b'\r\n\r\n' in part:
+                                _, content = part.split(b'\r\n\r\n', 1)
+                                channel_type = content.rsplit(b'\r\n', 1)[0].decode('utf-8', errors='ignore').strip().upper()
+
+                sales_folder = os.path.join(os.getcwd(), "SALES DUMP")
+                os.makedirs(sales_folder, exist_ok=True)
+                save_path = os.path.join(sales_folder, filename)
+
+                with open(save_path, "wb") as f_out:
+                    f_out.write(file_bytes)
+
+                print(f"Sales file {filename} ({channel_type}) uploaded successfully. Saving to {save_path}...")
+
+                def update_sales_bg():
+                    try:
+                        import subprocess, sys
+                        print(f"🚀 Launching MySQL Auto-Sync for Sales {save_path}...")
+                        subprocess.run([sys.executable, "scripts/auto_sync_file.py", "sales", save_path, channel_type], check=False)
+                    except Exception as err:
+                        print(f"Background sales upload error: {err}")
+
+                threading.Thread(target=update_sales_bg, daemon=True).start()
 
                 df = None
                 try:
@@ -327,13 +584,14 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
                 if df is not None:
                     df = df.fillna('')
-                    records = df.to_dict(orient='records')
+                    records = df.head(100).to_dict(orient='records')
                     
                     response_data = {
                         "status": "success",
-                        "rowCount": len(records),
+                        "rowCount": len(df),
                         "columns": list(df.columns),
-                        "rows": records
+                        "rows": records,
+                        "message": f"Successfully uploaded {filename} and synced to MySQL"
                     }
                     
                     self.send_response(200)
@@ -354,16 +612,17 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
         super().do_POST()
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+if __name__ == '__main__':
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-print(f"==========================================================")
-print(f"  AUTO NEXA Local Server Running                           ")
-print(f"  URL: http://localhost:{PORT}")
-print(f"  ALL GOOD STOCK Folder: d:\\...\\ALL GOOD STOCK")
-print(f"==========================================================")
+    print(f"==========================================================")
+    print(f"  AUTO NEXA Local Server Running                           ")
+    print(f"  URL: http://localhost:{PORT}")
+    print(f"  ALL GOOD STOCK Folder: d:\\...\\ALL GOOD STOCK")
+    print(f"==========================================================")
 
-with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        print("\nServer stopped cleanly.")
+    with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print("\nServer stopped cleanly.")

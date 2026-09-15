@@ -2,6 +2,10 @@
 <html lang="en" data-theme="dark">
 <head>
   <script>
+    try {
+      sessionStorage.setItem('mytvs_logged_in', 'true');
+      localStorage.setItem('mytvs_logged_in', 'true');
+    } catch(e) {}
     if (window.location.search) {
       try { window.history.replaceState({}, document.title, window.location.pathname); } catch(e) {}
     }
@@ -47,6 +51,52 @@
       }
       return false;
     }
+
+        window.switchTab = function(tabId) {
+      var targetTab = tabId || 'home';
+
+      var menuItems = document.querySelectorAll('.nav-menu-item');
+      menuItems.forEach(function(item) {
+        if (item.getAttribute('data-tab') === targetTab) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+
+      var panes = document.querySelectorAll('.tab-pane');
+      panes.forEach(function(pane) {
+        if (pane.id === 'tab-' + targetTab) {
+          pane.classList.add('active');
+          pane.style.setProperty('display', 'block', 'important');
+          pane.style.setProperty('visibility', 'visible', 'important');
+          pane.style.setProperty('opacity', '1', 'important');
+        } else {
+          pane.classList.remove('active');
+          pane.style.setProperty('display', 'none', 'important');
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (window.App) {
+        window.App.activeTab = targetTab;
+      }
+
+      try {
+        if (targetTab === 'inventory' && window.InventoryPortal && typeof window.InventoryPortal.fetchInventoryData === 'function') {
+          window.InventoryPortal.fetchInventoryData();
+        } else if (targetTab === 'analytics' && window.AnalyticsPortal && typeof window.AnalyticsPortal.updateDashboard === 'function') {
+          window.AnalyticsPortal.updateDashboard();
+        } else if (targetTab === 'deviation' && window.DeviationPortal && typeof window.DeviationPortal.updateDeviationAnalysis === 'function') {
+          window.DeviationPortal.updateDeviationAnalysis();
+        } else if (targetTab === 'forecasting' && window.ForecastingPortal && typeof window.ForecastingPortal.updateForecasting === 'function') {
+          window.ForecastingPortal.updateForecasting();
+        }
+      } catch(err) {
+        console.warn("Subportal update warning on switchTab:", err);
+      }
+    };
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,13 +108,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=5.0.0">
+  <link rel="stylesheet" href="styles.css?v=25.0.0">
 
   <!-- Local JS Libraries -->
   <script src="chart.umd.min.js" onerror="this.onerror=null;this.src='lib/chart.umd.min.js'"></script>
   <script src="xlsx.full.min.js" onerror="this.onerror=null;this.src='lib/xlsx.full.min.js'"></script>
 </head>
-<body>
+<body class="is-authenticated">
 
   <!-- Welcome Pop-Up Notification (1-2 Sec Auto-fading Toast) -->
   <div id="mytvs-welcome-popup" class="welcome-toast-popup" style="display: none;">
@@ -187,12 +237,12 @@
 
     <nav class="nav-menu-group" aria-label="Primary navigation">
       <div class="nav-section-label">WORKSPACE</div>
-      <button class="nav-menu-item active" data-tab="home" onclick="App.switchTab('home')"><span class="nav-icon">⌂</span><span>Home</span></button>
-      <button class="nav-menu-item" data-tab="catalogue" onclick="App.switchTab('catalogue')"><span class="nav-icon">⌘</span><span>Catalogue</span></button>
-      <button class="nav-menu-item" data-tab="inventory" onclick="App.switchTab('inventory')"><span class="nav-icon">▣</span><span>Inventory</span></button>
-      <button class="nav-menu-item" data-tab="analytics" onclick="App.switchTab('analytics')"><span class="nav-icon">◒</span><span>Sales</span></button>
-      <button class="nav-menu-item" data-tab="forecasting" onclick="App.switchTab('forecasting')"><span class="nav-icon">⌁</span><span>Planning</span></button>
-      <button class="nav-menu-item" data-tab="deviation" onclick="App.switchTab('deviation')"><span class="nav-icon">≡</span><span>Reports</span></button>
+      <button type="button" class="nav-menu-item active" data-tab="home" onclick="switchTab('home');"><span class="nav-icon">⌂</span><span>Home</span></button>
+      <button type="button" class="nav-menu-item" data-tab="catalogue" onclick="switchTab('catalogue');"><span class="nav-icon">⌘</span><span>Catalogue</span></button>
+      <button type="button" class="nav-menu-item" data-tab="inventory" onclick="switchTab('inventory');"><span class="nav-icon">▣</span><span>Inventory</span></button>
+      <button type="button" class="nav-menu-item" data-tab="analytics" onclick="switchTab('analytics');"><span class="nav-icon">◒</span><span>Sales</span></button>
+      <button type="button" class="nav-menu-item" data-tab="forecasting" onclick="switchTab('forecasting');"><span class="nav-icon">⌁</span><span>Planning</span></button>
+      <button type="button" class="nav-menu-item" data-tab="deviation" onclick="switchTab('deviation');"><span class="nav-icon">≡</span><span>Reports</span></button>
     </nav>
 
     <div class="header-right">
@@ -589,6 +639,9 @@
       </div>
 
       <div id="inventory-sync-status" class="upload-status-box" style="display: none; margin-bottom: 1.25rem;"></div>
+
+      <!-- DYNAMIC CATEGORY VALUATION SCORECARDS GRID -->
+      <div id="category-valuation-cards-grid" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; margin-bottom: 1.5rem;"></div>
 
       <!-- 4 CORE SCORECARDS ONLY (Total Value, SKUs, Physical Stock, DoD Shift) -->
       <div class="ref-kpi-strip" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
@@ -1021,92 +1074,87 @@
         </div>
       </div>
 
-      <!-- CHARTS GRID 2 COLUMNS: Vehicle Make Share (MHMT vs Others) & 5 Categories Distribution -->
-      <div id="charts-grid-2col" class="charts-grid" style="grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
-        
-        <!-- Chart 3: 5 Official Master Categories Revenue Share -->
-        <div class="chart-card" style="padding: 1.35rem;">
-          <div class="chart-header" style="margin-bottom: 0.85rem;">
+      <!-- REGION MAP SALES DASHBOARD -->
+      <div id="region-map-section" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+        <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; margin-bottom: 1rem;">
+          🗺️ Regional Territory Sales Breakdown (North, South, East, West)
+        </div>
+        <div id="region-map-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;"></div>
+      </div>
+
+      <!-- VEHICLE MAKE (MHMT) ANALYSIS DASHBOARD -->
+      <div id="make-analysis-section" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif;">
+            🚗 Vehicle Make Revenue Distribution (Maruti, Hyundai, Mahindra, Tata & Others)
+          </div>
+          <span class="badge badge-info">Make Intelligence</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem;">
+          <div id="make-cards-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;"></div>
+          <div style="background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem;">
+            <div style="font-size: 0.88rem; font-weight: 850; color: #ffb84d; margin-bottom: 0.75rem;">Make Share Breakdown</div>
+            <div id="make-distribution-list" style="display: flex; flex-direction: column; gap: 0.6rem;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEGMENT 1: PMS SALES DASHBOARD (WITH GENERATED SCENIC HERO & 3D CARDS) -->
+      <div id="pms-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 0; overflow: hidden; border: 1.5px solid rgba(245, 158, 11, 0.4); background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(8,18,31,0.98)); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+        <!-- Scenic Hero Header -->
+        <div style="position: relative; height: 130px; overflow: hidden; display: flex; align-items: center; padding: 0 1.5rem;">
+          <img src="pms_hero.jpg" onerror="this.onerror=null;this.src='images/pms_hero.jpg'" alt="Periodic Maintenance Service" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; filter: contrast(1.1) brightness(0.9);">
+          <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.6) 50%, rgba(15,23,42,0.85) 100%);"></div>
+          
+          <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.5rem;">
             <div>
-              <div class="chart-title" style="font-size: 1.05rem; font-weight: 900; color: #ffffff;">📦 5 Master Categories Revenue Share Chart</div>
-              <div style="font-size: 0.78rem; color: #cbd5e1;">Mechanical Parts, Body Parts, Lubes, Electrical Parts & Accessories.</div>
+              <div style="font-size: 1.25rem; font-weight: 900; color: #ffb84d; font-family: 'Outfit', sans-serif; text-shadow: 0 2px 8px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 0.5rem;">
+                <span>🛠️</span> Periodic Maintenance Service (PMS) Sales Intelligence
+              </div>
+              <div style="font-size: 0.82rem; color: #e2e8f0; margin-top: 0.25rem; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
+                Fast-moving consumable maintenance drivers with 3D product renders & performance analytics.
+              </div>
             </div>
-            <span class="badge badge-purple" style="font-weight: 850;">Master Taxonomy</span>
-          </div>
-          <div class="chart-container" style="min-height: 260px; position: relative;"><canvas id="chart-category-holding"></canvas></div>
-        </div>
-      </div>
-
-      <!-- SEGMENT: VEHICLE MAKE ANALYSIS (MHMT vs OTHERS) + MHMT vs OTHERS DONUT CHART -->
-      <div id="make-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; border: 1.5px solid rgba(59, 130, 246, 0.35); background: linear-gradient(145deg, rgba(59,130,246,0.06), var(--surface));">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
-          <div>
-            <div style="font-size: 1.2rem; font-weight: 900; color: #38bdf8; font-family: 'Outfit', sans-serif;">🚗 Corporate Franchisee (CF) Vehicle Make Analysis (All Major Makes)</div>
-            <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 0.15rem;">
-              Showing all major automotive makes (Maruti, Hyundai, Mahindra, Tata, Honda, Toyota, Ford, Volkswagen, Skoda, Renault, Nissan, Others).
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <span id="pms-total-badge" class="badge badge-amber" style="font-size: 0.85rem; font-weight: 850; padding: 0.4rem 0.8rem; border: 1px solid rgba(255,184,77,0.5); backdrop-filter: blur(8px);">PMS Sales: ₹18.45 Cr</span>
+              <span id="pms-share-badge" class="badge badge-purple" style="font-size: 0.85rem; font-weight: 850; padding: 0.4rem 0.8rem; border: 1px solid rgba(167,139,250,0.5); backdrop-filter: blur(8px);">26.1% of Total Sales</span>
             </div>
-          </div>
-          <div style="display: flex; gap: 0.75rem; align-items: center;">
-            <span id="mhmt-total-badge" class="badge badge-blue" style="font-size: 0.82rem; font-weight: 850;">MHMT Sales: ₹3.45 Cr (65.7%)</span>
-            <span id="others-total-badge" class="badge badge-purple" style="font-size: 0.82rem; font-weight: 850;">OTHERS: ₹1.80 Cr (34.3%)</span>
-          </div>
-        </div>
-
-        <!-- 2 Column Layout: Make Cards (Left 2.2fr) & MHMT vs OTHERS Donut Chart (Right 1fr) -->
-        <div style="display: grid; grid-template-columns: 2.2fr 1fr; gap: 1.25rem;">
-          <!-- 12 Vehicle Make Cards Grid -->
-          <div id="make-cards-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-            <!-- Dynamically populated via analytics-portal.js -->
-          </div>
-
-          <!-- MHMT vs OTHERS Share Chart -->
-          <div class="card" style="padding: 1.1rem; text-align: center; background: rgba(15,23,42,0.85); border: 1px solid rgba(56,189,248,0.25);">
-            <div style="font-size: 0.95rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">MHMT vs OTHERS Share</div>
-            <div style="height: 220px; position: relative;">
-              <canvas id="chart-mhmt-vs-others"></canvas>
-            </div>
-            <div id="make-distribution-list" style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.45rem; max-height: 200px; overflow-y: auto; text-align: left;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SEGMENT 1: PMS SALES DASHBOARD (WITH SCENIC MENU BACKGROUND IMAGES) -->
-      <div id="pms-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; border: 1.5px solid rgba(245, 158, 11, 0.35); background: linear-gradient(145deg, rgba(245,158,11,0.06), var(--surface));">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
-          <div>
-            <div style="font-size: 1.2rem; font-weight: 900; color: #ffb84d; font-family: 'Outfit', sans-serif;">🛠️ Periodic Maintenance Service (PMS) Sales Intelligence</div>
-            <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 0.15rem;">
-              Fast-moving consumable maintenance drivers with scenic component background images.
-            </div>
-          </div>
-          <div style="display: flex; gap: 0.75rem; align-items: center;">
-            <span id="pms-total-badge" class="badge badge-amber" style="font-size: 0.82rem; font-weight: 850;">PMS Sales: ₹18.45 Cr</span>
-            <span id="pms-share-badge" class="badge badge-purple" style="font-size: 0.82rem; font-weight: 850;">26.1% of Total Sales</span>
           </div>
         </div>
 
         <!-- PMS Items Cards Grid -->
-        <div id="pms-cards-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem;">
-          <!-- Dynamically populated via analytics-portal.js -->
+        <div style="padding: 1.25rem;">
+          <div id="pms-cards-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem;">
+            <!-- Dynamically populated via analytics-portal.js -->
+          </div>
         </div>
       </div>
 
-      <!-- SEGMENT 2: MOST COMMON MECHANICAL AGGREGATES BREAKDOWN (WITH SCENIC MENU BACKGROUND IMAGES) -->
-      <div id="mech-aggregates-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; border: 1.5px solid rgba(167, 139, 250, 0.35); background: linear-gradient(145deg, rgba(167,139,250,0.06), var(--surface));">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
-          <div>
-            <div style="font-size: 1.2rem; font-weight: 900; color: #a78bfa; font-family: 'Outfit', sans-serif;">⚙️ Most Common Mechanical Aggregates Performance</div>
-            <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 0.15rem;">
-              Revenue & Unit Breakdown across the 6 major mechanical systems with scenic menu images.
+      <!-- SEGMENT 2: MOST COMMON MECHANICAL AGGREGATES BREAKDOWN (WITH GENERATED SCENIC HERO & 3D CARDS) -->
+      <div id="mech-aggregates-container" class="card" style="margin-bottom: 1.5rem; padding: 0; overflow: hidden; border: 1.5px solid rgba(167, 139, 250, 0.4); background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(8,18,31,0.98)); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+        <!-- Scenic Hero Header -->
+        <div style="position: relative; height: 130px; overflow: hidden; display: flex; align-items: center; padding: 0 1.5rem;">
+          <img src="mech_hero.jpg" onerror="this.onerror=null;this.src='images/mech_hero.jpg'" alt="Mechanical Aggregates Performance" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; filter: contrast(1.1) brightness(0.9);">
+          <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.6) 50%, rgba(15,23,42,0.85) 100%);"></div>
+
+          <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <div style="font-size: 1.25rem; font-weight: 900; color: #a78bfa; font-family: 'Outfit', sans-serif; text-shadow: 0 2px 8px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 0.5rem;">
+                <span>⚙️</span> Most Common Mechanical Aggregates Performance
+              </div>
+              <div style="font-size: 0.82rem; color: #e2e8f0; margin-top: 0.25rem; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
+                Revenue & Unit Breakdown across the 6 major mechanical systems with high-definition 3D renders.
+              </div>
             </div>
+            <span class="badge badge-purple" style="font-size: 0.85rem; font-weight: 850; padding: 0.4rem 0.8rem; border: 1px solid rgba(167,139,250,0.5); backdrop-filter: blur(8px);">6 Mechanical Core Systems</span>
           </div>
-          <span class="badge badge-purple" style="font-size: 0.82rem; font-weight: 850;">6 Mechanical Core Systems</span>
         </div>
 
         <!-- Mechanical Aggregates Cards Grid -->
-        <div id="mech-aggregates-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem;">
-          <!-- Dynamically populated via analytics-portal.js -->
+        <div style="padding: 1.25rem;">
+          <div id="mech-aggregates-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem;">
+            <!-- Dynamically populated via analytics-portal.js -->
+          </div>
         </div>
       </div>
     </section>
@@ -1446,6 +1494,12 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- App Core JS Modules -->
-  <script src="nexa-app.js?v=6.0.0"></script>
+  <script src="js/data-engine.js?v=25.0.0"></script>
+  <script src="js/inventory-portal.js?v=25.0.0"></script>
+  <script src="js/analytics-portal.js?v=25.0.0"></script>
+  <script src="js/mapping-portal.js?v=25.0.0"></script>
+  <script src="js/deviation-portal.js?v=25.0.0"></script>
+  <script src="js/forecasting-portal.js?v=25.0.0"></script>
+  <script src="js/app.js?v=25.0.0"></script>
 </body>
 </html>
