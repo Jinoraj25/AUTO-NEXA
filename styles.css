@@ -4263,31 +4263,17 @@ select option {
   color: #ffb84d !important;
 }
 
-/* AUTHENTICATION DISPLAY OVERRIDES */
-body.is-authenticated #mytvs-login-screen {
-  display: none !important;
-}
 
-body:not(.is-authenticated) #app-header,
-body:not(.is-authenticated) #main-app-content,
-body:not(.is-authenticated) footer.app-footer {
-  display: none !important;
-}
-
-body.is-authenticated #app-header {
-  display: flex !important;
-}
-
-body.is-authenticated #main-app-content {
-  display: block !important;
-}
-
-body.is-authenticated footer.app-footer {
-  display: block !important;
-}
-
-/* PERMANENT LOGIN BYPASS OVERRIDES */
+/* CLEAN AUTHENTICATION OVERLAY & VISIBILITY RULES */
 #mytvs-login-screen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  display: grid;
+  background: #0b0f19 !important;
+}
+
+body.is-authenticated #mytvs-login-screen {
   display: none !important;
 }
 

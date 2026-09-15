@@ -3034,27 +3034,26 @@ window.App = {
     }
   },
 
-        checkAuth() {
+          checkAuth() {
     if (window.location.search) {
-      window.history.replaceState({}, document.title, window.location.pathname);
+      try {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } catch (e) {}
     }
-    sessionStorage.setItem('mytvs_logged_in', 'true');
-    localStorage.setItem('mytvs_logged_in', 'true');
 
+    const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true' || localStorage.getItem('mytvs_logged_in') === 'true';
     const loginOverlay = document.getElementById('mytvs-login-screen');
-    const header = document.getElementById('app-header');
-    const mainContent = document.getElementById('main-app-content');
-    const footer = document.querySelector('footer.app-footer');
     const userCode = sessionStorage.getItem('mytvs_user_code') || localStorage.getItem('mytvs_user_code') || 'SM0237';
     const userName = sessionStorage.getItem('mytvs_user_name') || localStorage.getItem('mytvs_user_name') || 'Jino George';
 
-    document.body.classList.add('is-authenticated');
-    if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
-    if (header) header.style.setProperty('display', 'flex', 'important');
-    if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
-    if (footer) footer.style.setProperty('display', 'block', 'important');
-    document.body.style.overflow = '';
-    this.updateHeaderProfile(userCode, userName);
+    if (isLoggedIn) {
+      document.body.classList.add('is-authenticated');
+      if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
+      this.updateHeaderProfile(userCode, userName);
+    } else {
+      document.body.classList.remove('is-authenticated');
+      if (loginOverlay) loginOverlay.style.setProperty('display', 'grid', 'important');
+    }
   },
 
   updateHeaderProfile(code, name) {
@@ -3071,14 +3070,13 @@ window.App = {
     }
   },
 
-    handleLogin(e) {
+      handleLogin(e) {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
     const userCodeInput = document.getElementById('login-username');
     const userCode = (userCodeInput && userCodeInput.value ? userCodeInput.value : 'SM0237').trim().toUpperCase();
-    const btn = document.getElementById('btn-login-submit');
 
     let displayName = "Jino George";
     if (userCode === "SM0216") {
@@ -3089,12 +3087,7 @@ window.App = {
       displayName = `Employee ${userCode}`;
     }
 
-    if (btn) {
-      btn.disabled = true;
-      btn.innerHTML = '<span>⏳</span> Authenticating with myTVS...';
-    }
-
-    // Save auth state
+    // Save login state
     sessionStorage.setItem('mytvs_logged_in', 'true');
     sessionStorage.setItem('mytvs_user_code', userCode);
     sessionStorage.setItem('mytvs_user_name', displayName);
@@ -3102,45 +3095,14 @@ window.App = {
     localStorage.setItem('mytvs_user_code', userCode);
     localStorage.setItem('mytvs_user_name', displayName);
 
-    // Update DOM instantly
+    // Transition body state
     document.body.classList.add('is-authenticated');
-
     const loginOverlay = document.getElementById('mytvs-login-screen');
-    const header = document.getElementById('app-header');
-    const mainContent = document.getElementById('main-app-content');
-    const footer = document.querySelector('footer.app-footer');
-
     if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
-    if (header) header.style.setProperty('display', 'flex', 'important');
-    if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
-    if (footer) footer.style.setProperty('display', 'block', 'important');
-    document.body.style.overflow = '';
-
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '<span>Sign In</span> <span class="arrow-icon">→</span>';
-    }
 
     this.updateHeaderProfile(userCode, displayName);
     this.switchTab('home');
-
-    // Trigger Welcome Toast Notification
     this.showToast(`Welcome back, ${displayName}!`, "success");
-
-    // Welcome Pop-Up
-    const welcomePopup = document.getElementById('mytvs-welcome-popup');
-    const welcomeHead = document.getElementById('welcome-user-heading');
-    if (welcomeHead) welcomeHead.innerText = `Welcome ${displayName}`;
-    if (welcomePopup) {
-      welcomePopup.style.display = 'flex';
-      setTimeout(() => welcomePopup.classList.add('show'), 20);
-      setTimeout(() => {
-        welcomePopup.classList.remove('show');
-        setTimeout(() => {
-          welcomePopup.style.display = 'none';
-        }, 400);
-      }, 1800);
-    }
   },
 
   closeWelcomePopup() {
