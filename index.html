@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+  <script>
+    if (window.location.search) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AUTO NEXA | Automotive Parts Intelligence Platform</title>
@@ -71,7 +76,7 @@
         <h2 class="card-heading">Welcome Back</h2>
         <p class="card-subheading">Sign in to your account to access the platform</p>
 
-        <form id="mytvs-login-form" onsubmit="App.handleLogin(event)">
+        <form id="mytvs-login-form" action="javascript:void(0);" onsubmit="App.handleLogin(event); return false;">
           <div class="input-group-modern">
             <label for="login-username">Username or Employee Code</label>
             <div class="input-field-wrapper">

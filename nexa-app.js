@@ -3034,8 +3034,10 @@ window.App = {
     }
   },
 
-      checkAuth() {
-    // Default to true so user lands directly on the executive dashboard without any login barrier
+        checkAuth() {
+    if (window.location.search) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
     sessionStorage.setItem('mytvs_logged_in', 'true');
     localStorage.setItem('mytvs_logged_in', 'true');
 
