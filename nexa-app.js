@@ -101,6 +101,7 @@ window.DataEngine = {
   },
 
   // Automated 1st Cut Component Mapping Algorithm
+    // Automated 1st Cut Component Mapping Algorithm
   mapRow(rawPartNo, description, brandInput = "") {
     const normPart = this.cleanPartNo(rawPartNo);
     const descUpper = String(description || "").trim().toUpperCase();
@@ -129,9 +130,105 @@ window.DataEngine = {
       };
     }
 
-    // Strategy 2: Keyword Token Matching against NLP Token Index
+    // Strategy 2: Precision Domain Rules for Automotive Spare Parts (PRIORITY 1 FOR TEXT MATCHING)
     if (descUpper) {
-      const tokens = descUpper.split(/[^A-Z0-9]+/).filter(t => t.length >= 3);
+      const d = descUpper;
+      
+      // 1. BRAKE SYSTEM
+      if (d.includes("BRAKE SHOE") || d.includes("DRUM BRAKE")) {
+        return { aggregate: "BRAKE SYSTEM", subAggregate: "DRUM BRAKE", component: "BRAKE SHOE", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("DISC PAD") || d.includes("BRAKE PAD")) {
+        return { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE PAD", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("BRAKE ROTOR") || d.includes("BRAKE DISC")) {
+        return { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE DISC / ROTOR", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+
+      // 2. MECHANICAL AGGREGATES / GASKETS & SEALS
+      if (d.includes("OIL SEAL") || d.includes("WHEEL SEAL")) {
+        return { aggregate: "MECHANICAL AGGREGATES", subAggregate: "SEALS & GASKETS", component: "OIL SEAL", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("GASKET MAKER") || d.includes("ANABOND") || d.includes("GASKET")) {
+        return { aggregate: "MECHANICAL AGGREGATES", subAggregate: "SEALS & GASKETS", component: "GASKET & SEALANT", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+
+      // 3. TRANSMISSION & DRIVETRAIN
+      if (d.includes("UNIVERSAL JOINT") || d.includes("U JOINT") || d.includes("U-JOINT") || d.includes("U.J. KIT")) {
+        return { aggregate: "TRANSMISSION", subAggregate: "PROPELLER SHAFT", component: "UNIVERSAL JOINT KIT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("GEAR LEVER") || d.includes("GEAR SHIFT")) {
+        return { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "GEAR SHIFT LEVER KIT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("CLUTCH DISC") || d.includes("CLUTCH PLATE") || d.includes("CLUTCH FACING")) {
+        return { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "CLUTCH DISC & PLATE", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("CLUTCH COVER") || d.includes("PRESSURE PLATE") || d.includes("CLUTCH KIT")) {
+        return { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "CLUTCH COVER / PRESSURE PLATE", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+
+      // 4. COOLING SYSTEM & HOSES
+      if (d.includes("HEATER HOSE") || d.includes("HEATER OUTLET") || d.includes("BOTTOM HOSE") || d.includes("TOP HOSE") || d.includes("HOSE")) {
+        return { aggregate: "COOLING SYSTEM", subAggregate: "RADIATOR & FLUIDS", component: "COOLANT & HEATER HOSE", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("RADIATOR") || d.includes("COOLING FAN")) {
+        return { aggregate: "COOLING SYSTEM", subAggregate: "RADIATOR & FLUIDS", component: "RADIATOR ASSEMBLY", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+
+      // 5. SUSPENSION & STEERING
+      if (d.includes("BALL JOINT")) {
+        return { aggregate: "SUSPENSION", subAggregate: "LINKAGE", component: "SUSPENSION BALL JOINT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("STRUT") || d.includes("SHOCK ABSORBER")) {
+        return { aggregate: "SUSPENSION", subAggregate: "STRUT ASSEMBLY", component: "FRONT SHOCK ABSORBER", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("HUB OUTER") || d.includes("HUB INNER") || d.includes("WHEEL HUB") || d.includes("REAR HUB")) {
+        return { aggregate: "SUSPENSION", subAggregate: "WHEEL HUB", component: "WHEEL HUB ASSEMBLY", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("REAR WHEEL") || d.includes("FRONT WHEEL")) {
+        return { aggregate: "SUSPENSION", subAggregate: "WHEEL HUB", component: "WHEEL BEARINGS & SEALS", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("STEERING BOOT") || d.includes("STEERING RACK")) {
+        return { aggregate: "STEERING", subAggregate: "POWER STEERING", component: "STEERING RACK & BOOT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+
+      // 6. ELECTRICALS & LIGHTING
+      if (d.includes("FOG LAMP")) {
+        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "LIGHTING", component: "FOG LAMP / LIGHT ASSEMBLY", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("BULB") || d.includes("LED") || d.includes("W5W")) {
+        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "LIGHTING", component: "HEADLAMP BULB", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("SPARK PLUG") || d.includes("GLOW PLUG") || d.includes("SPARK") || d.includes("IGNITION")) {
+        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "IGNITION SYSTEM", component: "SPARK PLUG", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+
+      // 7. WHEELS & TIRES / TUBES & FLAPS
+      if (d.includes("TUBE") || d.includes("FLAP") || d.includes("TYRE")) {
+        return { aggregate: "WHEELS & TIRES", subAggregate: "TUBES & FLAPS", component: "TIRE TUBE / FLAP", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+
+      // 8. ENGINE & FILTERS
+      if (d.includes("FUEL WATER SEPARATOR") || d.includes("FUEL FILTER")) {
+        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "FUEL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("OIL FILTER")) {
+        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "OIL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("AIR FILTER")) {
+        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "AIR FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("FILTER")) {
+        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "OIL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+      if (d.includes("BELT") || d.includes("TIMING")) {
+        return { aggregate: "BELTS AND TENSIONER", subAggregate: "TIMING BELT", component: "TIMING BELT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+      }
+    }
+
+    // Strategy 3: Keyword Token Matching against NLP Token Index
+    if (descUpper) {
+      const tokens = descUpper.split(/[^A-Z0-9]+/).filter(t => t.length >= 4);
       for (let token of tokens) {
         if (this.db.tokenIndex && this.db.tokenIndex[token]) {
           const compMatch = this.db.tokenIndex[token];
@@ -148,98 +245,14 @@ window.DataEngine = {
               confidenceScore: 88,
               remarks: "Auto Mapped (Keyword Match)"
             };
-          } else {
-            return {
-              aggregate: "UNMAPPED",
-              subAggregate: "UNMAPPED",
-              component: compMatch,
-              category: "Uncategorized",
-              make: brandUpper || "GENERIC",
-              matchMethod: "NLP_KEYWORD_TOKEN",
-              confidence: "LOW",
-              confidenceScore: 50,
-              remarks: "Unmapped - Manual Review Required"
-            };
           }
         }
-      }
-
-      // Strategy 3: Precision Domain Rules for Automotive Spare Parts
-      const d = descUpper;
-      if (d.includes("BRAKE SHOE") || d.includes("DRUM BRAKE")) {
-        return { aggregate: "BRAKE SYSTEM", subAggregate: "DRUM BRAKE", component: "BRAKE SHOE", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("DISC PAD") || d.includes("BRAKE PAD")) {
-        return { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE PAD", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("BRAKE ROTOR") || d.includes("BRAKE DISC")) {
-        return { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE DISC / ROTOR", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("OIL SEAL") || d.includes("WHEEL SEAL")) {
-        return { aggregate: "MECHANICAL AGGREGATES", subAggregate: "SEALS & GASKETS", component: "OIL SEAL", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("GASKET MAKER") || d.includes("ANABOND") || d.includes("GASKET")) {
-        return { aggregate: "MECHANICAL AGGREGATES", subAggregate: "SEALS & GASKETS", component: "GASKET & SEALANT", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("UNIVERSAL JOINT") || d.includes("U JOINT") || d.includes("U-JOINT")) {
-        return { aggregate: "TRANSMISSION", subAggregate: "PROPELLER SHAFT", component: "UNIVERSAL JOINT KIT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("HEATER HOSE") || d.includes("HEATER OUTLET") || d.includes("HOSE")) {
-        return { aggregate: "COOLING SYSTEM", subAggregate: "RADIATOR & FLUIDS", component: "COOLANT & HEATER HOSE", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("RADIATOR") || d.includes("COOLING FAN")) {
-        return { aggregate: "COOLING SYSTEM", subAggregate: "RADIATOR & FLUIDS", component: "RADIATOR ASSEMBLY", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("BALL JOINT")) {
-        return { aggregate: "SUSPENSION", subAggregate: "LINKAGE", component: "SUSPENSION BALL JOINT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("STRUT") || d.includes("SHOCK ABSORBER")) {
-        return { aggregate: "SUSPENSION", subAggregate: "STRUT ASSEMBLY", component: "FRONT SHOCK ABSORBER", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("STEERING BOOT") || d.includes("STEERING RACK")) {
-        return { aggregate: "STEERING", subAggregate: "POWER STEERING", component: "STEERING RACK & BOOT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("FOG LAMP") || (d.includes("LAMP") && !d.includes("BULB"))) {
-        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "LIGHTING", component: "FOG LAMP / LIGHT ASSEMBLY", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("BULB") || d.includes("LED")) {
-        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "LIGHTING", component: "HEADLAMP BULB", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("TUBE") || d.includes("FLAP") || d.includes("TYRE")) {
-        return { aggregate: "WHEELS & TIRES", subAggregate: "TUBES & FLAPS", component: "TIRE TUBE / FLAP", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("GEAR LEVER") || d.includes("GEAR SHIFT")) {
-        return { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "GEAR SHIFT LEVER KIT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("HUB OUTER") || d.includes("HUB INNER") || d.includes("WHEEL HUB") || d.includes("REAR HUB")) {
-        return { aggregate: "SUSPENSION", subAggregate: "WHEEL HUB", component: "WHEEL HUB ASSEMBLY", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("REAR WHEEL") || d.includes("FRONT WHEEL")) {
-        return { aggregate: "SUSPENSION", subAggregate: "WHEEL HUB", component: "WHEEL BEARINGS & SEALS", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("FUEL WATER SEPARATOR") || d.includes("FUEL FILTER")) {
-        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "FUEL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("OIL FILTER")) {
-        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "OIL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("AIR FILTER")) {
-        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "AIR FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("FILTER")) {
-        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "OIL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("PLUG") || d.includes("SPARK")) {
-        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "IGNITION SYSTEM", component: "SPARK PLUG", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
-      }
-      if (d.includes("BELT") || d.includes("TIMING")) {
-        return { aggregate: "BELTS AND TENSIONER", subAggregate: "TIMING BELT", component: "TIMING BELT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Domain Rule)" };
       }
     }
 
     // Strategy 4: Fuzzy Token & Substring Similarity Matching
     if (descUpper && this.db.aggregateMaster && this.db.aggregateMaster.length > 0) {
-      const descTokens = descUpper.split(/[^A-Z0-9]+/).filter(t => t.length >= 2);
+      const descTokens = descUpper.split(/[^A-Z0-9]+/).filter(t => t.length >= 3);
       if (descTokens.length > 0) {
         let bestScore = 0;
         let bestEntry = null;
@@ -251,13 +264,9 @@ window.DataEngine = {
 
           let score = 0;
           for (let dt of descTokens) {
-            if (compUpper.includes(dt) || (dt.length >= 4 && compUpper.split(' ').some(w => w.startsWith(dt) || dt.startsWith(w)))) {
-              score += 4;
-            } else if (subUpper.includes(dt)) {
-              score += 2;
-            } else if (aggUpper.includes(dt)) {
-              score += 1;
-            }
+            if (compUpper.includes(dt)) score += 4;
+            else if (subUpper.includes(dt)) score += 2;
+            else if (aggUpper.includes(dt)) score += 1;
           }
 
           if (score > bestScore) {
@@ -266,7 +275,7 @@ window.DataEngine = {
           }
         }
 
-        if (bestEntry && bestScore >= 2) {
+        if (bestEntry && bestScore >= 4) {
           return {
             aggregate: bestEntry.aggregate,
             subAggregate: bestEntry.subAggregate,
@@ -301,7 +310,7 @@ window.DataEngine = {
       confidenceScore: 50,
       remarks: "Auto Mapped (Fuzzy Fallback)"
     };
-  },
+  }
 
   findColumn(row, keywords) {
     const keys = Object.keys(row);
@@ -945,6 +954,7 @@ window.InventoryPortal = {
 
       if (q) {
         const matchesQuery = 
+          (v.source && String(v.source).toLowerCase().includes(q)) ||
           (v.partNo && String(v.partNo).toLowerCase().includes(q)) ||
           (v.desc && String(v.desc).toLowerCase().includes(q)) ||
           (v.brand && String(v.brand).toLowerCase().includes(q)) ||
@@ -975,7 +985,7 @@ window.InventoryPortal = {
     if (!this.filteredItems || this.filteredItems.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="12" style="text-align:center; padding: 2.5rem; color: #94a3b8;">
+          <td colspan="13" style="text-align:center; padding: 2.5rem; color: #94a3b8;">
             No stock records matching FILTER (${this.selectedTag}) and search query "${this.searchQuery}" for ${this.selectedDate}.
           </td>
         </tr>
@@ -983,13 +993,18 @@ window.InventoryPortal = {
       return;
     }
 
+    // Performance Optimization: Render up to 500 rows for instant, silky smooth DOM responsiveness
+    const displayItems = this.filteredItems.slice(0, 500);
+
     let html = '';
-    this.filteredItems.forEach(item => {
+    displayItems.forEach(item => {
+      const sourceVal = item.source || item.channel || 'CF';
       const branchCode = item.branchCode || item.branch || 'WHM';
       const branchName = item.branchName || 'MADURAI';
 
       html += `
         <tr>
+          <td style="font-size: 0.78rem; font-weight: 850;"><span class="badge" style="background: rgba(167,139,250,0.18); color: #a78bfa; border: 1px solid rgba(167,139,250,0.35); font-size: 0.72rem; font-weight: 850;">${sourceVal}</span></td>
           <td style="font-family: monospace; font-weight: 850; color: #ffb84d; font-size: 0.85rem;">${item.partNo || '—'}</td>
           <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #ffffff;" title="${item.desc}">${item.desc}</td>
           <td><span class="badge badge-info" style="font-size: 0.72rem; font-weight: 800;">${item.brand || 'GENERIC'}</span></td>
@@ -1006,6 +1021,16 @@ window.InventoryPortal = {
       `;
     });
 
+    if (this.filteredItems.length > 500) {
+      html += `
+        <tr>
+          <td colspan="13" style="text-align: center; padding: 0.75rem; background: rgba(56, 189, 248, 0.08); color: #38bdf8; font-size: 0.82rem; font-weight: 800;">
+            ⚡ Showing top 500 of ${this.filteredItems.length.toLocaleString()} total stock records for ${this.selectedDate}. Type in the search box above to filter specific parts instantly!
+          </td>
+        </tr>
+      `;
+    }
+
     tbody.innerHTML = html;
   },
 
@@ -1014,7 +1039,7 @@ window.InventoryPortal = {
     if (tbody) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="12" style="text-align:center; padding: 2.5rem; color: #94a3b8;">
+          <td colspan="13" style="text-align:center; padding: 2.5rem; color: #94a3b8;">
             No stock report files found in <code>ALL GOOD STOCK</code> folder. Place your daily stock Excel files in the folder and click <strong>Refresh</strong>.
           </td>
         </tr>

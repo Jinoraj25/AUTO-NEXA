@@ -563,6 +563,7 @@ window.InventoryPortal = {
 
       if (q) {
         const matchesQuery = 
+          (v.source && String(v.source).toLowerCase().includes(q)) ||
           (v.partNo && String(v.partNo).toLowerCase().includes(q)) ||
           (v.desc && String(v.desc).toLowerCase().includes(q)) ||
           (v.brand && String(v.brand).toLowerCase().includes(q)) ||
@@ -593,7 +594,7 @@ window.InventoryPortal = {
     if (!this.filteredItems || this.filteredItems.length === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="12" style="text-align:center; padding: 2.5rem; color: #94a3b8;">
+          <td colspan="13" style="text-align:center; padding: 2.5rem; color: #94a3b8;">
             No stock records matching FILTER (${this.selectedTag}) and search query "${this.searchQuery}" for ${this.selectedDate}.
           </td>
         </tr>
@@ -601,13 +602,18 @@ window.InventoryPortal = {
       return;
     }
 
+    // Performance Optimization: Render up to 500 rows for instant, silky smooth DOM responsiveness
+    const displayItems = this.filteredItems.slice(0, 500);
+
     let html = '';
-    this.filteredItems.forEach(item => {
+    displayItems.forEach(item => {
+      const sourceVal = item.source || item.channel || 'CF';
       const branchCode = item.branchCode || item.branch || 'WHM';
       const branchName = item.branchName || 'MADURAI';
 
       html += `
         <tr>
+          <td style="font-size: 0.78rem; font-weight: 850;"><span class="badge" style="background: rgba(167,139,250,0.18); color: #a78bfa; border: 1px solid rgba(167,139,250,0.35); font-size: 0.72rem; font-weight: 850;">${sourceVal}</span></td>
           <td style="font-family: monospace; font-weight: 850; color: #ffb84d; font-size: 0.85rem;">${item.partNo || '—'}</td>
           <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #ffffff;" title="${item.desc}">${item.desc}</td>
           <td><span class="badge badge-info" style="font-size: 0.72rem; font-weight: 800;">${item.brand || 'GENERIC'}</span></td>
@@ -624,6 +630,16 @@ window.InventoryPortal = {
       `;
     });
 
+    if (this.filteredItems.length > 500) {
+      html += `
+        <tr>
+          <td colspan="13" style="text-align: center; padding: 0.75rem; background: rgba(56, 189, 248, 0.08); color: #38bdf8; font-size: 0.82rem; font-weight: 800;">
+            ⚡ Showing top 500 of ${this.filteredItems.length.toLocaleString()} total stock records for ${this.selectedDate}. Type in the search box above to filter specific parts instantly!
+          </td>
+        </tr>
+      `;
+    }
+
     tbody.innerHTML = html;
   },
 
@@ -632,7 +648,7 @@ window.InventoryPortal = {
     if (tbody) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="12" style="text-align:center; padding: 2.5rem; color: #94a3b8;">
+          <td colspan="13" style="text-align:center; padding: 2.5rem; color: #94a3b8;">
             No stock report files found in <code>ALL GOOD STOCK</code> folder. Place your daily stock Excel files in the folder and click <strong>Refresh</strong>.
           </td>
         </tr>
