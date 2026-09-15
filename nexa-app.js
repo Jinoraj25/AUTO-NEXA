@@ -395,6 +395,26 @@ window.InventoryPortal = {
     this.fetchInventoryData();
   },
 
+  async fetchInventoryData() {
+    try {
+      let res = await fetch('data/stock_cache.json.gz');
+      if (!res.ok) res = await fetch('data/stock_cache.json');
+      if (!res.ok) res = await fetch('/api/inventory');
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.dailySummaries) {
+          this.inventoryData = data;
+          if (data.latestDate) this.selectedDate = data.latestDate;
+        }
+      }
+    } catch (e) {
+      console.warn("Stock cache load fallback:", e);
+    }
+    this.renderDateDropdown();
+    this.renderAll();
+  },
+
   bindEvents() {
     const dateSelect = document.getElementById('inventory-date-select');
     if (dateSelect) {
@@ -1715,10 +1735,10 @@ window.AnalyticsPortal = {
 
     function resolvePmsBgImage(name) {
       const n = (name || '').toLowerCase();
+      if (n.includes('clutch')) return 'pms_clutch_3d.jpg';
       if (n.includes('oil') && !n.includes('filter')) return 'card_bg_pms_engine_oil.jpg';
       if (n.includes('filter')) return 'pms_filters_3d.jpg';
-      if (n.includes('brake') || n.includes('disc') || n.includes('pad')) return 'pms_brakes_3d.jpg';
-      if (n.includes('clutch')) return 'pms_clutch_3d.jpg';
+      if (n.includes('brake') || n.includes('pad')) return 'pms_brakes_3d.jpg';
       if (n.includes('coolant') || n.includes('fluid')) return 'pms_coolant_3d.jpg';
       if (n.includes('spark') || n.includes('plug') || n.includes('glow')) return 'pms_spark_3d.jpg';
       return 'pms_oil_3d.jpg';

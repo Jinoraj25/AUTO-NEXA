@@ -23,6 +23,26 @@ window.InventoryPortal = {
     this.fetchInventoryData();
   },
 
+  async fetchInventoryData() {
+    try {
+      let res = await fetch('data/stock_cache.json.gz');
+      if (!res.ok) res = await fetch('data/stock_cache.json');
+      if (!res.ok) res = await fetch('/api/inventory');
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.dailySummaries) {
+          this.inventoryData = data;
+          if (data.latestDate) this.selectedDate = data.latestDate;
+        }
+      }
+    } catch (e) {
+      console.warn("Stock cache load fallback:", e);
+    }
+    this.renderDateDropdown();
+    this.renderAll();
+  },
+
   bindEvents() {
     const dateSelect = document.getElementById('inventory-date-select');
     if (dateSelect) {
