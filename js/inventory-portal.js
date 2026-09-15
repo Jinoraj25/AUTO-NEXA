@@ -165,6 +165,7 @@ window.InventoryPortal = {
 
               if (idx < 200) {
                 sampleItems.push({
+                  source: String(r['Source'] || r['SOURCE'] || r['source'] || 'myTVS').trim(),
                   partNo: String(r['ManPart'] || r['ItemID(myTVS)'] || r['PartNo'] || '').trim(),
                   desc: String(r['ItemDesc'] || r['Description'] || '').trim(),
                   brand: String(r['BRAND'] || r['Brand'] || '').trim(),
@@ -607,7 +608,7 @@ window.InventoryPortal = {
 
     let html = '';
     displayItems.forEach(item => {
-      const sourceVal = item.source || item.channel || 'CF';
+      const sourceVal = item.source || item.Source || item.channel || 'myTVS';
       const branchCode = item.branchCode || item.branch || 'WHM';
       const branchName = item.branchName || 'MADURAI';
 

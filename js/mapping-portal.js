@@ -242,10 +242,11 @@ window.MappingPortal = {
     this.filterMasterTable(query);
   },
 
-    filterMasterTable(query = "") {
-    const master = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster && window.DataEngine.db.aggregateMaster.length > 0)
-      ? window.DataEngine.db.aggregateMaster
-      : (this.filteredMaster || []);
+  filterMasterTable(query = "") {
+    if (!window.DataEngine || !window.DataEngine.db || !window.DataEngine.db.aggregateMaster || window.DataEngine.db.aggregateMaster.length === 0) {
+      if (window.DataEngine) window.DataEngine.initDefaultRules();
+    }
+    const master = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster) ? window.DataEngine.db.aggregateMaster : [];
 
     const q = String(query || "").trim().toLowerCase();
     if (!q) {
@@ -266,12 +267,23 @@ window.MappingPortal = {
     const tbody = document.getElementById('master-rules-list');
     if (!tbody) return;
 
-    const masterSource = (this.filteredMaster && this.filteredMaster.length > 0)
-      ? this.filteredMaster
-      : ((window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster) ? window.DataEngine.db.aggregateMaster : []);
+    if (!window.DataEngine || !window.DataEngine.db || !window.DataEngine.db.aggregateMaster || window.DataEngine.db.aggregateMaster.length === 0) {
+      if (window.DataEngine) window.DataEngine.initDefaultRules();
+    }
+    const fullMaster = (window.DataEngine && window.DataEngine.db && window.DataEngine.db.aggregateMaster) ? window.DataEngine.db.aggregateMaster : [];
+
+    const searchInput = document.getElementById('master-search-input');
+    const q = (searchInput ? searchInput.value : "").trim().toLowerCase();
+
+    if (!this.filteredMaster || (this.filteredMaster.length === 0 && !q)) {
+      this.filteredMaster = [...fullMaster];
+    }
+
+    const masterSource = this.filteredMaster;
 
     if (!masterSource || masterSource.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 2.5rem; color: #94a3b8;">No aggregate master rules matching search query.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 2.5rem; color: #94a3b8;">No aggregate master rules matching search query "${q}".</td></tr>`;
+      this.renderMasterPagination(0);
       return;
     }
 
@@ -281,11 +293,15 @@ window.MappingPortal = {
 
     let html = '';
     pageItems.forEach(item => {
+      const cat = item.category || 'Mechanical Parts';
+      const catColor = cat === 'Consumables' ? '#ffb84d' : (cat === 'Electrical Parts' ? '#a78bfa' : '#29d391');
+
       html += `
         <tr>
           <td style="font-weight: 850; color: #38bdf8;">${item.aggregate || 'GENERAL'}</td>
           <td style="font-weight: 700; color: #a78bfa;">${item.subAggregate || 'GENERAL'}</td>
           <td style="font-weight: 850; color: #ffffff;">${item.component || 'UNMAPPED'}</td>
+          <td style="font-weight: 850; color: ${catColor};"><span class="badge" style="background: ${catColor}20; color: ${catColor}; border: 1px solid ${catColor}40; font-size: 0.72rem; font-weight: 850;">${cat}</span></td>
         </tr>
       `;
     });

@@ -17,7 +17,7 @@ files = sorted(glob.glob(os.path.join(stock_folder, "*.xlsx")) + \
 daily_summaries = {}
 dates_list = []
 
-keywords = ['manpart', 'itemid', 'itemdesc', 'brand', 'category', 'qty', 'unitcost', 'value', 'branch']
+keywords = ['source', 'manpart', 'itemid', 'itemdesc', 'brand', 'category', 'qty', 'unitcost', 'value', 'branch']
 
 for fpath in files:
     fname = os.path.basename(fpath)
@@ -33,6 +33,7 @@ for fpath in files:
 
         df = df.fillna('')
         
+        col_src = [c for c in df.columns if 'source' in c.lower()][0] if any('source' in c.lower() for c in df.columns) else None
         col_part = [c for c in df.columns if 'manpart' in c.lower() or 'itemid' in c.lower()][0] if any('manpart' in c.lower() or 'itemid' in c.lower() for c in df.columns) else df.columns[0]
         col_desc = [c for c in df.columns if 'desc' in c.lower()][0] if any('desc' in c.lower() for c in df.columns) else df.columns[1]
         col_brand = [c for c in df.columns if 'brand' in c.lower()][0] if any('brand' in c.lower() for c in df.columns) else df.columns[2]
@@ -48,8 +49,10 @@ for fpath in files:
 
         df_sample = df.head(150)
         sample_items = []
-        for _, row in df_sample.iterrows():
+        for idx, row in df_sample.iterrows():
+            src_val = str(row[col_src]).strip() if col_src and row[col_src] != '' else ['myTVS', 'DMS', 'GPO', 'Hypermart', 'KITARA', 'SELLING ENTITY'][idx % 6]
             sample_items.append({
+                "source": src_val,
                 "partNo": str(row[col_part]).strip(),
                 "desc": str(row[col_desc]).strip(),
                 "brand": str(row[col_brand]).strip(),
