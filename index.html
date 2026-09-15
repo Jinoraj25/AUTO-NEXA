@@ -24,26 +24,22 @@
 
       var overlay = document.getElementById('mytvs-login-screen');
       if (overlay) {
-        overlay.style.display = 'none';
-        overlay.setAttribute('style', 'display: none !important; opacity: 0 !important; pointer-events: none !important;');
+        overlay.remove(); // Deletes login overlay from DOM
       }
 
       var header = document.getElementById('app-header');
       if (header) {
-        header.style.display = 'flex';
-        header.setAttribute('style', 'display: flex !important;');
+        header.style.setProperty('display', 'flex', 'important');
       }
 
       var main = document.getElementById('main-app-content');
       if (main) {
-        main.style.display = 'block';
-        main.setAttribute('style', 'display: block !important;');
+        main.style.setProperty('display', 'block', 'important');
       }
 
       var footer = document.querySelector('footer.app-footer');
       if (footer) {
-        footer.style.display = 'block';
-        footer.setAttribute('style', 'display: block !important;');
+        footer.style.setProperty('display', 'block', 'important');
       }
 
       if (window.App && window.App.handleLogin) {

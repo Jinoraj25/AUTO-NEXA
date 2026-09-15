@@ -141,9 +141,9 @@ window.App = {
     }
   },
 
-  checkAuth() {
+    checkAuth() {
     if (window.location.search) {
-      try { window.history.replaceState({}, document.title, window.location.pathname); } catch (e) {}
+      try { window.history.replaceState({}, document.title, window.location.pathname); } catch(e) {}
     }
 
     const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true' || localStorage.getItem('mytvs_logged_in') === 'true';
@@ -154,23 +154,16 @@ window.App = {
     const userCode = sessionStorage.getItem('mytvs_user_code') || localStorage.getItem('mytvs_user_code') || 'SM0237';
     const userName = sessionStorage.getItem('mytvs_user_name') || localStorage.getItem('mytvs_user_name') || 'Jino George';
 
-    this.switchTab(this.activeTab || 'home');
-
     if (isLoggedIn) {
       document.body.classList.add('is-authenticated');
-      if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
+      if (loginOverlay) loginOverlay.remove();
       if (header) header.style.setProperty('display', 'flex', 'important');
       if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
       if (footer) footer.style.setProperty('display', 'block', 'important');
-      document.body.style.overflow = '';
       this.updateHeaderProfile(userCode, userName);
     } else {
       document.body.classList.remove('is-authenticated');
       if (loginOverlay) loginOverlay.style.setProperty('display', 'flex', 'important');
-      if (header) header.style.setProperty('display', 'none', 'important');
-      if (mainContent) mainContent.style.setProperty('display', 'none', 'important');
-      if (footer) footer.style.setProperty('display', 'none', 'important');
-      document.body.style.overflow = 'hidden';
     }
   },
 
@@ -188,7 +181,7 @@ window.App = {
     }
   },
 
-  handleLogin(e) {
+    handleLogin(e) {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -218,7 +211,7 @@ window.App = {
     const mainContent = document.getElementById('main-app-content');
     const footer = document.querySelector('footer.app-footer');
 
-    if (loginOverlay) loginOverlay.style.setProperty('display', 'none', 'important');
+    if (loginOverlay) loginOverlay.remove();
     if (header) header.style.setProperty('display', 'flex', 'important');
     if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
     if (footer) footer.style.setProperty('display', 'block', 'important');
@@ -226,7 +219,6 @@ window.App = {
 
     this.updateHeaderProfile(userCode, displayName);
     this.switchTab('home');
-    this.showToast(`Welcome back, ${displayName}!`, "success");
   },
 
   closeWelcomePopup() {
@@ -256,17 +248,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.loginDirect = function(e) {
   if (e && e.preventDefault) e.preventDefault();
-  sessionStorage.setItem('mytvs_logged_in', 'true');
-  localStorage.setItem('mytvs_logged_in', 'true');
+  try {
+    sessionStorage.setItem('mytvs_logged_in', 'true');
+    localStorage.setItem('mytvs_logged_in', 'true');
+  } catch(err) {}
   document.body.classList.add('is-authenticated');
   var overlay = document.getElementById('mytvs-login-screen');
-  if (overlay) overlay.style.setProperty('display', 'none', 'important');
+  if (overlay) {
+    try { overlay.remove(); } catch(err) { overlay.style.display = 'none'; }
+  }
   var header = document.getElementById('app-header');
   if (header) header.style.setProperty('display', 'flex', 'important');
   var main = document.getElementById('main-app-content');
   if (main) main.style.setProperty('display', 'block', 'important');
   var footer = document.querySelector('footer.app-footer');
   if (footer) footer.style.setProperty('display', 'block', 'important');
-  if (window.App && window.App.switchTab) window.App.switchTab('home');
+  document.body.style.overflow = 'auto';
+  if (window.App && window.App.handleLogin) {
+    try { window.App.handleLogin(e); } catch(err) {}
+  } else if (window.App && window.App.switchTab) {
+    window.App.switchTab('home');
+  }
   return false;
+};
+
+window.togglePasswordDirect = function() {
+  var pwInput = document.getElementById('login-password');
+  if (pwInput) {
+    pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+  }
 };

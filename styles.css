@@ -2153,9 +2153,7 @@ select, input[type=text], input[type=search], .search-input {
 }
 
 /* Hard CSS enforcement: Hide workspace header, content, & footer when not authenticated */
-body:not(.is-authenticated) #mytvs-login-screen {
-  display: grid !important;
-}
+
 
 body:not(.is-authenticated) #app-header,
 body:not(.is-authenticated) #main-app-content,
