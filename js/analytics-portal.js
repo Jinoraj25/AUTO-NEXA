@@ -594,7 +594,7 @@ window.AnalyticsPortal = {
 
     if (grid) grid.innerHTML = htmlGrid;
 
-    # 2. Render Right Progress Bar Rows List
+    // 2. Render Right Progress Bar Rows List
     let htmlDist = '';
     makesList.forEach(m => {
       htmlDist += `
@@ -720,80 +720,4 @@ window.AnalyticsPortal = {
 
     grid.innerHTML = html;
   },
-
-  renderMechAggregatesDashboard(mechAggsList) {
-    const grid = document.getElementById('mech-aggregates-grid');
-    if (!grid) return;
-
-    if (!mechAggsList || mechAggsList.length === 0) {
-      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 1.5rem; color: #cbd5e1;">No Mechanical Aggregates data available.</div>`;
-      return;
-    }
-
-    const imgMap = {
-      'BRAKE SYSTEM': 'aggregate_brake_1789391481208.jpg',
-      'CLUTCH SYSTEM': 'aggregate_clutch_1789391541049.jpg',
-      'FILTERS': 'aggregate_filters_1789391668764.jpg',
-      'SUSPENSION': 'aggregate_suspension_1789391887715.jpg',
-      'STEERING': 'aggregate_brake_1789391481208.jpg',
-      'LIGHTING': 'aggregate_lighting_1789391841273.jpg'
-    };
-
-    const iconMap = {
-      'BRAKE SYSTEM': '🛑',
-      'CLUTCH SYSTEM': '⚙️',
-      'FILTERS': '🌀',
-      'SUSPENSION': '🚜',
-      'STEERING': '☸️',
-      'LIGHTING': '💡'
-    };
-
-    const colorMap = {
-      'BRAKE SYSTEM': '#ff3b30',
-      'CLUTCH SYSTEM': '#a78bfa',
-      'FILTERS': '#38bdf8',
-      'SUSPENSION': '#ffb84d',
-      'STEERING': '#5ca9ff',
-      'LIGHTING': '#facc15'
-    };
-
-    let html = '';
-    mechAggsList.forEach(item => {
-      const revCr = (item.revenue / 10000000).toFixed(2);
-      const revLakhs = (item.revenue / 100000).toFixed(2);
-      const displayRev = item.revenue >= 10000000 ? `₹${revCr} Cr` : `₹${revLakhs} L`;
-
-      const icon = iconMap[item.aggregate] || '🛠️';
-      const color = colorMap[item.aggregate] || '#a78bfa';
-      const imgFile = imgMap[item.aggregate] || '';
-
-      html += `
-        <div class="card" style="background: linear-gradient(135deg, ${color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${color}45; padding: 1.1rem; border-radius: var(--radius-md); position: relative; overflow: hidden; box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
-          ${imgFile ? `<img src="${imgFile}" onerror="this.style.display='none'" alt="${item.aggregate}" style="position: absolute; right: -10px; bottom: -10px; width: 90px; height: 90px; object-fit: cover; opacity: 0.18; border-radius: 50%; pointer-events: none;">` : ''}
-
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; position: relative; z-index: 2;">
-            <span style="font-size: 0.82rem; font-weight: 900; color: ${color}; text-transform: uppercase;">${icon} ${item.aggregate}</span>
-            <span class="badge" style="background: ${color}20; color: ${color}; border: 1px solid ${color}40; font-size: 0.72rem; font-weight: 850;">${item.units.toLocaleString()} units</span>
-          </div>
-          
-          <div style="font-size: 1.5rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; position: relative; z-index: 2;">${displayRev}</div>
-          
-          <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.35rem; position: relative; z-index: 2;">
-            <span>Share: ${item.sharePct}%</span>
-            <span>Margin: <strong style="color: #29d391;">${item.marginPct}%</strong></span>
-          </div>
-          
-          <div style="font-size: 0.75rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.6rem; position: relative; z-index: 2;">
-            Top Driver: <strong style="color: #ffffff;">${item.topComponent}</strong>
-          </div>
-          
-          <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
-            <div style="background: ${color}; height: 100%; width: ${Math.min(item.sharePct * 4, 100)}%;"></div>
-          </div>
-        </div>
-      `;
-    });
-
-    grid.innerHTML = html;
-  }
 };

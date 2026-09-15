@@ -193,7 +193,7 @@ window.MappingPortal = {
   },
 
   filterByAggregateCard(aggName) {
-    const mainSearch = document.getElementById('cat-search-main-input');
+    const mainSearch = document.getElementById('master-search-input') || document.getElementById('cat-search-main-input');
     if (mainSearch) mainSearch.value = aggName;
     this.filterMasterTable(aggName);
 
@@ -220,13 +220,13 @@ window.MappingPortal = {
   },
 
   searchPopularKeyword(keyword) {
-    const mainSearch = document.getElementById('cat-search-main-input');
+    const mainSearch = document.getElementById('master-search-input') || document.getElementById('cat-search-main-input');
     if (mainSearch) mainSearch.value = keyword;
     this.filterMasterTable(keyword);
   },
 
   resetAggregateFilter() {
-    const mainSearch = document.getElementById('cat-search-main-input');
+    const mainSearch = document.getElementById('master-search-input') || document.getElementById('cat-search-main-input');
     if (mainSearch) mainSearch.value = '';
     document.querySelectorAll('.cat-agg-card').forEach(card => card.classList.remove('active'));
     this.filterMasterTable('');

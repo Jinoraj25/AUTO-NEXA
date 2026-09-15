@@ -265,7 +265,7 @@
         <div class="scenic-module-grid">
           <!-- 01 Catalogue -->
           <article class="scenic-module-card mod-cat" onclick="App.switchTab('catalogue')" style="position: relative; overflow: hidden;">
-            <img src="images/images/home_menu_catalogue.jpg" onerror="this.onerror=null;this.src='images/home_menu_catalogue.jpg'" alt="Catalogue" class="scenic-mod-bg-img" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; z-index: 1;">
+            <img src="home_menu_catalogue.jpg" onerror="this.onerror=null;this.src='images/home_menu_catalogue.jpg'" alt="Catalogue" class="scenic-mod-bg-img" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; z-index: 1;">
             <div class="scenic-mod-bg-overlay"></div>
             <div class="scenic-mod-card-body">
               <div class="card-num-badge">01</div>
@@ -617,6 +617,17 @@
         </div>
       </div>
 
+      <!-- 6 OFFICIAL MASTER CATEGORY CARDS GRID -->
+      <div style="margin-bottom: 1.5rem;">
+        <div style="font-size: 1.05rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span>🏷️ Official Category Valuation Breakdown</span>
+          <span style="font-size: 0.78rem; font-weight: 700; color: #94a3b8;">(OEM, PRIMARY, SECONDARY, PL, CASTROL, UNCATEGORISED)</span>
+        </div>
+        <div id="category-valuation-cards-grid" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem;">
+          <!-- Dynamically populated by InventoryPortal.renderCategoryValuationCards() -->
+        </div>
+      </div>
+
       <!-- MIDDLE SECTION GRID (Valuation Trend Line Chart & RENAMED CATEGORY WISE Section) -->
       <div style="display: grid; grid-template-columns: 1.55fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
         
@@ -878,6 +889,11 @@
       </div>
 
       <!-- 4 CORE METRIC TELEMETRY CARDS -->
+      <div id="cf-empty-notice" class="card" style="display: none; margin-bottom: 1.25rem; padding: 1rem; border-left: 4px solid #38bdf8; background: rgba(56, 189, 248, 0.08);">
+        <div style="font-weight: 800; color: #38bdf8; font-size: 0.9rem;">ℹ️ Corporate Franchisee (CF) Data Notice</div>
+        <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.25rem;">No separate CF report uploaded for this month. Showing consolidated Sales view. Upload CF report above to view dedicated channel metrics.</div>
+      </div>
+
       <div id="sales-kpi-container" class="nexa-portals-grid" style="grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 1.5rem;">
         <!-- Card 1: Total Sales Revenue -->
         <div class="card" style="border-top: 3px solid #ffb84d; background: linear-gradient(145deg, rgba(255,184,77,0.08), var(--surface));">
@@ -1092,6 +1108,8 @@
             <div style="font-size: 0.95rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">MHMT vs OTHERS Share</div>
             <div style="height: 220px; position: relative;">
               <canvas id="chart-mhmt-vs-others"></canvas>
+            </div>
+            <div id="make-distribution-list" style="margin-top: 0.85rem; display: flex; flex-direction: column; gap: 0.45rem; max-height: 200px; overflow-y: auto; text-align: left;"></div>
             </div>
           </div>
         </div>
