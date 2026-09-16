@@ -527,7 +527,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode('utf-8'))
                 return
 
-                if self.path == '/api/master_rules/upload':
+        if self.path == '/api/master_rules/upload':
             try:
                 content_length = int(self.headers.get('Content-Length', 0))
                 body_bytes = self.rfile.read(content_length)
