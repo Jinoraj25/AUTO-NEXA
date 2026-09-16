@@ -252,63 +252,44 @@ window.MappingPortal = {
     this.filterMasterTable(query);
   },
 
-  filterMasterTable(query = "") {
-    if (!window.DataEngine || !window.DataEngine.db || !Array.isArray(window.DataEngine.db.aggregateMaster) || window.DataEngine.db.aggregateMaster.length === 0) {
-      if (window.DataEngine && typeof window.DataEngine.initDefaultRules === 'function') {
-        window.DataEngine.initDefaultRules();
+  getFullMaster() {
+    if (window.DataEngine && window.DataEngine.db && Array.isArray(window.DataEngine.db.aggregateMaster) && window.DataEngine.db.aggregateMaster.length > 0) {
+      return window.DataEngine.db.aggregateMaster;
+    }
+    if (window.DataEngine && typeof window.DataEngine.initDefaultRules === 'function') {
+      window.DataEngine.initDefaultRules();
+      if (window.DataEngine.db && Array.isArray(window.DataEngine.db.aggregateMaster)) {
+        return window.DataEngine.db.aggregateMaster;
       }
     }
+    return [];
+  },
 
-    const fullMaster = (window.DataEngine && window.DataEngine.db && Array.isArray(window.DataEngine.db.aggregateMaster))
-      ? window.DataEngine.db.aggregateMaster
-      : [];
+  filterMasterTable(query = "") {
+    this.masterCurrentPage = 1;
+    this.renderAggregateMasterTable(query);
+  },
 
-    const q = String(query || "").trim().toLowerCase();
-    if (!q) {
-      this.filteredMaster = [...fullMaster];
-    } else {
-      this.filteredMaster = fullMaster.filter(item => {
+  renderAggregateMasterTable(queryOverride) {
+    const tbody = document.getElementById('master-rules-list');
+    if (!tbody) return;
+
+    const fullMaster = this.getFullMaster();
+    const searchInput = document.getElementById('master-search-input');
+    const rawQuery = (typeof queryOverride === 'string') ? queryOverride : (searchInput ? searchInput.value : "");
+    const q = String(rawQuery || "").trim().toLowerCase();
+
+    let listToRender = fullMaster;
+    if (q) {
+      listToRender = fullMaster.filter(item => {
         return (item.aggregate && item.aggregate.toLowerCase().includes(q)) ||
                (item.subAggregate && item.subAggregate.toLowerCase().includes(q)) ||
                (item.component && item.component.toLowerCase().includes(q)) ||
                (item.category && item.category.toLowerCase().includes(q));
       });
     }
-    this.masterCurrentPage = 1;
-    this.renderAggregateMasterTable();
-  },
 
-  renderAggregateMasterTable() {
-    const tbody = document.getElementById('master-rules-list');
-    if (!tbody) return;
-
-    if (!window.DataEngine || !window.DataEngine.db || !Array.isArray(window.DataEngine.db.aggregateMaster) || window.DataEngine.db.aggregateMaster.length === 0) {
-      if (window.DataEngine && typeof window.DataEngine.initDefaultRules === 'function') {
-        window.DataEngine.initDefaultRules();
-      }
-    }
-
-    const fullMaster = (window.DataEngine && window.DataEngine.db && Array.isArray(window.DataEngine.db.aggregateMaster))
-      ? window.DataEngine.db.aggregateMaster
-      : [];
-
-    const searchInput = document.getElementById('master-search-input');
-    const q = (searchInput ? searchInput.value : "").trim().toLowerCase();
-
-    if (!this.filteredMaster || (!q && this.filteredMaster.length === 0 && fullMaster.length > 0)) {
-      if (q) {
-        this.filteredMaster = fullMaster.filter(item => {
-          return (item.aggregate && item.aggregate.toLowerCase().includes(q)) ||
-                 (item.subAggregate && item.subAggregate.toLowerCase().includes(q)) ||
-                 (item.component && item.component.toLowerCase().includes(q)) ||
-                 (item.category && item.category.toLowerCase().includes(q));
-        });
-      } else {
-        this.filteredMaster = [...fullMaster];
-      }
-    }
-
-    const listToRender = (this.filteredMaster !== undefined && this.filteredMaster !== null) ? this.filteredMaster : fullMaster;
+    this.filteredMaster = listToRender;
 
     if (!listToRender || listToRender.length === 0) {
       tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 2.5rem; color: #94a3b8;">No aggregate master rules matching search query "${q}".</td></tr>`;
