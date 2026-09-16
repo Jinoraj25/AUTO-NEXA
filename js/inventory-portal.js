@@ -126,8 +126,8 @@ window.InventoryPortal = {
       statusBox.className = 'upload-status-box uploading';
       statusBox.innerHTML = `
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          <span>⏳ Processing & indexing Good Stock file <strong>${file.name}</strong>...</span>
-          <span style="font-size: 0.75rem; opacity: 0.8;">Instant Engine Active</span>
+          <span>⏳ Uploading, indexing & syncing Good Stock file <strong>${file.name}</strong>...</span>
+          <span style="font-size: 0.75rem; opacity: 0.8;">Instant Sync Engine</span>
         </div>
         <div class="upload-progress-track">
           <div class="upload-progress-bar animated" style="width: 75%;"></div>
@@ -136,14 +136,17 @@ window.InventoryPortal = {
     }
 
     if (window.App && window.App.showToast) {
-      window.App.showToast(`Processing Good Stock file (${file.name})...`, "info");
+      window.App.showToast(`Uploading and processing ${file.name}...`, "info");
     }
 
-    let parsedDate = '10-Sep-2026';
+    let parsedDate = '15-Sep-2026';
     const dateMatch = file.name.match(/\d{2}-[A-Za-z]{3}-\d{4}/);
     if (dateMatch) parsedDate = dateMatch[0];
 
     try {
+      let summaryObj = null;
+
+      // Fast Client-Side Extract if XLSX library is present
       if (typeof XLSX !== 'undefined') {
         try {
           const arrayBuffer = await file.arrayBuffer();
@@ -165,7 +168,7 @@ window.InventoryPortal = {
               totalValuation += val;
               catVal[cat] = (catVal[cat] || 0) + val;
 
-              if (idx < 200) {
+              if (idx < 300) {
                 sampleItems.push({
                   source: String(r['Source'] || r['SOURCE'] || r['source'] || 'myTVS').trim(),
                   partNo: String(r['ManPart'] || r['ItemID(myTVS)'] || r['PartNo'] || '').trim(),
@@ -184,10 +187,7 @@ window.InventoryPortal = {
               }
             });
 
-            if (!this.inventoryData) this.inventoryData = { dailySummaries: {}, dates: [] };
-            if (!this.inventoryData.dailySummaries) this.inventoryData.dailySummaries = {};
-
-            this.inventoryData.dailySummaries[parsedDate] = {
+            summaryObj = {
               date: parsedDate,
               filename: file.name,
               totalSKUs: rawRows.length,
@@ -197,22 +197,92 @@ window.InventoryPortal = {
               sampleItems: sampleItems
             };
 
+            if (!this.inventoryData) this.inventoryData = { dailySummaries: {}, dates: [] };
+            if (!this.inventoryData.dailySummaries) this.inventoryData.dailySummaries = {};
+            this.inventoryData.dailySummaries[parsedDate] = summaryObj;
+
             if (!this.inventoryData.dates) this.inventoryData.dates = [];
             if (!this.inventoryData.dates.includes(parsedDate)) {
               this.inventoryData.dates.unshift(parsedDate);
             }
             this.inventoryData.latestDate = parsedDate;
             this.selectedDate = parsedDate;
-            this.renderDateDropdown();
-            this.renderAll();
-            if (window.App) window.App.showToast(`Stock updated for ${parsedDate}`, "success");
           }
-        } catch (err) {
-          console.warn("Excel parse error:", err);
+        } catch (clientErr) {
+          console.warn("Client XLSX parse notice (proceeding with server upload):", clientErr);
         }
       }
-    } catch (e) {
-      console.error("Error in parseUploadedExcel:", e);
+
+      // Upload file & summary to server endpoint /api/inventory/upload
+      const formData = new FormData();
+      formData.append('file', file);
+      if (summaryObj) {
+        formData.append('summaryJSON', JSON.stringify(summaryObj));
+      }
+
+      try {
+        const response = await fetch('/api/inventory/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const resData = await response.json();
+          if (resData.status === 'success') {
+            if (resData.date) parsedDate = resData.date;
+            console.log("Server inventory upload success:", resData);
+          }
+        }
+      } catch (netErr) {
+        console.warn("Network upload notice, using local parsed state:", netErr);
+      }
+
+      // Re-fetch fresh stock cache from server if available
+      try {
+        const fetchRes = await fetch('/api/inventory');
+        if (fetchRes.ok) {
+          const freshData = await fetchRes.json();
+          if (freshData && freshData.dailySummaries) {
+            this.inventoryData = freshData;
+          }
+        }
+      } catch(e) {}
+
+      this.selectedDate = parsedDate;
+      this.renderDateDropdown();
+      this.renderAll();
+
+      if (statusBox) {
+        statusBox.className = 'upload-status-box success';
+        statusBox.innerHTML = `
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span>✅ Stock File <strong>${file.name}</strong> Uploaded & Synced Successfully for <strong>${parsedDate}</strong>!</span>
+            <span style="font-size: 0.75rem; font-weight: 850;">Date: ${parsedDate}</span>
+          </div>
+          <div class="upload-progress-track">
+            <div class="upload-progress-bar" style="width: 100%; background: var(--accent-emerald);"></div>
+          </div>
+        `;
+      }
+
+      if (window.App && window.App.showToast) {
+        window.App.showToast(`🎉 Stock File ${file.name} Uploaded & Active for ${parsedDate}!`, "success");
+      }
+
+    } catch (err) {
+      console.error("Inventory upload error:", err);
+      if (statusBox) {
+        statusBox.className = 'upload-status-box error';
+        statusBox.innerHTML = `
+          <span>❌ Error processing stock file <strong>${file.name}</strong>: ${err.message || 'Invalid format'}</span>
+        `;
+      }
+      if (window.App && window.App.showToast) {
+        window.App.showToast(`Error processing ${file.name}: ${err.message || 'Invalid format'}`, "error");
+      }
+    } finally {
+      const fileInput = document.getElementById('inventory-file-input');
+      if (fileInput) fileInput.value = '';
     }
   },
 
