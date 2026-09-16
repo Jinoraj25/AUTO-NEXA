@@ -11486,6 +11486,8 @@ window.InventoryPortal = {
   searchQuery: '',
   trendGranularity: 'daily',
   filteredItems: [],
+  currentPage: 1,
+  pageSize: 50,
 
   init() {
     this.bindEvents();
@@ -12037,6 +12039,7 @@ window.InventoryPortal = {
     }
 
     this.filteredItems = resList;
+    this.currentPage = 1;
     this.renderTable();
   },
 
@@ -13083,6 +13086,16 @@ window.MappingPortal = {
 
       if (!rawRows || rawRows.length === 0) {
         throw new Error("Could not extract data rows from Excel file.");
+      }
+
+      // Ensure DataEngine is attached & initialized
+      if (!window.DataEngine || typeof window.DataEngine.processSalesUpload !== 'function') {
+        if (window.DataEngine && typeof window.DataEngine.init === 'function') {
+          window.DataEngine.init();
+        }
+      }
+      if (!window.DataEngine || typeof window.DataEngine.processSalesUpload !== 'function') {
+        throw new Error("DataEngine mapping algorithms are initializing. Please wait a moment and try again.");
       }
 
       // Process mapped sales data preserving original columns & appending genome at the end

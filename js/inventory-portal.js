@@ -34,6 +34,8 @@ window.InventoryPortal = {
   searchQuery: '',
   trendGranularity: 'daily',
   filteredItems: [],
+  currentPage: 1,
+  pageSize: 50,
 
   init() {
     this.bindEvents();
@@ -585,6 +587,7 @@ window.InventoryPortal = {
     }
 
     this.filteredItems = resList;
+    this.currentPage = 1;
     this.renderTable();
   },
 

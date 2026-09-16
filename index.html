@@ -563,8 +563,10 @@
               </div>
             </div>
 
-            <div class="header-right-actions">
+            <div class="header-right-actions" style="display: flex; gap: 0.65rem; align-items: center;">
               <input type="text" id="master-search-input" placeholder="Search Master Rules (Aggregate, Sub-Aggregate, Component)..." oninput="MappingPortal.filterMasterTable(this.value)" style="background: rgba(255, 255, 255, 0.06); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 9px; padding: 0.5rem 1rem; color: #fff; font-size: 0.85rem; width: 320px;">
+              <button type="button" class="btn btn-secondary" onclick="document.getElementById('master-rules-file-input').click();" style="padding: 0.5rem 0.85rem; font-size: 0.8rem; font-weight: 700; border-radius: 9px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8;">📤 Upload Master Rules Excel</button>
+              <input type="file" id="master-rules-file-input" accept=".xlsx,.xls,.csv" style="display: none;" onchange="MappingPortal.handleMasterRulesUpload(this.files[0])">
             </div>
           </div>
 
@@ -853,6 +855,9 @@
               <!-- Populated via inventory-portal.js -->
             </tbody>
           </table>
+          <div id="inventory-pagination" class="table-toolbar" style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: rgba(15, 23, 42, 0.6); border-top: 1px solid rgba(255, 255, 255, 0.08);">
+            <!-- Inventory search grid pagination -->
+          </div>
         </div>
       </div>
     </section>
