@@ -276,6 +276,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps(merged, ensure_ascii=False).encode('utf-8'))
+                return
         if self.path == '/api/db/stats':
             stats = get_db_stats()
             self.send_response(200)
