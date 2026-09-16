@@ -258,7 +258,7 @@ window.MappingPortal = {
     }
     if (window.DataEngine && typeof window.DataEngine.initDefaultRules === 'function') {
       window.DataEngine.initDefaultRules();
-      if (window.DataEngine.db && Array.isArray(window.DataEngine.db.aggregateMaster)) {
+      if (window.DataEngine.db && Array.isArray(window.DataEngine.db.aggregateMaster) && window.DataEngine.db.aggregateMaster.length > 0) {
         return window.DataEngine.db.aggregateMaster;
       }
     }
@@ -292,6 +292,11 @@ window.MappingPortal = {
     this.filteredMaster = listToRender;
 
     if (!listToRender || listToRender.length === 0) {
+      if (!q) {
+        // Query is empty but list is not ready yet - retry in 150ms without clearing pre-rendered HTML!
+        setTimeout(() => this.renderAggregateMasterTable(), 150);
+        return;
+      }
       tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 2.5rem; color: #94a3b8;">No aggregate master rules matching search query "${q}".</td></tr>`;
       this.renderMasterPagination(0);
       return;
