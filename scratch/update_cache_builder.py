@@ -1,11 +1,4 @@
-import os
-import sys
-import glob
-import json
-import re
-import time
-import zipfile
-import gzip
+import os, sys, glob, re, time, zipfile, json, gzip
 import pandas as pd
 
 stock_folder = r"ALL GOOD STOCK"
@@ -262,6 +255,15 @@ def main():
             dates_list.append(d_str)
 
     months = {'JAN':0, 'FEB':1, 'MAR':2, 'APR':3, 'MAY':4, 'JUN':5, 'JUL':6, 'AUG':7, 'SEP':8, 'OCT':9, 'NOV':10, 'DEC':11}
+    def parse_d(s):
+        parts = String(s).split('-')
+        if len(parts) == 3:
+            day = int(parts[0])
+            mon = months.get(parts[1].upper(), 0)
+            yr = int(parts[2])
+            return yr * 10000 + mon * 100 + day
+        return 0
+
     dates_list.sort(key=lambda s: (int(s.split('-')[2]) if len(s.split('-'))==3 else 2026, months.get(s.split('-')[1].upper(), 0) if len(s.split('-'))==3 else 0, int(s.split('-')[0]) if len(s.split('-'))==3 else 0), reverse=True)
 
     latest_d = dates_list[0] if dates_list else ""

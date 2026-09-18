@@ -328,7 +328,7 @@ window.InventoryPortal = {
 
   getSortedDates() {
     if (!this.inventoryData) {
-      return ['17-Sep-2026', '16-Sep-2026', '15-Sep-2026', '14-Sep-2026', '12-Sep-2026', '11-Sep-2026', '10-Sep-2026', '09-Sep-2026', '08-Sep-2026', '07-Sep-2026', '05-Sep-2026', '04-Sep-2026', '03-Sep-2026', '02-Sep-2026', '01-Sep-2026'];
+      return ['18-Sep-2026', '17-Sep-2026', '16-Sep-2026', '15-Sep-2026', '14-Sep-2026', '12-Sep-2026', '11-Sep-2026', '10-Sep-2026', '09-Sep-2026', '08-Sep-2026', '07-Sep-2026', '05-Sep-2026', '04-Sep-2026', '03-Sep-2026', '02-Sep-2026', '01-Sep-2026'];
     }
     const summaryKeys = Object.keys(this.inventoryData.dailySummaries || {});
     const arrayDates = this.inventoryData.dates || [];

@@ -39,8 +39,17 @@ def get_mysql_conn():
 
 def sync_stock_file(fpath):
     fname = os.path.basename(fpath)
-    date_match = re.search(r'\d{2}-[A-Za-z]{3}-\d{4}', fname)
-    stock_date = date_match.group(0) if date_match else fname.replace('AllGoodStock_', '').replace('.xlsx', '')
+    m1 = re.search(r'(\d{1,2})[\s_\-\.\']*([A-Za-z]{3})[\s_\-\.\']*\'?(\d{2,4})', fname)
+    if m1:
+        day = int(m1.group(1))
+        mon_map = {'JAN':'Jan','FEB':'Feb','MAR':'Mar','APR':'Apr','MAY':'May','JUN':'Jun','JUL':'Jul','AUG':'Aug','SEP':'Sep','OCT':'Oct','NOV':'Nov','DEC':'Dec'}
+        mon = mon_map.get(m1.group(2).upper(), 'Sep')
+        yr = m1.group(3)
+        if len(yr) == 2: yr = '20' + yr
+        stock_date = f'{day:02d}-{mon}-{yr}'
+    else:
+        date_match = re.search(r'\d{2}-[A-Za-z]{3}-\d{4}', fname)
+        stock_date = date_match.group(0) if date_match else fname.replace('AllGoodStock_', '').replace('.xlsx', '').replace('.xlsb', '')
 
     print(f"⚡ AUTO-SYNC STOCK TO MYSQL: Processing {fname} (Date: {stock_date})...")
     t0 = time.time()

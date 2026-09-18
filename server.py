@@ -337,12 +337,12 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                             cache_data = json.load(f)
                     
                     cached_dates = set(cache_data.get("dates", []))
-                    folder_files = glob.glob(os.path.join(stock_folder, "*.xlsx")) + glob.glob(os.path.join(stock_folder, "*.csv"))
+                    folder_files = glob.glob(os.path.join(stock_folder, "*.xlsx")) + glob.glob(os.path.join(stock_folder, "*.xlsb")) + glob.glob(os.path.join(stock_folder, "*.csv"))
                     has_new = False
                     for fp in folder_files:
                         fn = os.path.basename(fp)
-                        dm = re.search(r'\d{2}-[A-Za-z]{3}-\d{4}', fn)
-                        if dm and dm.group(0) not in cached_dates:
+                        d_str = extract_stock_date(fn)
+                        if d_str and d_str not in cached_dates:
                             has_new = True
                             break
                     
@@ -369,8 +369,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                     return
 
                 # Fallback: scan ALL GOOD STOCK directly
-                pattern = os.path.join(stock_folder, "*.xlsx")
-                files = sorted(glob.glob(pattern))
+                files = sorted(glob.glob(os.path.join(stock_folder, "*.xlsx")) + glob.glob(os.path.join(stock_folder, "*.xlsb")) + glob.glob(os.path.join(stock_folder, "*.csv")))
 
                 daily_summaries = {}
                 dates_list = []
