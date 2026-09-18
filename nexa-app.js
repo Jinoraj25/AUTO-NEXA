@@ -11571,6 +11571,43 @@ window.InventoryPortal = {
     this.renderTrendChart();
   },
 
+  extractStockDate(filename) {
+    if (!filename) return '16-Sep-2026';
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthMap = {
+      'JAN': 'Jan', 'FEB': 'Feb', 'MAR': 'Mar', 'APR': 'Apr', 'MAY': 'May', 'JUN': 'Jun',
+      'JUL': 'Jul', 'AUG': 'Aug', 'SEP': 'Sep', 'OCT': 'Oct', 'NOV': 'Nov', 'DEC': 'Dec'
+    };
+
+    const str = String(filename);
+
+    const m1 = str.match(/(\d{1,2})[\s_\-\.\']*([A-Za-z]{3})[\s_\-\.\']*\'?(\d{2,4})/);
+    if (m1) {
+      let day = parseInt(m1[1], 10);
+      let dayStr = day < 10 ? '0' + day : '' + day;
+      let mon = monthMap[m1[2].toUpperCase()] || 'Sep';
+      let yr = m1[3];
+      if (yr.length === 2) yr = '20' + yr;
+      return `${dayStr}-${mon}-${yr}`;
+    }
+
+    const m2 = str.match(/(\d{1,2})[\s_\-\.]+(\d{1,2})[\s_\-\.]+(\d{2,4})/);
+    if (m2) {
+      let day = parseInt(m2[1], 10);
+      let dayStr = day < 10 ? '0' + day : '' + day;
+      let monIdx = parseInt(m2[2], 10) - 1;
+      let mon = (monIdx >= 0 && monIdx < 12) ? monthNames[monIdx] : 'Sep';
+      let yr = m2[3];
+      if (yr.length === 2) yr = '20' + yr;
+      return `${dayStr}-${mon}-${yr}`;
+    }
+
+    const m3 = str.match(/\d{2}-[A-Za-z]{3}-\d{4}/);
+    if (m3) return m3[0];
+
+    return '16-Sep-2026';
+  },
+
   async handleInventoryUpload(file) {
     const statusBox = document.getElementById('inventory-sync-status');
     if (statusBox) {
@@ -11591,9 +11628,7 @@ window.InventoryPortal = {
       window.App.showToast(`Uploading and processing ${file.name}...`, "info");
     }
 
-    let parsedDate = '15-Sep-2026';
-    const dateMatch = file.name.match(/\d{2}-[A-Za-z]{3}-\d{4}/);
-    if (dateMatch) parsedDate = dateMatch[0];
+    let parsedDate = this.extractStockDate(file.name);
 
     try {
       let summaryObj = null;
