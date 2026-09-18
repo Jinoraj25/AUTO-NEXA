@@ -11724,13 +11724,18 @@ window.InventoryPortal = {
         console.warn("Network upload notice, using local parsed state:", netErr);
       }
 
-      // Re-fetch fresh stock cache from server if available
+      // Re-fetch fresh stock cache from server and safely merge summaries without wiping local state
       try {
         const fetchRes = await fetch('/api/inventory');
         if (fetchRes.ok) {
           const freshData = await fetchRes.json();
           if (freshData && freshData.dailySummaries) {
-            this.inventoryData = freshData;
+            this.inventoryData.dailySummaries = {
+              ...freshData.dailySummaries,
+              ...this.inventoryData.dailySummaries
+            };
+            const mergedDates = new Set([...(freshData.dates || []), ...(this.inventoryData.dates || []), ...Object.keys(this.inventoryData.dailySummaries)]);
+            this.inventoryData.dates = Array.from(mergedDates);
           }
         }
       } catch(e) {}
@@ -11774,10 +11779,13 @@ window.InventoryPortal = {
   },
 
   getSortedDates() {
-    if (!this.inventoryData || !this.inventoryData.dates || !this.inventoryData.dates.length) {
-      return ['14-Sep-2026', '12-Sep-2026', '11-Sep-2026', '10-Sep-2026', '09-Sep-2026', '08-Sep-2026', '07-Sep-2026', '05-Sep-2026', '04-Sep-2026', '03-Sep-2026', '02-Sep-2026', '01-Sep-2026'];
+    if (!this.inventoryData) {
+      return ['17-Sep-2026', '16-Sep-2026', '15-Sep-2026', '14-Sep-2026', '12-Sep-2026', '11-Sep-2026', '10-Sep-2026', '09-Sep-2026', '08-Sep-2026', '07-Sep-2026', '05-Sep-2026', '04-Sep-2026', '03-Sep-2026', '02-Sep-2026', '01-Sep-2026'];
     }
-    const dateList = [...this.inventoryData.dates];
+    const summaryKeys = Object.keys(this.inventoryData.dailySummaries || {});
+    const arrayDates = this.inventoryData.dates || [];
+    const allSet = new Set([...arrayDates, ...summaryKeys]);
+    const dateList = Array.from(allSet);
     const months = { 'JAN': 0, 'FEB': 1, 'MAR': 2, 'APR': 3, 'MAY': 4, 'JUN': 5, 'JUL': 6, 'AUG': 7, 'SEP': 8, 'OCT': 9, 'NOV': 10, 'DEC': 11 };
     
     dateList.sort((a, b) => {
