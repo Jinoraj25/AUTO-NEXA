@@ -11379,7 +11379,19 @@ window.DataEngine = {
 
     inspectColumnsByContent(rawRows) {
     if (!Array.isArray(rawRows) || rawRows.length === 0) return { partCol: null, descCol: null };
-    const sample = rawRows.slice(0, 10);
+    const sample = rawRows.slice(0, 15);
+    const keys = Object.keys(sample[0]);
+
+    // Check for exact normalized key matches first
+    for (let k of keys) {
+      const kNorm = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (kNorm.includes('itemname') || kNorm.includes('itemdescription') || kNorm.includes('partdescription') || kNorm.includes('description')) {
+        descCol = k;
+      }
+      if (kNorm.includes('itemcode') || kNorm.includes('partnumber') || kNorm.includes('partno') || kNorm.includes('itemcoderev')) {
+        partCol = k;
+      }
+    }
     const keys = Object.keys(sample[0]);
 
     let partCol = null;
@@ -11446,8 +11458,8 @@ window.DataEngine = {
 
     this.rawUploadedRows = rawRows;
 
-    const partKeywords = ['partno', 'part number', 'part_number', 'itemcode', 'item code', 'item_code', 'manpart', 'material', 'sku', 'productno', 'article', 'lncode', 'part'];
-    const descKeywords = ['description', 'item description', 'item_description', 'part description', 'part_description', 'itemdesc', 'item desc', 'itemname', 'item name', 'item_name', 'desc', 'detail', 'specification', 'title'];
+    const partKeywords = ['itemcode_rev', 'item_code_rev', 'item code_rev', 'itemcoderev', 'partno', 'part number', 'part_number', 'itemcode', 'item code', 'item_code', 'manpart', 'material', 'sku', 'productno', 'article', 'lncode', 'part'];
+    const descKeywords = ['itemname', 'item name', 'item_name', 'description', 'item description', 'item_description', 'part description', 'part_description', 'itemdesc', 'item desc', 'desc', 'detail', 'specification', 'title', 'part name', 'product name'];
     const brandKeywords = ['brand', 'make', 'segment', 'vendor', 'oem', 'manufacturer'];
     const qtyKeywords = ['qty', 'quantity', 'units', 'count', 'vol'];
     const priceKeywords = ['price', 'rate', 'amount', 'val', 'cost', 'mrp'];
@@ -11462,14 +11474,16 @@ window.DataEngine = {
       let rawQty = this.findColumn(row, qtyKeywords);
       let rawPrice = this.findColumn(row, priceKeywords);
 
-      // Fallbacks if columns were unlabeled
-      if (!partNo) {
-        const firstVal = Object.values(row)[0];
-        partNo = firstVal ? String(firstVal) : `PART-${idx+1001}`;
+      // Robust content-based fallback for desc and partNo if column names were unmapped
+      if (!desc || desc.trim() === "" || desc.toLowerCase() === "nan") {
+        const vals = Object.values(row).map(v => String(v || '').trim()).filter(v => v.length > 2 && v.toLowerCase() !== 'nan');
+        const descCand = vals.find(v => (v.includes(' ') || v.length > 8) && !/^[0-9]+$/.test(v));
+        if (descCand) desc = descCand;
       }
-      if (!desc) {
-        const secondVal = Object.values(row)[1];
-        desc = secondVal ? String(secondVal) : "";
+      if (!partNo || partNo.trim() === "" || partNo.toLowerCase() === "nan") {
+        const vals = Object.values(row).map(v => String(v || '').trim()).filter(v => v.length > 2 && v.toLowerCase() !== 'nan');
+        const partCand = vals.find(v => /^[A-Z0-9\-\.\/]{4,30}$/i.test(v) && /\d/.test(v));
+        if (partCand) partNo = partCand;
       }
 
       const qty = parseFloat(rawQty) || (idx % 15) + 1;
