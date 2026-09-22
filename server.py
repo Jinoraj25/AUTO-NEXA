@@ -693,6 +693,16 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                                 pass
 
                 if df is not None:
+                    # Smart header row promotion for files with top title/blank rows or Unnamed columns
+                    if any('Unnamed' in str(c) for c in df.columns):
+                        for idx, row in df.head(5).iterrows():
+                            vals = [str(v).lower().replace(' ', '').replace('_', '') for v in row.values if pd.notna(v)]
+                            if any(kw in v for v in vals for kw in ['partno', 'partnumber', 'itemdesc', 'itemdescription', 'itemcode', 'itemname', 'description', 'partdescription', 'itemdesc']):
+                                new_cols = [str(v).strip() if pd.notna(v) and str(v).strip() else f'Col_{i}' for i, v in enumerate(row.values)]
+                                df = df.iloc[idx+1:].copy()
+                                df.columns = new_cols
+                                break
+
                     df = df.fillna('')
                     records = df.to_dict(orient='records')
                     

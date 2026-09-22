@@ -11377,6 +11377,47 @@ window.DataEngine = {
     };
   }
 
+    inspectColumnsByContent(rawRows) {
+    if (!Array.isArray(rawRows) || rawRows.length === 0) return { partCol: null, descCol: null };
+    const sample = rawRows.slice(0, 10);
+    const keys = Object.keys(sample[0]);
+
+    let partCol = null;
+    let descCol = null;
+
+    // Phase 1: Header values inside first 3 data rows
+    for (let r of sample.slice(0, 3)) {
+      for (let k of keys) {
+        const vStr = String(r[k] || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (!partCol && (vStr.includes('partno') || vStr.includes('partnumber') || vStr.includes('itemcode') || vStr.includes('partcode') || vStr === 'part')) {
+          partCol = k;
+        }
+        if (!descCol && (vStr.includes('description') || vStr.includes('itemdesc') || vStr.includes('itemdescription') || vStr.includes('partdesc') || vStr.includes('itemname'))) {
+          descCol = k;
+        }
+      }
+    }
+
+    // Phase 2: Content inspection of actual data values
+    if (!partCol || !descCol) {
+      for (let k of keys) {
+        const vals = sample.slice(1).map(r => String(r[k] || '').trim()).filter(v => v.length > 0);
+        if (vals.length === 0) continue;
+
+        const isPartNoPattern = vals.every(v => /^[A-Z0-9\-\.\/]{4,30}$/i.test(v) && /\d/.test(v));
+        const isDescPattern = vals.some(v => v.includes(' ') || v.length > 10);
+
+        if (isPartNoPattern && !partCol) {
+          partCol = k;
+        } else if (isDescPattern && !descCol && k !== partCol) {
+          descCol = k;
+        }
+      }
+    }
+
+    return { partCol, descCol };
+  },
+
   findColumn(row, keywords) {
     if (!row || typeof row !== 'object') return "";
     const keys = Object.keys(row);
@@ -11412,8 +11453,11 @@ window.DataEngine = {
     const priceKeywords = ['price', 'rate', 'amount', 'val', 'cost', 'mrp'];
 
     this.mappedSalesData = rawRows.map((row, idx) => {
-      let partNo = this.findColumn(row, partKeywords);
-      let desc = this.findColumn(row, descKeywords);
+      const inspected = (idx === 0) ? this.inspectColumnsByContent(rawRows) : (this._lastInspected || {});
+      if (idx === 0) this._lastInspected = inspected;
+
+      let partNo = this.findColumn(row, partKeywords) || (inspected.partCol ? row[inspected.partCol] : "");
+      let desc = this.findColumn(row, descKeywords) || (inspected.descCol ? row[inspected.descCol] : "");
       let brand = this.findColumn(row, brandKeywords);
       let rawQty = this.findColumn(row, qtyKeywords);
       let rawPrice = this.findColumn(row, priceKeywords);
