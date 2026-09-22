@@ -679,12 +679,18 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
                 df = None
                 try:
-                    df = pd.read_excel(io.BytesIO(file_bytes))
+                    df = pd.read_excel(io.BytesIO(file_bytes), engine='calamine')
                 except Exception:
                     try:
-                        df = pd.read_excel(io.BytesIO(file_bytes), engine='pyxlsb')
+                        df = pd.read_excel(io.BytesIO(file_bytes))
                     except Exception:
-                        df = pd.read_csv(io.BytesIO(file_bytes))
+                        try:
+                            df = pd.read_excel(io.BytesIO(file_bytes), engine='pyxlsb')
+                        except Exception:
+                            try:
+                                df = pd.read_csv(io.BytesIO(file_bytes))
+                            except Exception:
+                                pass
 
                 if df is not None:
                     df = df.fillna('')

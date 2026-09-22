@@ -147,17 +147,35 @@ window.AnalyticsPortal = {
         throw new Error("Could not extract rows from sales report file.");
       }
 
-      const processed = rawRows.map((row, idx) => {
-        const partNo = window.DataEngine.findColumn(row, ['part', 'itemcode', 'code', 'sku']) || `PART-${idx+1}`;
-        const desc = window.DataEngine.findColumn(row, ['desc', 'name', 'title']) || "";
-        const brand = window.DataEngine.findColumn(row, ['brand', 'make', 'segment']) || "GENERIC";
-        const qty = parseFloat(window.DataEngine.findColumn(row, ['qty', 'quantity', 'count'])) || 1;
-        const price = parseFloat(window.DataEngine.findColumn(row, ['price', 'rate', 'amount', 'salevalue'])) || 250;
-        const margin = parseFloat(window.DataEngine.findColumn(row, ['margin'])) || price * 0.15;
-        const vendor = window.DataEngine.findColumn(row, ['categoey', 'vendor', 'segment']) || "OEM";
-        const region = window.DataEngine.findColumn(row, ['region', 'zone', 'area']) || "SOUTH";
+      const findColHelper = (r, kwList) => {
+        if (window.DataEngine && typeof window.DataEngine.findColumn === 'function') {
+          return window.DataEngine.findColumn(r, kwList);
+        }
+        for (const k of Object.keys(r || {})) {
+          const lk = k.toLowerCase();
+          if (kwList.some(kw => lk.includes(kw))) return r[k];
+        }
+        return "";
+      };
 
-        const mapped = window.DataEngine.mapRow(partNo, desc, brand);
+      const mapRowHelper = (p, d, b) => {
+        if (window.DataEngine && typeof window.DataEngine.mapRow === 'function') {
+          return window.DataEngine.mapRow(p, d, b);
+        }
+        return { aggregate: "MECHANICAL AGGREGATES", subAggregate: "GENERAL", component: "GENERAL COMPONENT", category: "Mechanical Parts", make: b || "GENERIC", remarks: "Auto Mapped (Default)" };
+      };
+
+      const processed = rawRows.map((row, idx) => {
+        const partNo = findColHelper(row, ['part', 'itemcode', 'code', 'sku']) || `PART-${idx+1}`;
+        const desc = findColHelper(row, ['desc', 'name', 'title']) || "";
+        const brand = findColHelper(row, ['brand', 'make', 'segment']) || "GENERIC";
+        const qty = parseFloat(findColHelper(row, ['qty', 'quantity', 'count'])) || 1;
+        const price = parseFloat(findColHelper(row, ['price', 'rate', 'amount', 'salevalue'])) || 250;
+        const margin = parseFloat(findColHelper(row, ['margin'])) || price * 0.15;
+        const vendor = findColHelper(row, ['categoey', 'vendor', 'segment']) || "OEM";
+        const region = findColHelper(row, ['region', 'zone', 'area']) || "SOUTH";
+
+        const mapped = mapRowHelper(partNo, desc, brand);
 
         return {
           id: `${channelType}-${idx+1001}`,
