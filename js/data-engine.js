@@ -11154,6 +11154,7 @@ window.DataEngine = {
     "category": "Paints and Consumables"
   }
 ];
+    this.buildFastTokenIndexes();
     this.isLoaded = true;
   },
 
@@ -11337,7 +11338,7 @@ window.DataEngine = {
           }
         }
 
-        if (bestEntry && bestScore >= 4) {
+        if (bestEntry && bestScore >= 1) {
           return {
             aggregate: bestEntry.aggregate,
             subAggregate: bestEntry.subAggregate,
@@ -11375,10 +11376,18 @@ window.DataEngine = {
   }
 
   findColumn(row, keywords) {
+    if (!row || typeof row !== 'object') return "";
     const keys = Object.keys(row);
     for (let kw of keywords) {
-      const foundKey = keys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '').includes(kw.toLowerCase()));
-      if (foundKey && row[foundKey] !== undefined && row[foundKey] !== null) {
+      const exactKey = keys.find(k => k.trim().toLowerCase() === kw.trim().toLowerCase());
+      if (exactKey && row[exactKey] !== undefined && row[exactKey] !== null && String(row[exactKey]).trim() !== "") {
+        return row[exactKey];
+      }
+    }
+    for (let kw of keywords) {
+      const kwNorm = kw.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const foundKey = keys.find(k => k.toLowerCase().replace(/[^a-z0-9]/g, '').includes(kwNorm));
+      if (foundKey && row[foundKey] !== undefined && row[foundKey] !== null && String(row[foundKey]).trim() !== "") {
         return row[foundKey];
       }
     }
@@ -11394,8 +11403,8 @@ window.DataEngine = {
 
     this.rawUploadedRows = rawRows;
 
-    const partKeywords = ['part', 'itemcode', 'code', 'sku', 'material', 'productno', 'article', 'lncode'];
-    const descKeywords = ['desc', 'itemname', 'name', 'detail', 'specification', 'title'];
+    const partKeywords = ['partno', 'part number', 'part_number', 'itemcode', 'item code', 'item_code', 'manpart', 'material', 'sku', 'productno', 'article', 'lncode', 'part'];
+    const descKeywords = ['description', 'item description', 'item_description', 'part description', 'part_description', 'itemdesc', 'item desc', 'itemname', 'item name', 'item_name', 'desc', 'detail', 'specification', 'title'];
     const brandKeywords = ['brand', 'make', 'segment', 'vendor', 'oem', 'manufacturer'];
     const qtyKeywords = ['qty', 'quantity', 'units', 'count', 'vol'];
     const priceKeywords = ['price', 'rate', 'amount', 'val', 'cost', 'mrp'];

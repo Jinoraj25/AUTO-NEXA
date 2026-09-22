@@ -694,7 +694,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
                 if df is not None:
                     df = df.fillna('')
-                    records = df.head(100).to_dict(orient='records')
+                    records = df.to_dict(orient='records')
                     
                     response_data = {
                         "status": "success",

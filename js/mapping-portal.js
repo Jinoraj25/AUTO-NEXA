@@ -191,6 +191,9 @@ window.MappingPortal = {
         });
       }
 
+      this.mappedData = mapped;
+      window.MappingPortal.mappedData = mapped;
+      window.mappedSalesData = mapped;
       if (window.DataEngine) {
         window.DataEngine.mappedSalesData = mapped;
         window.DataEngine.rawUploadedRows = rawRows;
@@ -722,9 +725,15 @@ window.MappingPortal = {
   },
 
   exportMappedExcel() {
-    const data = (window.DataEngine && window.DataEngine.mappedSalesData && window.DataEngine.mappedSalesData.length > 0)
-      ? window.DataEngine.mappedSalesData
-      : (this.filteredMaster || []);
+    const data = (this.mappedData && this.mappedData.length > 0)
+      ? this.mappedData
+      : (window.MappingPortal && window.MappingPortal.mappedData && window.MappingPortal.mappedData.length > 0)
+        ? window.MappingPortal.mappedData
+        : (window.DataEngine && window.DataEngine.mappedSalesData && window.DataEngine.mappedSalesData.length > 0)
+          ? window.DataEngine.mappedSalesData
+          : (window.mappedSalesData && window.mappedSalesData.length > 0)
+            ? window.mappedSalesData
+            : (this.filteredMaster || []);
 
     if (!data || data.length === 0) {
       if (window.App && window.App.showToast) {
