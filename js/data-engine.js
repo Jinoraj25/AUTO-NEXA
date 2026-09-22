@@ -11210,10 +11210,10 @@ window.DataEngine = {
 
       // 2. MECHANICAL AGGREGATES / GASKETS & SEALS
       if (d.includes("OIL SEAL") || d.includes("WHEEL SEAL")) {
-        return { aggregate: "MECHANICAL AGGREGATES", subAggregate: "SEALS & GASKETS", component: "OIL SEAL", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+        return { aggregate: "CHILD PARTS", subAggregate: "SEALS & GASKETS", component: "OIL SEAL", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
       }
       if (d.includes("GASKET MAKER") || d.includes("ANABOND") || d.includes("GASKET")) {
-        return { aggregate: "MECHANICAL AGGREGATES", subAggregate: "SEALS & GASKETS", component: "GASKET & SEALANT", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+        return { aggregate: "CHILD PARTS", subAggregate: "SEALS & GASKETS", component: "GASKET & SEALANT", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
       }
 
       // 3. TRANSMISSION & DRIVETRAIN
@@ -11355,10 +11355,10 @@ window.DataEngine = {
     }
 
     // Strategy 5: 100% Coverage Master Fallback
-    const fallbackEntry = findInMaster("HARDWARE & FASTENERS") || {
+    const fallbackEntry = findInMaster("BOLT") || findInMaster("NUT") || {
       aggregate: "CHILD PARTS",
       subAggregate: "BOLT & NUT",
-      component: "HARDWARE & FASTENERS",
+      component: "BOLT",
       category: "Mechanical Parts"
     };
 
