@@ -82,8 +82,26 @@ window.MappingPortal = {
     try {
       let rawRows = [];
 
-      // Method 1: Client-Side SheetJS Parsing
-      if (typeof XLSX !== 'undefined') {
+      // Method 1: Python Backend Fast API Parsing for large files (> 3MB) to prevent browser UI freezing
+      if (file.size > 3 * 1024 * 1024) {
+        try {
+          const formData = new FormData();
+          formData.append('file', file);
+          const response = await fetch('/api/upload', { method: 'POST', body: formData });
+          if (response.ok) {
+            const resData = await response.json();
+            if (resData.status === 'success' && resData.rows) {
+              rawRows = resData.rows;
+              console.log(`Python API fast-parsed ${rawRows.length} rows from ${file.name}`);
+            }
+          }
+        } catch (apiErr) {
+          console.warn("Python fast upload notice, using SheetJS fallback:", apiErr);
+        }
+      }
+
+      // Method 2: Client-Side SheetJS Parsing
+      if ((!rawRows || rawRows.length === 0) && typeof XLSX !== 'undefined') {
         try {
           const arrayBuffer = await file.arrayBuffer();
           const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array', cellDates: true });
@@ -91,26 +109,20 @@ window.MappingPortal = {
           rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], { defval: "" });
           console.log(`SheetJS successfully parsed ${rawRows.length} rows from ${file.name}`);
         } catch (clientErr) {
-          console.warn("SheetJS client parse failed, trying Python /api/upload endpoint...", clientErr);
+          console.warn("SheetJS client parse failed:", clientErr);
           rawRows = [];
         }
       }
 
-      // Method 2: Python Backend /api/upload Fallback Parsing
+      // Method 3: Python Backend Fallback Parsing for small files if client parse failed
       if (!rawRows || rawRows.length === 0) {
         const formData = new FormData();
         formData.append('file', file);
-
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData
-        });
-
+        const response = await fetch('/api/upload', { method: 'POST', body: formData });
         if (response.ok) {
           const resData = await response.json();
           if (resData.status === 'success' && resData.rows) {
             rawRows = resData.rows;
-            console.log(`Python API successfully parsed ${rawRows.length} rows from ${file.name}`);
           }
         }
       }
@@ -624,5 +636,90 @@ window.MappingPortal = {
 
     // Automatically push dataset into Sales Dashboard & navigate to Sales Portal
     this.commitToSalesPortal(channelType);
+  },
+
+  exportMappedExcel() {
+    const data = (window.DataEngine && window.DataEngine.mappedSalesData && window.DataEngine.mappedSalesData.length > 0)
+      ? window.DataEngine.mappedSalesData
+      : (this.filteredMaster || []);
+
+    if (!data || data.length === 0) {
+      if (window.App && window.App.showToast) {
+        window.App.showToast("No mapped dataset available. Please upload a catalogue or sales file first.", "warning");
+      } else {
+        alert("No mapped dataset available. Please upload a catalogue or sales file first.");
+      }
+      return;
+    }
+
+    if (window.App && window.App.showToast) {
+      window.App.showToast(`Preparing export for ${data.length.toLocaleString()} mapped records...`, "info");
+    }
+
+    try {
+      const exportRows = data.map((item, idx) => {
+        const orig = (window.DataEngine && window.DataEngine.rawUploadedRows && window.DataEngine.rawUploadedRows[idx]) || {};
+        const rowObj = { ...orig };
+
+        rowObj['MAPPED_AGGREGATE'] = item.aggregate || 'UNMAPPED';
+        rowObj['MAPPED_SUB_AGGREGATE'] = item.subAggregate || 'UNMAPPED';
+        rowObj['MAPPED_COMPONENT'] = item.component || 'UNMAPPED';
+        rowObj['MAPPED_CATEGORY'] = item.category || 'Mechanical Parts';
+        rowObj['MAPPED_CONFIDENCE'] = item.confidence || 'HIGH';
+        rowObj['CONFIDENCE_SCORE'] = item.confidenceScore || 95;
+        rowObj['MATCH_METHOD'] = item.matchMethod || 'EXACT_PART_NO';
+        rowObj['MAPPING_REMARKS'] = item.remarks || 'Auto Mapped';
+
+        return rowObj;
+      });
+
+      const dateStr = new Date().toISOString().slice(0, 10);
+      const filename = `Mapped_Catalogue_Export_${dateStr}.xlsx`;
+
+      // Method 1: Client-side XLSX export using SheetJS
+      if (typeof XLSX !== 'undefined' && XLSX.utils && XLSX.utils.json_to_sheet) {
+        const worksheet = XLSX.utils.json_to_sheet(exportRows);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Mapped Catalogue");
+        XLSX.writeFile(workbook, filename);
+        if (window.App && window.App.showToast) {
+          window.App.showToast(`🎉 Mapped Excel file ${filename} downloaded successfully!`, "success");
+        }
+        return;
+      }
+
+      // Method 2: CSV Blob Download Fallback
+      if (exportRows.length > 0) {
+        const headers = Object.keys(exportRows[0]);
+        let csvContent = headers.join(',') + '\n';
+        exportRows.forEach(r => {
+          const rowVals = headers.map(h => {
+            let val = String(r[h] !== undefined ? r[h] : '').replace(/"/g, '""');
+            if (val.includes(',') || val.includes('\n') || val.includes('"')) val = `"${val}"`;
+            return val;
+          });
+          csvContent += rowVals.join(',') + '\n';
+        });
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename.replace('.xlsx', '.csv');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        if (window.App && window.App.showToast) {
+          window.App.showToast(`🎉 Mapped CSV file downloaded successfully!`, "success");
+        }
+      }
+    } catch (err) {
+      console.error("Export error:", err);
+      if (window.App && window.App.showToast) {
+        window.App.showToast(`Export error: ${err.message || 'Unknown error'}`, "error");
+      }
+    }
   }
 };
