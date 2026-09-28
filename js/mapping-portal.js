@@ -157,12 +157,38 @@ window.MappingPortal = {
         }
       }
 
-      if (!mapped || mapped.length === 0) {
+            if (!mapped || mapped.length === 0) {
         console.log("Applying DataEngine domain mapping rules to all rows...");
+        
+        let detectedPartCol = null;
+        let detectedDescCol = null;
+        let detectedBrandCol = null;
+
+        if (rawRows.length > 0) {
+          const keys = Object.keys(rawRows[0]);
+          for (let k of keys) {
+            const kNorm = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (!detectedDescCol && (kNorm.includes('itemname') || kNorm.includes('itemdescription') || kNorm.includes('partdescription') || kNorm.includes('description') || kNorm.includes('itemdesc') || kNorm.includes('desc') || kNorm.includes('title'))) {
+              detectedDescCol = k;
+            }
+            if (!detectedPartCol && (kNorm.includes('itemcode') || kNorm.includes('partnumber') || kNorm.includes('partno') || kNorm.includes('itemcoderev') || kNorm.includes('partcode') || kNorm.includes('sku') || kNorm.includes('manpart') || kNorm === 'part')) {
+              detectedPartCol = k;
+            }
+            if (!detectedBrandCol && (kNorm.includes('brand') || kNorm.includes('make') || kNorm.includes('vendor') || kNorm.includes('oem'))) {
+              detectedBrandCol = k;
+            }
+          }
+        }
+
         mapped = rawRows.map((row, idx) => {
-          const partNo = String(row.partNo || row['Part No'] || row['ItemCode'] || row['ManPart'] || Object.values(row)[0] || `PART-${idx+1}`).trim();
-          const desc = String(row.description || row.desc || row['Description'] || row['ItemDesc'] || Object.values(row)[1] || '').trim();
-          const brand = String(row.brand || row['Brand'] || row['BRAND'] || 'GENERIC').trim();
+          let partNo = detectedPartCol ? String(row[detectedPartCol] || '') : "";
+          let desc = detectedDescCol ? String(row[detectedDescCol] || '') : "";
+          let brand = detectedBrandCol ? String(row[detectedBrandCol] || '') : "";
+
+          if (!partNo) partNo = String(row.partNo || row['Part No'] || row['ItemCode'] || row['ManPart'] || Object.values(row)[0] || `PART-${idx+1}`).trim();
+          if (!desc) desc = String(row.description || row.desc || row['Description'] || row['ItemDesc'] || Object.values(row)[1] || '').trim();
+          if (!brand) brand = String(row.brand || row['Brand'] || row['BRAND'] || 'GENERIC').trim();
+
           const qty = parseFloat(row.qty || row['Qty'] || 1) || 1;
           const unitPrice = parseFloat(row.price || row['Price'] || row['UnitCost'] || 250) || 250;
 
@@ -186,7 +212,8 @@ window.MappingPortal = {
             confidenceScore: m.confidenceScore || 95,
             matchMethod: m.matchMethod || "HEURISTIC_DOMAIN_RULE",
             remarks: m.remarks || "Auto Mapped (Domain Rule)",
-            isEdited: false
+            isEdited: false,
+            ...row
           };
         });
       }

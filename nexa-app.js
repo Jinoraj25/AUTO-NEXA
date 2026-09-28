@@ -11393,56 +11393,47 @@ window.DataEngine = {
   }
 
     inspectColumnsByContent(rawRows) {
-    if (!Array.isArray(rawRows) || rawRows.length === 0) return { partCol: null, descCol: null };
-    const sample = rawRows.slice(0, 15);
-    const keys = Object.keys(sample[0]);
-
-    // Check for exact normalized key matches first
-    for (let k of keys) {
-      const kNorm = k.toLowerCase().replace(/[^a-z0-9]/g, '');
-      if (kNorm.includes('itemname') || kNorm.includes('itemdescription') || kNorm.includes('partdescription') || kNorm.includes('description')) {
-        descCol = k;
-      }
-      if (kNorm.includes('itemcode') || kNorm.includes('partnumber') || kNorm.includes('partno') || kNorm.includes('itemcoderev')) {
-        partCol = k;
-      }
-    }
+    if (!Array.isArray(rawRows) || rawRows.length === 0) return { partCol: null, descCol: null, brandCol: null };
+    const sample = rawRows.slice(0, 20);
     const keys = Object.keys(sample[0]);
 
     let partCol = null;
     let descCol = null;
+    let brandCol = null;
 
-    // Phase 1: Header values inside first 3 data rows
-    for (let r of sample.slice(0, 3)) {
-      for (let k of keys) {
-        const vStr = String(r[k] || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-        if (!partCol && (vStr.includes('partno') || vStr.includes('partnumber') || vStr.includes('itemcode') || vStr.includes('partcode') || vStr === 'part')) {
-          partCol = k;
-        }
-        if (!descCol && (vStr.includes('description') || vStr.includes('itemdesc') || vStr.includes('itemdescription') || vStr.includes('partdesc') || vStr.includes('itemname'))) {
-          descCol = k;
-        }
+    // Check for exact / normalized key matches first
+    for (let k of keys) {
+      const kNorm = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (!descCol && (kNorm.includes('itemname') || kNorm.includes('itemdescription') || kNorm.includes('partdescription') || kNorm.includes('description') || kNorm.includes('itemdesc') || kNorm.includes('desc') || kNorm.includes('title') || kNorm.includes('detail') || kNorm.includes('specification'))) {
+        descCol = k;
+      }
+      if (!partCol && (kNorm.includes('itemcode') || kNorm.includes('partnumber') || kNorm.includes('partno') || kNorm.includes('itemcoderev') || kNorm.includes('partcode') || kNorm.includes('sku') || kNorm.includes('manpart') || kNorm.includes('material') || kNorm === 'part')) {
+        partCol = k;
+      }
+      if (!brandCol && (kNorm.includes('brand') || kNorm.includes('make') || kNorm.includes('vendor') || kNorm.includes('oem') || kNorm.includes('manufacturer'))) {
+        brandCol = k;
       }
     }
 
-    // Phase 2: Content inspection of actual data values
+    // Phase 2: Content inspection if column names did not match
     if (!partCol || !descCol) {
       for (let k of keys) {
-        const vals = sample.slice(1).map(r => String(r[k] || '').trim()).filter(v => v.length > 0);
+        if (k === brandCol) continue;
+        const vals = sample.map(r => String(r[k] || '').trim()).filter(v => v.length > 0 && v.toLowerCase() !== 'nan');
         if (vals.length === 0) continue;
 
-        const isPartNoPattern = vals.every(v => /^[A-Z0-9\-\.\/]{4,30}$/i.test(v) && /\d/.test(v));
-        const isDescPattern = vals.some(v => v.includes(' ') || v.length > 10);
+        const spaceRatio = vals.filter(v => v.includes(' ') || v.length > 12).length / vals.length;
+        const codeRatio = vals.filter(v => /^[A-Z0-9\-\.\/]{4,30}$/i.test(v) && /\d/.test(v)).length / vals.length;
 
-        if (isPartNoPattern && !partCol) {
-          partCol = k;
-        } else if (isDescPattern && !descCol && k !== partCol) {
+        if (!descCol && spaceRatio > 0.4 && k !== partCol) {
           descCol = k;
+        } else if (!partCol && codeRatio > 0.4 && k !== descCol) {
+          partCol = k;
         }
       }
     }
 
-    return { partCol, descCol };
+    return { partCol, descCol, brandCol };
   },
 
   findColumn(row, keywords) {
@@ -13346,12 +13337,38 @@ window.MappingPortal = {
         }
       }
 
-      if (!mapped || mapped.length === 0) {
+            if (!mapped || mapped.length === 0) {
         console.log("Applying DataEngine domain mapping rules to all rows...");
+        
+        let detectedPartCol = null;
+        let detectedDescCol = null;
+        let detectedBrandCol = null;
+
+        if (rawRows.length > 0) {
+          const keys = Object.keys(rawRows[0]);
+          for (let k of keys) {
+            const kNorm = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (!detectedDescCol && (kNorm.includes('itemname') || kNorm.includes('itemdescription') || kNorm.includes('partdescription') || kNorm.includes('description') || kNorm.includes('itemdesc') || kNorm.includes('desc') || kNorm.includes('title'))) {
+              detectedDescCol = k;
+            }
+            if (!detectedPartCol && (kNorm.includes('itemcode') || kNorm.includes('partnumber') || kNorm.includes('partno') || kNorm.includes('itemcoderev') || kNorm.includes('partcode') || kNorm.includes('sku') || kNorm.includes('manpart') || kNorm === 'part')) {
+              detectedPartCol = k;
+            }
+            if (!detectedBrandCol && (kNorm.includes('brand') || kNorm.includes('make') || kNorm.includes('vendor') || kNorm.includes('oem'))) {
+              detectedBrandCol = k;
+            }
+          }
+        }
+
         mapped = rawRows.map((row, idx) => {
-          const partNo = String(row.partNo || row['Part No'] || row['ItemCode'] || row['ManPart'] || Object.values(row)[0] || `PART-${idx+1}`).trim();
-          const desc = String(row.description || row.desc || row['Description'] || row['ItemDesc'] || Object.values(row)[1] || '').trim();
-          const brand = String(row.brand || row['Brand'] || row['BRAND'] || 'GENERIC').trim();
+          let partNo = detectedPartCol ? String(row[detectedPartCol] || '') : "";
+          let desc = detectedDescCol ? String(row[detectedDescCol] || '') : "";
+          let brand = detectedBrandCol ? String(row[detectedBrandCol] || '') : "";
+
+          if (!partNo) partNo = String(row.partNo || row['Part No'] || row['ItemCode'] || row['ManPart'] || Object.values(row)[0] || `PART-${idx+1}`).trim();
+          if (!desc) desc = String(row.description || row.desc || row['Description'] || row['ItemDesc'] || Object.values(row)[1] || '').trim();
+          if (!brand) brand = String(row.brand || row['Brand'] || row['BRAND'] || 'GENERIC').trim();
+
           const qty = parseFloat(row.qty || row['Qty'] || 1) || 1;
           const unitPrice = parseFloat(row.price || row['Price'] || row['UnitCost'] || 250) || 250;
 
@@ -13375,7 +13392,8 @@ window.MappingPortal = {
             confidenceScore: m.confidenceScore || 95,
             matchMethod: m.matchMethod || "HEURISTIC_DOMAIN_RULE",
             remarks: m.remarks || "Auto Mapped (Domain Rule)",
-            isEdited: false
+            isEdited: false,
+            ...row
           };
         });
       }
