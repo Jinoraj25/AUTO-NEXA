@@ -13234,11 +13234,7 @@ window.MappingPortal = {
       masterSearch.addEventListener('input', (e) => this.filterMasterTable(e.target.value));
     }
 
-    // Export Mapped Excel
-    const exportBtn = document.getElementById('btn-export-mapped');
-    if (exportBtn) {
-      exportBtn.addEventListener('click', () => this.exportMappedExcel());
-    }
+    // Export Mapped Excel (Triggered via HTML onclick to prevent duplicate downloads)
   },
 
   async handleFileUpload(file) {
@@ -13887,6 +13883,12 @@ window.MappingPortal = {
   },
 
   exportMappedExcel() {
+    if (this._isExporting) {
+      console.warn("Export already in progress, suppressing duplicate call.");
+      return;
+    }
+    this._isExporting = true;
+    setTimeout(() => { this._isExporting = false; }, 3000);
     const data = (window.DataEngine && window.DataEngine.mappedSalesData && window.DataEngine.mappedSalesData.length > 0)
       ? window.DataEngine.mappedSalesData
       : (this.filteredMaster || []);
