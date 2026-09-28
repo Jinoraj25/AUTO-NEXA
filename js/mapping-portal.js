@@ -691,14 +691,14 @@ window.MappingPortal = {
       return window.DataEngine.mapRow(rawPartNo, description, brandInput);
     }
     return {
-      aggregate: "CHILD PARTS",
-      subAggregate: "BOLT & NUT",
-      component: "BOLT",
+      aggregate: "GENERAL SPARES",
+      subAggregate: "GENERAL",
+      component: "GENERAL SPARES",
       category: "Mechanical Parts",
       make: String(brandInput || "GENERIC").trim().toUpperCase(),
-      confidence: "HIGH",
-      confidenceScore: 85,
-      remarks: "Auto Mapped (Master Rule)"
+      confidence: "MEDIUM",
+      confidenceScore: 65,
+      remarks: "Auto Mapped (General Spare)"
     };
   },
 

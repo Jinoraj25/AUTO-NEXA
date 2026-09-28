@@ -11184,9 +11184,10 @@ window.DataEngine = {
     const normPart = this.cleanPartNo(rawPartNo);
     const descUpper = String(description || "").trim().toUpperCase();
     const brandUpper = String(brandInput || "").trim().toUpperCase();
+    const cleanDesc = descUpper.replace(/^[^\w]+/, '').strip ? descUpper.replace(/^[^\w]+/, '').trim() : descUpper.replace(/^[^\w]+/, '');
 
     const findInMaster = (compName) => {
-      if (!compName || !this.db.aggregateMaster) return null;
+      if (!compName || !this.db || !this.db.aggregateMaster) return null;
       const target = String(compName).trim().toUpperCase();
       return this.db.aggregateMaster.find(m => String(m.component || "").trim().toUpperCase() === target);
     };
@@ -11208,105 +11209,181 @@ window.DataEngine = {
       };
     }
 
-    // Strategy 2: Precision Domain Rules for Automotive Spare Parts (PRIORITY 1 FOR TEXT MATCHING)
-    if (descUpper) {
-      const d = descUpper;
-      
-      // 1. BRAKE SYSTEM
-      if (d.includes("BRAKE SHOE") || d.includes("DRUM BRAKE")) {
-        return { aggregate: "BRAKE SYSTEM", subAggregate: "DRUM BRAKE", component: "BRAKE SHOE", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("DISC PAD") || d.includes("BRAKE PAD")) {
-        return { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE PAD", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("BRAKE ROTOR") || d.includes("BRAKE DISC")) {
-        return { aggregate: "BRAKE SYSTEM", subAggregate: "DISC BRAKE", component: "BRAKE DISC / ROTOR", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
-      }
+    // Strategy 2: High-Precision Domain Keyword Engine
+    if (cleanDesc) {
+      const d = cleanDesc;
+      const DOMAIN_KEYWORDS = [
+        ['BRAKE SHOE', 'BRAKE SYSTEM', 'DRUM BRAKE', 'BRAKE SHOE'],
+        ['DRUM BRAKE', 'BRAKE SYSTEM', 'DRUM BRAKE', 'BRAKE SHOE'],
+        ['BRAKE PAD', 'BRAKE SYSTEM', 'DISC BRAKE', 'BRAKE PAD'],
+        ['DISC PAD', 'BRAKE SYSTEM', 'DISC BRAKE', 'BRAKE PAD'],
+        ['BRAKE DISC', 'BRAKE SYSTEM', 'DISC BRAKE', 'BRAKE DISC / ROTOR'],
+        ['BRAKE ROTOR', 'BRAKE SYSTEM', 'DISC BRAKE', 'BRAKE DISC / ROTOR'],
+        ['BRAKE DRUM', 'BRAKE SYSTEM', 'DRUM BRAKE', 'BRAKE DRUM'],
+        ['BRAKE HOSE', 'BRAKE SYSTEM', 'HYDRAULIC LINES', 'BRAKE HOSE'],
+        ['BRAKE PIPE', 'BRAKE SYSTEM', 'HYDRAULIC LINES', 'BRAKE PIPE LINE'],
+        ['BRAKE LINING', 'BRAKE SYSTEM', 'DRUM BRAKE', 'BRAKE LINING'],
+        ['BRAKE', 'BRAKE SYSTEM', 'DISC BRAKE', 'BRAKE PAD'],
 
-      // 2. MECHANICAL AGGREGATES / GASKETS & SEALS
-      if (d.includes("OIL SEAL") || d.includes("WHEEL SEAL")) {
-        return { aggregate: "CHILD PARTS", subAggregate: "SEALS & GASKETS", component: "OIL SEAL", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("GASKET MAKER") || d.includes("ANABOND") || d.includes("GASKET")) {
-        return { aggregate: "CHILD PARTS", subAggregate: "SEALS & GASKETS", component: "GASKET & SEALANT", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
+        ['OIL FILTER', 'ENGINE', 'FILTERS', 'OIL FILTER'],
+        ['AIR FILTER', 'ENGINE', 'FILTERS', 'AIR FILTER'],
+        ['FUEL FILTER', 'ENGINE', 'FILTERS', 'FUEL FILTER'],
+        ['CABIN FILTER', 'HVAC/THERMAL', 'FILTERS', 'CABIN AIR FILTER'],
+        ['FILTER', 'ENGINE', 'FILTERS', 'OIL FILTER'],
+        ['PISTON', 'ENGINE', 'BLOCK & HEAD', 'PISTON & RINGS'],
+        ['CYLINDER HEAD', 'ENGINE', 'BLOCK & HEAD', 'CYLINDER HEAD'],
+        ['VALVE', 'ENGINE', 'VALVE TRAIN', 'ENGINE VALVE'],
+        ['CRANKSHAFT', 'ENGINE', 'BLOCK & HEAD', 'CRANKSHAFT'],
+        ['CAMSHAFT', 'ENGINE', 'VALVE TRAIN', 'CAMSHAFT'],
+        ['TURBOCHARGER', 'ENGINE', 'AIR INTAKE', 'TURBOCHARGER'],
+        ['TURBO', 'ENGINE', 'AIR INTAKE', 'TURBOCHARGER'],
+        ['SPARK PLUG', 'ELECTRICALS AND ELECTRONICS', 'IGNITION SYSTEM', 'SPARK PLUG'],
+        ['GLOW PLUG', 'ELECTRICALS AND ELECTRONICS', 'IGNITION SYSTEM', 'GLOW PLUG'],
 
-      // 3. TRANSMISSION & DRIVETRAIN
-      if (d.includes("UNIVERSAL JOINT") || d.includes("U JOINT") || d.includes("U-JOINT") || d.includes("U.J. KIT")) {
-        return { aggregate: "TRANSMISSION", subAggregate: "PROPELLER SHAFT", component: "UNIVERSAL JOINT KIT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("GEAR LEVER") || d.includes("GEAR SHIFT")) {
-        return { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "GEAR SHIFT LEVER KIT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("CLUTCH DISC") || d.includes("CLUTCH PLATE") || d.includes("CLUTCH FACING")) {
-        return { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "CLUTCH DISC & PLATE", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("CLUTCH COVER") || d.includes("PRESSURE PLATE") || d.includes("CLUTCH KIT")) {
-        return { aggregate: "TRANSMISSION", subAggregate: "CLUTCH ASSEMBLY", component: "CLUTCH COVER / PRESSURE PLATE", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 98, remarks: "Auto Mapped (Heuristic Match)" };
-      }
+        ['BUMPER', 'BODY PARTS', 'BODY TRIM', 'BUMPER TRIM'],
+        ['GRILLE', 'BODY PARTS', 'BODY TRIM', 'FRONT GRILLE'],
+        ['GRIL', 'BODY PARTS', 'BODY TRIM', 'FRONT GRILLE'],
+        ['FENDER', 'BODY PARTS', 'PANELS', 'FENDER PANEL'],
+        ['BONNET', 'BODY PARTS', 'PANELS', 'HOOD / BONNET'],
+        ['HOOD', 'BODY PARTS', 'PANELS', 'HOOD / BONNET'],
+        ['DOOR', 'BODY PARTS', 'PANELS', 'DOOR PANEL'],
+        ['MIRROR', 'BODY PARTS', 'MIRRORS', 'REAR VIEW MIRROR'],
+        ['REAR VIEW', 'BODY PARTS', 'MIRRORS', 'REAR VIEW MIRROR'],
+        ['WINDSHIELD', 'GLASS', 'WINDSHIELD', 'FRONT WINDSHIELD GLASS'],
+        ['GLASS', 'GLASS', 'WINDSHIELD', 'DOOR GLASS'],
+        ['HANDLE', 'BODY PARTS', 'DOOR HARDWARE', 'DOOR HANDLE'],
+        ['LOCK', 'BODY PARTS', 'LOCKS', 'DOOR LOCK ASSY'],
+        ['LATCH', 'BODY PARTS', 'LOCKS', 'HOOD LATCH'],
+        ['BRACKET', 'BODY PARTS', 'BODY TRIM', 'MOUNTING BRACKET'],
+        ['BRACE', 'BODY PARTS', 'BODY TRIM', 'MOUNTING BRACKET'],
+        ['HOLDER', 'BODY PARTS', 'BODY TRIM', 'MOUNTING BRACKET'],
+        ['STAY', 'BODY PARTS', 'BODY TRIM', 'HOOD STAY / ROD'],
+        ['GRIP', 'BODY PARTS', 'INTERIOR TRIM', 'GRIP HANDLE'],
+        ['PANEL', 'BODY PARTS', 'PANELS', 'BODY PANEL'],
+        ['COWL', 'BODY PARTS', 'PANELS', 'COWL PANEL'],
+        ['EMBLEM', 'BODY PARTS', 'EMBLEMS', 'CAR EMBLEM / MONOGRAM'],
 
-      // 4. COOLING SYSTEM & HOSES
-      if (d.includes("HEATER HOSE") || d.includes("HEATER OUTLET") || d.includes("BOTTOM HOSE") || d.includes("TOP HOSE") || d.includes("HOSE")) {
-        return { aggregate: "COOLING SYSTEM", subAggregate: "RADIATOR & FLUIDS", component: "COOLANT & HEATER HOSE", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("RADIATOR") || d.includes("COOLING FAN")) {
-        return { aggregate: "COOLING SYSTEM", subAggregate: "RADIATOR & FLUIDS", component: "RADIATOR ASSEMBLY", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
+        ['HEAD LAMP', 'LIGHTING', 'HEADLAMP', 'HEAD LAMP ASSEMBLY'],
+        ['HEADLIGHT', 'LIGHTING', 'HEADLAMP', 'HEAD LAMP ASSEMBLY'],
+        ['TAIL LAMP', 'LIGHTING', 'TAILLAMP', 'TAIL LAMP ASSEMBLY'],
+        ['TAILLIGHT', 'LIGHTING', 'TAILLAMP', 'TAIL LAMP ASSEMBLY'],
+        ['FOG LAMP', 'LIGHTING', 'FOGLAMP', 'FOG LAMP / LIGHT ASSEMBLY'],
+        ['FOG LIGHT', 'LIGHTING', 'FOGLAMP', 'FOG LAMP / LIGHT ASSEMBLY'],
+        ['INDICATOR', 'LIGHTING', 'SIGNAL LAMP', 'SIDE INDICATOR LAMP'],
+        ['BULB', 'LIGHTING', 'BULBS', 'HEADLAMP BULB'],
+        ['LAMP', 'LIGHTING', 'HEADLAMP', 'HEAD LAMP ASSEMBLY'],
+        ['LIGHT', 'LIGHTING', 'HEADLAMP', 'HEAD LAMP ASSEMBLY'],
 
-      // 5. SUSPENSION & STEERING
-      if (d.includes("BALL JOINT")) {
-        return { aggregate: "SUSPENSION", subAggregate: "LINKAGE", component: "SUSPENSION BALL JOINT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("STRUT") || d.includes("SHOCK ABSORBER")) {
-        return { aggregate: "SUSPENSION", subAggregate: "STRUT ASSEMBLY", component: "FRONT SHOCK ABSORBER", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("HUB OUTER") || d.includes("HUB INNER") || d.includes("WHEEL HUB") || d.includes("REAR HUB")) {
-        return { aggregate: "SUSPENSION", subAggregate: "WHEEL HUB", component: "WHEEL HUB ASSEMBLY", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("REAR WHEEL") || d.includes("FRONT WHEEL")) {
-        return { aggregate: "SUSPENSION", subAggregate: "WHEEL HUB", component: "WHEEL BEARINGS & SEALS", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("STEERING BOOT") || d.includes("STEERING RACK")) {
-        return { aggregate: "STEERING", subAggregate: "POWER STEERING", component: "STEERING RACK & BOOT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
+        ['SHOCK ABSORBER', 'SUSPENSION', 'SHOCK ABSORBER', 'FRONT SHOCK ABSORBER'],
+        ['STRUT', 'SUSPENSION', 'STRUT ASSEMBLY', 'FRONT STRUT ASSEMBLY'],
+        ['LEAF SPRING', 'SUSPENSION', 'SPRINGS', 'LEAF SPRING ASSEMBLY'],
+        ['COIL SPRING', 'SUSPENSION', 'SPRINGS', 'COIL SPRING'],
+        ['BALL JOINT', 'SUSPENSION', 'LINKAGE', 'SUSPENSION BALL JOINT'],
+        ['ARM CONTROL', 'SUSPENSION', 'LINKAGE', 'SUSPENSION CONTROL ARM'],
+        ['CONTROL ARM', 'SUSPENSION', 'LINKAGE', 'SUSPENSION CONTROL ARM'],
+        ['LOWER ARM', 'SUSPENSION', 'LINKAGE', 'SUSPENSION CONTROL ARM'],
+        ['UPPER ARM', 'SUSPENSION', 'LINKAGE', 'SUSPENSION CONTROL ARM'],
+        ['BUSH', 'SUSPENSION', 'BUSHINGS', 'SUSPENSION BUSH'],
+        ['BUSHING', 'SUSPENSION', 'BUSHINGS', 'SUSPENSION BUSH'],
+        ['STABILIZER', 'SUSPENSION', 'LINKAGE', 'STABILIZER BAR LINK'],
+        ['HUB', 'SUSPENSION', 'WHEEL HUB', 'WHEEL HUB ASSEMBLY'],
+        ['BEARING', 'BEARING', 'WHEEL BEARING', 'WHEEL BEARING'],
+        ['STEERING RACK', 'STEERING', 'POWER STEERING', 'STEERING RACK & BOOT'],
+        ['STEERING GEAR', 'STEERING', 'GEARBOX', 'STEERING GEARBOX'],
+        ['STEERING BOOT', 'STEERING', 'STEERING LINKAGE', 'STEERING BOOT'],
+        ['STEERING', 'STEERING', 'STEERING LINKAGE', 'STEERING TIE ROD END'],
 
-      // 6. ELECTRICALS & LIGHTING
-      if (d.includes("FOG LAMP")) {
-        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "LIGHTING", component: "FOG LAMP / LIGHT ASSEMBLY", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("BULB") || d.includes("LED") || d.includes("W5W")) {
-        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "LIGHTING", component: "HEADLAMP BULB", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("SPARK PLUG") || d.includes("GLOW PLUG") || d.includes("SPARK") || d.includes("IGNITION")) {
-        return { aggregate: "ELECTRICALS AND ELECTRONICS", subAggregate: "IGNITION SYSTEM", component: "SPARK PLUG", category: "Electrical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
+        ['CLUTCH DISC', 'CLUTCH SYSTEM', 'CLUTCH DISC', 'CLUTCH DISC & PLATE'],
+        ['CLUTCH PLATE', 'CLUTCH SYSTEM', 'CLUTCH DISC', 'CLUTCH DISC & PLATE'],
+        ['CLUTCH COVER', 'CLUTCH SYSTEM', 'CLUTCH COVER', 'CLUTCH COVER / PRESSURE PLATE'],
+        ['PRESSURE PLATE', 'CLUTCH SYSTEM', 'CLUTCH COVER', 'CLUTCH COVER / PRESSURE PLATE'],
+        ['CLUTCH KIT', 'CLUTCH SYSTEM', 'CLUTCH KIT', 'CLUTCH KIT COMPLETE'],
+        ['CLUTCH CABLE', 'CLUTCH SYSTEM', 'CONTROLS', 'CLUTCH CABLE'],
+        ['CLUTCH', 'CLUTCH SYSTEM', 'CLUTCH ASSEMBLY', 'CLUTCH DISC & PLATE'],
+        ['GEARBOX', 'TRANSMISSION', 'GEARBOX', 'TRANSMISSION GEARBOX'],
+        ['GEAR SHIFT', 'TRANSMISSION', 'CONTROLS', 'GEAR SHIFT LEVER KIT'],
+        ['GEAR LEVER', 'TRANSMISSION', 'CONTROLS', 'GEAR SHIFT LEVER KIT'],
+        ['GEAR', 'TRANSMISSION', 'GEARS', 'TRANSMISSION GEAR'],
+        ['FLYWHEEL', 'TRANSMISSION', 'FLYWHEEL', 'FLYWHEEL ASSEMBLY'],
+        ['UNIVERSAL JOINT', 'TRANSMISSION', 'PROPELLER SHAFT', 'UNIVERSAL JOINT KIT'],
+        ['U JOINT', 'TRANSMISSION', 'PROPELLER SHAFT', 'UNIVERSAL JOINT KIT'],
+        ['PROPELLER SHAFT', 'TRANSMISSION', 'PROPELLER SHAFT', 'PROPELLER SHAFT ASSY'],
+        ['AXLE', 'TRANSMISSION', 'AXLE SHAFT', 'REAR AXLE SHAFT'],
 
-      // 7. WHEELS & TIRES / TUBES & FLAPS
-      if (d.includes("TUBE") || d.includes("FLAP") || d.includes("TYRE")) {
-        return { aggregate: "WHEELS & TIRES", subAggregate: "TUBES & FLAPS", component: "TIRE TUBE / FLAP", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
+        ['RADIATOR', 'COOLING SYSTEM', 'RADIATOR & FLUIDS', 'RADIATOR ASSEMBLY'],
+        ['COOLANT', 'COOLING SYSTEM', 'RADIATOR & FLUIDS', 'ENGINE COOLANT'],
+        ['WATER PUMP', 'COOLING SYSTEM', 'WATER PUMP', 'WATER PUMP ASSEMBLY'],
+        ['THERMOSTAT', 'COOLING SYSTEM', 'THERMOSTAT', 'THERMOSTAT VALVE'],
+        ['HOSE', 'RUBBERS HOSES AND MOUNTINGS', 'HOSES', 'COOLANT & HEATER HOSE'],
+        ['PIPE', 'COOLING SYSTEM', 'PIPES', 'COOLANT PIPE'],
 
-      // 8. ENGINE & FILTERS
-      if (d.includes("FUEL WATER SEPARATOR") || d.includes("FUEL FILTER")) {
-        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "FUEL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("OIL FILTER")) {
-        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "OIL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("AIR FILTER")) {
-        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "AIR FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("FILTER")) {
-        return { aggregate: "ENGINE", subAggregate: "FILTERS", component: "OIL FILTER", category: "Consumables", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
-      }
-      if (d.includes("BELT") || d.includes("TIMING")) {
-        return { aggregate: "BELTS AND TENSIONER", subAggregate: "TIMING BELT", component: "TIMING BELT", category: "Mechanical Parts", make: brandUpper || "GENERIC", matchMethod: "DOMAIN_RULE", confidence: "HIGH", confidenceScore: 95, remarks: "Auto Mapped (Heuristic Match)" };
+        ['COMPRESSOR', 'HVAC/THERMAL', 'COMPRESSOR', 'AC COMPRESSOR'],
+        ['CONDENSER', 'HVAC/THERMAL', 'CONDENSER', 'AC CONDENSER'],
+        ['EVAPORATOR', 'HVAC/THERMAL', 'EVAPORATOR', 'AC EVAPORATOR CORE'],
+        ['BLOWER', 'HVAC/THERMAL', 'BLOWER MOTOR', 'AC BLOWER MOTOR'],
+        ['EXPANSION VALVE', 'HVAC/THERMAL', 'VALVE', 'AC EXPANSION VALVE'],
+
+        ['ALTERNATOR', 'ELECTRICALS AND ELECTRONICS', 'ROTATING MACHINE', 'ALTERNATOR ASSEMBLY'],
+        ['STARTER MOTOR', 'ELECTRICALS AND ELECTRONICS', 'ROTATING MACHINE', 'STARTER MOTOR ASSEMBLY'],
+        ['STARTER', 'ELECTRICALS AND ELECTRONICS', 'ROTATING MACHINE', 'STARTER MOTOR ASSEMBLY'],
+        ['BATTERY', 'ELECTRICALS AND ELECTRONICS', 'BATTERY', 'CAR BATTERY'],
+        ['SENSOR', 'ELECTRICALS AND ELECTRONICS', 'SENSORS', 'ENGINE SENSOR'],
+        ['SWITCH', 'ELECTRICALS AND ELECTRONICS', 'SWITCHES', 'ELECTRICAL SWITCH'],
+        ['RELAY', 'ELECTRICALS AND ELECTRONICS', 'RELAY AND FUSE', 'RELAY'],
+        ['FUSE', 'ELECTRICALS AND ELECTRONICS', 'RELAY AND FUSE', 'FUSE'],
+        ['HORN', 'ELECTRICALS AND ELECTRONICS', 'HORN', 'ELECTRIC HORN'],
+        ['IGNITION COIL', 'ELECTRICALS AND ELECTRONICS', 'IGNITION SYSTEM', 'IGNITION COIL'],
+
+        ['WIPER BLADE', 'WIPER SYSTEM', 'WIPER BLADE', 'WIPER BLADE'],
+        ['WIPER ARM', 'WIPER SYSTEM', 'WIPER ARM', 'WIPER ARM'],
+        ['WIPER MOTOR', 'WIPER SYSTEM', 'WIPER MOTOR', 'WIPER MOTOR'],
+        ['WIPER', 'WIPER SYSTEM', 'WIPER BLADE', 'WIPER BLADE'],
+
+        ['TIMING BELT', 'BELTS AND TENSIONER', 'TIMING BELT', 'TIMING BELT'],
+        ['FAN BELT', 'BELTS AND TENSIONER', 'BELT', 'FAN BELT / V-BELT'],
+        ['V BELT', 'BELTS AND TENSIONER', 'BELT', 'FAN BELT / V-BELT'],
+        ['BELT', 'BELTS AND TENSIONER', 'BELT', 'SERPENTINE / DRIVE BELT'],
+        ['TENSIONER', 'BELTS AND TENSIONER', 'TENSIONER', 'BELT TENSIONER PULLEY'],
+        ['PULLEY', 'BELTS AND TENSIONER', 'PULLEY', 'ENGINE PULLEY'],
+
+        ['OIL SEAL', 'CHILD PARTS', 'SEALS & GASKETS', 'OIL SEAL'],
+        ['GASKET', 'CHILD PARTS', 'SEALS & GASKETS', 'GASKET & SEALANT'],
+        ['O-RING', 'CHILD PARTS', 'SEALS & GASKETS', 'O-RING SEAL'],
+        ['ANABOND', 'PAINTS AND CONSUMABLES', 'CONSUMABLES', 'GASKET & SEALANT'],
+        ['SEALANT', 'PAINTS AND CONSUMABLES', 'CONSUMABLES', 'GASKET & SEALANT'],
+        ['GREASE', 'PAINTS AND CONSUMABLES', 'CONSUMABLES', 'BEARING GREASE'],
+        ['OIL', 'PAINTS AND CONSUMABLES', 'CONSUMABLES', 'ENGINE OIL'],
+        ['FLUID', 'PAINTS AND CONSUMABLES', 'CONSUMABLES', 'BRAKE FLUID'],
+        ['BOLT', 'CHILD PARTS', 'BOLT & NUT', 'BOLT'],
+        ['NUT', 'CHILD PARTS', 'BOLT & NUT', 'NUT'],
+        ['WASHER', 'CHILD PARTS', 'BOLT & NUT', 'WASHER'],
+        ['SCREW', 'CHILD PARTS', 'BOLT & NUT', 'SCREW'],
+        ['FASTENER', 'CHILD PARTS', 'BOLT & NUT', 'HARDWARE & FASTENERS'],
+        ['STUD', 'CHILD PARTS', 'BOLT & NUT', 'STUD']
+      ];
+
+      for (let rule of DOMAIN_KEYWORDS) {
+        if (d.includes(rule[0])) {
+          return {
+            aggregate: rule[1],
+            subAggregate: rule[2],
+            component: rule[3],
+            category: "Mechanical Parts",
+            make: brandUpper || "GENERIC",
+            matchMethod: "DOMAIN_KEYWORD_MATCH",
+            confidence: "HIGH",
+            confidenceScore: 95,
+            remarks: "Auto Mapped (Domain Rule)"
+          };
+        }
       }
     }
 
-    // Strategy 3: Keyword Token Matching against NLP Token Index
-    if (descUpper) {
-      const tokens = descUpper.split(/[^A-Z0-9]+/).filter(t => t.length >= 4);
+    // Strategy 3: Keyword Token Index Match (excluding stop words)
+    const STOP_WORDS = new Set(['LH', 'RH', 'SET', 'KIT', 'FOR', 'AND', 'WITH', 'TYPE', 'STD', 'ASSY', 'NO', 'OFF', 'PCS', 'BLK', 'RED', 'BLUE', 'TYPE1', 'TYPE2', 'ECO', 'NEW', 'OLD', 'GENUINE', 'OEN', 'OEM', 'CAR', 'BLACK', 'WHITE', 'SIDE', 'FRONT', 'REAR', 'INNER', 'OUTER', 'TOP', 'BOTTOM', 'UPPER', 'LOWER']);
+
+    if (cleanDesc) {
+      const tokens = cleanDesc.split(/[^A-Z0-9]+/).filter(t => t.length >= 3 && !STOP_WORDS.has(t));
       for (let token of tokens) {
         if (this.db.tokenIndex && this.db.tokenIndex[token]) {
           const compMatch = this.db.tokenIndex[token];
@@ -11328,69 +11405,21 @@ window.DataEngine = {
       }
     }
 
-    // Strategy 4: Fuzzy Token & Substring Similarity Matching
-    if (descUpper && this.db.aggregateMaster && this.db.aggregateMaster.length > 0) {
-      const descTokens = descUpper.split(/[^A-Z0-9]+/).filter(t => t.length >= 3);
-      if (descTokens.length > 0) {
-        let bestScore = 0;
-        let bestEntry = null;
-
-        for (let entry of this.db.aggregateMaster) {
-          const compUpper = String(entry.component || "").toUpperCase();
-          const subUpper = String(entry.subAggregate || "").toUpperCase();
-          const aggUpper = String(entry.aggregate || "").toUpperCase();
-
-          let score = 0;
-          for (let dt of descTokens) {
-            if (compUpper.includes(dt)) score += 4;
-            else if (subUpper.includes(dt)) score += 2;
-            else if (aggUpper.includes(dt)) score += 1;
-          }
-
-          if (score > bestScore) {
-            bestScore = score;
-            bestEntry = entry;
-          }
-        }
-
-        if (bestEntry && bestScore >= 1) {
-          return {
-            aggregate: bestEntry.aggregate,
-            subAggregate: bestEntry.subAggregate,
-            component: bestEntry.component,
-            category: bestEntry.category,
-            make: brandUpper || "GENERIC",
-            matchMethod: "FUZZY_MATCH",
-            confidence: "MEDIUM",
-            confidenceScore: 68,
-            remarks: "Auto Mapped (Fuzzy Match)"
-          };
-        }
-      }
-    }
-
-    // Strategy 5: 100% Coverage Master Fallback
-    const fallbackEntry = findInMaster("BOLT") || findInMaster("NUT") || {
-      aggregate: "CHILD PARTS",
-      subAggregate: "BOLT & NUT",
-      component: "BOLT",
-      category: "Mechanical Parts"
-    };
-
+    # Strategy 4: Smart General Spares Fallback (NO MORE BLIND BOLT FORCING!)
     return {
-      aggregate: fallbackEntry.aggregate,
-      subAggregate: fallbackEntry.subAggregate,
-      component: fallbackEntry.component,
-      category: fallbackEntry.category,
+      aggregate: "GENERAL SPARES",
+      subAggregate: "GENERAL",
+      component: "GENERAL SPARES",
+      category: "Mechanical Parts",
       make: brandUpper || "GENERIC",
-      matchMethod: "FUZZY_FALLBACK",
-      confidence: "LOW",
-      confidenceScore: 50,
-      remarks: "Auto Mapped (Fuzzy Fallback)"
+      matchMethod: "SMART_FALLBACK",
+      confidence: "MEDIUM",
+      confidenceScore: 65,
+      remarks: "Auto Mapped (General Spare)"
     };
-  }
+  },
 
-    inspectColumnsByContent(rawRows) {
+  inspectColumnsByContent(rawRows) {
     if (!Array.isArray(rawRows) || rawRows.length === 0) return { partCol: null, descCol: null, brandCol: null };
     const sample = rawRows.slice(0, 20);
     const keys = Object.keys(sample[0]);
