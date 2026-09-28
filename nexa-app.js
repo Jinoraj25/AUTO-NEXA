@@ -5615,7 +5615,22 @@ window.DataEngine = {
     }
   },
 
-    initDefaultRules() {
+      buildFastTokenIndexes() {
+    if (!this.db || !this.db.aggregateMaster) return;
+    if (!this.db.tokenIndex) this.db.tokenIndex = {};
+
+    for (let entry of this.db.aggregateMaster) {
+      const comp = String(entry.component || "").toUpperCase();
+      const tokens = comp.split(/[^A-Z0-9]+/).filter(t => t.length >= 3);
+      for (let tok of tokens) {
+        if (!this.db.tokenIndex[tok]) {
+          this.db.tokenIndex[tok] = entry.component;
+        }
+      }
+    }
+  },
+
+  initDefaultRules() {
     this.db.aggregateMaster = [
   {
     "aggregate": "HVAC/THERMAL",
@@ -11156,7 +11171,7 @@ window.DataEngine = {
     "category": "Paints and Consumables"
   }
 ];
-    this.buildFastTokenIndexes();
+    if (typeof this.buildFastTokenIndexes === 'function') { this.buildFastTokenIndexes(); }
     this.isLoaded = true;
   },
 
