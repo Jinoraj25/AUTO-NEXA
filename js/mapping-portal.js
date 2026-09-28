@@ -141,6 +141,9 @@ window.MappingPortal = {
       if (typeof window.DataEngine.initDefaultRules === 'function' && (!window.DataEngine.db || !window.DataEngine.db.aggregateMaster)) {
         window.DataEngine.initDefaultRules();
       }
+      if (typeof window.DataEngine.buildFastTokenIndexes === 'function') {
+        window.DataEngine.buildFastTokenIndexes();
+      }
 
       // Process mapped sales data preserving original columns & appending genome at the end
       let mapped = [];

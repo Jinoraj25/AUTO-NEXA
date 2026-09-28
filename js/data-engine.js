@@ -5577,6 +5577,10 @@ window.DataEngine = {
       this.initDefaultRules();
     }
 
+    if (typeof this.buildFastTokenIndexes === 'function') {
+      this.buildFastTokenIndexes();
+    }
+
     if (window.MappingPortal && typeof window.MappingPortal.renderAggregateMasterTable === 'function') {
       window.MappingPortal.filteredMaster = [...this.db.aggregateMaster];
       window.MappingPortal.renderAggregateMasterTable();
@@ -5617,9 +5621,11 @@ window.DataEngine = {
     if (!this.db || !this.db.aggregateMaster) return;
     if (!this.db.tokenIndex) this.db.tokenIndex = {};
 
+    const STOP_WORDS = new Set(['LH', 'RH', 'SET', 'KIT', 'FOR', 'AND', 'WITH', 'TYPE', 'STD', 'ASSY', 'NO', 'OFF', 'PCS', 'BLK', 'RED', 'BLUE', 'TYPE1', 'TYPE2', 'ECO', 'NEW', 'OLD', 'GENUINE', 'OEN', 'OEM', 'CAR', 'BLACK', 'WHITE', 'SIDE', 'FRONT', 'REAR', 'INNER', 'OUTER', 'TOP', 'BOTTOM', 'UPPER', 'LOWER']);
+
     for (let entry of this.db.aggregateMaster) {
       const comp = String(entry.component || "").toUpperCase();
-      const tokens = comp.split(/[^A-Z0-9]+/).filter(t => t.length >= 3);
+      const tokens = comp.split(/[^A-Z0-9]+/).filter(t => t.length >= 3 && !STOP_WORDS.has(t));
       for (let tok of tokens) {
         if (!this.db.tokenIndex[tok]) {
           this.db.tokenIndex[tok] = entry.component;
@@ -11405,7 +11411,7 @@ window.DataEngine = {
       }
     }
 
-    # Strategy 4: Smart General Spares Fallback (NO MORE BLIND BOLT FORCING!)
+    // Strategy 4: Smart General Spares Fallback (NO MORE BLIND BOLT FORCING!)
     return {
       aggregate: "GENERAL SPARES",
       subAggregate: "GENERAL",
