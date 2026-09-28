@@ -275,11 +275,20 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         # Serve sales cache or trained mapping database (compressed or raw)
         clean_file = os.path.basename(self.path.split('?')[0])
-        if clean_file in ['sales_cache.json', 'trained_mapping_db.json', 'stock_cache.json', 'aggregate_master_rules.json']:
-            target_file = os.path.join('data', clean_file) if os.path.exists(os.path.join('data', clean_file)) else clean_file
-            gz_path = (os.path.join('data', clean_file + '.gz')) if os.path.exists(os.path.join('data', clean_file + '.gz')) else (target_file + '.gz')
+        base_file = clean_file.replace('.gz', '')
+        if base_file in ['sales_cache.json', 'trained_mapping_db.json', 'stock_cache.json', 'aggregate_master_rules.json']:
+            target_file = os.path.join('data', base_file) if os.path.exists(os.path.join('data', base_file)) else base_file
+            gz_path = os.path.join('data', base_file + '.gz') if os.path.exists(os.path.join('data', base_file + '.gz')) else (target_file + '.gz')
             
-            if os.path.exists(target_file):
+            if clean_file.endswith('.gz') and os.path.exists(gz_path):
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.send_header('Content-Encoding', 'gzip')
+                self.end_headers()
+                with open(gz_path, 'rb') as f:
+                    self.wfile.write(f.read())
+                return
+            elif os.path.exists(target_file):
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()

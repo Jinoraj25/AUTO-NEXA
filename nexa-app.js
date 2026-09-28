@@ -11404,10 +11404,10 @@ window.DataEngine = {
     // Check for exact / normalized key matches first
     for (let k of keys) {
       const kNorm = k.toLowerCase().replace(/[^a-z0-9]/g, '');
-      if (!descCol && (kNorm.includes('itemname') || kNorm.includes('itemdescription') || kNorm.includes('partdescription') || kNorm.includes('description') || kNorm.includes('itemdesc') || kNorm.includes('desc') || kNorm.includes('title') || kNorm.includes('detail') || kNorm.includes('specification'))) {
+      if (!descCol && (kNorm.includes('itemname') || kNorm.includes('itemdescription') || kNorm.includes('partdescription') || kNorm.includes('productdescription') || kNorm.includes('productdesc') || kNorm.includes('description') || kNorm.includes('itemdesc') || kNorm.includes('desc') || kNorm.includes('title') || kNorm.includes('detail') || kNorm.includes('specification'))) {
         descCol = k;
       }
-      if (!partCol && (kNorm.includes('itemcode') || kNorm.includes('partnumber') || kNorm.includes('partno') || kNorm.includes('itemcoderev') || kNorm.includes('partcode') || kNorm.includes('sku') || kNorm.includes('manpart') || kNorm.includes('material') || kNorm === 'part')) {
+      if (!partCol && (kNorm.includes('itemcode') || kNorm.includes('partnumber') || kNorm.includes('partno') || kNorm.includes('productnumber') || kNorm.includes('productno') || kNorm.includes('productnum') || kNorm.includes('itemcoderev') || kNorm.includes('partcode') || kNorm.includes('sku') || kNorm.includes('manpart') || kNorm.includes('material') || kNorm === 'part')) {
         partCol = k;
       }
       if (!brandCol && (kNorm.includes('brand') || kNorm.includes('make') || kNorm.includes('vendor') || kNorm.includes('oem') || kNorm.includes('manufacturer'))) {
@@ -11464,8 +11464,8 @@ window.DataEngine = {
 
     this.rawUploadedRows = rawRows;
 
-    const partKeywords = ['itemcode_rev', 'item_code_rev', 'item code_rev', 'itemcoderev', 'partno', 'part number', 'part_number', 'itemcode', 'item code', 'item_code', 'manpart', 'material', 'sku', 'productno', 'article', 'lncode', 'part'];
-    const descKeywords = ['itemname', 'item name', 'item_name', 'description', 'item description', 'item_description', 'part description', 'part_description', 'itemdesc', 'item desc', 'desc', 'detail', 'specification', 'title', 'part name', 'product name'];
+    const partKeywords = ['product_number', 'product number', 'product_no', 'productno', 'productnumber', 'itemcode_rev', 'item_code_rev', 'item code_rev', 'itemcoderev', 'partno', 'part number', 'part_number', 'itemcode', 'item code', 'item_code', 'manpart', 'material', 'sku', 'article', 'lncode', 'part'];
+    const descKeywords = ['product_description', 'product description', 'product_desc', 'productdesc', 'itemname', 'item name', 'item_name', 'description', 'item description', 'item_description', 'part description', 'part_description', 'itemdesc', 'item desc', 'desc', 'detail', 'specification', 'title', 'part name', 'product name'];
     const brandKeywords = ['brand', 'make', 'segment', 'vendor', 'oem', 'manufacturer'];
     const qtyKeywords = ['qty', 'quantity', 'units', 'count', 'vol'];
     const priceKeywords = ['price', 'rate', 'amount', 'val', 'cost', 'mrp'];
