@@ -16,6 +16,45 @@ window.MappingPortal = {
     this.renderAggregateMasterTable();
   },
 
+  async autoMapViaCatalogueMaster(rows) {
+    if (!rows || rows.length === 0) return rows;
+    const partNumbers = rows.map(r => r.partNo || r.line_code_part_number || r['Part Number'] || r['Item Code'] || r['PartNo']).filter(Boolean);
+    if (partNumbers.length === 0) return rows;
+
+    try {
+      const res = await fetch('/api/overall-catalogue/smart-map', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ partNumbers: partNumbers.slice(0, 500) })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const mappedMap = data.mapped || {};
+
+        rows.forEach(r => {
+          const pNo = r.partNo || r.line_code_part_number || r['Part Number'] || r['Item Code'] || r['PartNo'];
+          if (pNo && mappedMap[pNo]) {
+            const m = mappedMap[pNo];
+            r.brand = r.brand || m.brand;
+            r.desc = r.desc || m.description;
+            r.mrp = r.mrp || m.mrp;
+            r.aggregate = r.aggregate || m.aggregate;
+            r.subAggregate = r.subAggregate || m.subAggregate;
+            r.component = r.component || m.component;
+            r.vehicleMake = r.vehicleMake || m.make;
+            r.vehicleModel = r.vehicleModel || m.model;
+            r.autoMappedVia22M = true;
+          }
+        });
+        console.log(`Auto-mapped ${Object.keys(mappedMap).length} parts via 22.7M Master Catalogue DB`);
+      }
+    } catch (err) {
+      console.warn("Smart-map catalogue lookup notice:", err);
+    }
+    return rows;
+  },
+
   bindEvents() {
     const dropzone = document.getElementById('sales-dropzone');
     const fileInput = document.getElementById('sales-file-input');
@@ -255,6 +294,10 @@ window.MappingPortal = {
     }
   },
 
+    mappedCurrentPage: 1,
+  mappedPageSize: 15,
+  filteredMappedList: [],
+
   renderMappingSummary(mappedData) {
     const summaryCardContainer = document.getElementById('mapping-summary-section');
     if (!summaryCardContainer) return;
@@ -295,6 +338,97 @@ window.MappingPortal = {
     
     const highPct = Math.round((highConf / (mappedData.length || 1)) * 100);
     if (elHighConf) elHighConf.innerText = `${highPct}% High Confidence`;
+
+    // Render Live Mapped Table for Uploaded Dataset
+    this.mappedCurrentPage = 1;
+    this.renderMappedDatasetTable();
+  },
+
+  renderMappedDatasetTable(queryOverride) {
+    const tbody = document.getElementById('mapped-dataset-list');
+    if (!tbody) return;
+
+    const data = (window.DataEngine && window.DataEngine.mappedSalesData && window.DataEngine.mappedSalesData.length > 0)
+      ? window.DataEngine.mappedSalesData
+      : [];
+
+    const searchInput = document.getElementById('mapped-table-search');
+    const rawQuery = (typeof queryOverride === 'string') ? queryOverride : (searchInput ? searchInput.value : "");
+    const q = String(rawQuery || "").trim().toLowerCase();
+
+    let listToRender = data;
+    if (q) {
+      listToRender = data.filter(item => {
+        return (item.partNo && item.partNo.toLowerCase().includes(q)) ||
+               (item.description && item.description.toLowerCase().includes(q)) ||
+               (item.brand && item.brand.toLowerCase().includes(q)) ||
+               (item.aggregate && item.aggregate.toLowerCase().includes(q)) ||
+               (item.subAggregate && item.subAggregate.toLowerCase().includes(q)) ||
+               (item.component && item.component.toLowerCase().includes(q));
+      });
+    }
+
+    this.filteredMappedList = listToRender;
+
+    if (!listToRender || listToRender.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 2rem; color: #94a3b8;">No mapped dataset rows matching search query "${q}".</td></tr>`;
+      this.renderMappedPagination(0);
+      return;
+    }
+
+    const start = (this.mappedCurrentPage - 1) * this.mappedPageSize;
+    const end = start + this.mappedPageSize;
+    const pageItems = listToRender.slice(start, end);
+
+    let html = '';
+    pageItems.forEach(item => {
+      const methodStr = item.matchMethod || 'DOMAIN_KEYWORD_MATCH';
+      const badgeBg = methodStr.includes('EXACT') ? '#29d39120' : (methodStr.includes('DOMAIN') ? '#38bdf820' : (methodStr.includes('TOKEN') ? '#a78bfa20' : '#ffb84d20'));
+      const badgeColor = methodStr.includes('EXACT') ? '#29d391' : (methodStr.includes('DOMAIN') ? '#38bdf8' : (methodStr.includes('TOKEN') ? '#a78bfa' : '#ffb84d'));
+
+      html += `
+        <tr>
+          <td style="font-weight: 700; color: #cbd5e1; font-family: monospace;">${item.partNo || '-'}</td>
+          <td style="font-weight: 850; color: #ffffff; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${item.description}">${item.description || '-'}</td>
+          <td style="font-weight: 700; color: #94a3b8;">${item.brand || 'GENERIC'}</td>
+          <td style="font-weight: 850; color: #38bdf8;">${item.aggregate || 'GENERAL SPARES'}</td>
+          <td style="font-weight: 700; color: #a78bfa;">${item.subAggregate || 'GENERAL'}</td>
+          <td style="font-weight: 850; color: #29d391;">${item.component || 'GENERAL SPARES'}</td>
+          <td><span class="badge" style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeColor}40; font-size: 0.7rem; font-weight: 850;">${methodStr}</span></td>
+        </tr>
+      `;
+    });
+
+    tbody.innerHTML = html;
+    this.renderMappedPagination(listToRender.length);
+  },
+
+  renderMappedPagination(totalCount) {
+    const pagContainer = document.getElementById('mapped-dataset-pagination');
+    if (!pagContainer) return;
+
+    const count = (typeof totalCount === 'number') ? totalCount : (this.filteredMappedList ? this.filteredMappedList.length : 0);
+    const totalPages = Math.ceil(count / this.mappedPageSize) || 1;
+    if (this.mappedCurrentPage > totalPages) this.mappedCurrentPage = totalPages;
+
+    const startItem = count > 0 ? (this.mappedCurrentPage - 1) * this.mappedPageSize + 1 : 0;
+    const endItem = Math.min(this.mappedCurrentPage * this.mappedPageSize, count);
+
+    pagContainer.innerHTML = `
+      <div style="font-size:0.8rem; color:var(--text-muted);">
+        Showing ${startItem} to ${endItem} of ${count.toLocaleString()} mapped file rows
+      </div>
+      <div style="display:flex; gap:0.5rem;">
+        <button class="btn btn-secondary" style="padding:0.25rem 0.65rem; font-size:0.75rem;" ${this.mappedCurrentPage <= 1 ? 'disabled' : ''} onclick="MappingPortal.changeMappedPage(${this.mappedCurrentPage - 1})">Prev</button>
+        <span style="font-size:0.85rem; font-weight:700; padding: 0.2rem 0.5rem; color: #fff;">${this.mappedCurrentPage} / ${totalPages}</span>
+        <button class="btn btn-secondary" style="padding:0.25rem 0.65rem; font-size:0.75rem;" ${this.mappedCurrentPage >= totalPages ? 'disabled' : ''} onclick="MappingPortal.changeMappedPage(${this.mappedCurrentPage + 1})">Next</button>
+      </div>
+    `;
+  },
+
+  changeMappedPage(page) {
+    this.mappedCurrentPage = page;
+    this.renderMappedDatasetTable();
   },
 
   filterByAggregateCard(aggName) {

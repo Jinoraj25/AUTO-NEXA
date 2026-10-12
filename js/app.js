@@ -26,6 +26,7 @@ window.App = {
 
     try {
       if (window.MappingPortal && window.MappingPortal.init) window.MappingPortal.init();
+      if (window.OverallCataloguePortal && window.OverallCataloguePortal.init) window.OverallCataloguePortal.init();
       if (window.InventoryPortal && window.InventoryPortal.init) window.InventoryPortal.init();
       if (window.AnalyticsPortal && window.AnalyticsPortal.init) window.AnalyticsPortal.init();
       if (window.DeviationPortal && window.DeviationPortal.init) window.DeviationPortal.init();
@@ -88,8 +89,9 @@ window.App = {
           window.InventoryPortal.renderAll();
         } else if (this.activeTab === 'analytics' && window.AnalyticsPortal) {
           window.AnalyticsPortal.updateDashboard();
-        } else if (this.activeTab === 'catalogue' && window.MappingPortal) {
-          window.MappingPortal.renderAggregateMasterTable();
+        } else if (this.activeTab === 'catalogue') {
+          if (window.OverallCataloguePortal) window.OverallCataloguePortal.fetchData();
+          if (window.MappingPortal) window.MappingPortal.renderAggregateMasterTable();
         } else if (this.activeTab === 'deviation' && window.DeviationPortal) {
           window.DeviationPortal.updateDeviationAnalysis();
         } else if (this.activeTab === 'forecasting' && window.ForecastingPortal) {

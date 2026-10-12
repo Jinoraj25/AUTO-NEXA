@@ -7,13 +7,16 @@ __pycache__/
 
 # Ignore SQLite DBs
 *.db
+*.db-*
 
 # Ignore raw dataset files & archives
 *.xls
 *.xlsx
 *.xlsb
+*.csv
 ALL GOOD STOCK/
 uploaded_data_archive/
+scratch/
 
 # Ignore large uncompressed JSON files (we deploy .json.gz versions)
 *.json

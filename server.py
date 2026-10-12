@@ -6,6 +6,12 @@ import sys
 import glob
 import re
 import threading
+import urllib.parse
+
+try:
+    import overall_catalogue_api
+except ImportError:
+    overall_catalogue_api = None
 
 try:
     import pymysql
@@ -330,7 +336,145 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(stats, ensure_ascii=False).encode('utf-8'))
             return
 
-        if self.path.startswith('/api/inventory'):
+        # Overall Catalogue & Vahan API Endpoints
+        if self.path.startswith('/api/overall-catalogue') or self.path.startswith('/api/vahan'):
+            parsed_url = urllib.parse.urlparse(self.path)
+            path_only = parsed_url.path
+            params = urllib.parse.parse_qs(parsed_url.query)
+            
+            get_param = lambda k, default='': params.get(k, [default])[0]
+
+            if path_only == '/api/overall-catalogue/stats':
+                res = overall_catalogue_api.get_catalogue_stats() if overall_catalogue_api else {"status": "error"}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/filters':
+                res = overall_catalogue_api.get_catalogue_filters() if overall_catalogue_api else {}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/vahan/lookup' or path_only == '/api/overall-catalogue/vahan':
+                reg_val = get_param('reg_no') or get_param('regNo') or get_param('q')
+                api_key_val = get_param('api_key') or get_param('apiKey')
+                api_url_val = get_param('api_url') or get_param('apiUrl')
+                res = overall_catalogue_api.vahan_rc_lookup(reg_val, api_key=api_key_val, api_url=api_url_val) if overall_catalogue_api else {"status": "error"}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/models':
+                make_val = get_param('make')
+                res = overall_catalogue_api.get_vehicle_models(make_val) if overall_catalogue_api else []
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"models": res}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/sub-models':
+                make_val = get_param('make')
+                model_val = get_param('model')
+                res = overall_catalogue_api.get_sub_models(make_val, model_val) if overall_catalogue_api else []
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"sub_models": res}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/sub-aggregates':
+                agg_val = get_param('aggregate')
+                res = overall_catalogue_api.get_sub_aggregates(agg_val) if overall_catalogue_api else []
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"sub_aggregates": res}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/components':
+                agg_val = get_param('aggregate')
+                sub_agg_val = get_param('sub_aggregate')
+                res = overall_catalogue_api.get_components(agg_val, sub_agg_val) if overall_catalogue_api else []
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"components": res}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/search':
+                q_val = get_param('q')
+                brand_val = get_param('brand')
+                make_val = get_param('make')
+                model_val = get_param('model')
+                sub_model_val = get_param('sub_model')
+                fuel_val = get_param('fuel_type')
+                year_val = get_param('year')
+                segment_val = get_param('segment')
+                agg_val = get_param('aggregate')
+                sub_agg_val = get_param('sub_aggregate')
+                comp_val = get_param('component')
+                min_p = get_param('min_price') or None
+                max_p = get_param('max_price') or None
+                page_val = get_param('page', '1')
+                limit_val = get_param('limit', '25')
+
+                res = overall_catalogue_api.search_catalogue(
+                    q=q_val, brand=brand_val, make=make_val, model=model_val, sub_model=sub_model_val,
+                    fuel_type=fuel_val, year=year_val, segment=segment_val, aggregate=agg_val,
+                    sub_aggregate=sub_agg_val, component=comp_val, min_price=min_p, max_price=max_p,
+                    page=page_val, limit=limit_val
+                ) if overall_catalogue_api else {"items": [], "totalCount": 0}
+
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only.startswith('/api/overall-catalogue/part/'):
+                part_no = urllib.parse.unquote(path_only.replace('/api/overall-catalogue/part/', ''))
+                res = overall_catalogue_api.get_part_details(part_no) if overall_catalogue_api else None
+                self.send_response(200 if res else 404)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res or {"error": "Part not found"}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/export':
+                q_val = get_param('q')
+                brand_val = get_param('brand')
+                make_val = get_param('make')
+                model_val = get_param('model')
+                sub_model_val = get_param('sub_model')
+                fuel_val = get_param('fuel_type')
+                year_val = get_param('year')
+                segment_val = get_param('segment')
+                agg_val = get_param('aggregate')
+                sub_agg_val = get_param('sub_aggregate')
+                comp_val = get_param('component')
+                min_p = get_param('min_price') or None
+                max_p = get_param('max_price') or None
+
+                csv_data = overall_catalogue_api.export_catalogue_csv(
+                    q=q_val, brand=brand_val, make=make_val, model=model_val, sub_model=sub_model_val,
+                    fuel_type=fuel_val, year=year_val, segment=segment_val, aggregate=agg_val,
+                    sub_aggregate=sub_agg_val, component=comp_val, min_price=min_p, max_price=max_p
+                ) if overall_catalogue_api else ""
+
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/csv; charset=utf-8')
+                self.send_header('Content-Disposition', 'attachment; filename="overall_catalogue_export.csv"')
+                self.end_headers()
+                self.wfile.write(csv_data.encode('utf-8'))
+                return
             try:
                 cache_file = os.path.join("data", "stock_cache.json.gz") if os.path.exists(os.path.join("data", "stock_cache.json.gz")) else (os.path.join("data", "stock_cache.json") if os.path.exists(os.path.join("data", "stock_cache.json")) else "stock_cache.json")
                 stock_folder = os.path.join(os.getcwd(), "ALL GOOD STOCK")
@@ -477,6 +621,27 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         super().do_GET()
 
     def do_POST(self):
+        if self.path == '/api/overall-catalogue/smart-map':
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                body_bytes = self.rfile.read(content_length)
+                payload = json.loads(body_bytes.decode('utf-8'))
+                part_numbers = payload.get('partNumbers', [])
+                
+                mapped_results = overall_catalogue_api.smart_map_parts(part_numbers) if overall_catalogue_api else {}
+                
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "success", "mapped": mapped_results}, ensure_ascii=False).encode('utf-8'))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode('utf-8'))
+                return
+
         if self.path == '/api/inventory/upload':
             try:
                 content_length = int(self.headers.get('Content-Length', 0))
