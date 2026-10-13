@@ -462,14 +462,37 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
         q = (q or "").strip()
 
         if q:
-            try:
-                safe_q = '"' + q.replace('"', '""') + '"*'
-                fts_sql = "SELECT rowid FROM overall_catalogue_fts WHERE overall_catalogue_fts MATCH ?"
-                where_clauses.append(f"id IN ({fts_sql})")
-                params.append(safe_q)
-            except Exception:
-                where_clauses.append("(line_code_part_number LIKE ? OR part_description LIKE ? OR brand_name LIKE ?)")
-                params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
+            clean_q = re.sub(r'[^A-Za-z0-9]', '', q).upper()
+            part_candidates = list(dict.fromkeys([q, clean_q]))
+            if len(clean_q) > 8:
+                part_candidates.append(clean_q[:8] + '-' + clean_q[8:])
+                part_candidates.append(clean_q[:3] + '-' + clean_q[3:])
+            if len(clean_q) > 5 and clean_q[:5].isdigit():
+                part_candidates.append(clean_q[:5] + '-' + clean_q[5:])
+
+            cur_fast = conn.cursor()
+            placeholders = ','.join(['?'] * len(part_candidates))
+            cur_fast.execute(f"SELECT id FROM overall_catalogue WHERE line_code_part_number IN ({placeholders}) LIMIT 100", part_candidates)
+            fast_ids = [r[0] for r in cur_fast.fetchall()]
+
+            if fast_ids:
+                id_placeholders = ','.join(['?'] * len(fast_ids))
+                where_clauses.append(f"id IN ({id_placeholders})")
+                params.extend(fast_ids)
+            else:
+                try:
+                    fts_tokens = [t for t in re.findall(r'[A-Za-z0-9]+', q) if len(t) >= 2]
+                    if fts_tokens:
+                        safe_q = ' '.join([f'"{t}"*' for t in fts_tokens])
+                        fts_sql = "SELECT rowid FROM overall_catalogue_fts WHERE overall_catalogue_fts MATCH ?"
+                        where_clauses.append(f"id IN ({fts_sql})")
+                        params.append(safe_q)
+                    else:
+                        where_clauses.append("line_code_part_number LIKE ?")
+                        params.append(f"%{q}%")
+                except Exception:
+                    where_clauses.append("(line_code_part_number LIKE ? OR part_description LIKE ? OR brand_name LIKE ?)")
+                    params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
 
         if brand:
             where_clauses.append("brand_name = ?")
