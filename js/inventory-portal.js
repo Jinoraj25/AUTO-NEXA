@@ -760,5 +760,48 @@ window.InventoryPortal = {
         </tr>
       `;
     }
+  },
+
+  exportStockExcel() {
+    const items = (this.filteredItems && this.filteredItems.length > 0) 
+      ? this.filteredItems 
+      : (this.inventoryData?.dailySummaries?.[this.selectedDate]?.sampleItems || []);
+
+    if (!items.length) {
+      if (window.App && window.App.showToast) {
+        window.App.showToast('No inventory records available to export.', 'warning');
+      } else {
+        alert('No inventory records available to export.');
+      }
+      return;
+    }
+
+    const rows = items.map(item => ({
+      'Part Number': item.partNo || '',
+      'Description': item.desc || '',
+      'Brand': item.brand || 'GENERIC',
+      'Category': item.category || 'OEM',
+      'Line Code': item.lineCode || '',
+      'Branch Code': item.branchCode || 'WHM',
+      'Branch Name': item.branchName || 'MADURAI',
+      'Stock Qty': item.qty || 0,
+      'Unit Cost (₹)': Number(item.unitCost || 0).toFixed(2),
+      'MRP (₹)': Number(item.mrp || 0).toFixed(2),
+      'Total Valuation (₹)': Number(item.valuation || 0).toFixed(2),
+      'Stock Age (Days)': item.ageDays || 12,
+      'Tag': item.tag || 'CONSIDER'
+    }));
+
+    if (typeof XLSX !== 'undefined') {
+      const ws = XLSX.utils.json_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Stock Telemetry');
+      XLSX.writeFile(wb, `AUTO_NEXA_Stock_Inventory_${this.selectedDate || 'Export'}.xlsx`);
+      if (window.App && window.App.showToast) {
+        window.App.showToast(`Exported ${rows.length} stock items for ${this.selectedDate}.`, 'success');
+      }
+    } else {
+      alert("SheetJS library is loading. Please try again in a moment.");
+    }
   }
 };

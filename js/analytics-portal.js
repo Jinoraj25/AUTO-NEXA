@@ -875,4 +875,41 @@ window.AnalyticsPortal = {
 
     if (grid) grid.innerHTML = html;
   },
+
+  exportSalesSummary() {
+    const data = this.getCurrentSalesData ? this.getCurrentSalesData() : null;
+    const catData = data?.topCategories || (this.salesCache?.[this.activeMonth]?.[this.activeChannel]?.topCategories) || [];
+
+    if (!catData || !catData.length) {
+      if (window.App && window.App.showToast) {
+        window.App.showToast('No sales data available to export.', 'warning');
+      } else {
+        alert('No sales data available to export.');
+      }
+      return;
+    }
+
+    const rows = catData.map(cat => ({
+      'Month': this.activeMonth,
+      'Channel': this.activeChannel,
+      'Aggregate Category': cat.aggregate || '',
+      'Units Sold': cat.units || 0,
+      'Revenue (₹)': cat.revenue || 0,
+      'Revenue Share (%)': cat.sharePct || 0,
+      'Gross Margin (%)': cat.marginPct || 0,
+      'Top Driver Component': cat.topComponent || ''
+    }));
+
+    if (typeof XLSX !== 'undefined') {
+      const ws = XLSX.utils.json_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sales Performance');
+      XLSX.writeFile(wb, `AUTO_NEXA_Sales_Performance_${this.activeMonth}_${this.activeChannel}.xlsx`);
+      if (window.App && window.App.showToast) {
+        window.App.showToast(`Exported Sales Performance for ${this.activeMonth} (${this.activeChannel}).`, 'success');
+      }
+    } else {
+      alert("SheetJS library is loading. Please try again in a moment.");
+    }
+  }
 };

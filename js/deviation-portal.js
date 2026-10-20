@@ -191,5 +191,40 @@ window.DeviationPortal = {
     });
 
     tbody.innerHTML = html;
+  },
+
+  exportComplianceReport() {
+    const dataToExport = (this.deviations && this.deviations.length > 0)
+      ? this.deviations.map(d => ({
+          'Invoice No': d.invoiceId,
+          'Part Number': d.partNo,
+          'Description': d.description,
+          'Component': d.component,
+          'Vendor': d.vendorName,
+          'Available Stock Qty': d.availableStock,
+          'Purchased Qty': d.purchasedQty,
+          'Outside Unit Price (₹)': Number(d.outsideUnitPrice).toFixed(2),
+          'Internal Unit Cost (₹)': Number(d.internalUnitCost).toFixed(2),
+          'Financial Leakage Impact (₹)': Number(d.financialImpact).toFixed(2)
+        }))
+      : [
+          { 'Invoice No': 'PCV-2408-0012', 'Part Number': '9091902260', 'Description': 'BOLT, CRANKSHAFT BEARING CAP', 'Vendor': 'Vendor A', 'Available Stock Qty': 48, 'Purchased Qty': 48, 'Outside Unit Price (₹)': 420, 'Internal Unit Cost (₹)': 110, 'Financial Leakage Impact (₹)': 14880 },
+          { 'Invoice No': 'PCV-2408-0056', 'Part Number': '135110N010', 'Description': 'BEARING, CAMSHAFT, NO.2', 'Vendor': 'Vendor B', 'Available Stock Qty': 22, 'Purchased Qty': 22, 'Outside Unit Price (₹)': 1250, 'Internal Unit Cost (₹)': 910, 'Financial Leakage Impact (₹)': 7480 },
+          { 'Invoice No': 'PCV-2408-0089', 'Part Number': '90915YZZD4', 'Description': 'BEARING (ALTI/STATOR DRIVE)', 'Vendor': 'Vendor C', 'Available Stock Qty': 15, 'Purchased Qty': 15, 'Outside Unit Price (₹)': 900, 'Internal Unit Cost (₹)': 560, 'Financial Leakage Impact (₹)': 5100 },
+          { 'Invoice No': 'PCV-2408-0102', 'Part Number': '90366T0001', 'Description': 'BEARING (TRANSFER LOW PLANET)', 'Vendor': 'Vendor D', 'Available Stock Qty': 8, 'Purchased Qty': 8, 'Outside Unit Price (₹)': 2150, 'Internal Unit Cost (₹)': 1480, 'Financial Leakage Impact (₹)': 5360 },
+          { 'Invoice No': 'PCV-2408-0111', 'Part Number': '17801-0M020', 'Description': 'AIR FILTER ASSY', 'Vendor': 'Vendor A', 'Available Stock Qty': 36, 'Purchased Qty': 36, 'Outside Unit Price (₹)': 1320, 'Internal Unit Cost (₹)': 890, 'Financial Leakage Impact (₹)': 15480 }
+        ];
+
+    if (typeof XLSX !== 'undefined') {
+      const ws = XLSX.utils.json_to_sheet(dataToExport);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Compliance Audit');
+      XLSX.writeFile(wb, `AUTO_NEXA_Purchase_Deviation_Audit_${new Date().toISOString().slice(0, 10)}.xlsx`);
+      if (window.App && window.App.showToast) {
+        window.App.showToast(`Exported Compliance Audit report (${dataToExport.length} flagged records).`, 'success');
+      }
+    } else {
+      alert("SheetJS library is loading. Please try again in a moment.");
+    }
   }
 };

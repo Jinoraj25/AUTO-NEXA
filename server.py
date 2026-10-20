@@ -409,6 +409,16 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"components": res}, ensure_ascii=False).encode('utf-8'))
                 return
 
+            if path_only == '/api/overall-catalogue/suggestions':
+                q_val = get_param('q') or get_param('query')
+                limit_val = int(get_param('limit', '8'))
+                res = overall_catalogue_api.get_part_suggestions(q_val, limit=limit_val) if overall_catalogue_api else []
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"suggestions": res}, ensure_ascii=False).encode('utf-8'))
+                return
+
             if path_only == '/api/overall-catalogue/search':
                 q_val = get_param('q')
                 brand_val = get_param('brand')
@@ -915,7 +925,9 @@ if __name__ == '__main__':
     print(f"  ALL GOOD STOCK Folder: d:\\...\\ALL GOOD STOCK")
     print(f"==========================================================")
 
-    with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
+    socketserver.TCPServer.allow_reuse_address = True
+    with socketserver.ThreadingTCPServer(("", PORT), CustomHandler) as httpd:
+        httpd.daemon_threads = True
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:
