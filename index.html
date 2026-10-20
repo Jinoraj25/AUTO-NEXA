@@ -220,41 +220,161 @@
   </div>
 
 
-  <!-- Premium myTVS AUTO NEXA Command Header -->
-  <header id="app-header" class="app-header">
-    <div class="brand-logo-container" id="brand-home-btn" title="myTVS Parts Intelligence Hub">
-      <div class="mytvs-brand-badge">
-        <div class="mytvs-logo-row">
-          <span class="mytvs-my">my</span><span class="mytvs-tvs">TVS</span>
-        </div>
-        <div class="mytvs-tagline"><span class="t-orange">Certified.</span> <span class="t-orange">Tested.</span> <span class="t-blue">Trusted.</span></div>
+  <!-- Left Side Enterprise Navigation Sidebar (Dearo ERP Style) -->
+  <aside id="app-sidebar" class="app-sidebar">
+    <!-- Brand / Logo Area -->
+    <div class="sidebar-brand-box" onclick="App.switchTab('home')" title="AUTO NEXA Dashboard">
+      <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 900; color: #fff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); flex-shrink: 0;">
+        ⚡
       </div>
-      <div class="brand-copy">
-        <div class="brand-nexa-title">AUTO<span class="brand-nexa-red">NEXA</span></div>
-        <div class="brand-nexa-tag">TVS MOBILITY INTELLIGENCE</div>
+      <div class="brand-copy" style="overflow: hidden;">
+        <div style="font-size: 1.15rem; font-weight: 900; color: #ffffff; line-height: 1.1; font-family: 'Outfit', sans-serif;">
+          AUTO<span style="color: #ea580c;">NEXA</span>
+        </div>
+        <div style="font-size: 0.65rem; font-weight: 850; letter-spacing: 0.12em; color: #38bdf8; text-transform: uppercase;">
+          TVS MOBILITY INTELLIGENCE
+        </div>
       </div>
     </div>
 
-    <nav class="nav-menu-group" aria-label="Primary navigation">
-      <div class="nav-section-label">WORKSPACE</div>
-      <button type="button" class="nav-menu-item active" data-tab="home" onclick="switchTab('home');"><span class="nav-icon">⌂</span><span>Home</span></button>
-      <button type="button" class="nav-menu-item" data-tab="catalogue" onclick="switchTab('catalogue');"><span class="nav-icon">⌘</span><span>Catalogue</span></button>
-      <button type="button" class="nav-menu-item" data-tab="inventory" onclick="switchTab('inventory');"><span class="nav-icon">▣</span><span>Inventory</span></button>
-      <button type="button" class="nav-menu-item" data-tab="analytics" onclick="switchTab('analytics');"><span class="nav-icon">◒</span><span>Sales</span></button>
-      <button type="button" class="nav-menu-item" data-tab="forecasting" onclick="switchTab('forecasting');"><span class="nav-icon">⌁</span><span>Planning</span></button>
-      <button type="button" class="nav-menu-item" data-tab="deviation" onclick="switchTab('deviation');"><span class="nav-icon">≡</span><span>Reports</span></button>
-    </nav>
-
-    <div class="header-right">
+    <!-- Navigation List with Dropdown Accordions -->
+    <div class="sidebar-nav-container">
       
-      <div class="profile-chip" title="Click to Logout / Switch User" onclick="App.logout()" style="cursor: pointer;">
-        <span class="profile-avatar" id="header-user-avatar">JG</span>
-        <div style="display: flex; flex-direction: column; line-height: 1.1;">
-          <span class="profile-name" id="header-user-name" style="font-weight: 800; font-size: 11px;">Jino George</span>
-          <small style="font-size: 8.5px; color: #2B549A; font-weight: 800;" id="header-user-code">SM0237 • myTVS</small>
+      <div class="sb-section-divider">WORKSPACE CORE</div>
+
+      <!-- 1. HOME -->
+      <button type="button" class="sb-nav-item active" data-tab="home" onclick="App.switchTab('home');">
+        <div class="sb-item-left">
+          <span class="sb-icon">⌂</span>
+          <span>Home</span>
         </div>
-        <span style="font-size: 9px; opacity: 0.6; margin-left: 2px;">🔒</span>
+      </button>
+
+      <!-- 2. CATALOGUE (with dropdown) -->
+      <div class="sb-group" id="sb-group-catalogue">
+        <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-catalogue');">
+          <div class="sb-item-left">
+            <span class="sb-icon">⌘</span>
+            <span>Catalogue</span>
+          </div>
+          <span class="sb-chevron">▾</span>
+        </button>
+        <div class="sb-sub-menu">
+          <button type="button" class="sb-sub-item" data-tab="catalogue-dashboard" onclick="App.switchTab('catalogue-dashboard');">
+            <span>📊</span> <span>Dashboard</span>
+          </button>
+          <button type="button" class="sb-sub-item" data-tab="catalogue-mapping" onclick="App.switchTab('catalogue-mapping');">
+            <span>⚙️</span> <span>Mapping Engine</span>
+          </button>
+          <button type="button" class="sb-sub-item" data-tab="catalogue-ai" onclick="App.switchTab('catalogue-ai');">
+            <span>🤖</span> <span>Catalog AI</span>
+          </button>
+        </div>
       </div>
+
+      <!-- 3. INVENTORY (with dropdown) -->
+      <div class="sb-group" id="sb-group-inventory">
+        <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-inventory');">
+          <div class="sb-item-left">
+            <span class="sb-icon">▣</span>
+            <span>Inventory</span>
+          </div>
+          <span class="sb-chevron">▾</span>
+        </button>
+        <div class="sb-sub-menu">
+          <button type="button" class="sb-sub-item" data-tab="inventory-dashboard" onclick="App.switchTab('inventory-dashboard');">
+            <span>📊</span> <span>Dashboard</span>
+          </button>
+          <button type="button" class="sb-sub-item" data-tab="inventory-deviation" onclick="App.switchTab('inventory-deviation');">
+            <span>⚠️</span> <span>Purchase Deviation</span>
+          </button>
+          <button type="button" class="sb-sub-item" data-tab="inventory-not-available" onclick="App.switchTab('inventory-not-available');">
+            <span>🚫</span> <span>Product Not Available</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4. SALES (with dropdown) -->
+      <div class="sb-group" id="sb-group-sales">
+        <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-sales');">
+          <div class="sb-item-left">
+            <span class="sb-icon">📈</span>
+            <span>Sales</span>
+          </div>
+          <span class="sb-chevron">▾</span>
+        </button>
+        <div class="sb-sub-menu">
+          <button type="button" class="sb-sub-item" data-tab="sales-rf" onclick="App.switchTab('sales-rf');">
+            <span>🏬</span> <span>RF Sales Dashboard</span>
+          </button>
+          <button type="button" class="sb-sub-item" data-tab="sales-cf" onclick="App.switchTab('sales-cf');">
+            <span>🏢</span> <span>CF Sales Dashboard</span>
+          </button>
+          <button type="button" class="sb-sub-item" data-tab="sales-overall" onclick="App.switchTab('sales-overall');">
+            <span>🌐</span> <span>Overall Sales Dashboard</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sb-section-divider">OPERATIONS & PLANNING</div>
+
+      <!-- Planning -->
+      <button type="button" class="sb-nav-item" data-tab="forecasting" onclick="App.switchTab('forecasting');">
+        <div class="sb-item-left">
+          <span class="sb-icon">📅</span>
+          <span>Demand Planning</span>
+        </div>
+      </button>
+
+      <!-- Reports -->
+      <button type="button" class="sb-nav-item" data-tab="deviation" onclick="App.switchTab('deviation');">
+        <div class="sb-item-left">
+          <span class="sb-icon">📄</span>
+          <span>Compliance Reports</span>
+        </div>
+      </button>
+
+    </div>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer-box">
+      <div class="profile-details" style="display: flex; align-items: center; gap: 0.6rem; min-width: 0;">
+        <span class="profile-avatar" style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #ea580c, #f59e0b); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.82rem; color: #fff; flex-shrink: 0;">JG</span>
+        <div class="profile-info" style="min-width: 0; line-height: 1.2;">
+          <strong style="color: #ffffff; font-size: 0.82rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Jino George</strong>
+          <small style="color: #38bdf8; font-size: 0.72rem; font-weight: 750;">SM0237 • Analyst</small>
+        </div>
+      </div>
+      <button type="button" onclick="App.logout()" title="Logout" style="background: rgba(255,255,255,0.08); border: none; color: #cbd5e1; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.95rem;">
+        🚪
+      </button>
+    </div>
+  </aside>
+
+  <!-- Top Bar with Hamburger, Breadcrumb, System Status, Theme Toggle -->
+  <header id="app-header" class="app-header" style="display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 64px;">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button type="button" id="sidebar-toggle-btn" onclick="App.toggleSidebar()" title="Toggle Sidebar" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; width: 38px; height: 38px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+        ☰
+      </button>
+
+      <!-- Dynamic Breadcrumb -->
+      <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 800;">
+        <span id="breadcrumb-section" style="color: #94a3b8; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;">WORKSPACE</span>
+        <span style="color: #64748b;">/</span>
+        <span id="breadcrumb-page" style="color: #38bdf8; font-family: 'Outfit', sans-serif; font-size: 1rem;">Home Overview</span>
+      </div>
+    </div>
+
+    <div class="header-right" style="display: flex; align-items: center; gap: 0.85rem;">
+      <div class="system-status" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.8rem; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px;">
+        <span class="status-dot" style="width: 8px; height: 8px; background: #29d391; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #29d391;"></span>
+        <strong style="color: #38bdf8; font-size: 0.75rem; letter-spacing: 0.5px;">23.6M MASTER DB ACTIVE</strong>
+      </div>
+
+      <button type="button" id="btn-theme-toggle" class="btn-icon" onclick="App.toggleTheme()" title="Toggle Light/Dark Theme" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.05rem;">
+        🌓
+      </button>
     </div>
   </header>
 
@@ -839,8 +959,149 @@
       </div>
     </section>
 
+    <!-- ==================== TAB 1B: CATALOGUE MAPPING ENGINE ==================== -->
+    <section id="tab-catalogue-mapping" class="tab-pane">
+      <div style="padding: 0 0.5rem;">
+        
+        <!-- Mapping Scenic Hero Banner -->
+        <div style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(56, 189, 248, 0.35); background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(8, 18, 31, 0.95)); padding: 2rem 2.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="background: linear-gradient(90deg, #0284c7, #2563eb); color: #fff; font-weight: 900; font-size: 0.74rem; padding: 0.3rem 0.85rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; margin-bottom: 0.6rem;">
+                <span>⚙️ SMART CATALOGUE & MAPPING STUDIO</span>
+              </div>
+              <h1 style="font-size: 2.2rem; font-weight: 900; color: #ffffff; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
+                TVS Aggregate Master Studio & Auto-Mapping Engine
+              </h1>
+              <p style="font-size: 0.92rem; color: #cbd5e1; max-width: 680px; margin: 0; line-height: 1.5;">
+                Ingest catalogue dumps, invoices or stock lists to automatically map aggregates, sub-aggregates and components using 923 official TVS rules and the 23.6M record cross-referencing engine.
+              </p>
+            </div>
 
-            <!-- ==================== TAB 2: INVENTORY DASHBOARD ==================== -->
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+              <button type="button" class="btn btn-secondary" onclick="MappingPortal.exportMappedExcel()" style="padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 800; border-radius: 10px; background: #0284c7; color: #fff; border: none; cursor: pointer;">
+                📥 Export Mapped Excel
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- File Upload Dropzone -->
+        <div id="sales-dropzone" class="dropzone-container" style="border: 2px dashed rgba(56, 189, 248, 0.4); border-radius: 16px; padding: 2.5rem; text-align: center; background: rgba(15, 23, 42, 0.6); cursor: pointer; margin-bottom: 1.5rem; transition: border-color 0.2s;">
+          <input type="file" id="sales-file-input" accept=".xlsx, .xls, .xlsb, .csv" style="display: none;">
+          <div class="dropzone-icon" style="font-size: 2.5rem; color: #38bdf8; margin-bottom: 0.75rem;">📁</div>
+          <div class="dropzone-text" style="font-size: 1.1rem; font-weight: 850; color: #ffffff; margin-bottom: 0.35rem;">
+            Click to Browse or Drag & Drop Catalogue/Stock File (.xlsx, .csv, .xlsb)
+          </div>
+          <div class="dropzone-sub" style="font-size: 0.8rem; color: #94a3b8;">
+            Auto-detects Part Number, Description & Brand and applies 923 TVS Aggregate Master Rules instantly.
+          </div>
+          <div id="catalogue-upload-status" class="upload-status-box" style="display: none; margin-top: 1rem;"></div>
+        </div>
+
+        <!-- Mapping Summary Strip -->
+        <div id="mapping-summary-section" style="display: none; margin-bottom: 1.5rem;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 14px; padding: 1.2rem;">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Total Rows Mapped</div>
+              <div id="map-stat-total" style="font-size: 1.8rem; font-weight: 900; color: #38bdf8; margin-top: 0.3rem;">0</div>
+            </div>
+            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(167, 139, 250, 0.35); border-radius: 14px; padding: 1.2rem;">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Aggregates Mapped</div>
+              <div id="map-stat-aggregates" style="font-size: 1.8rem; font-weight: 900; color: #a78bfa; margin-top: 0.3rem;">0</div>
+            </div>
+            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(41, 211, 145, 0.35); border-radius: 14px; padding: 1.2rem;">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Sub-Aggregates Mapped</div>
+              <div id="map-stat-sub-aggregates" style="font-size: 1.8rem; font-weight: 900; color: #29d391; margin-top: 0.3rem;">0</div>
+            </div>
+            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(251, 191, 36, 0.35); border-radius: 14px; padding: 1.2rem;">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Components Mapped</div>
+              <div id="map-stat-components" style="font-size: 1.8rem; font-weight: 900; color: #fbbf24; margin-top: 0.3rem;">0</div>
+            </div>
+            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(244, 63, 94, 0.35); border-radius: 14px; padding: 1.2rem;">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Mapping Accuracy</div>
+              <div id="map-stat-confidence" style="font-size: 1.8rem; font-weight: 900; color: #f43f5e; margin-top: 0.3rem;">98.4%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 923 TVS Aggregate Master Rules Table -->
+        <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.3); border-radius: 16px; padding: 1.4rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin: 0; font-family: 'Outfit', sans-serif;">
+                📘 923 Official TVS Aggregate Master Taxonomy Rules
+              </h3>
+              <p style="font-size: 0.8rem; color: #94a3b8; margin: 0.2rem 0 0 0;">
+                Pre-trained mapping dictionary defining Component ➔ Sub-Aggregate ➔ Aggregate relationships.
+              </p>
+            </div>
+            <input type="text" id="master-search-input" placeholder="Search rules by Component or Aggregate..." style="padding: 0.55rem 0.95rem; font-size: 0.82rem; width: 320px; background: #080f1e; border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 8px; color: #fff; outline: none;">
+          </div>
+
+          <div style="overflow-x: auto; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;">
+            <table class="data-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: rgba(8, 15, 30, 0.95);">
+                  <th style="padding: 0.75rem; text-align: left; color: #38bdf8;">Aggregate (Category)</th>
+                  <th style="padding: 0.75rem; text-align: left; color: #a78bfa;">Sub-Aggregate</th>
+                  <th style="padding: 0.75rem; text-align: left; color: #ffffff;">Component Name</th>
+                  <th style="padding: 0.75rem; text-align: left; color: #29d391;">Master Category</th>
+                </tr>
+              </thead>
+              <tbody id="master-rules-list">
+                <tr><td colspan="4" style="text-align: center; padding: 2rem; color: #94a3b8;">Loading 923 TVS Master Rules...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="master-rules-pagination" style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; font-size: 0.82rem; color: #94a3b8;"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 1C: CATALOG AI ASSISTANT ==================== -->
+    <section id="tab-catalogue-ai" class="tab-pane">
+      <div style="padding: 0 0.5rem;">
+        
+        <!-- AI Hero Banner -->
+        <div style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(167, 139, 250, 0.4); background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85)); padding: 2.25rem;">
+          <div style="background: linear-gradient(90deg, #8b5cf6, #ec4899); color: #fff; font-weight: 900; font-size: 0.74rem; padding: 0.3rem 0.85rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; margin-bottom: 0.6rem;">
+            <span>🤖 INTELLIGENT CATALOGUE DIAGNOSTICS</span>
+          </div>
+          <h1 style="font-size: 2.3rem; font-weight: 900; color: #ffffff; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
+            AUTO NEXA Catalog AI Assistant
+          </h1>
+          <p style="font-size: 0.92rem; color: #cbd5e1; max-width: 680px; margin: 0 0 1.25rem 0; line-height: 1.5;">
+            Natural language parts cross-referencing, multi-brand OEM interchangeability verification, and technical SKU diagnostics across 23.6M+ indexed records.
+          </p>
+
+          <!-- AI Chat Query Bar -->
+          <div style="display: flex; gap: 0.65rem; max-width: 800px;">
+            <input type="text" id="cat-ai-query-input" placeholder="Ask Catalog AI: e.g. 'Show interchangeable front brake pads for Creta and Seltos', 'Oil filter for Innova'..." style="flex: 1; padding: 0.85rem 1.25rem; font-size: 0.95rem; font-weight: 700; background: #080f1e; border: 2px solid rgba(167, 139, 250, 0.5); border-radius: 12px; color: #fff; outline: none;" onkeydown="if(event.key==='Enter') App.runCatalogAiQuery();">
+            <button type="button" onclick="App.runCatalogAiQuery()" style="padding: 0.85rem 1.85rem; background: linear-gradient(135deg, #8b5cf6, #6366f1); border: none; border-radius: 12px; color: #fff; font-weight: 850; font-size: 0.95rem; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);">
+              <span>Ask AI</span> <span>⚡</span>
+            </button>
+          </div>
+
+          <!-- Suggested Prompt Chips -->
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; align-items: center;">
+            <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 800;">Try Prompts:</span>
+            <span class="tag-pill" onclick="App.setAiPrompt('Brake Pad for Hyundai Creta')" style="background: rgba(167, 139, 250, 0.15); color: #a78bfa; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; border: 1px solid rgba(167, 139, 250, 0.35);">Brake Pad for Hyundai Creta</span>
+            <span class="tag-pill" onclick="App.setAiPrompt('04152-YZZA6 Oil Filter')" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; border: 1px solid rgba(56, 189, 248, 0.35);">04152-YZZA6 Oil Filter</span>
+            <span class="tag-pill" onclick="App.setAiPrompt('Clutch Plate for Maruti Swift')" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; border: 1px solid rgba(251, 191, 36, 0.35);">Clutch Plate for Maruti Swift</span>
+          </div>
+        </div>
+
+        <!-- AI Output Box -->
+        <div id="cat-ai-results-box" class="card" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1.5px solid rgba(167, 139, 250, 0.4); border-radius: 16px; padding: 1.6rem; margin-bottom: 1.5rem;">
+          <div id="cat-ai-results-content"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: INVENTORY DASHBOARD ==================== -->
     <section id="tab-inventory" class="tab-pane">
       <!-- Top Control Bar with Date Selector & 2 Action Buttons -->
       <div style="background: rgba(13, 27, 46, 0.95); border: 1.5px solid rgba(56, 189, 248, 0.35); padding: 1rem 1.4rem; border-radius: 16px; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; backdrop-filter: blur(12px);">
@@ -1107,8 +1368,102 @@
       </div>
     </section>
 
+    <!-- ==================== TAB 2C: PRODUCT NOT AVAILABLE & LOST DEMAND ==================== -->
+    <section id="tab-inventory-not-available" class="tab-pane">
+      <div style="padding: 0 0.5rem;">
+        
+        <!-- Scenic Hero Banner -->
+        <div style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(239, 68, 68, 0.4); background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85)); padding: 2rem 2.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="background: linear-gradient(90deg, #ef4444, #f97316); color: #fff; font-weight: 900; font-size: 0.74rem; padding: 0.3rem 0.85rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; margin-bottom: 0.6rem;">
+                <span>🚫 STOCKOUT & REVENUE LEAKAGE TELEMETRY</span>
+              </div>
+              <h1 style="font-size: 2.2rem; font-weight: 900; color: #ffffff; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
+                Product Not Available & Lost Demand Intelligence
+              </h1>
+              <p style="font-size: 0.92rem; color: #cbd5e1; max-width: 680px; margin: 0; line-height: 1.5;">
+                Track stockouts across 50+ dark stores, identify high-velocity zero-stock SKUs, calculate unfulfilled customer revenue leakage, and trigger automatic purchase orders.
+              </p>
+            </div>
 
-            <!-- ==================== TAB 3: SALES DASHBOARD (RF vs CF) ==================== -->
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+              <button type="button" class="btn btn-secondary" onclick="App.exportLostDemandExcel()" style="padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 800; border-radius: 10px; background: #ef4444; color: #fff; border: none; cursor: pointer;">
+                📥 Export Lost Demand Excel
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 KPI Telemetry Cards Strip -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(239, 68, 68, 0.4); border-radius: 14px; padding: 1.25rem;">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Total Unfulfilled Requests</div>
+            <div style="font-size: 1.9rem; font-weight: 900; color: #ef4444; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">1,428 Orders</div>
+            <div style="font-size: 0.74rem; color: #cbd5e1; margin-top: 0.2rem;">Customer requests turned away</div>
+          </div>
+
+          <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(251, 191, 36, 0.4); border-radius: 14px; padding: 1.25rem;">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Potential Lost Revenue</div>
+            <div style="font-size: 1.9rem; font-weight: 900; color: #fbbf24; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">₹38.45 Lakhs</div>
+            <div style="font-size: 0.74rem; color: #cbd5e1; margin-top: 0.2rem;">Estimated monthly missed billing</div>
+          </div>
+
+          <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 14px; padding: 1.25rem;">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Fast-Moving Zero-Stock SKUs</div>
+            <div style="font-size: 1.9rem; font-weight: 900; color: #38bdf8; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">94 Critical SKUs</div>
+            <div style="font-size: 0.74rem; color: #cbd5e1; margin-top: 0.2rem;">A-Category parts at 0 inventory</div>
+          </div>
+
+          <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(167, 139, 250, 0.4); border-radius: 14px; padding: 1.25rem;">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Top Make with Lost Demand</div>
+            <div style="font-size: 1.9rem; font-weight: 900; color: #a78bfa; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">Maruti Suzuki</div>
+            <div style="font-size: 0.74rem; color: #cbd5e1; margin-top: 0.2rem;">42.8% of all unfulfilled enquiries</div>
+          </div>
+        </div>
+
+        <!-- Lost Demand Inspection Grid -->
+        <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.3); border-radius: 16px; padding: 1.4rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin: 0; font-family: 'Outfit', sans-serif;">
+                📋 Top Stockout SKUs with Unfulfilled Customer Demand
+              </h3>
+              <p style="font-size: 0.8rem; color: #94a3b8; margin: 0.2rem 0 0 0;">
+                Prioritized by missed revenue volume to fast-track replenishment procurement.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <input type="text" id="lost-demand-search-input" placeholder="Search by Part No, Desc or Make..." style="padding: 0.5rem 0.9rem; font-size: 0.82rem; width: 280px; background: #080f1e; border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 8px; color: #fff; outline: none;" oninput="App.filterLostDemandTable(this.value)">
+            </div>
+          </div>
+
+          <div style="overflow-x: auto; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;">
+            <table class="data-table" style="width: 100%; border-collapse: collapse; min-width: 980px;">
+              <thead>
+                <tr style="background: rgba(8, 15, 30, 0.98);">
+                  <th style="padding: 0.8rem; text-align: left; color: #38bdf8;">Part Number</th>
+                  <th style="padding: 0.8rem; text-align: left; color: #ffffff;">Description</th>
+                  <th style="padding: 0.8rem; text-align: left; color: #fbbf24;">Brand</th>
+                  <th style="padding: 0.8rem; text-align: left; color: #cbd5e1;">Vehicle Fitment</th>
+                  <th style="padding: 0.8rem; text-align: right; color: #ef4444;">Lost Orders</th>
+                  <th style="padding: 0.8rem; text-align: right; color: #34d399;">MRP (₹)</th>
+                  <th style="padding: 0.8rem; text-align: right; color: #fbbf24;">Est. Lost Value</th>
+                  <th style="padding: 0.8rem; text-align: center; color: #a78bfa;">Stockout Days</th>
+                  <th style="padding: 0.8rem; text-align: center; color: #ffffff;">Procurement Action</th>
+                </tr>
+              </thead>
+              <tbody id="lost-demand-table-body">
+                <!-- Dynamically populated via App.loadLostDemandTable() -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: SALES DASHBOARD (RF vs CF) ==================== -->
     <section id="tab-analytics" class="tab-pane">
       
       <!-- Sales Scenic Hero Banner -->
