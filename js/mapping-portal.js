@@ -866,32 +866,40 @@ window.MappingPortal = {
     try {
       const exportRows = data.map((item, idx) => {
         const orig = (window.DataEngine && window.DataEngine.rawUploadedRows && window.DataEngine.rawUploadedRows[idx]) || {};
-        const rowObj = { ...orig };
+        
+        // Target columns as requested:
+        // Part Number, Description, Brand, Aggregate, Sub-Aggregate, Component, Category (Body/Mechanical)
+        const partNo = item.partNo || orig['Part Number (Without Line Code)'] || orig['Part Number'] || orig['PartNo'] || orig['Item Code'] || orig['PART_NO'] || '';
+        const desc = item.description || orig['Description'] || orig['Part Description'] || orig['DESC'] || '';
+        const brand = item.brand || orig['Brand'] || orig['BRAND'] || orig['Make'] || 'GENERIC';
+        const agg = item.aggregate || 'GENERAL SPARES';
+        const subAgg = item.subAggregate || 'GENERAL';
+        const comp = item.component || 'GENERAL SPARES';
+        const cat = item.category || (item.isBody ? 'Body Parts' : 'Mechanical Parts');
 
-        rowObj['MAPPED_AGGREGATE'] = item.aggregate || 'UNMAPPED';
-        rowObj['MAPPED_SUB_AGGREGATE'] = item.subAggregate || 'UNMAPPED';
-        rowObj['MAPPED_COMPONENT'] = item.component || 'UNMAPPED';
-        rowObj['MAPPED_CATEGORY'] = item.category || 'Mechanical Parts';
-        rowObj['MAPPED_CONFIDENCE'] = item.confidence || 'HIGH';
-        rowObj['CONFIDENCE_SCORE'] = item.confidenceScore || 95;
-        rowObj['MATCH_METHOD'] = item.matchMethod || 'EXACT_PART_NO';
-        rowObj['MAPPING_REMARKS'] = item.remarks || 'Auto Mapped';
-
-        return rowObj;
+        return {
+          "Part Number": partNo,
+          "Description": desc,
+          "Brand": brand,
+          "Aggregate": agg,
+          "Sub-Aggregate": subAgg,
+          "Component": comp,
+          "Category (Body/Mechanical)": cat
+        };
       });
 
       const dateStr = new Date().toISOString().slice(0, 10);
-      const filename = `Mapped_Catalogue_Export_${dateStr}.csv`;
+      const filename = `AUTO_NEXA_Mapped_Catalogue_${dateStr}.xlsx`;
 
-      // Method 1: SheetJS for smaller datasets (<= 3000 rows)
-      if (exportRows.length <= 3000 && typeof XLSX !== 'undefined' && XLSX.utils && XLSX.utils.json_to_sheet) {
+      // Method 1: SheetJS for Excel download (.xlsx)
+      if (typeof XLSX !== 'undefined' && XLSX.utils && XLSX.utils.json_to_sheet) {
         try {
           const worksheet = XLSX.utils.json_to_sheet(exportRows);
           const workbook = XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(workbook, worksheet, "Mapped Catalogue");
-          XLSX.writeFile(workbook, filename.replace('.csv', '.xlsx'));
+          XLSX.writeFile(workbook, filename);
           if (window.App && window.App.showToast) {
-            window.App.showToast(`🎉 Mapped Excel file downloaded successfully!`, "success");
+            window.App.showToast(`🎉 Mapped Excel file (${exportRows.length.toLocaleString()} rows) downloaded!`, "success");
           }
           return;
         } catch(xlsxErr) {
@@ -899,8 +907,8 @@ window.MappingPortal = {
         }
       }
 
-      // Method 2: High-Performance UTF-8 BOM CSV Blob Download (Works instantly for 30,000 to 100,000+ rows)
-      const headers = Object.keys(exportRows[0]);
+      // Method 2: High-Performance UTF-8 BOM CSV Blob Download
+      const headers = ["Part Number", "Description", "Brand", "Aggregate", "Sub-Aggregate", "Component", "Category (Body/Mechanical)"];
       const csvLines = [headers.join(',')];
 
       for (let i = 0; i < exportRows.length; i++) {
@@ -919,20 +927,87 @@ window.MappingPortal = {
       const downloadUrl = URL.createObjectURL(csvBlob);
       const downloadAnchor = document.createElement('a');
       downloadAnchor.href = downloadUrl;
-      downloadAnchor.download = filename;
+      downloadAnchor.download = filename.replace('.xlsx', '.csv');
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       document.body.removeChild(downloadAnchor);
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
 
       if (window.App && window.App.showToast) {
-        window.App.showToast(`🎉 Successfully downloaded ${exportRows.length.toLocaleString()} mapped rows to Excel/CSV!`, "success");
+        window.App.showToast(`🎉 Successfully downloaded ${exportRows.length.toLocaleString()} mapped rows!`, "success");
       }
     } catch (err) {
       console.error("Export error:", err);
       if (window.App && window.App.showToast) {
         window.App.showToast(`Export error: ${err.message || 'Unknown error'}`, "error");
       }
+    }
+  },
+
+  downloadUploadTemplate() {
+    const templateRows = [
+      {
+        "Part Number (Without Line Code)": "21611404",
+        "Description": "OIL FILTER CARTRIDGE TATA INDICA VISTA",
+        "Brand": "TATA"
+      },
+      {
+        "Part Number (Without Line Code)": "04465-0K240",
+        "Description": "BRAKE PAD SET FRONT TOYOTA INNOVA",
+        "Brand": "TOYOTA"
+      },
+      {
+        "Part Number (Without Line Code)": "31210-M84010",
+        "Description": "CLUTCH COVER ASSEMBLY MARUTI SWIFT",
+        "Brand": "MARUTI SUZUKI"
+      },
+      {
+        "Part Number (Without Line Code)": "54651-1C000",
+        "Description": "FRONT STRUT SHOCK ABSORBER HYUNDAI GETZ",
+        "Brand": "HYUNDAI"
+      },
+      {
+        "Part Number (Without Line Code)": "0 986 AB0 123",
+        "Description": "SPARK PLUG SET 4 PCS BOSCH",
+        "Brand": "BOSCH"
+      }
+    ];
+
+    const filename = "AUTO_NEXA_Mapping_Template.xlsx";
+
+    if (typeof XLSX !== 'undefined' && XLSX.utils && XLSX.utils.json_to_sheet) {
+      try {
+        const worksheet = XLSX.utils.json_to_sheet(templateRows);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Mapping Template");
+        XLSX.writeFile(workbook, filename);
+        if (window.App && window.App.showToast) {
+          window.App.showToast("📥 Sample Mapping Template (.xlsx) downloaded successfully!", "success");
+        }
+        return;
+      } catch (err) {
+        console.warn("SheetJS template download notice, using CSV fallback:", err);
+      }
+    }
+
+    // CSV fallback
+    const headers = ["Part Number (Without Line Code)", "Description", "Brand"];
+    const csvLines = [headers.join(',')];
+    templateRows.forEach(r => {
+      csvLines.push(`"${r['Part Number (Without Line Code)'] || ''}","${r['Description'] || ''}","${r['Brand'] || ''}"`);
+    });
+    const csvBlob = new Blob(['\uFEFF' + csvLines.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+    const downloadUrl = URL.createObjectURL(csvBlob);
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.href = downloadUrl;
+    downloadAnchor.download = "AUTO_NEXA_Mapping_Template.csv";
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    document.body.removeChild(downloadAnchor);
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+
+    if (window.App && window.App.showToast) {
+      window.App.showToast("📥 Sample Mapping Template (.csv) downloaded successfully!", "success");
     }
   }
 };

@@ -51,6 +51,7 @@ window.OverallCataloguePortal = {
     await this.loadStats();
     await this.loadFilterOptions();
     await this.fetchData();
+    this.initCharts();
   },
 
   showCartToast() {
@@ -313,6 +314,194 @@ window.OverallCataloguePortal = {
     }
   },
 
+  growthChart: null,
+  healthChart: null,
+  brandsChart: null,
+  accuracyChart: null,
+
+  initCharts() {
+    if (typeof Chart === 'undefined') return;
+
+    // 1. SKU Growth Trend Chart (Image 2 Reference)
+    const ctxGrowth = document.getElementById('cat-chart-growth')?.getContext('2d');
+    if (ctxGrowth) {
+      if (this.growthChart) this.growthChart.destroy();
+      const gradGrowth = ctxGrowth.createLinearGradient(0, 0, 0, 160);
+      gradGrowth.addColorStop(0, 'rgba(2, 132, 199, 0.28)');
+      gradGrowth.addColorStop(1, 'rgba(2, 132, 199, 0.01)');
+
+      this.growthChart = new Chart(ctxGrowth, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Aug', 'Dec'],
+          datasets: [{
+            label: 'SKUs',
+            data: [2.5, 3.8, 9.4, 7.8, 10.6, 12.2, 15.5, 18.8],
+            borderColor: '#0284c7',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#0284c7',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            fill: true,
+            backgroundColor: gradGrowth,
+            tension: 0.35
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleFont: { size: 11, weight: 'bold' },
+              bodyFont: { size: 12 },
+              callbacks: {
+                label: (ctx) => ` ${ctx.raw}M SKUs`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { color: '#64748b', font: { size: 10, weight: '600' } }
+            },
+            y: {
+              grid: { color: '#f1f5f9' },
+              ticks: {
+                color: '#64748b',
+                font: { size: 10, weight: '600' },
+                callback: (val) => `${val}M`
+              },
+              min: 0,
+              max: 20
+            }
+          }
+        }
+      });
+    }
+
+    // 2. Data Health & Mapping Status Donut (Image 2 Reference - 80.4M SKUs)
+    const ctxHealth = document.getElementById('cat-chart-health')?.getContext('2d');
+    if (ctxHealth) {
+      if (this.healthChart) this.healthChart.destroy();
+      this.healthChart = new Chart(ctxHealth, {
+        type: 'doughnut',
+        data: {
+          labels: ['Mapped (78%)', 'In Progress (14%)', 'Unmapped (8%)'],
+          datasets: [{
+            data: [78, 14, 8],
+            backgroundColor: ['#0284c7', '#a855f7', '#f97316'],
+            borderWidth: 0,
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '72%',
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                boxWidth: 10,
+                boxHeight: 10,
+                usePointStyle: true,
+                pointStyle: 'rectRounded',
+                color: '#334155',
+                font: { size: 11, weight: '600' },
+                padding: 10
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` ${ctx.label}: ${ctx.raw}%`
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // 3. Top Mapped Brands Vertical Bar Chart (Image 2 Reference)
+    const ctxBrands = document.getElementById('cat-chart-brands')?.getContext('2d');
+    if (ctxBrands) {
+      if (this.brandsChart) this.brandsChart.destroy();
+      this.brandsChart = new Chart(ctxBrands, {
+        type: 'bar',
+        data: {
+          labels: ['Maruti', 'Tata', 'Hyundai', 'Mahindra', 'Bosch', 'Valeo'],
+          datasets: [{
+            label: 'Mapped SKUs',
+            data: [5800, 3900, 3400, 2400, 1600, 950],
+            backgroundColor: '#0284c7',
+            borderRadius: 5,
+            barThickness: 20
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              callbacks: {
+                label: (ctx) => ` ${Number(ctx.raw).toLocaleString()} Mapped SKUs`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { color: '#64748b', font: { size: 10, weight: '700' } }
+            },
+            y: {
+              grid: { color: '#f1f5f9' },
+              ticks: {
+                color: '#64748b',
+                font: { size: 10, weight: '600' },
+                callback: (val) => Number(val).toLocaleString()
+              },
+              min: 0,
+              max: 6000
+            }
+          }
+        }
+      });
+    }
+
+    // 4. AI Suggestion Accuracy Gauge (Image 2 Reference - 85.3%)
+    const ctxAccuracy = document.getElementById('cat-chart-accuracy')?.getContext('2d');
+    if (ctxAccuracy) {
+      if (this.accuracyChart) this.accuracyChart.destroy();
+      this.accuracyChart = new Chart(ctxAccuracy, {
+        type: 'doughnut',
+        data: {
+          labels: ['Accuracy', 'Remaining'],
+          datasets: [{
+            data: [85.3, 14.7],
+            backgroundColor: ['#059669', '#e2e8f0'],
+            borderWidth: 0,
+            circumference: 180,
+            rotation: -90
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '78%',
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          }
+        }
+      });
+    }
+  },
+
   async loadFilterOptions() {
     try {
       const res = await fetch('/api/overall-catalogue/filters');
@@ -460,6 +649,7 @@ window.OverallCataloguePortal = {
     this.q = partNo;
     this.currentPage = 1;
     this.fetchData();
+    this.showPartDetails(partNo);
   },
 
   hideSuggestions() {
@@ -542,6 +732,43 @@ window.OverallCataloguePortal = {
     this.handleFilterChange();
   },
 
+  async updateFilteredVariants() {
+    const makeVal = this.filters.make || document.getElementById('cat-filter-make')?.value || '';
+    const modelVal = this.filters.model || document.getElementById('cat-filter-model')?.value || '';
+    const fuelVal = this.filters.fuel_type || document.getElementById('cat-filter-fuel')?.value || '';
+    const yearVal = this.filters.year || document.getElementById('cat-filter-year')?.value || '';
+
+    const subSel = document.getElementById('cat-filter-submodel');
+    const variantSel = document.getElementById('cat-filter-variant-select');
+
+    if (!makeVal && !modelVal) {
+      if (subSel) subSel.innerHTML = `<option value="">All Variants</option>`;
+      return;
+    }
+
+    if (subSel) {
+      subSel.innerHTML = `<option value="">Filtering Variants...</option>`;
+    }
+
+    try {
+      const params = new URLSearchParams();
+      if (makeVal) params.append('make', makeVal);
+      if (modelVal) params.append('model', modelVal);
+      if (fuelVal) params.append('fuel_type', fuelVal);
+      if (yearVal) params.append('year', yearVal);
+
+      const res = await fetch(`/api/overall-catalogue/sub-models?${params.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        const subModels = data.sub_models || [];
+        this.populateSelect('cat-filter-submodel', subModels, 'All Variants');
+        if (variantSel) this.populateSelect('cat-filter-variant-select', subModels, 'Select Variant');
+      }
+    } catch (err) {
+      console.error("Error updating filtered submodels:", err);
+    }
+  },
+
   async handleModelChange() {
     const makeVal = this.filters.make || document.getElementById('cat-filter-make')?.value || '';
     const modelVal = document.getElementById('cat-filter-model')?.value || this.filters.model || '';
@@ -556,22 +783,7 @@ window.OverallCataloguePortal = {
       return;
     }
 
-    if (subSel) {
-      subSel.innerHTML = `<option value="">Loading Variants...</option>`;
-    }
-
-    try {
-      const res = await fetch(`/api/overall-catalogue/sub-models?make=${encodeURIComponent(makeVal)}&model=${encodeURIComponent(modelVal)}`);
-      if (res.ok) {
-        const data = await res.json();
-        const subModels = data.sub_models || [];
-        this.populateSelect('cat-filter-submodel', subModels, 'All Variants');
-        this.populateSelect('cat-filter-variant-select', subModels, 'Select Variant');
-      }
-    } catch (err) {
-      console.error("Error loading submodels:", err);
-    }
-
+    await this.updateFilteredVariants();
     this.handleFilterChange();
   },
 
@@ -580,13 +792,15 @@ window.OverallCataloguePortal = {
     this.handleFilterChange();
   },
 
-  handleFuelChange() {
+  async handleFuelChange() {
     this.filters.fuel_type = document.getElementById('cat-filter-fuel')?.value || '';
+    await this.updateFilteredVariants();
     this.handleFilterChange();
   },
 
-  handleYearChange() {
+  async handleYearChange() {
     this.filters.year = document.getElementById('cat-filter-year')?.value || '';
+    await this.updateFilteredVariants();
     this.handleFilterChange();
   },
 
@@ -1165,6 +1379,7 @@ window.OverallCataloguePortal = {
 
       const spec = data.specifications || data.part || data || {};
       const fitments = data.fitments || data.compatibilities || [];
+      const oesParts = data.oesParts || data.oes_parts || [];
 
       const pNo = spec.partNo ?? spec.part_number ?? partNo;
       const brand = spec.brand ?? spec.brand_name ?? 'GENERIC';
@@ -1271,6 +1486,73 @@ window.OverallCataloguePortal = {
               }
             </tbody>
           </table>
+        </div>
+
+        <!-- Respective OES / OEM Interchangeable Parts Matrix -->
+        <div style="margin-top: 1.75rem; border-top: 2px dashed #e2e8f0; padding-top: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h4 style="margin: 0; font-size: 1.05rem; font-weight: 900; color: #0f172a; display: flex; align-items: center; gap: 0.45rem; font-family: 'Outfit', sans-serif;">
+              <span>🔄</span> <span>Respective OES / OEM Interchangeable Parts Matrix</span>
+            </h4>
+            <span style="font-size: 0.74rem; font-weight: 800; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 0.25rem 0.65rem; border-radius: 6px;">
+              ${oesParts.length} Cross-Referenced OES Parts
+            </span>
+          </div>
+
+          <div style="max-height: 320px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 12px;">
+            <table class="data-table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: #f8fafc; position: sticky; top: 0; z-index: 2; border-bottom: 1px solid #e2e8f0;">
+                  <th style="padding: 0.75rem; text-align: left; color: #b45309; font-weight: 850;">Brand / Tier</th>
+                  <th style="padding: 0.75rem; text-align: left; color: #0284c7; font-weight: 850;">Part Number</th>
+                  <th style="padding: 0.75rem; text-align: left; color: #0f172a; font-weight: 850;">Description</th>
+                  <th style="padding: 0.75rem; text-align: right; color: #059669; font-weight: 850;">Catalogue MRP</th>
+                  <th style="padding: 0.75rem; text-align: left; color: #334155; font-weight: 850;">Vehicle Match</th>
+                  <th style="padding: 0.75rem; text-align: center; color: #64748b; font-weight: 850;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${oesParts.length === 0 ? `
+                  <tr>
+                    <td colspan="6" style="text-align: center; color: #64748b; padding: 2rem; font-size: 0.85rem;">
+                      ℹ️ This SKU is a single-source OEM assembly or primary proprietary component without direct cross-line aftermarket matches in the current index.
+                    </td>
+                  </tr>
+                ` : oesParts.map(o => {
+                  const oBrand = o.brand || 'GENERIC';
+                  const oPartNo = o.partNo || '';
+                  const oDesc = o.desc || '';
+                  const oMrp = o.mrp > 0 ? `₹${Number(o.mrp).toLocaleString('en-IN', {minimumFractionDigits: 2})}` : 'Price on Request';
+                  const oVehicle = [o.make, o.model, o.subModel].filter(Boolean).join(' ') || 'Cross-Platform Fitment';
+
+                  return `
+                    <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                      <td style="font-weight: 850; color: #b45309; padding: 0.75rem;">
+                        <span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.74rem;">${this.escapeHtml(oBrand)}</span>
+                      </td>
+                      <td style="font-weight: 850; color: #0284c7; font-family: monospace; font-size: 0.88rem; padding: 0.75rem; cursor: pointer;" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(oPartNo)}')">
+                        ${this.escapeHtml(oPartNo)} 🔗
+                      </td>
+                      <td style="color: #1e293b; font-weight: 600; font-size: 0.82rem; padding: 0.75rem; max-width: 260px;">
+                        ${this.escapeHtml(oDesc)}
+                      </td>
+                      <td style="font-weight: 850; color: #059669; font-size: 0.88rem; text-align: right; font-family: 'Outfit', sans-serif; padding: 0.75rem;">
+                        ${oMrp}
+                      </td>
+                      <td style="color: #475569; font-size: 0.8rem; padding: 0.75rem; font-weight: 600;">
+                        ${this.escapeHtml(oVehicle)}
+                      </td>
+                      <td style="text-align: center; padding: 0.75rem;">
+                        <button type="button" class="btn btn-primary" onclick="OverallCataloguePortal.selectSuggestion('${this.escapeJs(oPartNo)}')" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; font-weight: 800; border-radius: 6px; cursor: pointer; background: #0284c7; color: #ffffff; border: none;">
+                          Select Part
+                        </button>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
         </div>
       `;
     } catch (err) {

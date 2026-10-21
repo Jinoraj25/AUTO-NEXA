@@ -397,7 +397,9 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             if path_only == '/api/overall-catalogue/sub-models':
                 make_val = get_param('make')
                 model_val = get_param('model')
-                res = overall_catalogue_api.get_sub_models(make_val, model_val) if overall_catalogue_api else []
+                fuel_val = get_param('fuel_type') or get_param('fuel')
+                year_val = get_param('year')
+                res = overall_catalogue_api.get_sub_models(make_val, model_val, fuel_val, year_val) if overall_catalogue_api else []
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
@@ -650,7 +652,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 content_length = int(self.headers.get('Content-Length', 0))
                 body_bytes = self.rfile.read(content_length)
                 payload = json.loads(body_bytes.decode('utf-8'))
-                part_numbers = payload.get('partNumbers', [])
+                part_numbers = payload.get('items') or payload.get('partNumbers') or payload.get('parts') or []
                 
                 mapped_results = overall_catalogue_api.smart_map_parts(part_numbers) if overall_catalogue_api else {}
                 

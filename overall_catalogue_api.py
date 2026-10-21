@@ -154,7 +154,7 @@ def get_vehicle_models(make=None):
         if conn: conn.close()
         return []
 
-def get_sub_models(make=None, model=None):
+def get_sub_models(make=None, model=None, fuel_type=None, year=None):
     conn = get_db()
     if not conn: return []
     try:
@@ -167,8 +167,23 @@ def get_sub_models(make=None, model=None):
         if model:
             clauses.append("vehicle_model = ?")
             params.append(model)
+        if fuel_type:
+            clauses.append("(vehicle_fuel_type LIKE ? OR vehicle_sub_model LIKE ?)")
+            params.append(f"%{fuel_type}%")
+            params.append(f"%{fuel_type}%")
+        if year:
+            try:
+                yr_val = int(year)
+                clauses.append("((CAST(vehicle_from_year AS INTEGER) <= ? AND (CAST(vehicle_to_year AS INTEGER) >= ? OR vehicle_to_year = '' OR vehicle_to_year IS NULL)) OR vehicle_from_year = '' OR vehicle_from_year IS NULL)")
+                params.append(yr_val)
+                params.append(yr_val)
+            except Exception:
+                clauses.append("(vehicle_from_year LIKE ? OR vehicle_to_year LIKE ? OR vehicle_sub_model LIKE ?)")
+                params.append(f"%{year}%")
+                params.append(f"%{year}%")
+                params.append(f"%{year}%")
         where_str = (" WHERE " + " AND ".join(clauses) + " AND vehicle_sub_model != ''") if clauses else " WHERE vehicle_sub_model != ''"
-        cur.execute(f"SELECT DISTINCT vehicle_sub_model FROM overall_catalogue{where_str} ORDER BY vehicle_sub_model ASC LIMIT 200", params)
+        cur.execute(f"SELECT DISTINCT vehicle_sub_model FROM overall_catalogue{where_str} ORDER BY vehicle_sub_model ASC LIMIT 250", params)
         sub_models = [r[0] for r in cur.fetchall()]
         conn.close()
         return sub_models
@@ -742,9 +757,25 @@ def get_part_details(part_no):
         LIMIT 100
         """, (part_no,))
         rows = cur.fetchall()
-        conn.close()
 
-        if not rows: return None
+        if not rows:
+            clean_p = re.sub(r'[^A-Za-z0-9]', '', str(part_no)).upper()
+            cur.execute("""
+            SELECT id, line_code, brand_name, line_code_part_number, part_description, hsn_code,
+                   tax_rate, price_type, sales_uom, list_price, mrp_price, sales_price_group,
+                   vehicle_segment, vehicle_make, vehicle_model, vehicle_sub_model,
+                   vehicle_fuel_type, vehicle_from_year, vehicle_to_year, aggregate,
+                   sub_aggregate, components
+            FROM overall_catalogue
+            WHERE line_code_part_number LIKE ?
+            ORDER BY CASE WHEN mrp_price > 0 THEN 0 ELSE 1 END, id ASC
+            LIMIT 100
+            """, (f"%{clean_p}%",))
+            rows = cur.fetchall()
+
+        if not rows:
+            conn.close()
+            return None
 
         first = rows[0]
         compat_list = []
@@ -758,6 +789,50 @@ def get_part_details(part_no):
                 "fromYear": r["vehicle_from_year"],
                 "toYear": r["vehicle_to_year"]
             })
+
+        # Fetch Respective OES / OEM Interchangeable Equivalent Parts
+        oes_parts = []
+        part_comp = first["components"]
+        part_make = first["vehicle_make"]
+        part_model = first["vehicle_model"]
+        
+        if part_comp:
+            try:
+                cur_oes = conn.cursor()
+                oes_clauses = ["components = ?", "line_code_part_number != ?"]
+                oes_params = [part_comp, first["line_code_part_number"]]
+                if part_make:
+                    oes_clauses.append("(vehicle_make = ? OR vehicle_make = '')")
+                    oes_params.append(part_make)
+                if part_model:
+                    oes_clauses.append("(vehicle_model = ? OR vehicle_model = '')")
+                    oes_params.append(part_model)
+                
+                cur_oes.execute(f"""
+                    SELECT line_code_part_number, brand_name, part_description, mrp_price, list_price,
+                           vehicle_make, vehicle_model, vehicle_sub_model, components
+                    FROM overall_catalogue
+                    WHERE {' AND '.join(oes_clauses)}
+                    GROUP BY line_code_part_number
+                    ORDER BY CASE WHEN mrp_price > 0 THEN 0 ELSE 1 END, mrp_price ASC
+                    LIMIT 20
+                """, oes_params)
+                for r in cur_oes.fetchall():
+                    oes_parts.append({
+                        "partNo": r["line_code_part_number"],
+                        "brand": r["brand_name"] or "GENERIC",
+                        "desc": r["part_description"] or "",
+                        "mrp": float(r["mrp_price"] or 0),
+                        "listPrice": float(r["list_price"] or 0),
+                        "make": r["vehicle_make"] or "",
+                        "model": r["vehicle_model"] or "",
+                        "subModel": r["vehicle_sub_model"] or "",
+                        "component": r["components"] or ""
+                    })
+            except Exception as oes_err:
+                print("OES lookup notice:", oes_err)
+
+        conn.close()
 
         return {
             "partNo": first["line_code_part_number"],
@@ -773,55 +848,271 @@ def get_part_details(part_no):
             "aggregate": first["aggregate"],
             "subAggregate": first["sub_aggregate"],
             "components": first["components"],
-            "compatibilities": compat_list
+            "compatibilities": compat_list,
+            "oesParts": oes_parts
         }
     except Exception:
         if conn: conn.close()
         return None
 
-def smart_map_parts(part_numbers):
+def map_single_part_ai_rule(part_no, desc, brand=""):
     """
-    Batch mapping tool: Maps a list of part numbers to 22.7M catalogue specifications.
+    AI / Heuristic Rule Fallback based on COMPONENT_MAPPING_RULES_CONSOLIDATED.md
+    """
+    desc_upper = (desc or "").upper()
+    brand_upper = (brand or "").upper()
+    is_body = False
+
+    # 1. Fasteners (Bolt, Screw, Nut, Washer, Clip, Pin, Stud, Rivet, Bracket)
+    if re.search(r'\b(BOLT|SCREW|NUT|WASHER|CLIP|STUD|RIVET|FASTENER)\b', desc_upper):
+        if 'BOLT' in desc_upper: comp = 'BOLT'
+        elif 'SCREW' in desc_upper: comp = 'SCREW'
+        elif 'NUT' in desc_upper: comp = 'NUT'
+        elif 'WASHER' in desc_upper: comp = 'WASHER'
+        elif 'CLIP' in desc_upper:
+            comp = 'CLIP'
+            if any(b in desc_upper for b in ['BUMPER', 'DOOR', 'PANEL', 'FENDER', 'TRIM']): is_body = True
+        else: comp = 'FASTENER'
+        return {
+            "aggregate": "CHILD PARTS", "subAggregate": "FASTENERS", "component": comp,
+            "category": "Body Parts" if is_body else "Mechanical Parts", "confidence": "HIGH",
+            "matchMethod": "CONSOLIDATED_AI_RULE_P4", "remarks": f"Part Type: {comp} (Normalized fastener, prevented application override)"
+        }
+
+    # 2. Door Pad / Interior Pad vs Brake Pad (Semantic Contradiction Check)
+    if 'PAD' in desc_upper and any(d in desc_upper for d in ['DOOR', 'GLASS', 'STOP', 'CRASH', 'INTERIOR', 'ROOF']):
+        return {
+            "aggregate": "BODY & TRIM", "subAggregate": "DOOR & INTERIOR",
+            "component": "DOOR PAD" if 'DOOR' in desc_upper else "INTERIOR PAD",
+            "category": "Body Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P15",
+            "remarks": "Door/Interior Pad distinguished from Brake Pad (Semantic Contradiction Check)"
+        }
+
+    # 3. Brake System
+    if re.search(r'\b(BRAKE PAD|BRAKE DISC|BRAKE SHOE|BRAKE ROTOR|CALIPER|MASTER CYLINDER|WHEEL CYLINDER)\b', desc_upper):
+        if 'BRAKE PAD' in desc_upper or ('PAD' in desc_upper and 'BRAKE' in desc_upper):
+            comp = 'BRAKE PAD - FRONT' if 'FRONT' in desc_upper else ('BRAKE PAD - REAR' if 'REAR' in desc_upper else 'BRAKE PAD')
+            sub = 'DISC BRAKES'
+        elif 'DISC' in desc_upper or 'ROTOR' in desc_upper:
+            comp = 'BRAKE DISC - FRONT' if 'FRONT' in desc_upper else ('BRAKE DISC - REAR' if 'REAR' in desc_upper else 'BRAKE DISC')
+            sub = 'DISC BRAKES'
+        elif 'SHOE' in desc_upper: comp = 'BRAKE SHOE'; sub = 'DRUM BRAKES'
+        elif 'CALIPER' in desc_upper: comp = 'BRAKE CALIPER'; sub = 'DISC BRAKES'
+        elif 'CYLINDER' in desc_upper: comp = 'BRAKE MASTER CYLINDER' if 'MASTER' in desc_upper else 'WHEEL CYLINDER'; sub = 'HYDRAULIC ACTUATION'
+        else: comp = 'BRAKE COMPONENT'; sub = 'BRAKE SYSTEM'
+        return {
+            "aggregate": "BRAKE SYSTEM", "subAggregate": sub, "component": comp,
+            "category": "Mechanical Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": f"Brake component identified: {comp}"
+        }
+
+    # 4. Filters (Oil, Air, Fuel, Cabin)
+    if 'FILTER' in desc_upper or 'CLEANER ELEMENT' in desc_upper:
+        if 'OIL' in desc_upper: comp = 'OIL FILTER'; sub = 'LUBRICATION'
+        elif 'AIR' in desc_upper or 'CLEANER' in desc_upper: comp = 'AIR FILTER'; sub = 'AIR INTAKE'
+        elif 'FUEL' in desc_upper: comp = 'FUEL FILTER'; sub = 'FUEL SYSTEM'
+        elif 'CABIN' in desc_upper or 'AC' in desc_upper or 'POLLEN' in desc_upper: comp = 'CABIN FILTER'; sub = 'HVAC & CABIN'
+        else: comp = 'FILTER'; sub = 'GENERAL FILTRATION'
+        return {
+            "aggregate": "FILTERS", "subAggregate": sub, "component": comp,
+            "category": "Mechanical Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": f"Filtration unit identified: {comp}"
+        }
+
+    # 5. Clutch & Transmission
+    if re.search(r'\b(CLUTCH|TRANSMISSION|GEARBOX|FLYWHEEL|PRESSURE PLATE)\b', desc_upper):
+        if 'DISC' in desc_upper or 'PLATE' in desc_upper: comp = 'CLUTCH DISC' if 'DISC' in desc_upper else 'CLUTCH COVER'
+        elif 'BEARING' in desc_upper or 'RELEASE' in desc_upper: comp = 'CLUTCH RELEASE BEARING'
+        elif 'SET' in desc_upper or 'KIT' in desc_upper: comp = 'CLUTCH SET'
+        elif 'SLAVE' in desc_upper or 'CSC' in desc_upper: comp = 'CLUTCH SLAVE CYLINDER'
+        elif 'MASTER' in desc_upper or 'CMC' in desc_upper: comp = 'CLUTCH MASTER CYLINDER'
+        elif 'GEAR' in desc_upper: comp = 'TRANSMISSION GEAR'
+        else: comp = 'CLUTCH SYSTEM COMPONENT'
+        return {
+            "aggregate": "TRANSMISSION", "subAggregate": "CLUTCH ASSEMBLY", "component": comp,
+            "category": "Mechanical Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": f"Transmission component identified: {comp}"
+        }
+
+    # 6. Suspension & Steering
+    if re.search(r'\b(SHOCK ABSORBER|STRUT|DAMPER|SPRING|ARM|BUSH|BALL JOINT|TIE ROD|STABILIZER|LINK ROD)\b', desc_upper):
+        if 'BUMPER' in desc_upper:
+            return {
+                "aggregate": "BODY & TRIM", "subAggregate": "BUMPERS", "component": "BUMPER BRACKET",
+                "category": "Body Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P15",
+                "remarks": "Bumper bracket identified (prevented misclassification into Strut/Suspension)"
+            }
+        if 'STRUT' in desc_upper or 'SHOCK' in desc_upper or 'DAMPER' in desc_upper:
+            comp = 'FRONT STRUT ASSEMBLY' if 'FRONT' in desc_upper else ('REAR SHOCK ABSORBER' if 'REAR' in desc_upper else 'SHOCK ABSORBER')
+            sub = 'DAMPING & STRUTS'
+        elif 'ARM' in desc_upper: comp = 'LOWER CONTROL ARM'; sub = 'CONTROL ARMS'
+        elif 'BALL JOINT' in desc_upper: comp = 'LOWER BALL JOINT'; sub = 'JOINTS & LINKAGES'
+        elif 'TIE ROD' in desc_upper or 'RACK END' in desc_upper: comp = 'TIE ROD END'; sub = 'STEERING LINKAGE'
+        elif 'STABILIZER' in desc_upper or 'LINK' in desc_upper: comp = 'FRONT STABILIZER LINK'; sub = 'ANTI-ROLL BARS'
+        elif 'BUSH' in desc_upper: comp = 'SUSPENSION BUSH'; sub = 'BUSHINGS'
+        else: comp = 'SUSPENSION COMPONENT'; sub = 'SUSPENSION'
+        return {
+            "aggregate": "SUSPENSION", "subAggregate": sub, "component": comp,
+            "category": "Mechanical Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": f"Suspension/Steering component: {comp}"
+        }
+
+    # 7. Engine Components, Gaskets, Belts, Pumps
+    if re.search(r'\b(GASKET|SEAL|BELT|PUMP|ALTERNATOR|STARTER|PISTON|VALVE|CAMSHAFT|CRANKSHAFT|SPARK PLUG)\b', desc_upper):
+        if 'GASKET' in desc_upper:
+            comp = 'WATER PUMP GASKET' if 'WATER PUMP' in desc_upper else ('HEAD GASKET' if 'HEAD' in desc_upper else 'ENGINE GASKET')
+            sub = 'GASKETS & SEALS'
+        elif 'SEAL' in desc_upper:
+            comp = 'OIL SEAL' if 'OIL' in desc_upper else ('AXLE SEAL' if 'AXLE' in desc_upper else 'SEAL')
+            sub = 'GASKETS & SEALS'
+        elif 'BELT' in desc_upper: comp = 'TIMING BELT' if 'TIMING' in desc_upper else 'V-RIBBED BELT'; sub = 'TIMING & DRIVE BELTS'
+        elif 'WATER PUMP' in desc_upper: comp = 'WATER PUMP'; sub = 'COOLING SYSTEM'
+        elif 'FUEL PUMP' in desc_upper: comp = 'FUEL PUMP'; sub = 'FUEL DELIVERY'
+        elif 'SPARK PLUG' in desc_upper: comp = 'SPARK PLUG'; sub = 'IGNITION SYSTEM'
+        elif 'ALTERNATOR' in desc_upper: comp = 'ALTERNATOR BEARING' if 'BEARING' in desc_upper else 'ALTERNATOR'; sub = 'CHARGING SYSTEM'
+        elif 'STARTER' in desc_upper: comp = 'STARTER MOTOR'; sub = 'STARTING SYSTEM'
+        else: comp = 'ENGINE COMPONENT'; sub = 'CORE ENGINE'
+        return {
+            "aggregate": "ENGINE", "subAggregate": sub, "component": comp,
+            "category": "Mechanical Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P5",
+            "remarks": f"Engine assembly component: {comp} (Specific beats generic)"
+        }
+
+    # 8. Body Panels, Mirrors, Lights, Bumpers
+    if re.search(r'\b(BUMPER|FENDER|BONNET|HOOD|DOOR|MIRROR|HEADLAMP|TAILLAMP|GRILLE|WINDSHIELD|GLASS|WIPER)\b', desc_upper):
+        if 'BUMPER' in desc_upper: comp = 'BUMPER ASSY FRONT' if 'FRONT' in desc_upper else ('BUMPER ASSY REAR' if 'REAR' in desc_upper else 'BUMPER'); sub = 'BUMPERS'
+        elif 'FENDER' in desc_upper: comp = 'FRONT FENDER'; sub = 'FRONT SHEET METAL'
+        elif 'BONNET' in desc_upper or 'HOOD' in desc_upper: comp = 'BONNET / HOOD'; sub = 'FRONT SHEET METAL'
+        elif 'DOOR' in desc_upper: comp = 'DOOR PANEL'; sub = 'DOORS'
+        elif 'MIRROR' in desc_upper: comp = 'SIDE REAR VIEW MIRROR'; sub = 'MIRRORS'
+        elif 'HEADLAMP' in desc_upper or 'HEAD LIGHT' in desc_upper: comp = 'HEADLAMP ASSEMBLY'; sub = 'LIGHTING'
+        elif 'TAILLAMP' in desc_upper or 'TAIL LIGHT' in desc_upper: comp = 'TAILLAMP ASSEMBLY'; sub = 'LIGHTING'
+        elif 'WIPER' in desc_upper: comp = 'WIPER BLADE'; sub = 'WIPER SYSTEM'
+        else: comp = 'BODY PANEL'; sub = 'EXTERIOR BODY'
+        return {
+            "aggregate": "BODY & TRIM", "subAggregate": sub, "component": comp,
+            "category": "Body Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": f"Body & Exterior component: {comp}"
+        }
+
+    # Fallback
+    return {
+        "aggregate": "CHILD PARTS", "subAggregate": "GENERAL", "component": "SPARE PART",
+        "category": "Mechanical Parts", "confidence": "LOW", "matchMethod": "HEURISTIC_FALLBACK",
+        "remarks": "Auto Mapped (Domain Rule)"
+    }
+
+def smart_map_parts(part_items):
+    """
+    Batch mapping tool: Maps a list of part numbers or part items to 23.6M catalogue DB + AI rules fallback.
     """
     conn = get_db()
-    if not conn or not part_numbers:
+    if not part_items:
         return {}
     
     results = {}
+    db_items = []
+    
+    # Standardize input into objects with partNo, description, brand
+    input_rows = []
+    for item in part_items:
+        if isinstance(item, dict):
+            p_no = str(item.get("partNo") or item.get("part_no") or item.get("Part Number") or item.get("Part Number (Without Line Code)") or item.get("part_number") or item.get("Item Code") or "").strip()
+            desc = str(item.get("description") or item.get("Description") or item.get("part_description") or item.get("desc") or "").strip()
+            br = str(item.get("brand") or item.get("Brand") or item.get("brand_name") or item.get("make") or "").strip()
+        else:
+            p_no = str(item).strip()
+            desc = ""
+            br = ""
+        if p_no:
+            input_rows.append({"partNo": p_no, "description": desc, "brand": br})
+
+    if not input_rows:
+        return {}
+
     try:
-        cur = conn.cursor()
-        clean_parts = list(set([str(p).strip() for p in part_numbers if p]))
+        cur = conn.cursor() if conn else None
         
-        chunk_size = 200
-        for i in range(0, len(clean_parts), chunk_size):
-            chunk = clean_parts[i:i+chunk_size]
-            placeholders = ",".join(["?"] * len(chunk))
-            sql = f"""
-            SELECT line_code_part_number, brand_name, part_description, mrp_price, list_price,
-                   tax_rate, vehicle_segment, vehicle_make, vehicle_model, aggregate,
-                   sub_aggregate, components
-            FROM overall_catalogue
-            WHERE line_code_part_number IN ({placeholders})
-            ORDER BY CASE WHEN mrp_price > 0 THEN 0 ELSE 1 END, id ASC
-            """
-            cur.execute(sql, chunk)
-            for r in cur.fetchall():
-                p_no = r["line_code_part_number"]
-                if p_no not in results:
-                    results[p_no] = {
-                        "brand": r["brand_name"],
-                        "description": r["part_description"],
-                        "mrp": r["mrp_price"],
-                        "listPrice": r["list_price"],
+        # 1. Step 1: Lookup in 23.6M Database
+        if cur:
+            all_parts = list(set([r["partNo"] for r in input_rows]))
+            chunk_size = 200
+            for i in range(0, len(all_parts), chunk_size):
+                chunk = all_parts[i:i+chunk_size]
+                clean_chunk = [re.sub(r'[^A-Za-z0-9]', '', p).upper() for p in chunk]
+                all_candidates = list(set(chunk + clean_chunk))
+                placeholders = ",".join(["?"] * len(all_candidates))
+                sql = f"""
+                SELECT line_code_part_number, brand_name, part_description, mrp_price, list_price,
+                       tax_rate, vehicle_segment, vehicle_make, vehicle_model, aggregate,
+                       sub_aggregate, components
+                FROM overall_catalogue
+                WHERE line_code_part_number IN ({placeholders})
+                ORDER BY CASE WHEN mrp_price > 0 THEN 0 ELSE 1 END, id ASC
+                """
+                cur.execute(sql, all_candidates)
+                for r in cur.fetchall():
+                    p_no = r["line_code_part_number"]
+                    clean_db_no = re.sub(r'[^A-Za-z0-9]', '', p_no).upper()
+                    
+                    agg = r["aggregate"] or "CHILD PARTS"
+                    comp = r["components"] or "SPARE PART"
+                    is_body = any(b in agg.upper() or b in comp.upper() for b in ['BODY', 'BUMPER', 'FENDER', 'DOOR', 'MIRROR', 'GLASS', 'TRIM'])
+                    category = "Body Parts" if is_body else "Mechanical Parts"
+
+                    matched_data = {
+                        "brand": r["brand_name"] or "GENERIC",
+                        "description": r["part_description"] or "",
+                        "mrp": float(r["mrp_price"] or 0),
+                        "listPrice": float(r["list_price"] or 0),
                         "taxRate": r["tax_rate"],
                         "segment": r["vehicle_segment"],
                         "make": r["vehicle_make"],
                         "model": r["vehicle_model"],
-                        "aggregate": r["aggregate"],
-                        "subAggregate": r["sub_aggregate"],
-                        "component": r["components"]
+                        "aggregate": agg,
+                        "subAggregate": r["sub_aggregate"] or "GENERAL",
+                        "component": comp,
+                        "category": category,
+                        "confidence": "HIGH",
+                        "confidenceScore": 98,
+                        "matchMethod": "DB_EXACT_CATALOGUE",
+                        "remarks": "Exact Match from 23.6M Master Catalogue Database"
                     }
-        conn.close()
+                    if p_no not in results: results[p_no] = matched_data
+                    if clean_db_no not in results: results[clean_db_no] = matched_data
+            conn.close()
+
+        # 2. Step 2: Apply AI Rules Engine Fallback from COMPONENT_MAPPING_RULES_CONSOLIDATED.md for unmatched rows
+        for row in input_rows:
+            p_no = row["partNo"]
+            clean_p = re.sub(r'[^A-Za-z0-9]', '', p_no).upper()
+            if p_no in results:
+                continue
+            if clean_p in results:
+                results[p_no] = results[clean_p]
+                continue
+            
+            # Apply consolidated AI rule set
+            rule_res = map_single_part_ai_rule(p_no, row["description"], row["brand"])
+            results[p_no] = {
+                "brand": row["brand"] or "GENERIC",
+                "description": row["description"] or "Automotive Component",
+                "mrp": 0,
+                "listPrice": 0,
+                "taxRate": 18,
+                "segment": "PCV",
+                "make": row["brand"] or "GENERIC",
+                "model": "Universal",
+                "aggregate": rule_res["aggregate"],
+                "subAggregate": rule_res["subAggregate"],
+                "component": rule_res["component"],
+                "category": rule_res["category"],
+                "confidence": rule_res["confidence"],
+                "confidenceScore": 88 if rule_res["confidence"] == "HIGH" else 65,
+                "matchMethod": rule_res["matchMethod"],
+                "remarks": rule_res["remarks"]
+            }
+
         return results
     except Exception as e:
         if conn: conn.close()

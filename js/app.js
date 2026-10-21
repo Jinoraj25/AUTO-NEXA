@@ -33,6 +33,7 @@ window.App = {
       if (window.ForecastingPortal && window.ForecastingPortal.init) window.ForecastingPortal.init();
     } catch (e) { console.warn("Sub-portal init warning:", e); }
 
+    this.initHomeVideo();
     this.switchTab('catalogue-dashboard');
     this.showToast("AUTO NEXA Online — Automotive Parts Intelligence loaded.", "success");
   },
@@ -211,6 +212,9 @@ window.App = {
       try {
         if (targetSectionId === 'tab-catalogue' && window.OverallCataloguePortal) {
           window.OverallCataloguePortal.fetchData();
+          if (window.OverallCataloguePortal.initCharts) window.OverallCataloguePortal.initCharts();
+        } else if (targetSectionId === 'tab-home') {
+          this.initHomeVideo();
         } else if (targetSectionId === 'tab-catalogue-mapping' && window.MappingPortal) {
           window.MappingPortal.renderAggregateMasterTable();
         } else if (targetSectionId === 'tab-inventory' && window.InventoryPortal) {
@@ -524,6 +528,54 @@ window.App = {
     document.body.style.overflow = '';
 
     this.switchTab('home');
+  },
+
+  initHomeVideo() {
+    const video = document.getElementById("explodedHeroVideo");
+    if (!video) return;
+
+    const calibratePlayback = () => {
+      const targetDuration = 15; // Calibrate to 15-second loop
+      if (video.duration && !isNaN(video.duration)) {
+        video.playbackRate = video.duration / targetDuration;
+      }
+    };
+
+    if (video.readyState >= 1) {
+      calibratePlayback();
+    } else {
+      video.addEventListener("loadedmetadata", calibratePlayback);
+    }
+
+    video.play().catch(() => {});
+  },
+
+  handleHomeSearch() {
+    const input = document.getElementById('home-hero-search-input');
+    const val = input ? input.value.trim() : '';
+    this.switchTab('catalogue');
+    if (val && window.OverallCataloguePortal) {
+      setTimeout(() => {
+        const catInput = document.getElementById('cat-search-q');
+        if (catInput) catInput.value = val;
+        OverallCataloguePortal.setQuickSearch(val);
+      }, 120);
+    }
+  },
+
+  filterAssembly(aggName) {
+    this.switchTab('catalogue');
+    if (window.OverallCataloguePortal) {
+      setTimeout(() => {
+        OverallCataloguePortal.resetFilters();
+        const aggSelect = document.getElementById('cat-filter-aggregate');
+        if (aggSelect) {
+          OverallCataloguePortal.ensureOption('cat-filter-aggregate', aggName);
+          aggSelect.value = aggName;
+          OverallCataloguePortal.handleAggregateChange();
+        }
+      }, 120);
+    }
   },
 
   logout() {
