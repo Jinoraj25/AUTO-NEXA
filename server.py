@@ -14,6 +14,11 @@ except ImportError:
     overall_catalogue_api = None
 
 try:
+    import catalog_ai_bot
+except ImportError:
+    catalog_ai_bot = None
+
+try:
     import pymysql
 except ImportError:
     pymysql = None
@@ -350,8 +355,8 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps(stats, ensure_ascii=False).encode('utf-8'))
             return
 
-        # Overall Catalogue & Vahan API Endpoints
-        if self.path.startswith('/api/overall-catalogue') or self.path.startswith('/api/vahan'):
+        # Overall Catalogue, Vahan & Catalog AI API Endpoints
+        if self.path.startswith('/api/overall-catalogue') or self.path.startswith('/api/vahan') or self.path.startswith('/api/catalog-ai'):
             parsed_url = urllib.parse.urlparse(self.path)
             path_only = parsed_url.path
             params = urllib.parse.parse_qs(parsed_url.query)
@@ -423,6 +428,18 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
                 self.wfile.write(json.dumps({"components": res}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/catalog-ai/chat':
+                q_val = get_param('q') or get_param('message') or ''
+                if catalog_ai_bot:
+                    bot_res = catalog_ai_bot.process_chat_message(q_val)
+                else:
+                    bot_res = {"reply": "Catalog AI service is initializing...", "step": "error"}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(bot_res, ensure_ascii=False).encode('utf-8'))
                 return
 
             if path_only == '/api/overall-catalogue/makes-catalog':
@@ -682,6 +699,31 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         super().do_GET()
 
     def do_POST(self):
+        if self.path.startswith('/api/catalog-ai/chat'):
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                body_bytes = self.rfile.read(content_length)
+                payload = json.loads(body_bytes.decode('utf-8'))
+                message = payload.get('message', '')
+                state = payload.get('state', {})
+
+                if catalog_ai_bot:
+                    bot_res = catalog_ai_bot.process_chat_message(message, session_state=state)
+                else:
+                    bot_res = {"reply": "Catalog AI service is initializing...", "step": "error"}
+
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(bot_res, ensure_ascii=False).encode('utf-8'))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode('utf-8'))
+                return
+
         if self.path == '/api/overall-catalogue/smart-map':
             try:
                 content_length = int(self.headers.get('Content-Length', 0))

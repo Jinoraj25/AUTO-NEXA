@@ -27,6 +27,7 @@ window.App = {
     try {
       if (window.MappingPortal && window.MappingPortal.init) window.MappingPortal.init();
       if (window.OverallCataloguePortal && window.OverallCataloguePortal.init) window.OverallCataloguePortal.init();
+      if (window.CatalogAiChat && window.CatalogAiChat.init) window.CatalogAiChat.init();
       if (window.InventoryPortal && window.InventoryPortal.init) window.InventoryPortal.init();
       if (window.AnalyticsPortal && window.AnalyticsPortal.init) window.AnalyticsPortal.init();
       if (window.DeviationPortal && window.DeviationPortal.init) window.DeviationPortal.init();
@@ -217,6 +218,8 @@ window.App = {
           this.initHomeVideo();
         } else if (targetSectionId === 'tab-catalogue-mapping' && window.MappingPortal) {
           window.MappingPortal.renderAggregateMasterTable();
+        } else if (targetSectionId === 'tab-catalogue-ai' && window.CatalogAiChat) {
+          window.CatalogAiChat.init();
         } else if (targetSectionId === 'tab-inventory' && window.InventoryPortal) {
           window.InventoryPortal.renderAll();
         } else if (targetSectionId === 'tab-inventory-not-available') {
@@ -342,86 +345,24 @@ window.App = {
   // ==================== CATALOG AI ASSISTANT ====================
 
   setAiPrompt(prompt) {
-    const input = document.getElementById('cat-ai-query-input');
-    if (input) input.value = prompt;
-    this.runCatalogAiQuery();
+    this.switchTab('catalogue-ai');
+    setTimeout(() => {
+      if (window.CatalogAiChat) {
+        window.CatalogAiChat.quickSend(prompt);
+      }
+    }, 100);
   },
 
-  async runCatalogAiQuery() {
-    const input = document.getElementById('cat-ai-query-input');
-    const query = input ? input.value.trim() : '';
-    if (!query) {
-      alert("Please enter a question or part enquiry.");
-      return;
-    }
-
-    const resBox = document.getElementById('cat-ai-results-box');
-    const resContent = document.getElementById('cat-ai-results-content');
-    if (!resBox || !resContent) return;
-
-    resBox.style.display = 'block';
-    resContent.innerHTML = `<div style="text-align: center; padding: 2rem; color: #a78bfa; font-weight: 700;"><span style="font-size: 1.8rem; display: block; margin-bottom: 0.5rem;">🤖</span>Catalog AI is scanning 23.6M parts database for "${query}"...</div>`;
-
-    try {
-      const res = await fetch(`/api/overall-catalogue/suggestions?q=${encodeURIComponent(query)}&limit=6`);
-      const data = await res.json();
-      const items = data.suggestions || [];
-
-      if (items.length === 0) {
-        resContent.innerHTML = `
-          <div style="padding: 1.5rem; text-align: center; color: #94a3b8;">
-            <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🔎</span>
-            <strong>Catalog AI Diagnostic:</strong> No direct part matches found for "<em>${query}</em>".<br>
-            <span style="font-size: 0.8rem; color: #64748b; margin-top: 0.4rem; display: block;">Try searching with raw OEM part numbers (e.g. 98850, 04152) or system keywords like "Brake Pad", "Clutch Plate".</span>
-          </div>
-        `;
-        return;
+  runCatalogAiQuery() {
+    this.switchTab('catalogue-ai');
+    setTimeout(() => {
+      const input = document.getElementById('cat-ai-chat-input');
+      const query = input ? input.value.trim() : '';
+      if (window.CatalogAiChat) {
+        if (query) window.CatalogAiChat.quickSend(query);
+        else window.CatalogAiChat.handleSend();
       }
-
-      const topPart = items[0];
-      const lineCodeInfo = topPart.lineCode ? `Line Code <strong>${topPart.lineCode}</strong> (OEM Mapping)` : 'Direct Aftermarket Part';
-
-      let html = `
-        <div style="margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
-          <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem;">
-            <span style="font-size: 1.4rem;">💡</span>
-            <h4 style="font-size: 1.1rem; font-weight: 900; color: #ffffff; margin: 0; font-family: 'Outfit', sans-serif;">
-              Catalog AI Analysis for "${query}"
-            </h4>
-          </div>
-          <div style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.5;">
-            Identified <strong style="color: #38bdf8;">${items.length} verified matching components</strong> across multi-brand master database. Top matched system: <strong style="color: #fbbf24;">${topPart.aggregate || 'SPARE PART'}</strong> (${lineCodeInfo}).
-          </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
-          ${items.map(p => `
-            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.1rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
-              <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
-                  <span class="badge" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a; font-weight: 800;">${p.brand || 'GENERIC'}</span>
-                  <span style="font-family: monospace; font-size: 0.75rem; color: #7c3aed; font-weight: 850;">${p.lineCode ? 'LC ' + p.lineCode : 'SKU'}</span>
-                </div>
-                <div style="font-family: monospace; font-size: 0.98rem; font-weight: 900; color: #0284c7;">${p.partNo}</div>
-                <div style="font-size: 0.85rem; color: #0f172a; margin-top: 0.35rem; font-weight: 750;">${p.desc}</div>
-                <div style="font-size: 0.78rem; color: #64748b; margin-top: 0.35rem; font-weight: 600;">🚗 ${[p.make, p.model].filter(Boolean).join(' ') || 'Universal Fitment'}</div>
-              </div>
-              <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 1.15rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif;">${p.mrp && Number(p.mrp) > 0 ? '₹' + Number(p.mrp).toLocaleString('en-IN') : 'Price on Request'}</span>
-                <button type="button" onclick="App.inspectPartInMaster('${p.partNo}')" style="padding: 0.4rem 0.85rem; font-size: 0.78rem; font-weight: 850; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 8px; cursor: pointer; transition: all 0.15s;">
-                  View Fitment ↗
-                </button>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-
-      resContent.innerHTML = html;
-    } catch (err) {
-      console.error("AI query error:", err);
-      resContent.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: #dc2626; font-weight: 750;">⚠️ Failed to complete Catalog AI analysis. Backend connection timeout.</div>`;
-    }
+    }, 100);
   },
 
   inspectPartInMaster(partNo) {
