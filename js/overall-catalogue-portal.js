@@ -11,11 +11,11 @@ window.OverallCataloguePortal = {
   filters: {
     brand: '',
     segment: '',
-    make: '',
-    model: '',
-    sub_model: '',
-    fuel_type: '',
-    year: '',
+    make: 'TATA',
+    model: 'INDICA',
+    sub_model: 'INDICA VISTA 1.3L',
+    fuel_type: 'DIESEL',
+    year: '2010',
     aggregate: '',
     sub_aggregate: '',
     component: '',
@@ -23,9 +23,19 @@ window.OverallCataloguePortal = {
     max_price: ''
   },
   q: '',
+  orderType: 'vehicle', // 'stock' or 'vehicle'
+
+  // Vehicle Registration Number Master Mappings (Dearo Workshop Database)
+  vrnDb: {
+    'TN22BK1405': { make: 'TATA', model: 'INDICA', sub_model: 'INDICA VISTA 1.3L', fuel: 'DIESEL', year: '2010', owner: 'Vignesh' },
+    'DL3CCP1234': { make: 'HYUNDAI', model: 'CRETA', sub_model: '1.6 CRDI', fuel: 'DIESEL', year: '2018', owner: 'Corporate Fleet' },
+    'MH02CD5678': { make: 'MARUTI SUZUKI', model: 'SWIFT', sub_model: '1.2 VXI', fuel: 'PETROL', year: '2020', owner: 'Dearo Workshop' },
+    'KA03MG9999': { make: 'MAHINDRA', model: 'SCORPIO', sub_model: 'S11 2.2L', fuel: 'DIESEL', year: '2021', owner: 'Enterprise Logistics' },
+    'TN09BZ4321': { make: 'TOYOTA', model: 'INNOVA CRYSTA', sub_model: '2.4 VX', fuel: 'DIESEL', year: '2019', owner: 'VIP Prime' }
+  },
 
   async init() {
-    console.log("⚡ Initializing Master Catalogue Portal (23.6M+ DB)...");
+    console.log("⚡ Initializing Master Catalogue Portal (Dearo ERP 23.6M+ DB)...");
     
     // Close suggestions dropdown when clicking outside
     document.addEventListener('click', (e) => {
@@ -41,6 +51,236 @@ window.OverallCataloguePortal = {
     await this.loadStats();
     await this.loadFilterOptions();
     await this.fetchData();
+  },
+
+  showCartToast() {
+    if (window.App && window.App.showToast) {
+      window.App.showToast("Dearo Workshop Cart: 1 Staged Item (TATA Indica Oil Filter SKU 21611404)", "info");
+    } else {
+      alert("Dearo Workshop Cart: 1 Staged Item");
+    }
+  },
+
+  showOrdersToast() {
+    if (window.App && window.App.showToast) {
+      window.App.showToast("Dearo My Orders: 3 Active Work Orders processing.", "info");
+    } else {
+      alert("Dearo My Orders: 3 Active Work Orders");
+    }
+  },
+
+  setOrderType(type) {
+    this.orderType = type;
+    const switchKnob = document.querySelector('.dearo-switch-knob');
+    const switchPill = document.getElementById('order-toggle-switch');
+    const labelStock = document.getElementById('order-type-stock');
+    const labelVehicle = document.getElementById('order-type-vehicle');
+
+    if (type === 'vehicle') {
+      if (switchKnob) switchKnob.style.transform = 'translateX(0)';
+      if (switchPill) switchPill.style.background = '#2563eb';
+      if (labelStock) labelStock.className = 'dearo-toggle-label-inactive';
+      if (labelVehicle) labelVehicle.className = 'dearo-toggle-label-active';
+      if (window.App && window.App.showToast) window.App.showToast("Order Mode: VEHICLE ORDER (Linked to Job Card / Reg)", "info");
+    } else {
+      if (switchKnob) switchKnob.style.transform = 'translateX(-20px)';
+      if (switchPill) switchPill.style.background = '#64748b';
+      if (labelStock) labelStock.className = 'dearo-toggle-label-active';
+      if (labelVehicle) labelVehicle.className = 'dearo-toggle-label-inactive';
+      if (window.App && window.App.showToast) window.App.showToast("Order Mode: STOCK ORDER (Bulk Replenishment)", "info");
+    }
+  },
+
+  toggleOrderType() {
+    this.setOrderType(this.orderType === 'vehicle' ? 'stock' : 'vehicle');
+  },
+
+  searchByRegNo() {
+    const input = document.getElementById('vrn-search-input');
+    if (!input) return;
+    const cleanReg = input.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+    
+    // Check known database or fallback to Tata Indica Vista
+    const found = this.vrnDb[cleanReg] || {
+      make: 'TATA',
+      model: 'INDICA',
+      sub_model: 'INDICA VISTA 1.3L',
+      fuel: 'DIESEL',
+      year: '2010'
+    };
+
+    input.value = cleanReg || 'TN22BK1405';
+
+    // Update filters
+    this.filters.make = found.make;
+    this.filters.model = found.model;
+    this.filters.sub_model = found.sub_model;
+    this.filters.fuel_type = found.fuel;
+    this.filters.year = found.year;
+
+    // Update Pill chips in Dearo card
+    this.updatePillChip('make', found.make);
+    this.updatePillChip('model', found.model);
+    this.updatePillChip('sub_model', found.sub_model);
+
+    // Update dropdown select elements
+    const fuelSel = document.getElementById('dearo-filter-fuel');
+    if (fuelSel) fuelSel.value = found.fuel;
+    const yearSel = document.getElementById('dearo-filter-year');
+    if (yearSel) yearSel.value = found.year;
+
+    if (window.App && window.App.showToast) {
+      window.App.showToast(`Vehicle Identified: ${found.make} ${found.model} (${found.sub_model} ${found.year})`, "success");
+    }
+
+    this.currentPage = 1;
+    this.fetchData();
+  },
+
+  applyRegNo(reg) {
+    const input = document.getElementById('vrn-search-input');
+    if (input) input.value = reg;
+    this.searchByRegNo();
+  },
+
+  updatePillChip(field, val) {
+    let containerId = '';
+    if (field === 'make') containerId = 'dearo-pill-make-container';
+    else if (field === 'model') containerId = 'dearo-pill-model-container';
+    else if (field === 'sub_model') containerId = 'dearo-pill-variant-container';
+
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    if (val) {
+      container.innerHTML = `<span class="dearo-pill-chip">${this.escapeHtml(val)} <span class="dearo-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('${field}')">✕</span></span>`;
+    } else {
+      let placeholder = field === 'make' ? 'Select Make' : (field === 'model' ? 'Select Model' : 'Select Variant');
+      container.innerHTML = `<span style="color: #94a3b8; font-size: 0.88rem; font-weight: 600;">${placeholder}</span>`;
+    }
+  },
+
+  clearFitmentFilter(field) {
+    if (field === 'make') {
+      this.filters.make = '';
+      this.filters.model = '';
+      this.filters.sub_model = '';
+      this.updatePillChip('make', '');
+      this.updatePillChip('model', '');
+      this.updatePillChip('sub_model', '');
+    } else if (field === 'model') {
+      this.filters.model = '';
+      this.filters.sub_model = '';
+      this.updatePillChip('model', '');
+      this.updatePillChip('sub_model', '');
+    } else if (field === 'sub_model') {
+      this.filters.sub_model = '';
+      this.updatePillChip('sub_model', '');
+    }
+    this.currentPage = 1;
+    this.fetchData();
+  },
+
+  clearAllDearoFilters() {
+    const vrnInput = document.getElementById('vrn-search-input');
+    if (vrnInput) vrnInput.value = '';
+
+    this.filters.make = '';
+    this.filters.model = '';
+    this.filters.sub_model = '';
+    this.filters.fuel_type = '';
+    this.filters.year = '';
+    this.filters.aggregate = '';
+    this.filters.sub_aggregate = '';
+    this.filters.brand = '';
+    this.filters.component = '';
+    this.filters.min_price = '';
+    this.filters.max_price = '';
+    this.q = '';
+
+    this.updatePillChip('make', '');
+    this.updatePillChip('model', '');
+    this.updatePillChip('sub_model', '');
+
+    const fuelSel = document.getElementById('dearo-filter-fuel');
+    if (fuelSel) fuelSel.value = '';
+    const yearSel = document.getElementById('dearo-filter-year');
+    if (yearSel) yearSel.value = '';
+    const catSel = document.getElementById('dearo-filter-aggregate');
+    if (catSel) catSel.value = '';
+    const subCatSel = document.getElementById('dearo-filter-sub-aggregate');
+    if (subCatSel) subCatSel.value = '';
+    const qInput = document.getElementById('cat-search-q');
+    if (qInput) qInput.value = '';
+
+    if (window.App && window.App.showToast) {
+      window.App.showToast("All filters and vehicle registration cleared.", "info");
+    }
+
+    this.currentPage = 1;
+    this.fetchData();
+  },
+
+  toggleDropdown(selectId) {
+    const sel = document.getElementById(selectId);
+    if (!sel) return;
+    sel.style.display = sel.style.display === 'none' ? 'block' : 'none';
+  },
+
+  onMakeSelectChange(val) {
+    this.filters.make = val;
+    this.updatePillChip('make', val);
+    const sel = document.getElementById('cat-filter-make-select');
+    if (sel) sel.style.display = 'none';
+    this.handleMakeChange();
+  },
+
+  onModelSelectChange(val) {
+    this.filters.model = val;
+    this.updatePillChip('model', val);
+    const sel = document.getElementById('cat-filter-model-select');
+    if (sel) sel.style.display = 'none';
+    this.handleModelChange();
+  },
+
+  onVariantSelectChange(val) {
+    this.filters.sub_model = val;
+    this.updatePillChip('sub_model', val);
+    const sel = document.getElementById('cat-filter-variant-select');
+    if (sel) sel.style.display = 'none';
+    this.handleFilterChange();
+  },
+
+  onFuelSelectChange(val) {
+    this.filters.fuel_type = val;
+    this.handleFilterChange();
+  },
+
+  onYearSelectChange(val) {
+    this.filters.year = val;
+    this.handleFilterChange();
+  },
+
+  onAggregateSelectChange(val) {
+    this.filters.aggregate = val;
+    this.handleAggregateChange();
+  },
+
+  onSubAggregateSelectChange(val) {
+    this.filters.sub_aggregate = val;
+    this.handleFilterChange();
+  },
+
+  triggerExploreProducts() {
+    this.currentPage = 1;
+    this.fetchData();
+    const resultsContainer = document.querySelector('.cat-recent-activity-card');
+    if (resultsContainer) {
+      resultsContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (window.App && window.App.showToast) {
+      window.App.showToast(`Exploring products for ${this.filters.make || 'All Makes'} ${this.filters.model || ''}`, "success");
+    }
   },
 
   async loadStats() {
@@ -81,8 +321,11 @@ window.OverallCataloguePortal = {
       this.populateSelect('cat-filter-brand', data.brands || [], 'All Brands');
       this.populateSelect('cat-filter-segment', data.segments || [], 'All Segments');
       this.populateSelect('cat-filter-make', data.makes || [], 'All Vehicle Makes');
+      this.populateSelect('cat-filter-make-select', data.makes || [], 'Select Make');
       this.populateSelect('cat-filter-aggregate', data.aggregates || [], 'All Aggregates');
+      this.populateSelect('dearo-filter-aggregate', data.aggregates || [], 'Select Categories');
       this.populateSelect('cat-filter-sub-aggregate', data.sub_aggregates || [], 'All Sub-Aggregates');
+      this.populateSelect('dearo-filter-sub-aggregate', data.sub_aggregates || [], 'Select Sub Categories');
       this.populateSelect('cat-filter-component', data.components || [], 'All Components');
     } catch (err) {
       console.error("Error loading filter options:", err);
@@ -284,18 +527,21 @@ window.OverallCataloguePortal = {
         const data = await res.json();
         const models = Array.isArray(data) ? data : (data.models || []);
         this.populateSelect('cat-filter-model', models, 'All Vehicle Models');
+        this.populateSelect('cat-filter-model-select', models, 'Select Model');
       }
     } catch (err) {
       console.error("Error loading models for make:", err);
     }
 
     if (subSel) subSel.innerHTML = `<option value="">All Variants</option>`;
+    const dearoVariantSel = document.getElementById('cat-filter-variant-select');
+    if (dearoVariantSel) dearoVariantSel.innerHTML = `<option value="">Select Variant</option>`;
     this.handleFilterChange();
   },
 
   async handleModelChange() {
     const makeVal = this.filters.make || document.getElementById('cat-filter-make')?.value || '';
-    const modelVal = document.getElementById('cat-filter-model')?.value || '';
+    const modelVal = document.getElementById('cat-filter-model')?.value || this.filters.model || '';
     this.filters.model = modelVal;
     this.filters.sub_model = '';
 
@@ -317,6 +563,7 @@ window.OverallCataloguePortal = {
         const data = await res.json();
         const subModels = data.sub_models || [];
         this.populateSelect('cat-filter-submodel', subModels, 'All Variants');
+        this.populateSelect('cat-filter-variant-select', subModels, 'Select Variant');
       }
     } catch (err) {
       console.error("Error loading submodels:", err);

@@ -2,6 +2,11 @@
 <html lang="en" data-theme="light">
 <head>
   <script>
+    try {
+      localStorage.setItem('auto-nexa-theme', 'light');
+      localStorage.setItem('theme', 'light');
+      document.documentElement.setAttribute('data-theme', 'light');
+    } catch(e) {}
     if (window.location.search) {
       try { window.history.replaceState({}, document.title, window.location.pathname); } catch(e) {}
     }
@@ -222,46 +227,35 @@
 
   <!-- Left Side Enterprise Navigation Sidebar (Dearo ERP Style) -->
   <aside id="app-sidebar" class="app-sidebar">
-    <!-- Brand / Logo Area -->
-    <div class="sidebar-brand-box" onclick="App.switchTab('home')" title="AUTO NEXA Dashboard">
-      <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 900; color: #fff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); flex-shrink: 0;">
-        ⚡
-      </div>
-      <div class="brand-copy" style="overflow: hidden;">
-        <div style="font-size: 1.15rem; font-weight: 900; color: #0f172a; line-height: 1.1; font-family: 'Outfit', sans-serif;">
-          AUTO<span style="color: #ea580c;">NEXA</span>
-        </div>
-        <div style="font-size: 0.65rem; font-weight: 850; letter-spacing: 0.12em; color: #0284c7; text-transform: uppercase;">
-          TVS MOBILITY INTELLIGENCE
-        </div>
-      </div>
+    <!-- Brand / Logo Area (Dearo ERP Royal Blue Box) -->
+    <div class="sidebar-brand-box" onclick="App.switchTab('catalogue-dashboard')" title="Dearo Global Catalogue" style="background: #1765c1 !important; padding: 1.15rem 1.4rem; display: flex; align-items: center; justify-content: flex-start; gap: 0.65rem; cursor: pointer;">
+      <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff; letter-spacing: -0.5px; font-family: 'Outfit', sans-serif;">Dearo</span>
+      <span style="background: rgba(255,255,255,0.22); color: #ffffff; font-size: 0.62rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px; letter-spacing: 0.5px;">AUTO NEXA</span>
     </div>
 
     <!-- Navigation List with Dropdown Accordions & Structured Colorful Icons -->
     <div class="sidebar-nav-container">
       
-      <div class="sb-section-divider">WORKSPACE CORE</div>
-
-      <!-- 1. HOME -->
-      <button type="button" class="sb-nav-item active" data-tab="home" onclick="App.switchTab('home');">
+      <!-- 1. DASHBOARD -->
+      <button type="button" class="sb-nav-item" data-tab="home" onclick="App.switchTab('home');">
         <div class="sb-item-left">
-          <span class="sb-icon-box sb-icon-home">⊞</span>
-          <span>Home</span>
+          <span class="sb-icon-box sb-icon-home" style="background:#eff6ff; color:#2563eb;">⊞</span>
+          <span>Dashboard</span>
         </div>
       </button>
 
-      <!-- 2. CATALOGUE (with dropdown) -->
-      <div class="sb-group" id="sb-group-catalogue">
-        <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-catalogue');">
+      <!-- 2. CATALOGUE (expanded by default - Dearo Style) -->
+      <div class="sb-group is-open" id="sb-group-catalogue">
+        <button type="button" class="sb-nav-item active" onclick="App.toggleSidebarGroup('sb-group-catalogue');">
           <div class="sb-item-left">
-            <span class="sb-icon-box sb-icon-cat">📖</span>
-            <span>Catalogue</span>
+            <span class="sb-icon-box sb-icon-cat" style="background:#fff7ed; color:#ea580c;">📖</span>
+            <span style="font-weight: 850;">Catalogue</span>
           </div>
           <span class="sb-chevron">▾</span>
         </button>
-        <div class="sb-sub-menu">
-          <button type="button" class="sb-sub-item" data-tab="catalogue-dashboard" onclick="App.switchTab('catalogue-dashboard');">
-            <span>📊</span> <span>Dashboard</span>
+        <div class="sb-sub-menu" style="display: flex;">
+          <button type="button" class="sb-sub-item active" data-tab="catalogue-dashboard" onclick="App.switchTab('catalogue-dashboard');" style="color: #1765c1; font-weight: 850; background: #eff6ff;">
+            <span>🌐</span> <span>Global</span>
           </button>
           <button type="button" class="sb-sub-item" data-tab="catalogue-mapping" onclick="App.switchTab('catalogue-mapping');">
             <span>⚙️</span> <span>Mapping Engine</span>
@@ -276,7 +270,7 @@
       <div class="sb-group" id="sb-group-inventory">
         <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-inventory');">
           <div class="sb-item-left">
-            <span class="sb-icon-box sb-icon-inv">📦</span>
+            <span class="sb-icon-box sb-icon-inv" style="background:#ecfdf5; color:#059669;">📦</span>
             <span>Inventory</span>
           </div>
           <span class="sb-chevron">▾</span>
@@ -298,7 +292,7 @@
       <div class="sb-group" id="sb-group-sales">
         <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-sales');">
           <div class="sb-item-left">
-            <span class="sb-icon-box sb-icon-sales">📈</span>
+            <span class="sb-icon-box sb-icon-sales" style="background:#f5f3ff; color:#7c3aed;">📈</span>
             <span>Sales</span>
           </div>
           <span class="sb-chevron">▾</span>
@@ -321,7 +315,7 @@
       <!-- Planning -->
       <button type="button" class="sb-nav-item" data-tab="forecasting" onclick="App.switchTab('forecasting');">
         <div class="sb-item-left">
-          <span class="sb-icon-box sb-icon-plan">📅</span>
+          <span class="sb-icon-box sb-icon-plan" style="background:#fffbeb; color:#d97706;">📅</span>
           <span>Demand Planning</span>
         </div>
       </button>
@@ -329,7 +323,7 @@
       <!-- Reports -->
       <button type="button" class="sb-nav-item" data-tab="deviation" onclick="App.switchTab('deviation');">
         <div class="sb-item-left">
-          <span class="sb-icon-box sb-icon-rep">📄</span>
+          <span class="sb-icon-box sb-icon-rep" style="background:#f0fdfa; color:#0d9488;">📄</span>
           <span>Compliance Reports</span>
         </div>
       </button>
@@ -337,12 +331,12 @@
     </div>
 
     <!-- Sidebar Footer -->
-    <div class="sidebar-footer-box">
+    <div class="sidebar-footer-box" style="background: #ffffff; border-top: 1px solid #e2e8f0;">
       <div class="profile-details" style="display: flex; align-items: center; gap: 0.6rem; min-width: 0;">
-        <span class="profile-avatar" style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #ea580c, #f59e0b); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.82rem; color: #fff; flex-shrink: 0;">JG</span>
+        <span class="profile-avatar" style="width: 32px; height: 32px; border-radius: 8px; background: #1765c1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.82rem; color: #fff; flex-shrink: 0;">JG</span>
         <div class="profile-info" style="min-width: 0; line-height: 1.2;">
           <strong style="color: #0f172a; font-size: 0.82rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Jino George</strong>
-          <small style="color: #0284c7; font-size: 0.72rem; font-weight: 750;">SM0237 • Analyst</small>
+          <small style="color: #1765c1; font-size: 0.72rem; font-weight: 750;">SM0237 • Catalog Analyst</small>
         </div>
       </div>
       <button type="button" onclick="App.logout()" title="Logout" style="background: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.95rem;">
@@ -351,30 +345,36 @@
     </div>
   </aside>
 
-  <!-- Top Bar with Dearo Circular Blue Hamburger, Breadcrumb, System Status, Theme Toggle -->
-  <header id="app-header" class="app-header" style="display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 64px; background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-    <div style="display: flex; align-items: center; gap: 1rem;">
+  <!-- Top Bar with Dearo Circular Blue Hamburger, support@dearo.com, Welcome Vignesh -->
+  <header id="app-header" class="app-header" style="display: flex; align-items: center; justify-content: space-between; padding: 0 1.75rem; height: 64px; background: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+    <div style="display: flex; align-items: center; gap: 1.25rem;">
       <button type="button" id="sidebar-toggle-btn" onclick="App.toggleSidebar()" title="Toggle Sidebar">
         ☰
       </button>
 
       <!-- Dynamic Breadcrumb -->
-      <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 800;">
-        <span id="breadcrumb-section" style="color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;">WORKSPACE</span>
+      <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; font-weight: 800;">
+        <span id="breadcrumb-section" style="color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;">CATALOGUE</span>
         <span style="color: #cbd5e1;">/</span>
-        <span id="breadcrumb-page" style="color: #0f172a; font-family: 'Outfit', sans-serif; font-size: 1rem;">Home Overview</span>
+        <span id="breadcrumb-page" style="color: #0f172a; font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 800;">Global</span>
       </div>
     </div>
 
-    <div class="header-right" style="display: flex; align-items: center; gap: 0.85rem;">
-      <div class="system-status" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.8rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;">
-        <span class="status-dot" style="width: 8px; height: 8px; background: #16a34a; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #16a34a;"></span>
-        <strong style="color: #15803d; font-size: 0.75rem; letter-spacing: 0.5px;">23.6M MASTER DB ACTIVE</strong>
-      </div>
+    <div class="header-right" style="display: flex; align-items: center; gap: 1.75rem;">
+      <a href="mailto:support@dearo.com" style="display: flex; align-items: center; gap: 0.45rem; color: #475569; font-size: 0.88rem; font-weight: 600; text-decoration: none;">
+        <span style="font-size: 1.15rem; color: #64748b;">✉</span>
+        <span>support@dearo.com</span>
+      </a>
 
-      <button type="button" id="btn-theme-toggle" class="btn-icon" onclick="App.toggleTheme()" title="Toggle Light/Dark Theme" style="background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.05rem;">
-        🌓
-      </button>
+      <div class="header-divider" style="width: 1px; height: 26px; background: #e2e8f0;"></div>
+
+      <div style="display: flex; align-items: center; gap: 0.65rem;">
+        <span style="font-size: 0.9rem; color: #475569;">Welcome <strong style="color: #0f172a; font-weight: 850;">Vignesh</strong></span>
+        <div style="width: 34px; height: 34px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; color: #0284c7; font-size: 1.1rem; position: relative;">
+          👤
+          <span style="position: absolute; top: 0px; right: 0px; width: 9px; height: 9px; background: #ea580c; border-radius: 50%; border: 2px solid #ffffff;"></span>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -570,39 +570,154 @@
     <section id="tab-catalogue" class="tab-pane">
       <div class="catalogue-shell" style="padding: 0 0.5rem;">
         
-        <!-- Catalogue Scenic Hero Banner (Light Enterprise Design) -->
-        <div class="cat-hero-scenic" style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1px solid #e2e8f0; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; padding: 2rem 2.25rem;">
-            <div style="flex: 1; min-width: 320px;">
-              <div class="cat-kicker-tag" style="background: linear-gradient(90deg, #ea580c, #f97316); color: #fff; font-weight: 900; font-size: 0.74rem; padding: 0.35rem 0.9rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; margin-bottom: 0.75rem; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);">
-                <span>⚡ MASTER CATALOGUE INTELLIGENCE ENGINE</span>
+        <!-- ==================== DEARO ERP GLOBAL CATALOGUE (Exact Match to Screenshot) ==================== -->
+        <!-- Top Title Row: "Global" + Top Tabs: PARTS CATALOGUE / CART (1) / MY ORDERS -->
+        <div class="dearo-top-title-row">
+          <h1 class="dearo-page-title">Global</h1>
+          <div class="dearo-top-nav-tabs">
+            <button type="button" class="dearo-nav-tab active">PARTS CATALOGUE</button>
+            <button type="button" class="dearo-nav-tab" onclick="OverallCataloguePortal.showCartToast()">
+              CART <span class="dearo-cart-badge">1</span>
+            </button>
+            <button type="button" class="dearo-nav-tab" onclick="OverallCataloguePortal.showOrdersToast()">MY ORDERS</button>
+          </div>
+        </div>
+
+        <!-- Sub-Bar: Stock Order / Vehicle Order Toggle & Clear -->
+        <div class="dearo-sub-bar">
+          <div class="dearo-order-toggle-wrapper">
+            <span class="dearo-toggle-label-inactive" id="order-type-stock" onclick="OverallCataloguePortal.setOrderType('stock')">STOCK ORDER</span>
+            <div class="dearo-switch-pill" id="order-toggle-switch" onclick="OverallCataloguePortal.toggleOrderType()">
+              <div class="dearo-switch-knob"></div>
+            </div>
+            <span class="dearo-toggle-label-active" id="order-type-vehicle" onclick="OverallCataloguePortal.setOrderType('vehicle')">VEHICLE ORDER</span>
+          </div>
+
+          <button type="button" class="dearo-btn-clear" onclick="OverallCataloguePortal.clearAllDearoFilters()">Clear</button>
+        </div>
+
+        <!-- Dearo Crisp White Main Filter Card -->
+        <div class="dearo-filter-card">
+          <!-- Row 1: Vehicle Registration Number Input -->
+          <div class="dearo-vrn-row">
+            <input type="text" id="vrn-search-input" class="dearo-vrn-input" placeholder="Enter Registration No (e.g. TN22BK1405)" value="TN22BK1405" onkeydown="if(event.key==='Enter') OverallCataloguePortal.searchByRegNo()">
+            <button type="button" class="dearo-vrn-btn" onclick="OverallCataloguePortal.searchByRegNo()">Search</button>
+          </div>
+
+          <!-- Quick Demo Reg Buttons -->
+          <div style="margin-top: -1rem; margin-bottom: 1.35rem; font-size: 0.78rem; color: #64748b; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <span style="font-weight: 750;">Quick Demo VRN:</span>
+            <button type="button" onclick="OverallCataloguePortal.applyRegNo('TN22BK1405')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 700; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer;">TN22BK1405 (Tata Indica)</button>
+            <button type="button" onclick="OverallCataloguePortal.applyRegNo('DL3CCP1234')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 700; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer;">DL3CCP1234 (Hyundai Creta)</button>
+            <button type="button" onclick="OverallCataloguePortal.applyRegNo('MH02CD5678')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 700; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer;">MH02CD5678 (Maruti Swift)</button>
+            <button type="button" onclick="OverallCataloguePortal.applyRegNo('KA03MG9999')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 700; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer;">KA03MG9999 (Mahindra Scorpio)</button>
+          </div>
+
+          <!-- Row 2 & 3: Cascading Filters Grid (Pill Chip Design) -->
+          <div class="dearo-filter-grid">
+            
+            <!-- Make -->
+            <div class="dearo-filter-field">
+              <label class="dearo-field-label">Make</label>
+              <div class="dearo-pill-select-box" onclick="OverallCataloguePortal.toggleDropdown('cat-filter-make-select')">
+                <div id="dearo-pill-make-container">
+                  <span class="dearo-pill-chip">TATA <span class="dearo-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('make')">✕</span></span>
+                </div>
+                <span class="dearo-field-arrow">▼</span>
               </div>
-              <h1 class="cat-headline" style="font-size: 2.2rem; font-weight: 900; color: #0f172a; line-height: 1.2; margin-bottom: 0.6rem; font-family: 'Outfit', sans-serif;">
-                Master Automotive Parts Database<br>
-                <span style="color: #0284c7;">23.6 Million+ Parts, Live Pricing & Cross-Compatibility</span>
-              </h1>
-              <p class="cat-lead" style="font-size: 0.92rem; color: #475569; max-width: 680px; margin: 0; line-height: 1.55;">
-                Enterprise multi-brand OEM & aftermarket lookup across Maruti Suzuki, Hyundai, Mahindra, Tata, Toyota, and aftermarket suppliers with sub-second full-text indexation.
-              </p>
+              <select id="cat-filter-make-select" class="dearo-clean-select" style="display: none; margin-top: 4px;" onchange="OverallCataloguePortal.onMakeSelectChange(this.value)">
+                <option value="">Select Make</option>
+              </select>
             </div>
 
-            <!-- Right Status & Database Metrics Summary -->
-            <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 260px;">
-              <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 0.85rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                <div style="font-size: 1.6rem; color: #0284c7;">⚡</div>
-                <div>
-                  <strong style="color: #0284c7; font-size: 0.9rem; display: block;">Indexed FTS5 Engine Active</strong>
-                  <small style="color: #64748b; font-size: 0.78rem;">Sub-second prefix & token lookup</small>
+            <!-- Model -->
+            <div class="dearo-filter-field">
+              <label class="dearo-field-label">Model</label>
+              <div class="dearo-pill-select-box" onclick="OverallCataloguePortal.toggleDropdown('cat-filter-model-select')">
+                <div id="dearo-pill-model-container">
+                  <span class="dearo-pill-chip">INDICA <span class="dearo-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('model')">✕</span></span>
                 </div>
+                <span class="dearo-field-arrow">▼</span>
               </div>
-              <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 0.85rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                <div style="font-size: 1.6rem; color: #059669;">🚘</div>
-                <div>
-                  <strong style="color: #059669; font-size: 0.9rem; display: block;">Omnichannel Fitments</strong>
-                  <small style="color: #64748b; font-size: 0.78rem;">PCV, HCV, LCV & 2-Wheeler</small>
-                </div>
-              </div>
+              <select id="cat-filter-model-select" class="dearo-clean-select" style="display: none; margin-top: 4px;" onchange="OverallCataloguePortal.onModelSelectChange(this.value)">
+                <option value="">Select Model</option>
+              </select>
             </div>
+
+            <!-- Variant -->
+            <div class="dearo-filter-field">
+              <label class="dearo-field-label">Variant</label>
+              <div class="dearo-pill-select-box" onclick="OverallCataloguePortal.toggleDropdown('cat-filter-variant-select')">
+                <div id="dearo-pill-variant-container">
+                  <span class="dearo-pill-chip">INDICA VISTA 1.3L <span class="dearo-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('sub_model')">✕</span></span>
+                </div>
+                <span class="dearo-field-arrow">▼</span>
+              </div>
+              <select id="cat-filter-variant-select" class="dearo-clean-select" style="display: none; margin-top: 4px;" onchange="OverallCataloguePortal.onVariantSelectChange(this.value)">
+                <option value="">Select Variant</option>
+              </select>
+            </div>
+
+            <!-- Fuel Type -->
+            <div class="dearo-filter-field">
+              <label class="dearo-field-label">Fuel Type</label>
+              <select id="dearo-filter-fuel" class="dearo-clean-select" onchange="OverallCataloguePortal.onFuelSelectChange(this.value)">
+                <option value="">Select Fuel Type</option>
+                <option value="DIESEL" selected>DIESEL</option>
+                <option value="PETROL">PETROL</option>
+                <option value="CNG">CNG</option>
+                <option value="ELECTRIC">ELECTRIC</option>
+                <option value="HYBRID">HYBRID</option>
+              </select>
+            </div>
+
+            <!-- Year -->
+            <div class="dearo-filter-field">
+              <label class="dearo-field-label">Year</label>
+              <select id="dearo-filter-year" class="dearo-clean-select" onchange="OverallCataloguePortal.onYearSelectChange(this.value)">
+                <option value="">Select Year</option>
+                <option value="2010" selected>2010</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+                <option value="2015">2015</option>
+                <option value="2014">2014</option>
+                <option value="2013">2013</option>
+                <option value="2012">2012</option>
+                <option value="2011">2011</option>
+              </select>
+            </div>
+
+            <!-- Categories -->
+            <div class="dearo-filter-field">
+              <label class="dearo-field-label">Categories</label>
+              <select id="dearo-filter-aggregate" class="dearo-clean-select" onchange="OverallCataloguePortal.onAggregateSelectChange(this.value)">
+                <option value="">Select Categories</option>
+              </select>
+            </div>
+
+            <!-- Sub Categories -->
+            <div class="dearo-filter-field">
+              <label class="dearo-field-label">Sub Categories</label>
+              <select id="dearo-filter-sub-aggregate" class="dearo-clean-select" onchange="OverallCataloguePortal.onSubAggregateSelectChange(this.value)">
+                <option value="">Select Sub Categories</option>
+              </select>
+            </div>
+
+            <!-- Explore Products Button -->
+            <div class="dearo-filter-field" style="justify-content: flex-end;">
+              <button type="button" class="dearo-btn-explore" onclick="OverallCataloguePortal.triggerExploreProducts()">
+                Explore Products
+              </button>
+            </div>
+
           </div>
         </div>
 

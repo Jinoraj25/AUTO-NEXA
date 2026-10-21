@@ -9,11 +9,15 @@ window.App = {
     this._initialized = true;
     console.log("⚡ Initializing AUTO NEXA Enterprise Platform...");
     
-    const savedTheme = localStorage.getItem('auto-nexa-theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    document.body.setAttribute('data-theme', savedTheme);
+    localStorage.setItem('auto-nexa-theme', 'light');
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.body.setAttribute('data-theme', 'light');
 
     this.bindEvents();
+
+    // Expand Catalogue sidebar group by default
+    const catGroup = document.getElementById('sb-group-catalogue');
+    if (catGroup) catGroup.classList.add('is-open');
     
     // Wrap sub-portal inits
     try {
@@ -29,8 +33,8 @@ window.App = {
       if (window.ForecastingPortal && window.ForecastingPortal.init) window.ForecastingPortal.init();
     } catch (e) { console.warn("Sub-portal init warning:", e); }
 
-    this.switchTab('home');
-    this.showToast("AUTO NEXA Online — Enterprise workspace loaded.", "success");
+    this.switchTab('catalogue-dashboard');
+    this.showToast("AUTO NEXA Online — Dearo Enterprise workspace loaded.", "success");
   },
 
   bindEvents() {
@@ -430,13 +434,11 @@ window.App = {
   toggleTheme() {
     const body = document.body;
     const root = document.documentElement;
-    const currentTheme = body.getAttribute('data-theme') || root.getAttribute('data-theme') || 'dark';
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    body.setAttribute('data-theme', newTheme);
-    root.setAttribute('data-theme', newTheme);
-    localStorage.setItem('auto-nexa-theme', newTheme);
+    body.setAttribute('data-theme', 'light');
+    root.setAttribute('data-theme', 'light');
+    localStorage.setItem('auto-nexa-theme', 'light');
     this.syncChartTheme();
-    this.showToast(`Switched to ${newTheme.toUpperCase()} theme mode`, "info");
+    this.showToast(`Crisp White Theme Active (Dearo Workshop ERP)`, "info");
     if (window.AnalyticsPortal) window.AnalyticsPortal.updateDashboard();
   },
 
