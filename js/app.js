@@ -392,19 +392,19 @@ window.App = {
 
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
           ${items.map(p => `
-            <div style="background: rgba(15, 23, 42, 0.7); border: 1.5px solid rgba(167, 139, 250, 0.3); border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.1rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
               <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                  <span class="badge" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24;">${p.brand || 'GENERIC'}</span>
-                  <span style="font-family: monospace; font-size: 0.75rem; color: #a78bfa; font-weight: 800;">${p.lineCode ? 'LC ' + p.lineCode : 'SKU'}</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+                  <span class="badge" style="background: #fffbeb; color: #b45309; border: 1px solid #fde68a; font-weight: 800;">${p.brand || 'GENERIC'}</span>
+                  <span style="font-family: monospace; font-size: 0.75rem; color: #7c3aed; font-weight: 850;">${p.lineCode ? 'LC ' + p.lineCode : 'SKU'}</span>
                 </div>
-                <div style="font-family: monospace; font-size: 0.95rem; font-weight: 900; color: #38bdf8;">${p.partNo}</div>
-                <div style="font-size: 0.8rem; color: #ffffff; margin-top: 0.25rem; font-weight: 700;">${p.desc}</div>
-                <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 0.25rem;">🚗 ${[p.make, p.model].filter(Boolean).join(' ') || 'Universal Fitment'}</div>
+                <div style="font-family: monospace; font-size: 0.98rem; font-weight: 900; color: #0284c7;">${p.partNo}</div>
+                <div style="font-size: 0.85rem; color: #0f172a; margin-top: 0.35rem; font-weight: 750;">${p.desc}</div>
+                <div style="font-size: 0.78rem; color: #64748b; margin-top: 0.35rem; font-weight: 600;">🚗 ${[p.make, p.model].filter(Boolean).join(' ') || 'Universal Fitment'}</div>
               </div>
-              <div style="margin-top: 0.85rem; padding-top: 0.6rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 1.1rem; font-weight: 900; color: #34d399; font-family: 'Outfit', sans-serif;">${p.mrp && Number(p.mrp) > 0 ? '₹' + Number(p.mrp).toLocaleString('en-IN') : 'Price on Request'}</span>
-                <button type="button" onclick="App.inspectPartInMaster('${p.partNo}')" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; font-weight: 800; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; border-radius: 6px; cursor: pointer;">
+              <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 1.15rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif;">${p.mrp && Number(p.mrp) > 0 ? '₹' + Number(p.mrp).toLocaleString('en-IN') : 'Price on Request'}</span>
+                <button type="button" onclick="App.inspectPartInMaster('${p.partNo}')" style="padding: 0.4rem 0.85rem; font-size: 0.78rem; font-weight: 850; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 8px; cursor: pointer; transition: all 0.15s;">
                   View Fitment ↗
                 </button>
               </div>
@@ -416,7 +416,7 @@ window.App = {
       resContent.innerHTML = html;
     } catch (err) {
       console.error("AI query error:", err);
-      resContent.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: #f87171;">⚠️ Failed to complete Catalog AI analysis. Backend connection timeout.</div>`;
+      resContent.innerHTML = `<div style="padding: 1.5rem; text-align: center; color: #dc2626; font-weight: 750;">⚠️ Failed to complete Catalog AI analysis. Backend connection timeout.</div>`;
     }
   },
 
@@ -444,15 +444,14 @@ window.App = {
 
   syncChartTheme() {
     if (typeof Chart === 'undefined') return;
-    const dark = (document.body.getAttribute('data-theme') || document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
-    const text = dark ? '#f5f8fd' : '#101b2d';
-    const muted = dark ? '#9baac0' : '#64748b';
+    const text = '#0f172a';
+    const muted = '#64748b';
     Chart.defaults.color = muted;
     Chart.defaults.plugins.legend.labels.color = text;
     Chart.defaults.plugins.tooltip.titleColor = '#ffffff';
-    Chart.defaults.plugins.tooltip.bodyColor = '#dbe5ef';
-    Chart.defaults.plugins.tooltip.backgroundColor = dark ? 'rgba(8,17,29,.96)' : 'rgba(15,27,45,.96)';
-    Chart.defaults.plugins.tooltip.borderColor = dark ? 'rgba(255,255,255,.12)' : 'rgba(15,27,45,.16)';
+    Chart.defaults.plugins.tooltip.bodyColor = '#f8fafc';
+    Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(15, 23, 42, 0.95)';
+    Chart.defaults.plugins.tooltip.borderColor = 'rgba(15, 23, 42, 0.15)';
   },
 
   showToast(message, type = 'info') {
