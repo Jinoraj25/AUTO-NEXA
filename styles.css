@@ -1,4 +1,4 @@
-/* AUTO NEXA — Frontend V4 / Automotive Intelligence Design System (Dearo ERP Crisp Light Theme) */
+/* AUTO NEXA — Frontend V4 / Automotive Intelligence Design System (Bespoke Light Studio Theme) */
 :root {
   --bg: #f4f6f9;
   --bg-2: #ffffff;
@@ -3985,7 +3985,7 @@ input[type=checkbox]#login-remember {
   transition: width 0.6s ease !important;
 }
 
-/* === LIGHT MODE DEFAULTS (Dearo Workshop ERP Inspired) === */
+/* === LIGHT MODE DEFAULTS (AUTO NEXA Crisp Studio Theme) === */
 body {
   background-color: #f4f6f9 !important;
   color: #0f172a !important;
@@ -4104,7 +4104,7 @@ body.is-authenticated footer.app-footer {
   display: block !important;
 }
 
-/* ==================== LEFT SIDEBAR ENTERPRISE LAYOUT (DEARO ERP STYLE) ==================== */
+/* ==================== LEFT SIDEBAR ENTERPRISE LAYOUT (AUTO NEXA STUDIO) ==================== */
 .app-sidebar {
   width: 260px;
   height: 100vh;
@@ -4203,7 +4203,7 @@ body.is-authenticated footer.app-footer {
   gap: 0.75rem;
 }
 
-/* Structured Colorful Icon Tiles (Dearo ERP Style) */
+/* Structured Colorful Icon Tiles (AUTO NEXA System) */
 .sb-icon-box {
   width: 30px;
   height: 30px;
@@ -4297,7 +4297,7 @@ body.is-authenticated footer.app-footer {
   justify-content: space-between;
 }
 
-/* Dearo Circular Royal Blue Hamburger Button */
+/* AUTO NEXA Circular Hamburger Button */
 #sidebar-toggle-btn {
   background: #2563eb !important;
   color: #ffffff !important;
@@ -4385,9 +4385,9 @@ body.sidebar-collapsed footer.app-footer {
 }
 
 /* ================================================================
-   DEARO ERP GLOBAL CATALOGUE DESIGN SYSTEM (Exact Match to Screenshot)
+   AUTO NEXA MASTER CATALOGUE DESIGN SYSTEM (Bespoke Automotive UI)
    ================================================================ */
-.dearo-top-title-row {
+.nexa-top-title-row, .dearo-top-title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -4396,7 +4396,7 @@ body.sidebar-collapsed footer.app-footer {
   margin-bottom: 1.25rem;
 }
 
-.dearo-page-title {
+.nexa-page-title, .dearo-page-title {
   font-size: 1.65rem;
   font-weight: 850;
   color: #1e293b;
@@ -4404,13 +4404,13 @@ body.sidebar-collapsed footer.app-footer {
   letter-spacing: -0.02em;
 }
 
-.dearo-top-nav-tabs {
+.nexa-top-nav-tabs, .dearo-top-nav-tabs {
   display: flex;
   align-items: center;
   gap: 2rem;
 }
 
-.dearo-nav-tab {
+.nexa-nav-tab, .dearo-nav-tab {
   background: transparent;
   border: none;
   font-size: 0.85rem;
@@ -4427,15 +4427,15 @@ body.sidebar-collapsed footer.app-footer {
   transition: color 0.15s ease;
 }
 
-.dearo-nav-tab:hover {
+.nexa-nav-tab:hover, .dearo-nav-tab:hover {
   color: #0f172a;
 }
 
-.dearo-nav-tab.active {
+.nexa-nav-tab.active, .dearo-nav-tab.active {
   color: #ea580c;
 }
 
-.dearo-nav-tab.active::after {
+.nexa-nav-tab.active::after, .dearo-nav-tab.active::after {
   content: "";
   position: absolute;
   left: 0;
@@ -4446,7 +4446,7 @@ body.sidebar-collapsed footer.app-footer {
   border-radius: 2px;
 }
 
-.dearo-cart-badge {
+.nexa-cart-badge, .dearo-cart-badge {
   background: #ea580c;
   color: #ffffff;
   font-size: 0.72rem;
@@ -4461,14 +4461,14 @@ body.sidebar-collapsed footer.app-footer {
 }
 
 /* Sub-Bar: Order Type Toggle + Clear */
-.dearo-sub-bar {
+.nexa-sub-bar, .dearo-sub-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-.dearo-order-toggle-wrapper {
+.nexa-order-toggle-wrapper, .dearo-order-toggle-wrapper {
   display: flex;
   align-items: center;
   gap: 0.85rem;
@@ -4477,17 +4477,17 @@ body.sidebar-collapsed footer.app-footer {
   letter-spacing: 0.04em;
 }
 
-.dearo-toggle-label-inactive {
+.nexa-toggle-label-inactive, .dearo-toggle-label-inactive {
   color: #94a3b8;
   cursor: pointer;
 }
 
-.dearo-toggle-label-active {
+.nexa-toggle-label-active, .dearo-toggle-label-active {
   color: #0f172a;
   cursor: pointer;
 }
 
-.dearo-switch-pill {
+.nexa-switch-pill, .dearo-switch-pill {
   width: 44px;
   height: 24px;
   background: #2563eb;
@@ -4497,7 +4497,7 @@ body.sidebar-collapsed footer.app-footer {
   transition: background 0.2s ease;
 }
 
-.dearo-switch-knob {
+.nexa-switch-knob, .dearo-switch-knob {
   width: 18px;
   height: 18px;
   background: #ffffff;
@@ -4509,7 +4509,7 @@ body.sidebar-collapsed footer.app-footer {
   transition: transform 0.2s ease;
 }
 
-.dearo-btn-clear {
+.nexa-btn-clear, .dearo-btn-clear {
   background: #ffffff;
   border: 1px solid #cbd5e1;
   color: #334155;
@@ -4521,14 +4521,14 @@ body.sidebar-collapsed footer.app-footer {
   transition: all 0.15s ease;
 }
 
-.dearo-btn-clear:hover {
+.nexa-btn-clear:hover, .dearo-btn-clear:hover {
   background: #f8fafc;
   border-color: #94a3b8;
   color: #0f172a;
 }
 
-/* Main Dearo White Filter Card */
-.dearo-filter-card {
+/* Main AUTO NEXA Crisp Fitment Card */
+.nexa-filter-card, .dearo-filter-card {
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 14px !important;
@@ -4538,13 +4538,13 @@ body.sidebar-collapsed footer.app-footer {
 }
 
 /* Vehicle Reg Search Box Row */
-.dearo-vrn-row {
+.nexa-vrn-row, .dearo-vrn-row {
   display: flex;
   margin-bottom: 1.5rem;
   max-width: 680px;
 }
 
-.dearo-vrn-input {
+.nexa-vrn-input, .dearo-vrn-input {
   flex: 1;
   background: #ffffff !important;
   border: 1px solid #cbd5e1 !important;
@@ -4560,11 +4560,11 @@ body.sidebar-collapsed footer.app-footer {
   transition: border-color 0.2s ease;
 }
 
-.dearo-vrn-input:focus {
+.nexa-vrn-input:focus, .dearo-vrn-input:focus {
   border-color: #ea580c !important;
 }
 
-.dearo-vrn-btn {
+.nexa-vrn-btn, .dearo-vrn-btn {
   background: #ea580c !important;
   border: none !important;
   color: #ffffff !important;
@@ -4577,12 +4577,12 @@ body.sidebar-collapsed footer.app-footer {
   box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25) !important;
 }
 
-.dearo-vrn-btn:hover {
+.nexa-vrn-btn:hover, .dearo-vrn-btn:hover {
   background: #c2410c !important;
 }
 
 /* Cascading Dropdowns & Pill Chip UI */
-.dearo-filter-grid {
+.nexa-filter-grid, .dearo-filter-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   column-gap: 1.75rem;
@@ -4590,19 +4590,19 @@ body.sidebar-collapsed footer.app-footer {
   margin-bottom: 1.25rem;
 }
 
-.dearo-filter-field {
+.nexa-filter-field, .dearo-filter-field {
   display: flex;
   flex-direction: column;
 }
 
-.dearo-field-label {
+.nexa-field-label, .dearo-field-label {
   font-size: 0.8rem;
   font-weight: 700;
   color: #64748b;
   margin-bottom: 0.35rem;
 }
 
-.dearo-pill-select-box {
+.nexa-pill-select-box, .dearo-pill-select-box {
   background: #ffffff;
   border: 1px solid #cbd5e1;
   border-radius: 8px;
@@ -4616,24 +4616,26 @@ body.sidebar-collapsed footer.app-footer {
   transition: border-color 0.2s;
 }
 
-.dearo-pill-select-box:hover {
+.nexa-pill-select-box:hover, .dearo-pill-select-box:hover {
   border-color: #94a3b8;
 }
 
-.dearo-pill-chip {
-  background: #e2e8f0;
-  color: #1e293b;
+.nexa-pill-chip, .dearo-pill-chip {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
   font-size: 0.82rem;
   font-weight: 800;
-  padding: 0.35rem 0.65rem;
+  padding: 0.35rem 0.75rem;
   border-radius: 20px;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
   letter-spacing: 0.02em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.dearo-pill-remove {
+.nexa-pill-remove, .dearo-pill-remove {
   background: #94a3b8;
   color: #ffffff;
   width: 16px;
@@ -4647,17 +4649,17 @@ body.sidebar-collapsed footer.app-footer {
   cursor: pointer;
 }
 
-.dearo-pill-remove:hover {
+.nexa-pill-remove:hover, .dearo-pill-remove:hover {
   background: #475569;
 }
 
-.dearo-field-arrow {
+.nexa-field-arrow, .dearo-field-arrow {
   color: #94a3b8;
   font-size: 0.72rem;
   pointer-events: none;
 }
 
-.dearo-clean-select {
+.nexa-clean-select, .dearo-clean-select {
   width: 100%;
   background: #ffffff !important;
   border: 1px solid #cbd5e1 !important;
@@ -4670,11 +4672,11 @@ body.sidebar-collapsed footer.app-footer {
   cursor: pointer !important;
 }
 
-.dearo-clean-select:focus {
+.nexa-clean-select:focus, .dearo-clean-select:focus {
   border-color: #2563eb !important;
 }
 
-.dearo-btn-explore {
+.nexa-btn-explore, .dearo-btn-explore {
   background: #ea580c !important;
   color: #ffffff !important;
   border: none !important;
@@ -4688,7 +4690,7 @@ body.sidebar-collapsed footer.app-footer {
   align-self: flex-end;
 }
 
-.dearo-btn-explore:hover {
+.nexa-btn-explore:hover, .dearo-btn-explore:hover {
   background: #c2410c !important;
   transform: translateY(-1px);
 }

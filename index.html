@@ -225,12 +225,17 @@
   </div>
 
 
-  <!-- Left Side Enterprise Navigation Sidebar (Dearo ERP Style) -->
+  <!-- Left Side Enterprise Navigation Sidebar (AUTO NEXA Studio) -->
   <aside id="app-sidebar" class="app-sidebar">
-    <!-- Brand / Logo Area (Dearo ERP Royal Blue Box) -->
-    <div class="sidebar-brand-box" onclick="App.switchTab('catalogue-dashboard')" title="Dearo Global Catalogue" style="background: #1765c1 !important; padding: 1.15rem 1.4rem; display: flex; align-items: center; justify-content: flex-start; gap: 0.65rem; cursor: pointer;">
-      <span style="font-size: 1.85rem; font-weight: 900; color: #ffffff; letter-spacing: -0.5px; font-family: 'Outfit', sans-serif;">Dearo</span>
-      <span style="background: rgba(255,255,255,0.22); color: #ffffff; font-size: 0.62rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px; letter-spacing: 0.5px;">AUTO NEXA</span>
+    <!-- Brand / Logo Area (AUTO NEXA Signature Brand Box) -->
+    <div class="sidebar-brand-box" onclick="App.switchTab('catalogue-dashboard')" title="AUTO NEXA Master Catalogue" style="background: linear-gradient(135deg, #091a32 0%, #1e3a8a 100%) !important; padding: 1.15rem 1.35rem; display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; cursor: pointer;">
+      <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #ff3d4a, #ea580c); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #ffffff; font-weight: 900; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4); flex-shrink: 0;">
+        ⚡
+      </div>
+      <div style="display: flex; flex-direction: column; min-width: 0;">
+        <span style="font-size: 1.35rem; font-weight: 900; color: #ffffff; letter-spacing: -0.5px; font-family: 'Outfit', sans-serif; line-height: 1;">AUTO <span style="color: #ff3d4a;">NEXA</span></span>
+        <span style="color: #93c5fd; font-size: 0.62rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; margin-top: 3px;">CATALOGUE CORE</span>
+      </div>
     </div>
 
     <!-- Navigation List with Dropdown Accordions & Structured Colorful Icons -->
@@ -244,7 +249,7 @@
         </div>
       </button>
 
-      <!-- 2. CATALOGUE (expanded by default - Dearo Style) -->
+      <!-- 2. CATALOGUE (expanded by default - AUTO NEXA Style) -->
       <div class="sb-group is-open" id="sb-group-catalogue">
         <button type="button" class="sb-nav-item active" onclick="App.toggleSidebarGroup('sb-group-catalogue');">
           <div class="sb-item-left">
@@ -255,7 +260,7 @@
         </button>
         <div class="sb-sub-menu" style="display: flex;">
           <button type="button" class="sb-sub-item active" data-tab="catalogue-dashboard" onclick="App.switchTab('catalogue-dashboard');" style="color: #1765c1; font-weight: 850; background: #eff6ff;">
-            <span>🌐</span> <span>Global</span>
+            <span>🌐</span> <span>Master Catalogue</span>
           </button>
           <button type="button" class="sb-sub-item" data-tab="catalogue-mapping" onclick="App.switchTab('catalogue-mapping');">
             <span>⚙️</span> <span>Mapping Engine</span>
@@ -345,7 +350,7 @@
     </div>
   </aside>
 
-  <!-- Top Bar with Dearo Circular Blue Hamburger, support@dearo.com, Welcome Vignesh -->
+  <!-- Top Bar with AUTO NEXA Branding, support@autonexa.io, Welcome Jino George -->
   <header id="app-header" class="app-header" style="display: flex; align-items: center; justify-content: space-between; padding: 0 1.75rem; height: 64px; background: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
     <div style="display: flex; align-items: center; gap: 1.25rem;">
       <button type="button" id="sidebar-toggle-btn" onclick="App.toggleSidebar()" title="Toggle Sidebar">
@@ -356,23 +361,29 @@
       <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; font-weight: 800;">
         <span id="breadcrumb-section" style="color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;">CATALOGUE</span>
         <span style="color: #cbd5e1;">/</span>
-        <span id="breadcrumb-page" style="color: #0f172a; font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 800;">Global</span>
+        <span id="breadcrumb-page" style="color: #0f172a; font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 800;">Master Parts Matrix</span>
       </div>
     </div>
 
-    <div class="header-right" style="display: flex; align-items: center; gap: 1.75rem;">
-      <a href="mailto:support@dearo.com" style="display: flex; align-items: center; gap: 0.45rem; color: #475569; font-size: 0.88rem; font-weight: 600; text-decoration: none;">
-        <span style="font-size: 1.15rem; color: #64748b;">✉</span>
-        <span>support@dearo.com</span>
+    <div class="header-right" style="display: flex; align-items: center; gap: 1.35rem;">
+      <!-- Live SKUs Status Chip -->
+      <div style="display: flex; align-items: center; gap: 0.45rem; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.76rem; font-weight: 850; color: #166534;">
+        <span style="width: 7px; height: 7px; background: #16a34a; border-radius: 50%; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);"></span>
+        <span>23.6M SKUs Live</span>
+      </div>
+
+      <a href="mailto:support@autonexa.io" style="display: flex; align-items: center; gap: 0.45rem; color: #475569; font-size: 0.86rem; font-weight: 650; text-decoration: none;">
+        <span style="font-size: 1.05rem; color: #0284c7;">✉</span>
+        <span>support@autonexa.io</span>
       </a>
 
       <div class="header-divider" style="width: 1px; height: 26px; background: #e2e8f0;"></div>
 
       <div style="display: flex; align-items: center; gap: 0.65rem;">
-        <span style="font-size: 0.9rem; color: #475569;">Welcome <strong style="color: #0f172a; font-weight: 850;">Vignesh</strong></span>
-        <div style="width: 34px; height: 34px; border-radius: 50%; background: #e0f2fe; display: flex; align-items: center; justify-content: center; color: #0284c7; font-size: 1.1rem; position: relative;">
-          👤
-          <span style="position: absolute; top: 0px; right: 0px; width: 9px; height: 9px; background: #ea580c; border-radius: 50%; border: 2px solid #ffffff;"></span>
+        <span style="font-size: 0.88rem; color: #475569;">Welcome <strong style="color: #0f172a; font-weight: 850;">Jino George</strong></span>
+        <div style="width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #2563eb, #1d4ed8); display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 0.82rem; font-weight: 900; position: relative; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);">
+          JG
+          <span style="position: absolute; bottom: -1px; right: -1px; width: 9px; height: 9px; background: #22c55e; border-radius: 50%; border: 2px solid #ffffff;"></span>
         </div>
       </div>
     </div>
@@ -570,98 +581,113 @@
     <section id="tab-catalogue" class="tab-pane">
       <div class="catalogue-shell" style="padding: 0 0.5rem;">
         
-        <!-- ==================== DEARO ERP GLOBAL CATALOGUE (Exact Match to Screenshot) ==================== -->
-        <!-- Top Title Row: "Global" + Top Tabs: PARTS CATALOGUE / CART (1) / MY ORDERS -->
-        <div class="dearo-top-title-row">
-          <h1 class="dearo-page-title">Global</h1>
-          <div class="dearo-top-nav-tabs">
-            <button type="button" class="dearo-nav-tab active">PARTS CATALOGUE</button>
-            <button type="button" class="dearo-nav-tab" onclick="OverallCataloguePortal.showCartToast()">
-              CART <span class="dearo-cart-badge">1</span>
-            </button>
-            <button type="button" class="dearo-nav-tab" onclick="OverallCataloguePortal.showOrdersToast()">MY ORDERS</button>
-          </div>
-        </div>
-
-        <!-- Sub-Bar: Stock Order / Vehicle Order Toggle & Clear -->
-        <div class="dearo-sub-bar">
-          <div class="dearo-order-toggle-wrapper">
-            <span class="dearo-toggle-label-inactive" id="order-type-stock" onclick="OverallCataloguePortal.setOrderType('stock')">STOCK ORDER</span>
-            <div class="dearo-switch-pill" id="order-toggle-switch" onclick="OverallCataloguePortal.toggleOrderType()">
-              <div class="dearo-switch-knob"></div>
+        <!-- ==================== AUTO NEXA MASTER PARTS CATALOGUE ==================== -->
+        <!-- Top Title Row: Master Parts Catalogue + Tabs -->
+        <div class="nexa-top-title-row">
+          <div>
+            <div style="font-size: 0.72rem; font-weight: 850; letter-spacing: 0.12em; color: #0284c7; text-transform: uppercase; margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>⚡</span> <span>AUTO NEXA VEHICLE FITMENT MATRIX</span>
             </div>
-            <span class="dearo-toggle-label-active" id="order-type-vehicle" onclick="OverallCataloguePortal.setOrderType('vehicle')">VEHICLE ORDER</span>
+            <h1 class="nexa-page-title" style="margin: 0; font-size: 1.85rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">
+              Master Parts Catalogue
+            </h1>
           </div>
-
-          <button type="button" class="dearo-btn-clear" onclick="OverallCataloguePortal.clearAllDearoFilters()">Clear</button>
+          <div class="nexa-top-nav-tabs">
+            <button type="button" class="nexa-nav-tab active">PARTS MATRIX</button>
+            <button type="button" class="nexa-nav-tab" onclick="OverallCataloguePortal.showCartToast()">
+              ORDER STAGING <span class="nexa-cart-badge">1</span>
+            </button>
+            <button type="button" class="nexa-nav-tab" onclick="OverallCataloguePortal.showOrdersToast()">DISPATCH ORDERS</button>
+          </div>
         </div>
 
-        <!-- Dearo Crisp White Main Filter Card -->
-        <div class="dearo-filter-card">
-          <!-- Row 1: Vehicle Registration Number Input -->
-          <div class="dearo-vrn-row">
-            <input type="text" id="vrn-search-input" class="dearo-vrn-input" placeholder="Enter Registration No (e.g. TN22BK1405)" value="TN22BK1405" onkeydown="if(event.key==='Enter') OverallCataloguePortal.searchByRegNo()">
-            <button type="button" class="dearo-vrn-btn" onclick="OverallCataloguePortal.searchByRegNo()">Search</button>
+        <!-- Sub-Bar: Direct Stock Order / Vehicle Fitment Order Toggle & Clear -->
+        <div class="nexa-sub-bar">
+          <div class="nexa-order-toggle-wrapper">
+            <span class="nexa-toggle-label-inactive" id="order-type-stock" onclick="OverallCataloguePortal.setOrderType('stock')">DIRECT STOCK ORDER</span>
+            <div class="nexa-switch-pill" id="order-toggle-switch" onclick="OverallCataloguePortal.toggleOrderType()">
+              <div class="nexa-switch-knob"></div>
+            </div>
+            <span class="nexa-toggle-label-active" id="order-type-vehicle" onclick="OverallCataloguePortal.setOrderType('vehicle')">VEHICLE FITMENT ORDER</span>
+          </div>
+
+          <button type="button" class="nexa-btn-clear" onclick="OverallCataloguePortal.clearAllFitmentFilters()">
+            <span>🔄</span> <span>Reset Fitment</span>
+          </button>
+        </div>
+
+        <!-- AUTO NEXA Crisp White Main Fitment Studio Card -->
+        <div class="nexa-filter-card" style="border: 1.5px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);">
+          <!-- Row 1: Vehicle Registration Number Input (High Security Plate Badge Design) -->
+          <div class="nexa-vrn-row" style="max-width: 680px; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06); border-radius: 10px; overflow: hidden; border: 1.5px solid #cbd5e1; margin-bottom: 1.25rem;">
+            <div style="background: #003399; color: #ffffff; padding: 0 0.85rem; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 900; letter-spacing: 0.05em; border-right: 1px solid rgba(255,255,255,0.2);">
+              <span style="font-size: 0.9rem; line-height: 1;">🇮🇳</span>
+              <span style="font-size: 0.65rem; letter-spacing: 1px;">IND</span>
+            </div>
+            <input type="text" id="vrn-search-input" class="nexa-vrn-input" style="border: none !important; border-radius: 0 !important; font-family: monospace; font-size: 1.15rem; font-weight: 900; letter-spacing: 2px;" placeholder="ENTER REGISTRATION NO (e.g. TN22BK1405)" value="TN22BK1405" onkeydown="if(event.key==='Enter') OverallCataloguePortal.searchByRegNo()">
+            <button type="button" class="nexa-vrn-btn" style="border-radius: 0 !important; background: linear-gradient(135deg, #ea580c, #c2410c) !important;" onclick="OverallCataloguePortal.searchByRegNo()">
+              <span>Lookup Vehicle</span> <span>➔</span>
+            </button>
           </div>
 
           <!-- Quick Demo Reg Buttons -->
-          <div style="margin-top: -1rem; margin-bottom: 1.35rem; font-size: 0.78rem; color: #64748b; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-            <span style="font-weight: 750;">Quick Demo VRN:</span>
-            <button type="button" onclick="OverallCataloguePortal.applyRegNo('TN22BK1405')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 700; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer;">TN22BK1405 (Tata Indica)</button>
-            <button type="button" onclick="OverallCataloguePortal.applyRegNo('DL3CCP1234')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 700; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer;">DL3CCP1234 (Hyundai Creta)</button>
-            <button type="button" onclick="OverallCataloguePortal.applyRegNo('MH02CD5678')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 700; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer;">MH02CD5678 (Maruti Swift)</button>
-            <button type="button" onclick="OverallCataloguePortal.applyRegNo('KA03MG9999')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 700; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer;">KA03MG9999 (Mahindra Scorpio)</button>
+          <div style="margin-top: -0.65rem; margin-bottom: 1.35rem; font-size: 0.78rem; color: #64748b; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <span style="font-weight: 800; color: #475569;">Quick Presets:</span>
+            <button type="button" onclick="OverallCataloguePortal.applyRegNo('TN22BK1405')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 750; font-size: 0.75rem; padding: 0.25rem 0.65rem; border-radius: 8px; cursor: pointer; transition: all 0.15s;">TN22BK1405 (Tata Indica Vista)</button>
+            <button type="button" onclick="OverallCataloguePortal.applyRegNo('DL3CCP1234')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 750; font-size: 0.75rem; padding: 0.25rem 0.65rem; border-radius: 8px; cursor: pointer; transition: all 0.15s;">DL3CCP1234 (Hyundai Creta)</button>
+            <button type="button" onclick="OverallCataloguePortal.applyRegNo('MH02CD5678')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 750; font-size: 0.75rem; padding: 0.25rem 0.65rem; border-radius: 8px; cursor: pointer; transition: all 0.15s;">MH02CD5678 (Maruti Swift)</button>
+            <button type="button" onclick="OverallCataloguePortal.applyRegNo('KA03MG9999')" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-weight: 750; font-size: 0.75rem; padding: 0.25rem 0.65rem; border-radius: 8px; cursor: pointer; transition: all 0.15s;">KA03MG9999 (Mahindra Scorpio)</button>
           </div>
 
           <!-- Row 2 & 3: Cascading Filters Grid (Pill Chip Design) -->
-          <div class="dearo-filter-grid">
+          <div class="nexa-filter-grid">
             
             <!-- Make -->
-            <div class="dearo-filter-field">
-              <label class="dearo-field-label">Make</label>
-              <div class="dearo-pill-select-box" onclick="OverallCataloguePortal.toggleDropdown('cat-filter-make-select')">
-                <div id="dearo-pill-make-container">
-                  <span class="dearo-pill-chip">TATA <span class="dearo-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('make')">✕</span></span>
+            <div class="nexa-filter-field">
+              <label class="nexa-field-label">Make</label>
+              <div class="nexa-pill-select-box" onclick="OverallCataloguePortal.toggleDropdown('cat-filter-make-select')">
+                <div id="nexa-pill-make-container">
+                  <span class="nexa-pill-chip">TATA <span class="nexa-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('make')">✕</span></span>
                 </div>
-                <span class="dearo-field-arrow">▼</span>
+                <span class="nexa-field-arrow">▼</span>
               </div>
-              <select id="cat-filter-make-select" class="dearo-clean-select" style="display: none; margin-top: 4px;" onchange="OverallCataloguePortal.onMakeSelectChange(this.value)">
+              <select id="cat-filter-make-select" class="nexa-clean-select" style="display: none; margin-top: 4px;" onchange="OverallCataloguePortal.onMakeSelectChange(this.value)">
                 <option value="">Select Make</option>
               </select>
             </div>
 
             <!-- Model -->
-            <div class="dearo-filter-field">
-              <label class="dearo-field-label">Model</label>
-              <div class="dearo-pill-select-box" onclick="OverallCataloguePortal.toggleDropdown('cat-filter-model-select')">
-                <div id="dearo-pill-model-container">
-                  <span class="dearo-pill-chip">INDICA <span class="dearo-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('model')">✕</span></span>
+            <div class="nexa-filter-field">
+              <label class="nexa-field-label">Model</label>
+              <div class="nexa-pill-select-box" onclick="OverallCataloguePortal.toggleDropdown('cat-filter-model-select')">
+                <div id="nexa-pill-model-container">
+                  <span class="nexa-pill-chip">INDICA <span class="nexa-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('model')">✕</span></span>
                 </div>
-                <span class="dearo-field-arrow">▼</span>
+                <span class="nexa-field-arrow">▼</span>
               </div>
-              <select id="cat-filter-model-select" class="dearo-clean-select" style="display: none; margin-top: 4px;" onchange="OverallCataloguePortal.onModelSelectChange(this.value)">
+              <select id="cat-filter-model-select" class="nexa-clean-select" style="display: none; margin-top: 4px;" onchange="OverallCataloguePortal.onModelSelectChange(this.value)">
                 <option value="">Select Model</option>
               </select>
             </div>
 
             <!-- Variant -->
-            <div class="dearo-filter-field">
-              <label class="dearo-field-label">Variant</label>
-              <div class="dearo-pill-select-box" onclick="OverallCataloguePortal.toggleDropdown('cat-filter-variant-select')">
-                <div id="dearo-pill-variant-container">
-                  <span class="dearo-pill-chip">INDICA VISTA 1.3L <span class="dearo-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('sub_model')">✕</span></span>
+            <div class="nexa-filter-field">
+              <label class="nexa-field-label">Variant</label>
+              <div class="nexa-pill-select-box" onclick="OverallCataloguePortal.toggleDropdown('cat-filter-variant-select')">
+                <div id="nexa-pill-variant-container">
+                  <span class="nexa-pill-chip">INDICA VISTA 1.3L <span class="nexa-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('sub_model')">✕</span></span>
                 </div>
-                <span class="dearo-field-arrow">▼</span>
+                <span class="nexa-field-arrow">▼</span>
               </div>
-              <select id="cat-filter-variant-select" class="dearo-clean-select" style="display: none; margin-top: 4px;" onchange="OverallCataloguePortal.onVariantSelectChange(this.value)">
+              <select id="cat-filter-variant-select" class="nexa-clean-select" style="display: none; margin-top: 4px;" onchange="OverallCataloguePortal.onVariantSelectChange(this.value)">
                 <option value="">Select Variant</option>
               </select>
             </div>
 
             <!-- Fuel Type -->
-            <div class="dearo-filter-field">
-              <label class="dearo-field-label">Fuel Type</label>
-              <select id="dearo-filter-fuel" class="dearo-clean-select" onchange="OverallCataloguePortal.onFuelSelectChange(this.value)">
+            <div class="nexa-filter-field">
+              <label class="nexa-field-label">Fuel Type</label>
+              <select id="nexa-filter-fuel" class="nexa-clean-select" onchange="OverallCataloguePortal.onFuelSelectChange(this.value)">
                 <option value="">Select Fuel Type</option>
                 <option value="DIESEL" selected>DIESEL</option>
                 <option value="PETROL">PETROL</option>
@@ -672,9 +698,9 @@
             </div>
 
             <!-- Year -->
-            <div class="dearo-filter-field">
-              <label class="dearo-field-label">Year</label>
-              <select id="dearo-filter-year" class="dearo-clean-select" onchange="OverallCataloguePortal.onYearSelectChange(this.value)">
+            <div class="nexa-filter-field">
+              <label class="nexa-field-label">Year</label>
+              <select id="nexa-filter-year" class="nexa-clean-select" onchange="OverallCataloguePortal.onYearSelectChange(this.value)">
                 <option value="">Select Year</option>
                 <option value="2010" selected>2010</option>
                 <option value="2025">2025</option>
@@ -696,25 +722,25 @@
             </div>
 
             <!-- Categories -->
-            <div class="dearo-filter-field">
-              <label class="dearo-field-label">Categories</label>
-              <select id="dearo-filter-aggregate" class="dearo-clean-select" onchange="OverallCataloguePortal.onAggregateSelectChange(this.value)">
+            <div class="nexa-filter-field">
+              <label class="nexa-field-label">Categories</label>
+              <select id="nexa-filter-aggregate" class="nexa-clean-select" onchange="OverallCataloguePortal.onAggregateSelectChange(this.value)">
                 <option value="">Select Categories</option>
               </select>
             </div>
 
             <!-- Sub Categories -->
-            <div class="dearo-filter-field">
-              <label class="dearo-field-label">Sub Categories</label>
-              <select id="dearo-filter-sub-aggregate" class="dearo-clean-select" onchange="OverallCataloguePortal.onSubAggregateSelectChange(this.value)">
+            <div class="nexa-filter-field">
+              <label class="nexa-field-label">Sub Categories</label>
+              <select id="nexa-filter-sub-aggregate" class="nexa-clean-select" onchange="OverallCataloguePortal.onSubAggregateSelectChange(this.value)">
                 <option value="">Select Sub Categories</option>
               </select>
             </div>
 
             <!-- Explore Products Button -->
-            <div class="dearo-filter-field" style="justify-content: flex-end;">
-              <button type="button" class="dearo-btn-explore" onclick="OverallCataloguePortal.triggerExploreProducts()">
-                Explore Products
+            <div class="nexa-filter-field" style="justify-content: flex-end;">
+              <button type="button" class="nexa-btn-explore" onclick="OverallCataloguePortal.triggerExploreProducts()">
+                <span>Explore Compatible Parts</span> <span>➔</span>
               </button>
             </div>
 
@@ -754,7 +780,7 @@
           </div>
         </div>
 
-        <!-- Universal Part Search Bar with Autocomplete Suggestions Dropdown (Dearo Workshop Style) -->
+        <!-- Universal Part Search Bar with Autocomplete Suggestions Dropdown (AUTO NEXA Style) -->
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.35rem 1.6rem; margin-bottom: 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
           
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">

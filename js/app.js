@@ -34,7 +34,7 @@ window.App = {
     } catch (e) { console.warn("Sub-portal init warning:", e); }
 
     this.switchTab('catalogue-dashboard');
-    this.showToast("AUTO NEXA Online — Dearo Enterprise workspace loaded.", "success");
+    this.showToast("AUTO NEXA Online — Automotive Parts Intelligence loaded.", "success");
   },
 
   bindEvents() {
@@ -438,7 +438,7 @@ window.App = {
     root.setAttribute('data-theme', 'light');
     localStorage.setItem('auto-nexa-theme', 'light');
     this.syncChartTheme();
-    this.showToast(`Crisp White Theme Active (Dearo Workshop ERP)`, "info");
+    this.showToast("AUTO NEXA Light Studio Theme Active", "info");
     if (window.AnalyticsPortal) window.AnalyticsPortal.updateDashboard();
   },
 

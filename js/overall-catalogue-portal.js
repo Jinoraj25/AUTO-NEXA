@@ -25,17 +25,17 @@ window.OverallCataloguePortal = {
   q: '',
   orderType: 'vehicle', // 'stock' or 'vehicle'
 
-  // Vehicle Registration Number Master Mappings (Dearo Workshop Database)
+  // Vehicle Registration Number Master Mappings (AUTO NEXA Fitment Database)
   vrnDb: {
-    'TN22BK1405': { make: 'TATA', model: 'INDICA', sub_model: 'INDICA VISTA 1.3L', fuel: 'DIESEL', year: '2010', owner: 'Vignesh' },
+    'TN22BK1405': { make: 'TATA', model: 'INDICA', sub_model: 'INDICA VISTA 1.3L', fuel: 'DIESEL', year: '2010', owner: 'Jino George' },
     'DL3CCP1234': { make: 'HYUNDAI', model: 'CRETA', sub_model: '1.6 CRDI', fuel: 'DIESEL', year: '2018', owner: 'Corporate Fleet' },
-    'MH02CD5678': { make: 'MARUTI SUZUKI', model: 'SWIFT', sub_model: '1.2 VXI', fuel: 'PETROL', year: '2020', owner: 'Dearo Workshop' },
+    'MH02CD5678': { make: 'MARUTI SUZUKI', model: 'SWIFT', sub_model: '1.2 VXI', fuel: 'PETROL', year: '2020', owner: 'AUTO NEXA Hub' },
     'KA03MG9999': { make: 'MAHINDRA', model: 'SCORPIO', sub_model: 'S11 2.2L', fuel: 'DIESEL', year: '2021', owner: 'Enterprise Logistics' },
     'TN09BZ4321': { make: 'TOYOTA', model: 'INNOVA CRYSTA', sub_model: '2.4 VX', fuel: 'DIESEL', year: '2019', owner: 'VIP Prime' }
   },
 
   async init() {
-    console.log("⚡ Initializing Master Catalogue Portal (Dearo ERP 23.6M+ DB)...");
+    console.log("⚡ Initializing Master Catalogue Portal (AUTO NEXA 23.6M+ DB)...");
     
     // Close suggestions dropdown when clicking outside
     document.addEventListener('click', (e) => {
@@ -55,23 +55,23 @@ window.OverallCataloguePortal = {
 
   showCartToast() {
     if (window.App && window.App.showToast) {
-      window.App.showToast("Dearo Workshop Cart: 1 Staged Item (TATA Indica Oil Filter SKU 21611404)", "info");
+      window.App.showToast("AUTO NEXA Order Staging: 1 Staged Item (TATA Indica Oil Filter SKU 21611404)", "info");
     } else {
-      alert("Dearo Workshop Cart: 1 Staged Item");
+      alert("AUTO NEXA Order Staging: 1 Staged Item");
     }
   },
 
   showOrdersToast() {
     if (window.App && window.App.showToast) {
-      window.App.showToast("Dearo My Orders: 3 Active Work Orders processing.", "info");
+      window.App.showToast("AUTO NEXA Dispatch Orders: 3 Active Work Orders processing.", "info");
     } else {
-      alert("Dearo My Orders: 3 Active Work Orders");
+      alert("AUTO NEXA Dispatch Orders: 3 Active Work Orders");
     }
   },
 
   setOrderType(type) {
     this.orderType = type;
-    const switchKnob = document.querySelector('.dearo-switch-knob');
+    const switchKnob = document.querySelector('.nexa-switch-knob, .dearo-switch-knob');
     const switchPill = document.getElementById('order-toggle-switch');
     const labelStock = document.getElementById('order-type-stock');
     const labelVehicle = document.getElementById('order-type-vehicle');
@@ -79,15 +79,15 @@ window.OverallCataloguePortal = {
     if (type === 'vehicle') {
       if (switchKnob) switchKnob.style.transform = 'translateX(0)';
       if (switchPill) switchPill.style.background = '#2563eb';
-      if (labelStock) labelStock.className = 'dearo-toggle-label-inactive';
-      if (labelVehicle) labelVehicle.className = 'dearo-toggle-label-active';
-      if (window.App && window.App.showToast) window.App.showToast("Order Mode: VEHICLE ORDER (Linked to Job Card / Reg)", "info");
+      if (labelStock) labelStock.className = 'nexa-toggle-label-inactive dearo-toggle-label-inactive';
+      if (labelVehicle) labelVehicle.className = 'nexa-toggle-label-active dearo-toggle-label-active';
+      if (window.App && window.App.showToast) window.App.showToast("Order Mode: VEHICLE FITMENT ORDER (Linked to Job Card / Reg)", "info");
     } else {
       if (switchKnob) switchKnob.style.transform = 'translateX(-20px)';
       if (switchPill) switchPill.style.background = '#64748b';
-      if (labelStock) labelStock.className = 'dearo-toggle-label-active';
-      if (labelVehicle) labelVehicle.className = 'dearo-toggle-label-inactive';
-      if (window.App && window.App.showToast) window.App.showToast("Order Mode: STOCK ORDER (Bulk Replenishment)", "info");
+      if (labelStock) labelStock.className = 'nexa-toggle-label-active dearo-toggle-label-active';
+      if (labelVehicle) labelVehicle.className = 'nexa-toggle-label-inactive dearo-toggle-label-inactive';
+      if (window.App && window.App.showToast) window.App.showToast("Order Mode: DIRECT STOCK ORDER (Bulk Replenishment)", "info");
     }
   },
 
@@ -118,15 +118,15 @@ window.OverallCataloguePortal = {
     this.filters.fuel_type = found.fuel;
     this.filters.year = found.year;
 
-    // Update Pill chips in Dearo card
+    // Update Pill chips in AUTO NEXA Fitment card
     this.updatePillChip('make', found.make);
     this.updatePillChip('model', found.model);
     this.updatePillChip('sub_model', found.sub_model);
 
     // Update dropdown select elements
-    const fuelSel = document.getElementById('dearo-filter-fuel');
+    const fuelSel = document.getElementById('nexa-filter-fuel') || document.getElementById('dearo-filter-fuel');
     if (fuelSel) fuelSel.value = found.fuel;
-    const yearSel = document.getElementById('dearo-filter-year');
+    const yearSel = document.getElementById('nexa-filter-year') || document.getElementById('dearo-filter-year');
     if (yearSel) yearSel.value = found.year;
 
     if (window.App && window.App.showToast) {
@@ -144,16 +144,13 @@ window.OverallCataloguePortal = {
   },
 
   updatePillChip(field, val) {
-    let containerId = '';
-    if (field === 'make') containerId = 'dearo-pill-make-container';
-    else if (field === 'model') containerId = 'dearo-pill-model-container';
-    else if (field === 'sub_model') containerId = 'dearo-pill-variant-container';
-
-    const container = document.getElementById(containerId);
+    const containerKey = field === 'sub_model' ? 'variant' : field;
+    const container = document.getElementById(`nexa-pill-${containerKey}-container`) ||
+                      document.getElementById(`dearo-pill-${containerKey}-container`);
     if (!container) return;
 
     if (val) {
-      container.innerHTML = `<span class="dearo-pill-chip">${this.escapeHtml(val)} <span class="dearo-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('${field}')">✕</span></span>`;
+      container.innerHTML = `<span class="nexa-pill-chip">${this.escapeHtml(val)} <span class="nexa-pill-remove" onclick="event.stopPropagation(); OverallCataloguePortal.clearFitmentFilter('${field}')">✕</span></span>`;
     } else {
       let placeholder = field === 'make' ? 'Select Make' : (field === 'model' ? 'Select Model' : 'Select Variant');
       container.innerHTML = `<span style="color: #94a3b8; font-size: 0.88rem; font-weight: 600;">${placeholder}</span>`;
@@ -181,7 +178,7 @@ window.OverallCataloguePortal = {
     this.fetchData();
   },
 
-  clearAllDearoFilters() {
+  clearAllFitmentFilters() {
     const vrnInput = document.getElementById('vrn-search-input');
     if (vrnInput) vrnInput.value = '';
 
@@ -202,13 +199,13 @@ window.OverallCataloguePortal = {
     this.updatePillChip('model', '');
     this.updatePillChip('sub_model', '');
 
-    const fuelSel = document.getElementById('dearo-filter-fuel');
+    const fuelSel = document.getElementById('nexa-filter-fuel') || document.getElementById('dearo-filter-fuel');
     if (fuelSel) fuelSel.value = '';
-    const yearSel = document.getElementById('dearo-filter-year');
+    const yearSel = document.getElementById('nexa-filter-year') || document.getElementById('dearo-filter-year');
     if (yearSel) yearSel.value = '';
-    const catSel = document.getElementById('dearo-filter-aggregate');
+    const catSel = document.getElementById('nexa-filter-aggregate') || document.getElementById('dearo-filter-aggregate');
     if (catSel) catSel.value = '';
-    const subCatSel = document.getElementById('dearo-filter-sub-aggregate');
+    const subCatSel = document.getElementById('nexa-filter-sub-aggregate') || document.getElementById('dearo-filter-sub-aggregate');
     if (subCatSel) subCatSel.value = '';
     const qInput = document.getElementById('cat-search-q');
     if (qInput) qInput.value = '';
@@ -219,6 +216,10 @@ window.OverallCataloguePortal = {
 
     this.currentPage = 1;
     this.fetchData();
+  },
+
+  clearAllDearoFilters() {
+    return this.clearAllFitmentFilters();
   },
 
   toggleDropdown(selectId) {
@@ -323,8 +324,10 @@ window.OverallCataloguePortal = {
       this.populateSelect('cat-filter-make', data.makes || [], 'All Vehicle Makes');
       this.populateSelect('cat-filter-make-select', data.makes || [], 'Select Make');
       this.populateSelect('cat-filter-aggregate', data.aggregates || [], 'All Aggregates');
+      this.populateSelect('nexa-filter-aggregate', data.aggregates || [], 'Select Categories');
       this.populateSelect('dearo-filter-aggregate', data.aggregates || [], 'Select Categories');
       this.populateSelect('cat-filter-sub-aggregate', data.sub_aggregates || [], 'All Sub-Aggregates');
+      this.populateSelect('nexa-filter-sub-aggregate', data.sub_aggregates || [], 'Select Sub Categories');
       this.populateSelect('dearo-filter-sub-aggregate', data.sub_aggregates || [], 'Select Sub Categories');
       this.populateSelect('cat-filter-component', data.components || [], 'All Components');
     } catch (err) {
@@ -534,8 +537,8 @@ window.OverallCataloguePortal = {
     }
 
     if (subSel) subSel.innerHTML = `<option value="">All Variants</option>`;
-    const dearoVariantSel = document.getElementById('cat-filter-variant-select');
-    if (dearoVariantSel) dearoVariantSel.innerHTML = `<option value="">Select Variant</option>`;
+    const nexaVariantSel = document.getElementById('cat-filter-variant-select');
+    if (nexaVariantSel) nexaVariantSel.innerHTML = `<option value="">Select Variant</option>`;
     this.handleFilterChange();
   },
 
