@@ -885,121 +885,258 @@
           </div>
         </div>
 
-        <!-- 2. UNIFIED VEHICLE & SPARE PARTS HIERARCHY SEARCH (Combined & Cascading - Image 3 Fix) -->
-        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.35rem 1.6rem; margin-bottom: 1.35rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
-            <div style="font-size: 0.88rem; font-weight: 900; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; font-family: 'Outfit', sans-serif;">
-              <span>🚗 2. VEHICLE & SPARE PARTS HIERARCHY SEARCH</span>
+        <!-- 2. VISUAL VEHICLE & ASSEMBLY NAVIGATOR (Image-Based Brand & Oriparts Variant Cards) -->
+        <div id="cat-visual-navigator" class="visual-nav-container" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 1.5rem 1.75rem; margin-bottom: 1.5rem; box-shadow: 0 4px 18px rgba(15,23,42,0.04);">
+          
+          <!-- Interactive Stepper Breadcrumb Header -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 1rem; flex-wrap: wrap; gap: 0.85rem;">
+            <div>
+              <div style="font-size: 0.95rem; font-weight: 900; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; font-family: 'Outfit', sans-serif;">
+                <span style="font-size: 1.3rem;">🚘</span>
+                <span>2. VISUAL VEHICLE & ASSEMBLY EXPLORER</span>
+              </div>
+              <div style="font-size: 0.76rem; color: #64748b; margin-top: 0.2rem;">
+                Select Vehicle Make ➔ Choose Generation Variant ➔ Creative Assembly Taxonomy Studio ➔ Master Parts Table
+              </div>
             </div>
-            <div style="font-size: 0.78rem; color: #64748b;">
-              Interconnected cascading filters across vehicle make, model, fuel type, year, variant, brand, aggregate & component
-            </div>
-          </div>
 
-          <!-- Section A: Vehicle Application Hierarchy -->
-          <div style="margin-bottom: 1rem;">
-            <div style="font-size: 0.72rem; font-weight: 850; color: #0284c7; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem;">
-              <span>🚘</span> <span>Vehicle Hierarchy (Make ➔ Model ➔ Fuel & Year ➔ Dynamically Filtered Variant)</span>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem;">
-              <div>
-                <label for="cat-filter-make" style="font-size: 0.74rem; font-weight: 850; color: #0284c7; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Vehicle Make</label>
-                <select id="cat-filter-make" onchange="OverallCataloguePortal.handleMakeChange()" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.85rem; font-weight: 750; outline: none; cursor: pointer;">
-                  <option value="">All Vehicle Makes</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="cat-filter-model" style="font-size: 0.74rem; font-weight: 850; color: #0284c7; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Vehicle Model</label>
-                <select id="cat-filter-model" onchange="OverallCataloguePortal.handleModelChange()" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.85rem; font-weight: 750; outline: none; cursor: pointer;">
-                  <option value="">All Vehicle Models</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="cat-filter-fuel" style="font-size: 0.74rem; font-weight: 850; color: #64748b; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Fuel Type</label>
-                <select id="cat-filter-fuel" onchange="OverallCataloguePortal.handleFuelChange()" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.85rem; font-weight: 750; outline: none; cursor: pointer;">
-                  <option value="">All Fuel Types</option>
-                  <option value="PETROL">PETROL</option>
-                  <option value="DIESEL">DIESEL</option>
-                  <option value="CNG">CNG</option>
-                  <option value="ELECTRIC">ELECTRIC</option>
-                  <option value="HYBRID">HYBRID</option>
-                  <option value="LPG">LPG</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="cat-filter-year" style="font-size: 0.74rem; font-weight: 850; color: #64748b; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Year</label>
-                <select id="cat-filter-year" onchange="OverallCataloguePortal.handleYearChange()" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.85rem; font-weight: 750; outline: none; cursor: pointer;">
-                  <option value="">All Years</option>
-                  <option value="2026">2026</option>
-                  <option value="2025">2025</option>
-                  <option value="2024">2024</option>
-                  <option value="2023">2023</option>
-                  <option value="2022">2022</option>
-                  <option value="2021">2021</option>
-                  <option value="2020">2020</option>
-                  <option value="2019">2019</option>
-                  <option value="2018">2018</option>
-                  <option value="2017">2017</option>
-                  <option value="2016">2016</option>
-                  <option value="2015">2015</option>
-                  <option value="2014">2014</option>
-                  <option value="2013">2013</option>
-                  <option value="2012">2012</option>
-                  <option value="2011">2011</option>
-                  <option value="2010">2010</option>
-                  <option value="2009">2009</option>
-                  <option value="2008">2008</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="cat-filter-submodel" style="font-size: 0.74rem; font-weight: 850; color: #0284c7; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Filtered Variant / Sub-Model</label>
-                <select id="cat-filter-submodel" onchange="OverallCataloguePortal.handleSubModelChange()" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.85rem; font-weight: 750; outline: none; cursor: pointer;">
-                  <option value="">All Variants</option>
-                </select>
-              </div>
+            <!-- Stepper Pills -->
+            <div class="visual-stepper-bar">
+              <button type="button" class="visual-step-pill active" id="v-step-pill-1" onclick="OverallCataloguePortal.navGoToStep(1)">
+                <span class="v-step-num">1</span>
+                <span>Select Brand</span>
+              </button>
+              <span class="v-step-sep">➔</span>
+              <button type="button" class="visual-step-pill" id="v-step-pill-2" onclick="OverallCataloguePortal.navGoToStep(2)">
+                <span class="v-step-num">2</span>
+                <span id="v-step-label-2">Choose Variant</span>
+              </button>
+              <span class="v-step-sep">➔</span>
+              <button type="button" class="visual-step-pill" id="v-step-pill-3" onclick="OverallCataloguePortal.navGoToStep(3)">
+                <span class="v-step-num">3</span>
+                <span id="v-step-label-3">Assembly & Component</span>
+              </button>
+              <span class="v-step-sep">➔</span>
+              <button type="button" class="visual-step-pill" id="v-step-pill-4" onclick="OverallCataloguePortal.navGoToStep(4)">
+                <span class="v-step-num">4</span>
+                <span>Parts Table</span>
+              </button>
             </div>
           </div>
 
-          <!-- Section B: Spare Parts & Component Taxonomy (Segment removed) -->
-          <div style="border-top: 1px dashed #e2e8f0; padding-top: 0.9rem;">
-            <div style="font-size: 0.72rem; font-weight: 850; color: #e11d48; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
-              <span style="display: flex; align-items: center; gap: 0.4rem;">📦 <span>Spare Parts Taxonomy (Brand ➔ Aggregate ➔ Sub-Aggregate ➔ Component)</span></span>
-              <button type="button" onclick="OverallCataloguePortal.resetFilters()" style="background: transparent; border: none; color: #dc2626; font-size: 0.74rem; font-weight: 800; cursor: pointer; text-decoration: underline;">Clear All Filters ✕</button>
+          <!-- ==================== STEP 1: MAKE SELECTION (VISUAL CARDS & OEM LOGOS) ==================== -->
+          <div id="v-nav-step-1" class="v-nav-step-pane">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 0.78rem; font-weight: 850; color: #0284c7; text-transform: uppercase; letter-spacing: 0.6px;">Select Vehicle Manufacturer</span>
+                <span id="v-makes-total-badge" class="badge" style="background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-size: 0.72rem; font-weight: 800; border-radius: 6px;">22 Makes Live</span>
+              </div>
+
+              <!-- Search and Quick Category Filter -->
+              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <div style="position: relative;">
+                  <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 0.85rem; color: #64748b; pointer-events: none;">🔍</span>
+                  <input type="text" id="v-make-search-input" placeholder="Search make (e.g. Maruti, Tata, Toyota)..." oninput="OverallCataloguePortal.filterMakesGrid(this.value)" style="padding: 0.45rem 0.75rem 0.45rem 2rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; font-weight: 600; color: #0f172a; outline: none; width: 230px;">
+                </div>
+
+                <div style="display: flex; gap: 0.35rem;">
+                  <button type="button" class="chip active" onclick="OverallCataloguePortal.filterMakeCategory('all', this)" style="padding: 0.35rem 0.7rem; font-size: 0.74rem; font-weight: 800; border-radius: 6px; cursor: pointer;">All</button>
+                  <button type="button" class="chip" onclick="OverallCataloguePortal.filterMakeCategory('popular', this)" style="padding: 0.35rem 0.7rem; font-size: 0.74rem; font-weight: 800; border-radius: 6px; cursor: pointer;">Popular PCV</button>
+                  <button type="button" class="chip" onclick="OverallCataloguePortal.filterMakeCategory('SUV/LCV', this)" style="padding: 0.35rem 0.7rem; font-size: 0.74rem; font-weight: 800; border-radius: 6px; cursor: pointer;">SUV & LCV</button>
+                  <button type="button" class="chip" onclick="OverallCataloguePortal.filterMakeCategory('Luxury', this)" style="padding: 0.35rem 0.7rem; font-size: 0.74rem; font-weight: 800; border-radius: 6px; cursor: pointer;">Luxury</button>
+                </div>
+              </div>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.85rem;">
-              <div>
-                <label for="cat-filter-brand" style="font-size: 0.74rem; font-weight: 850; color: #b45309; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Brand Name</label>
-                <select id="cat-filter-brand" onchange="OverallCataloguePortal.handleBrandChange()" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.85rem; font-weight: 750; outline: none; cursor: pointer;">
-                  <option value="">All Brands</option>
-                </select>
-              </div>
 
-              <div>
-                <label for="cat-filter-aggregate" style="font-size: 0.74rem; font-weight: 850; color: #e11d48; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Aggregate (Category)</label>
-                <select id="cat-filter-aggregate" onchange="OverallCataloguePortal.handleAggregateChange()" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.85rem; font-weight: 750; outline: none; cursor: pointer;">
-                  <option value="">All Aggregates</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="cat-filter-sub-aggregate" style="font-size: 0.74rem; font-weight: 850; color: #e11d48; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Sub-Aggregate</label>
-                <select id="cat-filter-sub-aggregate" onchange="OverallCataloguePortal.handleSubAggregateChange()" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.85rem; font-weight: 750; outline: none; cursor: pointer;">
-                  <option value="">All Sub-Aggregates</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="cat-filter-component" style="font-size: 0.74rem; font-weight: 850; color: #e11d48; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Component</label>
-                <select id="cat-filter-component" onchange="OverallCataloguePortal.handleComponentChange()" style="width: 100%; box-sizing: border-box; padding: 0.65rem 0.85rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.85rem; font-weight: 750; outline: none; cursor: pointer;">
-                  <option value="">All Components</option>
-                </select>
-              </div>
+            <!-- Makes Cards Grid -->
+            <div id="v-makes-grid" class="visual-makes-grid">
+              <!-- Dynamically rendered via JS -->
             </div>
           </div>
+
+          <!-- ==================== STEP 2: VARIANT SELECTION (ORIPARTS VEHICLE CARDS) ==================== -->
+          <div id="v-nav-step-2" class="v-nav-step-pane" style="display: none;">
+            
+            <!-- Active Make Sub-Header & Controls -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1.15rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <button type="button" onclick="OverallCataloguePortal.navGoToStep(1)" style="padding: 0.4rem 0.8rem; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.78rem; font-weight: 800; color: #475569; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>←</span> <span>Change Make</span>
+                </button>
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                  <img id="v-active-make-logo" src="" alt="Make Logo" style="height: 32px; width: 44px; object-fit: contain; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 2px;">
+                  <div>
+                    <h4 id="v-active-make-name" style="margin: 0; font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">MARUTI SUZUKI</h4>
+                    <span id="v-active-variants-count" style="font-size: 0.72rem; color: #64748b; font-weight: 700;">Loading variants...</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Top Cascading Shortlisting Filters: Fuel Type, Year, and Live Search (as requested) -->
+              <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                
+                <!-- Fuel Type Dropdown -->
+                <div style="display: flex; align-items: center; gap: 0.35rem; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 0.2rem 0.6rem;">
+                  <span style="font-size: 0.72rem; font-weight: 850; color: #0284c7; text-transform: uppercase;">Fuel:</span>
+                  <select id="v-filter-fuel" onchange="OverallCataloguePortal.onVisualFilterChange()" style="background: transparent; border: none; color: #0f172a; font-size: 0.8rem; font-weight: 800; outline: none; cursor: pointer;">
+                    <option value="">All Fuels</option>
+                    <option value="PETROL">PETROL</option>
+                    <option value="DIESEL">DIESEL</option>
+                    <option value="CNG">CNG</option>
+                    <option value="ELECTRIC">ELECTRIC</option>
+                    <option value="HYBRID">HYBRID</option>
+                  </select>
+                </div>
+
+                <!-- Year Dropdown -->
+                <div style="display: flex; align-items: center; gap: 0.35rem; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 0.2rem 0.6rem;">
+                  <span style="font-size: 0.72rem; font-weight: 850; color: #0284c7; text-transform: uppercase;">Year:</span>
+                  <select id="v-filter-year" onchange="OverallCataloguePortal.onVisualFilterChange()" style="background: transparent; border: none; color: #0f172a; font-size: 0.8rem; font-weight: 800; outline: none; cursor: pointer;">
+                    <option value="">All Years</option>
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                    <option value="2009">2009</option>
+                    <option value="2008">2008</option>
+                  </select>
+                </div>
+
+                <!-- Variant Search Box -->
+                <div style="position: relative;">
+                  <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 0.85rem; color: #64748b; pointer-events: none;">🔍</span>
+                  <input type="text" id="v-filter-search" placeholder="Search variant or trim..." oninput="OverallCataloguePortal.onVisualFilterDebounce()" style="padding: 0.45rem 0.75rem 0.45rem 2rem; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; font-weight: 600; color: #0f172a; outline: none; width: 190px;">
+                </div>
+
+                <button type="button" onclick="OverallCataloguePortal.resetVisualVariantFilters()" title="Reset Filters" style="padding: 0.45rem 0.75rem; background: #e2e8f0; border: none; border-radius: 8px; color: #475569; font-size: 0.76rem; font-weight: 800; cursor: pointer;">
+                  ✕ Reset
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Model Pills Strip for Quick Filtering -->
+            <div id="v-model-pills-wrap" style="display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.75rem; margin-bottom: 0.85rem; scrollbar-width: thin;">
+              <!-- Dynamic model pills: All, Swift, Baleno, Alto, etc. -->
+            </div>
+
+            <!-- Oriparts 3D Vehicle Variant Cards Grid -->
+            <div id="v-variants-grid" class="visual-variants-grid">
+              <!-- Dynamically populated variant cards with photos -->
+            </div>
+          </div>
+
+          <!-- ==================== STEP 3: CREATIVE ASSEMBLY & TAXONOMY STUDIO ==================== -->
+          <div id="v-nav-step-3" class="v-nav-step-pane" style="display: none;">
+            
+            <!-- Selected Vehicle Summary Banner -->
+            <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <img id="v-selected-veh-thumb" src="" alt="Selected Vehicle" style="height: 48px; width: 75px; object-fit: contain; background: #ffffff; border: 1px solid #dcfce7; border-radius: 8px; padding: 3px;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.45rem;">
+                    <span class="badge" style="background: #10b981; color: #ffffff; font-size: 0.68rem; font-weight: 900; border-radius: 4px; padding: 0.15rem 0.45rem;">SELECTED VEHICLE</span>
+                    <strong id="v-selected-veh-title" style="font-size: 0.98rem; color: #0f172a; font-family: 'Outfit', sans-serif;">Maruti Suzuki Swift 3rd Gen 1.2L VXI</strong>
+                  </div>
+                  <div id="v-selected-veh-meta" style="font-size: 0.76rem; color: #166534; font-weight: 700; margin-top: 0.15rem;">
+                    Fuel: PETROL • Model Years: 2018 - 2021
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 0.5rem;">
+                <button type="button" onclick="OverallCataloguePortal.navGoToStep(2)" style="padding: 0.45rem 0.85rem; background: #ffffff; border: 1.5px solid #86efac; border-radius: 8px; font-size: 0.78rem; font-weight: 800; color: #166534; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>←</span> <span>Change Variant</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Studio Subheader -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <div style="font-size: 0.8rem; font-weight: 850; color: #0284c7; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 0.4rem;">
+                <span>⚙️</span> <span>Select Component Hierarchy (Aggregate ➔ Sub-Aggregate ➔ Component)</span>
+              </div>
+              <span style="font-size: 0.74rem; color: #64748b;">Click any component to instantly launch its complete parts information table</span>
+            </div>
+
+            <!-- 3-Column Creative Assembly Taxonomy Studio Grid -->
+            <div class="taxonomy-studio-grid">
+              
+              <!-- Column 1: System Aggregate -->
+              <div class="taxonomy-column">
+                <div class="taxonomy-col-header">
+                  <div class="taxonomy-col-title">
+                    <span>🛑</span> <span>1. System Aggregate</span>
+                  </div>
+                  <span id="v-tax-agg-count" style="font-size: 0.72rem; color: #64748b; font-weight: 700;">Loading...</span>
+                </div>
+                <div id="v-tax-agg-list" class="taxonomy-list-box">
+                  <!-- Aggregates with icons and counts -->
+                </div>
+              </div>
+
+              <!-- Column 2: Sub-Aggregate -->
+              <div class="taxonomy-column">
+                <div class="taxonomy-col-header">
+                  <div class="taxonomy-col-title">
+                    <span>📦</span> <span>2. Sub-Aggregate Assembly</span>
+                  </div>
+                  <span id="v-tax-subagg-count" style="font-size: 0.72rem; color: #64748b; font-weight: 700;">Select Aggregate</span>
+                </div>
+                <div id="v-tax-subagg-list" class="taxonomy-list-box">
+                  <div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">
+                    ← Select a System Aggregate to view its Sub-Aggregates
+                  </div>
+                </div>
+              </div>
+
+              <!-- Column 3: Component -->
+              <div class="taxonomy-column" style="background: #ffffff; border-color: #0284c7; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.06);">
+                <div class="taxonomy-col-header" style="border-bottom-color: #bae6fd;">
+                  <div class="taxonomy-col-title" style="color: #0284c7;">
+                    <span>⚡</span> <span>3. Component & Action</span>
+                  </div>
+                  <span id="v-tax-comp-count" style="font-size: 0.72rem; color: #0284c7; font-weight: 700;">Select Sub-Aggregate</span>
+                </div>
+                <div id="v-tax-comp-list" class="taxonomy-list-box">
+                  <div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">
+                    ← Select a Sub-Aggregate to view Components
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Active Fitment Banner (Visible when vehicle is selected) -->
+          <div id="v-active-fitment-bar" style="display: none; margin-top: 1rem; padding: 0.75rem 1.15rem; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <span style="font-size: 1.1rem;">🚗</span>
+              <div style="font-size: 0.82rem; color: #166534; font-weight: 700;">
+                Active Fitment: <strong id="v-fitment-summary-text" style="color: #0f172a;">Maruti Suzuki Swift 3rd Gen (PETROL)</strong>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button type="button" onclick="OverallCataloguePortal.navGoToStep(2)" style="background: #ffffff; border: 1px solid #86efac; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.75rem; font-weight: 800; color: #166534; cursor: pointer;">Change Vehicle</button>
+              <button type="button" onclick="OverallCataloguePortal.clearVisualFitment()" style="background: transparent; border: none; font-size: 0.75rem; font-weight: 800; color: #dc2626; cursor: pointer;">Clear ✕</button>
+            </div>
+          </div>
+
         </div>
 
         <!-- Master Catalogue Display Container (Clean Light Enterprise) -->

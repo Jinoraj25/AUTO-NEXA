@@ -1,21 +1,36 @@
 /* AUTO NEXA - AutoDukan Master Catalogue Intelligence Portal (23.6M+ Records) */
 
 window.OverallCataloguePortal = {
-  viewMode: 'grid', // 'grid' (AutoDukan Cards) or 'table' (Enterprise Grid)
+  viewMode: 'grid', // 'grid' (Cards) or 'table' (Enterprise Grid)
   currentPage: 1,
   limit: 48,
   totalRecords: 0,
   totalPages: 1,
   searchDebounceTimer: null,
   suggestionDebounceTimer: null,
+  variantFilterDebounceTimer: null,
+  
+  // Visual Navigator State
+  visualCurrentStep: 1,
+  visualMakes: [],
+  selectedMake: null,
+  selectedModel: null,
+  selectedVariant: null,
+  selectedVariantFuel: null,
+  selectedVariantYears: null,
+  selectedVariantImage: null,
+  selectedAggregate: null,
+  selectedSubAggregate: null,
+  selectedComponent: null,
+
   filters: {
     brand: '',
     segment: '',
-    make: 'TATA',
-    model: 'INDICA',
-    sub_model: 'INDICA VISTA 1.3L',
-    fuel_type: 'DIESEL',
-    year: '2010',
+    make: '',
+    model: '',
+    sub_model: '',
+    fuel_type: '',
+    year: '',
     aggregate: '',
     sub_aggregate: '',
     component: '',
@@ -49,6 +64,7 @@ window.OverallCataloguePortal = {
     });
 
     await this.loadStats();
+    await this.initVisualNavigator();
     await this.loadFilterOptions();
     await this.fetchData();
     this.initCharts();
@@ -283,6 +299,531 @@ window.OverallCataloguePortal = {
     if (window.App && window.App.showToast) {
       window.App.showToast(`Exploring products for ${this.filters.make || 'All Makes'} ${this.filters.model || ''}`, "success");
     }
+  },
+
+  // ==================== VISUAL VEHICLE & ASSEMBLY NAVIGATOR ====================
+
+  async initVisualNavigator() {
+    try {
+      const res = await fetch('/api/overall-catalogue/makes-catalog');
+      if (res.ok) {
+        const data = await res.json();
+        this.visualMakes = Array.isArray(data) ? data : (data.makes || []);
+        this.renderMakesGrid(this.visualMakes);
+      }
+    } catch (err) {
+      console.error("Error loading visual makes:", err);
+    }
+  },
+
+  renderMakesGrid(makesList) {
+    const grid = document.getElementById('v-makes-grid');
+    if (!grid) return;
+    
+    if (!makesList || makesList.length === 0) {
+      grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 2.5rem; color: #64748b;">No vehicle makes match the search query.</div>`;
+      return;
+    }
+    
+    grid.innerHTML = makesList.map(m => {
+      const isSelected = this.selectedMake === m.make;
+      const logoUrl = m.logo || 'images/brand_others.svg';
+      const modelCount = m.modelsCount || m.models_count || 12;
+      const variantCount = m.variantsCount || m.variants_count || 150;
+      
+      return `
+        <div class="visual-make-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectMakeVisual('${this.escapeJs(m.make)}')">
+          <img class="visual-make-logo" src="${logoUrl}" alt="${this.escapeHtml(m.displayName)}" onerror="this.src='images/brand_others.svg'">
+          <div class="visual-make-name">${this.escapeHtml(m.displayName)}</div>
+          <div class="visual-make-count">${modelCount} Models • ${variantCount.toLocaleString('en-IN')} Variants</div>
+        </div>
+      `;
+    }).join('');
+    
+    const countBadge = document.getElementById('v-makes-total-badge');
+    if (countBadge) {
+      countBadge.textContent = `${makesList.length} Makes Live`;
+    }
+  },
+
+  filterMakesGrid(searchVal) {
+    const q = (searchVal || '').trim().toUpperCase();
+    if (!q) {
+      this.renderMakesGrid(this.visualMakes);
+      return;
+    }
+    const filtered = this.visualMakes.filter(m => 
+      m.make.toUpperCase().includes(q) || 
+      (m.displayName && m.displayName.toUpperCase().includes(q))
+    );
+    this.renderMakesGrid(filtered);
+  },
+
+  filterMakeCategory(cat, btn) {
+    document.querySelectorAll('#v-nav-step-1 .chip').forEach(c => c.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    
+    if (cat === 'all') {
+      this.renderMakesGrid(this.visualMakes);
+    } else if (cat === 'popular') {
+      this.renderMakesGrid(this.visualMakes.filter(m => m.popular));
+    } else if (cat === 'SUV/LCV') {
+      this.renderMakesGrid(this.visualMakes.filter(m => (m.segment || '').includes('SUV') || (m.segment || '').includes('LCV') || (m.segment || '').includes('HCV') || m.make === 'MAHINDRA' || m.make === 'TATA' || m.make === 'FORCE'));
+    } else if (cat === 'Luxury') {
+      this.renderMakesGrid(this.visualMakes.filter(m => m.segment === 'Luxury' || ['BMW', 'MERCEDES-BENZ', 'AUDI', 'VOLVO', 'JEEP'].includes(m.make)));
+    }
+  },
+
+  async selectMakeVisual(makeName) {
+    this.selectedMake = makeName;
+    this.selectedModel = null;
+    this.selectedVariant = null;
+    
+    // Update Step 2 Header
+    const makeObj = this.visualMakes.find(m => m.make === makeName) || { displayName: makeName, logo: 'images/brand_others.svg' };
+    const nameEl = document.getElementById('v-active-make-name');
+    const logoEl = document.getElementById('v-active-make-logo');
+    if (nameEl) nameEl.textContent = makeObj.displayName || makeName;
+    if (logoEl) logoEl.src = makeObj.logo || 'images/brand_others.svg';
+    
+    // Reset filters in Step 2
+    const fuelSel = document.getElementById('v-filter-fuel');
+    const yrSel = document.getElementById('v-filter-year');
+    const searchInp = document.getElementById('v-filter-search');
+    if (fuelSel) fuelSel.value = '';
+    if (yrSel) yrSel.value = '';
+    if (searchInp) searchInp.value = '';
+    
+    // Step navigation
+    this.navGoToStep(2);
+    
+    // Load variants for this make
+    await this.loadVisualVariants();
+  },
+
+  async loadVisualVariants() {
+    if (!this.selectedMake) return;
+    const grid = document.getElementById('v-variants-grid');
+    const countEl = document.getElementById('v-active-variants-count');
+    const pillsWrap = document.getElementById('v-model-pills-wrap');
+    
+    if (grid) {
+      grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #0284c7; font-weight: 700;">⚡ Loading variants for ${this.escapeHtml(this.selectedMake)}...</div>`;
+    }
+    
+    const fuel = document.getElementById('v-filter-fuel')?.value || '';
+    const year = document.getElementById('v-filter-year')?.value || '';
+    const q = document.getElementById('v-filter-search')?.value || '';
+    
+    try {
+      const params = new URLSearchParams({
+        make: this.selectedMake,
+        limit: 150
+      });
+      if (this.selectedModel) params.append('model', this.selectedModel);
+      if (fuel) params.append('fuel_type', fuel);
+      if (year) params.append('year', year);
+      if (q) params.append('search', q);
+      
+      const res = await fetch(`/api/overall-catalogue/visual-variants?${params.toString()}`);
+      if (!res.ok) throw new Error("Variant fetch failed");
+      const data = await res.json();
+      
+      const variants = data.variants || [];
+      const models = data.models || [];
+      
+      if (countEl) {
+        countEl.textContent = `${variants.length} Variants Available`;
+      }
+      
+      // Render Model Pills
+      if (pillsWrap && models.length > 0) {
+        let pillsHtml = `
+          <button type="button" class="chip ${!this.selectedModel ? 'active' : ''}" onclick="OverallCataloguePortal.filterByModelPill('', this)" style="padding: 0.35rem 0.8rem; font-size: 0.74rem; font-weight: 800; border-radius: 6px; cursor: pointer; white-space: nowrap;">
+            All Models (${models.length})
+          </button>
+        `;
+        models.forEach(md => {
+          const isActive = this.selectedModel === md;
+          pillsHtml += `
+            <button type="button" class="chip ${isActive ? 'active' : ''}" onclick="OverallCataloguePortal.filterByModelPill('${this.escapeJs(md)}', this)" style="padding: 0.35rem 0.8rem; font-size: 0.74rem; font-weight: 800; border-radius: 6px; cursor: pointer; white-space: nowrap;">
+              ${this.escapeHtml(md)}
+            </button>
+          `;
+        });
+        pillsWrap.innerHTML = pillsHtml;
+      }
+      
+      this.renderVisualVariants(variants);
+    } catch (err) {
+      console.error("Error loading visual variants:", err);
+      if (grid) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 2.5rem; color: #f87171;">⚠️ Failed to load vehicle variants: ${this.escapeHtml(err.message)}</div>`;
+      }
+    }
+  },
+
+  renderVisualVariants(variants) {
+    const grid = document.getElementById('v-variants-grid');
+    if (!grid) return;
+    
+    if (variants.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem; color: #64748b;">
+          <span style="font-size: 2.2rem; display: block; margin-bottom: 0.5rem;">🚗</span>
+          No vehicle variants found for the selected combination of Fuel (${document.getElementById('v-filter-fuel')?.value || 'Any'}) and Year (${document.getElementById('v-filter-year')?.value || 'Any'}).<br>
+          <button type="button" onclick="OverallCataloguePortal.resetVisualVariantFilters()" style="margin-top: 0.85rem; padding: 0.5rem 1rem; background: #0284c7; color: #ffffff; border: none; border-radius: 6px; font-weight: 800; cursor: pointer;">
+            Clear Filters
+          </button>
+        </div>
+      `;
+      return;
+    }
+    
+    grid.innerHTML = variants.map(v => {
+      const isSelected = this.selectedVariant === v.subModel;
+      const imgUrl = v.image || 'images/brand_others.svg';
+      const subTitle = v.subModel || v.model;
+      const fuel = v.fuelType || 'PETROL';
+      const yrs = v.years || '';
+      
+      return `
+        <div class="visual-variant-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectVariantVisual('${this.escapeJs(v.subModel)}', '${this.escapeJs(v.model)}', '${this.escapeJs(fuel)}', '${this.escapeJs(v.fromYear || '')}', '${this.escapeJs(v.toYear || '')}', '${this.escapeJs(imgUrl)}')">
+          <img class="visual-variant-thumb" src="${imgUrl}" alt="${this.escapeHtml(subTitle)}" onerror="this.onerror=null; this.src='images/brand_others.svg';">
+          <div>
+            <div class="visual-variant-name" title="${this.escapeHtml(subTitle)}">${this.escapeHtml(subTitle)}</div>
+            <div class="visual-variant-specs">
+              <span class="visual-variant-fuel-badge">${this.escapeHtml(fuel)}</span>
+              ${yrs ? `<span>${this.escapeHtml(yrs)}</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  },
+
+  onVisualFilterChange() {
+    this.loadVisualVariants();
+  },
+
+  onVisualFilterDebounce() {
+    if (this.variantFilterDebounceTimer) clearTimeout(this.variantFilterDebounceTimer);
+    this.variantFilterDebounceTimer = setTimeout(() => {
+      this.loadVisualVariants();
+    }, 280);
+  },
+
+  filterByModelPill(modelName, pillElem) {
+    this.selectedModel = modelName;
+    document.querySelectorAll('#v-model-pills-wrap .chip').forEach(c => c.classList.remove('active'));
+    if (pillElem) pillElem.classList.add('active');
+    this.loadVisualVariants();
+  },
+
+  resetVisualVariantFilters() {
+    const fuelSel = document.getElementById('v-filter-fuel');
+    const yrSel = document.getElementById('v-filter-year');
+    const searchInp = document.getElementById('v-filter-search');
+    if (fuelSel) fuelSel.value = '';
+    if (yrSel) yrSel.value = '';
+    if (searchInp) searchInp.value = '';
+    this.selectedModel = null;
+    this.loadVisualVariants();
+  },
+
+  selectVariantVisual(subModel, model, fuelType, fromYr, toYr, imgUrl) {
+    this.selectedVariant = subModel;
+    this.selectedModel = model;
+    this.selectedVariantFuel = fuelType;
+    this.selectedVariantYears = (fromYr || toYr) ? `${fromYr} - ${toYr || 'Present'}` : '';
+    this.selectedVariantImage = imgUrl;
+    
+    // Update filters on OverallCataloguePortal
+    this.filters.make = this.selectedMake;
+    this.filters.model = model;
+    this.filters.sub_model = subModel;
+    if (fuelType) this.filters.fuel_type = fuelType;
+    if (fromYr) this.filters.year = fromYr;
+    
+    // Update UI in Step 3
+    const thumbEl = document.getElementById('v-selected-veh-thumb');
+    const titleEl = document.getElementById('v-selected-veh-title');
+    const metaEl = document.getElementById('v-selected-veh-meta');
+    if (thumbEl) thumbEl.src = imgUrl || 'images/brand_others.svg';
+    if (titleEl) titleEl.textContent = `${this.selectedMake} ${subModel}`;
+    if (metaEl) metaEl.textContent = `Fuel: ${fuelType} • Applicable Years: ${this.selectedVariantYears || 'All Years'}`;
+    
+    // Update active fitment bar at bottom
+    const fitmentBar = document.getElementById('v-active-fitment-bar');
+    const fitmentText = document.getElementById('v-fitment-summary-text');
+    if (fitmentBar) fitmentBar.style.display = 'flex';
+    if (fitmentText) fitmentText.textContent = `${this.selectedMake} ${subModel} (${fuelType} ${this.selectedVariantYears})`;
+    
+    // Update stepper label
+    const stepLabel2 = document.getElementById('v-step-label-2');
+    if (stepLabel2) stepLabel2.textContent = model || 'Variant';
+    
+    // Navigate to Step 3
+    this.navGoToStep(3);
+    
+    // Load System Aggregates
+    this.loadVisualAggregates();
+  },
+
+  async loadVisualAggregates() {
+    const listEl = document.getElementById('v-tax-agg-list');
+    const countEl = document.getElementById('v-tax-agg-count');
+    if (listEl) {
+      listEl.innerHTML = `<div style="text-align: center; padding: 2rem; color: #0284c7;">⚡ Loading aggregates...</div>`;
+    }
+    
+    // Clear sub-aggregate and component columns
+    const subList = document.getElementById('v-tax-subagg-list');
+    const subCount = document.getElementById('v-tax-subagg-count');
+    if (subList) subList.innerHTML = `<div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">← Select a System Aggregate to view its Sub-Aggregates</div>`;
+    if (subCount) subCount.textContent = 'Select Aggregate';
+    
+    const compList = document.getElementById('v-tax-comp-list');
+    const compCount = document.getElementById('v-tax-comp-count');
+    if (compList) compList.innerHTML = `<div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">← Select a Sub-Aggregate to view Components</div>`;
+    if (compCount) compCount.textContent = 'Select Sub-Aggregate';
+    
+    try {
+      const params = new URLSearchParams();
+      if (this.selectedMake) params.append('make', this.selectedMake);
+      if (this.selectedModel) params.append('model', this.selectedModel);
+      if (this.selectedVariant) params.append('sub_model', this.selectedVariant);
+      
+      const res = await fetch(`/api/overall-catalogue/taxonomy-hierarchy?${params.toString()}`);
+      if (!res.ok) throw new Error("Aggregates fetch failed");
+      const data = await res.json();
+      const items = data.items || [];
+      
+      if (countEl) countEl.textContent = `${items.length} Systems`;
+      
+      if (!listEl) return;
+      if (items.length === 0) {
+        listEl.innerHTML = `<div style="text-align: center; padding: 2rem; color: #64748b;">No categories available for this vehicle.</div>`;
+        return;
+      }
+      
+      listEl.innerHTML = items.map(item => `
+        <div class="taxonomy-item-pill ${this.selectedAggregate === item.name ? 'active' : ''}" onclick="OverallCataloguePortal.selectAggregateVisual('${this.escapeJs(item.name)}', this)">
+          <div style="display: flex; align-items: center; gap: 0.5rem; min-width: 0;">
+            <span style="font-size: 1.15rem;">${item.icon || '📦'}</span>
+            <strong style="font-size: 0.8rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${this.escapeHtml(item.name)}</strong>
+          </div>
+          <span class="count-badge" style="background: #f1f5f9; color: #475569; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 4px; border: 1px solid #e2e8f0;">
+            ${Number(item.count || 0).toLocaleString('en-IN')}
+          </span>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.error("Error loading visual aggregates:", err);
+      if (listEl) listEl.innerHTML = `<div style="text-align: center; padding: 2rem; color: #f87171;">⚠️ ${this.escapeHtml(err.message)}</div>`;
+    }
+  },
+
+  async selectAggregateVisual(aggName, elem) {
+    this.selectedAggregate = aggName;
+    this.selectedSubAggregate = null;
+    this.selectedComponent = null;
+    
+    // Highlight active in Column 1
+    document.querySelectorAll('#v-tax-agg-list .taxonomy-item-pill').forEach(p => p.classList.remove('active'));
+    if (elem) elem.classList.add('active');
+    
+    const subList = document.getElementById('v-tax-subagg-list');
+    const subCount = document.getElementById('v-tax-subagg-count');
+    if (subList) subList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #0284c7;">⚡ Loading sub-assemblies for ${this.escapeHtml(aggName)}...</div>`;
+    
+    const compList = document.getElementById('v-tax-comp-list');
+    const compCount = document.getElementById('v-tax-comp-count');
+    if (compList) compList.innerHTML = `<div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">← Select a Sub-Aggregate to view Components</div>`;
+    if (compCount) compCount.textContent = 'Select Sub-Aggregate';
+    
+    try {
+      const params = new URLSearchParams({ aggregate: aggName });
+      if (this.selectedMake) params.append('make', this.selectedMake);
+      if (this.selectedModel) params.append('model', this.selectedModel);
+      if (this.selectedVariant) params.append('sub_model', this.selectedVariant);
+      
+      const res = await fetch(`/api/overall-catalogue/taxonomy-hierarchy?${params.toString()}`);
+      if (!res.ok) throw new Error("Sub-aggregates fetch failed");
+      const data = await res.json();
+      const items = data.items || [];
+      
+      if (subCount) subCount.textContent = `${items.length} Sub-Systems`;
+      
+      if (!subList) return;
+      if (items.length === 0) {
+        subList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #64748b;">No sub-aggregates found. Direct to parts table below.</div>`;
+        return;
+      }
+      
+      subList.innerHTML = items.map(item => `
+        <div class="taxonomy-item-pill ${this.selectedSubAggregate === item.name ? 'active' : ''}" onclick="OverallCataloguePortal.selectSubAggregateVisual('${this.escapeJs(item.name)}', this)">
+          <div style="display: flex; align-items: center; gap: 0.5rem; min-width: 0;">
+            <span style="color: #0284c7; font-size: 0.8rem;">▶</span>
+            <strong style="font-size: 0.8rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${this.escapeHtml(item.name)}</strong>
+          </div>
+          <span class="count-badge" style="background: #f1f5f9; color: #475569; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 4px; border: 1px solid #e2e8f0;">
+            ${Number(item.count || 0).toLocaleString('en-IN')}
+          </span>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.error("Error loading subaggregates:", err);
+      if (subList) subList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #f87171;">⚠️ ${this.escapeHtml(err.message)}</div>`;
+    }
+  },
+
+  async selectSubAggregateVisual(subAggName, elem) {
+    this.selectedSubAggregate = subAggName;
+    this.selectedComponent = null;
+    
+    // Highlight active in Column 2
+    document.querySelectorAll('#v-tax-subagg-list .taxonomy-item-pill').forEach(p => p.classList.remove('active'));
+    if (elem) elem.classList.add('active');
+    
+    const compList = document.getElementById('v-tax-comp-list');
+    const compCount = document.getElementById('v-tax-comp-count');
+    if (compList) compList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #0284c7;">⚡ Loading components for ${this.escapeHtml(subAggName)}...</div>`;
+    
+    try {
+      const params = new URLSearchParams({
+        aggregate: this.selectedAggregate,
+        sub_aggregate: subAggName
+      });
+      if (this.selectedMake) params.append('make', this.selectedMake);
+      if (this.selectedModel) params.append('model', this.selectedModel);
+      if (this.selectedVariant) params.append('sub_model', this.selectedVariant);
+      
+      const res = await fetch(`/api/overall-catalogue/taxonomy-hierarchy?${params.toString()}`);
+      if (!res.ok) throw new Error("Components fetch failed");
+      const data = await res.json();
+      const items = data.items || [];
+      
+      if (compCount) compCount.textContent = `${items.length} Parts Available`;
+      
+      if (!compList) return;
+      if (items.length === 0) {
+        compList.innerHTML = `
+          <div style="text-align: center; padding: 2rem; color: #64748b;">
+            All parts in this assembly.<br>
+            <button type="button" onclick="OverallCataloguePortal.launchAssemblyTable()" style="margin-top: 0.75rem; padding: 0.45rem 1rem; background: #0284c7; color: #fff; border: none; border-radius: 6px; font-weight: 800; cursor: pointer;">
+              Launch Parts Table →
+            </button>
+          </div>
+        `;
+        return;
+      }
+      
+      compList.innerHTML = items.map(item => `
+        <div class="taxonomy-item-pill ${this.selectedComponent === item.name ? 'active' : ''}" onclick="OverallCataloguePortal.selectComponentVisual('${this.escapeJs(item.name)}', this)" style="border-left: 3px solid #0284c7;">
+          <div style="min-width: 0;">
+            <div style="font-size: 0.82rem; font-weight: 850; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${this.escapeHtml(item.name)}</div>
+            <div style="font-size: 0.68rem; color: #0284c7; font-weight: 700; margin-top: 0.1rem;">Click to launch table ➔</div>
+          </div>
+          <span class="count-badge" style="background: #e0f2fe; color: #0369a1; font-size: 0.7rem; font-weight: 850; padding: 0.2rem 0.5rem; border-radius: 6px;">
+            ${Number(item.count || 0).toLocaleString('en-IN')} SKUs
+          </span>
+        </div>
+      `).join('');
+    } catch (err) {
+      console.error("Error loading components:", err);
+      if (compList) compList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #f87171;">⚠️ ${this.escapeHtml(err.message)}</div>`;
+    }
+  },
+
+  selectComponentVisual(compName, elem) {
+    this.selectedComponent = compName;
+    document.querySelectorAll('#v-tax-comp-list .taxonomy-item-pill').forEach(p => p.classList.remove('active'));
+    if (elem) elem.classList.add('active');
+    
+    // Set catalogue filters
+    this.filters.aggregate = this.selectedAggregate || '';
+    this.filters.sub_aggregate = this.selectedSubAggregate || '';
+    this.filters.component = compName || '';
+    
+    this.navGoToStep(4);
+    this.handleFilterChange();
+    
+    // Smooth scroll down to the Master Parts Information Table
+    const tableContainer = document.querySelector('.cat-recent-activity-card');
+    if (tableContainer) {
+      tableContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  },
+
+  launchAssemblyTable() {
+    this.filters.aggregate = this.selectedAggregate || '';
+    this.filters.sub_aggregate = this.selectedSubAggregate || '';
+    this.filters.component = '';
+    this.navGoToStep(4);
+    this.handleFilterChange();
+    const tableContainer = document.querySelector('.cat-recent-activity-card');
+    if (tableContainer) {
+      tableContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  },
+
+  navGoToStep(stepNum) {
+    this.visualCurrentStep = stepNum;
+    
+    // Stepper Pills
+    [1, 2, 3, 4].forEach(n => {
+      const pill = document.getElementById(`v-step-pill-${n}`);
+      if (pill) {
+        if (n === stepNum) {
+          pill.className = 'visual-step-pill active';
+        } else if (n < stepNum) {
+          pill.className = 'visual-step-pill completed';
+        } else {
+          pill.className = 'visual-step-pill';
+        }
+      }
+    });
+    
+    // Panes
+    const p1 = document.getElementById('v-nav-step-1');
+    const p2 = document.getElementById('v-nav-step-2');
+    const p3 = document.getElementById('v-nav-step-3');
+    
+    if (p1) p1.style.display = (stepNum === 1) ? 'block' : 'none';
+    if (p2) p2.style.display = (stepNum === 2) ? 'block' : 'none';
+    if (p3) p3.style.display = (stepNum === 3 || stepNum === 4) ? 'block' : 'none';
+    
+    if (stepNum === 4) {
+      const tableContainer = document.querySelector('.cat-recent-activity-card');
+      if (tableContainer) {
+        tableContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  },
+
+  clearVisualFitment() {
+    this.selectedMake = null;
+    this.selectedModel = null;
+    this.selectedVariant = null;
+    this.selectedAggregate = null;
+    this.selectedSubAggregate = null;
+    this.selectedComponent = null;
+    
+    this.filters.make = '';
+    this.filters.model = '';
+    this.filters.sub_model = '';
+    this.filters.fuel_type = '';
+    this.filters.year = '';
+    this.filters.aggregate = '';
+    this.filters.sub_aggregate = '';
+    this.filters.component = '';
+    
+    const fitmentBar = document.getElementById('v-active-fitment-bar');
+    if (fitmentBar) fitmentBar.style.display = 'none';
+    
+    this.navGoToStep(1);
+    this.handleFilterChange();
   },
 
   async loadStats() {
@@ -610,7 +1151,7 @@ window.OverallCataloguePortal = {
             const lineCode = s.lineCode || (pNo.length > 3 ? pNo.substring(0, 3) : '');
 
             return `
-              <div onclick="OverallCataloguePortal.selectSuggestion('${this.escapeJs(pNo)}')" style="padding: 0.65rem 0.85rem; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; background: #ffffff;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">
+              <div onmousedown="event.preventDefault(); event.stopPropagation(); OverallCataloguePortal.selectSuggestion('${this.escapeJs(pNo)}')" onclick="OverallCataloguePortal.selectSuggestion('${this.escapeJs(pNo)}')" style="padding: 0.65rem 0.85rem; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; background: #ffffff;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">
                 <div style="display: flex; align-items: center; gap: 0.75rem; min-width: 0;">
                   <span style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.74rem; font-weight: 900; white-space: nowrap;">
                     ${this.escapeHtml(lineCode ? 'LC ' + lineCode : 'SKU')}

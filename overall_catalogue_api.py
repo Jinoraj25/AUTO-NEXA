@@ -230,6 +230,372 @@ def get_components(aggregate=None, sub_aggregate=None):
         if conn: conn.close()
         return []
 
+# ==================== ORIPARTS VEHICLE IMAGE MAPPING & VISUAL NAVIGATOR ====================
+
+_VEHICLE_IMAGES_INDEX = None
+
+def get_vehicle_images_index():
+    global _VEHICLE_IMAGES_INDEX
+    if _VEHICLE_IMAGES_INDEX is not None:
+        return _VEHICLE_IMAGES_INDEX
+    base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "images", "vehicles")
+    index = {}
+    if os.path.exists(base_dir):
+        for make_folder in os.listdir(base_dir):
+            mf_path = os.path.join(base_dir, make_folder)
+            if os.path.isdir(mf_path) and not make_folder.startswith('.'):
+                index[make_folder.upper()] = os.listdir(mf_path)
+    _VEHICLE_IMAGES_INDEX = index
+    return _VEHICLE_IMAGES_INDEX
+
+def match_vehicle_image(make, model, sub_model, from_yr='', to_yr=''):
+    img_index = get_vehicle_images_index()
+    if not img_index:
+        return "images/home_menu_catalogue.jpg"
+    
+    make_clean = (make or "").upper().strip()
+    if make_clean == 'MARUTI': make_clean = 'MARUTI SUZUKI'
+    if make_clean == 'VOLKSWAGEN': make_clean = 'VW'
+    
+    make_folder = None
+    if make_clean in img_index:
+        make_folder = make_clean
+    else:
+        for k in img_index:
+            if k in make_clean or make_clean in k:
+                make_folder = k
+                break
+    
+    if not make_folder:
+        return "images/home_menu_catalogue.jpg"
+        
+    imgs = img_index.get(make_folder, [])
+    if not imgs:
+        return "images/home_menu_catalogue.jpg"
+        
+    model_str = (model or "").strip()
+    sub_str = (sub_model or "").strip()
+    full_str = f"{model_str} {sub_str} {from_yr} {to_yr}".upper()
+    tokens = [t for t in re.findall(r'[A-Za-z0-9]+', full_str) if len(t) >= 2]
+    
+    gen_match = re.search(r'([1-9](?:ST|ND|RD|TH)\s+GEN)', full_str)
+    gen_str = gen_match.group(1) if gen_match else ''
+    
+    model_clean = model_str.upper().replace(' ', '')
+    
+    best_img = None
+    best_score = -1
+    
+    for img in imgs:
+        img_upper = img.upper()
+        img_no_ext = os.path.splitext(img_upper)[0]
+        
+        # Must relate to model
+        if model_str.upper() not in img_upper and model_clean not in img_upper.replace(' ', ''):
+            continue
+            
+        score = 10
+        if gen_str and gen_str in img_upper:
+            score += 25
+        if 'F_L' in img_upper and ('F/L' in sub_str.upper() or 'FACELIFT' in sub_str.upper()):
+            score += 15
+        
+        # Check year overlap
+        yr_matches = re.findall(r'(\d{4})', img_upper)
+        if yr_matches and from_yr:
+            try:
+                img_from = int(yr_matches[0])
+                img_to = int(yr_matches[1]) if len(yr_matches) > 1 else 9999
+                q_yr = int(from_yr)
+                if img_from <= q_yr <= img_to:
+                    score += 30
+            except Exception:
+                pass
+                
+        img_tokens = set(re.findall(r'[A-Za-z0-9]+', img_no_ext))
+        score += len(set(tokens).intersection(img_tokens)) * 2
+        
+        if score > best_score:
+            best_score = score
+            best_img = f"images/vehicles/{make_folder}/{img}"
+            
+    if not best_img:
+        for img in imgs:
+            if model_str.upper() in img.upper():
+                return f"images/vehicles/{make_folder}/{img}"
+        if imgs:
+            best_img = f"images/vehicles/{make_folder}/{imgs[0]}"
+            
+    return best_img or "images/home_menu_catalogue.jpg"
+
+_MAKES_CATALOG_CACHE = None
+
+def get_makes_catalog():
+    global _MAKES_CATALOG_CACHE
+    if _MAKES_CATALOG_CACHE is not None:
+        return _MAKES_CATALOG_CACHE
+    
+    stats_data = [
+        {"make": "MARUTI SUZUKI", "displayName": "Maruti Suzuki", "logo": "images/brand_maruti.png", "modelsCount": 45, "variantsCount": 1491, "popular": True, "segment": "PCV"},
+        {"make": "HYUNDAI", "displayName": "Hyundai", "logo": "images/brand_hyundai.png", "modelsCount": 24, "variantsCount": 1590, "popular": True, "segment": "PCV"},
+        {"make": "TATA", "displayName": "Tata Motors", "logo": "images/brand_tata.png", "modelsCount": 51, "variantsCount": 3584, "popular": True, "segment": "PCV/HCV"},
+        {"make": "MAHINDRA", "displayName": "Mahindra", "logo": "images/brand_mahindra.png", "modelsCount": 67, "variantsCount": 1235, "popular": True, "segment": "SUV/LCV"},
+        {"make": "TOYOTA", "displayName": "Toyota", "logo": "images/brand_toyota.png", "modelsCount": 24, "variantsCount": 619, "popular": True, "segment": "PCV"},
+        {"make": "HONDA", "displayName": "Honda", "logo": "images/brand_honda.png", "modelsCount": 12, "variantsCount": 433, "popular": True, "segment": "PCV"},
+        {"make": "FORD", "displayName": "Ford", "logo": "images/brand_ford.png", "modelsCount": 11, "variantsCount": 418, "popular": True, "segment": "PCV"},
+        {"make": "VOLKSWAGEN", "displayName": "Volkswagen", "logo": "images/brand_volkswagen.png", "modelsCount": 14, "variantsCount": 157, "popular": True, "segment": "PCV"},
+        {"make": "SKODA", "displayName": "Skoda", "logo": "images/brand_skoda.png", "modelsCount": 11, "variantsCount": 283, "popular": True, "segment": "PCV"},
+        {"make": "RENAULT", "displayName": "Renault", "logo": "images/brand_renault.png", "modelsCount": 11, "variantsCount": 145, "popular": True, "segment": "PCV"},
+        {"make": "NISSAN", "displayName": "Nissan", "logo": "images/brand_nissan.svg", "modelsCount": 12, "variantsCount": 80, "popular": True, "segment": "PCV"},
+        {"make": "KIA", "displayName": "Kia Motors", "logo": "images/brand_others.svg", "modelsCount": 7, "variantsCount": 159, "popular": True, "segment": "PCV"},
+        {"make": "MORRIS GARAGES", "displayName": "MG Motors", "logo": "images/brand_others.svg", "modelsCount": 10, "variantsCount": 312, "popular": True, "segment": "PCV/EV"},
+        {"make": "BMW", "displayName": "BMW", "logo": "images/brand_others.svg", "modelsCount": 22, "variantsCount": 166, "popular": False, "segment": "Luxury"},
+        {"make": "MERCEDES-BENZ", "displayName": "Mercedes-Benz", "logo": "images/brand_others.svg", "modelsCount": 24, "variantsCount": 330, "popular": False, "segment": "Luxury"},
+        {"make": "AUDI", "displayName": "Audi", "logo": "images/brand_others.svg", "modelsCount": 17, "variantsCount": 359, "popular": False, "segment": "Luxury"},
+        {"make": "FORCE", "displayName": "Force Motors", "logo": "images/brand_others.svg", "modelsCount": 11, "variantsCount": 94, "popular": False, "segment": "LCV"},
+        {"make": "JEEP", "displayName": "Jeep", "logo": "images/brand_others.svg", "modelsCount": 4, "variantsCount": 55, "popular": False, "segment": "SUV"},
+        {"make": "CHEVROLET", "displayName": "Chevrolet", "logo": "images/brand_others.svg", "modelsCount": 15, "variantsCount": 78, "popular": False, "segment": "PCV"},
+        {"make": "FIAT", "displayName": "Fiat", "logo": "images/brand_others.svg", "modelsCount": 16, "variantsCount": 125, "popular": False, "segment": "PCV"},
+        {"make": "ASHOK LEYLAND", "displayName": "Ashok Leyland", "logo": "images/brand_others.svg", "modelsCount": 6, "variantsCount": 25, "popular": False, "segment": "CV"},
+        {"make": "VOLVO", "displayName": "Volvo", "logo": "images/brand_others.svg", "modelsCount": 9, "variantsCount": 30, "popular": False, "segment": "Luxury"}
+    ]
+    _MAKES_CATALOG_CACHE = stats_data
+    return _MAKES_CATALOG_CACHE
+
+def get_visual_variants(make, model=None, fuel_type=None, year=None, search=None, limit=120):
+    conn = get_db()
+    if not conn: return {"variants": [], "models": [], "totalCount": 0}
+    try:
+        cur = conn.cursor()
+        
+        # Model pills
+        make_clauses = ["(vehicle_make = ? OR vehicle_make = ?)"]
+        make_params = [make, make]
+        if make == "MARUTI" or make == "MARUTI SUZUKI":
+            make_clauses = ["(vehicle_make = 'MARUTI' OR vehicle_make = 'MARUTI SUZUKI')"]
+            make_params = []
+        elif make == "VOLKSWAGEN" or make == "VW":
+            make_clauses = ["(vehicle_make = 'VOLKSWAGEN' OR vehicle_make = 'VW')"]
+            make_params = []
+            
+        cur.execute(f"SELECT DISTINCT vehicle_model FROM overall_catalogue WHERE {' AND '.join(make_clauses)} AND vehicle_model != '' ORDER BY vehicle_model ASC", make_params)
+        all_models = [r[0] for r in cur.fetchall()]
+        
+        # Build variant query with cascading filters
+        clauses = list(make_clauses)
+        params = list(make_params)
+        
+        if model:
+            clauses.append("vehicle_model = ?")
+            params.append(model)
+            
+        if fuel_type:
+            clauses.append("(vehicle_fuel_type LIKE ? OR vehicle_sub_model LIKE ?)")
+            params.append(f"%{fuel_type}%")
+            params.append(f"%{fuel_type}%")
+            
+        if year:
+            try:
+                yr_int = int(year)
+                clauses.append("((CAST(vehicle_from_year AS INTEGER) <= ? AND (CAST(vehicle_to_year AS INTEGER) >= ? OR vehicle_to_year = '' OR vehicle_to_year IS NULL)) OR vehicle_from_year = '' OR vehicle_from_year IS NULL)")
+                params.append(yr_int)
+                params.append(yr_int)
+            except Exception:
+                clauses.append("(vehicle_from_year LIKE ? OR vehicle_to_year LIKE ? OR vehicle_sub_model LIKE ?)")
+                params.append(f"%{year}%")
+                params.append(f"%{year}%")
+                params.append(f"%{year}%")
+                
+        if search:
+            clean_s = search.strip()
+            if clean_s:
+                clauses.append("(vehicle_sub_model LIKE ? OR vehicle_model LIKE ?)")
+                params.append(f"%{clean_s}%")
+                params.append(f"%{clean_s}%")
+                
+        clauses.append("vehicle_sub_model != ''")
+        where_str = " WHERE " + " AND ".join(clauses)
+        
+        cur.execute(f"""
+            SELECT DISTINCT vehicle_model, vehicle_sub_model, vehicle_fuel_type, vehicle_from_year, vehicle_to_year
+            FROM overall_catalogue
+            {where_str}
+            ORDER BY vehicle_model ASC, vehicle_from_year DESC, vehicle_sub_model ASC
+            LIMIT ?
+        """, params + [limit])
+        
+        raw_rows = cur.fetchall()
+        conn.close()
+        
+        variants = []
+        for r in raw_rows:
+            v_model = r["vehicle_model"] or ""
+            v_sub = r["vehicle_sub_model"] or ""
+            v_fuel = r["vehicle_fuel_type"] or "PETROL"
+            from_yr = r["vehicle_from_year"] or ""
+            to_yr = r["vehicle_to_year"] or ""
+            
+            yrs_str = ""
+            if from_yr or to_yr:
+                yrs_str = f"{from_yr} - {to_yr or 'Present'}".strip()
+                
+            img_url = match_vehicle_image(make, v_model, v_sub, from_yr, to_yr)
+            
+            variants.append({
+                "make": make,
+                "model": v_model,
+                "subModel": v_sub,
+                "fuelType": v_fuel,
+                "fromYear": from_yr,
+                "toYear": to_yr,
+                "years": yrs_str,
+                "image": img_url
+            })
+            
+        return {
+            "variants": variants,
+            "models": all_models,
+            "totalCount": len(variants)
+        }
+    except Exception as e:
+        if conn: conn.close()
+        return {"variants": [], "models": [], "totalCount": 0, "error": str(e)}
+
+AGGREGATE_ICONS = {
+    "BRAKE SYSTEM": "🛑",
+    "ENGINE": "⚙️",
+    "SUSPENSION": "🛞",
+    "CLUTCH SYSTEM": "🔄",
+    "ELECTRICALS AND ELECTRONICS": "⚡",
+    "FILTERS": "🛢️",
+    "HVAC/THERMAL": "❄️",
+    "BODY PARTS": "🚗",
+    "TRANSMISSION": "🔄",
+    "STEERING": "🛞",
+    "LIGHTING": "💡",
+    "FLUIDS COOLANT AND GREASE": "🛢️",
+    "CHILD PARTS": "🧩",
+    "CABLES AND WIRES": "🔌",
+    "BELTS AND TENSIONER": "🎗️",
+    "BEARING": "⚙️",
+    "BATTERY": "🔋",
+    "ACCESSORIES": "✨",
+    "PAINTS AND CONSUMABLES": "🎨",
+    "RUBBERS HOSES AND MOUNTINGS": "〰️",
+    "WHEELS AND TYRES": "🛞",
+    "WIPER SYSTEM": "🌧️",
+    "GLASS": "🪟",
+    "HORNS": "📢",
+    "FUEL SYSTEM": "⛽",
+    "INTERIOR AND COMFORTS": "💺",
+    "LUBES": "🛢️"
+}
+
+def get_taxonomy_hierarchy(make=None, model=None, sub_model=None, aggregate=None, sub_aggregate=None):
+    conn = get_db()
+    if not conn: return {"items": []}
+    try:
+        cur = conn.cursor()
+        clauses = []
+        params = []
+        if make:
+            if make in ("MARUTI", "MARUTI SUZUKI"):
+                clauses.append("(vehicle_make = 'MARUTI' OR vehicle_make = 'MARUTI SUZUKI')")
+            elif make in ("VOLKSWAGEN", "VW"):
+                clauses.append("(vehicle_make = 'VOLKSWAGEN' OR vehicle_make = 'VW')")
+            else:
+                clauses.append("vehicle_make = ?")
+                params.append(make)
+        if model:
+            clauses.append("vehicle_model = ?")
+            params.append(model)
+        if sub_model:
+            clauses.append("vehicle_sub_model = ?")
+            params.append(sub_model)
+            
+        where_base = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+        
+        # Case 1: Components under sub-aggregate
+        if sub_aggregate:
+            sub_clauses = list(clauses)
+            sub_params = list(params)
+            if aggregate:
+                sub_clauses.append("aggregate = ?")
+                sub_params.append(aggregate)
+            sub_clauses.append("sub_aggregate = ?")
+            sub_params.append(sub_aggregate)
+            sub_clauses.append("components != ''")
+            
+            cur.execute(f"""
+                SELECT components, COUNT(*) as cnt
+                FROM overall_catalogue
+                WHERE {' AND '.join(sub_clauses)}
+                GROUP BY components
+                ORDER BY cnt DESC
+                LIMIT 150
+            """, sub_params)
+            rows = cur.fetchall()
+            conn.close()
+            return {
+                "level": "component",
+                "items": [{"name": r[0], "component": r[0], "count": r[1]} for r in rows]
+            }
+            
+        # Case 2: Sub-aggregates under aggregate
+        if aggregate:
+            agg_clauses = list(clauses)
+            agg_params = list(params)
+            agg_clauses.append("aggregate = ?")
+            agg_params.append(aggregate)
+            agg_clauses.append("sub_aggregate != ''")
+            
+            cur.execute(f"""
+                SELECT sub_aggregate, COUNT(*) as cnt
+                FROM overall_catalogue
+                WHERE {' AND '.join(agg_clauses)}
+                GROUP BY sub_aggregate
+                ORDER BY cnt DESC
+                LIMIT 100
+            """, agg_params)
+            rows = cur.fetchall()
+            conn.close()
+            return {
+                "level": "sub_aggregate",
+                "items": [{"name": r[0], "subAggregate": r[0], "count": r[1]} for r in rows]
+            }
+            
+        # Case 3: Top-level Aggregates
+        cur.execute(f"""
+            SELECT aggregate, COUNT(*) as cnt
+            FROM overall_catalogue
+            {where_base} {'AND' if where_base else 'WHERE'} aggregate != ''
+            GROUP BY aggregate
+            ORDER BY cnt DESC
+            LIMIT 40
+        """, params)
+        rows = cur.fetchall()
+        conn.close()
+        
+        items = []
+        for r in rows:
+            agg_name = r[0]
+            cnt = r[1]
+            icon = AGGREGATE_ICONS.get(agg_name, "📦")
+            items.append({
+                "name": agg_name,
+                "aggregate": agg_name,
+                "count": cnt,
+                "icon": icon
+            })
+            
+        return {
+            "level": "aggregate",
+            "items": items
+        }
+    except Exception as e:
+        if conn: conn.close()
+        return {"level": "error", "items": [], "error": str(e)}
+
 def get_part_suggestions(q, limit=8):
     if not q or len(q.strip()) < 2:
         return []

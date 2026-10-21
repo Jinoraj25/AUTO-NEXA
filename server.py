@@ -425,6 +425,41 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"components": res}, ensure_ascii=False).encode('utf-8'))
                 return
 
+            if path_only == '/api/overall-catalogue/makes-catalog':
+                res = overall_catalogue_api.get_makes_catalog() if overall_catalogue_api else []
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"makes": res}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/visual-variants':
+                make_val = get_param('make') or 'MARUTI SUZUKI'
+                model_val = get_param('model')
+                fuel_val = get_param('fuel_type') or get_param('fuel')
+                year_val = get_param('year')
+                search_val = get_param('q') or get_param('search')
+                limit_val = int(get_param('limit', '120'))
+                res = overall_catalogue_api.get_visual_variants(make_val, model_val, fuel_val, year_val, search_val, limit_val) if overall_catalogue_api else {"variants": [], "models": [], "totalCount": 0}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/taxonomy-hierarchy':
+                make_val = get_param('make')
+                model_val = get_param('model')
+                sub_model_val = get_param('sub_model') or get_param('variant')
+                agg_val = get_param('aggregate')
+                sub_agg_val = get_param('sub_aggregate')
+                res = overall_catalogue_api.get_taxonomy_hierarchy(make_val, model_val, sub_model_val, agg_val, sub_agg_val) if overall_catalogue_api else {"items": []}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
             if path_only == '/api/overall-catalogue/suggestions':
                 q_val = get_param('q') or get_param('query')
                 limit_val = int(get_param('limit', '8'))
