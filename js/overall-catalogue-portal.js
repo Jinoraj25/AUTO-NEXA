@@ -861,7 +861,7 @@ window.OverallCataloguePortal = {
       `;
     }
     if (tbody && this.viewMode === 'table') {
-      tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: 3rem; color: #38bdf8; font-weight: 700;">⚡ Querying 23.6M+ Master Catalogue Database...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 3rem; color: #0284c7; font-weight: 700;">⚡ Querying 23.6M+ Master Catalogue Database...</td></tr>`;
     }
 
     try {
@@ -1025,7 +1025,7 @@ window.OverallCataloguePortal = {
     if (!tbody) return;
 
     if (rows.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: 3rem; color: #94a3b8; font-weight: 600;">No catalogue parts found matching the selected query and filters.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 3rem; color: #64748b; font-weight: 600;">No catalogue parts found matching the selected query and filters.</td></tr>`;
       return;
     }
 
@@ -1065,19 +1065,19 @@ window.OverallCataloguePortal = {
 
       return `
         <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-          <td style="font-weight: 850; color: #0284c7; font-family: monospace; font-size: 0.88rem; padding: 0.85rem;">${this.escapeHtml(partNo)}</td>
-          <td style="font-weight: 750; color: #b45309; font-size: 0.82rem; padding: 0.85rem;"><span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px;">${this.escapeHtml(brand)}</span></td>
-          <td style="font-weight: 600; color: #1e293b; font-size: 0.82rem; max-width: 280px; white-space: normal; line-height: 1.35; padding: 0.85rem;">${this.escapeHtml(desc)}</td>
-          <td style="font-weight: 850; color: #059669; font-size: 0.88rem; text-align: right; font-family: 'Outfit', sans-serif; padding: 0.85rem;">${mrpPrice}</td>
-          <td style="font-weight: 600; color: #64748b; font-size: 0.8rem; text-align: right; padding: 0.85rem;">${listPrice}</td>
-          <td style="font-weight: 700; color: #7c3aed; font-size: 0.8rem; padding: 0.85rem;"><span class="badge" style="background: #ede9fe; color: #7c3aed; border: 1px solid #ddd6fe; padding: 0.2rem 0.45rem; border-radius: 6px;">${this.escapeHtml(segment)}</span></td>
-          <td style="font-size: 0.8rem; color: #334155; padding: 0.85rem;">
+          <td style="font-weight: 850; color: #0284c7; font-family: monospace; font-size: 0.88rem; padding: 0.85rem 1rem; width: 140px; word-break: break-all;">${this.escapeHtml(partNo)}</td>
+          <td style="font-weight: 750; color: #b45309; font-size: 0.82rem; padding: 0.85rem 1rem; width: 110px;"><span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px;">${this.escapeHtml(brand)}</span></td>
+          <td style="font-weight: 600; color: #1e293b; font-size: 0.82rem; width: 280px; white-space: normal; line-height: 1.35; padding: 0.85rem 1rem; word-break: break-word;">${this.escapeHtml(desc)}</td>
+          <td style="font-weight: 850; color: #059669; font-size: 0.88rem; text-align: right; font-family: 'Outfit', sans-serif; padding: 0.85rem 1rem; width: 110px;">${mrpPrice}</td>
+          <td style="font-weight: 600; color: #64748b; font-size: 0.8rem; text-align: right; padding: 0.85rem 1rem; width: 100px;">${listPrice}</td>
+          <td style="font-weight: 700; color: #7c3aed; font-size: 0.8rem; text-align: center; padding: 0.85rem 1rem; width: 90px;"><span class="badge" style="background: #ede9fe; color: #7c3aed; border: 1px solid #ddd6fe; padding: 0.2rem 0.45rem; border-radius: 6px;">${this.escapeHtml(segment)}</span></td>
+          <td style="font-size: 0.8rem; color: #334155; padding: 0.85rem 1rem; width: 190px; word-break: break-word;">
             <div style="font-weight: 750; color: #0f172a;">${this.escapeHtml(vehicleInfo)}</div>
             ${fuelYears ? `<div style="font-size: 0.72rem; color: #64748b; margin-top: 0.15rem;">${this.escapeHtml(fuelYears)}</div>` : ''}
           </td>
-          <td style="font-weight: 700; color: #0284c7; font-size: 0.8rem; padding: 0.85rem;">${this.escapeHtml(aggregate)}</td>
-          <td style="text-align: center; padding: 0.85rem;">
-            <button type="button" class="btn btn-secondary" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(partNo)}')" style="padding: 0.35rem 0.75rem; font-size: 0.76rem; font-weight: 800; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 7px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+          <td style="font-weight: 700; color: #0284c7; font-size: 0.8rem; padding: 0.85rem 1rem; width: 130px; word-break: break-word;">${this.escapeHtml(aggregate)}</td>
+          <td style="text-align: center; padding: 0.85rem 1rem; width: 90px;">
+            <button type="button" class="btn btn-secondary" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(partNo)}')" style="padding: 0.35rem 0.65rem; font-size: 0.76rem; font-weight: 800; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 7px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
               <span>🔍</span> <span>Fitment</span>
             </button>
           </td>
@@ -1286,6 +1286,10 @@ window.OverallCataloguePortal = {
 
   // ==================== EXPORTS (EXCEL & CSV) ====================
 
+  exportToExcel() {
+    return this.exportExcel();
+  },
+
   async exportExcel() {
     if (window.App && window.App.showToast) {
       window.App.showToast("Preparing Master Catalogue Excel export...", "info");
@@ -1294,7 +1298,7 @@ window.OverallCataloguePortal = {
     try {
       const params = new URLSearchParams({
         page: 1,
-        limit: 500
+        limit: 2500
       });
       if (this.q) params.append('q', this.q);
       if (this.filters.brand) params.append('brand', this.filters.brand);
@@ -1316,7 +1320,11 @@ window.OverallCataloguePortal = {
       const items = data.items || data.results || [];
 
       if (items.length === 0) {
-        alert("No records to export with current filters.");
+        if (window.App && window.App.showToast) {
+          window.App.showToast("No records to export with current filters.", "warning");
+        } else {
+          alert("No records to export with current filters.");
+        }
         return;
       }
 

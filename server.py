@@ -279,6 +279,20 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
 
     def do_GET(self):
+        # Transparently serve images from images/ if requested from root
+        clean_path = self.path.split('?')[0].lstrip('/')
+        if clean_path.lower().endswith(('.jpg', '.jpeg', '.png', '.svg', '.webp')):
+            img_in_images = os.path.join('images', os.path.basename(clean_path))
+            if not os.path.exists(clean_path) and os.path.exists(img_in_images):
+                content_type = 'image/jpeg' if clean_path.lower().endswith(('.jpg', '.jpeg')) else ('image/png' if clean_path.lower().endswith('.png') else ('image/svg+xml' if clean_path.lower().endswith('.svg') else 'image/webp'))
+                self.send_response(200)
+                self.send_header('Content-Type', content_type)
+                self.send_header('Cache-Control', 'public, max-age=86400')
+                self.end_headers()
+                with open(img_in_images, 'rb') as f:
+                    self.wfile.write(f.read())
+                return
+
         # Serve sales cache or trained mapping database (compressed or raw)
         clean_file = os.path.basename(self.path.split('?')[0])
         base_file = clean_file.replace('.gz', '')

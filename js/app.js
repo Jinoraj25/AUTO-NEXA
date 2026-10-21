@@ -259,17 +259,17 @@ window.App = {
     tbody.innerHTML = this.lostDemandData.map(r => {
       const lostVal = r.lostOrders * r.mrp;
       return `
-        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s;" onmouseover="this.style.background='rgba(239, 68, 68, 0.06)'" onmouseout="this.style.background='transparent'">
-          <td style="font-weight: 850; color: #38bdf8; font-family: monospace; padding: 0.75rem;">${r.partNo}</td>
-          <td style="font-weight: 700; color: #ffffff; padding: 0.75rem;">${r.desc}</td>
-          <td style="padding: 0.75rem;"><span class="badge" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); padding: 0.2rem 0.5rem; border-radius: 6px;">${r.brand}</span></td>
-          <td style="color: #cbd5e1; font-weight: 700; padding: 0.75rem;">${r.model}</td>
-          <td style="text-align: right; font-weight: 900; color: #ef4444; padding: 0.75rem; font-family: 'Outfit', sans-serif;">${r.lostOrders}</td>
-          <td style="text-align: right; font-weight: 700; color: #34d399; padding: 0.75rem;">₹${r.mrp.toLocaleString('en-IN')}</td>
-          <td style="text-align: right; font-weight: 900; color: #fbbf24; padding: 0.75rem; font-family: 'Outfit', sans-serif;">₹${lostVal.toLocaleString('en-IN')}</td>
-          <td style="text-align: center; font-weight: 800; color: #a78bfa; padding: 0.75rem;">${r.stockoutDays}d</td>
-          <td style="text-align: center; padding: 0.75rem;">
-            <button type="button" onclick="App.addLostDemandToPO('${r.partNo}', ${r.lostOrders})" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; font-weight: 850; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; border-radius: 6px; cursor: pointer;">
+        <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+          <td style="font-weight: 850; color: #0284c7; font-family: monospace; padding: 0.85rem;">${r.partNo}</td>
+          <td style="font-weight: 700; color: #0f172a; padding: 0.85rem;">${r.desc}</td>
+          <td style="padding: 0.85rem;"><span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 800;">${r.brand}</span></td>
+          <td style="color: #475569; font-weight: 700; padding: 0.85rem;">${r.model}</td>
+          <td style="text-align: right; font-weight: 900; color: #dc2626; padding: 0.85rem; font-family: 'Outfit', sans-serif;">${r.lostOrders}</td>
+          <td style="text-align: right; font-weight: 700; color: #059669; padding: 0.85rem;">₹${r.mrp.toLocaleString('en-IN')}</td>
+          <td style="text-align: right; font-weight: 900; color: #d97706; padding: 0.85rem; font-family: 'Outfit', sans-serif;">₹${lostVal.toLocaleString('en-IN')}</td>
+          <td style="text-align: center; font-weight: 800; color: #7c3aed; padding: 0.85rem;">${r.stockoutDays}d</td>
+          <td style="text-align: center; padding: 0.85rem;">
+            <button type="button" onclick="App.addLostDemandToPO('${r.partNo}', ${r.lostOrders})" style="padding: 0.4rem 0.8rem; font-size: 0.78rem; font-weight: 850; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 7px; cursor: pointer;">
               + Add to PO Draft
             </button>
           </td>
@@ -290,17 +290,17 @@ window.App = {
     tbody.innerHTML = filtered.map(r => {
       const lostVal = r.lostOrders * r.mrp;
       return `
-        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
-          <td style="font-weight: 850; color: #38bdf8; font-family: monospace; padding: 0.75rem;">${r.partNo}</td>
-          <td style="font-weight: 700; color: #ffffff; padding: 0.75rem;">${r.desc}</td>
-          <td style="padding: 0.75rem;"><span class="badge" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24;">${r.brand}</span></td>
-          <td style="color: #cbd5e1; font-weight: 700; padding: 0.75rem;">${r.model}</td>
-          <td style="text-align: right; font-weight: 900; color: #ef4444; padding: 0.75rem;">${r.lostOrders}</td>
-          <td style="text-align: right; font-weight: 700; color: #34d399; padding: 0.75rem;">₹${r.mrp.toLocaleString('en-IN')}</td>
-          <td style="text-align: right; font-weight: 900; color: #fbbf24; padding: 0.75rem;">₹${lostVal.toLocaleString('en-IN')}</td>
-          <td style="text-align: center; font-weight: 800; color: #a78bfa; padding: 0.75rem;">${r.stockoutDays}d</td>
-          <td style="text-align: center; padding: 0.75rem;">
-            <button type="button" onclick="App.addLostDemandToPO('${r.partNo}', ${r.lostOrders})" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; font-weight: 850; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; border-radius: 6px; cursor: pointer;">
+        <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+          <td style="font-weight: 850; color: #0284c7; font-family: monospace; padding: 0.85rem;">${r.partNo}</td>
+          <td style="font-weight: 700; color: #0f172a; padding: 0.85rem;">${r.desc}</td>
+          <td style="padding: 0.85rem;"><span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 800;">${r.brand}</span></td>
+          <td style="color: #475569; font-weight: 700; padding: 0.85rem;">${r.model}</td>
+          <td style="text-align: right; font-weight: 900; color: #dc2626; padding: 0.85rem; font-family: 'Outfit', sans-serif;">${r.lostOrders}</td>
+          <td style="text-align: right; font-weight: 700; color: #059669; padding: 0.85rem;">₹${r.mrp.toLocaleString('en-IN')}</td>
+          <td style="text-align: right; font-weight: 900; color: #d97706; padding: 0.85rem; font-family: 'Outfit', sans-serif;">₹${lostVal.toLocaleString('en-IN')}</td>
+          <td style="text-align: center; font-weight: 800; color: #7c3aed; padding: 0.85rem;">${r.stockoutDays}d</td>
+          <td style="text-align: center; padding: 0.85rem;">
+            <button type="button" onclick="App.addLostDemandToPO('${r.partNo}', ${r.lostOrders})" style="padding: 0.4rem 0.8rem; font-size: 0.78rem; font-weight: 850; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 7px; cursor: pointer;">
               + Add to PO Draft
             </button>
           </td>

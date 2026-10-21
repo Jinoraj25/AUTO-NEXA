@@ -779,24 +779,25 @@ window.AnalyticsPortal = {
       const bgImg = resolvePmsBgImage(item.name);
 
       html += `
-        <div class="card" style="padding: 1rem; position: relative; overflow: hidden; border: 1.5px solid ${color}60; border-radius: 12px; background: #0f172a; box-shadow: 0 4px 20px rgba(0,0,0,0.35);">
-          <!-- FULL CARD SCENIC BACKGROUND IMAGE (SAME AS 5 MASTER CATEGORIES SEGMENT) -->
-          <img src="${bgImg}" onerror="this.onerror=null;this.src='images/${bgImg}'" alt="${item.name}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.38; pointer-events: none; filter: contrast(1.1) brightness(0.85);">
+        <div class="card" style="padding: 1.15rem; position: relative; overflow: hidden; border: 1.5px solid ${color}80; border-radius: 14px; background: #0f172a; box-shadow: 0 4px 20px rgba(0,0,0,0.18);">
+          <!-- FULL CARD SCENIC BACKGROUND IMAGE (CRISP 3D RENDER) -->
+          <img src="images/${bgImg}" onerror="this.onerror=null;this.src='images/${bgImg}'" alt="${item.name}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; pointer-events: none; filter: brightness(0.95) contrast(1.08) saturate(1.15); image-rendering: -webkit-optimize-contrast;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15, 23, 42, 0.35) 0%, rgba(15, 23, 42, 0.78) 55%, rgba(15, 23, 42, 0.95) 100%); pointer-events: none;"></div>
           
           <div style="position: relative; z-index: 2;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-              <span style="font-size: 0.78rem; font-weight: 900; color: ${color}; text-transform: uppercase; font-family: 'Outfit', sans-serif; text-shadow: 0 2px 6px #000;">🛠️ ${item.name}</span>
-              <span class="badge" style="background: ${color}40; color: #ffffff; font-weight: 850; font-size: 0.7rem; padding: 2px 8px; border: 1px solid ${color}60; backdrop-filter: blur(4px);">${item.units.toLocaleString()} units</span>
+              <span style="font-size: 0.82rem; font-weight: 900; color: #ffffff; text-transform: uppercase; font-family: 'Outfit', sans-serif; text-shadow: 0 2px 6px #000;">🛠️ ${item.name}</span>
+              <span class="badge" style="background: ${color}40; color: #ffffff; font-weight: 850; font-size: 0.72rem; padding: 2px 8px; border: 1px solid ${color}80; backdrop-filter: blur(4px);">${item.units.toLocaleString()} units</span>
             </div>
 
-            <div style="font-size: 1.55rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; text-shadow: 0 2px 8px #000;">${displayRev}</div>
+            <div style="font-size: 1.65rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; text-shadow: 0 2px 8px #000; font-family: 'Outfit', sans-serif;">${displayRev}</div>
             
-            <div style="display: flex; justify-content: space-between; font-size: 0.76rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.5rem; text-shadow: 0 2px 4px #000;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.5rem; text-shadow: 0 2px 4px #000;">
               <span>Share: <strong style="color: #ffffff;">${item.sharePct}%</strong></span>
-              <span>Margin: <strong style="color: #29d391;">${item.marginPct}%</strong></span>
+              <span>Margin: <strong style="color: #34d399;">${item.marginPct}%</strong></span>
             </div>
 
-            <div style="background: rgba(255,255,255,0.2); height: 5px; border-radius: 3px; overflow: hidden;">
+            <div style="background: rgba(255,255,255,0.25); height: 6px; border-radius: 3px; overflow: hidden;">
               <div style="background: ${color}; height: 100%; width: ${Math.min(item.sharePct * 3.8, 100)}%;"></div>
             </div>
           </div>
@@ -844,19 +845,20 @@ window.AnalyticsPortal = {
       const bgImg = resolveMechBgImage(item.aggregate);
 
       html += `
-        <div class="card" style="padding: 1rem; position: relative; overflow: hidden; border: 1.5px solid ${color}60; border-radius: 12px; background: #0f172a; box-shadow: 0 4px 20px rgba(0,0,0,0.35);">
-          <!-- FULL CARD SCENIC BACKGROUND IMAGE (SAME AS 5 MASTER CATEGORIES SEGMENT) -->
-          <img src="${bgImg}" onerror="this.onerror=null;this.src='images/${bgImg}'" alt="${item.aggregate}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.38; pointer-events: none; filter: contrast(1.1) brightness(0.85);">
+        <div class="card" style="padding: 1.15rem; position: relative; overflow: hidden; border: 1.5px solid ${color}80; border-radius: 14px; background: #0f172a; box-shadow: 0 4px 20px rgba(0,0,0,0.18);">
+          <!-- FULL CARD SCENIC BACKGROUND IMAGE (CRISP 3D RENDER) -->
+          <img src="images/${bgImg}" onerror="this.onerror=null;this.src='images/${bgImg}'" alt="${item.aggregate}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; pointer-events: none; filter: brightness(0.95) contrast(1.08) saturate(1.15); image-rendering: -webkit-optimize-contrast;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15, 23, 42, 0.35) 0%, rgba(15, 23, 42, 0.78) 55%, rgba(15, 23, 42, 0.95) 100%); pointer-events: none;"></div>
 
           <div style="position: relative; z-index: 2;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
-              <span style="font-size: 0.78rem; font-weight: 900; color: ${color}; text-transform: uppercase; font-family: 'Outfit', sans-serif; text-shadow: 0 2px 6px #000;">⚙️ ${item.aggregate}</span>
-              <span class="badge" style="background: ${color}40; color: #ffffff; font-weight: 850; font-size: 0.7rem; padding: 2px 8px; border: 1px solid ${color}60; backdrop-filter: blur(4px);">${item.units.toLocaleString()} units</span>
+              <span style="font-size: 0.82rem; font-weight: 900; color: #ffffff; text-transform: uppercase; font-family: 'Outfit', sans-serif; text-shadow: 0 2px 6px #000;">⚙️ ${item.aggregate}</span>
+              <span class="badge" style="background: ${color}40; color: #ffffff; font-weight: 850; font-size: 0.72rem; padding: 2px 8px; border: 1px solid ${color}80; backdrop-filter: blur(4px);">${item.units.toLocaleString()} units</span>
             </div>
 
-            <div style="font-size: 1.55rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; text-shadow: 0 2px 8px #000;">${displayRev}</div>
+            <div style="font-size: 1.65rem; font-weight: 900; color: #ffffff; margin: 0.3rem 0; text-shadow: 0 2px 8px #000; font-family: 'Outfit', sans-serif;">${displayRev}</div>
             
-            <div style="display: flex; justify-content: space-between; font-size: 0.76rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.35rem; text-shadow: 0 2px 4px #000;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.35rem; text-shadow: 0 2px 4px #000;">
               <span>Share: <strong style="color: #ffffff;">${item.sharePct}%</strong></span>
               <span>Margin: <strong style="color: #29d391;">${item.marginPct}%</strong></span>
             </div>

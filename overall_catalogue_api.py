@@ -229,26 +229,29 @@ def get_part_suggestions(q, limit=8):
         
         fts_terms = []
         if len(tokens) > 1:
-            fts_terms.append(' '.join([f'"{t}"*' for t in tokens]))
+            fts_terms.append(' '.join([f'{t}*' for t in tokens]))
         elif clean_q:
-            fts_terms.append(f'"{clean_q}"*')
+            fts_terms.append(f'{clean_q}*')
             for lc in ['216', '101', '103', '201', '419', '801', '190', '138']:
-                fts_terms.append(f'"{lc}{clean_q}"*')
+                fts_terms.append(f'{lc}{clean_q}*')
                 
-        match_query = ' OR '.join(fts_terms)
-        cur.execute(f"""
-            SELECT c.id, c.line_code, c.line_code_part_number, c.part_description,
-                   c.brand_name, c.aggregate, c.sub_aggregate, c.components,
-                   c.mrp_price, c.list_price, c.vehicle_make, c.vehicle_model, c.vehicle_sub_model
-            FROM overall_catalogue_fts f
-            JOIN overall_catalogue c ON f.rowid = c.id
-            WHERE overall_catalogue_fts MATCH ?
-            GROUP BY c.line_code_part_number
-            ORDER BY CASE WHEN c.mrp_price > 0 THEN 0 ELSE 1 END, c.id ASC
-            LIMIT ?
-        """, (match_query, limit))
-        
-        rows = [dict(r) for r in cur.fetchall()]
+        match_query = ' OR '.join(fts_terms) if fts_terms else clean_q
+        rows = []
+        try:
+            cur.execute(f"""
+                SELECT c.id, c.line_code, c.line_code_part_number, c.part_description,
+                       c.brand_name, c.aggregate, c.sub_aggregate, c.components,
+                       c.mrp_price, c.list_price, c.vehicle_make, c.vehicle_model, c.vehicle_sub_model
+                FROM overall_catalogue_fts f
+                JOIN overall_catalogue c ON f.rowid = c.id
+                WHERE overall_catalogue_fts MATCH ?
+                GROUP BY c.line_code_part_number
+                ORDER BY CASE WHEN c.mrp_price > 0 THEN 0 ELSE 1 END, c.id ASC
+                LIMIT ?
+            """, (match_query, limit))
+            rows = [dict(r) for r in cur.fetchall()]
+        except Exception:
+            rows = []
         
         if len(rows) < limit and clean_q:
             existing_parts = {r['line_code_part_number'] for r in rows}
@@ -257,9 +260,9 @@ def get_part_suggestions(q, limit=8):
                        brand_name, aggregate, sub_aggregate, components,
                        mrp_price, list_price, vehicle_make, vehicle_model, vehicle_sub_model
                 FROM overall_catalogue
-                WHERE line_code_part_number LIKE ?
+                WHERE line_code_part_number LIKE ? OR line_code_part_number LIKE ?
                 LIMIT ?
-            """, (f"{clean_q}%", limit - len(rows)))
+            """, (f"{clean_q}%", f"%{clean_q}%", limit - len(rows)))
             for r in cur.fetchall():
                 dict_r = dict(r)
                 if dict_r['line_code_part_number'] not in existing_parts:
@@ -588,22 +591,30 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
             cur_fast.execute(f"SELECT id FROM overall_catalogue WHERE line_code_part_number IN ({placeholders}) LIMIT 100", part_candidates)
             fast_ids = [r[0] for r in cur_fast.fetchall()]
 
+            if not fast_ids and len(clean_q) >= 3:
+                cur_fast.execute("SELECT id FROM overall_catalogue WHERE line_code_part_number LIKE ? LIMIT 100", (f"%{clean_q}%",))
+                fast_ids = [r[0] for r in cur_fast.fetchall()]
+
             if fast_ids:
                 id_placeholders = ','.join(['?'] * len(fast_ids))
                 where_clauses.append(f"id IN ({id_placeholders})")
                 params.extend(fast_ids)
             else:
-                try:
-                    fts_tokens = [t for t in re.findall(r'[A-Za-z0-9]+', q) if len(t) >= 2]
-                    if fts_tokens:
-                        safe_q = ' '.join([f'"{t}"*' for t in fts_tokens])
-                        fts_sql = "SELECT rowid FROM overall_catalogue_fts WHERE overall_catalogue_fts MATCH ?"
-                        where_clauses.append(f"id IN ({fts_sql})")
-                        params.append(safe_q)
-                    else:
-                        where_clauses.append("line_code_part_number LIKE ?")
-                        params.append(f"%{q}%")
-                except Exception:
+                fts_tokens = [t for t in re.findall(r'[A-Za-z0-9]+', q) if len(t) >= 2]
+                fts_ids = []
+                if fts_tokens:
+                    try:
+                        safe_q = ' '.join([f'{t}*' for t in fts_tokens])
+                        cur_fast.execute("SELECT rowid FROM overall_catalogue_fts WHERE overall_catalogue_fts MATCH ? LIMIT 150", (safe_q,))
+                        fts_ids = [r[0] for r in cur_fast.fetchall()]
+                    except Exception:
+                        fts_ids = []
+
+                if fts_ids:
+                    id_placeholders = ','.join(['?'] * len(fts_ids))
+                    where_clauses.append(f"id IN ({id_placeholders})")
+                    params.extend(fts_ids)
+                else:
                     where_clauses.append("(line_code_part_number LIKE ? OR part_description LIKE ? OR brand_name LIKE ?)")
                     params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
 

@@ -3199,12 +3199,6 @@ input[type=checkbox]#login-remember {
   padding: 16px 24px !important;
   margin-bottom: 24px !important;
   border: 1px solid #e2e8f0 !important;
-.scenic-quick-insights-bar {
-  background: #ffffff !important;
-  border-radius: 16px !important;
-  padding: 16px 24px !important;
-  margin-bottom: 24px !important;
-  border: 1px solid #e2e8f0 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
 }
 
@@ -3818,19 +3812,22 @@ input[type=checkbox]#login-remember {
   object-fit: cover !important;
   object-position: center !important;
   z-index: 1 !important;
-  transition: transform 0.4s ease !important;
-  filter: brightness(0.65) contrast(1.1) !important;
+  opacity: 0.95 !important;
+  transition: transform 0.4s ease, filter 0.3s ease !important;
+  filter: brightness(0.95) contrast(1.08) saturate(1.15) !important;
+  image-rendering: -webkit-optimize-contrast !important;
 }
 
 .scenic-module-card:hover .scenic-mod-bg-img {
-  transform: scale(1.08) !important;
+  transform: scale(1.06) !important;
+  filter: brightness(1.0) contrast(1.1) saturate(1.2) !important;
 }
 
 .scenic-mod-bg-overlay {
   position: absolute !important;
   inset: 0 !important;
   z-index: 2 !important;
-  background: linear-gradient(180deg, rgba(8, 17, 32, 0.45) 0%, rgba(8, 17, 32, 0.88) 70%, rgba(8, 17, 32, 0.98) 100%) !important;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.18) 0%, rgba(15, 23, 42, 0.52) 48%, rgba(15, 23, 42, 0.88) 100%) !important;
 }
 
 .scenic-mod-card-body {
@@ -3854,9 +3851,9 @@ input[type=checkbox]#login-remember {
   align-items: center !important;
   justify-content: space-between !important;
   padding: 28px 36px !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  background: #071220 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+  border: 1.5px solid #e2e8f0 !important;
+  background: linear-gradient(135deg, #ffffff, #f8fafc) !important;
 }
 
 .page-hero-bg-img {
@@ -3865,16 +3862,18 @@ input[type=checkbox]#login-remember {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  object-position: center !important;
+  object-position: right center !important;
   z-index: 1 !important;
-  filter: brightness(0.55) contrast(1.15) !important;
+  filter: brightness(0.95) contrast(1.08) saturate(1.15) !important;
+  opacity: 0.80 !important;
+  image-rendering: -webkit-optimize-contrast !important;
 }
 
 .page-hero-overlay {
   position: absolute !important;
   inset: 0 !important;
   z-index: 2 !important;
-  background: linear-gradient(90deg, rgba(6, 14, 26, 0.96) 0%, rgba(6, 14, 26, 0.8) 50%, rgba(6, 14, 26, 0.45) 100%) !important;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.94) 45%, rgba(255, 255, 255, 0.25) 100%) !important;
 }
 
 .page-hero-left {
@@ -3884,10 +3883,10 @@ input[type=checkbox]#login-remember {
 }
 
 .page-hero-kicker {
-  font-size: 10px !important;
+  font-size: 11px !important;
   font-weight: 850 !important;
-  letter-spacing: 0.18em !important;
-  color: #38bdf8 !important;
+  letter-spacing: 0.15em !important;
+  color: #0284c7 !important;
   text-transform: uppercase !important;
   margin-bottom: 6px !important;
   display: flex !important;
@@ -3897,18 +3896,18 @@ input[type=checkbox]#login-remember {
 
 .page-hero-headline {
   font-family: 'Outfit', sans-serif !important;
-  font-size: 30px !important;
-  font-weight: 850 !important;
-  line-height: 1.15 !important;
-  color: #ffffff !important;
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  color: #0f172a !important;
   margin-bottom: 6px !important;
   letter-spacing: -0.02em !important;
 }
 
 .page-hero-lead {
-  font-size: 13px !important;
-  color: #cbd5e1 !important;
-  line-height: 1.45 !important;
+  font-size: 13.5px !important;
+  color: #64748b !important;
+  line-height: 1.5 !important;
 }
 
 .page-hero-right {
@@ -3928,22 +3927,21 @@ input[type=checkbox]#login-remember {
 }
 
 .ref-kpi-card {
-  background: rgba(13, 26, 45, 0.85) !important;
-  backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
   border-radius: 14px !important;
   padding: 16px 18px !important;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
 }
 
 .ref-kpi-title {
-  font-size: 10px !important;
+  font-size: 11px !important;
   font-weight: 850 !important;
   letter-spacing: 0.08em !important;
-  color: #94a3b8 !important;
+  color: #64748b !important;
   text-transform: uppercase !important;
   margin-bottom: 6px !important;
 }
@@ -3951,15 +3949,15 @@ input[type=checkbox]#login-remember {
 .ref-kpi-value {
   font-family: 'Outfit', sans-serif !important;
   font-size: 26px !important;
-  font-weight: 850 !important;
-  color: #ffffff !important;
+  font-weight: 900 !important;
+  color: #0f172a !important;
   line-height: 1.1 !important;
 }
 
 .ref-kpi-subtext {
-  font-size: 11px !important;
+  font-size: 11.5px !important;
   font-weight: 700 !important;
-  color: #94a3b8 !important;
+  color: #64748b !important;
   margin-top: 4px !important;
 }
 
