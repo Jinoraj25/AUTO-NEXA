@@ -141,7 +141,7 @@ window.OverallCataloguePortal = {
     const dropdown = document.getElementById('cat-suggestions-dropdown');
     if (!dropdown) return;
 
-    dropdown.innerHTML = `<div style="padding: 0.85rem; color: #38bdf8; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;"><span>⚡</span><span>Scanning 23.6M+ Catalogue Database for '${this.escapeHtml(query)}'...</span></div>`;
+    dropdown.innerHTML = `<div style="padding: 0.85rem; color: #0284c7; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;"><span>⚡</span><span>Scanning 23.6M+ Catalogue Database for '${this.escapeHtml(query)}'...</span></div>`;
     dropdown.style.display = 'block';
 
     try {
@@ -152,18 +152,18 @@ window.OverallCataloguePortal = {
 
       if (suggestions.length === 0) {
         dropdown.innerHTML = `
-          <div style="padding: 1rem; color: #94a3b8; font-size: 0.82rem; text-align: center;">
+          <div style="padding: 1rem; color: #64748b; font-size: 0.82rem; text-align: center;">
             No direct part match found for "<strong>${this.escapeHtml(query)}</strong>".<br>
-            <span style="font-size: 0.75rem; color: #64748b;">Press Enter or click Search for fuzzy keyword exploration.</span>
+            <span style="font-size: 0.75rem; color: #94a3b8;">Press Enter or click Search for fuzzy keyword exploration.</span>
           </div>
         `;
         return;
       }
 
       dropdown.innerHTML = `
-        <div style="padding: 0.35rem 0.65rem 0.5rem; font-size: 0.72rem; font-weight: 850; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between;">
+        <div style="padding: 0.35rem 0.65rem 0.5rem; font-size: 0.72rem; font-weight: 850; color: #0284c7; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between;">
           <span>⚡ LIVE DB MATCHES (LINE CODE & RAW PART NUMBER)</span>
-          <span style="color: #94a3b8;">${suggestions.length} Top Suggestions</span>
+          <span style="color: #64748b;">${suggestions.length} Top Suggestions</span>
         </div>
         <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.35rem;">
           ${suggestions.map(s => {
@@ -175,24 +175,24 @@ window.OverallCataloguePortal = {
             const lineCode = s.lineCode || (pNo.length > 3 ? pNo.substring(0, 3) : '');
 
             return `
-              <div onclick="OverallCataloguePortal.selectSuggestion('${this.escapeJs(pNo)}')" style="padding: 0.65rem 0.85rem; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; background: rgba(255,255,255,0.03);" onmouseover="this.style.background='rgba(56, 189, 248, 0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
+              <div onclick="OverallCataloguePortal.selectSuggestion('${this.escapeJs(pNo)}')" style="padding: 0.65rem 0.85rem; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; background: #ffffff;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">
                 <div style="display: flex; align-items: center; gap: 0.75rem; min-width: 0;">
-                  <span style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.74rem; font-weight: 900; white-space: nowrap;">
+                  <span style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.74rem; font-weight: 900; white-space: nowrap;">
                     ${this.escapeHtml(lineCode ? 'LC ' + lineCode : 'SKU')}
                   </span>
                   <div style="min-width: 0;">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                      <strong style="color: #ffffff; font-family: monospace; font-size: 0.88rem; font-weight: 850;">${this.escapeHtml(pNo)}</strong>
-                      <span style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; padding: 0.05rem 0.4rem; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">${this.escapeHtml(brand)}</span>
+                      <strong style="color: #0f172a; font-family: monospace; font-size: 0.88rem; font-weight: 850;">${this.escapeHtml(pNo)}</strong>
+                      <span style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.05rem 0.4rem; border-radius: 4px; font-size: 0.7rem; font-weight: 800;">${this.escapeHtml(brand)}</span>
                     </div>
-                    <div style="color: #cbd5e1; font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 520px; margin-top: 0.15rem;">
+                    <div style="color: #475569; font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 520px; margin-top: 0.15rem;">
                       ${this.escapeHtml(desc)}
                     </div>
                   </div>
                 </div>
                 <div style="text-align: right; margin-left: 1rem; flex-shrink: 0;">
-                  ${mrp ? `<div style="color: #34d399; font-weight: 900; font-size: 0.88rem; font-family: 'Outfit', sans-serif;">${mrp}</div>` : ''}
-                  <div style="color: #94a3b8; font-size: 0.72rem; font-weight: 700;">${this.escapeHtml(vehicle)}</div>
+                  ${mrp ? `<div style="color: #059669; font-weight: 900; font-size: 0.88rem; font-family: 'Outfit', sans-serif;">${mrp}</div>` : ''}
+                  <div style="color: #64748b; font-size: 0.72rem; font-weight: 700;">${this.escapeHtml(vehicle)}</div>
                 </div>
               </div>
             `;
@@ -201,7 +201,7 @@ window.OverallCataloguePortal = {
       `;
     } catch (err) {
       console.error("Suggestions error:", err);
-      dropdown.innerHTML = `<div style="padding: 0.75rem; color: #f87171; font-size: 0.8rem;">⚠️ Failed to load suggestions from backend.</div>`;
+      dropdown.innerHTML = `<div style="padding: 0.75rem; color: #dc2626; font-size: 0.8rem;">⚠️ Failed to load suggestions from backend.</div>`;
     }
   },
 
@@ -718,47 +718,47 @@ window.OverallCataloguePortal = {
       else if (aggUpper.includes('BODY')) sysIcon = '🚗';
 
       return `
-        <div style="background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85)); border: 1.5px solid rgba(56, 189, 248, 0.25); border-radius: 14px; padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s; position: relative;" onmouseover="this.style.borderColor='#38bdf8'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(56, 189, 248, 0.25)'; this.style.transform='none'">
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s; position: relative; box-shadow: 0 2px 8px rgba(15,23,42,0.04);" onmouseover="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 8px 24px rgba(15,23,42,0.08)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 2px 8px rgba(15,23,42,0.04)'; this.style.transform='none'">
           
           <div>
             <!-- Header Badges -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
               <div style="display: flex; align-items: center; gap: 0.4rem;">
-                <span class="badge" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.35); padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 800;">
+                <span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 800;">
                   ${this.escapeHtml(brand)}
                 </span>
-                ${lineCode ? `<span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-family: monospace; font-weight: 800;">LC ${this.escapeHtml(lineCode)}</span>` : ''}
+                ${lineCode ? `<span style="background: #e0f2fe; color: #0284c7; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-family: monospace; font-weight: 800;">LC ${this.escapeHtml(lineCode)}</span>` : ''}
               </div>
               <span style="font-size: 1.35rem;" title="${this.escapeHtml(aggregate)}">${sysIcon}</span>
             </div>
 
             <!-- Part Number & Description -->
-            <div style="font-family: monospace; font-size: 0.96rem; font-weight: 900; color: #38bdf8; margin-bottom: 0.3rem; letter-spacing: -0.2px;">
+            <div style="font-family: monospace; font-size: 0.96rem; font-weight: 900; color: #0284c7; margin-bottom: 0.3rem; letter-spacing: -0.2px;">
               ${this.escapeHtml(partNo)}
             </div>
-            <div style="font-size: 0.82rem; font-weight: 700; color: #ffffff; line-height: 1.35; height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 0.75rem;">
+            <div style="font-size: 0.84rem; font-weight: 700; color: #0f172a; line-height: 1.35; height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 0.75rem;">
               ${this.escapeHtml(desc || aggregate)}
             </div>
           </div>
 
           <!-- Bottom: MRP Price, Fitment & Modal Trigger -->
           <div>
-            <div style="background: rgba(8, 15, 30, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 0.6rem; margin-bottom: 0.75rem;">
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.6rem; margin-bottom: 0.75rem;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.7rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">Catalogue MRP</span>
-                <span style="font-size: 0.7rem; color: #a78bfa; font-weight: 800; background: rgba(167, 139, 250, 0.12); padding: 0.1rem 0.4rem; border-radius: 4px;">${this.escapeHtml(segment)}</span>
+                <span style="font-size: 0.7rem; color: #64748b; font-weight: 800; text-transform: uppercase;">Catalogue MRP</span>
+                <span style="font-size: 0.7rem; color: #7c3aed; font-weight: 800; background: #ede9fe; padding: 0.1rem 0.4rem; border-radius: 4px;">${this.escapeHtml(segment)}</span>
               </div>
-              <div style="font-size: 1.25rem; font-weight: 900; color: #34d399; font-family: 'Outfit', sans-serif; margin-top: 0.1rem;">
+              <div style="font-size: 1.25rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif; margin-top: 0.1rem;">
                 ${mrpPrice}
               </div>
             </div>
 
-            <div style="font-size: 0.73rem; color: #cbd5e1; margin-bottom: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 0.35rem;">
+            <div style="font-size: 0.75rem; color: #475569; margin-bottom: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 0.35rem;">
               <span>🚗</span>
-              <strong style="color: #ffffff;">${this.escapeHtml(vehicleInfo)}</strong>
+              <strong style="color: #1e293b;">${this.escapeHtml(vehicleInfo)}</strong>
             </div>
 
-            <button type="button" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(partNo)}')" style="width: 100%; padding: 0.55rem; font-size: 0.8rem; font-weight: 850; background: rgba(56, 189, 248, 0.15); border: 1.5px solid rgba(56, 189, 248, 0.4); color: #38bdf8; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.4rem;" onmouseover="this.style.background='#38bdf8'; this.style.color='#0f172a'" onmouseout="this.style.background='rgba(56, 189, 248, 0.15)'; this.style.color='#38bdf8'">
+            <button type="button" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(partNo)}')" style="width: 100%; padding: 0.55rem; font-size: 0.8rem; font-weight: 850; background: #eff6ff; border: 1.5px solid #bfdbfe; color: #1d4ed8; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.4rem;" onmouseover="this.style.background='#2563eb'; this.style.color='#ffffff'; this.style.borderColor='#2563eb'" onmouseout="this.style.background='#eff6ff'; this.style.color='#1d4ed8'; this.style.borderColor='#bfdbfe'">
               <span>🔍</span> <span>Spec & Fitment List</span>
             </button>
           </div>
@@ -814,20 +814,20 @@ window.OverallCataloguePortal = {
       const fuelYears = [fuelType, years].filter(Boolean).join(' | ');
 
       return `
-        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s;" onmouseover="this.style.background='rgba(56, 189, 248, 0.06)'" onmouseout="this.style.background='transparent'">
-          <td style="font-weight: 850; color: #38bdf8; font-family: monospace; font-size: 0.88rem; padding: 0.85rem;">${this.escapeHtml(partNo)}</td>
-          <td style="font-weight: 750; color: #fbbf24; font-size: 0.82rem; padding: 0.85rem;"><span class="badge" style="background: rgba(251, 191, 36, 0.12); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); padding: 0.2rem 0.5rem; border-radius: 6px;">${this.escapeHtml(brand)}</span></td>
-          <td style="font-weight: 600; color: #e2e8f0; font-size: 0.82rem; max-width: 280px; white-space: normal; line-height: 1.35; padding: 0.85rem;">${this.escapeHtml(desc)}</td>
-          <td style="font-weight: 850; color: #34d399; font-size: 0.88rem; text-align: right; font-family: 'Outfit', sans-serif; padding: 0.85rem;">${mrpPrice}</td>
-          <td style="font-weight: 600; color: #94a3b8; font-size: 0.8rem; text-align: right; padding: 0.85rem;">${listPrice}</td>
-          <td style="font-weight: 700; color: #a78bfa; font-size: 0.8rem; padding: 0.85rem;"><span class="badge" style="background: rgba(167, 139, 250, 0.12); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.3); padding: 0.2rem 0.45rem; border-radius: 6px;">${this.escapeHtml(segment)}</span></td>
-          <td style="font-size: 0.8rem; color: #f1f5f9; padding: 0.85rem;">
-            <div style="font-weight: 750; color: #ffffff;">${this.escapeHtml(vehicleInfo)}</div>
-            ${fuelYears ? `<div style="font-size: 0.72rem; color: #94a3b8; margin-top: 0.15rem;">${this.escapeHtml(fuelYears)}</div>` : ''}
+        <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+          <td style="font-weight: 850; color: #0284c7; font-family: monospace; font-size: 0.88rem; padding: 0.85rem;">${this.escapeHtml(partNo)}</td>
+          <td style="font-weight: 750; color: #b45309; font-size: 0.82rem; padding: 0.85rem;"><span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px;">${this.escapeHtml(brand)}</span></td>
+          <td style="font-weight: 600; color: #1e293b; font-size: 0.82rem; max-width: 280px; white-space: normal; line-height: 1.35; padding: 0.85rem;">${this.escapeHtml(desc)}</td>
+          <td style="font-weight: 850; color: #059669; font-size: 0.88rem; text-align: right; font-family: 'Outfit', sans-serif; padding: 0.85rem;">${mrpPrice}</td>
+          <td style="font-weight: 600; color: #64748b; font-size: 0.8rem; text-align: right; padding: 0.85rem;">${listPrice}</td>
+          <td style="font-weight: 700; color: #7c3aed; font-size: 0.8rem; padding: 0.85rem;"><span class="badge" style="background: #ede9fe; color: #7c3aed; border: 1px solid #ddd6fe; padding: 0.2rem 0.45rem; border-radius: 6px;">${this.escapeHtml(segment)}</span></td>
+          <td style="font-size: 0.8rem; color: #334155; padding: 0.85rem;">
+            <div style="font-weight: 750; color: #0f172a;">${this.escapeHtml(vehicleInfo)}</div>
+            ${fuelYears ? `<div style="font-size: 0.72rem; color: #64748b; margin-top: 0.15rem;">${this.escapeHtml(fuelYears)}</div>` : ''}
           </td>
-          <td style="font-weight: 700; color: #38bdf8; font-size: 0.8rem; padding: 0.85rem;">${this.escapeHtml(aggregate)}</td>
+          <td style="font-weight: 700; color: #0284c7; font-size: 0.8rem; padding: 0.85rem;">${this.escapeHtml(aggregate)}</td>
           <td style="text-align: center; padding: 0.85rem;">
-            <button type="button" class="btn btn-secondary" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(partNo)}')" style="padding: 0.35rem 0.75rem; font-size: 0.76rem; font-weight: 800; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; border-radius: 7px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
+            <button type="button" class="btn btn-secondary" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(partNo)}')" style="padding: 0.35rem 0.75rem; font-size: 0.76rem; font-weight: 800; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 7px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;">
               <span>🔍</span> <span>Fitment</span>
             </button>
           </td>
@@ -936,65 +936,65 @@ window.OverallCataloguePortal = {
       let list = listVal != null && Number(listVal) > 0 ? `₹${Number(listVal).toLocaleString('en-IN', {minimumFractionDigits: 2})}` : 'N/A';
 
       modalBody.innerHTML = `
-        <div style="background: rgba(15, 23, 42, 0.95); border-radius: 14px; padding: 1.35rem; border: 1px solid rgba(56, 189, 248, 0.3); margin-bottom: 1.5rem;">
+        <div style="background: #f8fafc; border-radius: 14px; padding: 1.35rem; border: 1px solid #e2e8f0; margin-bottom: 1.5rem;">
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
             <div>
-              <span style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 850; display: block;">Part Number</span>
-              <strong style="font-size: 1.15rem; color: #38bdf8; font-family: monospace;">${this.escapeHtml(pNo)}</strong>
+              <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Part Number</span>
+              <strong style="font-size: 1.15rem; color: #0284c7; font-family: monospace;">${this.escapeHtml(pNo)}</strong>
             </div>
             <div>
-              <span style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 850; display: block;">Brand Manufacturer</span>
-              <strong style="font-size: 1.05rem; color: #fbbf24;">${this.escapeHtml(brand)}</strong>
+              <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Brand Manufacturer</span>
+              <strong style="font-size: 1.05rem; color: #b45309;">${this.escapeHtml(brand)}</strong>
             </div>
             <div>
-              <span style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 850; display: block;">Catalogue MRP</span>
-              <strong style="font-size: 1.1rem; color: #34d399; font-family: 'Outfit', sans-serif;">${mrp}</strong>
+              <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Catalogue MRP</span>
+              <strong style="font-size: 1.1rem; color: #059669; font-family: 'Outfit', sans-serif;">${mrp}</strong>
             </div>
             <div>
-              <span style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 850; display: block;">List Price</span>
-              <strong style="font-size: 1.05rem; color: #cbd5e1; font-family: 'Outfit', sans-serif;">${list}</strong>
+              <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">List Price</span>
+              <strong style="font-size: 1.05rem; color: #475569; font-family: 'Outfit', sans-serif;">${list}</strong>
             </div>
             <div>
-              <span style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 850; display: block;">Segment & Aggregate</span>
-              <strong style="font-size: 0.95rem; color: #a78bfa;">${this.escapeHtml(segment)} • ${this.escapeHtml(aggregate)}</strong>
+              <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Segment & Aggregate</span>
+              <strong style="font-size: 0.95rem; color: #7c3aed;">${this.escapeHtml(segment)} • ${this.escapeHtml(aggregate)}</strong>
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.85rem;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; border-top: 1px solid #e2e8f0; padding-top: 0.85rem;">
             <div>
-              <span style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 850; display: block;">Sub-Aggregate</span>
-              <strong style="font-size: 0.92rem; color: #38bdf8;">${this.escapeHtml(subAggregate || 'Standard')}</strong>
+              <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Sub-Aggregate</span>
+              <strong style="font-size: 0.92rem; color: #0284c7;">${this.escapeHtml(subAggregate || 'Standard')}</strong>
             </div>
             <div>
-              <span style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 850; display: block;">Component Category</span>
-              <strong style="font-size: 0.92rem; color: #ffffff;">${this.escapeHtml(component || 'Direct Replacement')}</strong>
+              <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Component Category</span>
+              <strong style="font-size: 0.92rem; color: #0f172a;">${this.escapeHtml(component || 'Direct Replacement')}</strong>
             </div>
           </div>
 
-          <div style="margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.85rem;">
-            <span style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 850; display: block;">Catalogue Description</span>
-            <div style="font-size: 0.95rem; color: #ffffff; font-weight: 700; margin-top: 0.25rem;">${this.escapeHtml(desc || 'Genuine Multi-Brand Automotive Component')}</div>
+          <div style="margin-top: 1rem; border-top: 1px solid #e2e8f0; padding-top: 0.85rem;">
+            <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Catalogue Description</span>
+            <div style="font-size: 0.95rem; color: #0f172a; font-weight: 700; margin-top: 0.25rem;">${this.escapeHtml(desc || 'Genuine Multi-Brand Automotive Component')}</div>
           </div>
         </div>
 
-        <h4 style="font-size: 1.05rem; font-weight: 900; color: #38bdf8; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.45rem; font-family: 'Outfit', sans-serif;">
+        <h4 style="font-size: 1.05rem; font-weight: 900; color: #0f172a; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.45rem; font-family: 'Outfit', sans-serif;">
           <span>🚗 Compatible Vehicle Applications (${fitments.length} Mappings)</span>
         </h4>
 
-        <div style="max-height: 360px; overflow-y: auto; border: 1.5px solid rgba(56, 189, 248, 0.25); border-radius: 12px;">
+        <div style="max-height: 360px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 12px;">
           <table class="data-table" style="width: 100%; border-collapse: collapse;">
             <thead>
-              <tr style="background: rgba(8, 15, 30, 0.98); position: sticky; top: 0; z-index: 2;">
-                <th style="padding: 0.75rem; text-align: left; color: #fbbf24; font-weight: 850;">Vehicle Make</th>
-                <th style="padding: 0.75rem; text-align: left; color: #ffffff; font-weight: 850;">Model</th>
-                <th style="padding: 0.75rem; text-align: left; color: #cbd5e1; font-weight: 850;">Sub-Model / Variant</th>
-                <th style="padding: 0.75rem; text-align: left; color: #38bdf8; font-weight: 850;">Fuel Type</th>
-                <th style="padding: 0.75rem; text-align: left; color: #34d399; font-weight: 850;">Applicable Years</th>
-                <th style="padding: 0.75rem; text-align: left; color: #a78bfa; font-weight: 850;">Segment</th>
+              <tr style="background: #f8fafc; position: sticky; top: 0; z-index: 2; border-bottom: 1px solid #e2e8f0;">
+                <th style="padding: 0.75rem; text-align: left; color: #b45309; font-weight: 850;">Vehicle Make</th>
+                <th style="padding: 0.75rem; text-align: left; color: #0f172a; font-weight: 850;">Model</th>
+                <th style="padding: 0.75rem; text-align: left; color: #475569; font-weight: 850;">Sub-Model / Variant</th>
+                <th style="padding: 0.75rem; text-align: left; color: #0284c7; font-weight: 850;">Fuel Type</th>
+                <th style="padding: 0.75rem; text-align: left; color: #059669; font-weight: 850;">Applicable Years</th>
+                <th style="padding: 0.75rem; text-align: left; color: #7c3aed; font-weight: 850;">Segment</th>
               </tr>
             </thead>
             <tbody>
-              ${fitments.length === 0 ? `<tr><td colspan="6" style="text-align: center; color: #94a3b8; padding: 2rem;">Universal OEM / Multi-Fit Component (Compatible with listed makes & aggregates).</td></tr>` : 
+              ${fitments.length === 0 ? `<tr><td colspan="6" style="text-align: center; color: #64748b; padding: 2rem;">Universal OEM / Multi-Fit Component (Compatible with listed makes & aggregates).</td></tr>` : 
                 fitments.map(f => {
                   const fMake = f.make ?? '-';
                   const fModel = f.model ?? '-';
@@ -1008,13 +1008,13 @@ window.OverallCataloguePortal = {
                   const fSegment = f.segment ?? '-';
 
                   return `
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                      <td style="font-weight: 850; color: #fbbf24; padding: 0.75rem;">${this.escapeHtml(fMake)}</td>
-                      <td style="font-weight: 800; color: #ffffff; padding: 0.75rem;">${this.escapeHtml(fModel)}</td>
-                      <td style="color: #cbd5e1; padding: 0.75rem;">${this.escapeHtml(fSubModel)}</td>
-                      <td style="color: #38bdf8; font-weight: 750; padding: 0.75rem;">${this.escapeHtml(fFuel)}</td>
-                      <td style="color: #34d399; font-weight: 800; padding: 0.75rem;">${this.escapeHtml(fYears)}</td>
-                      <td style="color: #a78bfa; font-weight: 750; padding: 0.75rem;">${this.escapeHtml(fSegment)}</td>
+                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                      <td style="font-weight: 850; color: #b45309; padding: 0.75rem;">${this.escapeHtml(fMake)}</td>
+                      <td style="font-weight: 800; color: #0f172a; padding: 0.75rem;">${this.escapeHtml(fModel)}</td>
+                      <td style="color: #475569; padding: 0.75rem;">${this.escapeHtml(fSubModel)}</td>
+                      <td style="color: #0284c7; font-weight: 750; padding: 0.75rem;">${this.escapeHtml(fFuel)}</td>
+                      <td style="color: #059669; font-weight: 800; padding: 0.75rem;">${this.escapeHtml(fYears)}</td>
+                      <td style="color: #7c3aed; font-weight: 750; padding: 0.75rem;">${this.escapeHtml(fSegment)}</td>
                     </tr>
                   `;
                 }).join('')

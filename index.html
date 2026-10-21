@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <script>
     if (window.location.search) {
@@ -224,20 +224,20 @@
   <aside id="app-sidebar" class="app-sidebar">
     <!-- Brand / Logo Area -->
     <div class="sidebar-brand-box" onclick="App.switchTab('home')" title="AUTO NEXA Dashboard">
-      <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 900; color: #fff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); flex-shrink: 0;">
+      <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 900; color: #fff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); flex-shrink: 0;">
         ⚡
       </div>
       <div class="brand-copy" style="overflow: hidden;">
-        <div style="font-size: 1.15rem; font-weight: 900; color: #ffffff; line-height: 1.1; font-family: 'Outfit', sans-serif;">
+        <div style="font-size: 1.15rem; font-weight: 900; color: #0f172a; line-height: 1.1; font-family: 'Outfit', sans-serif;">
           AUTO<span style="color: #ea580c;">NEXA</span>
         </div>
-        <div style="font-size: 0.65rem; font-weight: 850; letter-spacing: 0.12em; color: #38bdf8; text-transform: uppercase;">
+        <div style="font-size: 0.65rem; font-weight: 850; letter-spacing: 0.12em; color: #0284c7; text-transform: uppercase;">
           TVS MOBILITY INTELLIGENCE
         </div>
       </div>
     </div>
 
-    <!-- Navigation List with Dropdown Accordions -->
+    <!-- Navigation List with Dropdown Accordions & Structured Colorful Icons -->
     <div class="sidebar-nav-container">
       
       <div class="sb-section-divider">WORKSPACE CORE</div>
@@ -245,7 +245,7 @@
       <!-- 1. HOME -->
       <button type="button" class="sb-nav-item active" data-tab="home" onclick="App.switchTab('home');">
         <div class="sb-item-left">
-          <span class="sb-icon">⌂</span>
+          <span class="sb-icon-box sb-icon-home">⊞</span>
           <span>Home</span>
         </div>
       </button>
@@ -254,7 +254,7 @@
       <div class="sb-group" id="sb-group-catalogue">
         <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-catalogue');">
           <div class="sb-item-left">
-            <span class="sb-icon">⌘</span>
+            <span class="sb-icon-box sb-icon-cat">📖</span>
             <span>Catalogue</span>
           </div>
           <span class="sb-chevron">▾</span>
@@ -276,7 +276,7 @@
       <div class="sb-group" id="sb-group-inventory">
         <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-inventory');">
           <div class="sb-item-left">
-            <span class="sb-icon">▣</span>
+            <span class="sb-icon-box sb-icon-inv">📦</span>
             <span>Inventory</span>
           </div>
           <span class="sb-chevron">▾</span>
@@ -298,7 +298,7 @@
       <div class="sb-group" id="sb-group-sales">
         <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-sales');">
           <div class="sb-item-left">
-            <span class="sb-icon">📈</span>
+            <span class="sb-icon-box sb-icon-sales">📈</span>
             <span>Sales</span>
           </div>
           <span class="sb-chevron">▾</span>
@@ -321,7 +321,7 @@
       <!-- Planning -->
       <button type="button" class="sb-nav-item" data-tab="forecasting" onclick="App.switchTab('forecasting');">
         <div class="sb-item-left">
-          <span class="sb-icon">📅</span>
+          <span class="sb-icon-box sb-icon-plan">📅</span>
           <span>Demand Planning</span>
         </div>
       </button>
@@ -329,7 +329,7 @@
       <!-- Reports -->
       <button type="button" class="sb-nav-item" data-tab="deviation" onclick="App.switchTab('deviation');">
         <div class="sb-item-left">
-          <span class="sb-icon">📄</span>
+          <span class="sb-icon-box sb-icon-rep">📄</span>
           <span>Compliance Reports</span>
         </div>
       </button>
@@ -341,38 +341,38 @@
       <div class="profile-details" style="display: flex; align-items: center; gap: 0.6rem; min-width: 0;">
         <span class="profile-avatar" style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #ea580c, #f59e0b); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.82rem; color: #fff; flex-shrink: 0;">JG</span>
         <div class="profile-info" style="min-width: 0; line-height: 1.2;">
-          <strong style="color: #ffffff; font-size: 0.82rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Jino George</strong>
-          <small style="color: #38bdf8; font-size: 0.72rem; font-weight: 750;">SM0237 • Analyst</small>
+          <strong style="color: #0f172a; font-size: 0.82rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Jino George</strong>
+          <small style="color: #0284c7; font-size: 0.72rem; font-weight: 750;">SM0237 • Analyst</small>
         </div>
       </div>
-      <button type="button" onclick="App.logout()" title="Logout" style="background: rgba(255,255,255,0.08); border: none; color: #cbd5e1; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.95rem;">
+      <button type="button" onclick="App.logout()" title="Logout" style="background: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.95rem;">
         🚪
       </button>
     </div>
   </aside>
 
-  <!-- Top Bar with Hamburger, Breadcrumb, System Status, Theme Toggle -->
-  <header id="app-header" class="app-header" style="display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 64px;">
+  <!-- Top Bar with Dearo Circular Blue Hamburger, Breadcrumb, System Status, Theme Toggle -->
+  <header id="app-header" class="app-header" style="display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; height: 64px; background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
     <div style="display: flex; align-items: center; gap: 1rem;">
-      <button type="button" id="sidebar-toggle-btn" onclick="App.toggleSidebar()" title="Toggle Sidebar" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; width: 38px; height: 38px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+      <button type="button" id="sidebar-toggle-btn" onclick="App.toggleSidebar()" title="Toggle Sidebar">
         ☰
       </button>
 
       <!-- Dynamic Breadcrumb -->
       <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 800;">
-        <span id="breadcrumb-section" style="color: #94a3b8; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;">WORKSPACE</span>
-        <span style="color: #64748b;">/</span>
-        <span id="breadcrumb-page" style="color: #38bdf8; font-family: 'Outfit', sans-serif; font-size: 1rem;">Home Overview</span>
+        <span id="breadcrumb-section" style="color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em;">WORKSPACE</span>
+        <span style="color: #cbd5e1;">/</span>
+        <span id="breadcrumb-page" style="color: #0f172a; font-family: 'Outfit', sans-serif; font-size: 1rem;">Home Overview</span>
       </div>
     </div>
 
     <div class="header-right" style="display: flex; align-items: center; gap: 0.85rem;">
-      <div class="system-status" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.8rem; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px;">
-        <span class="status-dot" style="width: 8px; height: 8px; background: #29d391; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #29d391;"></span>
-        <strong style="color: #38bdf8; font-size: 0.75rem; letter-spacing: 0.5px;">23.6M MASTER DB ACTIVE</strong>
+      <div class="system-status" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.8rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;">
+        <span class="status-dot" style="width: 8px; height: 8px; background: #16a34a; border-radius: 50%; display: inline-block; box-shadow: 0 0 8px #16a34a;"></span>
+        <strong style="color: #15803d; font-size: 0.75rem; letter-spacing: 0.5px;">23.6M MASTER DB ACTIVE</strong>
       </div>
 
-      <button type="button" id="btn-theme-toggle" class="btn-icon" onclick="App.toggleTheme()" title="Toggle Light/Dark Theme" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.05rem;">
+      <button type="button" id="btn-theme-toggle" class="btn-icon" onclick="App.toggleTheme()" title="Toggle Light/Dark Theme" style="background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.05rem;">
         🌓
       </button>
     </div>
@@ -570,38 +570,37 @@
     <section id="tab-catalogue" class="tab-pane">
       <div class="catalogue-shell" style="padding: 0 0.5rem;">
         
-        <!-- Catalogue Scenic Hero Banner -->
-        <div class="cat-hero-scenic" style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(56, 189, 248, 0.35);">
-          <img src="cat_hero_car_xray.jpg" onerror="this.onerror=null;this.src='images/cat_hero_car_xray.jpg'" alt="Automotive Parts Catalogue" class="cat-hero-img">
-          <div class="cat-hero-overlay"></div>
-          
-          <div class="cat-hero-left" style="position: relative; z-index: 2; padding: 2rem 2.25rem;">
-            <div class="cat-kicker-tag" style="background: linear-gradient(90deg, #ea580c, #f59e0b); color: #fff; font-weight: 900; font-size: 0.74rem; padding: 0.3rem 0.85rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; margin-bottom: 0.6rem; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);">
-              <span>⚡ MASTER CATALOGUE INTELLIGENCE ENGINE</span>
-            </div>
-            <h1 class="cat-headline" style="font-size: 2.3rem; font-weight: 900; color: #ffffff; line-height: 1.15; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">
-              Master Automotive Parts Database<br>
-              <span style="background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">23.6 Million+ Parts, Live Pricing & Cross-Compatibility</span>
-            </h1>
-            <p class="cat-lead" style="font-size: 0.92rem; color: #cbd5e1; max-width: 680px; margin: 0; line-height: 1.5;">
-              Enterprise multi-brand OEM & aftermarket lookup across Maruti Suzuki, Hyundai, Mahindra, Tata, Toyota, and aftermarket suppliers with sub-second full-text indexation.
-            </p>
-          </div>
-
-          <!-- Right Status & Database Metrics Summary -->
-          <div class="cat-hero-right-cards" style="position: relative; z-index: 2; padding: 2rem 2.25rem; display: flex; flex-direction: column; gap: 0.65rem; justify-content: center;">
-            <div class="cat-glass-card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 12px; padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 0.85rem; backdrop-filter: blur(12px); box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
-              <div class="cat-glass-icon" style="font-size: 1.7rem;">⚡</div>
-              <div>
-                <strong style="color: #38bdf8; font-size: 0.9rem; display: block;">Indexed FTS5 Engine Active</strong>
-                <small style="color: #94a3b8; font-size: 0.78rem;">Sub-second prefix & token lookup</small>
+        <!-- Catalogue Scenic Hero Banner (Light Enterprise Design) -->
+        <div class="cat-hero-scenic" style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1px solid #e2e8f0; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; padding: 2rem 2.25rem;">
+            <div style="flex: 1; min-width: 320px;">
+              <div class="cat-kicker-tag" style="background: linear-gradient(90deg, #ea580c, #f97316); color: #fff; font-weight: 900; font-size: 0.74rem; padding: 0.35rem 0.9rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; margin-bottom: 0.75rem; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);">
+                <span>⚡ MASTER CATALOGUE INTELLIGENCE ENGINE</span>
               </div>
+              <h1 class="cat-headline" style="font-size: 2.2rem; font-weight: 900; color: #0f172a; line-height: 1.2; margin-bottom: 0.6rem; font-family: 'Outfit', sans-serif;">
+                Master Automotive Parts Database<br>
+                <span style="color: #0284c7;">23.6 Million+ Parts, Live Pricing & Cross-Compatibility</span>
+              </h1>
+              <p class="cat-lead" style="font-size: 0.92rem; color: #475569; max-width: 680px; margin: 0; line-height: 1.55;">
+                Enterprise multi-brand OEM & aftermarket lookup across Maruti Suzuki, Hyundai, Mahindra, Tata, Toyota, and aftermarket suppliers with sub-second full-text indexation.
+              </p>
             </div>
-            <div class="cat-glass-card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(41, 211, 145, 0.4); border-radius: 12px; padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 0.85rem; backdrop-filter: blur(12px); box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
-              <div class="cat-glass-icon" style="font-size: 1.7rem;">🚘</div>
-              <div>
-                <strong style="color: #29d391; font-size: 0.9rem; display: block;">Omnichannel Fitments</strong>
-                <small style="color: #94a3b8; font-size: 0.78rem;">PCV, HCV, LCV & 2-Wheeler</small>
+
+            <!-- Right Status & Database Metrics Summary -->
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 260px;">
+              <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 0.85rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <div style="font-size: 1.6rem; color: #0284c7;">⚡</div>
+                <div>
+                  <strong style="color: #0284c7; font-size: 0.9rem; display: block;">Indexed FTS5 Engine Active</strong>
+                  <small style="color: #64748b; font-size: 0.78rem;">Sub-second prefix & token lookup</small>
+                </div>
+              </div>
+              <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1.25rem; display: flex; align-items: center; gap: 0.85rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <div style="font-size: 1.6rem; color: #059669;">🚘</div>
+                <div>
+                  <strong style="color: #059669; font-size: 0.9rem; display: block;">Omnichannel Fitments</strong>
+                  <small style="color: #64748b; font-size: 0.78rem;">PCV, HCV, LCV & 2-Wheeler</small>
+                </div>
               </div>
             </div>
           </div>
@@ -609,81 +608,81 @@
 
         <!-- Wealthy Executive Metrics Strip (5 Cards) -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-          <div class="card" style="background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7)); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
-            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px;">TOTAL MASTER RECORDS</div>
-            <div id="cat-stat-records" style="font-size: 1.9rem; font-weight: 900; color: #38bdf8; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">23,671,472</div>
-            <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.25rem;">Multi-OEM cross-referenced catalogue</div>
+          <div class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 3.5px solid #0284c7; border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px;">TOTAL MASTER RECORDS</div>
+            <div id="cat-stat-records" style="font-size: 1.9rem; font-weight: 900; color: #0284c7; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">23,671,472</div>
+            <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 0.25rem;">Multi-OEM cross-referenced catalogue</div>
           </div>
 
-          <div class="card" style="background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7)); border: 1.5px solid rgba(167, 139, 250, 0.4); border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
-            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px;">UNIQUE PART NUMBERS</div>
-            <div id="cat-stat-parts" style="font-size: 1.9rem; font-weight: 900; color: #a78bfa; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">416,045</div>
-            <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.25rem;">Distinct line-code spare SKUs</div>
+          <div class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 3.5px solid #7c3aed; border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px;">UNIQUE PART NUMBERS</div>
+            <div id="cat-stat-parts" style="font-size: 1.9rem; font-weight: 900; color: #7c3aed; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">416,045</div>
+            <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 0.25rem;">Distinct line-code spare SKUs</div>
           </div>
 
-          <div class="card" style="background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7)); border: 1.5px solid rgba(251, 191, 36, 0.4); border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
-            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px;">OEM & AFTERMARKET BRANDS</div>
-            <div id="cat-stat-brands" style="font-size: 1.9rem; font-weight: 900; color: #fbbf24; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">170+ Brands</div>
-            <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.25rem;">Verified component manufacturers</div>
+          <div class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 3.5px solid #d97706; border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px;">OEM & AFTERMARKET BRANDS</div>
+            <div id="cat-stat-brands" style="font-size: 1.9rem; font-weight: 900; color: #d97706; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">170+ Brands</div>
+            <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 0.25rem;">Verified component manufacturers</div>
           </div>
 
-          <div class="card" style="background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7)); border: 1.5px solid rgba(41, 211, 145, 0.4); border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
-            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px;">VEHICLE COVERAGE</div>
-            <div id="cat-stat-makes" style="font-size: 1.9rem; font-weight: 900; color: #29d391; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">39 Makes • 504 Models</div>
-            <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.25rem;">Multi-generation variant mapping</div>
+          <div class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 3.5px solid #059669; border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px;">VEHICLE COVERAGE</div>
+            <div id="cat-stat-makes" style="font-size: 1.9rem; font-weight: 900; color: #059669; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">39 Makes • 504 Models</div>
+            <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 0.25rem;">Multi-generation variant mapping</div>
           </div>
 
-          <div class="card" style="background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7)); border: 1.5px solid rgba(244, 63, 94, 0.4); border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
-            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px;">TAXONOMY STRUCTURE</div>
-            <div id="cat-stat-taxonomy" style="font-size: 1.9rem; font-weight: 900; color: #f43f5e; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">29 Aggregates</div>
-            <div style="font-size: 0.74rem; color: #64748b; margin-top: 0.25rem;">Sub-Aggregates & Child Components</div>
+          <div class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 3.5px solid #e11d48; border-radius: 14px; padding: 1.15rem 1.35rem; position: relative; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px;">TAXONOMY STRUCTURE</div>
+            <div id="cat-stat-taxonomy" style="font-size: 1.9rem; font-weight: 900; color: #e11d48; margin-top: 0.35rem; font-family: 'Outfit', sans-serif;">29 Aggregates</div>
+            <div style="font-size: 0.74rem; color: #94a3b8; margin-top: 0.25rem;">Sub-Aggregates & Child Components</div>
           </div>
         </div>
 
-        <!-- Universal Part Search Bar with Autocomplete Suggestions Dropdown -->
-        <div style="background: rgba(15, 23, 42, 0.92); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 16px; padding: 1.35rem 1.6rem; margin-bottom: 1.5rem; backdrop-filter: blur(14px); box-shadow: 0 12px 36px rgba(0,0,0,0.45);">
+        <!-- Universal Part Search Bar with Autocomplete Suggestions Dropdown (Dearo Workshop Style) -->
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.35rem 1.6rem; margin-bottom: 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
           
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
-            <label for="cat-search-q" style="font-size: 0.85rem; font-weight: 900; color: #38bdf8; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 0.45rem;">
+            <label for="cat-search-q" style="font-size: 0.85rem; font-weight: 900; color: #0284c7; letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 0.45rem;">
               <span>🔍 PART NUMBER & KEYWORD SEARCH (WITH OR WITHOUT LINE CODE)</span>
             </label>
-            <div style="font-size: 0.75rem; color: #94a3b8;">
-              Try: <span class="tag-pill" onclick="OverallCataloguePortal.setQuickSearch('21611404')" style="cursor:pointer; color:#38bdf8; text-decoration:underline;">21611404</span>, <span class="tag-pill" onclick="OverallCataloguePortal.setQuickSearch('98850')" style="cursor:pointer; color:#38bdf8; text-decoration:underline;">98850 (No Linecode)</span>, <span class="tag-pill" onclick="OverallCataloguePortal.setQuickSearch('Brake Pad')" style="cursor:pointer; color:#38bdf8; text-decoration:underline;">Brake Pad</span>, <span class="tag-pill" onclick="OverallCataloguePortal.setQuickSearch('Oil Filter')" style="cursor:pointer; color:#38bdf8; text-decoration:underline;">Oil Filter</span>
+            <div style="font-size: 0.75rem; color: #64748b;">
+              Try: <span class="tag-pill" onclick="OverallCataloguePortal.setQuickSearch('21611404')" style="cursor:pointer; color:#0284c7; text-decoration:underline; font-weight:700;">21611404</span>, <span class="tag-pill" onclick="OverallCataloguePortal.setQuickSearch('98850')" style="cursor:pointer; color:#0284c7; text-decoration:underline; font-weight:700;">98850 (No Linecode)</span>, <span class="tag-pill" onclick="OverallCataloguePortal.setQuickSearch('Brake Pad')" style="cursor:pointer; color:#0284c7; text-decoration:underline; font-weight:700;">Brake Pad</span>, <span class="tag-pill" onclick="OverallCataloguePortal.setQuickSearch('Oil Filter')" style="cursor:pointer; color:#0284c7; text-decoration:underline; font-weight:700;">Oil Filter</span>
             </div>
           </div>
 
           <div style="position: relative; width: 100%;">
             <div style="display: flex; gap: 0.65rem; align-items: center;">
               <div style="position: relative; flex: 1;">
-                <span style="position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: #38bdf8; pointer-events: none;">🔎</span>
-                <input type="text" id="cat-search-q" autocomplete="off" placeholder="Type Part Number with or without Line Code (e.g. 21611404, 11404-10656K, 98850H9000, 04152-YZZA6) or Component..." style="width: 100%; box-sizing: border-box; padding: 0.85rem 3rem 0.85rem 3.1rem; background: #080f1e; border: 2px solid rgba(56, 189, 248, 0.5); border-radius: 12px; color: #ffffff; font-size: 1rem; font-weight: 700; outline: none; transition: all 0.2s;" oninput="OverallCataloguePortal.handleSearchInput(this.value)" onkeydown="if(event.key==='Enter') OverallCataloguePortal.triggerSearch(); if(event.key==='Escape') OverallCataloguePortal.hideSuggestions();">
-                <button type="button" id="cat-search-clear-btn" onclick="OverallCataloguePortal.clearSearchInput()" title="Clear Search" style="display: none; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.15); border: none; color: #cbd5e1; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem;">✕</button>
+                <span style="position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: #64748b; pointer-events: none;">🔎</span>
+                <input type="text" id="cat-search-q" autocomplete="off" placeholder="Type Part Number with or without Line Code (e.g. 21611404, 11404-10656K, 98850H9000, 04152-YZZA6) or Component..." style="width: 100%; box-sizing: border-box; padding: 0.85rem 3rem 0.85rem 3.1rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; color: #0f172a; font-size: 1rem; font-weight: 700; outline: none; transition: all 0.2s;" oninput="OverallCataloguePortal.handleSearchInput(this.value)" onkeydown="if(event.key==='Enter') OverallCataloguePortal.triggerSearch(); if(event.key==='Escape') OverallCataloguePortal.hideSuggestions();">
+                <button type="button" id="cat-search-clear-btn" onclick="OverallCataloguePortal.clearSearchInput()" title="Clear Search" style="display: none; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: #e2e8f0; border: none; color: #475569; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem;">✕</button>
               </div>
 
-              <button type="button" onclick="OverallCataloguePortal.triggerSearch()" style="padding: 0.85rem 2rem; background: linear-gradient(135deg, #0284c7, #2563eb); border: none; border-radius: 12px; color: #ffffff; font-weight: 850; font-size: 0.95rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4); transition: transform 0.15s;">
+              <button type="button" onclick="OverallCataloguePortal.triggerSearch()" style="padding: 0.85rem 2rem; background: #ea580c; border: none; border-radius: 10px; color: #ffffff; font-weight: 850; font-size: 0.95rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; white-space: nowrap; box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35); transition: transform 0.15s;">
                 <span>Search</span> <span>→</span>
               </button>
 
-              <button type="button" onclick="OverallCataloguePortal.resetFilters()" style="padding: 0.85rem 1.25rem; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; color: #cbd5e1; font-weight: 750; font-size: 0.9rem; cursor: pointer; white-space: nowrap;">
+              <button type="button" onclick="OverallCataloguePortal.resetFilters()" style="padding: 0.85rem 1.25rem; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 10px; color: #475569; font-weight: 750; font-size: 0.9rem; cursor: pointer; white-space: nowrap;">
                 🔄 Reset
               </button>
             </div>
 
             <!-- Floating Live Autocomplete Suggestions Dropdown -->
-            <div id="cat-suggestions-dropdown" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: #0f172a; border: 1.5px solid rgba(56, 189, 248, 0.6); border-radius: 14px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85); z-index: 99999; max-height: 440px; overflow-y: auto; backdrop-filter: blur(20px); padding: 0.6rem;">
+            <div id="cat-suggestions-dropdown" style="display: none; position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12); z-index: 99999; max-height: 440px; overflow-y: auto; padding: 0.6rem;">
               <!-- Dynamic suggestion items injected via JS -->
             </div>
           </div>
         </div>
 
-        <!-- Cascading Fitment & Taxonomy Filter Strip -->
-        <div style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.3); border-radius: 16px; padding: 1.35rem 1.6rem; margin-bottom: 1.5rem; backdrop-filter: blur(12px);">
+        <!-- Cascading Fitment & Taxonomy Filter Strip (Clean Light Enterprise) -->
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.35rem 1.6rem; margin-bottom: 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
           
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem;">
-            <div style="font-size: 0.88rem; font-weight: 900; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; font-family: 'Outfit', sans-serif;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 0.75rem;">
+            <div style="font-size: 0.88rem; font-weight: 900; color: #0f172a; display: flex; align-items: center; gap: 0.5rem; font-family: 'Outfit', sans-serif;">
               <span>🚗 VEHICLE APPLICATION & TAXONOMY FILTER</span>
             </div>
-            <div style="font-size: 0.78rem; color: #94a3b8;">
+            <div style="font-size: 0.78rem; color: #64748b;">
               Filter across vehicle fitments, brands, categories and pricing
             </div>
           </div>
@@ -691,36 +690,36 @@
           <!-- Row 1: Vehicle Application Cascading Dropdowns -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.85rem; margin-bottom: 1rem;">
             <div>
-              <label for="cat-filter-segment" style="font-size: 0.72rem; font-weight: 850; color: #a78bfa; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Segment</label>
-              <select id="cat-filter-segment" onchange="OverallCataloguePortal.handleSegmentChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(167, 139, 250, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-segment" style="font-size: 0.72rem; font-weight: 850; color: #7c3aed; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Segment</label>
+              <select id="cat-filter-segment" onchange="OverallCataloguePortal.handleSegmentChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Segments</option>
               </select>
             </div>
 
             <div>
-              <label for="cat-filter-make" style="font-size: 0.72rem; font-weight: 850; color: #38bdf8; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Vehicle Make</label>
-              <select id="cat-filter-make" onchange="OverallCataloguePortal.handleMakeChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-make" style="font-size: 0.72rem; font-weight: 850; color: #0284c7; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Vehicle Make</label>
+              <select id="cat-filter-make" onchange="OverallCataloguePortal.handleMakeChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Vehicle Makes</option>
               </select>
             </div>
 
             <div>
-              <label for="cat-filter-model" style="font-size: 0.72rem; font-weight: 850; color: #38bdf8; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Vehicle Model</label>
-              <select id="cat-filter-model" onchange="OverallCataloguePortal.handleModelChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-model" style="font-size: 0.72rem; font-weight: 850; color: #0284c7; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Vehicle Model</label>
+              <select id="cat-filter-model" onchange="OverallCataloguePortal.handleModelChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Vehicle Models</option>
               </select>
             </div>
 
             <div>
-              <label for="cat-filter-submodel" style="font-size: 0.72rem; font-weight: 850; color: #38bdf8; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Variant / Sub-Model</label>
-              <select id="cat-filter-submodel" onchange="OverallCataloguePortal.handleSubModelChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-submodel" style="font-size: 0.72rem; font-weight: 850; color: #0284c7; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Variant / Sub-Model</label>
+              <select id="cat-filter-submodel" onchange="OverallCataloguePortal.handleSubModelChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Variants</option>
               </select>
             </div>
 
             <div>
-              <label for="cat-filter-fuel" style="font-size: 0.72rem; font-weight: 850; color: #94a3b8; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Fuel Type</label>
-              <select id="cat-filter-fuel" onchange="OverallCataloguePortal.handleFuelChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid #334155; border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-fuel" style="font-size: 0.72rem; font-weight: 850; color: #64748b; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Fuel Type</label>
+              <select id="cat-filter-fuel" onchange="OverallCataloguePortal.handleFuelChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Fuel Types</option>
                 <option value="PETROL">PETROL</option>
                 <option value="DIESEL">DIESEL</option>
@@ -732,8 +731,8 @@
             </div>
 
             <div>
-              <label for="cat-filter-year" style="font-size: 0.72rem; font-weight: 850; color: #94a3b8; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Year</label>
-              <select id="cat-filter-year" onchange="OverallCataloguePortal.handleYearChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid #334155; border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-year" style="font-size: 0.72rem; font-weight: 850; color: #64748b; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Year</label>
+              <select id="cat-filter-year" onchange="OverallCataloguePortal.handleYearChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Years</option>
                 <option value="2025">2025</option>
                 <option value="2024">2024</option>
@@ -753,104 +752,104 @@
           <!-- Row 2: Taxonomy & Pricing Dropdowns -->
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.85rem; align-items: flex-end;">
             <div>
-              <label for="cat-filter-brand" style="font-size: 0.72rem; font-weight: 850; color: #fbbf24; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Brand Name</label>
-              <select id="cat-filter-brand" onchange="OverallCataloguePortal.handleBrandChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(251, 191, 36, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-brand" style="font-size: 0.72rem; font-weight: 850; color: #b45309; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Brand Name</label>
+              <select id="cat-filter-brand" onchange="OverallCataloguePortal.handleBrandChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Brands</option>
               </select>
             </div>
 
             <div>
-              <label for="cat-filter-aggregate" style="font-size: 0.72rem; font-weight: 850; color: #f43f5e; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Aggregate (Category)</label>
-              <select id="cat-filter-aggregate" onchange="OverallCataloguePortal.handleAggregateChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(244, 63, 94, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-aggregate" style="font-size: 0.72rem; font-weight: 850; color: #e11d48; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Aggregate (Category)</label>
+              <select id="cat-filter-aggregate" onchange="OverallCataloguePortal.handleAggregateChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Aggregates</option>
               </select>
             </div>
 
             <div>
-              <label for="cat-filter-sub-aggregate" style="font-size: 0.72rem; font-weight: 850; color: #f43f5e; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Sub-Aggregate</label>
-              <select id="cat-filter-sub-aggregate" onchange="OverallCataloguePortal.handleSubAggregateChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(244, 63, 94, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-sub-aggregate" style="font-size: 0.72rem; font-weight: 850; color: #e11d48; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Sub-Aggregate</label>
+              <select id="cat-filter-sub-aggregate" onchange="OverallCataloguePortal.handleSubAggregateChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Sub-Aggregates</option>
               </select>
             </div>
 
             <div>
-              <label for="cat-filter-component" style="font-size: 0.72rem; font-weight: 850; color: #f43f5e; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Component</label>
-              <select id="cat-filter-component" onchange="OverallCataloguePortal.handleComponentChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(244, 63, 94, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-filter-component" style="font-size: 0.72rem; font-weight: 850; color: #e11d48; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Component</label>
+              <select id="cat-filter-component" onchange="OverallCataloguePortal.handleComponentChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
                 <option value="">All Components</option>
               </select>
             </div>
 
             <div>
-              <label for="cat-price-min" style="font-size: 0.72rem; font-weight: 850; color: #34d399; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Min MRP (₹)</label>
-              <input type="number" id="cat-price-min" placeholder="0" onchange="OverallCataloguePortal.handlePriceChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(52, 211, 153, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-price-min" style="font-size: 0.72rem; font-weight: 850; color: #059669; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Min MRP (₹)</label>
+              <input type="number" id="cat-price-min" placeholder="0" onchange="OverallCataloguePortal.handlePriceChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
             </div>
 
             <div>
-              <label for="cat-price-max" style="font-size: 0.72rem; font-weight: 850; color: #34d399; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Max MRP (₹)</label>
-              <input type="number" id="cat-price-max" placeholder="50000" onchange="OverallCataloguePortal.handlePriceChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #080f1e; border: 1.5px solid rgba(52, 211, 153, 0.35); border-radius: 8px; color: #ffffff; font-size: 0.82rem; font-weight: 700; outline: none;">
+              <label for="cat-price-max" style="font-size: 0.72rem; font-weight: 850; color: #059669; display: block; margin-bottom: 0.35rem; text-transform: uppercase;">Max MRP (₹)</label>
+              <input type="number" id="cat-price-max" placeholder="50000" onchange="OverallCataloguePortal.handlePriceChange()" style="width: 100%; box-sizing: border-box; padding: 0.6rem 0.8rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; color: #0f172a; font-size: 0.82rem; font-weight: 700; outline: none;">
             </div>
           </div>
         </div>
 
-        <!-- 8 System Category Quick-Filter Cards -->
+        <!-- 8 System Category Quick-Filter Cards (Clean Light Enterprise) -->
         <div style="margin-bottom: 1.5rem;">
-          <h4 style="font-size: 0.9rem; font-weight: 850; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.45rem;">
+          <h4 style="font-size: 0.9rem; font-weight: 850; color: #0f172a; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.45rem;">
             <span>🗂️ Explore Spare Parts By System Category</span>
           </h4>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem;">
-            <div onclick="OverallCataloguePortal.filterCategory('BRAKE SYSTEM')" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(239, 68, 68, 0.35); border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#ef4444'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(239, 68, 68, 0.35)'; this.style.transform='none'">
+            <div onclick="OverallCataloguePortal.filterCategory('BRAKE SYSTEM')" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.03);" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none'">
               <span style="font-size: 1.8rem; display: block; margin-bottom: 0.3rem;">🛑</span>
-              <span style="font-size: 0.8rem; font-weight: 800; color: #ffffff; display: block;">Brakes & ABS</span>
+              <span style="font-size: 0.82rem; font-weight: 800; color: #0f172a; display: block;">Brakes & ABS</span>
             </div>
 
-            <div onclick="OverallCataloguePortal.filterCategory('ENGINE')" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(245, 158, 11, 0.35); border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#f59e0b'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(245, 158, 11, 0.35)'; this.style.transform='none'">
+            <div onclick="OverallCataloguePortal.filterCategory('ENGINE')" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.03);" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none'">
               <span style="font-size: 1.8rem; display: block; margin-bottom: 0.3rem;">⚙️</span>
-              <span style="font-size: 0.8rem; font-weight: 800; color: #ffffff; display: block;">Engine & Timing</span>
+              <span style="font-size: 0.82rem; font-weight: 800; color: #0f172a; display: block;">Engine & Timing</span>
             </div>
 
-            <div onclick="OverallCataloguePortal.filterCategory('SUSPENSION')" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#38bdf8'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(56, 189, 248, 0.35)'; this.style.transform='none'">
+            <div onclick="OverallCataloguePortal.filterCategory('SUSPENSION')" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.03);" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none'">
               <span style="font-size: 1.8rem; display: block; margin-bottom: 0.3rem;">🛞</span>
-              <span style="font-size: 0.8rem; font-weight: 800; color: #ffffff; display: block;">Suspension</span>
+              <span style="font-size: 0.82rem; font-weight: 800; color: #0f172a; display: block;">Suspension</span>
             </div>
 
-            <div onclick="OverallCataloguePortal.filterCategory('ELECTRICALS')" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(167, 139, 250, 0.35); border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#a78bfa'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(167, 139, 250, 0.35)'; this.style.transform='none'">
+            <div onclick="OverallCataloguePortal.filterCategory('ELECTRICALS')" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.03);" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none'">
               <span style="font-size: 1.8rem; display: block; margin-bottom: 0.3rem;">⚡</span>
-              <span style="font-size: 0.8rem; font-weight: 800; color: #ffffff; display: block;">Electricals</span>
+              <span style="font-size: 0.82rem; font-weight: 800; color: #0f172a; display: block;">Electricals</span>
             </div>
 
-            <div onclick="OverallCataloguePortal.filterCategory('HVAC')" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(14, 165, 233, 0.35); border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#0ea5e9'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(14, 165, 233, 0.35)'; this.style.transform='none'">
+            <div onclick="OverallCataloguePortal.filterCategory('HVAC')" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.03);" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none'">
               <span style="font-size: 1.8rem; display: block; margin-bottom: 0.3rem;">❄️</span>
-              <span style="font-size: 0.8rem; font-weight: 800; color: #ffffff; display: block;">Cooling & AC</span>
+              <span style="font-size: 0.82rem; font-weight: 800; color: #0f172a; display: block;">Cooling & AC</span>
             </div>
 
-            <div onclick="OverallCataloguePortal.filterCategory('FILTERS')" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(16, 185, 129, 0.35); border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#10b981'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(16, 185, 129, 0.35)'; this.style.transform='none'">
+            <div onclick="OverallCataloguePortal.filterCategory('FILTERS')" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.03);" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none'">
               <span style="font-size: 1.8rem; display: block; margin-bottom: 0.3rem;">🛢️</span>
-              <span style="font-size: 0.8rem; font-weight: 800; color: #ffffff; display: block;">Filters & Service</span>
+              <span style="font-size: 0.82rem; font-weight: 800; color: #0f172a; display: block;">Filters & Service</span>
             </div>
 
-            <div onclick="OverallCataloguePortal.filterCategory('CLUTCH')" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(236, 72, 153, 0.35); border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#ec4899'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(236, 72, 153, 0.35)'; this.style.transform='none'">
+            <div onclick="OverallCataloguePortal.filterCategory('CLUTCH')" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.03);" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none'">
               <span style="font-size: 1.8rem; display: block; margin-bottom: 0.3rem;">🔄</span>
-              <span style="font-size: 0.8rem; font-weight: 800; color: #ffffff; display: block;">Clutch & Drive</span>
+              <span style="font-size: 0.82rem; font-weight: 800; color: #0f172a; display: block;">Clutch & Drive</span>
             </div>
 
-            <div onclick="OverallCataloguePortal.filterCategory('BODY')" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(251, 191, 36, 0.35); border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#fbbf24'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(251, 191, 36, 0.35)'; this.style.transform='none'">
+            <div onclick="OverallCataloguePortal.filterCategory('BODY')" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 0.65rem; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.03);" onmouseover="this.style.borderColor='#ea580c'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='none'">
               <span style="font-size: 1.8rem; display: block; margin-bottom: 0.3rem;">🚗</span>
-              <span style="font-size: 0.8rem; font-weight: 800; color: #ffffff; display: block;">Body & Panels</span>
+              <span style="font-size: 0.82rem; font-weight: 800; color: #0f172a; display: block;">Body & Panels</span>
             </div>
           </div>
         </div>
 
-        <!-- Master Catalogue Display Container -->
-        <div class="cat-recent-activity-card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 18px; padding: 1.4rem 1.6rem; backdrop-filter: blur(14px); box-shadow: 0 16px 40px rgba(0,0,0,0.45);">
+        <!-- Master Catalogue Display Container (Clean Light Enterprise) -->
+        <div class="cat-recent-activity-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 1.4rem 1.6rem; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
           
           <!-- Toolbar Header: Title, Active Filter Chips, View Toggle, Export -->
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
             <div>
               <div style="display: flex; align-items: center; gap: 0.6rem;">
                 <span style="font-size: 1.6rem;">📚</span>
                 <div>
-                  <h3 style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0; font-family: 'Outfit', sans-serif;">Overall Master Catalogue Records</h3>
-                  <p id="cat-results-count-text" style="font-size: 0.82rem; color: #94a3b8; margin: 0.2rem 0 0 0;">Querying entire database...</p>
+                  <h3 style="font-size: 1.25rem; font-weight: 900; color: #0f172a; margin: 0; font-family: 'Outfit', sans-serif;">Overall Master Catalogue Records</h3>
+                  <p id="cat-results-count-text" style="font-size: 0.82rem; color: #64748b; margin: 0.2rem 0 0 0;">Querying entire database...</p>
                 </div>
               </div>
             </div>
@@ -858,19 +857,19 @@
             <!-- Right Controls: View Switcher, Limit, Exports -->
             <div style="display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;">
               <!-- View Mode Toggle -->
-              <div style="display: flex; background: rgba(8, 15, 30, 0.9); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 0.2rem;">
-                <button type="button" id="cat-view-grid-btn" onclick="OverallCataloguePortal.setViewMode('grid')" style="padding: 0.45rem 0.85rem; font-size: 0.78rem; font-weight: 800; border: none; border-radius: 8px; background: #38bdf8; color: #0f172a; cursor: pointer; transition: all 0.15s;">
+              <div style="display: flex; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.2rem;">
+                <button type="button" id="cat-view-grid-btn" onclick="OverallCataloguePortal.setViewMode('grid')" style="padding: 0.45rem 0.85rem; font-size: 0.78rem; font-weight: 800; border: none; border-radius: 8px; background: #2563eb; color: #ffffff; cursor: pointer; transition: all 0.15s;">
                   🎴 AutoDukan Cards
                 </button>
-                <button type="button" id="cat-view-table-btn" onclick="OverallCataloguePortal.setViewMode('table')" style="padding: 0.45rem 0.85rem; font-size: 0.78rem; font-weight: 800; border: none; border-radius: 8px; background: transparent; color: #cbd5e1; cursor: pointer; transition: all 0.15s;">
+                <button type="button" id="cat-view-table-btn" onclick="OverallCataloguePortal.setViewMode('table')" style="padding: 0.45rem 0.85rem; font-size: 0.78rem; font-weight: 800; border: none; border-radius: 8px; background: transparent; color: #64748b; cursor: pointer; transition: all 0.15s;">
                   📊 Table View
                 </button>
               </div>
 
               <!-- Limit Select -->
-              <div style="display: flex; align-items: center; gap: 0.35rem; background: rgba(8, 15, 30, 0.9); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 0.2rem 0.5rem;">
-                <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 700;">Rows:</span>
-                <select id="cat-select-limit" onchange="OverallCataloguePortal.changeLimit(this.value)" style="background: transparent; border: none; color: #fff; font-size: 0.8rem; font-weight: 800; outline: none; cursor: pointer;">
+              <div style="display: flex; align-items: center; gap: 0.35rem; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.2rem 0.5rem;">
+                <span style="font-size: 0.75rem; color: #64748b; font-weight: 700;">Rows:</span>
+                <select id="cat-select-limit" onchange="OverallCataloguePortal.changeLimit(this.value)" style="background: transparent; border: none; color: #0f172a; font-size: 0.8rem; font-weight: 800; outline: none; cursor: pointer;">
                   <option value="24">24</option>
                   <option value="48" selected>48</option>
                   <option value="96">96</option>
@@ -882,17 +881,17 @@
               <button type="button" class="btn btn-secondary" onclick="OverallCataloguePortal.exportExcel()" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 800; border-radius: 8px; background: #0284c7; border: none; color: #ffffff; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
                 <span>📥 Export Excel</span>
               </button>
-              <button type="button" class="btn btn-success" onclick="OverallCataloguePortal.exportCSV()" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 800; border-radius: 8px; background: linear-gradient(135deg, #10b981, #059669); border: none; color: #ffffff; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+              <button type="button" class="btn btn-success" onclick="OverallCataloguePortal.exportCSV()" style="padding: 0.45rem 0.9rem; font-size: 0.8rem; font-weight: 800; border-radius: 8px; background: #059669; border: none; color: #ffffff; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
                 <span>📄 Export CSV</span>
               </button>
             </div>
           </div>
 
           <!-- Active Filter Chips Strip -->
-          <div id="cat-active-chips-container" style="display: none; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; padding: 0.6rem 0.85rem; background: rgba(8, 15, 30, 0.7); border-radius: 10px; border: 1px solid rgba(56, 189, 248, 0.2);">
-            <span style="font-size: 0.75rem; font-weight: 850; color: #38bdf8; text-transform: uppercase;">Active Filters:</span>
+          <div id="cat-active-chips-container" style="display: none; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; padding: 0.6rem 0.85rem; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+            <span style="font-size: 0.75rem; font-weight: 850; color: #0284c7; text-transform: uppercase;">Active Filters:</span>
             <div id="cat-active-chips-list" style="display: flex; gap: 0.4rem; flex-wrap: wrap;"></div>
-            <button type="button" onclick="OverallCataloguePortal.resetFilters()" style="margin-left: auto; background: transparent; border: none; color: #f87171; font-size: 0.75rem; font-weight: 800; cursor: pointer;">Clear All ✕</button>
+            <button type="button" onclick="OverallCataloguePortal.resetFilters()" style="margin-left: auto; background: transparent; border: none; color: #dc2626; font-size: 0.75rem; font-weight: 800; cursor: pointer;">Clear All ✕</button>
           </div>
 
           <!-- View Container A: AutoDukan Grid Cards -->
@@ -901,32 +900,32 @@
           </div>
 
           <!-- View Container B: Enterprise Table View -->
-          <div id="cat-table-wrapper" style="display: none; overflow-x: auto; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px;">
+          <div id="cat-table-wrapper" style="display: none; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 12px;">
             <table class="data-table" style="width: 100%; border-collapse: collapse; min-width: 1100px;">
               <thead>
-                <tr style="background: rgba(8, 15, 30, 0.98);">
-                  <th style="color: #38bdf8; font-weight: 850; text-align: left; padding: 0.85rem;">Part Number</th>
-                  <th style="color: #fbbf24; font-weight: 850; text-align: left; padding: 0.85rem;">Brand</th>
-                  <th style="color: #ffffff; font-weight: 850; text-align: left; padding: 0.85rem;">Description</th>
-                  <th style="color: #34d399; font-weight: 850; text-align: right; padding: 0.85rem;">MRP Price</th>
-                  <th style="color: #94a3b8; font-weight: 850; text-align: right; padding: 0.85rem;">List Price</th>
-                  <th style="color: #a78bfa; font-weight: 850; text-align: left; padding: 0.85rem;">Segment</th>
-                  <th style="color: #f1f5f9; font-weight: 850; text-align: left; padding: 0.85rem;">Vehicle Fitment</th>
-                  <th style="color: #38bdf8; font-weight: 850; text-align: left; padding: 0.85rem;">Aggregate</th>
-                  <th style="color: #ffffff; font-weight: 850; text-align: center; padding: 0.85rem;">Action</th>
+                <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                  <th style="color: #0284c7; font-weight: 850; text-align: left; padding: 0.85rem;">Part Number</th>
+                  <th style="color: #b45309; font-weight: 850; text-align: left; padding: 0.85rem;">Brand</th>
+                  <th style="color: #0f172a; font-weight: 850; text-align: left; padding: 0.85rem;">Description</th>
+                  <th style="color: #059669; font-weight: 850; text-align: right; padding: 0.85rem;">MRP Price</th>
+                  <th style="color: #64748b; font-weight: 850; text-align: right; padding: 0.85rem;">List Price</th>
+                  <th style="color: #7c3aed; font-weight: 850; text-align: left; padding: 0.85rem;">Segment</th>
+                  <th style="color: #334155; font-weight: 850; text-align: left; padding: 0.85rem;">Vehicle Fitment</th>
+                  <th style="color: #0284c7; font-weight: 850; text-align: left; padding: 0.85rem;">Aggregate</th>
+                  <th style="color: #0f172a; font-weight: 850; text-align: center; padding: 0.85rem;">Action</th>
                 </tr>
               </thead>
               <tbody id="cat-table-body">
                 <tr>
-                  <td colspan="9" style="text-align: center; padding: 3rem; color: #38bdf8; font-weight: 700;">⚡ Querying 23.6M+ Master Catalogue Records...</td>
+                  <td colspan="9" style="text-align: center; padding: 3rem; color: #0284c7; font-weight: 700;">⚡ Querying 23.6M+ Master Catalogue Records...</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <!-- Pagination Bar -->
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem;">
-            <div id="cat-pagination-info" style="font-size: 0.85rem; font-weight: 700; color: #94a3b8;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; flex-wrap: wrap; gap: 0.75rem; border-top: 1px solid #f1f5f9; padding-top: 1rem;">
+            <div id="cat-pagination-info" style="font-size: 0.85rem; font-weight: 700; color: #64748b;">
               Showing 0 to 0 of 0 records
             </div>
             <div id="cat-pagination-buttons" style="display: flex; gap: 0.4rem; align-items: center;">
@@ -936,18 +935,18 @@
         </div>
 
         <!-- Part Fitment Compatibility Modal Popup -->
-        <div id="cat-part-modal" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 99999; justify-content: center; align-items: center; padding: 1.5rem;">
-          <div style="background: #0f172a; border: 1.5px solid rgba(56, 189, 248, 0.45); border-radius: 20px; width: 100%; max-width: 920px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);">
+        <div id="cat-part-modal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 99999; justify-content: center; align-items: center; padding: 1.5rem;">
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; width: 100%; max-width: 920px; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);">
             <!-- Modal Header -->
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.6rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(8, 15, 30, 0.95);">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.6rem; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
               <div style="display: flex; align-items: center; gap: 0.65rem;">
                 <span style="font-size: 1.5rem;">📦</span>
                 <div>
-                  <h3 id="cat-modal-title" style="font-size: 1.2rem; font-weight: 850; color: #ffffff; margin: 0; font-family: 'Outfit', sans-serif;">Part Specifications & Vehicle Fitment</h3>
-                  <small id="cat-modal-subtitle" style="color: #38bdf8; font-size: 0.8rem; font-weight: 700;"></small>
+                  <h3 id="cat-modal-title" style="font-size: 1.2rem; font-weight: 850; color: #0f172a; margin: 0; font-family: 'Outfit', sans-serif;">Part Specifications & Vehicle Fitment</h3>
+                  <small id="cat-modal-subtitle" style="color: #0284c7; font-size: 0.8rem; font-weight: 700;"></small>
                 </div>
               </div>
-              <button type="button" onclick="OverallCataloguePortal.closeModal()" style="background: rgba(255,255,255,0.1); border: none; color: #cbd5e1; font-size: 1.2rem; border-radius: 8px; width: 34px; height: 34px; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
+              <button type="button" onclick="OverallCataloguePortal.closeModal()" style="background: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; font-size: 1.1rem; border-radius: 8px; width: 34px; height: 34px; cursor: pointer; display: flex; align-items: center; justify-content: center;">✕</button>
             </div>
             <!-- Modal Body -->
             <div id="cat-modal-body" style="padding: 1.5rem; overflow-y: auto; flex: 1;">
@@ -964,16 +963,16 @@
       <div style="padding: 0 0.5rem;">
         
         <!-- Mapping Scenic Hero Banner -->
-        <div style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(56, 189, 248, 0.35); background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(8, 18, 31, 0.95)); padding: 2rem 2.25rem;">
+        <div style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid #e2e8f0; background: linear-gradient(135deg, #ffffff, #f8fafc); box-shadow: 0 4px 20px rgba(0,0,0,0.03); padding: 2rem 2.25rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div>
               <div style="background: linear-gradient(90deg, #0284c7, #2563eb); color: #fff; font-weight: 900; font-size: 0.74rem; padding: 0.3rem 0.85rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; margin-bottom: 0.6rem;">
                 <span>⚙️ SMART CATALOGUE & MAPPING STUDIO</span>
               </div>
-              <h1 style="font-size: 2.2rem; font-weight: 900; color: #ffffff; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
+              <h1 style="font-size: 2.2rem; font-weight: 900; color: #0f172a; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
                 TVS Aggregate Master Studio & Auto-Mapping Engine
               </h1>
-              <p style="font-size: 0.92rem; color: #cbd5e1; max-width: 680px; margin: 0; line-height: 1.5;">
+              <p style="font-size: 0.92rem; color: #64758b; max-width: 680px; margin: 0; line-height: 1.5;">
                 Ingest catalogue dumps, invoices or stock lists to automatically map aggregates, sub-aggregates and components using 923 official TVS rules and the 23.6M record cross-referencing engine.
               </p>
             </div>
@@ -987,13 +986,13 @@
         </div>
 
         <!-- File Upload Dropzone -->
-        <div id="sales-dropzone" class="dropzone-container" style="border: 2px dashed rgba(56, 189, 248, 0.4); border-radius: 16px; padding: 2.5rem; text-align: center; background: rgba(15, 23, 42, 0.6); cursor: pointer; margin-bottom: 1.5rem; transition: border-color 0.2s;">
+        <div id="sales-dropzone" class="dropzone-container" style="border: 2px dashed #93c5fd; border-radius: 16px; padding: 2.5rem; text-align: center; background: #f8fafc; cursor: pointer; margin-bottom: 1.5rem; transition: border-color 0.2s;">
           <input type="file" id="sales-file-input" accept=".xlsx, .xls, .xlsb, .csv" style="display: none;">
-          <div class="dropzone-icon" style="font-size: 2.5rem; color: #38bdf8; margin-bottom: 0.75rem;">📁</div>
-          <div class="dropzone-text" style="font-size: 1.1rem; font-weight: 850; color: #ffffff; margin-bottom: 0.35rem;">
+          <div class="dropzone-icon" style="font-size: 2.5rem; color: #0284c7; margin-bottom: 0.75rem;">📁</div>
+          <div class="dropzone-text" style="font-size: 1.1rem; font-weight: 850; color: #0f172a; margin-bottom: 0.35rem;">
             Click to Browse or Drag & Drop Catalogue/Stock File (.xlsx, .csv, .xlsb)
           </div>
-          <div class="dropzone-sub" style="font-size: 0.8rem; color: #94a3b8;">
+          <div class="dropzone-sub" style="font-size: 0.8rem; color: #64758b;">
             Auto-detects Part Number, Description & Brand and applies 923 TVS Aggregate Master Rules instantly.
           </div>
           <div id="catalogue-upload-status" class="upload-status-box" style="display: none; margin-top: 1rem;"></div>
@@ -1002,59 +1001,59 @@
         <!-- Mapping Summary Strip -->
         <div id="mapping-summary-section" style="display: none; margin-bottom: 1.5rem;">
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 14px; padding: 1.2rem;">
-              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Total Rows Mapped</div>
-              <div id="map-stat-total" style="font-size: 1.8rem; font-weight: 900; color: #38bdf8; margin-top: 0.3rem;">0</div>
+            <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #64758b; text-transform: uppercase;">Total Rows Mapped</div>
+              <div id="map-stat-total" style="font-size: 1.8rem; font-weight: 900; color: #0284c7; margin-top: 0.3rem;">0</div>
             </div>
-            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(167, 139, 250, 0.35); border-radius: 14px; padding: 1.2rem;">
-              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Aggregates Mapped</div>
-              <div id="map-stat-aggregates" style="font-size: 1.8rem; font-weight: 900; color: #a78bfa; margin-top: 0.3rem;">0</div>
+            <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #64758b; text-transform: uppercase;">Aggregates Mapped</div>
+              <div id="map-stat-aggregates" style="font-size: 1.8rem; font-weight: 900; color: #7c3aed; margin-top: 0.3rem;">0</div>
             </div>
-            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(41, 211, 145, 0.35); border-radius: 14px; padding: 1.2rem;">
-              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Sub-Aggregates Mapped</div>
-              <div id="map-stat-sub-aggregates" style="font-size: 1.8rem; font-weight: 900; color: #29d391; margin-top: 0.3rem;">0</div>
+            <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #64758b; text-transform: uppercase;">Sub-Aggregates Mapped</div>
+              <div id="map-stat-sub-aggregates" style="font-size: 1.8rem; font-weight: 900; color: #059669; margin-top: 0.3rem;">0</div>
             </div>
-            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(251, 191, 36, 0.35); border-radius: 14px; padding: 1.2rem;">
-              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Components Mapped</div>
-              <div id="map-stat-components" style="font-size: 1.8rem; font-weight: 900; color: #fbbf24; margin-top: 0.3rem;">0</div>
+            <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #64758b; text-transform: uppercase;">Components Mapped</div>
+              <div id="map-stat-components" style="font-size: 1.8rem; font-weight: 900; color: #d97706; margin-top: 0.3rem;">0</div>
             </div>
-            <div class="card" style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(244, 63, 94, 0.35); border-radius: 14px; padding: 1.2rem;">
-              <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Mapping Accuracy</div>
-              <div id="map-stat-confidence" style="font-size: 1.8rem; font-weight: 900; color: #f43f5e; margin-top: 0.3rem;">98.4%</div>
+            <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+              <div style="font-size: 0.75rem; font-weight: 850; color: #64758b; text-transform: uppercase;">Mapping Accuracy</div>
+              <div id="map-stat-confidence" style="font-size: 1.8rem; font-weight: 900; color: #dc2626; margin-top: 0.3rem;">98.4%</div>
             </div>
           </div>
         </div>
 
         <!-- 923 TVS Aggregate Master Rules Table -->
-        <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.3); border-radius: 16px; padding: 1.4rem; margin-bottom: 1.5rem;">
+        <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.4rem; margin-bottom: 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
             <div>
-              <h3 style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin: 0; font-family: 'Outfit', sans-serif;">
+              <h3 style="font-size: 1.15rem; font-weight: 900; color: #0f172a; margin: 0; font-family: 'Outfit', sans-serif;">
                 📘 923 Official TVS Aggregate Master Taxonomy Rules
               </h3>
-              <p style="font-size: 0.8rem; color: #94a3b8; margin: 0.2rem 0 0 0;">
+              <p style="font-size: 0.8rem; color: #64758b; margin: 0.2rem 0 0 0;">
                 Pre-trained mapping dictionary defining Component ➔ Sub-Aggregate ➔ Aggregate relationships.
               </p>
             </div>
-            <input type="text" id="master-search-input" placeholder="Search rules by Component or Aggregate..." style="padding: 0.55rem 0.95rem; font-size: 0.82rem; width: 320px; background: #080f1e; border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 8px; color: #fff; outline: none;">
+            <input type="text" id="master-search-input" placeholder="Search rules by Component or Aggregate..." style="padding: 0.55rem 0.95rem; font-size: 0.82rem; width: 320px; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; outline: none;">
           </div>
 
-          <div style="overflow-x: auto; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;">
+          <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 10px;">
             <table class="data-table" style="width: 100%; border-collapse: collapse;">
               <thead>
-                <tr style="background: rgba(8, 15, 30, 0.95);">
-                  <th style="padding: 0.75rem; text-align: left; color: #38bdf8;">Aggregate (Category)</th>
-                  <th style="padding: 0.75rem; text-align: left; color: #a78bfa;">Sub-Aggregate</th>
-                  <th style="padding: 0.75rem; text-align: left; color: #ffffff;">Component Name</th>
-                  <th style="padding: 0.75rem; text-align: left; color: #29d391;">Master Category</th>
+                <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                  <th style="padding: 0.75rem; text-align: left; color: #0284c7; font-weight: 850;">Aggregate (Category)</th>
+                  <th style="padding: 0.75rem; text-align: left; color: #7c3aed; font-weight: 850;">Sub-Aggregate</th>
+                  <th style="padding: 0.75rem; text-align: left; color: #0f172a; font-weight: 850;">Component Name</th>
+                  <th style="padding: 0.75rem; text-align: left; color: #059669; font-weight: 850;">Master Category</th>
                 </tr>
               </thead>
               <tbody id="master-rules-list">
-                <tr><td colspan="4" style="text-align: center; padding: 2rem; color: #94a3b8;">Loading 923 TVS Master Rules...</td></tr>
+                <tr><td colspan="4" style="text-align: center; padding: 2rem; color: #64758b;">Loading 923 TVS Master Rules...</td></tr>
               </tbody>
             </table>
           </div>
-          <div id="master-rules-pagination" style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; font-size: 0.82rem; color: #94a3b8;"></div>
+          <div id="master-rules-pagination" style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; font-size: 0.82rem; color: #64758b;"></div>
         </div>
 
       </div>
@@ -1065,36 +1064,36 @@
       <div style="padding: 0 0.5rem;">
         
         <!-- AI Hero Banner -->
-        <div style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(167, 139, 250, 0.4); background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85)); padding: 2.25rem;">
+        <div style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid #e9d5ff; background: linear-gradient(135deg, #ffffff, #faf5ff); box-shadow: 0 4px 20px rgba(139, 92, 246, 0.05); padding: 2.25rem;">
           <div style="background: linear-gradient(90deg, #8b5cf6, #ec4899); color: #fff; font-weight: 900; font-size: 0.74rem; padding: 0.3rem 0.85rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; margin-bottom: 0.6rem;">
             <span>🤖 INTELLIGENT CATALOGUE DIAGNOSTICS</span>
           </div>
-          <h1 style="font-size: 2.3rem; font-weight: 900; color: #ffffff; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
+          <h1 style="font-size: 2.3rem; font-weight: 900; color: #0f172a; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
             AUTO NEXA Catalog AI Assistant
           </h1>
-          <p style="font-size: 0.92rem; color: #cbd5e1; max-width: 680px; margin: 0 0 1.25rem 0; line-height: 1.5;">
+          <p style="font-size: 0.92rem; color: #64758b; max-width: 680px; margin: 0 0 1.25rem 0; line-height: 1.5;">
             Natural language parts cross-referencing, multi-brand OEM interchangeability verification, and technical SKU diagnostics across 23.6M+ indexed records.
           </p>
 
           <!-- AI Chat Query Bar -->
           <div style="display: flex; gap: 0.65rem; max-width: 800px;">
-            <input type="text" id="cat-ai-query-input" placeholder="Ask Catalog AI: e.g. 'Show interchangeable front brake pads for Creta and Seltos', 'Oil filter for Innova'..." style="flex: 1; padding: 0.85rem 1.25rem; font-size: 0.95rem; font-weight: 700; background: #080f1e; border: 2px solid rgba(167, 139, 250, 0.5); border-radius: 12px; color: #fff; outline: none;" onkeydown="if(event.key==='Enter') App.runCatalogAiQuery();">
-            <button type="button" onclick="App.runCatalogAiQuery()" style="padding: 0.85rem 1.85rem; background: linear-gradient(135deg, #8b5cf6, #6366f1); border: none; border-radius: 12px; color: #fff; font-weight: 850; font-size: 0.95rem; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);">
+            <input type="text" id="cat-ai-query-input" placeholder="Ask Catalog AI: e.g. 'Show interchangeable front brake pads for Creta and Seltos', 'Oil filter for Innova'..." style="flex: 1; padding: 0.85rem 1.25rem; font-size: 0.95rem; font-weight: 700; background: #ffffff; border: 2px solid #c084fc; border-radius: 12px; color: #0f172a; outline: none; box-shadow: 0 2px 8px rgba(192, 132, 252, 0.15);" onkeydown="if(event.key==='Enter') App.runCatalogAiQuery();">
+            <button type="button" onclick="App.runCatalogAiQuery()" style="padding: 0.85rem 1.85rem; background: linear-gradient(135deg, #8b5cf6, #6366f1); border: none; border-radius: 12px; color: #fff; font-weight: 850; font-size: 0.95rem; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);">
               <span>Ask AI</span> <span>⚡</span>
             </button>
           </div>
 
           <!-- Suggested Prompt Chips -->
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; align-items: center;">
-            <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 800;">Try Prompts:</span>
-            <span class="tag-pill" onclick="App.setAiPrompt('Brake Pad for Hyundai Creta')" style="background: rgba(167, 139, 250, 0.15); color: #a78bfa; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; border: 1px solid rgba(167, 139, 250, 0.35);">Brake Pad for Hyundai Creta</span>
-            <span class="tag-pill" onclick="App.setAiPrompt('04152-YZZA6 Oil Filter')" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; border: 1px solid rgba(56, 189, 248, 0.35);">04152-YZZA6 Oil Filter</span>
-            <span class="tag-pill" onclick="App.setAiPrompt('Clutch Plate for Maruti Swift')" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; padding: 0.25rem 0.65rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer; border: 1px solid rgba(251, 191, 36, 0.35);">Clutch Plate for Maruti Swift</span>
+            <span style="font-size: 0.75rem; color: #64758b; font-weight: 800;">Try Prompts:</span>
+            <span class="tag-pill" onclick="App.setAiPrompt('Brake Pad for Hyundai Creta')" style="background: #f3e8ff; color: #7e22ce; padding: 0.3rem 0.75rem; border-radius: 8px; font-size: 0.75rem; font-weight: 750; cursor: pointer; border: 1px solid #d8b4fe;">Brake Pad for Hyundai Creta</span>
+            <span class="tag-pill" onclick="App.setAiPrompt('04152-YZZA6 Oil Filter')" style="background: #e0f2fe; color: #0369a1; padding: 0.3rem 0.75rem; border-radius: 8px; font-size: 0.75rem; font-weight: 750; cursor: pointer; border: 1px solid #bae6fd;">04152-YZZA6 Oil Filter</span>
+            <span class="tag-pill" onclick="App.setAiPrompt('Clutch Plate for Maruti Swift')" style="background: #fef3c7; color: #b45309; padding: 0.3rem 0.75rem; border-radius: 8px; font-size: 0.75rem; font-weight: 750; cursor: pointer; border: 1px solid #fde68a;">Clutch Plate for Maruti Swift</span>
           </div>
         </div>
 
         <!-- AI Output Box -->
-        <div id="cat-ai-results-box" class="card" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1.5px solid rgba(167, 139, 250, 0.4); border-radius: 16px; padding: 1.6rem; margin-bottom: 1.5rem;">
+        <div id="cat-ai-results-box" class="card" style="display: none; background: #ffffff; border: 1.5px solid #e9d5ff; border-radius: 16px; padding: 1.6rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
           <div id="cat-ai-results-content"></div>
         </div>
 
@@ -1104,22 +1103,22 @@
     <!-- ==================== TAB 2: INVENTORY DASHBOARD ==================== -->
     <section id="tab-inventory" class="tab-pane">
       <!-- Top Control Bar with Date Selector & 2 Action Buttons -->
-      <div style="background: rgba(13, 27, 46, 0.95); border: 1.5px solid rgba(56, 189, 248, 0.35); padding: 1rem 1.4rem; border-radius: 16px; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; backdrop-filter: blur(12px);">
+      <div style="background: #ffffff; border: 1.5px solid #e2e8f0; padding: 1rem 1.4rem; border-radius: 16px; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
         <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
           <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <span style="font-size: 1.3rem; color: #29d391;">🟢</span>
+            <span style="font-size: 1.3rem; color: #059669;">🟢</span>
             <div>
-              <div style="font-weight: 900; font-size: 0.95rem; color: #ffffff; font-family: 'Outfit', sans-serif;">GOOD STOCK INVENTORY INTELLIGENCE</div>
-              <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.1rem;">
+              <div style="font-weight: 900; font-size: 0.95rem; color: #0f172a; font-family: 'Outfit', sans-serif;">GOOD STOCK INVENTORY INTELLIGENCE</div>
+              <div style="font-size: 0.8rem; color: #64758b; margin-top: 0.1rem;">
                 Select date to filter all stock telemetry and category holding.
               </div>
             </div>
           </div>
 
           <!-- DATE SELECTION TAB -->
-          <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(15, 23, 42, 0.85); padding: 0.4rem 0.9rem; border-radius: 10px; border: 1.5px solid #ffb84d;">
-            <label style="font-size: 0.82rem; font-weight: 900; color: #ffb84d; font-family: 'Outfit', sans-serif;">📅 Stock Date:</label>
-            <select id="inventory-date-select" class="search-input" style="padding: 0.35rem 0.6rem; font-size: 0.85rem; font-weight: 850; color: #ffb84d; border: none; background: transparent; cursor: pointer;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; background: #f8fafc; padding: 0.4rem 0.9rem; border-radius: 10px; border: 1.5px solid #cbd5e1;">
+            <label style="font-size: 0.82rem; font-weight: 900; color: #ea580c; font-family: 'Outfit', sans-serif;">📅 Stock Date:</label>
+            <select id="inventory-date-select" class="search-input" style="padding: 0.35rem 0.6rem; font-size: 0.85rem; font-weight: 850; color: #0f172a; border: none; background: transparent; cursor: pointer;">
               <option value="14-Sep-2026" selected>Stock Date: 14-Sep-2026</option>
               <option value="12-Sep-2026">Stock Date: 12-Sep-2026</option>
               <option value="11-Sep-2026">Stock Date: 11-Sep-2026</option>
@@ -1139,11 +1138,11 @@
         <!-- ONLY TWO BUTTONS: UPLOADING STOCK & REFRESHING STOCK FOLDER -->
         <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
           <input type="file" id="inventory-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
-          <button class="btn btn-emerald" onclick="document.getElementById('inventory-file-input').click()" style="padding: 0.6rem 1.35rem; font-size: 0.85rem; font-weight: 850; border-radius: 10px; box-shadow: 0 4px 16px rgba(41,211,145,0.3);">
+          <button class="btn btn-emerald" onclick="document.getElementById('inventory-file-input').click()" style="padding: 0.6rem 1.35rem; font-size: 0.85rem; font-weight: 850; border-radius: 10px; background: #059669; color: #fff; box-shadow: 0 4px 14px rgba(5,150,105,0.25);">
             📁 Upload Stock
           </button>
 
-          <button id="btn-sync-stock-folder" class="btn btn-amber" style="padding: 0.6rem 1.35rem; font-size: 0.85rem; font-weight: 850; border-radius: 10px; box-shadow: 0 4px 16px rgba(245,158,11,0.3);">
+          <button id="btn-sync-stock-folder" class="btn btn-amber" style="padding: 0.6rem 1.35rem; font-size: 0.85rem; font-weight: 850; border-radius: 10px; background: #ea580c; color: #fff; box-shadow: 0 4px 14px rgba(234,88,12,0.25);">
             🔄 Refresh
           </button>
         </div>
@@ -1152,29 +1151,29 @@
       <div id="inventory-sync-status" class="upload-status-box" style="display: none; margin-bottom: 1.25rem;"></div>
 
       <!-- 4 CORE SCORECARDS ONLY (Total Value, SKUs, Physical Stock, DoD Shift) -->
-      <div class="ref-kpi-strip" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem;">
-        <div class="ref-kpi-card" style="border-top: 3px solid #29d391; background: linear-gradient(145deg, rgba(41,211,145,0.1), var(--surface));">
-          <div class="ref-kpi-title" style="color: #29d391; font-weight: 850; font-size: 0.78rem;">💰 TOTAL INVENTORY VALUE</div>
-          <div id="kpi-stock-valuation" class="ref-kpi-value" style="color: #29d391; font-size: 1.9rem; font-weight: 900;">₹159.28 Cr</div>
-          <div id="kpi-stock-valuation-sub" class="ref-kpi-subtext" style="color: #29d391; font-weight: 700;">↓ -9.61 Cr vs yesterday</div>
+      <div class="ref-kpi-strip" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem; display: grid; gap: 1rem;">
+        <div class="ref-kpi-card" style="border-top: 3px solid #059669; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+          <div class="ref-kpi-title" style="color: #059669; font-weight: 850; font-size: 0.78rem;">💰 TOTAL INVENTORY VALUE</div>
+          <div id="kpi-stock-valuation" class="ref-kpi-value" style="color: #059669; font-size: 1.9rem; font-weight: 900; margin: 0.35rem 0;">₹159.28 Cr</div>
+          <div id="kpi-stock-valuation-sub" class="ref-kpi-subtext" style="color: #059669; font-weight: 700; font-size: 0.78rem;">↓ -9.61 Cr vs yesterday</div>
         </div>
 
-        <div class="ref-kpi-card" style="border-top: 3px solid #38d7ff; background: linear-gradient(145deg, rgba(56,215,255,0.1), var(--surface));">
-          <div class="ref-kpi-title" style="color: #38d7ff; font-weight: 850; font-size: 0.78rem;">📦 TOTAL ACTIVE SKUs</div>
-          <div id="kpi-stock-skus" class="ref-kpi-value" style="color: #ffffff; font-size: 1.9rem; font-weight: 900;">473,209</div>
-          <div class="ref-kpi-subtext"><span style="color: #38d7ff; font-weight: 700;">100% Active</span> Catalogued SKUs</div>
+        <div class="ref-kpi-card" style="border-top: 3px solid #0284c7; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+          <div class="ref-kpi-title" style="color: #0284c7; font-weight: 850; font-size: 0.78rem;">📦 TOTAL ACTIVE SKUs</div>
+          <div id="kpi-stock-skus" class="ref-kpi-value" style="color: #0f172a; font-size: 1.9rem; font-weight: 900; margin: 0.35rem 0;">473,209</div>
+          <div class="ref-kpi-subtext" style="color: #64758b; font-size: 0.78rem;"><span style="color: #0284c7; font-weight: 700;">100% Active</span> Catalogued SKUs</div>
         </div>
 
-        <div class="ref-kpi-card" style="border-top: 3px solid #5ca9ff; background: linear-gradient(145deg, rgba(92,169,255,0.1), var(--surface));">
-          <div class="ref-kpi-title" style="color: #5ca9ff; font-weight: 850; font-size: 0.78rem;">📊 TOTAL PHYSICAL QUANTITY</div>
-          <div id="kpi-stock-qty" class="ref-kpi-value" style="color: #ffffff; font-size: 1.9rem; font-weight: 900;">5,561,604 Units</div>
-          <div class="ref-kpi-subtext" style="color: #cbd5e1;">Across warehouse network</div>
+        <div class="ref-kpi-card" style="border-top: 3px solid #2563eb; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+          <div class="ref-kpi-title" style="color: #2563eb; font-weight: 850; font-size: 0.78rem;">📊 TOTAL PHYSICAL QUANTITY</div>
+          <div id="kpi-stock-qty" class="ref-kpi-value" style="color: #0f172a; font-size: 1.9rem; font-weight: 900; margin: 0.35rem 0;">5,561,604 Units</div>
+          <div class="ref-kpi-subtext" style="color: #64758b; font-size: 0.78rem;">Across warehouse network</div>
         </div>
 
-        <div class="ref-kpi-card" style="border-top: 3px solid #ffb84d; background: linear-gradient(145deg, rgba(255,184,77,0.1), var(--surface));">
-          <div class="ref-kpi-title" style="color: #ffb84d; font-weight: 850; font-size: 0.78rem;">📈 DOD NET VALUE SHIFT</div>
-          <div id="kpi-dod-val-net" class="ref-kpi-value" style="color: #ff3b30; font-size: 1.9rem; font-weight: 900;">-₹9.61 Cr</div>
-          <div class="ref-kpi-subtext" style="color: #cbd5e1;">vs previous day stock valuation</div>
+        <div class="ref-kpi-card" style="border-top: 3px solid #ea580c; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+          <div class="ref-kpi-title" style="color: #ea580c; font-weight: 850; font-size: 0.78rem;">📈 DOD NET VALUE SHIFT</div>
+          <div id="kpi-dod-val-net" class="ref-kpi-value" style="color: #dc2626; font-size: 1.9rem; font-weight: 900; margin: 0.35rem 0;">-₹9.61 Cr</div>
+          <div class="ref-kpi-subtext" style="color: #64758b; font-size: 0.78rem;">vs previous day stock valuation</div>
         </div>
       </div>
 
@@ -1182,15 +1181,15 @@
       <div style="display: grid; grid-template-columns: 1.55fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
         
         <!-- Card 1: Valuation Trend Chart (DEFAULT IS DAILY, DOWNWARD REALISTIC REDUCTION TRAJECTORY) -->
-        <div class="card" style="padding: 1.25rem;">
+        <div class="card" style="padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
             <div>
-              <div style="font-size: 1.05rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif;">📈 Inventory Valuation Trend</div>
-              <div style="font-size: 0.78rem; color: #cbd5e1;">Daily, Weekly & Monthly holding trajectory across historical snapshots</div>
+              <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">📈 Inventory Valuation Trend</div>
+              <div style="font-size: 0.78rem; color: #64758b;">Daily, Weekly & Monthly holding trajectory across historical snapshots</div>
             </div>
 
             <!-- Granularity Buttons (DEFAULT ACTIVE IS DAILY) -->
-            <div style="display: flex; gap: 0.35rem; background: rgba(15, 23, 42, 0.85); padding: 0.25rem; border-radius: 9px; border: 1px solid rgba(255,255,255,0.15);">
+            <div style="display: flex; gap: 0.35rem; background: #f1f5f9; padding: 0.25rem; border-radius: 9px; border: 1px solid #cbd5e1;">
               <button id="btn-trend-daily" class="btn btn-amber trend-toggle-btn active" onclick="InventoryPortal.setTrendGranularity('daily')" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; font-weight: 850;">Daily</button>
               <button id="btn-trend-weekly" class="btn btn-secondary trend-toggle-btn" onclick="InventoryPortal.setTrendGranularity('weekly')" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; font-weight: 700;">Weekly</button>
               <button id="btn-trend-monthly" class="btn btn-secondary trend-toggle-btn" onclick="InventoryPortal.setTrendGranularity('monthly')" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; font-weight: 700;">Monthly</button>
@@ -1203,56 +1202,56 @@
         </div>
 
         <!-- Card 2: RENAMED TO "CATEGORY WISE" (Holding Summary renamed as requested) -->
-        <div class="card" style="padding: 1.25rem;">
-          <div style="font-size: 1.05rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; margin-bottom: 1rem;">🏷️ CATEGORY WISE</div>
+        <div class="card" style="padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+          <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 1rem;">🏷️ CATEGORY WISE</div>
           
           <div id="holding-summary-list" style="display: flex; flex-direction: column; gap: 0.7rem;">
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
-                <span style="font-size: 0.82rem; font-weight: 850; color: #38bdf8;">OEM</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #38bdf8;" id="summary-val-oem">34.2% | ₹58.5 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 850; color: #0284c7;">OEM</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #0284c7;" id="summary-val-oem">34.2% | ₹58.5 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-oem" class="ref-progress-bar-fill" style="width: 34.2%; background: #38bdf8; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-oem" class="ref-progress-bar-fill" style="width: 34.2%; background: #0284c7; height: 100%; border-radius: 3px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
-                <span style="font-size: 0.82rem; font-weight: 850; color: #5ca9ff;">PRIMARY</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #5ca9ff;" id="summary-val-primary">28.4% | ₹48.6 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 850; color: #2563eb;">PRIMARY</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #2563eb;" id="summary-val-primary">28.4% | ₹48.6 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-primary" class="ref-progress-bar-fill" style="width: 28.4%; background: #5ca9ff; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-primary" class="ref-progress-bar-fill" style="width: 28.4%; background: #2563eb; height: 100%; border-radius: 3px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
-                <span style="font-size: 0.82rem; font-weight: 850; color: #29d391;">SECONDARY</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #29d391;" id="summary-val-secondary">19.1% | ₹32.7 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 850; color: #059669;">SECONDARY</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #059669;" id="summary-val-secondary">19.1% | ₹32.7 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-secondary" class="ref-progress-bar-fill" style="width: 19.1%; background: #29d391; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-secondary" class="ref-progress-bar-fill" style="width: 19.1%; background: #059669; height: 100%; border-radius: 3px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
-                <span style="font-size: 0.82rem; font-weight: 850; color: #a78bfa;">PL</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #a78bfa;" id="summary-val-pl">11.5% | ₹19.7 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 850; color: #7c3aed;">PL</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #7c3aed;" id="summary-val-pl">11.5% | ₹19.7 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-pl" class="ref-progress-bar-fill" style="width: 11.5%; background: #a78bfa; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-pl" class="ref-progress-bar-fill" style="width: 11.5%; background: #7c3aed; height: 100%; border-radius: 3px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
-                <span style="font-size: 0.82rem; font-weight: 850; color: #ffb84d;">CASTROL</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #ffb84d;" id="summary-val-castrol">5.2% | ₹8.9 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 850; color: #d97706;">CASTROL</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #d97706;" id="summary-val-castrol">5.2% | ₹8.9 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-castrol" class="ref-progress-bar-fill" style="width: 5.2%; background: #ffb84d; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-castrol" class="ref-progress-bar-fill" style="width: 5.2%; background: #d97706; height: 100%; border-radius: 3px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
-                <span style="font-size: 0.82rem; font-weight: 850; color: #cbd5e1;">UNCATEGORISED</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #cbd5e1;" id="summary-val-uncat">1.6% | ₹2.7 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 850; color: #64758b;">UNCATEGORISED</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #64758b;" id="summary-val-uncat">1.6% | ₹2.7 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: rgba(255,255,255,0.08); height: 6px; border-radius: 3px;"><div id="summary-bar-uncat" class="ref-progress-bar-fill" style="width: 1.6%; background: #cbd5e1; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-uncat" class="ref-progress-bar-fill" style="width: 1.6%; background: #64758b; height: 100%; border-radius: 3px;"></div></div>
             </div>
           </div>
         </div>
@@ -1260,20 +1259,20 @@
 
       <!-- DAY-OVER-DAY & WEEK-OVER-WEEK CATEGORY VARIANCE TABLES -->
       <div class="charts-grid inventory-variance-grid" style="grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
-        <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden;">
+        <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
-            <div style="font-size: 1rem; font-weight: 850; color: #ffb84d;">📆 Day-over-Day (DoD) Category Value Difference</div>
-            <span class="badge badge-amber" id="dod-date-badge">DoD Variance</span>
+            <div style="font-size: 1rem; font-weight: 850; color: #ea580c; font-family: 'Outfit', sans-serif;">📆 Day-over-Day (DoD) Category Value Difference</div>
+            <span class="badge badge-amber" id="dod-date-badge" style="background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; font-weight: 800;">DoD Variance</span>
           </div>
-          <div class="table-wrapper variance-table-wrapper">
+          <div class="table-wrapper variance-table-wrapper" style="border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;">
             <table class="data-table variance-data-table">
               <thead>
-                <tr>
-                  <th>Category</th>
-                  <th>Prev Day Value</th>
-                  <th>Latest Value</th>
-                  <th>Value Diff (₹)</th>
-                  <th>DoD %</th>
+                <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                  <th style="color: #475569; font-weight: 850;">Category</th>
+                  <th style="color: #475569; font-weight: 850;">Prev Day Value</th>
+                  <th style="color: #475569; font-weight: 850;">Latest Value</th>
+                  <th style="color: #475569; font-weight: 850;">Value Diff (₹)</th>
+                  <th style="color: #475569; font-weight: 850;">DoD %</th>
                 </tr>
               </thead>
               <tbody id="dod-category-table-body">
@@ -1283,20 +1282,20 @@
           </div>
         </div>
 
-        <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden;">
+        <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
-            <div style="font-size: 1rem; font-weight: 850; color: #38bdf8;">📈 Week-over-Week (WoW) Category Value Difference</div>
-            <span class="badge badge-info" id="wow-date-badge">WoW Variance</span>
+            <div style="font-size: 1rem; font-weight: 850; color: #0284c7; font-family: 'Outfit', sans-serif;">📈 Week-over-Week (WoW) Category Value Difference</div>
+            <span class="badge badge-info" id="wow-date-badge" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-weight: 800;">WoW Variance</span>
           </div>
-          <div class="table-wrapper variance-table-wrapper">
+          <div class="table-wrapper variance-table-wrapper" style="border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;">
             <table class="data-table variance-data-table">
               <thead>
-                <tr>
-                  <th>Category</th>
-                  <th>Week Start Value</th>
-                  <th>Latest Value</th>
-                  <th>WoW Value Diff (₹)</th>
-                  <th>WoW %</th>
+                <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                  <th style="color: #475569; font-weight: 850;">Category</th>
+                  <th style="color: #475569; font-weight: 850;">Week Start Value</th>
+                  <th style="color: #475569; font-weight: 850;">Latest Value</th>
+                  <th style="color: #475569; font-weight: 850;">WoW Value Diff (₹)</th>
+                  <th style="color: #475569; font-weight: 850;">WoW %</th>
                 </tr>
               </thead>
               <tbody id="wow-category-table-body">
@@ -1308,29 +1307,29 @@
       </div>
 
       <!-- Part Number Search Grid (FIXED TABLE COLUMN ALIGNMENT) -->
-      <div class="card" style="overflow: hidden;">
-        <div class="card-header" style="flex-wrap: wrap; gap: 0.85rem; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+      <div class="card" style="overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <div class="card-header" style="flex-wrap: wrap; gap: 0.85rem; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0;">
           <div>
-            <div style="font-size: 1.1rem; font-weight: 900; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; color: #ffffff; font-family: 'Outfit', sans-serif;">
+            <div style="font-size: 1.1rem; font-weight: 900; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; color: #0f172a; font-family: 'Outfit', sans-serif;">
               <span>🔍 Part Number Master Search & Inspection Grid</span>
-              <span class="badge badge-amber" style="font-size: 0.78rem; font-weight: 850;" id="search-grid-date-badge">Stock Date: 10-Sep-2026</span>
+              <span class="badge badge-amber" style="font-size: 0.78rem; font-weight: 850; background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5;" id="search-grid-date-badge">Stock Date: 10-Sep-2026</span>
             </div>
-            <div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 0.2rem;">
+            <div style="font-size: 0.78rem; color: #64758b; margin-top: 0.2rem;">
               Showing records strictly for the selected date. Excludes STATUS, GRN, LOCATION, GRN/AGE DATE, GOOD/DAMAGE, CARS columns.
             </div>
           </div>
 
           <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-left: auto;">
             <div style="display: flex; align-items: center; gap: 0.35rem;">
-              <label style="font-size: 0.8rem; font-weight: 850; color: #ffb84d;">FILTER:</label>
-              <select id="inventory-tag-select" class="search-input" style="width: 160px; padding: 0.4rem 0.65rem; font-size: 0.82rem; font-weight: 700;">
+              <label style="font-size: 0.8rem; font-weight: 850; color: #ea580c;">FILTER:</label>
+              <select id="inventory-tag-select" class="search-input" style="width: 160px; padding: 0.4rem 0.65rem; font-size: 0.82rem; font-weight: 700; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #0f172a; border-radius: 8px;">
                 <option value="ALL" selected>All Records</option>
                 <option value="CONSIDER">CONSIDER Only</option>
                 <option value="NOT CONSIDER">NOT CONSIDER Only</option>
               </select>
             </div>
 
-            <input type="text" id="inventory-search-input" class="search-input" style="width: 250px; padding: 0.4rem 0.75rem; font-size: 0.82rem;" placeholder="Search Part No, Desc, Brand, Branch...">
+            <input type="text" id="inventory-search-input" class="search-input" style="width: 250px; padding: 0.4rem 0.75rem; font-size: 0.82rem; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #0f172a; border-radius: 8px;" placeholder="Search Part No, Desc, Brand, Branch...">
             
             <button type="button" class="btn btn-secondary" onclick="InventoryPortal.exportStockExcel();" style="padding: 0.45rem 0.85rem; font-size: 0.8rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem; background: #0284c7; color: #fff; border: none; border-radius: 8px; cursor: pointer;">
               📥 Export Stock
@@ -1338,30 +1337,30 @@
           </div>
         </div>
 
-        <div class="table-wrapper inventory-table-wrapper" style="margin-top: 0.75rem; overflow-x: auto; width: 100%;">
+        <div class="table-wrapper inventory-table-wrapper" style="margin-top: 0.75rem; overflow-x: auto; width: 100%; border: 1px solid #e2e8f0; border-radius: 10px;">
           <table class="data-table inventory-data-table" style="min-width: 1450px; width: 100%; border-collapse: collapse;">
             <thead>
-              <tr style="background: rgba(15, 23, 42, 0.9);">
-                <th style="padding: 12px 14px; text-align: left; width: 90px; font-weight: 850; color: #a78bfa;">SOURCE</th>
-                <th style="padding: 12px 14px; text-align: left; width: 160px; font-weight: 850; color: #ffb84d;">Part Number</th>
-                <th style="padding: 12px 14px; text-align: left; width: 270px; font-weight: 850; color: #38bdf8;">Description</th>
-                <th style="padding: 12px 14px; text-align: left; width: 120px; font-weight: 850; color: #ffffff;">Brand</th>
-                <th style="padding: 12px 14px; text-align: left; width: 130px; font-weight: 850; color: #29d391;">Category</th>
-                <th style="padding: 12px 14px; text-align: left; width: 110px; font-weight: 850; color: #cbd5e1;">Line Code</th>
-                <th style="padding: 12px 14px; text-align: left; width: 100px; font-weight: 850; color: #a78bfa;">Branch</th>
-                <th style="padding: 12px 14px; text-align: left; width: 130px; font-weight: 850; color: #cbd5e1;">Branch Name</th>
-                <th style="padding: 12px 14px; text-align: right; width: 100px; font-weight: 850; color: #ffffff;">Stock Qty</th>
-                <th style="padding: 12px 14px; text-align: right; width: 110px; font-weight: 850; color: #cbd5e1;">Unit Cost (₹)</th>
-                <th style="padding: 12px 14px; text-align: right; width: 110px; font-weight: 850; color: #cbd5e1;">MRP (₹)</th>
-                <th style="padding: 12px 14px; text-align: right; width: 130px; font-weight: 850; color: #29d391;">Valuation (₹)</th>
-                <th style="padding: 12px 14px; text-align: right; width: 80px; font-weight: 850; color: #cbd5e1;">Age Days</th>
+              <tr style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0;">
+                <th style="padding: 12px 14px; text-align: left; width: 90px; font-weight: 850; color: #7c3aed;">SOURCE</th>
+                <th style="padding: 12px 14px; text-align: left; width: 160px; font-weight: 850; color: #ea580c;">Part Number</th>
+                <th style="padding: 12px 14px; text-align: left; width: 270px; font-weight: 850; color: #0284c7;">Description</th>
+                <th style="padding: 12px 14px; text-align: left; width: 120px; font-weight: 850; color: #0f172a;">Brand</th>
+                <th style="padding: 12px 14px; text-align: left; width: 130px; font-weight: 850; color: #059669;">Category</th>
+                <th style="padding: 12px 14px; text-align: left; width: 110px; font-weight: 850; color: #64758b;">Line Code</th>
+                <th style="padding: 12px 14px; text-align: left; width: 100px; font-weight: 850; color: #7c3aed;">Branch</th>
+                <th style="padding: 12px 14px; text-align: left; width: 130px; font-weight: 850; color: #64758b;">Branch Name</th>
+                <th style="padding: 12px 14px; text-align: right; width: 100px; font-weight: 850; color: #0f172a;">Stock Qty</th>
+                <th style="padding: 12px 14px; text-align: right; width: 110px; font-weight: 850; color: #64758b;">Unit Cost (₹)</th>
+                <th style="padding: 12px 14px; text-align: right; width: 110px; font-weight: 850; color: #64758b;">MRP (₹)</th>
+                <th style="padding: 12px 14px; text-align: right; width: 130px; font-weight: 850; color: #059669;">Valuation (₹)</th>
+                <th style="padding: 12px 14px; text-align: right; width: 80px; font-weight: 850; color: #64758b;">Age Days</th>
               </tr>
             </thead>
             <tbody id="inventory-table-body">
               <!-- Populated via inventory-portal.js -->
             </tbody>
           </table>
-          <div id="inventory-pagination" class="table-toolbar" style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: rgba(15, 23, 42, 0.6); border-top: 1px solid rgba(255, 255, 255, 0.08);">
+          <div id="inventory-pagination" class="table-toolbar" style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: #f8fafc; border-top: 1px solid #e2e8f0; color: #64758b;">
             <!-- Inventory search grid pagination -->
           </div>
         </div>
@@ -1373,22 +1372,22 @@
       <div style="padding: 0 0.5rem;">
         
         <!-- Scenic Hero Banner -->
-        <div style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(239, 68, 68, 0.4); background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.85)); padding: 2rem 2.25rem;">
+        <div style="margin-bottom: 1.5rem; position: relative; border-radius: 18px; overflow: hidden; border: 1.5px solid #fecaca; background: linear-gradient(135deg, #ffffff, #fef2f2); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.05); padding: 2rem 2.25rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div>
               <div style="background: linear-gradient(90deg, #ef4444, #f97316); color: #fff; font-weight: 900; font-size: 0.74rem; padding: 0.3rem 0.85rem; border-radius: 20px; display: inline-flex; align-items: center; gap: 0.4rem; letter-spacing: 1px; margin-bottom: 0.6rem;">
                 <span>🚫 STOCKOUT & REVENUE LEAKAGE TELEMETRY</span>
               </div>
-              <h1 style="font-size: 2.2rem; font-weight: 900; color: #ffffff; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
+              <h1 style="font-size: 2.2rem; font-weight: 900; color: #0f172a; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
                 Product Not Available & Lost Demand Intelligence
               </h1>
-              <p style="font-size: 0.92rem; color: #cbd5e1; max-width: 680px; margin: 0; line-height: 1.5;">
+              <p style="font-size: 0.92rem; color: #64758b; max-width: 680px; margin: 0; line-height: 1.5;">
                 Track stockouts across 50+ dark stores, identify high-velocity zero-stock SKUs, calculate unfulfilled customer revenue leakage, and trigger automatic purchase orders.
               </p>
             </div>
 
             <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-              <button type="button" class="btn btn-secondary" onclick="App.exportLostDemandExcel()" style="padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 800; border-radius: 10px; background: #ef4444; color: #fff; border: none; cursor: pointer;">
+              <button type="button" class="btn btn-secondary" onclick="App.exportLostDemandExcel()" style="padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 800; border-radius: 10px; background: #ef4444; color: #fff; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(239,68,68,0.25);">
                 📥 Export Lost Demand Excel
               </button>
             </div>
@@ -1397,60 +1396,60 @@
 
         <!-- 4 KPI Telemetry Cards Strip -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-          <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(239, 68, 68, 0.4); border-radius: 14px; padding: 1.25rem;">
-            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Total Unfulfilled Requests</div>
-            <div style="font-size: 1.9rem; font-weight: 900; color: #ef4444; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">1,428 Orders</div>
-            <div style="font-size: 0.74rem; color: #cbd5e1; margin-top: 0.2rem;">Customer requests turned away</div>
+          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #64758b; text-transform: uppercase;">Total Unfulfilled Requests</div>
+            <div style="font-size: 1.9rem; font-weight: 900; color: #dc2626; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">1,428 Orders</div>
+            <div style="font-size: 0.74rem; color: #64758b; margin-top: 0.2rem;">Customer requests turned away</div>
           </div>
 
-          <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(251, 191, 36, 0.4); border-radius: 14px; padding: 1.25rem;">
-            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Potential Lost Revenue</div>
-            <div style="font-size: 1.9rem; font-weight: 900; color: #fbbf24; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">₹38.45 Lakhs</div>
-            <div style="font-size: 0.74rem; color: #cbd5e1; margin-top: 0.2rem;">Estimated monthly missed billing</div>
+          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #64758b; text-transform: uppercase;">Potential Lost Revenue</div>
+            <div style="font-size: 1.9rem; font-weight: 900; color: #d97706; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">₹38.45 Lakhs</div>
+            <div style="font-size: 0.74rem; color: #64758b; margin-top: 0.2rem;">Estimated monthly missed billing</div>
           </div>
 
-          <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 14px; padding: 1.25rem;">
-            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Fast-Moving Zero-Stock SKUs</div>
-            <div style="font-size: 1.9rem; font-weight: 900; color: #38bdf8; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">94 Critical SKUs</div>
-            <div style="font-size: 0.74rem; color: #cbd5e1; margin-top: 0.2rem;">A-Category parts at 0 inventory</div>
+          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #64758b; text-transform: uppercase;">Fast-Moving Zero-Stock SKUs</div>
+            <div style="font-size: 1.9rem; font-weight: 900; color: #0284c7; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">94 Critical SKUs</div>
+            <div style="font-size: 0.74rem; color: #64758b; margin-top: 0.2rem;">A-Category parts at 0 inventory</div>
           </div>
 
-          <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(167, 139, 250, 0.4); border-radius: 14px; padding: 1.25rem;">
-            <div style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase;">Top Make with Lost Demand</div>
-            <div style="font-size: 1.9rem; font-weight: 900; color: #a78bfa; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">Maruti Suzuki</div>
-            <div style="font-size: 0.74rem; color: #cbd5e1; margin-top: 0.2rem;">42.8% of all unfulfilled enquiries</div>
+          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #64758b; text-transform: uppercase;">Top Make with Lost Demand</div>
+            <div style="font-size: 1.9rem; font-weight: 900; color: #7c3aed; margin-top: 0.3rem; font-family: 'Outfit', sans-serif;">Maruti Suzuki</div>
+            <div style="font-size: 0.74rem; color: #64758b; margin-top: 0.2rem;">42.8% of all unfulfilled enquiries</div>
           </div>
         </div>
 
         <!-- Lost Demand Inspection Grid -->
-        <div class="card" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.3); border-radius: 16px; padding: 1.4rem; margin-bottom: 1.5rem;">
+        <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.4rem; margin-bottom: 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
             <div>
-              <h3 style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin: 0; font-family: 'Outfit', sans-serif;">
+              <h3 style="font-size: 1.15rem; font-weight: 900; color: #0f172a; margin: 0; font-family: 'Outfit', sans-serif;">
                 📋 Top Stockout SKUs with Unfulfilled Customer Demand
               </h3>
-              <p style="font-size: 0.8rem; color: #94a3b8; margin: 0.2rem 0 0 0;">
+              <p style="font-size: 0.8rem; color: #64758b; margin: 0.2rem 0 0 0;">
                 Prioritized by missed revenue volume to fast-track replenishment procurement.
               </p>
             </div>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
-              <input type="text" id="lost-demand-search-input" placeholder="Search by Part No, Desc or Make..." style="padding: 0.5rem 0.9rem; font-size: 0.82rem; width: 280px; background: #080f1e; border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 8px; color: #fff; outline: none;" oninput="App.filterLostDemandTable(this.value)">
+              <input type="text" id="lost-demand-search-input" placeholder="Search by Part No, Desc or Make..." style="padding: 0.5rem 0.9rem; font-size: 0.82rem; width: 280px; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; color: #0f172a; outline: none;" oninput="App.filterLostDemandTable(this.value)">
             </div>
           </div>
 
-          <div style="overflow-x: auto; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px;">
+          <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 10px;">
             <table class="data-table" style="width: 100%; border-collapse: collapse; min-width: 980px;">
               <thead>
-                <tr style="background: rgba(8, 15, 30, 0.98);">
-                  <th style="padding: 0.8rem; text-align: left; color: #38bdf8;">Part Number</th>
-                  <th style="padding: 0.8rem; text-align: left; color: #ffffff;">Description</th>
-                  <th style="padding: 0.8rem; text-align: left; color: #fbbf24;">Brand</th>
-                  <th style="padding: 0.8rem; text-align: left; color: #cbd5e1;">Vehicle Fitment</th>
-                  <th style="padding: 0.8rem; text-align: right; color: #ef4444;">Lost Orders</th>
-                  <th style="padding: 0.8rem; text-align: right; color: #34d399;">MRP (₹)</th>
-                  <th style="padding: 0.8rem; text-align: right; color: #fbbf24;">Est. Lost Value</th>
-                  <th style="padding: 0.8rem; text-align: center; color: #a78bfa;">Stockout Days</th>
-                  <th style="padding: 0.8rem; text-align: center; color: #ffffff;">Procurement Action</th>
+                <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                  <th style="padding: 0.8rem; text-align: left; color: #0284c7; font-weight: 850;">Part Number</th>
+                  <th style="padding: 0.8rem; text-align: left; color: #0f172a; font-weight: 850;">Description</th>
+                  <th style="padding: 0.8rem; text-align: left; color: #d97706; font-weight: 850;">Brand</th>
+                  <th style="padding: 0.8rem; text-align: left; color: #64758b; font-weight: 850;">Vehicle Fitment</th>
+                  <th style="padding: 0.8rem; text-align: right; color: #dc2626; font-weight: 850;">Lost Orders</th>
+                  <th style="padding: 0.8rem; text-align: right; color: #059669; font-weight: 850;">MRP (₹)</th>
+                  <th style="padding: 0.8rem; text-align: right; color: #d97706; font-weight: 850;">Est. Lost Value</th>
+                  <th style="padding: 0.8rem; text-align: center; color: #7c3aed; font-weight: 850;">Stockout Days</th>
+                  <th style="padding: 0.8rem; text-align: center; color: #0f172a; font-weight: 850;">Procurement Action</th>
                 </tr>
               </thead>
               <tbody id="lost-demand-table-body">
@@ -1467,21 +1466,21 @@
     <section id="tab-analytics" class="tab-pane">
       
       <!-- Sales Scenic Hero Banner -->
-      <div class="page-hero-scenic sales-hero-scenic" style="position: relative; overflow: hidden; border-radius: 18px; margin-bottom: 1.5rem; border: 1px solid rgba(56, 189, 248, 0.3);">
-        <img src="home_menu_sales.jpg" onerror="this.onerror=null;this.src='images/home_menu_sales.jpg'" alt="Sales Intelligence" class="page-hero-bg-img">
-        <div class="page-hero-overlay"></div>
+      <div class="page-hero-scenic sales-hero-scenic" style="position: relative; overflow: hidden; border-radius: 18px; margin-bottom: 1.5rem; border: 1.5px solid #e2e8f0; background: linear-gradient(135deg, #ffffff, #f8fafc); box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+        <img src="home_menu_sales.jpg" onerror="this.onerror=null;this.src='images/home_menu_sales.jpg'" alt="Sales Intelligence" class="page-hero-bg-img" style="opacity: 0.12;">
+        <div class="page-hero-overlay" style="background: transparent;"></div>
         
         <div class="page-hero-left" style="position: relative; z-index: 2; padding: 2.25rem;">
-          <div class="page-hero-kicker" style="font-size: 0.8rem; font-weight: 850; color: #38bdf8; letter-spacing: 0.15em;"><span>📊</span> SALES INTELLIGENCE DASHBOARD</div>
-          <h1 class="page-hero-headline" style="font-size: 2.2rem; font-weight: 900; color: #ffffff; margin: 0.35rem 0;">Sales Intelligence & Performance Analytics</h1>
-          <p class="page-hero-lead" style="color: #cbd5e1; max-width: 650px; font-size: 0.92rem;">Understand what sold, where it sold, why it changed and what drives franchisee growth.</p>
+          <div class="page-hero-kicker" style="font-size: 0.8rem; font-weight: 850; color: #0284c7; letter-spacing: 0.15em;"><span>📊</span> SALES INTELLIGENCE DASHBOARD</div>
+          <h1 class="page-hero-headline" style="font-size: 2.2rem; font-weight: 900; color: #0f172a; margin: 0.35rem 0; font-family: 'Outfit', sans-serif;">Sales Intelligence & Performance Analytics</h1>
+          <p class="page-hero-lead" style="color: #64758b; max-width: 650px; font-size: 0.92rem;">Understand what sold, where it sold, why it changed and what drives franchisee growth.</p>
         </div>
 
         <div class="page-hero-right" style="position: relative; z-index: 2; padding: 2.25rem; display: flex; gap: 0.85rem; align-items: center; justify-content: flex-end; flex-wrap: wrap;">
           <!-- Month Dropdown Selector -->
-          <div style="display: flex; align-items: center; gap: 0.45rem; background: rgba(15, 23, 42, 0.85); padding: 0.4rem 0.85rem; border-radius: 10px; border: 1.5px solid #ffb84d;">
-            <label style="font-size: 0.82rem; font-weight: 850; color: #ffb84d; font-family: 'Outfit', sans-serif;">📅 Month:</label>
-            <select id="sales-month-select" class="search-input" style="width: 170px; padding: 0.3rem 0.6rem; font-size: 0.85rem; font-weight: 850; color: #ffb84d; border: none; background: transparent; cursor: pointer;">
+          <div style="display: flex; align-items: center; gap: 0.45rem; background: #f8fafc; padding: 0.4rem 0.85rem; border-radius: 10px; border: 1.5px solid #cbd5e1;">
+            <label style="font-size: 0.82rem; font-weight: 850; color: #ea580c; font-family: 'Outfit', sans-serif;">📅 Month:</label>
+            <select id="sales-month-select" class="search-input" style="width: 170px; padding: 0.3rem 0.6rem; font-size: 0.85rem; font-weight: 850; color: #0f172a; border: none; background: transparent; cursor: pointer;">
               <option value="AUG" selected>August 2026 (AUG)</option>
               <option value="JUL">July 2026 (JUL)</option>
               <option value="JUN">June 2026 (JUN)</option>
@@ -1495,13 +1494,13 @@
           </div>
 
           <!-- Channel Filter Tabs (ALL, RF, CF) -->
-          <div style="display: flex; gap: 0.35rem; background: rgba(15, 23, 42, 0.85); padding: 0.3rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15);">
+          <div style="display: flex; gap: 0.35rem; background: #f1f5f9; padding: 0.3rem; border-radius: 10px; border: 1px solid #cbd5e1;">
             <button class="btn btn-secondary channel-filter-btn" data-channel="ALL" style="padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 800;">ALL</button>
-            <button class="btn btn-amber channel-filter-btn active" data-channel="RF" style="padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 850;">RF</button>
+            <button class="btn btn-amber channel-filter-btn active" data-channel="RF" style="padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 850; background: #ea580c; color: #fff;">RF</button>
             <button class="btn btn-secondary channel-filter-btn" data-channel="CF" style="padding: 0.4rem 0.9rem; font-size: 0.8rem; font-weight: 800;">CF</button>
           </div>
 
-          <button type="button" class="btn btn-secondary" onclick="AnalyticsPortal.exportSalesSummary();" style="padding: 0.5rem 0.9rem; font-size: 0.82rem; font-weight: 750; background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 0.35rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+          <button type="button" class="btn btn-secondary" onclick="AnalyticsPortal.exportSalesSummary();" style="padding: 0.5rem 0.9rem; font-size: 0.82rem; font-weight: 750; background: #059669; color: #fff; border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 0.35rem; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);">
             📥 Export Sales
           </button>
         </div>
@@ -1511,32 +1510,32 @@
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
         
         <!-- RF Sales Upload Card -->
-        <div class="card" style="border: 1.5px solid rgba(245, 158, 11, 0.35); background: linear-gradient(145deg, rgba(245,158,11,0.06), var(--surface));">
+        <div class="card" style="border: 1.5px solid #fed7aa; background: #ffffff; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-            <span style="font-size: 0.95rem; font-weight: 850; color: #ffb84d; font-family: 'Outfit', sans-serif;">🏬 Retail Franchisee (RF) Monthly Sales Upload</span>
-            <span class="badge badge-amber" style="font-weight: 850;">RF Channel</span>
+            <span style="font-size: 0.95rem; font-weight: 850; color: #ea580c; font-family: 'Outfit', sans-serif;">🏬 Retail Franchisee (RF) Monthly Sales Upload</span>
+            <span class="badge badge-amber" style="background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; font-weight: 850;">RF Channel</span>
           </div>
-          <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+          <p style="font-size: 0.8rem; color: #64758b; margin-bottom: 0.75rem;">
             Upload month-wise Retail Franchisee sales report (.xlsx, .xlsb, .csv).
           </p>
           <input type="file" id="rf-sales-input" accept=".xlsx, .csv, .xlsb, .xls" style="display: none;">
-          <button class="btn btn-amber" onclick="document.getElementById('rf-sales-input').click()" style="width: 100%; font-weight: 850; padding: 0.65rem; border-radius: 10px;">
+          <button class="btn btn-amber" onclick="document.getElementById('rf-sales-input').click()" style="width: 100%; font-weight: 850; padding: 0.65rem; border-radius: 10px; background: #ea580c; color: #fff;">
             📁 Upload RF Monthly Sales Excel Report
           </button>
           <div id="rf-upload-status" class="upload-status-box" style="display: none;"></div>
         </div>
 
         <!-- CF Sales Upload Card -->
-        <div class="card" style="border: 1.5px solid rgba(59, 130, 246, 0.35); background: linear-gradient(145deg, rgba(59,130,246,0.06), var(--surface));">
+        <div class="card" style="border: 1.5px solid #bfdbfe; background: #ffffff; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-            <span style="font-size: 0.95rem; font-weight: 850; color: #38bdf8; font-family: 'Outfit', sans-serif;">🏢 Corporate Franchisee (CF) Monthly Sales Upload</span>
-            <span class="badge badge-blue" style="font-weight: 850;">CF Channel</span>
+            <span style="font-size: 0.95rem; font-weight: 850; color: #0284c7; font-family: 'Outfit', sans-serif;">🏢 Corporate Franchisee (CF) Monthly Sales Upload</span>
+            <span class="badge badge-blue" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-weight: 850;">CF Channel</span>
           </div>
-          <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 0.75rem;">
+          <p style="font-size: 0.8rem; color: #64758b; margin-bottom: 0.75rem;">
             Upload month-wise Corporate Franchisee sales report (.xlsx, .xlsb, .csv).
           </p>
           <input type="file" id="cf-sales-input" accept=".xlsx, .csv, .xlsb, .xls" style="display: none;">
-          <button class="btn btn-primary" onclick="document.getElementById('cf-sales-input').click()" style="width: 100%; font-weight: 850; padding: 0.65rem; border-radius: 10px;">
+          <button class="btn btn-primary" onclick="document.getElementById('cf-sales-input').click()" style="width: 100%; font-weight: 850; padding: 0.65rem; border-radius: 10px; background: #0284c7; color: #fff;">
             📁 Upload CF Monthly Sales Excel Report
           </button>
           <div id="cf-upload-status" class="upload-status-box" style="display: none;"></div>
@@ -1545,59 +1544,56 @@
       </div>
 
       <!-- 4 CORE METRIC TELEMETRY CARDS -->
-      <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.25rem;">No separate CF report uploaded for this month. Showing consolidated Sales view. Upload CF report above to view dedicated channel metrics.</div>
-      </div>
-
-      <div id="sales-kpi-container" class="nexa-portals-grid" style="grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 1.5rem;">
+      <div id="sales-kpi-container" class="nexa-portals-grid" style="grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 1.5rem; display: grid;">
         <!-- Card 1: Total Sales Revenue -->
-        <div class="card" style="border-top: 3px solid #ffb84d; background: linear-gradient(145deg, rgba(255,184,77,0.08), var(--surface));">
-          <div class="card-title" style="color: #ffb84d; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">💰 TOTAL SALES REVENUE</div>
-          <div id="kpi-total-revenue" class="card-value" style="color: #ffb84d; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">₹70.61 Cr</div>
-          <div id="kpi-mom-shift" class="card-subtext" style="color: #29d391; font-weight: 800;">+6.8% MoM Shift vs JUL</div>
+        <div class="card" style="border-top: 3px solid #ea580c; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+          <div class="card-title" style="color: #ea580c; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">💰 TOTAL SALES REVENUE</div>
+          <div id="kpi-total-revenue" class="card-value" style="color: #ea580c; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">₹70.61 Cr</div>
+          <div id="kpi-mom-shift" class="card-subtext" style="color: #059669; font-weight: 800;">+6.8% MoM Shift vs JUL</div>
         </div>
 
         <!-- Card 2: Gross Profit Margin -->
-        <div class="card" style="border-top: 3px solid #29d391; background: linear-gradient(145deg, rgba(41,211,145,0.08), var(--surface));">
-          <div class="card-title" style="color: #29d391; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">📈 GROSS PROFIT MARGIN</div>
-          <div id="kpi-total-margin" class="card-value" style="color: #29d391; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">₹4.43 Cr</div>
-          <div id="kpi-margin-rate" class="card-subtext" style="color: #cbd5e1; font-weight: 700;">6.27% Gross Margin Rate</div>
+        <div class="card" style="border-top: 3px solid #059669; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+          <div class="card-title" style="color: #059669; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">📈 GROSS PROFIT MARGIN</div>
+          <div id="kpi-total-margin" class="card-value" style="color: #059669; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">₹4.43 Cr</div>
+          <div id="kpi-margin-rate" class="card-subtext" style="color: #64758b; font-weight: 700;">6.27% Gross Margin Rate</div>
         </div>
 
         <!-- Card 3: MHMT Vehicle Make Share -->
-        <div class="card" style="border-top: 3px solid #38d7ff; background: linear-gradient(145deg, rgba(56,215,255,0.08), var(--surface));">
-          <div class="card-title" style="color: #38d7ff; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">🚗 MHMT VEHICLE MAKE SHARE</div>
-          <div id="kpi-mhmt-rev" class="card-value" style="color: #38d7ff; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">₹3.45 Cr</div>
-          <div id="kpi-mhmt-subtext" class="card-subtext" style="color: #cbd5e1; font-weight: 700;">65.70% Share (Maruti, Hyundai, Mahindra, Tata)</div>
+        <div class="card" style="border-top: 3px solid #0284c7; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+          <div class="card-title" style="color: #0284c7; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">🚗 MHMT VEHICLE MAKE SHARE</div>
+          <div id="kpi-mhmt-rev" class="card-value" style="color: #0284c7; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">₹3.45 Cr</div>
+          <div id="kpi-mhmt-subtext" class="card-subtext" style="color: #64758b; font-weight: 700;">65.70% Share (Maruti, Hyundai, Mahindra, Tata)</div>
         </div>
 
         <!-- Card 4: Invoice Line Volume -->
-        <div class="card" style="border-top: 3px solid #a78bfa; background: linear-gradient(145deg, rgba(167,139,250,0.08), var(--surface));">
-          <div class="card-title" style="color: #a78bfa; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">📄 TOTAL INVOICE LINES</div>
-          <div id="kpi-invoice-volume" class="card-value" style="color: #ffffff; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">26,807</div>
-          <div id="kpi-units-volume" class="card-subtext" style="color: #cbd5e1; font-weight: 700;">840,412 Physical Units Sold</div>
+        <div class="card" style="border-top: 3px solid #7c3aed; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+          <div class="card-title" style="color: #7c3aed; font-weight: 850; font-size: 0.78rem; text-transform: uppercase;">📄 TOTAL INVOICE LINES</div>
+          <div id="kpi-invoice-volume" class="card-value" style="color: #0f172a; font-size: 1.9rem; font-weight: 900; margin: 0.3rem 0;">26,807</div>
+          <div id="kpi-units-volume" class="card-subtext" style="color: #64758b; font-weight: 700;">840,412 Physical Units Sold</div>
         </div>
       </div>
 
       <!-- 5 OFFICIAL MASTER CATEGORIES REVENUE VALUE & SHARE CARDS WITH SCENIC MENU BACKGROUND IMAGES -->
       <!-- 5 OFFICIAL MASTER CATEGORIES REVENUE VALUE & SHARE CARDS WITH USER IMAGES (SINGLE LINE) -->
-      <div id="category-cards-wrapper" class="card" style="margin-bottom: 1.5rem; padding: 1.1rem; background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(8,18,31,0.98)); border: 2px solid rgba(255,184,77,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.35);">
+      <div id="category-cards-wrapper" class="card" style="margin-bottom: 1.5rem; padding: 1.1rem; background: #ffffff; border: 1.5px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
           <div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff !important; font-family: 'Outfit', sans-serif; letter-spacing: -0.01em;">
+            <div style="font-size: 1.1rem; font-weight: 900; color: #0f172a !important; font-family: 'Outfit', sans-serif; letter-spacing: -0.01em;">
               📦 5 Official Master Categories Revenue & Values Breakdown
             </div>
-            <div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 0.15rem;">Sales Value (in ₹ Crores) & Percentage Share across all 5 official Aggregate Master categories.</div>
+            <div style="font-size: 0.78rem; color: #64758b; margin-top: 0.15rem;">Sales Value (in ₹ Crores) & Percentage Share across all 5 official Aggregate Master categories.</div>
           </div>
-          <span class="badge badge-amber" style="font-size: 0.76rem; font-weight: 850; padding: 0.3rem 0.7rem; border: 1px solid #ffb84d;">Master Taxonomy</span>
+          <span class="badge badge-amber" style="font-size: 0.76rem; font-weight: 850; padding: 0.3rem 0.7rem; background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5;">Master Taxonomy</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem;">
           <!-- Category 1: Mechanical Parts -->
-          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(167,139,250,0.5); border-radius: 12px; background: #0f172a;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid #d8b4fe; border-radius: 12px; background: #1e1b4b;">
             <img src="cat_user_mech.png" onerror="this.onerror=null;this.src='images/cat_user_mech.png'" alt="Mechanical Parts" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                <span style="font-size: 0.74rem; font-weight: 900; color: #a78bfa; text-transform: uppercase;">🛠️ MECHANICAL</span>
+                <span style="font-size: 0.74rem; font-weight: 900; color: #c084fc; text-transform: uppercase;">🛠️ MECHANICAL</span>
                 <span class="badge" style="background: rgba(167,139,250,0.35); color: #ffffff; font-weight: 850; font-size: 0.68rem; padding: 2px 6px;">39.4%</span>
               </div>
               <div id="cat-val-mech" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0.2rem 0; text-shadow: 0 2px 6px #000;">₹27.81 Cr</div>
@@ -1609,7 +1605,7 @@
           </div>
 
           <!-- Category 2: Body Parts -->
-          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(56,189,248,0.5); border-radius: 12px; background: #0f172a;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid #bae6fd; border-radius: 12px; background: #082f49;">
             <img src="cat_user_body.png" onerror="this.onerror=null;this.src='images/cat_user_body.png'" alt="Body Parts" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
@@ -1625,11 +1621,11 @@
           </div>
 
           <!-- Category 3: Lubes -->
-          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(41,211,145,0.5); border-radius: 12px; background: #0f172a;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid #a7f3d0; border-radius: 12px; background: #064e3b;">
             <img src="cat_user_lubes.png" onerror="this.onerror=null;this.src='images/cat_user_lubes.png'" alt="Lubes" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                <span style="font-size: 0.74rem; font-weight: 900; color: #29d391; text-transform: uppercase;">🛢️ LUBES</span>
+                <span style="font-size: 0.74rem; font-weight: 900; color: #34d399; text-transform: uppercase;">🛢️ LUBES</span>
                 <span class="badge" style="background: rgba(41,211,145,0.35); color: #ffffff; font-weight: 850; font-size: 0.68rem; padding: 2px 6px;">23.8%</span>
               </div>
               <div id="cat-val-lubes" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0.2rem 0; text-shadow: 0 2px 6px #000;">₹16.78 Cr</div>
@@ -1641,11 +1637,11 @@
           </div>
 
           <!-- Category 4: Electrical Parts -->
-          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(255,184,77,0.5); border-radius: 12px; background: #0f172a;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid #fde68a; border-radius: 12px; background: #78350f;">
             <img src="cat_user_elec.png" onerror="this.onerror=null;this.src='images/cat_user_elec.png'" alt="Electrical Parts" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                <span style="font-size: 0.74rem; font-weight: 900; color: #ffb84d; text-transform: uppercase;">⚡ ELECTRICAL</span>
+                <span style="font-size: 0.74rem; font-weight: 900; color: #fbbf24; text-transform: uppercase;">⚡ ELECTRICAL</span>
                 <span class="badge" style="background: rgba(255,184,77,0.35); color: #ffffff; font-weight: 850; font-size: 0.68rem; padding: 2px 6px;">9.1%</span>
               </div>
               <div id="cat-val-elec" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0.2rem 0; text-shadow: 0 2px 6px #000;">₹6.45 Cr</div>
@@ -1657,11 +1653,11 @@
           </div>
 
           <!-- Category 5: Accessories -->
-          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid rgba(255,59,48,0.5); border-radius: 12px; background: #0f172a;">
+          <div class="card" style="padding: 0.8rem; position: relative; overflow: hidden; border: 1.5px solid #fecaca; border-radius: 12px; background: #7f1d1d;">
             <img src="cat_user_acc.png" onerror="this.onerror=null;this.src='images/cat_user_acc.png'" alt="Accessories" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; pointer-events: none;">
             <div style="position: relative; z-index: 2;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                <span style="font-size: 0.74rem; font-weight: 900; color: #ff3b30; text-transform: uppercase;">🔧 ACCESSORIES</span>
+                <span style="font-size: 0.74rem; font-weight: 900; color: #f87171; text-transform: uppercase;">🔧 ACCESSORIES</span>
                 <span class="badge" style="background: rgba(255,59,48,0.35); color: #ffffff; font-weight: 850; font-size: 0.68rem; padding: 2px 6px;">2.4%</span>
               </div>
               <div id="cat-val-acc" style="font-size: 1.25rem; font-weight: 900; color: #ffffff; margin: 0.2rem 0; text-shadow: 0 2px 6px #000;">₹1.69 Cr</div>
@@ -1675,13 +1671,13 @@
       </div>
 
       <!-- CHART 1 (FULL WIDTH): Month-over-Month (MoM) Sales Revenue & Gross Margin Trajectory -->
-      <div id="mom-chart-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem;">
+      <div id="mom-chart-container" class="card" style="margin-bottom: 1.5rem; padding: 1.35rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
           <div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: #ffb84d; font-family: 'Outfit', sans-serif;">📈 Month-over-Month (MoM) Sales Revenue & Gross Margin Trajectory (Jan - Aug 2026)</div>
-            <div style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.15rem;">Tracks monthly revenue growth rates and gross profit margins.</div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">📈 Month-over-Month (MoM) Sales Revenue & Gross Margin Trajectory (Jan - Aug 2026)</div>
+            <div style="font-size: 0.8rem; color: #64758b; margin-top: 0.15rem;">Tracks monthly revenue growth rates and gross profit margins.</div>
           </div>
-          <span class="badge badge-amber" style="font-weight: 850;">MoM Growth Trend</span>
+          <span class="badge badge-amber" style="font-weight: 850; background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5;">MoM Growth Trend</span>
         </div>
         <div style="height: 280px; position: relative;">
           <canvas id="chart-mom-trend"></canvas>
@@ -1689,29 +1685,29 @@
       </div>
 
       <!-- REGION MAP SALES DASHBOARD -->
-      <div id="region-map-section" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
-        <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; margin-bottom: 1rem;">
+      <div id="region-map-section" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <div style="font-size: 1.1rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 1rem;">
           🗺️ Regional Territory Sales Breakdown (North, South, East, West)
         </div>
         <div id="region-map-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;"></div>
       </div>
 
       <!-- VEHICLE MAKE (MHMT) ANALYSIS DASHBOARD -->
-      <div id="make-analysis-section" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem;">
+      <div id="make-analysis-section" class="card" style="margin-bottom: 1.5rem; padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-          <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif;">
+          <div style="font-size: 1.1rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">
             🚗 Vehicle Make Revenue Distribution (Maruti, Hyundai, Mahindra, Tata & Others)
           </div>
-          <span class="badge badge-info">Make Intelligence</span>
+          <span class="badge badge-info" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-weight: 800;">Make Intelligence</span>
         </div>
         <div style="display: grid; grid-template-columns: 2.1fr 1fr; gap: 1.25rem; align-items: start;">
           <div id="make-cards-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;"></div>
-          <div style="background: linear-gradient(145deg, rgba(15,23,42,0.95), rgba(8,18,31,0.95)); border: 1.5px solid rgba(245, 158, 11, 0.35); border-radius: 14px; padding: 1.1rem; box-shadow: 0 4px 25px rgba(0,0,0,0.4);">
+          <div style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 14px; padding: 1.1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <div style="font-size: 0.92rem; font-weight: 900; color: #ffb84d; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 0.4rem;">
+              <div style="font-size: 0.92rem; font-weight: 900; color: #ea580c; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 0.4rem;">
                 <span>📊</span> MHMT vs. Others Analysis
               </div>
-              <span class="badge badge-amber" style="font-size: 0.72rem; font-weight: 850;">65.7% vs 34.3%</span>
+              <span class="badge badge-amber" style="font-size: 0.72rem; font-weight: 850; background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5;">65.7% vs 34.3%</span>
             </div>
 
             <!-- Doughnut Chart Canvas for MHMT Core vs Others -->
@@ -1726,24 +1722,24 @@
       </div>
 
       <!-- SEGMENT 1: PMS SALES DASHBOARD (WITH GENERATED SCENIC HERO & 3D CARDS) -->
-      <div id="pms-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 0; overflow: hidden; border: 1.5px solid rgba(245, 158, 11, 0.4); background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(8,18,31,0.98)); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+      <div id="pms-dashboard-container" class="card" style="margin-bottom: 1.5rem; padding: 0; overflow: hidden; border: 1.5px solid #fed7aa; background: #ffffff; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
         <!-- Scenic Hero Header -->
         <div style="position: relative; height: 130px; overflow: hidden; display: flex; align-items: center; padding: 0 1.5rem;">
-          <img src="pms_hero.jpg" onerror="this.onerror=null;this.src='images/pms_hero.jpg'" alt="Periodic Maintenance Service" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; filter: contrast(1.1) brightness(0.9);">
-          <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.6) 50%, rgba(15,23,42,0.85) 100%);"></div>
+          <img src="pms_hero.jpg" onerror="this.onerror=null;this.src='images/pms_hero.jpg'" alt="Periodic Maintenance Service" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.25;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.9) 100%);"></div>
           
           <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.5rem;">
             <div>
-              <div style="font-size: 1.25rem; font-weight: 900; color: #ffb84d; font-family: 'Outfit', sans-serif; text-shadow: 0 2px 8px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 0.5rem;">
+              <div style="font-size: 1.25rem; font-weight: 900; color: #ea580c; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 0.5rem;">
                 <span>🛠️</span> Periodic Maintenance Service (PMS) Sales Intelligence
               </div>
-              <div style="font-size: 0.82rem; color: #e2e8f0; margin-top: 0.25rem; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
+              <div style="font-size: 0.82rem; color: #475569; margin-top: 0.25rem; font-weight: 600;">
                 Fast-moving consumable maintenance drivers with 3D product renders & performance analytics.
               </div>
             </div>
             <div style="display: flex; gap: 0.75rem; align-items: center;">
-              <span id="pms-total-badge" class="badge badge-amber" style="font-size: 0.85rem; font-weight: 850; padding: 0.4rem 0.8rem; border: 1px solid rgba(255,184,77,0.5); backdrop-filter: blur(8px);">PMS Sales: ₹18.45 Cr</span>
-              <span id="pms-share-badge" class="badge badge-purple" style="font-size: 0.85rem; font-weight: 850; padding: 0.4rem 0.8rem; border: 1px solid rgba(167,139,250,0.5); backdrop-filter: blur(8px);">26.1% of Total Sales</span>
+              <span id="pms-total-badge" class="badge badge-amber" style="font-size: 0.85rem; font-weight: 850; padding: 0.4rem 0.8rem; background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5;">PMS Sales: ₹18.45 Cr</span>
+              <span id="pms-share-badge" class="badge badge-purple" style="font-size: 0.85rem; font-weight: 850; padding: 0.4rem 0.8rem; background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">26.1% of Total Sales</span>
             </div>
           </div>
         </div>
@@ -1757,22 +1753,22 @@
       </div>
 
       <!-- SEGMENT 2: MOST COMMON MECHANICAL AGGREGATES BREAKDOWN (WITH GENERATED SCENIC HERO & 3D CARDS) -->
-      <div id="mech-aggregates-container" class="card" style="margin-bottom: 1.5rem; padding: 0; overflow: hidden; border: 1.5px solid rgba(167, 139, 250, 0.4); background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(8,18,31,0.98)); box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+      <div id="mech-aggregates-container" class="card" style="margin-bottom: 1.5rem; padding: 0; overflow: hidden; border: 1.5px solid #e9d5ff; background: #ffffff; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
         <!-- Scenic Hero Header -->
         <div style="position: relative; height: 130px; overflow: hidden; display: flex; align-items: center; padding: 0 1.5rem;">
-          <img src="mech_hero.jpg" onerror="this.onerror=null;this.src='images/mech_hero.jpg'" alt="Mechanical Aggregates Performance" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; filter: contrast(1.1) brightness(0.9);">
-          <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(15,23,42,0.95) 0%, rgba(15,23,42,0.6) 50%, rgba(15,23,42,0.85) 100%);"></div>
+          <img src="mech_hero.jpg" onerror="this.onerror=null;this.src='images/mech_hero.jpg'" alt="Mechanical Aggregates Performance" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.25;">
+          <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.9) 100%);"></div>
 
           <div style="position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 0.5rem;">
             <div>
-              <div style="font-size: 1.25rem; font-weight: 900; color: #a78bfa; font-family: 'Outfit', sans-serif; text-shadow: 0 2px 8px rgba(0,0,0,0.8); display: flex; align-items: center; gap: 0.5rem;">
+              <div style="font-size: 1.25rem; font-weight: 900; color: #7c3aed; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 0.5rem;">
                 <span>⚙️</span> Most Common Mechanical Aggregates Performance
               </div>
-              <div style="font-size: 0.82rem; color: #e2e8f0; margin-top: 0.25rem; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.8);">
+              <div style="font-size: 0.82rem; color: #475569; margin-top: 0.25rem; font-weight: 600;">
                 Revenue & Unit Breakdown across the 6 major mechanical systems with high-definition 3D renders.
               </div>
             </div>
-            <span class="badge badge-purple" style="font-size: 0.85rem; font-weight: 850; padding: 0.4rem 0.8rem; border: 1px solid rgba(167,139,250,0.5); backdrop-filter: blur(8px);">6 Mechanical Core Systems</span>
+            <span class="badge badge-purple" style="font-size: 0.85rem; font-weight: 850; padding: 0.4rem 0.8rem; background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">6 Mechanical Core Systems</span>
           </div>
         </div>
 
@@ -1855,7 +1851,7 @@
         
         <!-- Card 1: Leakage Trend -->
         <div class="card" style="padding: 1.25rem;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">Leakage Trend</div>
+          <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">Leakage Trend</div>
           <div style="height: 160px; position: relative;">
             <canvas id="chart-leakage-trend"></canvas>
           </div>
@@ -1863,44 +1859,44 @@
 
         <!-- Card 2: Leakage by Vendor -->
         <div class="card" style="padding: 1.25rem;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">Leakage by Vendor</div>
+          <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">Leakage by Vendor</div>
           <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.78rem;">
             <div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                 <span>Vendor A</span><strong>28.4%</strong>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 28.4%; background: #38bdf8;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 28.4%; background: #38bdf8;"></div></div>
             </div>
             <div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                 <span>Vendor B</span><strong>18.7%</strong>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 18.7%; background: #5ca9ff;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 18.7%; background: #5ca9ff;"></div></div>
             </div>
             <div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                 <span>Vendor C</span><strong>14.6%</strong>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 14.6%; background: #ffb84d;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 14.6%; background: #ffb84d;"></div></div>
             </div>
             <div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                 <span>Vendor D</span><strong>11.2%</strong>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 11.2%; background: #a78bfa;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 11.2%; background: #a78bfa;"></div></div>
             </div>
             <div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
                 <span>Others</span><strong>27.1%</strong>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0;"><div class="ref-progress-bar-fill" style="width: 27.1%; background: #64748b;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 27.1%; background: #64748b;"></div></div>
             </div>
           </div>
         </div>
 
         <!-- Card 3: Leakage by Category Donut -->
         <div class="card" style="padding: 1.25rem; text-align: center;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; text-align: left;">Leakage by Category</div>
+          <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; text-align: left;">Leakage by Category</div>
           <div style="height: 140px; position: relative; display: flex; justify-content: center; align-items: center;">
             <canvas id="chart-leakage-category"></canvas>
           </div>
@@ -1908,7 +1904,7 @@
 
         <!-- Card 4: Root Cause Analysis Donut -->
         <div class="card" style="padding: 1.25rem; text-align: center;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; text-align: left;">Root Cause Analysis</div>
+          <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; text-align: left;">Root Cause Analysis</div>
           <div style="height: 140px; position: relative; display: flex; justify-content: center; align-items: center;">
             <canvas id="chart-root-cause"></canvas>
           </div>
@@ -2016,10 +2012,10 @@
         <div class="card" style="padding: 1.25rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <div>
-              <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif;">Demand Forecast</div>
-              <div style="font-size: 0.75rem; color: #94a3b8;">Actual Sales vs Forecast Demand vs Safety Stock</div>
+              <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif;">Demand Forecast</div>
+              <div style="font-size: 0.75rem; color: #64758b;">Actual Sales vs Forecast Demand vs Safety Stock</div>
             </div>
-            <span class="badge badge-info">Next 90 Days</span>
+            <span class="badge badge-info" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-weight: 800;">Next 90 Days</span>
           </div>
           <div style="height: 220px; position: relative;">
             <canvas id="chart-demand-forecast"></canvas>
@@ -2030,10 +2026,10 @@
         <div class="card" style="padding: 1.25rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <div>
-              <div style="font-size: 0.95rem; font-weight: 850; color: #fff; font-family: 'Outfit', sans-serif;">Forecast vs Current Stock</div>
-              <div style="font-size: 0.75rem; color: #94a3b8;">Comparison of available stock vs 30D demand</div>
+              <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif;">Forecast vs Current Stock</div>
+              <div style="font-size: 0.75rem; color: #64758b;">Comparison of available stock vs 30D demand</div>
             </div>
-            <span class="badge badge-amber">Stock Coverage</span>
+            <span class="badge badge-amber" style="background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; font-weight: 800;">Stock Coverage</span>
           </div>
           <div style="height: 220px; position: relative;">
             <canvas id="chart-forecast-vs-stock"></canvas>

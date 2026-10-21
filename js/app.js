@@ -9,7 +9,7 @@ window.App = {
     this._initialized = true;
     console.log("⚡ Initializing AUTO NEXA Enterprise Platform...");
     
-    const savedTheme = localStorage.getItem('auto-nexa-theme') || 'dark';
+    const savedTheme = localStorage.getItem('auto-nexa-theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     document.body.setAttribute('data-theme', savedTheme);
 
