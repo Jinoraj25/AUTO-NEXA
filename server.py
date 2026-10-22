@@ -269,9 +269,9 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         if os.path.exists(req_path):
             return req_path
         
-        # Check subfolders (images/, data/, lib/, js/)
+        # Check subfolders (images/, videos/, data/, lib/, js/)
         clean_name = os.path.basename(path.split('?')[0])
-        for subfolder in ['images', 'data', 'lib', 'js']:
+        for subfolder in ['images', 'videos', 'data', 'lib', 'js']:
             alt_path = os.path.join(os.getcwd(), subfolder, clean_name)
             if os.path.exists(alt_path):
                 return alt_path
@@ -283,9 +283,58 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
         super().end_headers()
 
-    def do_GET(self):
-        # Transparently serve images from images/ if requested from root
+    def do_HEAD(self):
         clean_path = self.path.split('?')[0].lstrip('/')
+        if clean_path.lower().endswith(('.mp4', '.webm')):
+            vid_path = clean_path if os.path.exists(clean_path) else os.path.join('videos', os.path.basename(clean_path))
+            if os.path.exists(vid_path):
+                self.send_response(200)
+                self.send_header('Content-Type', 'video/mp4')
+                self.send_header('Content-Length', str(os.path.getsize(vid_path)))
+                self.send_header('Accept-Ranges', 'bytes')
+                self.end_headers()
+                return
+        super().do_HEAD()
+
+    def do_GET(self):
+        clean_path = self.path.split('?')[0].lstrip('/')
+
+        # Transparently serve mp4/webm videos with HTTP Range (206) support for smooth looping & seeking
+        if clean_path.lower().endswith(('.mp4', '.webm')):
+            vid_path = clean_path if os.path.exists(clean_path) else os.path.join('videos', os.path.basename(clean_path))
+            if os.path.exists(vid_path):
+                file_size = os.path.getsize(vid_path)
+                range_header = self.headers.get('Range', None)
+                
+                if range_header:
+                    m = re.match(r'bytes=(\d+)-(\d*)', range_header)
+                    if m:
+                        start = int(m.group(1))
+                        end = int(m.group(2)) if m.group(2) else file_size - 1
+                        length = end - start + 1
+                        
+                        self.send_response(206)
+                        self.send_header('Content-Type', 'video/mp4')
+                        self.send_header('Content-Range', f'bytes {start}-{end}/{file_size}')
+                        self.send_header('Content-Length', str(length))
+                        self.send_header('Accept-Ranges', 'bytes')
+                        self.end_headers()
+                        
+                        with open(vid_path, 'rb') as f:
+                            f.seek(start)
+                            self.wfile.write(f.read(length))
+                        return
+
+                self.send_response(200)
+                self.send_header('Content-Type', 'video/mp4')
+                self.send_header('Content-Length', str(file_size))
+                self.send_header('Accept-Ranges', 'bytes')
+                self.end_headers()
+                with open(vid_path, 'rb') as f:
+                    self.wfile.write(f.read())
+                return
+
+        # Transparently serve images from images/ if requested from root
         if clean_path.lower().endswith(('.jpg', '.jpeg', '.png', '.svg', '.webp')):
             img_in_images = os.path.join('images', os.path.basename(clean_path))
             if not os.path.exists(clean_path) and os.path.exists(img_in_images):

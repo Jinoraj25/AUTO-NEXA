@@ -477,22 +477,16 @@ window.App = {
 
   initHomeVideo() {
     const video = document.getElementById("explodedHeroVideo");
-    if (!video) return;
-
-    const calibratePlayback = () => {
-      const targetDuration = 15; // Calibrate to 15-second loop
-      if (video.duration && !isNaN(video.duration)) {
-        video.playbackRate = video.duration / targetDuration;
-      }
-    };
-
-    if (video.readyState >= 1) {
-      calibratePlayback();
-    } else {
-      video.addEventListener("loadedmetadata", calibratePlayback);
+    if (video) {
+      video.muted = true;
+      video.play().catch((err) => console.log("Hero video autoplay status:", err));
     }
 
-    video.play().catch(() => {});
+    const loginVideo = document.getElementById("loginHeroVideo");
+    if (loginVideo) {
+      loginVideo.muted = true;
+      loginVideo.play().catch((err) => console.log("Login video autoplay status:", err));
+    }
   },
 
   handleHomeSearch() {
