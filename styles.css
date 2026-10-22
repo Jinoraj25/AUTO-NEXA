@@ -5460,3 +5460,28 @@ body.sidebar-collapsed footer.app-footer {
   background: #f8fafc;
 }
 
+/* Hero Section Typography High-Contrast Styling on Video Stage */
+.hero-content .hero-headline,
+[data-theme="light"] .hero-content .hero-headline,
+[data-theme="light"] .hero-container h1,
+.hero-headline {
+  font-size: clamp(2rem, 3.8vw, 3.1rem) !important;
+  font-weight: 900 !important;
+  line-height: 1.18 !important;
+  color: #ffffff !important;
+  text-shadow: 0 3px 25px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.8) !important;
+  font-family: 'Outfit', sans-serif !important;
+}
+
+.hero-content .hero-subtitle,
+[data-theme="light"] .hero-content .hero-subtitle,
+[data-theme="light"] .hero-container p,
+.hero-subtitle {
+  font-size: 1.05rem !important;
+  color: #f1f5f9 !important;
+  max-width: 640px !important;
+  line-height: 1.55 !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+
