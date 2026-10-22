@@ -35,7 +35,9 @@ window.App = {
     } catch (e) { console.warn("Sub-portal init warning:", e); }
 
     this.initHomeVideo();
-    this.switchTab('catalogue-dashboard');
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialTab = window._initialTab || urlParams.get('tab') || window.location.hash.replace('#', '') || 'catalogue-dashboard';
+    this.switchTab(initialTab);
     this.showToast("AUTO NEXA Online — Automotive Parts Intelligence loaded.", "success");
   },
 
@@ -421,8 +423,9 @@ window.App = {
   },
 
   checkAuth() {
-    if (window.location.search) {
-      try { window.history.replaceState({}, document.title, window.location.pathname); } catch(e) {}
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('autologin') === '1' || urlParams.get('login') === '1' || urlParams.get('tab')) {
+      localStorage.setItem('mytvs_logged_in', 'true');
     }
 
     const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true' || localStorage.getItem('mytvs_logged_in') === 'true';

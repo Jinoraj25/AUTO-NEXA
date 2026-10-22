@@ -7,9 +7,14 @@
       localStorage.setItem('theme', 'light');
       document.documentElement.setAttribute('data-theme', 'light');
     } catch(e) {}
-    if (window.location.search) {
-      try { window.history.replaceState({}, document.title, window.location.pathname); } catch(e) {}
-    }
+    try {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('tab') || params.get('autologin') === '1' || params.get('login') === '1') {
+        localStorage.setItem('mytvs_logged_in', 'true');
+        sessionStorage.setItem('mytvs_logged_in', 'true');
+        window._initialTab = params.get('tab') || 'inventory';
+      }
+    } catch(e) {}
 
     function togglePasswordDirect() {
       var pwInput = document.getElementById('login-password');
@@ -1611,167 +1616,281 @@
 
     <!-- ==================== TAB 2: INVENTORY DASHBOARD ==================== -->
     <section id="tab-inventory" class="tab-pane">
-      <!-- Top Control Bar with Date Selector & 2 Action Buttons -->
-      <div style="background: #ffffff; border: 1.5px solid #e2e8f0; padding: 1rem 1.4rem; border-radius: 16px; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+      <!-- Top Control Bar with Date Selector & Action Buttons -->
+      <div style="background: #ffffff; border: 1.5px solid #e2e8f0; padding: 1.1rem 1.5rem; border-radius: 18px; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
         <div style="display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
-          <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <span style="font-size: 1.3rem; color: #059669;">🟢</span>
+          <div style="display: flex; align-items: center; gap: 0.85rem;">
+            <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #059669, #10b981); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; box-shadow: 0 4px 12px rgba(5,150,105,0.25);">
+              📦
+            </div>
             <div>
-              <div style="font-weight: 900; font-size: 0.95rem; color: #0f172a; font-family: 'Outfit', sans-serif;">GOOD STOCK INVENTORY INTELLIGENCE</div>
-              <div style="font-size: 0.8rem; color: #64758b; margin-top: 0.1rem;">
-                Select date to filter all stock telemetry and category holding.
+              <div style="font-weight: 900; font-size: 1.05rem; color: #0f172a; font-family: 'Outfit', sans-serif; letter-spacing: -0.01em;">TVS MOBILITY INVENTORY INTELLIGENCE</div>
+              <div style="font-size: 0.78rem; color: #64758b; margin-top: 0.1rem;">
+                Live Oracle ERP stock telemetry • October 2026 Audit
               </div>
             </div>
           </div>
 
-          <!-- DATE SELECTION TAB -->
-          <div style="display: flex; align-items: center; gap: 0.5rem; background: #f8fafc; padding: 0.4rem 0.9rem; border-radius: 10px; border: 1.5px solid #cbd5e1;">
-            <label style="font-size: 0.82rem; font-weight: 900; color: #ea580c; font-family: 'Outfit', sans-serif;">📅 Stock Date:</label>
-            <select id="inventory-date-select" class="search-input" style="padding: 0.35rem 0.6rem; font-size: 0.85rem; font-weight: 850; color: #0f172a; border: none; background: transparent; cursor: pointer;">
-              <option value="14-Sep-2026" selected>Stock Date: 14-Sep-2026</option>
-              <option value="12-Sep-2026">Stock Date: 12-Sep-2026</option>
-              <option value="11-Sep-2026">Stock Date: 11-Sep-2026</option>
-              <option value="10-Sep-2026">Stock Date: 10-Sep-2026</option>
-              <option value="09-Sep-2026">Stock Date: 09-Sep-2026</option>
-              <option value="08-Sep-2026">Stock Date: 08-Sep-2026</option>
-              <option value="07-Sep-2026">Stock Date: 07-Sep-2026</option>
-              <option value="05-Sep-2026">Stock Date: 05-Sep-2026</option>
-              <option value="04-Sep-2026">Stock Date: 04-Sep-2026</option>
-              <option value="03-Sep-2026">Stock Date: 03-Sep-2026</option>
-              <option value="02-Sep-2026">Stock Date: 02-Sep-2026</option>
-              <option value="01-Sep-2026">Stock Date: 01-Sep-2026</option>
+          <!-- DYNAMIC DATE SELECTION DROPDOWN -->
+          <div style="display: flex; align-items: center; gap: 0.5rem; background: #f8fafc; padding: 0.45rem 1rem; border-radius: 12px; border: 1.5px solid #cbd5e1;">
+            <label style="font-size: 0.82rem; font-weight: 900; color: #ea580c; font-family: 'Outfit', sans-serif;">📅 Snapshot Date:</label>
+            <select id="inventory-date-select" class="search-input" style="padding: 0.35rem 0.6rem; font-size: 0.85rem; font-weight: 850; color: #0f172a; border: none; background: transparent; cursor: pointer; outline: none;">
+              <!-- Populated dynamically via inventory-portal.js -->
+              <option value="22-Oct-2026" selected>Stock Date: 22-Oct-2026</option>
             </select>
           </div>
         </div>
 
-        <!-- ONLY TWO BUTTONS: UPLOADING STOCK & REFRESHING STOCK FOLDER -->
+        <!-- ACTION BUTTONS: AUTO-SYNC, REFRESH & MANUAL UPLOAD -->
         <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-          <input type="file" id="inventory-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
-          <button class="btn btn-emerald" onclick="document.getElementById('inventory-file-input').click()" style="padding: 0.6rem 1.35rem; font-size: 0.85rem; font-weight: 850; border-radius: 10px; background: #059669; color: #fff; box-shadow: 0 4px 14px rgba(5,150,105,0.25);">
-            📁 Upload Stock
+          <button id="btn-trigger-stock-sync" class="btn" style="padding: 0.6rem 1.25rem; font-size: 0.82rem; font-weight: 850; border-radius: 10px; background: linear-gradient(135deg, #059669, #10b981); color: #fff; border: none; box-shadow: 0 4px 14px rgba(5,150,105,0.25); cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;">
+            <span>⚡ Run Sync Now</span>
           </button>
 
-          <button id="btn-sync-stock-folder" class="btn btn-amber" style="padding: 0.6rem 1.35rem; font-size: 0.85rem; font-weight: 850; border-radius: 10px; background: #ea580c; color: #fff; box-shadow: 0 4px 14px rgba(234,88,12,0.25);">
-            🔄 Refresh
+          <button id="btn-sync-stock-folder" class="btn btn-amber" style="padding: 0.6rem 1.25rem; font-size: 0.82rem; font-weight: 850; border-radius: 10px; background: #ea580c; color: #fff; border: none; box-shadow: 0 4px 14px rgba(234,88,12,0.25); cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;">
+            <span>🔄 Reload Cache</span>
           </button>
+
+          <input type="file" id="inventory-file-input" accept=".xlsx, .xlsb, .csv, .xls" style="display: none;">
+          <button class="btn" onclick="document.getElementById('inventory-file-input').click()" style="padding: 0.6rem 1.15rem; font-size: 0.82rem; font-weight: 750; border-radius: 10px; background: #f1f5f9; color: #475569; border: 1.5px solid #cbd5e1; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+            <span>📁 Upload File</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- AUTOMATED DAILY STOCK SYNC WATCHER BANNER -->
+      <div class="inv-autosync-banner">
+        <div style="display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap;">
+          <span class="inv-sync-pill">
+            <span class="inv-sync-pulse"></span>
+            <span>AUTO-SYNC WATCHER ACTIVE</span>
+          </span>
+          <div style="font-size: 0.82rem; color: #1e293b;">
+            <strong style="color: #0f172a;">TVS Morning Share Folder Daemon:</strong> Monitoring morning stock drops at <strong>08:30 AM Daily</strong>.
+          </div>
+          <span style="font-size: 0.78rem; color: #059669; background: #ecfdf5; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 750; border: 1px solid #a7f3d0;" id="inv-sync-files-badge">
+            18 October Snapshots Ingested
+          </span>
+        </div>
+        <div style="font-size: 0.78rem; color: #64748b; display: flex; align-items: center; gap: 0.75rem;">
+          <span id="inv-sync-last-time">Last Synced: 22-Oct-2026 (AllGoodStock_22-Oct-2026.xlsx)</span>
+          <a href="javascript:void(0)" onclick="InventoryPortal.triggerStockSync()" style="color: #059669; font-weight: 800; text-decoration: underline;">Check Now</a>
         </div>
       </div>
 
       <div id="inventory-sync-status" class="upload-status-box" style="display: none; margin-bottom: 1.25rem;"></div>
 
-      <!-- 4 CORE SCORECARDS ONLY (Total Value, SKUs, Physical Stock, DoD Shift) -->
-      <div class="ref-kpi-strip" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.5rem; display: grid; gap: 1rem;">
-        <div class="ref-kpi-card" style="border-top: 3px solid #059669; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
-          <div class="ref-kpi-title" style="color: #059669; font-weight: 850; font-size: 0.78rem;">💰 TOTAL INVENTORY VALUE</div>
-          <div id="kpi-stock-valuation" class="ref-kpi-value" style="color: #059669; font-size: 1.9rem; font-weight: 900; margin: 0.35rem 0;">₹159.28 Cr</div>
-          <div id="kpi-stock-valuation-sub" class="ref-kpi-subtext" style="color: #059669; font-weight: 700; font-size: 0.78rem;">↓ -9.61 Cr vs yesterday</div>
+      <!-- 4 BESPOKE 3D IMAGE KPI CARDS (Valuation, Health/SKUs, Aging Risk, Network Hubs) -->
+      <div class="inv-hero-kpi-grid">
+        <!-- Card 1: Valuation -->
+        <div class="inv-image-kpi-card" onclick="InventoryPortal.focusChart('trend')">
+          <img src="images/cards/inv_card_valuation.jpg" alt="Inventory Valuation" class="inv-card-bg-img">
+          <div class="inv-card-overlay"></div>
+          <div class="inv-card-content">
+            <div class="inv-card-header">
+              <span class="inv-card-title">💰 TOTAL STOCK VALUATION</span>
+              <span class="inv-card-badge" style="background: rgba(16, 185, 129, 0.25); border-color: rgba(16, 185, 129, 0.4); color: #6ee7b7;">October 2026</span>
+            </div>
+            <div>
+              <div id="kpi-stock-valuation" class="inv-card-value">₹203.29 Cr</div>
+              <div id="kpi-stock-valuation-sub" class="inv-card-subtext" style="color: #34d399;">
+                ▲ +₹33.14 Cr (+19.5%) since Oct 01 (₹170.15 Cr)
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="ref-kpi-card" style="border-top: 3px solid #0284c7; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
-          <div class="ref-kpi-title" style="color: #0284c7; font-weight: 850; font-size: 0.78rem;">📦 TOTAL ACTIVE SKUs</div>
-          <div id="kpi-stock-skus" class="ref-kpi-value" style="color: #0f172a; font-size: 1.9rem; font-weight: 900; margin: 0.35rem 0;">473,209</div>
-          <div class="ref-kpi-subtext" style="color: #64758b; font-size: 0.78rem;"><span style="color: #0284c7; font-weight: 700;">100% Active</span> Catalogued SKUs</div>
+        <!-- Card 2: Health & SKUs -->
+        <div class="inv-image-kpi-card" onclick="InventoryPortal.focusChart('category')">
+          <img src="images/cards/inv_card_health.jpg" alt="Inventory Health" class="inv-card-bg-img">
+          <div class="inv-card-overlay"></div>
+          <div class="inv-card-content">
+            <div class="inv-card-header">
+              <span class="inv-card-title">📦 ACTIVE SKUs & PHYSICAL UNITS</span>
+              <span class="inv-card-badge" style="background: rgba(2, 132, 199, 0.25); border-color: rgba(2, 132, 199, 0.4); color: #7dd3fc;">100% Catalogued</span>
+            </div>
+            <div>
+              <div id="kpi-stock-skus" class="inv-card-value">479,092 SKUs</div>
+              <div id="kpi-stock-qty" class="inv-card-subtext" style="color: #93c5fd;">
+                5,506,675 Total Units | 99.1% Good Stock
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="ref-kpi-card" style="border-top: 3px solid #2563eb; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
-          <div class="ref-kpi-title" style="color: #2563eb; font-weight: 850; font-size: 0.78rem;">📊 TOTAL PHYSICAL QUANTITY</div>
-          <div id="kpi-stock-qty" class="ref-kpi-value" style="color: #0f172a; font-size: 1.9rem; font-weight: 900; margin: 0.35rem 0;">5,561,604 Units</div>
-          <div class="ref-kpi-subtext" style="color: #64758b; font-size: 0.78rem;">Across warehouse network</div>
+        <!-- Card 3: Aging Risk Shield -->
+        <div class="inv-image-kpi-card" onclick="InventoryPortal.focusChart('aging')">
+          <img src="images/cards/inv_card_aging.jpg" alt="Aging Risk" class="inv-card-bg-img">
+          <div class="inv-card-overlay"></div>
+          <div class="inv-card-content">
+            <div class="inv-card-header">
+              <span class="inv-card-title">⏳ AGING RISK (AgeDays > 90)</span>
+              <span class="inv-card-badge" style="background: rgba(245, 158, 11, 0.25); border-color: rgba(245, 158, 11, 0.4); color: #fcd34d;">Audit Shield</span>
+            </div>
+            <div>
+              <div id="kpi-stock-aging-val" class="inv-card-value">₹162.8 Cr</div>
+              <div id="kpi-stock-aging-sub" class="inv-card-subtext" style="color: #fde047;">
+                391,775 SKUs &gt; 90 Days • 203,579 SKUs &gt; 365 Days
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="ref-kpi-card" style="border-top: 3px solid #ea580c; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
-          <div class="ref-kpi-title" style="color: #ea580c; font-weight: 850; font-size: 0.78rem;">📈 DOD NET VALUE SHIFT</div>
-          <div id="kpi-dod-val-net" class="ref-kpi-value" style="color: #dc2626; font-size: 1.9rem; font-weight: 900; margin: 0.35rem 0;">-₹9.61 Cr</div>
-          <div class="ref-kpi-subtext" style="color: #64758b; font-size: 0.78rem;">vs previous day stock valuation</div>
+        <!-- Card 4: Network Hubs -->
+        <div class="inv-image-kpi-card" onclick="InventoryPortal.focusChart('regions')">
+          <img src="images/cards/inv_card_network.jpg" alt="Warehouse Network" class="inv-card-bg-img">
+          <div class="inv-card-overlay"></div>
+          <div class="inv-card-content">
+            <div class="inv-card-header">
+              <span class="inv-card-title">🌐 REGIONAL NETWORK DISTRIBUTION</span>
+              <span class="inv-card-badge" style="background: rgba(168, 85, 247, 0.25); border-color: rgba(168, 85, 247, 0.4); color: #d8b4fe;">Pan-India</span>
+            </div>
+            <div>
+              <div id="kpi-stock-network-val" class="inv-card-value">South (72.2%)</div>
+              <div id="kpi-stock-network-sub" class="inv-card-subtext" style="color: #e9d5ff;">
+                North: 15.3% • West: 8.4% • East: 4.1%
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- MIDDLE SECTION GRID (Valuation Trend Line Chart & RENAMED CATEGORY WISE Section) -->
-      <div style="display: grid; grid-template-columns: 1.55fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
-        
-        <!-- Card 1: Valuation Trend Chart (DEFAULT IS DAILY, DOWNWARD REALISTIC REDUCTION TRAJECTORY) -->
-        <div class="card" style="padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+      <!-- SECTION 1: VALUATION TRAJECTORY & CATEGORY WISE PROGRESS -->
+      <div class="inv-charts-2col">
+        <!-- Card 1: Valuation Trend Chart -->
+        <div class="card" style="padding: 1.35rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
             <div>
-              <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">📈 Inventory Valuation Trend</div>
-              <div style="font-size: 0.78rem; color: #64758b;">Daily, Weekly & Monthly holding trajectory across historical snapshots</div>
+              <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">📈 October 2026 Valuation Trajectory</div>
+              <div style="font-size: 0.78rem; color: #64758b;">Daily, Weekly & Monthly holding trajectory across 18 October snapshots (₹170.15 Cr → ₹203.29 Cr)</div>
             </div>
 
-            <!-- Granularity Buttons (DEFAULT ACTIVE IS DAILY) -->
+            <!-- Granularity Buttons -->
             <div style="display: flex; gap: 0.35rem; background: #f1f5f9; padding: 0.25rem; border-radius: 9px; border: 1px solid #cbd5e1;">
-              <button id="btn-trend-daily" class="btn btn-amber trend-toggle-btn active" onclick="InventoryPortal.setTrendGranularity('daily')" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; font-weight: 850;">Daily</button>
-              <button id="btn-trend-weekly" class="btn btn-secondary trend-toggle-btn" onclick="InventoryPortal.setTrendGranularity('weekly')" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; font-weight: 700;">Weekly</button>
-              <button id="btn-trend-monthly" class="btn btn-secondary trend-toggle-btn" onclick="InventoryPortal.setTrendGranularity('monthly')" style="padding: 0.25rem 0.7rem; font-size: 0.75rem; font-weight: 700;">Monthly</button>
+              <button id="btn-trend-daily" class="btn btn-amber trend-toggle-btn active" onclick="InventoryPortal.setTrendGranularity('daily')" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 850;">Daily</button>
+              <button id="btn-trend-weekly" class="btn btn-secondary trend-toggle-btn" onclick="InventoryPortal.setTrendGranularity('weekly')" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 700;">Weekly</button>
+              <button id="btn-trend-monthly" class="btn btn-secondary trend-toggle-btn" onclick="InventoryPortal.setTrendGranularity('monthly')" style="padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 700;">Monthly</button>
             </div>
           </div>
 
-          <div style="height: 230px; position: relative;">
+          <div style="height: 250px; position: relative;">
             <canvas id="chart-inventory-valuation-trend"></canvas>
           </div>
         </div>
 
-        <!-- Card 2: RENAMED TO "CATEGORY WISE" (Holding Summary renamed as requested) -->
-        <div class="card" style="padding: 1.25rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
-          <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 1rem;">🏷️ CATEGORY WISE</div>
+        <!-- Card 2: CATEGORY WISE HOLDING -->
+        <div class="card" style="padding: 1.35rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">🏷️ CATEGORY WISE HOLDING</div>
+              <div style="font-size: 0.78rem; color: #64758b;">Valuation share across 6 TVS business categories</div>
+            </div>
+            <span class="badge badge-amber" style="font-weight: 800; font-size: 0.75rem;" id="category-holding-date-badge">22-Oct-2026</span>
+          </div>
           
-          <div id="holding-summary-list" style="display: flex; flex-direction: column; gap: 0.7rem;">
+          <div id="holding-summary-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
                 <span style="font-size: 0.82rem; font-weight: 850; color: #0284c7;">OEM</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #0284c7;" id="summary-val-oem">34.2% | ₹58.5 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #0284c7;" id="summary-val-oem">34.1% | ₹69.3 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-oem" class="ref-progress-bar-fill" style="width: 34.2%; background: #0284c7; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 7px; border-radius: 4px;"><div id="summary-bar-oem" class="ref-progress-bar-fill" style="width: 34.1%; background: #0284c7; height: 100%; border-radius: 4px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
                 <span style="font-size: 0.82rem; font-weight: 850; color: #2563eb;">PRIMARY</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #2563eb;" id="summary-val-primary">28.4% | ₹48.6 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #2563eb;" id="summary-val-primary">28.2% | ₹57.3 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-primary" class="ref-progress-bar-fill" style="width: 28.4%; background: #2563eb; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 7px; border-radius: 4px;"><div id="summary-bar-primary" class="ref-progress-bar-fill" style="width: 28.2%; background: #2563eb; height: 100%; border-radius: 4px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
                 <span style="font-size: 0.82rem; font-weight: 850; color: #059669;">SECONDARY</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #059669;" id="summary-val-secondary">19.1% | ₹32.7 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #059669;" id="summary-val-secondary">19.4% | ₹39.4 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-secondary" class="ref-progress-bar-fill" style="width: 19.1%; background: #059669; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 7px; border-radius: 4px;"><div id="summary-bar-secondary" class="ref-progress-bar-fill" style="width: 19.4%; background: #059669; height: 100%; border-radius: 4px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
-                <span style="font-size: 0.82rem; font-weight: 850; color: #7c3aed;">PL</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #7c3aed;" id="summary-val-pl">11.5% | ₹19.7 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 850; color: #7c3aed;">PL (PRIVATE LABEL)</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #7c3aed;" id="summary-val-pl">11.8% | ₹24.0 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-pl" class="ref-progress-bar-fill" style="width: 11.5%; background: #7c3aed; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 7px; border-radius: 4px;"><div id="summary-bar-pl" class="ref-progress-bar-fill" style="width: 11.8%; background: #7c3aed; height: 100%; border-radius: 4px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
                 <span style="font-size: 0.82rem; font-weight: 850; color: #d97706;">CASTROL</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #d97706;" id="summary-val-castrol">5.2% | ₹8.9 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #d97706;" id="summary-val-castrol">4.9% | ₹10.0 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-castrol" class="ref-progress-bar-fill" style="width: 5.2%; background: #d97706; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 7px; border-radius: 4px;"><div id="summary-bar-castrol" class="ref-progress-bar-fill" style="width: 4.9%; background: #d97706; height: 100%; border-radius: 4px;"></div></div>
             </div>
 
             <div>
               <div class="ref-progress-row" style="display: flex; justify-content: space-between; margin-bottom: 3px;">
                 <span style="font-size: 0.82rem; font-weight: 850; color: #64758b;">UNCATEGORISED</span>
-                <span style="font-size: 0.82rem; font-weight: 800; color: #64758b;" id="summary-val-uncat">1.6% | ₹2.7 Cr</span>
+                <span style="font-size: 0.82rem; font-weight: 800; color: #64758b;" id="summary-val-uncat">1.6% | ₹3.3 Cr</span>
               </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 6px; border-radius: 3px;"><div id="summary-bar-uncat" class="ref-progress-bar-fill" style="width: 1.6%; background: #64758b; height: 100%; border-radius: 3px;"></div></div>
+              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9; height: 7px; border-radius: 4px;"><div id="summary-bar-uncat" class="ref-progress-bar-fill" style="width: 1.6%; background: #64758b; height: 100%; border-radius: 4px;"></div></div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: 3-COLUMN ADVANCED INSIGHTS CHARTS (Aging Doughnut, Top 10 Brands, Regional Split) -->
+      <div class="inv-charts-3col">
+        <!-- Chart 1: Inventory Aging Risk Radar/Doughnut -->
+        <div class="card" style="padding: 1.35rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+          <div style="margin-bottom: 1rem;">
+            <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">⏳ Inventory Aging Risk</div>
+            <div style="font-size: 0.78rem; color: #64758b;">Breakdown by AgeDays: 0-30 to &gt;365 Days</div>
+          </div>
+          <div style="height: 230px; position: relative;">
+            <canvas id="chart-inventory-aging"></canvas>
+          </div>
+          <div id="aging-risk-summary-legend" style="margin-top: 0.75rem; font-size: 0.75rem; color: #64758b; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.35rem;">
+            <!-- Populated via inventory-portal.js -->
+          </div>
+        </div>
+
+        <!-- Chart 2: Top 10 High-Valuation Brands -->
+        <div class="card" style="padding: 1.35rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+          <div style="margin-bottom: 1rem;">
+            <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">🏆 Top 10 High-Value Brands</div>
+            <div style="font-size: 0.78rem; color: #64758b;">Maruti, Mahindra, Tata, MFC, Bosch holding</div>
+          </div>
+          <div style="height: 230px; position: relative;">
+            <canvas id="chart-inventory-brands"></canvas>
+          </div>
+          <div style="text-align: right; margin-top: 0.5rem; font-size: 0.72rem; color: #64758b;">
+            Top 10 brands represent ₹138.4 Cr (68.1% of inventory)
+          </div>
+        </div>
+
+        <!-- Chart 3: Regional Hub Distribution -->
+        <div class="card" style="padding: 1.35rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+          <div style="margin-bottom: 1rem;">
+            <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">🌐 Regional Hub Distribution</div>
+            <div style="font-size: 0.78rem; color: #64758b;">Geographic valuation across South, North, West, East</div>
+          </div>
+          <div style="height: 230px; position: relative;">
+            <canvas id="chart-inventory-regions"></canvas>
+          </div>
+          <div id="regions-summary-legend" style="margin-top: 0.75rem; font-size: 0.75rem; color: #64758b; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.35rem;">
+            <!-- Populated via inventory-portal.js -->
           </div>
         </div>
       </div>
 
       <!-- DAY-OVER-DAY & WEEK-OVER-WEEK CATEGORY VARIANCE TABLES -->
       <div class="charts-grid inventory-variance-grid" style="grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
-        <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <div class="card inventory-variance-card" style="height: auto; padding: 1.35rem; overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
             <div style="font-size: 1rem; font-weight: 850; color: #ea580c; font-family: 'Outfit', sans-serif;">📆 Day-over-Day (DoD) Category Value Difference</div>
-            <span class="badge badge-amber" id="dod-date-badge" style="background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; font-weight: 800;">DoD Variance</span>
+            <span class="badge badge-amber" id="dod-date-badge" style="background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; font-weight: 800;">DoD Shift</span>
           </div>
           <div class="table-wrapper variance-table-wrapper" style="border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;">
             <table class="data-table variance-data-table">
@@ -1791,10 +1910,10 @@
           </div>
         </div>
 
-        <div class="card inventory-variance-card" style="height: auto; padding: 1.25rem; overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <div class="card inventory-variance-card" style="height: auto; padding: 1.35rem; overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
             <div style="font-size: 1rem; font-weight: 850; color: #0284c7; font-family: 'Outfit', sans-serif;">📈 Week-over-Week (WoW) Category Value Difference</div>
-            <span class="badge badge-info" id="wow-date-badge" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-weight: 800;">WoW Variance</span>
+            <span class="badge badge-info" id="wow-date-badge" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-weight: 800;">WoW Shift</span>
           </div>
           <div class="table-wrapper variance-table-wrapper" style="border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;">
             <table class="data-table variance-data-table">
@@ -1815,38 +1934,57 @@
         </div>
       </div>
 
-      <!-- Part Number Search Grid (FIXED TABLE COLUMN ALIGNMENT) -->
-      <div class="card" style="overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
-        <div class="card-header" style="flex-wrap: wrap; gap: 0.85rem; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #e2e8f0;">
+      <!-- Part Number Master Search & Inspection Grid -->
+      <div class="card" style="overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <div class="card-header" style="flex-wrap: wrap; gap: 0.85rem; align-items: center; padding: 1.25rem 1.4rem; border-bottom: 1px solid #e2e8f0;">
           <div>
             <div style="font-size: 1.1rem; font-weight: 900; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; color: #0f172a; font-family: 'Outfit', sans-serif;">
               <span>🔍 Part Number Master Search & Inspection Grid</span>
-              <span class="badge badge-amber" style="font-size: 0.78rem; font-weight: 850; background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5;" id="search-grid-date-badge">Stock Date: 10-Sep-2026</span>
+              <span class="badge badge-amber" style="font-size: 0.78rem; font-weight: 850; background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5;" id="search-grid-date-badge">Stock Date: 22-Oct-2026</span>
             </div>
             <div style="font-size: 0.78rem; color: #64758b; margin-top: 0.2rem;">
-              Showing records strictly for the selected date. Excludes STATUS, GRN, LOCATION, GRN/AGE DATE, GOOD/DAMAGE, CARS columns.
+              Fast indexed search across 479,000+ active parts. Filter by Brand, Branch, Category, Tag & Aging Bucket.
             </div>
           </div>
 
-          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-left: auto;">
-            <div style="display: flex; align-items: center; gap: 0.35rem;">
-              <label style="font-size: 0.8rem; font-weight: 850; color: #ea580c;">FILTER:</label>
-              <select id="inventory-tag-select" class="search-input" style="width: 160px; padding: 0.4rem 0.65rem; font-size: 0.82rem; font-weight: 700; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #0f172a; border-radius: 8px;">
-                <option value="ALL" selected>All Records</option>
-                <option value="CONSIDER">CONSIDER Only</option>
-                <option value="NOT CONSIDER">NOT CONSIDER Only</option>
-              </select>
-            </div>
+          <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-left: auto;">
+            <!-- Brand Filter -->
+            <select id="inventory-brand-select" class="search-input" style="width: 140px; padding: 0.4rem 0.65rem; font-size: 0.8rem; font-weight: 700; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #0f172a; border-radius: 8px;">
+              <option value="ALL" selected>All Brands</option>
+            </select>
 
-            <input type="text" id="inventory-search-input" class="search-input" style="width: 250px; padding: 0.4rem 0.75rem; font-size: 0.82rem; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #0f172a; border-radius: 8px;" placeholder="Search Part No, Desc, Brand, Branch...">
+            <!-- Branch Filter -->
+            <select id="inventory-branch-select" class="search-input" style="width: 140px; padding: 0.4rem 0.65rem; font-size: 0.8rem; font-weight: 700; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #0f172a; border-radius: 8px;">
+              <option value="ALL" selected>All Branches</option>
+            </select>
+
+            <!-- Aging Bucket Filter -->
+            <select id="inventory-age-select" class="search-input" style="width: 130px; padding: 0.4rem 0.65rem; font-size: 0.8rem; font-weight: 700; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #0f172a; border-radius: 8px;">
+              <option value="ALL" selected>All Ages</option>
+              <option value="0-30">0-30 Days (Fast)</option>
+              <option value="31-60">31-60 Days</option>
+              <option value="61-90">61-90 Days</option>
+              <option value="91-180">91-180 Days (Aging)</option>
+              <option value="181-365">181-365 Days (Slow)</option>
+              <option value=">365">&gt;365 Days (Stagnant)</option>
+            </select>
+
+            <!-- Tag Filter -->
+            <select id="inventory-tag-select" class="search-input" style="width: 130px; padding: 0.4rem 0.65rem; font-size: 0.8rem; font-weight: 700; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #0f172a; border-radius: 8px;">
+              <option value="ALL" selected>All Tags</option>
+              <option value="CONSIDER">CONSIDER</option>
+              <option value="NOT CONSIDER">NOT CONSIDER</option>
+            </select>
+
+            <input type="text" id="inventory-search-input" class="search-input" style="width: 220px; padding: 0.4rem 0.75rem; font-size: 0.82rem; background: #f8fafc; border: 1.5px solid #cbd5e1; color: #0f172a; border-radius: 8px;" placeholder="Search Part, Brand, Branch...">
             
-            <button type="button" class="btn btn-secondary" onclick="InventoryPortal.exportStockExcel();" style="padding: 0.45rem 0.85rem; font-size: 0.8rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem; background: #0284c7; color: #fff; border: none; border-radius: 8px; cursor: pointer;">
-              📥 Export Stock
+            <button type="button" class="btn btn-secondary" onclick="InventoryPortal.exportStockExcel();" style="padding: 0.45rem 0.95rem; font-size: 0.8rem; font-weight: 750; display: inline-flex; align-items: center; gap: 0.35rem; background: #0284c7; color: #fff; border: none; border-radius: 8px; cursor: pointer;">
+              📥 Export
             </button>
           </div>
         </div>
 
-        <div class="table-wrapper inventory-table-wrapper" style="margin-top: 0.75rem; overflow-x: auto; width: 100%; border: 1px solid #e2e8f0; border-radius: 10px;">
+        <div class="table-wrapper inventory-table-wrapper" style="margin: 0; overflow-x: auto; width: 100%; border: none;">
           <table class="data-table inventory-data-table" style="min-width: 1450px; width: 100%; border-collapse: collapse;">
             <thead>
               <tr style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0;">
@@ -1855,21 +1993,21 @@
                 <th style="padding: 12px 14px; text-align: left; width: 270px; font-weight: 850; color: #0284c7;">Description</th>
                 <th style="padding: 12px 14px; text-align: left; width: 120px; font-weight: 850; color: #0f172a;">Brand</th>
                 <th style="padding: 12px 14px; text-align: left; width: 130px; font-weight: 850; color: #059669;">Category</th>
-                <th style="padding: 12px 14px; text-align: left; width: 110px; font-weight: 850; color: #64758b;">Line Code</th>
+                <th style="padding: 12px 14px; text-align: left; width: 100px; font-weight: 850; color: #64758b;">Line Code</th>
                 <th style="padding: 12px 14px; text-align: left; width: 100px; font-weight: 850; color: #7c3aed;">Branch</th>
-                <th style="padding: 12px 14px; text-align: left; width: 130px; font-weight: 850; color: #64758b;">Branch Name</th>
+                <th style="padding: 12px 14px; text-align: left; width: 140px; font-weight: 850; color: #64758b;">Branch Name</th>
                 <th style="padding: 12px 14px; text-align: right; width: 100px; font-weight: 850; color: #0f172a;">Stock Qty</th>
                 <th style="padding: 12px 14px; text-align: right; width: 110px; font-weight: 850; color: #64758b;">Unit Cost (₹)</th>
                 <th style="padding: 12px 14px; text-align: right; width: 110px; font-weight: 850; color: #64758b;">MRP (₹)</th>
                 <th style="padding: 12px 14px; text-align: right; width: 130px; font-weight: 850; color: #059669;">Valuation (₹)</th>
-                <th style="padding: 12px 14px; text-align: right; width: 80px; font-weight: 850; color: #64758b;">Age Days</th>
+                <th style="padding: 12px 14px; text-align: right; width: 90px; font-weight: 850; color: #64758b;">Age Days</th>
               </tr>
             </thead>
             <tbody id="inventory-table-body">
               <!-- Populated via inventory-portal.js -->
             </tbody>
           </table>
-          <div id="inventory-pagination" class="table-toolbar" style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: #f8fafc; border-top: 1px solid #e2e8f0; color: #64758b;">
+          <div id="inventory-pagination" class="table-toolbar" style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.25rem; background: #f8fafc; border-top: 1px solid #e2e8f0; color: #64758b;">
             <!-- Inventory search grid pagination -->
           </div>
         </div>

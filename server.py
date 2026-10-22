@@ -602,11 +602,120 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(csv_data.encode('utf-8'))
                 return
+        # Inventory Management & Live Stock Telemetry Endpoints
+        if self.path.startswith('/api/inventory'):
+            parsed_url = urllib.parse.urlparse(self.path)
+            path_only = parsed_url.path
+            params = urllib.parse.parse_qs(parsed_url.query)
+            get_param = lambda k, default='': params.get(k, [default])[0]
+
+            if path_only == '/api/inventory/sync-status':
+                try:
+                    conn = sqlite3.connect(os.path.join("data", "autonexa.db"))
+                    cur = conn.cursor()
+                    cur.execute("SELECT COUNT(*), MAX(snapshot_date) FROM inventory_daily_snapshots")
+                    row = cur.fetchone()
+                    count = row[0] if row else 0
+                    latest_d = row[1] if row else ""
+                    conn.close()
+                    res = {
+                        "status": "ACTIVE",
+                        "lastSync": latest_d,
+                        "totalDays": count,
+                        "schedule": "Daily 08:30 AM (Auto Ingest)",
+                        "folder": os.path.join(os.getcwd(), "ALL GOOD STOCK")
+                    }
+                except Exception as e:
+                    res = {"status": "ERROR", "message": str(e)}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/inventory/search':
+                q_val = get_param('q', '').strip()
+                brand_val = get_param('brand', '').strip()
+                cat_val = get_param('category', '').strip()
+                branch_val = get_param('branch', '').strip()
+                tag_val = get_param('tag', 'ALL').strip()
+                age_val = get_param('age', '').strip()
+                page_val = max(1, int(get_param('page', '1')))
+                limit_val = max(1, min(200, int(get_param('limit', '50'))))
+                offset_val = (page_val - 1) * limit_val
+
+                try:
+                    conn = sqlite3.connect(os.path.join("data", "autonexa.db"))
+                    conn.row_factory = sqlite3.Row
+                    cur = conn.cursor()
+
+                    clauses = []
+                    args = []
+
+                    if q_val:
+                        clauses.append("(part_number LIKE ? OR description LIKE ? OR brand LIKE ? OR branch_name LIKE ?)")
+                        q_like = f"%{q_val}%"
+                        args.extend([q_like, q_like, q_like, q_like])
+                    if brand_val and brand_val != 'ALL':
+                        clauses.append("brand = ?")
+                        args.append(brand_val)
+                    if cat_val and cat_val != 'ALL':
+                        clauses.append("category = ?")
+                        args.append(cat_val)
+                    if branch_val and branch_val != 'ALL':
+                        clauses.append("branch_name = ?")
+                        args.append(branch_val)
+                    if tag_val and tag_val != 'ALL':
+                        clauses.append("tag = ?")
+                        args.append(tag_val)
+                    if age_val:
+                        if age_val == '0-30': clauses.append("age_days <= 30")
+                        elif age_val == '31-60': clauses.append("age_days > 30 AND age_days <= 60")
+                        elif age_val == '61-90': clauses.append("age_days > 60 AND age_days <= 90")
+                        elif age_val == '91-180': clauses.append("age_days > 90 AND age_days <= 180")
+                        elif age_val == '181-365': clauses.append("age_days > 180 AND age_days <= 365")
+                        elif age_val == '>365': clauses.append("age_days > 365")
+
+                    where_sql = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+
+                    count_cur = conn.cursor()
+                    count_cur.execute(f"SELECT COUNT(*) FROM daily_stock_telemetry {where_sql}", args)
+                    total_count = count_cur.fetchone()[0]
+
+                    sql = f"SELECT * FROM daily_stock_telemetry {where_sql} ORDER BY total_valuation DESC LIMIT ? OFFSET ?"
+                    cur.execute(sql, args + [limit_val, offset_val])
+                    items = []
+                    for r in cur.fetchall():
+                        items.append({
+                            "source": "Oracle",
+                            "partNo": r["part_number"],
+                            "desc": r["description"],
+                            "brand": r["brand"],
+                            "category": r["category"],
+                            "lineCode": r["line_code"],
+                            "branchCode": r["branch_code"],
+                            "branchName": r["branch_name"],
+                            "qty": r["stock_qty"],
+                            "unitCost": r["unit_cost"],
+                            "mrp": r["mrp"],
+                            "valuation": r["total_valuation"],
+                            "ageDays": r["age_days"],
+                            "tag": r["tag"]
+                        })
+                    conn.close()
+                    res = {"status": "success", "totalCount": total_count, "page": page_val, "limit": limit_val, "items": items}
+                except Exception as e:
+                    res = {"status": "error", "message": str(e), "items": [], "totalCount": 0}
+
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
+            # Default /api/inventory: Return stock_cache (compressed or JSON)
             try:
                 cache_file = os.path.join("data", "stock_cache.json.gz") if os.path.exists(os.path.join("data", "stock_cache.json.gz")) else (os.path.join("data", "stock_cache.json") if os.path.exists(os.path.join("data", "stock_cache.json")) else "stock_cache.json")
-                stock_folder = os.path.join(os.getcwd(), "ALL GOOD STOCK")
-                
-                # Check if stock_cache exists
                 if os.path.exists(cache_file):
                     if cache_file.endswith('.gz'):
                         import gzip
@@ -615,128 +724,18 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                     else:
                         with open(cache_file, "r", encoding="utf-8") as f:
                             cache_data = json.load(f)
-                    
-                    cached_dates = set(cache_data.get("dates", []))
-                    folder_files = glob.glob(os.path.join(stock_folder, "*.xlsx")) + glob.glob(os.path.join(stock_folder, "*.xlsb")) + glob.glob(os.path.join(stock_folder, "*.csv"))
-                    has_new = False
-                    for fp in folder_files:
-                        fn = os.path.basename(fp)
-                        d_str = extract_stock_date(fn)
-                        if d_str and d_str not in cached_dates:
-                            has_new = True
-                            break
-                    
-                    if has_new:
-                        print("New file detected in ALL GOOD STOCK! Running instant stock cache builder...")
-                        try:
-                            import subprocess, sys
-                            subprocess.run([sys.executable, "scripts/build_all_stock_instantly.py"], check=False)
-                            if os.path.exists(cache_file):
-                                if cache_file.endswith('.gz'):
-                                    import gzip
-                                    with gzip.open(cache_file, "rt", encoding="utf-8") as f:
-                                        cache_data = json.load(f)
-                                else:
-                                    with open(cache_file, "r", encoding="utf-8") as f:
-                                        cache_data = json.load(f)
-                        except Exception as sync_err:
-                            print(f"Sync cache error: {sync_err}")
 
                     self.send_response(200)
-                    self.send_header('Content-Type', 'application/json')
+                    self.send_header('Content-Type', 'application/json; charset=utf-8')
                     self.end_headers()
                     self.wfile.write(json.dumps(cache_data, ensure_ascii=False).encode('utf-8'))
                     return
-
-                # Fallback: scan ALL GOOD STOCK directly
-                files = sorted(glob.glob(os.path.join(stock_folder, "*.xlsx")) + glob.glob(os.path.join(stock_folder, "*.xlsb")) + glob.glob(os.path.join(stock_folder, "*.csv")))
-
-                daily_summaries = {}
-                dates_list = []
-
-                for fpath in files:
-                    fname = os.path.basename(fpath)
-                    date_match = re.search(r'\d{2}-[A-Za-z]{3}-\d{4}', fname)
-                    date_str = date_match.group(0) if date_match else fname
-                    
-                    df = pd.read_excel(fpath)
-                    df = df.fillna('')
-                    
-                    col_part = 'ManPart' if 'ManPart' in df.columns else ('ItemID(myTVS)' if 'ItemID(myTVS)' in df.columns else df.columns[10])
-                    col_desc = 'ItemDesc' if 'ItemDesc' in df.columns else df.columns[12]
-                    col_brand = 'BRAND' if 'BRAND' in df.columns else df.columns[8]
-                    col_cat = 'CATEGORY' if 'CATEGORY' in df.columns else df.columns[9]
-                    col_qty = 'Qty' if 'Qty' in df.columns else df.columns[13]
-                    col_cost = 'UnitCost' if 'UnitCost' in df.columns else df.columns[14]
-                    col_val = 'Value' if 'Value' in df.columns else df.columns[16]
-                    col_loc = 'BRANCH NAME' if 'BRANCH NAME' in df.columns else df.columns[2]
-
-                    total_skus = len(df)
-                    total_qty = float(pd.to_numeric(df[col_qty], errors='coerce').sum())
-                    total_val = float(pd.to_numeric(df[col_val], errors='coerce').sum())
-
-                    df_sample = df.head(150)
-                    sample_items = []
-                    for _, row in df_sample.iterrows():
-                        sample_items.append({
-                            "partNo": str(row[col_part]).strip(),
-                            "desc": str(row[col_desc]).strip(),
-                            "brand": str(row[col_brand]).strip(),
-                            "category": str(row[col_cat]).strip(),
-                            "qty": float(row[col_qty]) if row[col_qty] != '' else 0,
-                            "unitCost": float(row[col_cost]) if row[col_cost] != '' else 0,
-                            "valuation": float(row[col_val]) if row[col_val] != '' else 0,
-                            "branch": str(row[col_loc]).strip()
-                        })
-
-                    daily_summaries[date_str] = {
-                        "date": date_str,
-                        "filename": fname,
-                        "totalSKUs": total_skus,
-                        "totalQty": total_qty,
-                        "totalValuation": total_val,
-                        "sampleItems": sample_items
-                    }
-                    dates_list.append(date_str)
-
-                latest_d = dates_list[-1] if dates_list else ""
-                prev_d = dates_list[-2] if len(dates_list) >= 2 else (dates_list[0] if dates_list else "")
-                
-                dod_metrics = {}
-                if latest_d and prev_d and latest_d in daily_summaries and prev_d in daily_summaries:
-                    l_s = daily_summaries[latest_d]
-                    p_s = daily_summaries[prev_d]
-                    qty_diff = l_s["totalQty"] - p_s["totalQty"]
-                    val_diff = l_s["totalValuation"] - p_s["totalValuation"]
-                    dod_metrics = {
-                        "latestDate": latest_d,
-                        "prevDate": prev_d,
-                        "skusDiff": l_s["totalSKUs"] - p_s["totalSKUs"],
-                        "qtyDiff": qty_diff,
-                        "valDiff": val_diff,
-                        "addedQty": max(0, int(qty_diff)) if qty_diff > 0 else 0,
-                        "consumedQty": abs(int(qty_diff)) if qty_diff < 0 else 0
-                    }
-
-                curr_week_avg = sum([daily_summaries[d]["totalQty"] for d in dates_list]) / max(1, len(dates_list)) if dates_list else 0
-                wow_metrics = {"currWeekAvg": round(curr_week_avg, 1), "daysCount": len(dates_list)}
-
-                response_data = {
-                    "status": "success",
-                    "stockFolderPath": stock_folder,
-                    "dates": dates_list,
-                    "latestDate": latest_d,
-                    "dailySummaries": daily_summaries,
-                    "dodMetrics": dod_metrics,
-                    "wowMetrics": wow_metrics
-                }
-
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps(response_data, ensure_ascii=False).encode('utf-8'))
-                return
-
+                else:
+                    self.send_response(404)
+                    self.send_header('Content-Type', 'application/json')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"status": "error", "message": "Stock cache not found"}).encode('utf-8'))
+                    return
             except Exception as e:
                 print(f"API Inventory Exception: {e}")
                 self.send_response(500)
@@ -786,6 +785,22 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
                 self.wfile.write(json.dumps({"status": "success", "mapped": mapped_results}, ensure_ascii=False).encode('utf-8'))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode('utf-8'))
+        if self.path == '/api/inventory/sync-now':
+            try:
+                def run_sync_bg():
+                    import subprocess, sys
+                    subprocess.run([sys.executable, "scripts/daily_stock_sync_daemon.py", "--once"], check=False)
+                threading.Thread(target=run_sync_bg, daemon=True).start()
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "success", "message": "Daily stock sync initiated in background."}).encode('utf-8'))
                 return
             except Exception as e:
                 self.send_response(500)
