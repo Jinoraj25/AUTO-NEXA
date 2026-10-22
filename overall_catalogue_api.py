@@ -336,28 +336,30 @@ def get_makes_catalog():
         return _MAKES_CATALOG_CACHE
     
     stats_data = [
-        {"make": "MARUTI SUZUKI", "displayName": "Maruti Suzuki", "logo": "images/brand_maruti.png", "modelsCount": 45, "variantsCount": 1491, "popular": True, "segment": "PCV"},
-        {"make": "HYUNDAI", "displayName": "Hyundai", "logo": "images/brand_hyundai.png", "modelsCount": 24, "variantsCount": 1590, "popular": True, "segment": "PCV"},
-        {"make": "TATA", "displayName": "Tata Motors", "logo": "images/brand_tata.png", "modelsCount": 51, "variantsCount": 3584, "popular": True, "segment": "PCV/HCV"},
-        {"make": "MAHINDRA", "displayName": "Mahindra", "logo": "images/brand_mahindra.png", "modelsCount": 67, "variantsCount": 1235, "popular": True, "segment": "SUV/LCV"},
-        {"make": "TOYOTA", "displayName": "Toyota", "logo": "images/brand_toyota.png", "modelsCount": 24, "variantsCount": 619, "popular": True, "segment": "PCV"},
-        {"make": "HONDA", "displayName": "Honda", "logo": "images/brand_honda.png", "modelsCount": 12, "variantsCount": 433, "popular": True, "segment": "PCV"},
-        {"make": "FORD", "displayName": "Ford", "logo": "images/brand_ford.png", "modelsCount": 11, "variantsCount": 418, "popular": True, "segment": "PCV"},
-        {"make": "VOLKSWAGEN", "displayName": "Volkswagen", "logo": "images/brand_volkswagen.png", "modelsCount": 14, "variantsCount": 157, "popular": True, "segment": "PCV"},
-        {"make": "SKODA", "displayName": "Skoda", "logo": "images/brand_skoda.png", "modelsCount": 11, "variantsCount": 283, "popular": True, "segment": "PCV"},
-        {"make": "RENAULT", "displayName": "Renault", "logo": "images/brand_renault.png", "modelsCount": 11, "variantsCount": 145, "popular": True, "segment": "PCV"},
-        {"make": "NISSAN", "displayName": "Nissan", "logo": "images/brand_nissan.svg", "modelsCount": 12, "variantsCount": 80, "popular": True, "segment": "PCV"},
-        {"make": "KIA", "displayName": "Kia Motors", "logo": "images/brand_others.svg", "modelsCount": 7, "variantsCount": 159, "popular": True, "segment": "PCV"},
-        {"make": "MORRIS GARAGES", "displayName": "MG Motors", "logo": "images/brand_others.svg", "modelsCount": 10, "variantsCount": 312, "popular": True, "segment": "PCV/EV"},
-        {"make": "BMW", "displayName": "BMW", "logo": "images/brand_others.svg", "modelsCount": 22, "variantsCount": 166, "popular": False, "segment": "Luxury"},
-        {"make": "MERCEDES-BENZ", "displayName": "Mercedes-Benz", "logo": "images/brand_others.svg", "modelsCount": 24, "variantsCount": 330, "popular": False, "segment": "Luxury"},
-        {"make": "AUDI", "displayName": "Audi", "logo": "images/brand_others.svg", "modelsCount": 17, "variantsCount": 359, "popular": False, "segment": "Luxury"},
-        {"make": "FORCE", "displayName": "Force Motors", "logo": "images/brand_others.svg", "modelsCount": 11, "variantsCount": 94, "popular": False, "segment": "LCV"},
-        {"make": "JEEP", "displayName": "Jeep", "logo": "images/brand_others.svg", "modelsCount": 4, "variantsCount": 55, "popular": False, "segment": "SUV"},
-        {"make": "CHEVROLET", "displayName": "Chevrolet", "logo": "images/brand_others.svg", "modelsCount": 15, "variantsCount": 78, "popular": False, "segment": "PCV"},
-        {"make": "FIAT", "displayName": "Fiat", "logo": "images/brand_others.svg", "modelsCount": 16, "variantsCount": 125, "popular": False, "segment": "PCV"},
-        {"make": "ASHOK LEYLAND", "displayName": "Ashok Leyland", "logo": "images/brand_others.svg", "modelsCount": 6, "variantsCount": 25, "popular": False, "segment": "CV"},
-        {"make": "VOLVO", "displayName": "Volvo", "logo": "images/brand_others.svg", "modelsCount": 9, "variantsCount": 30, "popular": False, "segment": "Luxury"}
+        {"make": "MARUTI SUZUKI", "displayName": "Maruti Suzuki", "logo": "images/makes/maruti.png", "modelsCount": 45, "variantsCount": 1491, "popular": True, "segment": "PCV"},
+        {"make": "HYUNDAI", "displayName": "Hyundai", "logo": "images/makes/hyundai.png", "modelsCount": 24, "variantsCount": 1590, "popular": True, "segment": "PCV"},
+        {"make": "TATA", "displayName": "Tata Motors", "logo": "images/makes/tata.png", "modelsCount": 51, "variantsCount": 3584, "popular": True, "segment": "PCV/HCV"},
+        {"make": "MAHINDRA", "displayName": "Mahindra", "logo": "images/makes/mahindra.png", "modelsCount": 67, "variantsCount": 1235, "popular": True, "segment": "SUV/LCV"},
+        {"make": "TOYOTA", "displayName": "Toyota", "logo": "images/makes/toyota.png", "modelsCount": 24, "variantsCount": 619, "popular": True, "segment": "PCV"},
+        {"make": "HONDA", "displayName": "Honda", "logo": "images/makes/honda.png", "modelsCount": 12, "variantsCount": 433, "popular": True, "segment": "PCV"},
+        {"make": "FORD", "displayName": "Ford", "logo": "images/makes/ford.png", "modelsCount": 11, "variantsCount": 418, "popular": True, "segment": "PCV"},
+        {"make": "VOLKSWAGEN", "displayName": "Volkswagen", "logo": "images/makes/volkswagen.jpg", "modelsCount": 14, "variantsCount": 157, "popular": True, "segment": "PCV"},
+        {"make": "SKODA", "displayName": "Skoda", "logo": "images/makes/skoda.jpg", "modelsCount": 11, "variantsCount": 283, "popular": True, "segment": "PCV"},
+        {"make": "RENAULT", "displayName": "Renault", "logo": "images/makes/renault.png", "modelsCount": 11, "variantsCount": 145, "popular": True, "segment": "PCV"},
+        {"make": "NISSAN", "displayName": "Nissan", "logo": "images/makes/nissan.png", "modelsCount": 12, "variantsCount": 80, "popular": True, "segment": "PCV"},
+        {"make": "KIA", "displayName": "Kia Motors", "logo": "images/makes/kia.png", "modelsCount": 7, "variantsCount": 159, "popular": True, "segment": "PCV"},
+        {"make": "MORRIS GARAGES", "displayName": "MG Motors", "logo": "images/makes/mg.png", "modelsCount": 10, "variantsCount": 312, "popular": True, "segment": "PCV/EV"},
+        {"make": "BMW", "displayName": "BMW", "logo": "images/makes/bmw.png", "modelsCount": 22, "variantsCount": 166, "popular": False, "segment": "Luxury"},
+        {"make": "MERCEDES-BENZ", "displayName": "Mercedes-Benz", "logo": "images/makes/mercedes.jpg", "modelsCount": 24, "variantsCount": 330, "popular": False, "segment": "Luxury"},
+        {"make": "AUDI", "displayName": "Audi", "logo": "images/makes/audi.png", "modelsCount": 17, "variantsCount": 359, "popular": False, "segment": "Luxury"},
+        {"make": "FORCE", "displayName": "Force Motors", "logo": "images/makes/force.png", "modelsCount": 11, "variantsCount": 94, "popular": False, "segment": "LCV"},
+        {"make": "JEEP", "displayName": "Jeep", "logo": "images/makes/jeep.png", "modelsCount": 4, "variantsCount": 55, "popular": False, "segment": "SUV"},
+        {"make": "CHEVROLET", "displayName": "Chevrolet", "logo": "images/makes/chevrolet.png", "modelsCount": 15, "variantsCount": 78, "popular": False, "segment": "PCV"},
+        {"make": "FIAT", "displayName": "Fiat", "logo": "images/makes/fiat.jpg", "modelsCount": 16, "variantsCount": 125, "popular": False, "segment": "PCV"},
+        {"make": "ASHOK LEYLAND", "displayName": "Ashok Leyland", "logo": "images/makes/ashok_leyland.png", "modelsCount": 6, "variantsCount": 25, "popular": False, "segment": "CV"},
+        {"make": "VOLVO", "displayName": "Volvo", "logo": "images/makes/volvo.png", "modelsCount": 9, "variantsCount": 30, "popular": False, "segment": "Luxury"},
+        {"make": "ISUZU", "displayName": "Isuzu", "logo": "images/makes/isuzu.png", "modelsCount": 5, "variantsCount": 22, "popular": False, "segment": "LCV"},
+        {"make": "DATSUN", "displayName": "Datsun", "logo": "images/makes/datsun.jpg", "modelsCount": 4, "variantsCount": 48, "popular": False, "segment": "PCV"}
     ]
     _MAKES_CATALOG_CACHE = stats_data
     return _MAKES_CATALOG_CACHE
@@ -496,22 +498,28 @@ def get_taxonomy_hierarchy(make=None, model=None, sub_model=None, aggregate=None
     if not conn: return {"items": []}
     try:
         cur = conn.cursor()
-        clauses = []
-        params = []
+        base_clauses = []
+        base_params = []
         if make:
             if make in ("MARUTI", "MARUTI SUZUKI"):
-                clauses.append("(vehicle_make = 'MARUTI' OR vehicle_make = 'MARUTI SUZUKI')")
+                base_clauses.append("(vehicle_make = 'MARUTI' OR vehicle_make = 'MARUTI SUZUKI')")
             elif make in ("VOLKSWAGEN", "VW"):
-                clauses.append("(vehicle_make = 'VOLKSWAGEN' OR vehicle_make = 'VW')")
+                base_clauses.append("(vehicle_make = 'VOLKSWAGEN' OR vehicle_make = 'VW')")
             else:
-                clauses.append("vehicle_make = ?")
-                params.append(make)
+                base_clauses.append("vehicle_make = ?")
+                base_params.append(make)
         if model:
-            clauses.append("vehicle_model = ?")
-            params.append(model)
+            base_clauses.append("vehicle_model = ?")
+            base_params.append(model)
+            
+        clauses = list(base_clauses)
+        params = list(base_params)
         if sub_model:
-            clauses.append("vehicle_sub_model = ?")
-            params.append(sub_model)
+            sub_model_clean = sub_model.strip()
+            if make and sub_model_clean.upper().startswith(make.upper()):
+                sub_model_clean = sub_model_clean[len(make):].strip()
+            clauses.append("(vehicle_sub_model = ? OR vehicle_sub_model = ?)")
+            params.extend([sub_model.strip(), sub_model_clean])
             
         where_base = (" WHERE " + " AND ".join(clauses)) if clauses else ""
         
@@ -535,6 +543,27 @@ def get_taxonomy_hierarchy(make=None, model=None, sub_model=None, aggregate=None
                 LIMIT 150
             """, sub_params)
             rows = cur.fetchall()
+
+            # Platform fallback if specific submodel has 0 components for this sub-aggregate
+            if not rows and sub_model and model:
+                model_sub_clauses = list(base_clauses)
+                model_sub_params = list(base_params)
+                if aggregate:
+                    model_sub_clauses.append("aggregate = ?")
+                    model_sub_params.append(aggregate)
+                model_sub_clauses.append("sub_aggregate = ?")
+                model_sub_params.append(sub_aggregate)
+                model_sub_clauses.append("components != ''")
+                cur.execute(f"""
+                    SELECT components, COUNT(*) as cnt
+                    FROM overall_catalogue
+                    WHERE {' AND '.join(model_sub_clauses)}
+                    GROUP BY components
+                    ORDER BY cnt DESC
+                    LIMIT 150
+                """, model_sub_params)
+                rows = cur.fetchall()
+
             conn.close()
             return {
                 "level": "component",
@@ -558,6 +587,24 @@ def get_taxonomy_hierarchy(make=None, model=None, sub_model=None, aggregate=None
                 LIMIT 100
             """, agg_params)
             rows = cur.fetchall()
+
+            # Platform fallback if specific submodel has 0 sub-aggregates for this aggregate
+            if not rows and sub_model and model:
+                model_agg_clauses = list(base_clauses)
+                model_agg_params = list(base_params)
+                model_agg_clauses.append("aggregate = ?")
+                model_agg_params.append(aggregate)
+                model_agg_clauses.append("sub_aggregate != ''")
+                cur.execute(f"""
+                    SELECT sub_aggregate, COUNT(*) as cnt
+                    FROM overall_catalogue
+                    WHERE {' AND '.join(model_agg_clauses)}
+                    GROUP BY sub_aggregate
+                    ORDER BY cnt DESC
+                    LIMIT 100
+                """, model_agg_params)
+                rows = cur.fetchall()
+
             conn.close()
             return {
                 "level": "sub_aggregate",
@@ -574,23 +621,54 @@ def get_taxonomy_hierarchy(make=None, model=None, sub_model=None, aggregate=None
             LIMIT 40
         """, params)
         rows = cur.fetchall()
-        conn.close()
         
         items = []
+        existing_aggs = set()
         for r in rows:
             agg_name = r[0]
             cnt = r[1]
+            existing_aggs.add(agg_name)
             icon = AGGREGATE_ICONS.get(agg_name, "📦")
             items.append({
                 "name": agg_name,
                 "aggregate": agg_name,
                 "count": cnt,
-                "icon": icon
+                "icon": icon,
+                "exactTrim": True
             })
+
+        # If submodel has fewer than 8 aggregates (like commercial fleet trims e.g. Tour S),
+        # supplement with platform-level common aggregates (Brakes, Filters, Suspension, Engine, etc.)
+        if len(items) < 8 and model:
+            where_model = (" WHERE " + " AND ".join(base_clauses)) if base_clauses else ""
+            cur.execute(f"""
+                SELECT aggregate, COUNT(*) as cnt
+                FROM overall_catalogue
+                {where_model} {'AND' if where_model else 'WHERE'} aggregate != ''
+                GROUP BY aggregate
+                ORDER BY cnt DESC
+                LIMIT 30
+            """, base_params)
+            for r in cur.fetchall():
+                agg_name = r[0]
+                if agg_name not in existing_aggs:
+                    cnt = r[1]
+                    existing_aggs.add(agg_name)
+                    icon = AGGREGATE_ICONS.get(agg_name, "📦")
+                    items.append({
+                        "name": agg_name,
+                        "aggregate": agg_name,
+                        "count": cnt,
+                        "icon": icon,
+                        "sharedPlatform": True
+                    })
+
+        conn.close()
             
         return {
             "level": "aggregate",
-            "items": items
+            "items": items,
+            "hasSharedPlatform": any(it.get("sharedPlatform") for it in items)
         }
     except Exception as e:
         if conn: conn.close()

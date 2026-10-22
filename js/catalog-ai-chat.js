@@ -2,8 +2,9 @@
  * AutoNexa Catalog AI Conversational Chatbot
  * ==========================================
  * Interactive diagnostic and parts chatbot with multi-step vehicle identification,
- * fuel & year selection, visual 3D Oriparts vehicle cards, OEM & Tier-1 OES matrix,
- * and proactive relatable companion parts recommendations.
+ * fuel & year stepper, 3D Oriparts visual cards, OEM & Tier-1 OES matrix,
+ * proactive relatable companion parts recommendations, in-place fitment modal,
+ * and persistent session storage (never vanishes on tab change).
  */
 
 const CatalogAiChat = {
@@ -23,9 +24,10 @@ const CatalogAiChat = {
     const thread = document.getElementById('cat-ai-chat-thread');
     if (!thread) return;
 
-    // Attach Enter key to input
+    // Attach Enter key to input if not already attached
     const input = document.getElementById('cat-ai-chat-input');
-    if (input) {
+    if (input && !input.dataset.bound) {
+      input.dataset.bound = 'true';
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
@@ -34,10 +36,57 @@ const CatalogAiChat = {
       });
     }
 
-    // If chat thread is empty, render initial greeting
-    if (this.history.length === 0) {
+    // Attach ESC key to close modal if open
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.closeFitmentModal();
+      }
+    });
+
+    // Check if thread already has rendered conversation in DOM
+    if (thread.children && thread.children.length > 1) {
+      this.scrollToBottom();
+      return;
+    }
+
+    // Try restoring conversation from sessionStorage
+    const restored = this.restoreState();
+    if (!restored && this.history.length === 0) {
       this.renderWelcomeGreeting();
     }
+  },
+
+  saveState() {
+    try {
+      const thread = document.getElementById('cat-ai-chat-thread');
+      if (thread) {
+        sessionStorage.setItem('auto_nexa_chat_html', thread.innerHTML);
+      }
+      sessionStorage.setItem('auto_nexa_chat_state', JSON.stringify(this.state));
+      sessionStorage.setItem('auto_nexa_chat_history', JSON.stringify(this.history));
+    } catch (e) {
+      console.warn('Chat state storage error', e);
+    }
+  },
+
+  restoreState() {
+    try {
+      const savedHtml = sessionStorage.getItem('auto_nexa_chat_html');
+      const savedState = sessionStorage.getItem('auto_nexa_chat_state');
+      const savedHist = sessionStorage.getItem('auto_nexa_chat_history');
+      if (savedState) this.state = JSON.parse(savedState);
+      if (savedHist) this.history = JSON.parse(savedHist);
+
+      const thread = document.getElementById('cat-ai-chat-thread');
+      if (thread && savedHtml && savedHtml.trim().length > 0) {
+        thread.innerHTML = savedHtml;
+        this.scrollToBottom();
+        return true;
+      }
+    } catch (e) {
+      console.warn('Restore chat error', e);
+    }
+    return false;
   },
 
   resetChat() {
@@ -51,6 +100,11 @@ const CatalogAiChat = {
       part_no: null
     };
     this.history = [];
+    try {
+      sessionStorage.removeItem('auto_nexa_chat_html');
+      sessionStorage.removeItem('auto_nexa_chat_state');
+      sessionStorage.removeItem('auto_nexa_chat_history');
+    } catch (e) {}
     const thread = document.getElementById('cat-ai-chat-thread');
     if (thread) thread.innerHTML = '';
     this.renderWelcomeGreeting();
@@ -60,8 +114,8 @@ const CatalogAiChat = {
     const welcomeHtml = `
       <div class="chat-bot-bubble" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 1.4rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03); max-width: 820px; margin-bottom: 1.25rem;">
         <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-          <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #0284c7); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 3px 10px rgba(139, 92, 246, 0.3);">
-            🤖
+          <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.3);">
+            ⚡
           </div>
           <div>
             <div style="font-weight: 900; font-size: 1.05rem; color: #0f172a; font-family: 'Outfit', sans-serif;">
@@ -103,6 +157,7 @@ const CatalogAiChat = {
     if (thread) {
       thread.innerHTML = welcomeHtml;
       this.scrollToBottom();
+      this.saveState();
     }
   },
 
@@ -156,6 +211,8 @@ const CatalogAiChat = {
     const thread = document.getElementById('cat-ai-chat-thread');
     if (!thread) return;
 
+    this.history.push({ role: 'user', text });
+
     const userHtml = `
       <div style="display: flex; justify-content: flex-end; margin-bottom: 1.1rem;">
         <div style="background: linear-gradient(135deg, #0284c7, #2563eb); color: #ffffff; padding: 0.85rem 1.25rem; border-radius: 18px 18px 4px 18px; max-width: 75%; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2); font-weight: 650; font-size: 0.92rem; line-height: 1.45;">
@@ -165,6 +222,30 @@ const CatalogAiChat = {
     `;
     thread.insertAdjacentHTML('beforeend', userHtml);
     this.scrollToBottom();
+    this.saveState();
+  },
+
+  appendBotMessage(text) {
+    const thread = document.getElementById('cat-ai-chat-thread');
+    if (!thread) return;
+
+    this.history.push({ role: 'bot', text });
+
+    const botHtml = `
+      <div style="display: flex; gap: 0.75rem; margin-bottom: 1.4rem; align-items: flex-start;">
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25);">
+          ⚡
+        </div>
+        <div style="flex: 1; max-width: 900px;">
+          <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 4px 18px 18px 18px; padding: 1.25rem 1.4rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03); color: #0f172a; font-size: 0.92rem; line-height: 1.55;">
+            ${this.formatMarkdown(text)}
+          </div>
+        </div>
+      </div>
+    `;
+    thread.insertAdjacentHTML('beforeend', botHtml);
+    this.scrollToBottom();
+    this.saveState();
   },
 
   showTypingIndicator() {
@@ -173,8 +254,8 @@ const CatalogAiChat = {
 
     const indicatorHtml = `
       <div id="cat-ai-typing-indicator" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.1rem;">
-        <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #0284c7); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.95rem;">
-          🤖
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.95rem;">
+          ⚡
         </div>
         <div style="background: #f1f5f9; padding: 0.65rem 1rem; border-radius: 14px; display: inline-flex; gap: 4px; align-items: center;">
           <span class="typing-dot" style="animation: pulseDot 1s infinite 0.1s;">•</span>
@@ -196,6 +277,8 @@ const CatalogAiChat = {
   renderBotResponse(data) {
     const thread = document.getElementById('cat-ai-chat-thread');
     if (!thread) return;
+
+    this.history.push({ role: 'bot', data });
 
     const reply = data.reply || '';
     const action = data.action || {};
@@ -226,8 +309,8 @@ const CatalogAiChat = {
 
     const botMessageHtml = `
       <div style="display: flex; gap: 0.75rem; margin-bottom: 1.4rem; align-items: flex-start;">
-        <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #0284c7); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 3px 10px rgba(139, 92, 246, 0.25);">
-          🤖
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25);">
+          ⚡
         </div>
         <div style="flex: 1; max-width: 900px;">
           <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 4px 18px 18px 18px; padding: 1.25rem 1.4rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03); color: #0f172a; font-size: 0.92rem; line-height: 1.55;">
@@ -240,6 +323,7 @@ const CatalogAiChat = {
 
     thread.insertAdjacentHTML('beforeend', botMessageHtml);
     this.scrollToBottom();
+    this.saveState();
   },
 
   renderFuelYearWidget(action) {
@@ -278,7 +362,7 @@ const CatalogAiChat = {
           }).join('')}
         </div>
 
-        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 0.75rem; border-top: 1px solid #e2e8f0; padding-top: 0.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; border-top: 1px solid #e2e8f0; padding-top: 0.75rem; flex-wrap: wrap;">
           <span style="font-size: 0.8rem; color: #64748b;">Current Filter: <strong>${this.state.fuel || 'Any Fuel'}</strong> • <strong>${this.state.year || 'Any Year'}</strong></span>
           <button type="button" onclick="CatalogAiChat.submitFuelYear()" style="padding: 0.55rem 1.25rem; background: linear-gradient(135deg, #0284c7, #2563eb); color: #fff; font-weight: 850; font-size: 0.82rem; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25);">
             Explore Variants ➔
@@ -371,7 +455,7 @@ const CatalogAiChat = {
                 <span style="font-size: 0.75rem; font-weight: 900; color: #166534; background: #dcfce7; padding: 0.15rem 0.55rem; border-radius: 6px;">${oem.brand} OE</span>
                 <span style="font-size: 0.72rem; color: #64748b; font-family: monospace;">Line Code ${oem.lineCode || 'OE'}</span>
               </div>
-              <div style="font-family: monospace; font-size: 1.1rem; font-weight: 900; color: #0f172a; margin-bottom: 0.2rem;">
+              <div style="font-family: monospace; font-size: 1.15rem; font-weight: 900; color: #0f172a; margin-bottom: 0.2rem;">
                 ${oem.partNo}
               </div>
               <div style="font-size: 0.88rem; font-weight: 800; color: #334155;">
@@ -386,8 +470,8 @@ const CatalogAiChat = {
               <div style="font-size: 1.45rem; font-weight: 900; color: #16a34a; font-family: 'Outfit', sans-serif;">
                 ${oem.mrp && oem.mrp > 0 ? '₹' + Number(oem.mrp).toLocaleString('en-IN') : 'Price on Request'}
               </div>
-              <button type="button" onclick="App.inspectPartInMaster('${oem.partNo}')" style="margin-top: 0.45rem; padding: 0.35rem 0.75rem; font-size: 0.74rem; font-weight: 800; background: #dcfce7; border: 1px solid #86efac; color: #166534; border-radius: 6px; cursor: pointer;">
-                Inspect Fitment ↗
+              <button type="button" onclick="CatalogAiChat.showFitmentModal('${oem.partNo}')" style="margin-top: 0.45rem; padding: 0.4rem 0.85rem; font-size: 0.76rem; font-weight: 850; background: #16a34a; color: #ffffff; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.25); display: inline-flex; align-items: center; gap: 0.35rem;">
+                <span>Show Fitment Details</span> <span>➔</span>
               </button>
             </div>
           </div>
@@ -428,8 +512,8 @@ const CatalogAiChat = {
                     <span style="font-size: 1.1rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif;">
                       ${p.mrp && p.mrp > 0 ? '₹' + Number(p.mrp).toLocaleString('en-IN') : 'Check Stock'}
                     </span>
-                    <button type="button" onclick="App.inspectPartInMaster('${p.partNo}')" style="padding: 0.3rem 0.65rem; font-size: 0.72rem; font-weight: 800; background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; border-radius: 6px; cursor: pointer;">
-                      Details ↗
+                    <button type="button" onclick="CatalogAiChat.showFitmentModal('${p.partNo}')" style="padding: 0.35rem 0.75rem; font-size: 0.74rem; font-weight: 800; background: #f8fafc; border: 1px solid #cbd5e1; color: #0284c7; border-radius: 6px; cursor: pointer;">
+                      Show Fitment ➔
                     </button>
                   </div>
                 </div>
@@ -495,7 +579,7 @@ const CatalogAiChat = {
       <div style="margin-top: 1rem; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.25rem;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem;">
           <div>
-            <div style="font-size: 0.75rem; font-weight: 850; color: #7c3aed; background: #f5f3ff; display: inline-block; padding: 0.2rem 0.55rem; border-radius: 6px; margin-bottom: 0.35rem;">
+            <div style="font-size: 0.75rem; font-weight: 850; color: #0284c7; background: #eff6ff; display: inline-block; padding: 0.2rem 0.55rem; border-radius: 6px; margin-bottom: 0.35rem;">
               ${p.brand || 'GENUINE'} • Line Code ${p.lineCode || 'N/A'}
             </div>
             <div style="font-family: monospace; font-size: 1.35rem; font-weight: 900; color: #0f172a;">
@@ -513,8 +597,8 @@ const CatalogAiChat = {
             <div style="font-size: 1.6rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif;">
               ${p.mrp && p.mrp > 0 ? '₹' + Number(p.mrp).toLocaleString('en-IN') : 'Price on Request'}
             </div>
-            <button type="button" onclick="App.inspectPartInMaster('${p.partNo}')" style="margin-top: 0.4rem; padding: 0.4rem 0.85rem; font-size: 0.78rem; font-weight: 850; background: #0284c7; color: #fff; border: none; border-radius: 6px; cursor: pointer;">
-              Open in 3D Explorer ↗
+            <button type="button" onclick="CatalogAiChat.showFitmentModal('${p.partNo}')" style="margin-top: 0.4rem; padding: 0.45rem 0.95rem; font-size: 0.78rem; font-weight: 850; background: #0284c7; color: #fff; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);">
+              Show Fitment Details ➔
             </button>
           </div>
         </div>
@@ -526,8 +610,8 @@ const CatalogAiChat = {
             </div>
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
               ${oes.map(o => `
-                <span class="tag-pill" onclick="App.inspectPartInMaster('${o.partNo}')" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 0.35rem 0.65rem; border-radius: 8px; font-size: 0.76rem; font-weight: 750; cursor: pointer;">
-                  <strong>${o.brand}</strong> (${o.partNo}) - ₹${o.mrp}
+                <span class="tag-pill" onclick="CatalogAiChat.showFitmentModal('${o.partNo}')" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 0.35rem 0.65rem; border-radius: 8px; font-size: 0.76rem; font-weight: 750; cursor: pointer; color: #0f172a;">
+                  <strong>${o.brand}</strong> (${o.partNo}) - ₹${o.mrp} ➔
                 </span>
               `).join('')}
             </div>
@@ -563,6 +647,182 @@ const CatalogAiChat = {
       `;
     }
     return '';
+  },
+
+  async showFitmentModal(partNo) {
+    if (!partNo) return;
+    const modal = document.getElementById('cat-ai-fitment-modal');
+    const body = document.getElementById('cat-ai-modal-body');
+    const title = document.getElementById('cat-ai-modal-title');
+    const subtitle = document.getElementById('cat-ai-modal-subtitle');
+    if (!modal || !body) return;
+
+    modal.style.display = 'flex';
+    if (title) title.innerHTML = `Fitment & Specs: <code>${partNo}</code>`;
+    if (subtitle) subtitle.textContent = 'Querying live 23.6M multi-OEM catalogue database...';
+
+    body.innerHTML = `
+      <div style="text-align: center; padding: 3rem 1rem;">
+        <div style="font-size: 2rem; margin-bottom: 0.8rem; animation: pulseDot 1s infinite;">🔍</div>
+        <div style="font-size: 1rem; font-weight: 850; color: #0f172a;">Fetching Verified Vehicle Fitment for Part #${partNo}...</div>
+        <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.4rem;">Scanning OEM applications & interchangeable OES matrices</div>
+      </div>
+    `;
+
+    try {
+      const res = await fetch(`/api/overall-catalogue/part/${encodeURIComponent(partNo)}`);
+      const data = await res.json();
+      if (!data || data.error) {
+        body.innerHTML = `
+          <div style="padding: 2.5rem; text-align: center;">
+            <div style="font-size: 2.2rem; color: #ea580c; margin-bottom: 0.5rem;">⚠️</div>
+            <div style="font-size: 1.05rem; font-weight: 850; color: #0f172a;">Part Details Not Found</div>
+            <div style="font-size: 0.84rem; color: #64748b; margin-top: 0.35rem;">Could not locate detailed record for part number <code>${this.escapeHtml(partNo)}</code></div>
+          </div>
+        `;
+        return;
+      }
+
+      const p = data.part || {};
+      const apps = data.applications || [];
+      const oes = data.oesEquivalents || [];
+
+      if (title) title.innerHTML = `<span style="color: #38bdf8;">${p.partNo || partNo}</span> • ${p.brand || 'OE'} Genuine`;
+      if (subtitle) subtitle.textContent = `${p.desc || 'Automotive Component'} • ${p.components || ''} (${p.aggregate || ''})`;
+
+      body.innerHTML = `
+        <!-- Top Summary Bar -->
+        <div style="background: linear-gradient(135deg, #f8fafc, #f1f5f9); border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.15rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap;">
+              <span class="cat-ai-fitment-badge" style="background: #eff6ff; color: #1e40af; border-color: #bfdbfe;">
+                🏷️ Brand: <strong>${p.brand || 'OEM'}</strong>
+              </span>
+              <span class="cat-ai-fitment-badge">
+                Line Code: <strong>${p.lineCode || 'N/A'}</strong>
+              </span>
+              <span class="cat-ai-fitment-badge">
+                Aggregate: <strong>${p.aggregate || 'SPARE PARTS'}</strong>
+              </span>
+            </div>
+            <div style="font-size: 1.1rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">
+              ${p.desc || 'Automotive Component'}
+            </div>
+            <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.25rem;">
+              Sub-Aggregate: <strong>${p.sub_aggregate || 'N/A'}</strong> • Component: <strong>${p.components || 'N/A'}</strong>
+            </div>
+          </div>
+
+          <div style="text-align: right;">
+            <div style="font-size: 0.74rem; color: #64748b; font-weight: 750;">Official Maximum Retail Price</div>
+            <div style="font-size: 1.7rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif;">
+              ${p.mrp && p.mrp > 0 ? '₹' + Number(p.mrp).toLocaleString('en-IN') : '₹ ' + (p.listPrice || 'On Request')}
+            </div>
+            <button type="button" onclick="navigator.clipboard.writeText('${p.partNo}'); this.textContent='✓ Copied!';" style="margin-top: 0.35rem; padding: 0.3rem 0.75rem; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.72rem; font-weight: 800; color: #475569; cursor: pointer;">
+              📋 Copy Part #
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 1: Compatible Vehicle Fitment List -->
+        <div style="margin-bottom: 1.4rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+            <div style="font-size: 0.88rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 0.45rem;">
+              <span>🚗 Verified Vehicle Application Fitment</span>
+              <span style="font-size: 0.72rem; background: #eff6ff; color: #0284c7; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 850;">
+                ${apps.length} Variants
+              </span>
+            </div>
+          </div>
+
+          ${apps.length > 0 ? `
+            <div style="max-height: 240px; overflow-y: auto; border: 1.5px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
+              <table class="cat-ai-fitment-table">
+                <thead>
+                  <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Trim / Variant Sub-Model</th>
+                    <th>Component Verified</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${apps.map(a => `
+                    <tr>
+                      <td style="font-weight: 850; color: #0f172a;">${a.make || 'GENERIC'}</td>
+                      <td style="font-weight: 800; color: #0284c7;">${a.model || ''}</td>
+                      <td style="color: #334155;">${a.subModel || 'Universal Trim'}</td>
+                      <td><span style="background: #f1f5f9; padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.74rem; font-weight: 750;">${a.component || p.components || 'Direct Fit'}</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 1rem; text-align: center; color: #64748b; font-size: 0.84rem;">
+              Universal application across platforms matching OEM ${p.brand || 'OE'} specifications.
+            </div>
+          `}
+        </div>
+
+        <!-- Section 2: Interchangeable OES Alternatives -->
+        <div>
+          <div style="font-size: 0.88rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.65rem; display: flex; align-items: center; gap: 0.45rem;">
+            <span>🛡️ Interchangeable Tier-1 OES & Aftermarket Parts</span>
+            <span style="font-size: 0.72rem; background: #f0fdf4; color: #16a34a; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 850;">
+              ${oes.length} Verified
+            </span>
+          </div>
+
+          ${oes.length > 0 ? `
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0.75rem;">
+              ${oes.map(o => `
+                <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 0.85rem; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                      <span style="font-size: 0.72rem; font-weight: 850; background: #eff6ff; color: #1e40af; padding: 0.15rem 0.45rem; border-radius: 6px;">
+                        ${o.brand || 'OES BRAND'}
+                      </span>
+                      <span style="font-size: 0.7rem; color: #64748b; font-family: monospace;">Line Code ${o.lineCode || 'OES'}</span>
+                    </div>
+                    <div style="font-family: monospace; font-size: 0.95rem; font-weight: 900; color: #0284c7;">
+                      ${o.partNo}
+                    </div>
+                    <div style="font-size: 0.78rem; font-weight: 700; color: #334155; margin-top: 0.2rem;">
+                      ${o.desc || 'Equivalent OES replacement'}
+                    </div>
+                  </div>
+                  <div style="margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 1.05rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif;">
+                      ${o.mrp && o.mrp > 0 ? '₹' + Number(o.mrp).toLocaleString('en-IN') : 'Check Price'}
+                    </span>
+                    <button type="button" onclick="CatalogAiChat.showFitmentModal('${o.partNo}')" style="padding: 0.25rem 0.6rem; font-size: 0.7rem; font-weight: 800; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; color: #0284c7;">
+                      Inspect This ➔
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          ` : `
+            <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 1rem; text-align: center; color: #64748b; font-size: 0.84rem;">
+              No distinct cross-brand aftermarket SKUs recorded for this OE reference yet.
+            </div>
+          `}
+        </div>
+      `;
+    } catch (err) {
+      console.error(err);
+      body.innerHTML = `
+        <div style="padding: 2rem; text-align: center; color: #dc2626;">
+          ⚠️ Failed to load fitment details. Please check connection.
+        </div>
+      `;
+    }
+  },
+
+  closeFitmentModal() {
+    const modal = document.getElementById('cat-ai-fitment-modal');
+    if (modal) modal.style.display = 'none';
   },
 
   executeCommand(cmd) {

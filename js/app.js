@@ -366,6 +366,10 @@ window.App = {
   },
 
   inspectPartInMaster(partNo) {
+    if (this.activeTab === 'catalogue-ai' && window.CatalogAiChat && window.CatalogAiChat.showFitmentModal) {
+      window.CatalogAiChat.showFitmentModal(partNo);
+      return;
+    }
     this.switchTab('catalogue-dashboard');
     setTimeout(() => {
       if (window.OverallCataloguePortal) {

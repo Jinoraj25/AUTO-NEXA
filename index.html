@@ -123,13 +123,13 @@
     <span id="welcome-user-heading" class="welcome-toast-text">Welcome Jino George</span>
   </div>
 
-  <!-- Standalone myTVS Full-Screen Login Page with 3D Video Background -->
+  <!-- Standalone myTVS Full-Screen Login Page with 3D Video / Kinetic Car Background -->
   <div id="mytvs-login-screen" class="mytvs-fullscreen-login-page">
-    <video autoplay muted loop playsinline preload="auto" class="login-fullscreen-bg-img" poster="images/mytvs_login_car_sunset.jpg">
+    <div class="login-kinetic-bg" style="background-image: url('images/mytvs_login_car_sunset.jpg');"></div>
+    <video autoplay muted loop playsinline preload="auto" class="login-fullscreen-bg-img" poster="images/mytvs_login_car_sunset.jpg" onerror="this.style.display='none';" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
       <source src="http://googleusercontent.com/generated_video_content/9803856730537052305" type="video/mp4">
-      <img class="login-fullscreen-bg-img" src="images/mytvs_login_car_sunset.jpg" alt="myTVS Automotive Hub">
     </video>
-    <div class="login-fullscreen-overlay"></div>
+    <div class="login-fullscreen-overlay" style="z-index: 2;"></div>
     
     <!-- Top Left Brand Badge -->
     <div class="login-top-brand-badge">
@@ -401,8 +401,10 @@
         <!-- 3D Exploded View Video Hero Section (Replacing old scenic banner) -->
         <header class="hero-container">
           
-          <!-- 3D Exploded View Video Wrapper -->
+          <!-- 3D Exploded View Video & Interactive 3D Canvas Wrapper -->
           <div class="video-stage">
+            <img class="hero-fallback-bg" src="images/mech_hero.jpg" alt="3D Exploded Assembly" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55; filter: contrast(1.15) brightness(0.9); z-index: 0;">
+            <canvas id="canvas3dHero" class="hero-3d-canvas"></canvas>
             <video
               id="explodedHeroVideo"
               class="hero-video"
@@ -411,13 +413,16 @@
               loop
               playsinline
               preload="auto"
+              poster="images/mech_hero.jpg"
+              onerror="this.style.display='none';"
+              style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; z-index: 1;"
             >
               <source src="http://googleusercontent.com/generated_video_content/7285071929876034382" type="video/mp4" />
               Your browser does not support HTML5 video.
             </video>
 
             <!-- Edge Softening Mask (Blends into white background) -->
-            <div class="video-ambient-overlay"></div>
+            <div class="video-ambient-overlay" style="z-index: 3;"></div>
           </div>
 
           <!-- Foreground Floating Content (Catalogue Lookup) -->
@@ -632,7 +637,7 @@
           TOP STAT CARDS
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div class="cat-kpi-grid">
           <!-- Card 1: 23,671,472 SKUs -->
           <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; position: relative; overflow: hidden; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
             <div style="display: flex; align-items: center; gap: 0.65rem;">
@@ -685,13 +690,13 @@
             <div style="font-size: 0.72rem; color: #ffedd5; font-weight: 600; margin-top: 0.6rem;">Multi-tier OEM, OES & Tier-1 aftermarket brands</div>
           </div>
 
-          <!-- Card 4: 39 Makes • 504 Models (Green card) -->
+          <!-- Card 4: 39 Makes • 504 Models (Green card with REAL CAR MINI IMAGE) -->
           <div class="card" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%); border-radius: 16px; padding: 1.25rem; color: #ffffff; box-shadow: 0 4px 18px rgba(5, 150, 105, 0.25); display: flex; flex-direction: column; justify-content: space-between;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <div>
-                <div style="font-size: 1.6rem; font-weight: 900; font-family: 'Outfit', sans-serif; line-height: 1.15;">39 Makes •<br>504 Models</div>
+                <div style="font-size: 1.55rem; font-weight: 900; font-family: 'Outfit', sans-serif; line-height: 1.15;">39 Makes •<br>504 Models</div>
               </div>
-              <span style="font-size: 1.6rem;">🚗</span>
+              <img src="images/real_car_front.jpg" alt="Car Fleet" style="width: 54px; height: 36px; object-fit: cover; border-radius: 6px; box-shadow: 0 3px 8px rgba(0,0,0,0.3); border: 1.5px solid rgba(255,255,255,0.4);">
             </div>
             <div style="margin-top: 0.65rem;">
               <span style="background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255, 255, 255, 0.4); color: #ffffff; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.72rem; font-weight: 850;">Multi-variant mapping</span>
@@ -704,7 +709,7 @@
           INTERACTIVE DATA BLOCKS & NEW VISUALS
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div class="cat-datablocks-grid">
           <!-- Block 1: TAXONOMY STRUCTURE (Rose card with 36% & 50% circular badges) -->
           <div class="card" style="background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 16px; padding: 1.35rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(225, 29, 72, 0.04);">
             <div>
@@ -723,8 +728,8 @@
           <!-- Block 2: TOP MAKES FITMENT SHARE (Maruti, Tata, Hyundai, Mahindra) -->
           <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.35rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
-              <span style="font-size: 0.78rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 0.4rem;">
-                <span>🚗</span> <span>TOP MAKES FITMENT SHARE</span>
+              <span style="font-size: 0.78rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 0.45rem;">
+                <img src="images/real_car_front.jpg" alt="Car" style="width: 20px; height: 14px; object-fit: cover; border-radius: 3px; border: 1px solid #cbd5e1;"> <span>TOP MAKES FITMENT SHARE</span>
               </span>
               <span style="font-size: 0.72rem; font-weight: 800; color: #0284c7; background: #eff6ff; padding: 0.2rem 0.55rem; border-radius: 6px;">39 Makes</span>
             </div>
@@ -806,7 +811,7 @@
           NEW AND ENHANCED ANALYTIC CHARTS
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div class="cat-charts-grid">
           <!-- Chart 1: SKU Growth Trend -->
           <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
@@ -1464,6 +1469,29 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- Fitment Details Modal Overlay (In-Place, Does NOT redirect to dashboard) -->
+        <div id="cat-ai-fitment-modal" class="cat-ai-modal-overlay" style="display: none;" onclick="if(event.target===this) CatalogAiChat.closeFitmentModal();">
+          <div class="cat-ai-modal-card">
+            <div class="cat-ai-modal-header">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #fff;">
+                  🔍
+                </div>
+                <div>
+                  <div id="cat-ai-modal-title" style="font-size: 1.1rem; font-weight: 900; font-family: 'Outfit', sans-serif;">Part Fitment & OE Specifications</div>
+                  <div id="cat-ai-modal-subtitle" style="font-size: 0.76rem; color: #94a3b8;">Detailed application mapping and cross-reference</div>
+                </div>
+              </div>
+              <button type="button" onclick="CatalogAiChat.closeFitmentModal()" style="background: rgba(255,255,255,0.1); border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; font-weight: 900; display: flex; align-items: center; justify-content: center; transition: background 0.15s;">
+                ✕
+              </button>
+            </div>
+            <div id="cat-ai-modal-body" class="cat-ai-modal-body">
+              <!-- Content rendered dynamically by CatalogAiChat.showFitmentModal -->
+            </div>
+          </div>
         </div>
 
       </div>
@@ -2487,6 +2515,7 @@
   <script src="js/deviation-portal.js?v=72.0.0"></script>
   <script src="js/forecasting-portal.js?v=72.0.0"></script>
   <script src="js/overall-catalogue-portal.js?v=72.0.0"></script>
+  <script src="js/canvas-3d-car.js?v=72.0.0"></script>
   <script src="js/catalog-ai-chat.js?v=72.0.0"></script>
   <script src="js/app.js?v=72.0.0"></script>
 </body>
