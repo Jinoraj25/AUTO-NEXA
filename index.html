@@ -243,13 +243,20 @@
   <!-- Left Side Enterprise Navigation Sidebar (AUTO NEXA Studio) -->
   <aside id="app-sidebar" class="app-sidebar">
     <!-- Brand / Logo Area (AUTO NEXA Signature Brand Box) -->
-    <div class="sidebar-brand-box" onclick="App.switchTab('catalogue-dashboard')" title="AUTO NEXA Master Catalogue" style="background: linear-gradient(135deg, #091a32 0%, #1e3a8a 100%) !important; padding: 1.15rem 1.35rem; display: flex; align-items: center; justify-content: flex-start; gap: 0.75rem; cursor: pointer;">
-      <div style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #ff3d4a, #ea580c); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #ffffff; font-weight: 900; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4); flex-shrink: 0;">
+    <!-- Brand / Logo Area (AUTO NEXA Elevated Signature Brand Box) -->
+    <div class="sidebar-brand-box" onclick="App.switchTab('home')" title="AUTO NEXA Enterprise OS">
+      <div class="brand-crest-emblem">
         ⚡
       </div>
-      <div style="display: flex; flex-direction: column; min-width: 0;">
-        <span style="font-size: 1.35rem; font-weight: 900; color: #ffffff; letter-spacing: -0.5px; font-family: 'Outfit', sans-serif; line-height: 1;">AUTO <span style="color: #ff3d4a;">NEXA</span></span>
-        <span style="color: #93c5fd; font-size: 0.62rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; margin-top: 3px;">CATALOGUE CORE</span>
+      <div class="brand-text-block">
+        <div style="display: flex; align-items: baseline; gap: 4px;">
+          <span class="brand-title-auto">AUTO</span>
+          <span class="brand-title-nexa">NEXA</span>
+        </div>
+        <div class="brand-sub-badge">
+          <span class="brand-live-dot"></span>
+          <span>ENTERPRISE OS • v25.4</span>
+        </div>
       </div>
     </div>
 
@@ -257,31 +264,38 @@
     <div class="sidebar-nav-container">
       
       <!-- 1. HOME -->
-      <button type="button" class="sb-nav-item" data-tab="home" onclick="App.switchTab('home');">
+      <button type="button" class="sb-nav-item active" data-tab="home" onclick="App.switchTab('home');">
         <div class="sb-item-left">
-          <span class="sb-icon-box sb-icon-home" style="background:#eff6ff; color:#2563eb;">🏠</span>
-          <span>Home</span>
+          <span class="sb-icon-box sb-icon-home">🏠</span>
+          <span>Home Overview</span>
         </div>
+        <span class="sb-badge-pill" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">HUB</span>
       </button>
 
       <!-- 2. CATALOGUE (expanded by default - AUTO NEXA Style) -->
       <div class="sb-group is-open" id="sb-group-catalogue">
-        <button type="button" class="sb-nav-item active" onclick="App.toggleSidebarGroup('sb-group-catalogue');">
+        <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-catalogue');">
           <div class="sb-item-left">
-            <span class="sb-icon-box sb-icon-cat" style="background:#fff7ed; color:#ea580c;">📖</span>
+            <span class="sb-icon-box sb-icon-cat">📖</span>
             <span style="font-weight: 850;">Catalogue</span>
           </div>
-          <span class="sb-chevron">▾</span>
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span class="sb-badge-pill" style="background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa;">23.6M</span>
+            <span class="sb-chevron">▾</span>
+          </div>
         </button>
-        <div class="sb-sub-menu" style="display: flex;">
-          <button type="button" class="sb-sub-item active" data-tab="catalogue-dashboard" onclick="App.switchTab('catalogue-dashboard');" style="color: #1765c1; font-weight: 850; background: #eff6ff;">
-            <span>🌐</span> <span>Master Catalogue</span>
+        <div class="sb-sub-menu">
+          <button type="button" class="sb-sub-item" data-tab="catalogue-dashboard" onclick="App.switchTab('catalogue-dashboard');">
+            <span>🌐 Master Catalogue</span>
+            <span class="sb-badge-pill" style="background: #eff6ff; color: #0284c7; font-size: 0.62rem;">LIVE</span>
           </button>
           <button type="button" class="sb-sub-item" data-tab="catalogue-mapping" onclick="App.switchTab('catalogue-mapping');">
-            <span>⚙️</span> <span>Mapping Engine</span>
+            <span>⚙️ Mapping Engine</span>
+            <span class="sb-badge-pill" style="background: #f5f3ff; color: #7c3aed; font-size: 0.62rem;">AI</span>
           </button>
           <button type="button" class="sb-sub-item" data-tab="catalogue-ai" onclick="App.switchTab('catalogue-ai');">
-            <span>🤖</span> <span>Catalog AI</span>
+            <span>🤖 Catalog AI</span>
+            <span class="sb-badge-pill" style="background: #ecfdf5; color: #059669; font-size: 0.62rem;">CHAT</span>
           </button>
         </div>
       </div>
@@ -290,20 +304,23 @@
       <div class="sb-group" id="sb-group-inventory">
         <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-inventory');">
           <div class="sb-item-left">
-            <span class="sb-icon-box sb-icon-inv" style="background:#ecfdf5; color:#059669;">📦</span>
+            <span class="sb-icon-box sb-icon-inv">📦</span>
             <span>Inventory</span>
           </div>
-          <span class="sb-chevron">▾</span>
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span class="sb-badge-pill" style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0;">STOCK</span>
+            <span class="sb-chevron">▾</span>
+          </div>
         </button>
         <div class="sb-sub-menu">
           <button type="button" class="sb-sub-item" data-tab="inventory-dashboard" onclick="App.switchTab('inventory-dashboard');">
-            <span>📊</span> <span>Dashboard</span>
+            <span>📊 Dashboard</span>
           </button>
           <button type="button" class="sb-sub-item" data-tab="inventory-deviation" onclick="App.switchTab('inventory-deviation');">
-            <span>⚠️</span> <span>Purchase Deviation</span>
+            <span>⚠️ Purchase Deviation</span>
           </button>
           <button type="button" class="sb-sub-item" data-tab="inventory-not-available" onclick="App.switchTab('inventory-not-available');">
-            <span>🚫</span> <span>Product Not Available</span>
+            <span>🚫 Product Not Available</span>
           </button>
         </div>
       </div>
@@ -312,40 +329,45 @@
       <div class="sb-group" id="sb-group-sales">
         <button type="button" class="sb-nav-item" onclick="App.toggleSidebarGroup('sb-group-sales');">
           <div class="sb-item-left">
-            <span class="sb-icon-box sb-icon-sales" style="background:#f5f3ff; color:#7c3aed;">📈</span>
+            <span class="sb-icon-box sb-icon-sales">📈</span>
             <span>Sales</span>
           </div>
-          <span class="sb-chevron">▾</span>
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span class="sb-badge-pill" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">DMS</span>
+            <span class="sb-chevron">▾</span>
+          </div>
         </button>
         <div class="sb-sub-menu">
           <button type="button" class="sb-sub-item" data-tab="sales-rf" onclick="App.switchTab('sales-rf');">
-            <span>🏬</span> <span>RF Sales Dashboard</span>
+            <span>🏬 RF Sales Dashboard</span>
           </button>
           <button type="button" class="sb-sub-item" data-tab="sales-cf" onclick="App.switchTab('sales-cf');">
-            <span>🏢</span> <span>CF Sales Dashboard</span>
+            <span>🏢 CF Sales Dashboard</span>
           </button>
           <button type="button" class="sb-sub-item" data-tab="sales-overall" onclick="App.switchTab('sales-overall');">
-            <span>🌐</span> <span>Overall Sales Dashboard</span>
+            <span>🌐 Overall Sales Dashboard</span>
           </button>
         </div>
       </div>
 
-      <div class="sb-section-divider">OPERATIONS & PLANNING</div>
+      <div class="sb-section-divider">OPERATIONS &amp; PLANNING</div>
 
       <!-- Planning -->
       <button type="button" class="sb-nav-item" data-tab="forecasting" onclick="App.switchTab('forecasting');">
         <div class="sb-item-left">
-          <span class="sb-icon-box sb-icon-plan" style="background:#fffbeb; color:#d97706;">📅</span>
+          <span class="sb-icon-box sb-icon-plan">📅</span>
           <span>Demand Planning</span>
         </div>
+        <span class="sb-badge-pill" style="background: #fffbeb; color: #d97706; border: 1px solid #fde68a;">AUTO</span>
       </button>
 
       <!-- Reports -->
       <button type="button" class="sb-nav-item" data-tab="deviation" onclick="App.switchTab('deviation');">
         <div class="sb-item-left">
-          <span class="sb-icon-box sb-icon-rep" style="background:#f0fdfa; color:#0d9488;">📄</span>
+          <span class="sb-icon-box sb-icon-rep">📄</span>
           <span>Compliance Reports</span>
         </div>
+        <span class="sb-badge-pill" style="background: #f0fdfa; color: #0d9488; border: 1px solid #99f6e4;">AUDIT</span>
       </button>
 
     </div>
@@ -425,7 +447,7 @@
               preload="auto"
               poster="images/mech_hero.jpg"
             >
-              <source src="videos/gemini_generated_video_4d84f0d2.mp4" type="video/mp4" />
+              <source src="videos/gemini_generated_video_21b992eb.mp4" type="video/mp4" />
               Your browser does not support HTML5 video.
             </video>
 
@@ -460,119 +482,227 @@
           </div>
         </header>
 
-        <!-- 5 Module Cards Grid (Matching Image 2 Reference) -->
-        <div class="scenic-module-grid">
-          <!-- 01 Catalogue -->
-          <article class="scenic-module-card mod-cat" onclick="App.switchTab('catalogue')" style="position: relative; overflow: hidden;">
-            <img src="images/home_menu_catalogue.jpg" onerror="this.onerror=null;this.src='images/home_menu_catalogue.jpg'" alt="Catalogue" class="scenic-mod-bg-img">
-            <div class="scenic-mod-bg-overlay"></div>
-            <div class="scenic-mod-card-body">
-              <div class="card-num-badge">01</div>
-              <div class="scenic-mod-icon">📖</div>
-              <h3>Catalogue</h3>
-              <p>Map OEM descriptions to aggregate master with precision.</p>
-              <div class="scenic-mod-action">
-                <span>Explore Catalogue</span>
-                <span class="circle-arrow">→</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- 02 Inventory -->
-          <article class="scenic-module-card mod-inv" onclick="App.switchTab('inventory')">
-            <img src="images/home_menu_inventory.jpg" onerror="this.onerror=null;this.src='images/home_menu_inventory.jpg'" alt="Inventory" class="scenic-mod-bg-img">
-            <div class="scenic-mod-bg-overlay"></div>
-            <div class="scenic-mod-card-body">
-              <div class="card-num-badge">02</div>
-              <div class="scenic-mod-icon">📦</div>
-              <h3>Inventory</h3>
-              <p>Track stock, value and availability in real-time.</p>
-              <div class="scenic-mod-action">
-                <span>Explore Inventory</span>
-                <span class="circle-arrow">→</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- 03 Sales -->
-          <article class="scenic-module-card mod-sales" onclick="App.switchTab('analytics')">
-            <img src="images/home_menu_sales.jpg" onerror="this.onerror=null;this.src='images/home_menu_sales.jpg'" alt="Sales" class="scenic-mod-bg-img">
-            <div class="scenic-mod-bg-overlay"></div>
-            <div class="scenic-mod-card-body">
-              <div class="card-num-badge">03</div>
-              <div class="scenic-mod-icon">📊</div>
-              <h3>Sales</h3>
-              <p>Analyse revenue, trends and customer performance.</p>
-              <div class="scenic-mod-action">
-                <span>Explore Sales</span>
-                <span class="circle-arrow">→</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- 04 Planning -->
-          <article class="scenic-module-card mod-plan" onclick="App.switchTab('forecasting')">
-            <img src="images/home_menu_planning.jpg" onerror="this.onerror=null;this.src='images/home_menu_planning.jpg'" alt="Planning" class="scenic-mod-bg-img">
-            <div class="scenic-mod-bg-overlay"></div>
-            <div class="scenic-mod-card-body">
-              <div class="card-num-badge">04</div>
-              <div class="scenic-mod-icon">📅</div>
-              <h3>Planning</h3>
-              <p>Forecast demand, manage stock and optimise orders.</p>
-              <div class="scenic-mod-action">
-                <span>Explore Planning</span>
-                <span class="circle-arrow">→</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- 05 Reports -->
-          <article class="scenic-module-card mod-rep" onclick="App.switchTab('deviation')">
-            <img src="images/home_menu_reports.jpg" onerror="this.onerror=null;this.src='images/home_menu_reports.jpg'" alt="Reports" class="scenic-mod-bg-img">
-            <div class="scenic-mod-bg-overlay"></div>
-            <div class="scenic-mod-card-body">
-              <div class="card-num-badge">05</div>
-              <div class="scenic-mod-icon">📄</div>
-              <h3>Reports</h3>
-              <p>Detect deviations, track leakages and ensure compliance.</p>
-              <div class="scenic-mod-action">
-                <span>Explore Reports</span>
-                <span class="circle-arrow">→</span>
-              </div>
-            </div>
-          </article>
+        <!-- ==================== 1. LIVE ENTERPRISE PULSE (OVERVIEW OF ENTIRE SITE) ==================== -->
+        <div class="home-pulse-bar">
+          <div class="home-pulse-card p-blue" onclick="App.switchTab('catalogue-dashboard')">
+            <div class="home-pulse-label">Master Parts DB</div>
+            <div class="home-pulse-val">23.67M+</div>
+            <small style="color: #0284c7; font-size: 0.72rem; font-weight: 750;">Multi-OEM Fitments Live</small>
+          </div>
+          <div class="home-pulse-card p-orange" onclick="App.switchTab('catalogue-dashboard')">
+            <div class="home-pulse-label">Automotive Makes</div>
+            <div class="home-pulse-val">30+ Brands</div>
+            <small style="color: #ea580c; font-size: 0.72rem; font-weight: 750;">4,200+ Variants Indexed</small>
+          </div>
+          <div class="home-pulse-card p-purple" onclick="App.switchTab('catalogue-mapping')">
+            <div class="home-pulse-label">AI Match Accuracy</div>
+            <div class="home-pulse-val">99.4%</div>
+            <small style="color: #7c3aed; font-size: 0.72rem; font-weight: 750;">TVS Taxonomy Standards</small>
+          </div>
+          <div class="home-pulse-card p-green" onclick="App.switchTab('inventory-dashboard')">
+            <div class="home-pulse-label">Inventory Health</div>
+            <div class="home-pulse-val">94.2%</div>
+            <small style="color: #059669; font-size: 0.72rem; font-weight: 750;">Stock Availability Ratio</small>
+          </div>
+          <div class="home-pulse-card p-amber" onclick="App.switchTab('sales-overall')">
+            <div class="home-pulse-label">Daily DMS Volume</div>
+            <div class="home-pulse-val">18,500+</div>
+            <small style="color: #d97706; font-size: 0.72rem; font-weight: 750;">RF &amp; CF Invoices Tracked</small>
+          </div>
+          <div class="home-pulse-card p-teal" onclick="App.switchTab('catalogue-ai')">
+            <div class="home-pulse-label">Catalog AI Core</div>
+            <div class="home-pulse-val">Active</div>
+            <small style="color: #0d9488; font-size: 0.72rem; font-weight: 750;">Diagnostic Assistant Live</small>
+          </div>
         </div>
 
-        <!-- Quick Insights Horizontal Strip -->
-        <div class="scenic-quick-insights-bar">
-          <div class="quick-insights-header">
-            <span class="insights-icon">📊</span>
+        <!-- ==================== 2. QUICK WORKFLOW LAUNCHPAD ==================== -->
+        <div class="home-overview-section-header">
+          <div class="home-overview-title-wrap">
+            <span style="font-size: 1.25rem;">🚀</span>
+            <h2 class="home-overview-title">Quick Workflow Launchpad</h2>
+          </div>
+          <span style="font-size: 0.78rem; font-weight: 750; color: #64748b;">Direct Access Across Platform Addons</span>
+        </div>
+
+        <div class="home-launchpad-strip">
+          <div class="home-launchpad-item" onclick="App.switchTab('catalogue-dashboard')">
+            <span class="home-launchpad-icon">🔍</span>
+            <div class="home-launchpad-text">
+              <strong>Make &amp; Model Search</strong>
+              <small>Explore 30+ vehicle makes</small>
+            </div>
+          </div>
+          <div class="home-launchpad-item" onclick="App.switchTab('catalogue-mapping')">
+            <span class="home-launchpad-icon">⚙️</span>
+            <div class="home-launchpad-text">
+              <strong>AI Mapping Studio</strong>
+              <small>Map DMS dealer part codes</small>
+            </div>
+          </div>
+          <div class="home-launchpad-item" onclick="App.switchTab('catalogue-ai')">
+            <span class="home-launchpad-icon">🤖</span>
+            <div class="home-launchpad-text">
+              <strong>Catalog AI Chat</strong>
+              <small>Smart diagnostic helper</small>
+            </div>
+          </div>
+          <div class="home-launchpad-item" onclick="App.switchTab('inventory-not-available')">
+            <span class="home-launchpad-icon">🚫</span>
+            <div class="home-launchpad-text">
+              <strong>Lost Demand Monitor</strong>
+              <small>Unfulfilled parts tracking</small>
+            </div>
+          </div>
+          <div class="home-launchpad-item" onclick="App.switchTab('sales-overall')">
+            <span class="home-launchpad-icon">📈</span>
+            <div class="home-launchpad-text">
+              <strong>Franchise Analytics</strong>
+              <small>RF &amp; CF revenue drivers</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== 3. COMPREHENSIVE SITE MODULES OVERVIEW ==================== -->
+        <div class="home-overview-section-header">
+          <div class="home-overview-title-wrap">
+            <span style="font-size: 1.25rem;">🌐</span>
+            <h2 class="home-overview-title">Enterprise Platform Ecosystem Overview</h2>
+          </div>
+          <span style="font-size: 0.78rem; font-weight: 750; color: #64748b;">Unified Intelligent Operations</span>
+        </div>
+
+        <div class="home-modules-overview-grid">
+          
+          <!-- 01: Master Parts Catalogue -->
+          <div class="home-module-overview-card" onclick="App.switchTab('catalogue-dashboard')">
             <div>
-              <strong>QUICK INSIGHTS</strong>
-              <small>A quick glance at your key performance indicators.</small>
+              <div class="home-mod-top">
+                <div class="home-mod-icon-badge" style="background: linear-gradient(135deg, #eff6ff, #dbeafe); color: #2563eb;">📖</div>
+                <span class="home-mod-pill" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">23.6M SKUs</span>
+              </div>
+              <h3 class="home-mod-title">Master Parts Catalogue</h3>
+              <p class="home-mod-desc">The central database powering OEM &amp; aftermarket cross-referencing, multi-make visual search, and verified component fitment.</p>
+              <div class="home-mod-features">
+                <div class="home-mod-feature-item"><span class="dot"></span> 30+ Automotive Brands &amp; 4,200+ Variants</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> OES Part Interchange &amp; MRP Indexing</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Sub-Millisecond FTS5 Full-Text Search</div>
+              </div>
+            </div>
+            <div class="home-mod-btn">
+              <span>Launch Master Catalogue</span>
+              <span>→</span>
             </div>
           </div>
-          <div class="quick-insights-pills">
-            <div class="kpi-pill-item" onclick="App.switchTab('analytics')">
-              <span class="kpi-pill-label">Sales Performance</span>
-              <strong class="kpi-pill-val positive">+12% vs last month ↑</strong>
+
+          <!-- 02: AI Mapping Engine -->
+          <div class="home-module-overview-card" onclick="App.switchTab('catalogue-mapping')">
+            <div>
+              <div class="home-mod-top">
+                <div class="home-mod-icon-badge" style="background: linear-gradient(135deg, #f5f3ff, #ede9fe); color: #7c3aed;">⚙️</div>
+                <span class="home-mod-pill" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">AI Engine</span>
+              </div>
+              <h3 class="home-mod-title">AI Mapping Engine Studio</h3>
+              <p class="home-mod-desc">Autonomous machine learning pipeline translating raw dealer/DMS item codes into TVS aggregate and sub-aggregate hierarchies.</p>
+              <div class="home-mod-features">
+                <div class="home-mod-feature-item"><span class="dot"></span> 99.4% Automated Match Rate</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Real-time Taxonomy Normalization</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Interactive Rule Validation Workbench</div>
+              </div>
             </div>
-            <div class="kpi-pill-item" onclick="App.switchTab('analytics')">
-              <span class="kpi-pill-label">Top Make</span>
-              <strong class="kpi-pill-val">Maruti Suzuki &gt;</strong>
-            </div>
-            <div class="kpi-pill-item" onclick="App.switchTab('inventory')">
-              <span class="kpi-pill-label">Inventory Health</span>
-              <strong class="kpi-pill-val positive">92% &gt;</strong>
-            </div>
-            <div class="kpi-pill-item" onclick="App.switchTab('forecasting')">
-              <span class="kpi-pill-label">Pending POs</span>
-              <strong class="kpi-pill-val amber">142 &gt;</strong>
+            <div class="home-mod-btn">
+              <span>Open Mapping Studio</span>
+              <span>→</span>
             </div>
           </div>
+
+          <!-- 03: Catalog AI Assistant -->
+          <div class="home-module-overview-card" onclick="App.switchTab('catalogue-ai')">
+            <div>
+              <div class="home-mod-top">
+                <div class="home-mod-icon-badge" style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); color: #059669;">🤖</div>
+                <span class="home-mod-pill" style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0;">AI Chatbot</span>
+              </div>
+              <h3 class="home-mod-title">Catalog AI Assistant</h3>
+              <p class="home-mod-desc">Conversational diagnostic intelligence guiding technicians and customers through symptom troubleshooting and exact variant parts.</p>
+              <div class="home-mod-features">
+                <div class="home-mod-feature-item"><span class="dot"></span> Step-by-Step Make/Model/Fuel/Year Stepper</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Relatable Maintenance Part Suggestions</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Natural Language Diagnostic Engine</div>
+              </div>
+            </div>
+            <div class="home-mod-btn">
+              <span>Start Diagnostic Chat</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- 04: Smart Inventory Hub -->
+          <div class="home-module-overview-card" onclick="App.switchTab('inventory-dashboard')">
+            <div>
+              <div class="home-mod-top">
+                <div class="home-mod-icon-badge" style="background: linear-gradient(135deg, #fff7ed, #ffedd5); color: #ea580c;">📦</div>
+                <span class="home-mod-pill" style="background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa;">Live Stock</span>
+              </div>
+              <h3 class="home-mod-title">Inventory Intelligence</h3>
+              <p class="home-mod-desc">Real-time supply chain telematics monitoring stock levels, warehouse stocking velocity, and purchase deviation anomalies.</p>
+              <div class="home-mod-features">
+                <div class="home-mod-feature-item"><span class="dot"></span> Multi-Warehouse Stock Availability Tracking</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Lost Demand &amp; Stockout Recapture</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Automated Safety Stock Triggers</div>
+              </div>
+            </div>
+            <div class="home-mod-btn">
+              <span>Explore Inventory</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- 05: Sales & Revenue Telemetry -->
+          <div class="home-module-overview-card" onclick="App.switchTab('sales-overall')">
+            <div>
+              <div class="home-mod-top">
+                <div class="home-mod-icon-badge" style="background: linear-gradient(135deg, #fdf2f8, #fce7f3); color: #db2777;">📈</div>
+                <span class="home-mod-pill" style="background: #fdf2f8; color: #db2777; border: 1px solid #fbcfe8;">Commercial</span>
+              </div>
+              <h3 class="home-mod-title">Franchise Sales Dashboards</h3>
+              <p class="home-mod-desc">Granular commercial analytics tracking Retail Franchisee (RF) and Corporate Franchisee (CF) performance and PMS maintenance.</p>
+              <div class="home-mod-features">
+                <div class="home-mod-feature-item"><span class="dot"></span> RF vs CF Franchise Revenue Comparison</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Fast-Moving Consumables Maintenance Drivers</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Mechanical Aggregate Revenue Breakdown</div>
+              </div>
+            </div>
+            <div class="home-mod-btn">
+              <span>View Sales Telemetry</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <!-- 06: Demand Planning & Compliance -->
+          <div class="home-module-overview-card" onclick="App.switchTab('forecasting')">
+            <div>
+              <div class="home-mod-top">
+                <div class="home-mod-icon-badge" style="background: linear-gradient(135deg, #fffbeb, #fef3c7); color: #d97706;">📅</div>
+                <span class="home-mod-pill" style="background: #fffbeb; color: #d97706; border: 1px solid #fde68a;">Predictive</span>
+              </div>
+              <h3 class="home-mod-title">Demand Planning &amp; Audit</h3>
+              <p class="home-mod-desc">Predictive aftermarket replenishment models, purchase deviation leakage audits, and compliance tracking.</p>
+              <div class="home-mod-features">
+                <div class="home-mod-feature-item"><span class="dot"></span> 90-Day Predictive Demand Forecasting</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Purchase Price Variance (PPV) Detection</div>
+                <div class="home-mod-feature-item"><span class="dot"></span> Enterprise Compliance Leakage Auditing</div>
+              </div>
+            </div>
+            <div class="home-mod-btn">
+              <span>Open Demand Planning</span>
+              <span>→</span>
+            </div>
+          </div>
+
         </div>
 
-        <!-- Bottom Brand Wall & Tagline Banner -->
+        <!-- ==================== 4. AFTERMARKET BRAND WALL ==================== -->
         <div class="scenic-aftermarket-banner">
           <div class="aftermarket-copy">
             <h2>Built for the Automotive Aftermarket.</h2>
@@ -602,26 +732,40 @@
       <div class="catalogue-shell" style="padding: 0 0.5rem;">
         
         <!-- ==================== AUTO NEXA MASTER CATALOGUE CORE ==================== -->
-        <!-- Top Analytics Header Banner (Clean Light Enterprise - Image 1 High-Contrast Fix) -->
-        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 1.5rem 1.8rem; margin-bottom: 1.5rem; color: #0f172a; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
-          <div>
-            <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.74rem; font-weight: 850; letter-spacing: 0.12em; color: #0284c7; text-transform: uppercase; margin-bottom: 0.35rem;">
-              <span style="background: #eff6ff; padding: 0.2rem 0.55rem; border-radius: 6px; border: 1px solid #bfdbfe;">⚡ AUTO NEXA ENTERPRISE CATALOGUE INTELLIGENCE</span>
+        <!-- Top Analytics Header Banner (High-Tech Automotive Intelligence Hero Landing) -->
+        <div class="cat-hero-banner">
+          <img src="images/catalogue_hero_bg.jpg" alt="Automotive Intelligence Master Catalogue" class="cat-hero-bg" onerror="this.style.display='none'">
+          <div class="cat-hero-overlay"></div>
+          <div class="cat-hero-content">
+            <div>
+              <div class="cat-hero-pill">
+                <span class="brand-live-dot"></span>
+                <span>AUTO NEXA ENTERPRISE CATALOGUE INTELLIGENCE • LIVE FTS5 INDEX</span>
+              </div>
+              <h1 class="cat-hero-title">
+                Master Catalogue Intelligence Dashboard
+              </h1>
+              <p class="cat-hero-subtitle">
+                Direct live access to 23,671,472 multi-OEM cross-referenced automotive parts, specifications, verified OES replacements, and fitment records across 30+ vehicle manufacturers.
+              </p>
+              <div class="cat-hero-tags">
+                <div class="cat-hero-metric-chip">📊 <span>23,671,472 SKUs</span></div>
+                <div class="cat-hero-metric-chip">🏎️ <span>30+ Major Auto Makes</span></div>
+                <div class="cat-hero-metric-chip">🎯 <span>99.4% Match Accuracy</span></div>
+                <div class="cat-hero-metric-chip">⚡ <span>&lt; 12ms Search Latency</span></div>
+              </div>
             </div>
-            <h1 style="margin: 0; font-size: 1.85rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">
-              Master Catalogue Intelligence Dashboard
-            </h1>
-            <p style="margin: 0.35rem 0 0; color: #475569; font-size: 0.88rem; max-width: 720px; font-weight: 500;">
-              Direct live access to 23,671,472 multi-OEM cross-referenced automotive parts, specifications, and fitment records.
-            </p>
-          </div>
-          <div style="display: flex; align-items: center; gap: 0.75rem;">
-            <button type="button" onclick="OverallCataloguePortal.exportExcel()" style="background: linear-gradient(135deg, #ea580c, #c2410c); border: none; border-radius: 10px; color: #ffffff; font-weight: 850; font-size: 0.85rem; padding: 0.75rem 1.4rem; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35); transition: transform 0.15s;">
-              <span>📥</span> <span>Export Master DB (Excel)</span>
-            </button>
-            <button type="button" onclick="OverallCataloguePortal.resetFilters()" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 10px; color: #475569; font-weight: 750; font-size: 0.85rem; padding: 0.75rem 1.15rem; cursor: pointer;">
-              <span>🔄</span> <span>Reset Filters</span>
-            </button>
+            <div class="cat-hero-actions">
+              <button type="button" class="btn-cat-hero-primary" onclick="document.getElementById('make-model-wise-search-card')?.scrollIntoView({behavior: 'smooth'})">
+                <span>🔍</span> <span>Make &amp; Model Search</span>
+              </button>
+              <button type="button" class="btn-cat-hero-secondary" onclick="App.switchTab('catalogue-ai')">
+                <span>🤖</span> <span>Ask Catalog AI</span>
+              </button>
+              <button type="button" class="btn-cat-hero-secondary" onclick="OverallCataloguePortal.resetFilters()">
+                <span>🔄</span> <span>Reset Filters</span>
+              </button>
+            </div>
           </div>
         </div>
 
