@@ -410,10 +410,10 @@
     <!-- ==================== TAB 0: EXECUTIVE OVERVIEW ==================== -->
     <section id="tab-home" class="tab-pane active">
       <div class="home-shell">
-        <!-- 3D Exploded View Video Hero Section (Replacing old scenic banner) -->
+        <!-- Video Hero Section -->
         <header class="hero-container">
           
-          <!-- 3D Exploded View Video Wrapper -->
+          <!-- Automotive Intelligence Video Stage -->
           <div class="video-stage">
             <video
               id="explodedHeroVideo"
@@ -425,8 +425,7 @@
               preload="auto"
               poster="images/mech_hero.jpg"
             >
-              <source src="videos/Auto_Nexa_Homepage_Background.mp4" type="video/mp4" />
-              <source src="http://googleusercontent.com/generated_video_content/7285071929876034382" type="video/mp4" />
+              <source src="videos/gemini_generated_video_4d84f0d2.mp4" type="video/mp4" />
               Your browser does not support HTML5 video.
             </video>
 
@@ -434,44 +433,29 @@
             <div class="video-ambient-overlay"></div>
           </div>
 
-          <!-- Foreground Floating Content (Catalogue Lookup) -->
+          <!-- Foreground Floating Content -->
           <div class="hero-content">
             <div class="status-pill">
               <span class="pulse-dot"></span>
-              <span>23.6M+ Parts Live Index • FTS5 Powered</span>
+              <span>Enterprise Automotive Intelligence • 23.6M+ Parts Live Index</span>
             </div>
 
             <h1 class="hero-headline">
-              Interactive 3D Parts & Assembly Catalogue
+              AutoNexa Enterprise Automotive Intelligence Platform
             </h1>
             <p class="hero-subtitle">
-              Search OEM & Aftermarket fitments across all major brands with exploded schematic precision.
+              A unified ecosystem connecting multi-brand parts cross-referencing, AI-driven fitment mapping, conversational part search, and predictive inventory planning.
             </p>
 
-            <!-- Quick VIN / Part Search Box -->
-            <div class="search-card">
-              <div class="search-input-wrap">
-                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input 
-                  type="text" 
-                  id="home-hero-search-input"
-                  placeholder="Search by Vehicle Reg No, VIN, or OEM Part Number..."
-                  onkeydown="if(event.key==='Enter') App.handleHomeSearch();"
-                />
-              </div>
-              <button type="button" class="btn-primary-hero" onclick="App.handleHomeSearch();">Explore Assembly</button>
-            </div>
-
-            <!-- Quick Category Chips -->
+            <!-- Platform Modules & Addons Quick Navigation -->
             <div class="quick-tags">
-              <span class="tag-label">Popular Assemblies:</span>
-              <button type="button" class="hero-chip" onclick="App.filterAssembly('BRAKE SYSTEM')">Braking & Rotors</button>
-              <button type="button" class="hero-chip" onclick="App.filterAssembly('SUSPENSION')">Suspension Struts</button>
-              <button type="button" class="hero-chip" onclick="App.filterAssembly('TRANSMISSION')">Clutch & Transmission</button>
-              <button type="button" class="hero-chip" onclick="App.filterAssembly('ENGINE')">Engine Blocks</button>
+              <span class="tag-label">Platform Addons:</span>
+              <button type="button" class="hero-chip" onclick="App.switchTab('catalogue-dashboard')">📖 Master Catalogue</button>
+              <button type="button" class="hero-chip" onclick="App.switchTab('catalogue-mapping')">⚙️ AI Mapping Engine</button>
+              <button type="button" class="hero-chip" onclick="App.switchTab('catalogue-ai')">🤖 Catalog AI Assistant</button>
+              <button type="button" class="hero-chip" onclick="App.switchTab('inventory-dashboard')">📦 Smart Inventory</button>
+              <button type="button" class="hero-chip" onclick="App.switchTab('sales-overall')">📈 Sales Analytics</button>
+              <button type="button" class="hero-chip" onclick="App.switchTab('forecasting')">📅 Demand Planning</button>
             </div>
           </div>
         </header>
