@@ -392,21 +392,21 @@ def get_visual_variants(make, model=None, fuel_type=None, year=None, search=None
             params.append(model)
             
         if fuel_type:
-            clauses.append("(vehicle_fuel_type LIKE ? OR vehicle_sub_model LIKE ?)")
-            params.append(f"%{fuel_type}%")
-            params.append(f"%{fuel_type}%")
+            clean_f = str(fuel_type).strip()
+            if clean_f.lower() not in ["all fuels", "any fuel", "all", "any", "none", ""]:
+                clauses.append("(vehicle_fuel_type LIKE ? OR vehicle_sub_model LIKE ?)")
+                params.append(f"%{clean_f}%")
+                params.append(f"%{clean_f}%")
             
         if year:
-            try:
-                yr_int = int(year)
-                clauses.append("((CAST(vehicle_from_year AS INTEGER) <= ? AND (CAST(vehicle_to_year AS INTEGER) >= ? OR vehicle_to_year = '' OR vehicle_to_year IS NULL)) OR vehicle_from_year = '' OR vehicle_from_year IS NULL)")
-                params.append(yr_int)
-                params.append(yr_int)
-            except Exception:
-                clauses.append("(vehicle_from_year LIKE ? OR vehicle_to_year LIKE ? OR vehicle_sub_model LIKE ?)")
-                params.append(f"%{year}%")
-                params.append(f"%{year}%")
-                params.append(f"%{year}%")
+            clean_y = str(year).strip()
+            if clean_y.lower() not in ["all years", "any year", "all", "any", "none", ""]:
+                m_yr = re.search(r'\d{4}', clean_y)
+                if m_yr:
+                    yr_int = int(m_yr.group(0))
+                    clauses.append("((CAST(vehicle_from_year AS INTEGER) <= ? AND (CAST(vehicle_to_year AS INTEGER) >= ? OR vehicle_to_year = '' OR vehicle_to_year IS NULL)) OR vehicle_from_year = '' OR vehicle_from_year IS NULL)")
+                    params.append(yr_int)
+                    params.append(yr_int)
                 
         if search:
             clean_s = search.strip()
@@ -1021,6 +1021,63 @@ def vahan_rc_lookup(reg_no, api_key=None, api_url=None):
         if conn: conn.close()
         return {"status": "error", "message": str(e)}
 
+TOP_LINE_CODES = [
+    '216', '201', '217', '006', '502', '245', '706', '190', '850', '218',
+    '219', '267', '222', '223', '215', '566', '240', '282', '138', '230',
+    '039', '035', '805', '001', '002', '034', '112', '121', '011', '044'
+]
+
+def build_cross_line_code_candidates(q_str):
+    """
+    Expands a user-entered part number (e.g. '00158101B4A05', '006-04152-YZZA6', or '58101B4A05')
+    into cross-line-code candidates across known DMS automotive line codes.
+    Returns:
+      (candidates_list, meta_map) where meta_map[candidate] = {'input_lc': ..., 'core': ...}
+    """
+    clean_q = re.sub(r'[^A-Za-z0-9]', '', str(q_str)).upper()
+    core_candidates = []
+    
+    # 1. Direct clean query
+    core_candidates.append((None, clean_q))
+    
+    # 2. Separated by hyphen, slash, or space (e.g. 006-04152-YZZA6 or 001 58101B4A05)
+    m = re.match(r'^([A-Z0-9]{2,4})[\-\s\/]+([A-Z0-9\-]+)$', str(q_str).strip(), re.IGNORECASE)
+    if m:
+        input_lc = m.group(1).upper()
+        core = re.sub(r'[^A-Za-z0-9]', '', m.group(2)).upper()
+        core_candidates.append((input_lc, core))
+        
+    # 3. Leading 3-char prefix, 2-char, 4-char prefix
+    if len(clean_q) >= 7:
+        core_candidates.append((clean_q[:3], clean_q[3:]))
+        core_candidates.append((clean_q[:2], clean_q[2:]))
+        core_candidates.append((clean_q[:4], clean_q[4:]))
+        
+    candidates = set()
+    meta_map = {}
+    
+    for input_lc, core in core_candidates:
+        if len(core) < 4:
+            continue
+        candidates.add(core)
+        meta_map[core] = {"input_lc": input_lc, "core": core}
+        
+        if len(core) >= 8 and '-' not in core:
+            hyphen_c = core[:5] + '-' + core[5:]
+            candidates.add(hyphen_c)
+            meta_map[hyphen_c] = {"input_lc": input_lc, "core": core}
+            
+        for lc in TOP_LINE_CODES:
+            c1 = f"{lc}{core}"
+            candidates.add(c1)
+            meta_map[c1] = {"input_lc": input_lc, "core": core}
+            if len(core) >= 8:
+                c2 = f"{lc}{core[:5]}-{core[5:]}"
+                candidates.add(c2)
+                meta_map[c2] = {"input_lc": input_lc, "core": core}
+                
+    return list(candidates), meta_map
+
 def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type="", year="", segment="", aggregate="", sub_aggregate="", component="", min_price=None, max_price=None, page=1, limit=25):
     conn = get_db()
     if not conn:
@@ -1033,26 +1090,25 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
 
         where_clauses = []
         params = []
+        cross_meta = {}
 
         q = (q or "").strip()
 
         if q:
             clean_q = re.sub(r'[^A-Za-z0-9]', '', q).upper()
-            part_candidates = list(dict.fromkeys([q, clean_q]))
-            if len(clean_q) > 8:
-                part_candidates.append(clean_q[:8] + '-' + clean_q[8:])
-                part_candidates.append(clean_q[:3] + '-' + clean_q[3:])
-            if len(clean_q) > 5 and clean_q[:5].isdigit():
-                part_candidates.append(clean_q[:5] + '-' + clean_q[5:])
-
+            cross_cands, cross_meta = build_cross_line_code_candidates(q)
+            part_candidates = list(dict.fromkeys([q, clean_q] + cross_cands))
+            
             cur_fast = conn.cursor()
-            placeholders = ','.join(['?'] * len(part_candidates))
-            cur_fast.execute(f"SELECT id FROM overall_catalogue WHERE line_code_part_number IN ({placeholders}) LIMIT 100", part_candidates)
-            fast_ids = [r[0] for r in cur_fast.fetchall()]
-
-            if not fast_ids and len(clean_q) >= 3:
-                cur_fast.execute("SELECT id FROM overall_catalogue WHERE line_code_part_number LIKE ? LIMIT 100", (f"%{clean_q}%",))
-                fast_ids = [r[0] for r in cur_fast.fetchall()]
+            fast_ids = []
+            chunk_size = 350
+            for i in range(0, len(part_candidates), chunk_size):
+                chunk = part_candidates[i:i+chunk_size]
+                placeholders = ','.join(['?'] * len(chunk))
+                cur_fast.execute(f"SELECT id FROM overall_catalogue WHERE line_code_part_number IN ({placeholders}) LIMIT 100", chunk)
+                fast_ids.extend([r[0] for r in cur_fast.fetchall()])
+                if len(fast_ids) >= 100:
+                    break
 
             if fast_ids:
                 id_placeholders = ','.join(['?'] * len(fast_ids))
@@ -1144,6 +1200,12 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
 
         items = []
         for r in rows:
+            p_no = r["line_code_part_number"]
+            meta = cross_meta.get(p_no, {})
+            input_lc = meta.get("input_lc")
+            actual_lc = r["line_code"]
+            is_cross = bool(input_lc and actual_lc and (str(input_lc).strip().upper() != str(actual_lc).strip().upper()))
+
             items.append({
                 "id": r["id"],
                 "lineCode": r["line_code"],
@@ -1166,7 +1228,10 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
                 "toYear": r["vehicle_to_year"],
                 "aggregate": r["aggregate"],
                 "subAggregate": r["sub_aggregate"],
-                "components": r["components"]
+                "components": r["components"],
+                "crossLineCodeResolved": is_cross,
+                "inputLineCode": input_lc if is_cross else None,
+                "lineCodeAlert": f"Available in Line Code {actual_lc} ({r['brand_name']}) — auto-resolved from searched Line Code '{input_lc}'" if is_cross else None
             })
 
         conn.close()
@@ -1201,6 +1266,30 @@ def get_part_details(part_no):
         LIMIT 100
         """, (part_no,))
         rows = cur.fetchall()
+
+        cross_meta = {}
+        if not rows:
+            clean_p = re.sub(r'[^A-Za-z0-9]', '', str(part_no)).upper()
+            cross_cands, cross_meta = build_cross_line_code_candidates(part_no)
+            if cross_cands:
+                chunk_size = 350
+                for i in range(0, len(cross_cands), chunk_size):
+                    chunk = cross_cands[i:i+chunk_size]
+                    placeholders = ','.join(['?'] * len(chunk))
+                    cur.execute(f"""
+                    SELECT id, line_code, brand_name, line_code_part_number, part_description, hsn_code,
+                           tax_rate, price_type, sales_uom, list_price, mrp_price, sales_price_group,
+                           vehicle_segment, vehicle_make, vehicle_model, vehicle_sub_model,
+                           vehicle_fuel_type, vehicle_from_year, vehicle_to_year, aggregate,
+                           sub_aggregate, components
+                    FROM overall_catalogue
+                    WHERE line_code_part_number IN ({placeholders})
+                    ORDER BY CASE WHEN mrp_price > 0 THEN 0 ELSE 1 END, id ASC
+                    LIMIT 100
+                    """, chunk)
+                    rows = cur.fetchall()
+                    if rows:
+                        break
 
         if not rows:
             clean_p = re.sub(r'[^A-Za-z0-9]', '', str(part_no)).upper()
@@ -1278,6 +1367,11 @@ def get_part_details(part_no):
 
         conn.close()
 
+        meta = cross_meta.get(first["line_code_part_number"], {})
+        input_lc = meta.get("input_lc")
+        actual_lc = first["line_code"]
+        is_cross = bool(input_lc and actual_lc and (str(input_lc).strip().upper() != str(actual_lc).strip().upper()))
+
         return {
             "partNo": first["line_code_part_number"],
             "desc": first["part_description"],
@@ -1293,7 +1387,10 @@ def get_part_details(part_no):
             "subAggregate": first["sub_aggregate"],
             "components": first["components"],
             "compatibilities": compat_list,
-            "oesParts": oes_parts
+            "oesParts": oes_parts,
+            "crossLineCodeResolved": is_cross,
+            "inputLineCode": input_lc if is_cross else None,
+            "lineCodeAlert": f"Available in Line Code {actual_lc} ({first['brand_name']}) — auto-resolved from entered Line Code '{input_lc}'" if is_cross else None
         }
     except Exception:
         if conn: conn.close()

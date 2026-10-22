@@ -1741,6 +1741,12 @@ window.OverallCataloguePortal = {
             <div style="font-family: monospace; font-size: 0.96rem; font-weight: 900; color: #0284c7; margin-bottom: 0.3rem; letter-spacing: -0.2px;">
               ${this.escapeHtml(partNo)}
             </div>
+            ${r.crossLineCodeResolved ? `
+              <div style="font-size: 0.68rem; font-weight: 850; color: #92400e; background: #fef3c7; border: 1px solid #fde68a; border-radius: 4px; padding: 0.15rem 0.4rem; margin-bottom: 0.45rem; display: inline-flex; align-items: center; gap: 0.25rem;">
+                <span>⚡</span>
+                <span>Avl in LC ${this.escapeHtml(r.lineCode || '')} (${this.escapeHtml(brand)})</span>
+              </div>
+            ` : ''}
             <div style="font-size: 0.84rem; font-weight: 700; color: #0f172a; line-height: 1.35; height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 0.75rem;">
               ${this.escapeHtml(desc || aggregate)}
             </div>
@@ -1820,7 +1826,14 @@ window.OverallCataloguePortal = {
 
       return `
         <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-          <td style="font-weight: 850; color: #0284c7; font-family: monospace; font-size: 0.88rem; padding: 0.85rem 1rem; width: 140px; word-break: break-all;">${this.escapeHtml(partNo)}</td>
+          <td style="font-weight: 850; color: #0284c7; font-family: monospace; font-size: 0.88rem; padding: 0.85rem 1rem; width: 140px; word-break: break-all;">
+            ${this.escapeHtml(partNo)}
+            ${r.crossLineCodeResolved ? `
+              <span title="${this.escapeHtml(r.lineCodeAlert || '')}" style="display: block; font-size: 0.66rem; font-weight: 850; color: #92400e; background: #fef3c7; border: 1px solid #fde68a; border-radius: 4px; padding: 0.12rem 0.35rem; margin-top: 0.3rem; line-height: 1.2;">
+                ⚡ LC ${this.escapeHtml(r.lineCode || '')}
+              </span>
+            ` : ''}
+          </td>
           <td style="font-weight: 750; color: #b45309; font-size: 0.82rem; padding: 0.85rem 1rem; width: 110px;"><span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px;">${this.escapeHtml(brand)}</span></td>
           <td style="font-weight: 600; color: #1e293b; font-size: 0.82rem; width: 280px; white-space: normal; line-height: 1.35; padding: 0.85rem 1rem; word-break: break-word;">${this.escapeHtml(desc)}</td>
           <td style="font-weight: 850; color: #059669; font-size: 0.88rem; text-align: right; font-family: 'Outfit', sans-serif; padding: 0.85rem 1rem; width: 110px;">${mrpPrice}</td>

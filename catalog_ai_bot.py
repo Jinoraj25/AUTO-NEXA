@@ -342,21 +342,36 @@ def extract_entities_from_text(text):
         "raw_query": text.strip()
     }
 
-    # 1. Direct Part Number detection (e.g. 21658101B4A05, 04152-YZZA6, 706F002H264478F8, 98850, 16510-M68K00)
-    part_match = re.search(r'\b([A-Z0-9]{5,20}|[A-Z0-9]{3,8}\-[A-Z0-9]{3,8})\b', text.strip(), re.IGNORECASE)
-    # Check if this token is not a normal English word
+    # 1. Direct Part Number detection (e.g. 21658101B4A05, 04152-YZZA6, 00158101B4A05, 006-04152-YZZA6, 706F002H264478F8, 16510-M68K00)
+    part_match = re.search(r'\b([A-Z0-9]{5,20}|[A-Z0-9]{2,6}[\-\s\/][A-Z0-9\-]{4,16})\b', text.strip(), re.IGNORECASE)
     if part_match:
         cand = part_match.group(1).upper()
-        # Verify it has at least one digit or hyphen and isn't just a word
         if any(c.isdigit() for c in cand) and len(cand) >= 5:
-            # Check if this part number exists in DB
+            import overall_catalogue_api
+            cross_cands, cross_meta = overall_catalogue_api.build_cross_line_code_candidates(cand)
+            test_cands = list(dict.fromkeys([cand, cand.replace('-', '').replace(' ', '')] + cross_cands))
             conn = get_db()
             if conn:
                 try:
                     c = conn.cursor()
-                    c.execute("SELECT line_code_part_number FROM overall_catalogue WHERE line_code_part_number = ? LIMIT 1", (cand,))
-                    if c.fetchone():
-                        extracted["part_no"] = cand
+                    chunk_size = 350
+                    for i in range(0, len(test_cands), chunk_size):
+                        chk = test_cands[i:i+chunk_size]
+                        pls = ','.join(['?'] * len(chk))
+                        c.execute(f"SELECT line_code_part_number, line_code, brand_name, part_description FROM overall_catalogue WHERE line_code_part_number IN ({pls}) LIMIT 1", chk)
+                        matched_row = c.fetchone()
+                        if matched_row:
+                            matched_no = matched_row["line_code_part_number"]
+                            actual_lc = matched_row["line_code"]
+                            meta = cross_meta.get(matched_no, {})
+                            input_lc = meta.get("input_lc")
+                            is_diff = bool(input_lc and actual_lc and (str(input_lc).strip().upper() != str(actual_lc).strip().upper()))
+                            extracted["part_no"] = matched_no
+                            extracted["input_line_code"] = input_lc
+                            extracted["actual_line_code"] = actual_lc
+                            extracted["actual_brand"] = matched_row["brand_name"]
+                            extracted["cross_line_code_resolved"] = is_diff
+                            break
                     conn.close()
                 except Exception:
                     if conn: conn.close()
@@ -464,7 +479,9 @@ def fetch_variant_cards_for_chat(make, model, fuel_type=None, year=None):
     Returns visual variant cards with real Oriparts 3D car render images.
     """
     import overall_catalogue_api
-    res = overall_catalogue_api.get_visual_variants(make, model, fuel_type=fuel_type, year=year, limit=8)
+    clean_fuel = None if not fuel_type or str(fuel_type).strip().lower() in ["all fuels", "any fuel", "all", "any", "none"] else str(fuel_type).strip()
+    clean_year = None if not year or str(year).strip().lower() in ["all years", "any year", "all", "any", "none"] else str(year).strip()
+    res = overall_catalogue_api.get_visual_variants(make, model, fuel_type=clean_fuel, year=clean_year, limit=12)
     return res.get("variants", [])
 
 def fetch_parts_for_component(make, model, sub_model=None, component=None, fuel_type=None, year=None):
@@ -495,10 +512,11 @@ def fetch_parts_for_component(make, model, sub_model=None, component=None, fuel_
             params.append(model)
 
         if sub_model and sub_model != "ALL":
-            clauses.append("(vehicle_sub_model = ? OR vehicle_sub_model = '' OR vehicle_sub_model IS NULL)")
-            params.append(sub_model)
+            clean_sub = sub_model.strip()
+            clauses.append("(vehicle_sub_model = ? OR vehicle_sub_model LIKE ? OR vehicle_sub_model = '' OR vehicle_sub_model IS NULL)")
+            params.extend([clean_sub, f"%{clean_sub[:10]}%"])
 
-        # Component matching (handles FRONT/REAR, PAD KIT, etc.)
+        # Component matching (handles FRONT/REAR, PAD KIT, TIE ROD, etc.)
         if component:
             clean_c = component.upper()
             if "BRAKE PAD" in clean_c:
@@ -518,11 +536,26 @@ def fetch_parts_for_component(make, model, sub_model=None, component=None, fuel_
                 clauses.append("(components LIKE '%SHOCK ABSORBER%' OR components LIKE '%STRUT%' OR part_description LIKE '%SHOCK ABSORBER%' OR part_description LIKE '%STRUT%')")
             elif "CONTROL ARM" in clean_c:
                 clauses.append("(components LIKE '%CONTROL ARM%' OR part_description LIKE '%CONTROL ARM%')")
+            elif "TIE ROD" in clean_c or "RACK END" in clean_c:
+                clauses.append("(components LIKE '%TIE ROD%' OR components LIKE '%INNER TIE ROD%' OR part_description LIKE '%TIE ROD%' OR part_description LIKE '%RACK END%')")
             else:
                 clauses.append("(components LIKE ? OR part_description LIKE ?)")
                 params.extend([f"%{clean_c}%", f"%{clean_c}%"])
 
         where_str = " WHERE " + " AND ".join(clauses) if clauses else ""
+
+        # Determine primary component keyword for ranking (e.g. "TIE ROD END" -> "TIE ROD")
+        comp_kw = component or 'PART'
+        if "TIE ROD" in comp_kw.upper():
+            comp_kw = "TIE ROD"
+        elif "BRAKE PAD" in comp_kw.upper():
+            comp_kw = "BRAKE PAD"
+        elif "CLUTCH" in comp_kw.upper():
+            comp_kw = "CLUTCH"
+        elif "OIL FILTER" in comp_kw.upper():
+            comp_kw = "OIL FILTER"
+        elif "AIR FILTER" in comp_kw.upper():
+            comp_kw = "AIR FILTER"
 
         sql = f"""
         SELECT line_code_part_number, brand_name, part_description, mrp_price, list_price,
@@ -530,12 +563,15 @@ def fetch_parts_for_component(make, model, sub_model=None, component=None, fuel_
                vehicle_fuel_type, vehicle_from_year, vehicle_to_year, components, aggregate
         FROM overall_catalogue
         {where_str}
-        ORDER BY CASE WHEN mrp_price > 0 THEN 0 ELSE 1 END,
-                 CASE WHEN brand_name = ? THEN 0 ELSE 1 END,
+        ORDER BY CASE WHEN UPPER(part_description) LIKE ? THEN 0 ELSE 1 END,
+                 CASE WHEN UPPER(brand_name) = ? THEN 0 ELSE 1 END,
+                 CASE WHEN UPPER(part_description) LIKE '%KIT%' OR UPPER(part_description) LIKE '%SET%' OR UPPER(part_description) LIKE '%ASSY%' THEN 0 ELSE 1 END,
+                 CASE WHEN mrp_price >= 100 THEN 0 ELSE 1 END,
+                 CASE WHEN mrp_price > 0 THEN 0 ELSE 1 END,
                  mrp_price ASC
-        LIMIT 60
+        LIMIT 200
         """
-        all_params = params + [make or '']
+        all_params = params + [f"%{comp_kw}%", (make or '').upper()]
         cur.execute(sql, all_params)
         rows = cur.fetchall()
 
@@ -625,7 +661,17 @@ def process_chat_message(user_message, session_state=None):
         import overall_catalogue_api
         details = overall_catalogue_api.get_part_details(p_no)
         if details:
-            bot_reply = f"✅ **Direct Part Intelligence Found for `{details['partNo']}`** ({details['brand']})"
+            is_cross = entities.get("cross_line_code_resolved") or details.get("crossLineCodeResolved")
+            input_lc = entities.get("input_line_code") or details.get("inputLineCode")
+            actual_lc = details.get("lineCode")
+            brand = details.get("brand")
+            if is_cross:
+                details["crossLineCodeResolved"] = True
+                details["inputLineCode"] = input_lc
+                details["lineCodeAlert"] = f"Searched with Line Code '{input_lc}', auto-resolved to Line Code {actual_lc} ({brand})"
+                bot_reply = f"⚡ **Line Code Auto-Resolved**: You searched with Line Code **`{input_lc}`**, but this genuine part is indexed in the Master Catalogue under **Line Code `{actual_lc}` ({brand})**!\n\nShowing verified part specifications, OEM fitments, and OES alternatives for **`{details['partNo']}`**:"
+            else:
+                bot_reply = f"✅ **Direct Part Intelligence Found for `{details['partNo']}`** ({details['brand']})"
             return {
                 "reply": bot_reply,
                 "step": "part_details",

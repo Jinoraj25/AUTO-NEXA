@@ -574,9 +574,19 @@ const CatalogAiChat = {
   renderDirectPartWidget(action) {
     const p = action.part || {};
     const oes = action.oes || [];
+    const lineCodeAlertHtml = (p.crossLineCodeResolved || p.lineCodeAlert) ? `
+      <div style="margin-bottom: 0.85rem; background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 10px; padding: 0.55rem 0.85rem; display: flex; align-items: center; gap: 0.6rem;">
+        <span style="font-size: 1.1rem;">⚡</span>
+        <div>
+          <strong style="color: #92400e; font-size: 0.8rem; display: block;">Line Code Auto-Resolved</strong>
+          <span style="color: #b45309; font-size: 0.76rem;">${p.lineCodeAlert || `Searched with Line Code '${p.inputLineCode || 'other'}', but verified active under Line Code ${p.lineCode} (${p.brand})`}</span>
+        </div>
+      </div>
+    ` : '';
 
     return `
       <div style="margin-top: 1rem; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.25rem;">
+        ${lineCodeAlertHtml}
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.75rem;">
           <div>
             <div style="font-size: 0.75rem; font-weight: 850; color: #0284c7; background: #eff6ff; display: inline-block; padding: 0.2rem 0.55rem; border-radius: 6px; margin-bottom: 0.35rem;">
