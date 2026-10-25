@@ -416,6 +416,25 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             
             get_param = lambda k, default='': params.get(k, [default])[0]
 
+            if path_only == '/api/overall-catalogue/analytics':
+                res = overall_catalogue_api.get_catalogue_analytics() if overall_catalogue_api else {"totals": {}}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/overall-catalogue/filter-options':
+                make_val = get_param('make')
+                model_val = get_param('model')
+                sub_model_val = get_param('sub_model') or get_param('variant')
+                res = overall_catalogue_api.get_catalogue_filter_options(make_val, model_val, sub_model_val) if overall_catalogue_api else {"fuels": [], "years": []}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
+
             if path_only == '/api/overall-catalogue/stats':
                 res = overall_catalogue_api.get_catalogue_stats() if overall_catalogue_api else {"status": "error"}
                 self.send_response(200)

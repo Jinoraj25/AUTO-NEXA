@@ -10,44 +10,11 @@
 const CatalogAiChat = {
   toggleHistory() {
     const workspace = document.querySelector('.cat-ai-workspace');
-    if (workspace) workspace.classList.toggle('history-collapsed');
-  },
-
-  triggerImageUpload() {
-    const fileInput = document.getElementById('cat-ai-image-file-input');
-    if (fileInput) fileInput.click();
-  },
-
-  handleImageSelected(e) {
-    const file = e.target.files && e.target.files[0];
-    if (!file) return;
-    this.attachedImageName = file.name;
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      this.attachedImageDataUri = evt.target.result;
-      const previewEl = document.getElementById('cat-ai-image-preview');
-      if (previewEl) {
-        previewEl.innerHTML = `
-          <div style="display: inline-flex; align-items: center; gap: 0.45rem; background: #eff6ff; border: 1px solid #bfdbfe; padding: 0.25rem 0.65rem; border-radius: 8px; font-size: 0.75rem; font-weight: 800; color: #0284c7; margin-bottom: 0.4rem;">
-            <span>📷 Image Attached: ${file.name}</span>
-            <button type="button" onclick="CatalogAiChat.clearAttachedImage()" style="background: none; border: none; color: #dc2626; cursor: pointer; font-size: 0.85rem; font-weight: 900;">✕</button>
-          </div>
-        `;
-        previewEl.style.display = 'block';
-      }
-    };
-    reader.readAsDataURL(file);
-  },
-
-  clearAttachedImage() {
-    this.attachedImageName = null;
-    this.attachedImageDataUri = null;
-    const fileInput = document.getElementById('cat-ai-image-file-input');
-    if (fileInput) fileInput.value = '';
-    const previewEl = document.getElementById('cat-ai-image-preview');
-    if (previewEl) {
-      previewEl.innerHTML = '';
-      previewEl.style.display = 'none';
+    const sidebar = document.querySelector('.cat-ai-sidebar-panel');
+    if (window.innerWidth <= 900) {
+      if (sidebar) sidebar.classList.toggle('mobile-open');
+    } else {
+      if (workspace) workspace.classList.toggle('history-collapsed');
     }
   },
 
@@ -93,6 +60,7 @@ const CatalogAiChat = {
       this.renderWelcomeGreeting();
     }
     this.updateActiveVehicleBar();
+    this.updateSideInspector(this.activeVehicleContext, null);
   },
 
   updateActiveVehicleBar() {
@@ -117,6 +85,110 @@ const CatalogAiChat = {
     }
   },
 
+  updateSideInspector(veh, action) {
+    const vehCard = document.getElementById('cat-ai-side-vehicle-content');
+    const clearBtn = document.getElementById('cat-ai-side-clear-btn');
+    if (vehCard) {
+      if (veh && veh.make) {
+        const vTitle = `${veh.make} ${veh.model || ''} ${veh.variant || veh.sub_model || ''}`.trim();
+        const vMeta = `${veh.fuel || ''} ${veh.year ? '• ' + veh.year : ''}`.trim();
+        const vImg = veh.image || 'images/oriparts_default_car.png';
+        if (clearBtn) clearBtn.style.display = 'inline-block';
+        vehCard.innerHTML = `
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <img src="${vImg}" alt="${this.escapeHtml(vTitle)}" style="width: 80px; height: 52px; object-fit: contain; border-radius: 8px; background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 3px;" onerror="this.src='images/oriparts_default_car.png'">
+            <div>
+              <div style="font-weight: 900; font-size: 0.95rem; color: #0f172a; font-family: 'Outfit', sans-serif;">${this.escapeHtml(vTitle)}</div>
+              <div style="font-size: 0.76rem; font-weight: 750; color: #0284c7; margin-top: 0.15rem;">${this.escapeHtml(vMeta)}</div>
+              <div style="font-size: 0.7rem; color: #059669; font-weight: 850; margin-top: 0.25rem;">● Active Vehicle Session</div>
+            </div>
+          </div>
+        `;
+      } else {
+        if (clearBtn) clearBtn.style.display = 'none';
+        vehCard.innerHTML = `
+          <div style="font-size: 0.82rem; color: #64748b; line-height: 1.45;">
+            No vehicle pinned yet. Enter a vehicle or part query (e.g. <em>"Grand i10 Nios brake pad"</em>) to lock vehicle context.
+          </div>
+        `;
+      }
+    }
+
+    const partsCard = document.getElementById('cat-ai-side-parts-content');
+    if (partsCard && action) {
+      if ((action.type === 'parts_matrix' || action.type === 'parts_result') && action.oem) {
+        const oem = action.oem;
+        const oesList = action.oes || [];
+        const oemPriceStr = (oem.mrp && oem.mrp > 0) ? `₹${Number(oem.mrp).toLocaleString('en-IN')}` : 'Price on Request';
+        
+        let oesTable = '';
+        if (oesList.length > 0) {
+          oesTable = `
+            <div style="margin-top: 0.85rem;">
+              <div style="font-size: 0.78rem; font-weight: 850; color: #0f172a; margin-bottom: 0.45rem;">
+                🛡️ Verified Tier-1 OES Direct Equivalents (${oesList.length})
+              </div>
+              <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.78rem;">
+                  <thead>
+                    <tr style="border-bottom: 1.5px solid #e2e8f0; background: #f8fafc;">
+                      <th style="padding: 6px 8px; text-align: left; font-weight: 850; color: #475569;">Brand</th>
+                      <th style="padding: 6px 8px; text-align: left; font-weight: 850; color: #475569;">Part No</th>
+                      <th style="padding: 6px 8px; text-align: right; font-weight: 850; color: #475569;">Price</th>
+                      <th style="padding: 6px 8px; text-align: right; font-weight: 0.85; color: #059669;">Saving</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${oesList.map(p => {
+                      const savePct = (oem.mrp && p.mrp && oem.mrp > p.mrp) ? Math.round(((oem.mrp - p.mrp) / oem.mrp) * 100) : 25;
+                      const price = (p.mrp && p.mrp > 0) ? p.mrp : Math.round((oem.mrp || 1500) * 0.75);
+                      return `
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                          <td style="padding: 6px 8px; font-weight: 800; color: #0f172a;">${this.escapeHtml(p.brand)}</td>
+                          <td style="padding: 6px 8px;">
+                            <span style="font-family: monospace; font-weight: 850; color: #0284c7;">${this.escapeHtml(p.partNo)}</span>
+                            <button type="button" onclick="CatalogAiChat.copyToClipboard('${this.escapeJs(p.partNo)}', this)" style="padding: 1px 5px; font-size: 0.65rem; border-radius: 4px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; margin-left: 3px;">📋</button>
+                          </td>
+                          <td style="padding: 6px 8px; text-align: right; font-weight: 900; color: #059669;">₹${Number(price).toLocaleString('en-IN')}</td>
+                          <td style="padding: 6px 8px; text-align: right; font-weight: 850; color: #059669;">-${savePct}%</td>
+                        </tr>
+                      `;
+                    }).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+        }
+
+        partsCard.innerHTML = `
+          <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; padding: 0.85rem; margin-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
+              <div>
+                <span style="font-size: 0.68rem; font-weight: 850; background: #166534; color: #ffffff; padding: 2px 6px; border-radius: 4px;">OEM DEALERSHIP GENUINE</span>
+                <div style="font-size: 0.95rem; font-weight: 900; color: #0f172a; margin-top: 0.3rem;">${this.escapeHtml(oem.desc)}</div>
+                <div style="display: flex; align-items: center; gap: 0.4rem; margin-top: 0.25rem;">
+                  <span style="font-family: monospace; font-size: 0.88rem; font-weight: 900; color: #166534;">${this.escapeHtml(oem.partNo)}</span>
+                  <button type="button" onclick="CatalogAiChat.copyToClipboard('${this.escapeJs(oem.partNo)}', this)" style="padding: 1px 6px; font-size: 0.68rem; border-radius: 4px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer;">📋 Copy</button>
+                </div>
+                <div style="font-size: 0.72rem; color: #475569; margin-top: 0.2rem;">${this.escapeHtml(oem.brand)} • ${this.escapeHtml(oem.vehicle || '')}</div>
+                <div style="display: flex; gap: 0.35rem; margin-top: 0.45rem;">
+                  <span style="background: #dcfce7; color: #166534; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">✔ 100% Direct Match</span>
+                  <span style="background: #e0f2fe; color: #0369a1; font-size: 0.68rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">🟢 Stock Ready</span>
+                </div>
+              </div>
+              <div style="text-align: right; min-width: 80px;">
+                <div style="font-size: 1.2rem; font-weight: 900; color: #166534; font-family: 'Outfit', sans-serif;">${oemPriceStr}</div>
+                <div style="font-size: 0.65rem; color: #64748b; font-weight: 750;">OEM MRP</div>
+              </div>
+            </div>
+          </div>
+          ${oesTable}
+        `;
+      }
+    }
+  },
+
   clearActiveVehicleContext() {
     this.activeVehicleContext = null;
     try {
@@ -128,6 +200,7 @@ const CatalogAiChat = {
     this.state.fuel = null;
     this.state.year = null;
     this.updateActiveVehicleBar();
+    this.updateSideInspector(null, null);
     this.appendBotMessage("🔄 Active vehicle session context cleared. You can now search for any new car model or part number.");
   },
 
@@ -218,6 +291,7 @@ const CatalogAiChat = {
       sessionStorage.removeItem('auto_nexa_active_vehicle');
     } catch (e) {}
     this.updateActiveVehicleBar();
+    this.updateSideInspector(null, null);
     const thread = document.getElementById('cat-ai-chat-thread');
     if (thread) thread.innerHTML = '';
     this.renderWelcomeGreeting();
@@ -309,181 +383,6 @@ const CatalogAiChat = {
           <div style="margin-top: 0.75rem; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 0.74rem; font-weight: 850; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 0.35rem;">
             <span>✨</span>
             <span>Identified: tie rod end for tata indica vista</span>
-          </div>
-        </div>
-      </div>
-    `;
-
-    const thread = document.getElementById('cat-ai-chat-thread');
-    if (!thread) return;
-
-    // Attach Enter key to input if not already attached
-    const input = document.getElementById('cat-ai-chat-input');
-    if (input && !input.dataset.bound) {
-      input.dataset.bound = 'true';
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          this.handleSend();
-        }
-      });
-    }
-
-    // Attach ESC key to close modal if open
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        this.closeFitmentModal();
-      }
-    });
-
-    // Check if thread already has rendered conversation in DOM
-    if (thread.children && thread.children.length > 1) {
-      this.scrollToBottom();
-      return;
-    }
-
-    // Try restoring conversation from sessionStorage
-    const restored = this.restoreState();
-    if (!restored && this.history.length === 0) {
-      this.renderWelcomeGreeting();
-    }
-  },
-
-  saveState() {
-    try {
-      const thread = document.getElementById('cat-ai-chat-thread');
-      if (thread) {
-        sessionStorage.setItem('auto_nexa_chat_html', thread.innerHTML);
-      }
-      sessionStorage.setItem('auto_nexa_chat_state', JSON.stringify(this.state));
-      sessionStorage.setItem('auto_nexa_chat_history', JSON.stringify(this.history));
-    } catch (e) {
-      console.warn('Chat state storage error', e);
-    }
-  },
-
-  restoreState() {
-    try {
-      const savedHtml = sessionStorage.getItem('auto_nexa_chat_html');
-      const savedState = sessionStorage.getItem('auto_nexa_chat_state');
-      const savedHist = sessionStorage.getItem('auto_nexa_chat_history');
-      if (savedState) this.state = JSON.parse(savedState);
-      if (savedHist) this.history = JSON.parse(savedHist);
-
-      const thread = document.getElementById('cat-ai-chat-thread');
-      if (thread && savedHtml && savedHtml.trim().length > 0) {
-        thread.innerHTML = savedHtml;
-        this.scrollToBottom();
-        return true;
-      }
-    } catch (e) {
-      console.warn('Restore chat error', e);
-    }
-    return false;
-  },
-
-  resetChat() {
-    this.state = {
-      make: null,
-      model: null,
-      fuel: null,
-      year: null,
-      component: null,
-      sub_model: null,
-      part_no: null
-    };
-    this.history = [];
-    try {
-      sessionStorage.removeItem('auto_nexa_chat_html');
-      sessionStorage.removeItem('auto_nexa_chat_state');
-      sessionStorage.removeItem('auto_nexa_chat_history');
-    } catch (e) {}
-    const thread = document.getElementById('cat-ai-chat-thread');
-    if (thread) thread.innerHTML = '';
-    this.renderWelcomeGreeting();
-  },
-
-  renderWelcomeGreeting() {
-    const welcomeHtml = `
-      <div class="chat-bot-bubble cat-ai-welcome-box">
-        <!-- Left Column: Title, Instructions, and 6 Styled Example Cards -->
-        <div>
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
-            <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #0284c7); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.2rem; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);">
-              🤖
-            </div>
-            <div>
-              <div style="font-weight: 900; font-size: 1.05rem; color: #0f172a; font-family: 'Outfit', sans-serif;">
-                AutoNexa Catalog AI Copilot
-              </div>
-              <div style="font-size: 0.76rem; color: #059669; font-weight: 750;">
-                🟢 Online • Universal Parts Diagnostic Engine
-              </div>
-            </div>
-          </div>
-
-          <div style="font-size: 0.88rem; color: #334155; line-height: 1.5; margin-bottom: 0.5rem;">
-            Hello! Ask anything in <strong>English, Hindi/Hinglish</strong>, vehicle symptoms, or raw part number. Click any card below to launch:
-          </div>
-
-          <!-- 6 Styled Example Diagnostic Cards (Image 1 Mockup) -->
-          <div class="cat-ai-diag-grid">
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Grand i10 Nios brake pad')">
-              <div class="cat-ai-diag-icon" style="background: #fef2f2; color: #dc2626;">🛑</div>
-              <div>
-                <div class="cat-ai-diag-text">Grand i10 Nios brake pad</div>
-                <div class="cat-ai-diag-sub">Front Disc Pad Set</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Swift diesel 2018 oil filter')">
-              <div class="cat-ai-diag-icon" style="background: #f0fdfa; color: #0d9488;">🛢️</div>
-              <div>
-                <div class="cat-ai-diag-text">Swift diesel 2018 oil filter</div>
-                <div class="cat-ai-diag-sub">Spin-On Engine Filter</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Innova clutch plate')">
-              <div class="cat-ai-diag-icon" style="background: #f5f3ff; color: #7c3aed;">⚙️</div>
-              <div>
-                <div class="cat-ai-diag-text">Innova clutch plate</div>
-                <div class="cat-ai-diag-sub">Clutch Disc & Cover</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Tata Indica kharab hai')">
-              <div class="cat-ai-diag-icon" style="background: #fff7ed; color: #ea580c;">🔧</div>
-              <div>
-                <div class="cat-ai-diag-text">Tata Indica kharab hai</div>
-                <div class="cat-ai-diag-sub">Diagnostic Area Selection</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Creta shocker kharab hai')">
-              <div class="cat-ai-diag-icon" style="background: #ecfdf5; color: #059669;">🌀</div>
-              <div>
-                <div class="cat-ai-diag-text">Creta shocker kharab hai</div>
-                <div class="cat-ai-diag-sub">Front Strut & Damper</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Part No: 21658101B4A05')">
-              <div class="cat-ai-diag-icon" style="background: #eff6ff; color: #2563eb;">🏷️</div>
-              <div>
-                <div class="cat-ai-diag-text">Part: 21658101B4A05</div>
-                <div class="cat-ai-diag-sub">Cross Line Code Match</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: 3D Technical Wireframe Car with Neon Inspection Callout -->
-        <div class="cat-ai-wireframe-container">
-          <img src="images/wireframe_car_inspection.png" alt="3D Vehicle Wireframe Inspection" class="cat-ai-wireframe-img">
-          <div class="cat-ai-inspection-callout">
-            <span style="font-size: 0.9rem;">✨</span>
-            <span>Identified: Tie Rod End for Tata Indica Vista</span>
           </div>
         </div>
       </div>
@@ -735,6 +634,7 @@ const CatalogAiChat = {
     thread.insertAdjacentHTML('beforeend', botMessageHtml);
     this.scrollToBottom();
     this.saveState();
+    this.updateSideInspector(this.activeVehicleContext, action);
   },
 
   renderFuelYearWidget(action) {
@@ -881,6 +781,7 @@ const CatalogAiChat = {
               </div>
               <div style="font-family: monospace; font-size: 0.95rem; font-weight: 850; color: #166534; margin-bottom: 0.45rem;">
                 Part No: <span style="background: #dcfce7; padding: 0.15rem 0.45rem; border-radius: 6px;">${this.escapeHtml(oem.partNo)}</span>
+                <button type="button" onclick="CatalogAiChat.copyToClipboard('${this.escapeJs(oem.partNo)}', this)" style="padding: 1px 6px; font-size: 0.7rem; border-radius: 4px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; margin-left: 4px;">📋 Copy</button>
                 <span style="font-size: 0.78rem; font-weight: 750; color: #475569; margin-left: 0.4rem;">(${this.escapeHtml(oem.brand)} OE)</span>
               </div>
               
@@ -955,8 +856,9 @@ const CatalogAiChat = {
                         Save ${diffPercent}% vs OEM
                       </span>
                     </div>
-                    <div style="font-family: monospace; font-size: 0.98rem; font-weight: 900; color: #0284c7;">
-                      ${this.escapeHtml(p.partNo)}
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                      <span style="font-family: monospace; font-size: 0.98rem; font-weight: 900; color: #0284c7;">${this.escapeHtml(p.partNo)}</span>
+                      <button type="button" onclick="CatalogAiChat.copyToClipboard('${this.escapeJs(p.partNo)}', this)" style="padding: 1px 6px; font-size: 0.68rem; border-radius: 4px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer;">📋 Copy</button>
                     </div>
                     <div style="font-size: 0.84rem; font-weight: 800; color: #1e293b; margin-top: 0.25rem;">
                       ${this.escapeHtml(p.desc)}
@@ -1325,7 +1227,8 @@ const CatalogAiChat = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         message: cmd,
-        state: this.state
+        state: this.state,
+        vehicle_context: this.activeVehicleContext
       })
     })
     .then(r => r.json())
@@ -1334,6 +1237,13 @@ const CatalogAiChat = {
       this.isWaiting = false;
       if (data.state) {
         this.state = Object.assign({}, this.state, data.state);
+      }
+      if (data.active_vehicle && data.active_vehicle.make) {
+        this.activeVehicleContext = Object.assign({}, this.activeVehicleContext || {}, data.active_vehicle);
+        try {
+          sessionStorage.setItem('auto_nexa_active_vehicle', JSON.stringify(this.activeVehicleContext));
+        } catch (e) {}
+        this.updateActiveVehicleBar();
       }
       this.renderBotResponse(data);
     })

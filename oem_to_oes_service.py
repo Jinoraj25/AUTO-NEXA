@@ -211,44 +211,40 @@ def convert_oem_to_oes(query_str):
     # 1. Check exact key in verified map
     for k, data in VERIFIED_OEM_OES_MAP.items():
         if k in clean_q or clean_q in k:
-            return format_response(data)
+            res = format_response(data)
+            res["found"] = True
+            return res
 
     # 2. Query overall_catalogue.db
-    db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "overall_catalogue.db")
+    db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "overall_catalogue.db")
     if not os.path.exists(db_path):
-        return fallback_conversion(query_str)
+        return {"status": "not_found", "found": False, "query": query_str}
 
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    c = conn.cursor()
+    import overall_catalogue_api
+    search_res = overall_catalogue_api.search_catalogue(q=query_str, limit=5)
+    items = search_res.get("items", [])
+    if not items:
+        # Try with clean query
+        search_res = overall_catalogue_api.search_catalogue(q=clean_q, limit=5)
+        items = search_res.get("items", [])
 
-    # Search for OEM record
-    c.execute("""
-        SELECT * FROM overall_catalogue 
-        WHERE line_code_part_number LIKE ? OR part_description LIKE ?
-        ORDER BY CASE WHEN line_code_part_number = ? THEN 1 WHEN line_code_part_number LIKE ? THEN 2 ELSE 3 END, mrp_price DESC
-        LIMIT 1
-    """, [f"%{clean_q}%", f"%{query_str}%", clean_q, f"%{clean_q}%"])
-    oem_row = c.fetchone()
+    if not items:
+        return {"status": "not_found", "found": False, "query": query_str}
 
-    if not oem_row:
-        conn.close()
-        return fallback_conversion(query_str)
-
-    oem_brand = (oem_row["brand_name"] or "").strip().upper()
+    oem_row = items[0]
+    oem_brand = (oem_row.get("brand") or "").strip().upper()
     is_oem = any(ob in oem_brand for ob in OEM_BRANDS)
-    mrp = float(oem_row["mrp_price"] or 1500)
-    if mrp <= 20: # Bad data guard
-        mrp = 850.0
+    raw_mrp = oem_row.get("mrp")
+    mrp = float(raw_mrp) if raw_mrp and float(raw_mrp) > 0 else None
 
-    comp = oem_row["components"] or oem_row["sub_aggregate"] or "COMPONENT"
-    sub_agg = oem_row["sub_aggregate"] or "ASSEMBLY"
-    make = oem_row["vehicle_make"] or ""
-    model = oem_row["vehicle_model"] or ""
+    comp = oem_row.get("components") or oem_row.get("subAggregate") or "COMPONENT"
+    sub_agg = oem_row.get("subAggregate") or "ASSEMBLY"
+    make = oem_row.get("make") or ""
+    model = oem_row.get("model") or ""
 
     oem_data = {
-        "partNo": oem_row["line_code_part_number"] or query_str.upper(),
-        "desc": oem_row["part_description"] or f"{comp} ({make} {model})",
+        "partNo": oem_row.get("partNo") or query_str.upper(),
+        "desc": oem_row.get("desc") or f"{comp} ({make} {model})",
         "brand": f"{oem_brand} GENUINE" if is_oem else f"{oem_brand} OEM",
         "mrp": mrp,
         "vehicle": f"{make} {model}".strip() or "Automotive Application",
@@ -256,114 +252,114 @@ def convert_oem_to_oes(query_str):
         "leadTime": "3-5 Days"
     }
 
-    # Now search for TRUE TIER-1 OES parts (strictly NOT the OEM brand!)
+    # Search for real OES parts for this component/aggregate from other brands
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+
     oes_candidates = []
     c.execute("""
         SELECT line_code_part_number, brand_name, part_description, mrp_price 
         FROM overall_catalogue 
         WHERE brand_name IN ('BOSCH', 'PUROLATOR', 'MAHLE', 'VALEO', 'LUK', 'BREMBO', 'TVS Girling', 'ELOFIC', 'GABRIEL', 'MONROE', 'RANE', 'DENSO', 'MYTVS', 'DELPHI TECH')
+          AND brand_name != ?
           AND (components = ? OR sub_aggregate = ? OR part_description LIKE ?)
-          AND mrp_price BETWEEN ? AND ?
+          AND mrp_price > 0
         ORDER BY mrp_price ASC
         LIMIT 10
-    """, [comp, sub_agg, f"%{comp}%", mrp * 0.45, mrp * 0.85])
-    
+    """, [oem_brand, comp, sub_agg, f"%{comp}%"])
+
     for r in c.fetchall():
+        cand_mrp = float(r["mrp_price"]) if r["mrp_price"] else None
+        cand_saving = None
+        cand_pct = None
+        if mrp and cand_mrp and mrp > cand_mrp:
+            cand_saving = round(mrp - cand_mrp, 2)
+            cand_pct = round((cand_saving / mrp) * 100)
+
         oes_candidates.append({
             "partNo": r["line_code_part_number"],
             "brand": r["brand_name"],
-            "desc": r["part_description"],
-            "mrp": float(r["mrp_price"])
+            "desc": r["part_description"] or f"OE Grade {comp}",
+            "mrp": cand_mrp,
+            "price": cand_mrp,
+            "saving_amount": cand_saving,
+            "saving_pct": cand_pct,
+            "availability": "In Stock"
         })
 
     conn.close()
 
-    # If DB found real OES parts, pick best
-    if oes_candidates:
-        best = oes_candidates[0]
-        rec_oes = {
-            "partNo": best["partNo"],
-            "desc": best["desc"],
-            "brand": f"{best['brand']} (Tier-1 OE Supplier)",
-            "mrp": best["mrp"],
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "1-2 Years Manufacturer Warranty",
-            "oeMatch": "100% Certified OE Specification"
-        }
-        alts = oes_candidates[1:4]
-    else:
-        # Synthesize realistic Tier-1 OES partner for this component
-        rec_brand = "BOSCH"
-        if "CLUTCH" in comp or "TRANSMISSION" in comp:
-            rec_brand = "LuK / VALEO"
-        elif "BRAKE" in comp:
-            rec_brand = "TVS GIRLING / BREMBO"
-        elif "FILTER" in comp:
-            rec_brand = "PUROLATOR / MAHLE"
-        elif "SHOCK" in comp or "STRUT" in comp:
-            rec_brand = "GABRIEL / MONROE"
-        elif "STEERING" in comp:
-            rec_brand = "RANE / TRW"
+    if not oes_candidates:
+        return {"status": "not_found", "found": False, "query": query_str}
 
-        rec_mrp = round(mrp * 0.72) # exactly 28% savings
-        rec_oes = {
-            "partNo": f"OES-{clean_q[:8]}",
-            "desc": f"TIER-1 OE REPLACEMENT {comp}",
-            "brand": f"{rec_brand} (Tier-1 OE Supplier)",
-            "mrp": rec_mrp,
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "2 Years / 30,000 km",
-            "oeMatch": "100% Manufactured on Original Assembly Tooling"
-        }
-        alts = [
-            {"partNo": f"BOS-{clean_q[:6]}", "brand": "BOSCH AUTOMOTIVE", "desc": f"Bosch OE Specification {comp}", "mrp": round(mrp * 0.75)},
-            {"partNo": f"TVG-{clean_q[:6]}", "brand": "TVS MOBILITY / MYTVS", "desc": f"OE Grade Aftermarket {comp}", "mrp": round(mrp * 0.70)}
-        ]
+    best = oes_candidates[0]
+    rec_oes = {
+        "partNo": best["partNo"],
+        "desc": best["desc"],
+        "brand": f"{best['brand']} (Tier-1 OE Supplier)",
+        "mrp": best["mrp"],
+        "stock": "IN STOCK (Same Day Dispatch)",
+        "warranty": "1-2 Years Manufacturer Warranty",
+        "oeMatch": "100% Certified OE Specification"
+    }
 
-    return format_response({
-        "oem": oem_data,
-        "recommended_oes": rec_oes,
-        "alternatives": alts
-    })
-
-def format_response(data):
-    oem_mrp = data["oem"]["mrp"]
-    oes_mrp = data["recommended_oes"]["mrp"]
-    savings = max(0, oem_mrp - oes_mrp)
-    pct = round((savings / oem_mrp) * 100) if oem_mrp > 0 else 28
+    alts = oes_candidates[1:5]
+    best_saving = best.get("saving_amount") or 0
+    best_pct = best.get("saving_pct") or 0
 
     return {
         "status": "success",
+        "found": True,
+        "oem": oem_data,
+        "recommended_oes": rec_oes,
+        "alternatives": alts,
+        "oes_alternatives": oes_candidates[:6],
+        "savings_amount": best_saving,
+        "savings_percentage": best_pct
+    }
+
+def format_response(data):
+    oem_mrp = data["oem"].get("mrp")
+    oes_mrp = data["recommended_oes"].get("mrp")
+    savings = (oem_mrp - oes_mrp) if (oem_mrp and oes_mrp and oem_mrp > oes_mrp) else 0
+    pct = round((savings / oem_mrp) * 100) if (oem_mrp and savings > 0) else 0
+
+    oes_alts = []
+    if "recommended_oes" in data:
+        r = data["recommended_oes"]
+        oes_alts.append({
+            "partNo": r.get("partNo"),
+            "brand": r.get("brand"),
+            "desc": r.get("desc"),
+            "price": r.get("mrp"),
+            "mrp": r.get("mrp"),
+            "saving_amount": savings if savings > 0 else None,
+            "saving_pct": pct if pct > 0 else None,
+            "availability": "In Stock"
+        })
+    for a in data.get("alternatives", []):
+        alt_mrp = a.get("mrp")
+        alt_saving = (oem_mrp - alt_mrp) if (oem_mrp and alt_mrp and oem_mrp > alt_mrp) else None
+        alt_pct = round((alt_saving / oem_mrp) * 100) if (oem_mrp and alt_saving and alt_saving > 0) else None
+        oes_alts.append({
+            "partNo": a.get("partNo"),
+            "brand": a.get("brand"),
+            "desc": a.get("desc"),
+            "price": alt_mrp,
+            "mrp": alt_mrp,
+            "saving_amount": alt_saving,
+            "saving_pct": alt_pct,
+            "availability": "In Stock"
+        })
+
+    return {
+        "status": "success",
+        "found": True,
         "oem": data["oem"],
         "recommended_oes": data["recommended_oes"],
         "alternatives": data.get("alternatives", []),
+        "oes_alternatives": oes_alts,
         "savings_amount": savings,
         "savings_percentage": pct
     }
-
-def fallback_conversion(query_str):
-    q = query_str.upper()
-    return format_response({
-        "oem": {
-            "partNo": q,
-            "desc": f"{q} Dealership Genuine Equipment",
-            "brand": "OEM DEALERSHIP GENUINE",
-            "mrp": 2800,
-            "vehicle": "Automotive Specification",
-            "component": "GENUINE COMPONENT",
-            "leadTime": "3-7 Days"
-        },
-        "recommended_oes": {
-            "partNo": f"0986AB{q[-4:] if len(q) >= 4 else '1024'}",
-            "desc": f"TIER-1 OES DIRECT AFTERMARKET REPLACEMENT",
-            "brand": "BOSCH / TVS GIRLING (Tier-1 OE Supplier)",
-            "mrp": 1980,
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "2 Years / 30,000 km",
-            "oeMatch": "100% Certified OE Specification"
-        },
-        "alternatives": [
-            {"partNo": f"VAL-88{q[-3:] if len(q) >= 3 else '10'}", "brand": "VALEO", "desc": "Valeo OE Equipment", "mrp": 2050},
-            {"partNo": f"PUR-55{q[-3:] if len(q) >= 3 else '20'}", "brand": "PUROLATOR", "desc": "Purolator OE Spec", "mrp": 1920}
-        ]
-    })

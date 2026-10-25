@@ -73,11 +73,11 @@ window.OverallCataloguePortal = {
 
   // Vehicle Registration Number Master Mappings (AUTO NEXA Fitment Database)
   vrnDb: {
-    'TN22BK1405': { make: 'TATA', model: 'INDICA', sub_model: 'INDICA VISTA 1.3L', fuel: 'DIESEL', year: '2010', owner: 'Jino George' },
-    'DL3CCP1234': { make: 'HYUNDAI', model: 'CRETA', sub_model: '1.6 CRDI', fuel: 'DIESEL', year: '2018', owner: 'Corporate Fleet' },
-    'MH02CD5678': { make: 'MARUTI SUZUKI', model: 'SWIFT', sub_model: '1.2 VXI', fuel: 'PETROL', year: '2020', owner: 'AUTO NEXA Hub' },
-    'KA03MG9999': { make: 'MAHINDRA', model: 'SCORPIO', sub_model: 'S11 2.2L', fuel: 'DIESEL', year: '2021', owner: 'Enterprise Logistics' },
-    'TN09BZ4321': { make: 'TOYOTA', model: 'INNOVA CRYSTA', sub_model: '2.4 VX', fuel: 'DIESEL', year: '2019', owner: 'VIP Prime' }
+    'TN22BK1405': { make: 'TATA', model: 'INDICA', sub_model: 'INDICA VISTA 1.3L', fuel: 'DIESEL', year: '2010' },
+    'DL3CCP1234': { make: 'HYUNDAI', model: 'CRETA', sub_model: '1.6 CRDI', fuel: 'DIESEL', year: '2018' },
+    'MH02CD5678': { make: 'MARUTI SUZUKI', model: 'SWIFT', sub_model: '1.2 VXI', fuel: 'PETROL', year: '2020' },
+    'KA03MG9999': { make: 'MAHINDRA', model: 'SCORPIO', sub_model: 'S11 2.2L', fuel: 'DIESEL', year: '2021' },
+    'TN09BZ4321': { make: 'TOYOTA', model: 'INNOVA CRYSTA', sub_model: '2.4 VX', fuel: 'DIESEL', year: '2019' }
   },
 
   async init() {
@@ -176,22 +176,23 @@ window.OverallCataloguePortal = {
           model: WMI_MAP[wmi].model,
           sub_model: WMI_MAP[wmi].model,
           fuel: 'PETROL',
-          year: YR_MAP[yrCode] || '2020',
-          owner: 'VIN Validated Unit'
+          year: YR_MAP[yrCode] || '2020'
         };
       }
     }
 
-    // Check known database, VIN decode, or fallback to Tata Indica Vista
-    const found = vinDecoded || this.vrnDb[cleanReg] || {
-      make: 'TATA',
-      model: 'INDICA',
-      sub_model: 'INDICA VISTA 1.3L',
-      fuel: 'DIESEL',
-      year: '2010'
-    };
+    // Check known database or VIN decode
+    const found = vinDecoded || this.vrnDb[cleanReg];
+    if (!found) {
+      if (window.App && window.App.showToast) {
+        window.App.showToast("Vehicle not found for this registration number", "error");
+      } else {
+        alert("Vehicle not found for this registration number");
+      }
+      return;
+    }
 
-    input.value = cleanReg || 'TN22BK1405';
+    input.value = cleanReg;
 
     // Update filters
     this.filters.make = found.make;
@@ -643,28 +644,48 @@ window.OverallCataloguePortal = {
         countEl.textContent = `${variants.length} Variants Available`;
       }
 
-      // Dynamic Cascading: Populate Fuel Type dropdown strictly from DB
-      const fuelSel = document.getElementById('v-filter-fuel');
-      if (fuelSel) {
-        const curFuel = fuelSel.value;
-        let fuelOpts = `<option value="">All Fuels (${availableFuels.length})</option>`;
-        availableFuels.forEach(f => {
-          const isSel = (curFuel.toUpperCase() === f.toUpperCase()) ? 'selected' : '';
-          fuelOpts += `<option value="${this.escapeHtml(f)}" ${isSel}>${this.escapeHtml(f)}</option>`;
-        });
-        fuelSel.innerHTML = fuelOpts;
-      }
+      // Fetch live strict filter options from DB for selected vehicle
+      try {
+        const foParams = new URLSearchParams();
+        if (this.selectedMake) foParams.append('make', this.selectedMake);
+        if (this.selectedModel) foParams.append('model', this.selectedModel);
+        if (this.selectedVariant) foParams.append('sub_model', this.selectedVariant);
+        const foRes = await fetch(`/api/overall-catalogue/filter-options?${foParams.toString()}`);
+        if (foRes.ok) {
+          const foData = await foRes.json();
+          const dbFuels = foData.fuels || [];
+          const dbYears = foData.years || [];
 
-      // Dynamic Cascading: Populate Year dropdown strictly from DB
-      const yrSel = document.getElementById('v-filter-year');
-      if (yrSel) {
-        const curYr = yrSel.value;
-        let yrOpts = `<option value="">All Years (${availableYears.length})</option>`;
-        availableYears.forEach(y => {
-          const isSel = (curYr === y) ? 'selected' : '';
-          yrOpts += `<option value="${this.escapeHtml(y)}" ${isSel}>${this.escapeHtml(y)}</option>`;
-        });
-        yrSel.innerHTML = yrOpts;
+          const fuelSel = document.getElementById('v-filter-fuel');
+          if (fuelSel) {
+            const curFuel = fuelSel.value;
+            let fuelOpts = `<option value="">All Fuels</option>`;
+            dbFuels.forEach(f => {
+              const isSel = (curFuel.toUpperCase() === f.toUpperCase()) ? 'selected' : '';
+              fuelOpts += `<option value="${this.escapeHtml(f)}" ${isSel}>${this.escapeHtml(f)}</option>`;
+            });
+            fuelSel.innerHTML = fuelOpts;
+            if (curFuel && !dbFuels.some(f => f.toUpperCase() === curFuel.toUpperCase())) {
+              fuelSel.value = '';
+            }
+          }
+
+          const yrSel = document.getElementById('v-filter-year');
+          if (yrSel) {
+            const curYr = yrSel.value;
+            let yrOpts = `<option value="">All Years</option>`;
+            dbYears.forEach(y => {
+              const isSel = (curYr === y) ? 'selected' : '';
+              yrOpts += `<option value="${this.escapeHtml(y)}" ${isSel}>${this.escapeHtml(y)}</option>`;
+            });
+            yrSel.innerHTML = yrOpts;
+            if (curYr && !dbYears.includes(curYr)) {
+              yrSel.value = '';
+            }
+          }
+        }
+      } catch (errFo) {
+        console.warn("Could not load dynamic filter options:", errFo);
       }
       
       // Render Model Pills
@@ -1044,47 +1065,7 @@ window.OverallCataloguePortal = {
     }
   },
 
-setComponentViewMode(mode) {
-    this.componentViewMode = mode;
-    const cardsBtn = document.getElementById('v-comp-view-cards-btn');
-    const listBtn = document.getElementById('v-comp-view-list-btn');
-    if (cardsBtn) cardsBtn.classList.toggle('active', mode === 'cards');
-    if (listBtn) listBtn.classList.toggle('active', mode === 'list');
-    this.renderTaxonomyComponents(this.lastLoadedComponents);
-  },
 
-  renderTaxonomyComponents(items) {
-    const compList = document.getElementById('v-tax-comp-list');
-    if (!compList) return;
-    if (!items || items.length === 0) {
-      compList.innerHTML = `<div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">← Select a Sub-Aggregate to view Components</div>`;
-      return;
-    }
-
-    if (this.componentViewMode === 'cards') {
-      compList.innerHTML = `
-        <div class="comp-cards-grid">
-          ${items.map(item => {
-            const isSelected = this.selectedComponent === item.name;
-            const compObj = {
-              component: item.name,
-              aggregate: this.selectedAggregate,
-              subAggregate: this.selectedSubAggregate,
-              skuCount: item.count
-            };
-            const clickJs = `OverallCataloguePortal.selectComponentVisual('${this.escapeJs(item.name)}', this)`;
-            if (window.ComponentImageResolver) {
-              return window.ComponentImageResolver.renderComponentCardHtml(compObj, isSelected, clickJs);
-            }
-            return `<div class="comp-fallback-card" onclick="${clickJs}">${this.escapeHtml(item.name)}</div>`;
-          }).join('')}
-        </div>
-      `;
-    } else {
-      this.lastLoadedComponents = items;
-      this.renderTaxonomyComponents(items);
-    }
-  },
 
   getQualityTierBadge(brand) {
     const b = (brand || '').toUpperCase();
@@ -1206,30 +1187,50 @@ setComponentViewMode(mode) {
 
   async loadStats() {
     try {
-      const res = await fetch('/api/overall-catalogue/stats');
-      if (!res.ok) return;
+      const res = await fetch('/api/overall-catalogue/analytics');
+      if (!res.ok) throw new Error("Analytics API failed");
       const data = await res.json();
-      
+      const totals = data.totals || {};
+
+      const records = totals.total_rows;
+      const parts = totals.distinct_parts;
+      const brands = totals.distinct_brands;
+      const makes = totals.distinct_makes;
+      const models = totals.distinct_models;
+      const aggregates = totals.distinct_aggregates || 29;
+      const subaggregates = totals.distinct_sub_aggregates || 213;
+
       const elRecords = document.getElementById('cat-stat-records');
       const elParts = document.getElementById('cat-stat-parts');
       const elBrands = document.getElementById('cat-stat-brands');
       const elMakes = document.getElementById('cat-stat-makes');
       const elTaxonomy = document.getElementById('cat-stat-taxonomy');
+      const elSubAgg = document.getElementById('cat-stat-subaggregates');
+      const elSidebarBadge = document.getElementById('cat-sidebar-badge');
+      const elHeaderSkus = document.getElementById('header-stat-skus');
+      const elHeroTotal = document.getElementById('cat-hero-total-skus');
+      const elHeroChipSkus = document.getElementById('cat-hero-chip-skus');
+      const elHeroChipMakes = document.getElementById('cat-hero-chip-makes');
 
-      const records = data.totalRecords ?? data.total_records ?? 23671472;
-      const parts = data.totalParts ?? data.unique_parts ?? 416045;
-      const brands = data.totalBrands ?? data.unique_brands ?? 170;
-      const makes = data.totalMakes ?? data.unique_makes ?? 39;
-      const models = data.totalModels ?? data.unique_models ?? 504;
-      const aggregates = data.totalAggregates ?? data.unique_aggregates ?? 29;
+      if (elRecords) elRecords.textContent = records ? Number(records).toLocaleString('en-IN') : '—';
+      if (elParts) elParts.textContent = parts ? Number(parts).toLocaleString('en-IN') : '—';
+      if (elBrands) elBrands.textContent = brands ? `${Number(brands)}+ Brands` : '—';
+      if (elMakes) elMakes.textContent = (makes && models) ? `${makes} Makes • ${models} Models` : '—';
+      if (elTaxonomy) elTaxonomy.textContent = aggregates ? String(aggregates) : '—';
+      if (elSubAgg) elSubAgg.textContent = subaggregates ? String(subaggregates) : '—';
 
-      if (elRecords) elRecords.textContent = Number(records).toLocaleString('en-IN');
-      if (elParts) elParts.textContent = Number(parts).toLocaleString('en-IN');
-      if (elBrands) elBrands.textContent = `${Number(brands)}+ Brands`;
-      if (elMakes) elMakes.textContent = `${makes} Makes • ${models} Models`;
-      if (elTaxonomy) elTaxonomy.textContent = '26';
+      const mCount = records ? (records / 1000000).toFixed(1) + 'M' : '—';
+      if (elSidebarBadge) elSidebarBadge.textContent = mCount;
+      if (elHeaderSkus) elHeaderSkus.textContent = records ? `${mCount} SKUs Live` : '—';
+      if (elHeroTotal) elHeroTotal.textContent = records ? Number(records).toLocaleString('en-IN') : '—';
+      if (elHeroChipSkus) elHeroChipSkus.textContent = records ? `${Number(records).toLocaleString('en-IN')} SKUs` : '—';
+      if (elHeroChipMakes) elHeroChipMakes.textContent = (makes && models) ? `${makes} Makes • ${models} Models` : '—';
     } catch (err) {
       console.error("Error loading catalogue stats:", err);
+      ['cat-stat-records', 'cat-stat-parts', 'cat-stat-brands', 'cat-stat-makes', 'cat-stat-taxonomy', 'cat-stat-subaggregates', 'cat-sidebar-badge', 'header-stat-skus', 'cat-hero-total-skus', 'cat-hero-chip-skus', 'cat-hero-chip-makes'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '—';
+      });
     }
   },
 
@@ -1241,62 +1242,33 @@ setComponentViewMode(mode) {
   async initCharts() {
     if (typeof Chart === 'undefined') return;
 
+    const showUnavailable = (wrapperId) => {
+      const w = document.getElementById(wrapperId);
+      if (w) w.innerHTML = '<div class="cat-chart-unavailable">⚠️ Data unavailable</div>';
+    };
+
     let dbAnalytics = null;
     try {
-      const res = await fetch('/data/catalogue_db_analytics.json');
+      const res = await fetch('/api/overall-catalogue/analytics');
       if (res.ok) {
         dbAnalytics = await res.json();
       }
     } catch (e) {
-      console.warn("Could not fetch catalogue_db_analytics.json, using fallback stats:", e);
+      console.warn("Could not fetch /api/overall-catalogue/analytics:", e);
     }
 
-    // Fallback analytics from real 23.6M SQLite DB if file fetch fails
-    const topMakesData = (dbAnalytics && dbAnalytics.top_makes) || [
-      { make: 'TATA', records: 5212824, pct: 22.0 },
-      { make: 'HYUNDAI', records: 4746442, pct: 20.1 },
-      { make: 'MARUTI', records: 4648752, pct: 19.6 },
-      { make: 'MAHINDRA', records: 2968979, pct: 12.5 },
-      { make: 'TOYOTA', records: 1267392, pct: 5.4 },
-      { make: 'HONDA', records: 1096704, pct: 4.6 },
-      { make: 'SKODA', records: 641461, pct: 2.7 },
-      { make: 'FORD', records: 527153, pct: 2.2 },
-      { make: 'VW', records: 481122, pct: 2.0 },
-      { make: 'AUDI', records: 367819, pct: 1.6 }
-    ];
+    if (!dbAnalytics || !dbAnalytics.top_makes || dbAnalytics.top_makes.length === 0) {
+      showUnavailable('cat-chart-makes-wrapper');
+      showUnavailable('cat-chart-aggregates-wrapper');
+      showUnavailable('cat-chart-brands-wrapper');
+      showUnavailable('cat-chart-mrp-wrapper');
+      return;
+    }
 
-    const topAggregatesData = (dbAnalytics && dbAnalytics.top_aggregates) || [
-      { aggregate: 'BODY PARTS', count: 3421185, pct: 19.1 },
-      { aggregate: 'CONSUMABLES', count: 1903695, pct: 10.6 },
-      { aggregate: 'ELECTRICALS', count: 1521168, pct: 8.5 },
-      { aggregate: 'ENGINE', count: 1335071, pct: 7.5 },
-      { aggregate: 'LIGHTING', count: 1246098, pct: 7.0 },
-      { aggregate: 'ACCESSORIES', count: 1204460, pct: 6.7 },
-      { aggregate: 'LUBES', count: 1151780, pct: 6.4 },
-      { aggregate: 'RUBBERS', count: 663736, pct: 3.7 },
-      { aggregate: 'FLUIDS', count: 616584, pct: 3.4 },
-      { aggregate: 'BRAKES/SUSP', count: 585210, pct: 3.3 }
-    ];
-
-    const topBrandsData = (dbAnalytics && dbAnalytics.top_brands) || [
-      { brand: 'HYUNDAI', records: 4306472 },
-      { brand: 'TATA', records: 3276014 },
-      { brand: 'MARUTI', records: 3007055 },
-      { brand: 'MAHINDRA', records: 1971617 },
-      { brand: 'MYTVS', records: 1704352 },
-      { brand: 'BOSCH', records: 1020948 },
-      { brand: 'HELLA', records: 774521 },
-      { brand: 'TOYOTA', records: 731297 },
-      { brand: 'HONDA', records: 601022 },
-      { brand: 'SKODA', records: 426697 }
-    ];
-
-    const mrpData = (dbAnalytics && dbAnalytics.mrp_distribution) || [
-      { range: '< ₹500', count: 13808340, pct: 60.7 },
-      { range: '₹500 - ₹1.5K', count: 4023906, pct: 17.7 },
-      { range: '₹1.5K - ₹5K', count: 3103977, pct: 13.7 },
-      { range: '> ₹5,000', count: 1804612, pct: 7.9 }
-    ];
+    const topMakesData = dbAnalytics.top_makes || [];
+    const topAggregatesData = dbAnalytics.top_aggregates || [];
+    const topBrandsData = dbAnalytics.top_brands || [];
+    const mrpData = dbAnalytics.mrp_bands || [];
 
     // 1. Top Vehicle Makes Bar Chart
     const ctxMakes = document.getElementById('cat-chart-makes')?.getContext('2d');
@@ -1309,10 +1281,10 @@ setComponentViewMode(mode) {
       this.catMakesChart = new Chart(ctxMakes, {
         type: 'bar',
         data: {
-          labels: topMakesData.map(m => m.make.replace('MARUTI SUZUKI', 'MARUTI')),
+          labels: topMakesData.map(m => (m.make || '').replace('MARUTI SUZUKI', 'MARUTI')),
           datasets: [{
             label: 'SKUs (Millions)',
-            data: topMakesData.map(m => +(m.records / 1000000).toFixed(2)),
+            data: topMakesData.map(m => +((m.count || 0) / 1000000).toFixed(2)),
             backgroundColor: gradMakes,
             borderRadius: 4,
             barThickness: 16
@@ -1342,8 +1314,7 @@ setComponentViewMode(mode) {
                 font: { size: 9, weight: '600' },
                 callback: (val) => `${val}M`
               },
-              min: 0,
-              max: 6
+              min: 0
             }
           }
         }
@@ -1357,7 +1328,7 @@ setComponentViewMode(mode) {
       this.catAggregatesChart = new Chart(ctxAggregates, {
         type: 'doughnut',
         data: {
-          labels: topAggregatesData.map(a => a.aggregate.replace(' AND ', ' & ').replace('PAINTS & CONSUMABLES', 'CONSUMABLES')),
+          labels: topAggregatesData.map(a => (a.aggregate || '').replace(' AND ', ' & ').replace('PAINTS & CONSUMABLES', 'CONSUMABLES')),
           datasets: [{
             data: topAggregatesData.map(a => a.pct),
             backgroundColor: [
@@ -1389,7 +1360,7 @@ setComponentViewMode(mode) {
             tooltip: {
               backgroundColor: '#0f172a',
               callbacks: {
-                label: (ctx) => ` ${ctx.label}: ${ctx.raw}% (${(topAggregatesData[ctx.dataIndex]?.count / 1000000).toFixed(2)}M)`
+                label: (ctx) => ` ${ctx.label}: ${ctx.raw}% (${((topAggregatesData[ctx.dataIndex]?.count || 0) / 1000000).toFixed(2)}M)`
               }
             }
           }
@@ -1411,7 +1382,7 @@ setComponentViewMode(mode) {
           labels: topBrandsData.slice(0, 8).map(b => b.brand),
           datasets: [{
             label: 'Indexed SKUs (M)',
-            data: topBrandsData.slice(0, 8).map(b => +(b.records / 1000000).toFixed(2)),
+            data: topBrandsData.slice(0, 8).map(b => +((b.count || 0) / 1000000).toFixed(2)),
             backgroundColor: gradBrands,
             borderRadius: 4,
             barThickness: 18
@@ -1425,7 +1396,7 @@ setComponentViewMode(mode) {
             tooltip: {
               backgroundColor: '#0f172a',
               callbacks: {
-                label: (ctx) => ` ${ctx.raw}M Indexed SKUs`
+                label: (ctx) => ` ${ctx.raw}M Indexed SKUs (${topBrandsData[ctx.dataIndex]?.pct || 0}%)`
               }
             }
           },
@@ -1441,8 +1412,7 @@ setComponentViewMode(mode) {
                 font: { size: 9, weight: '600' },
                 callback: (val) => `${val}M`
               },
-              min: 0,
-              max: 5
+              min: 0
             }
           }
         }
@@ -1456,7 +1426,7 @@ setComponentViewMode(mode) {
       this.catMrpChart = new Chart(ctxMrp, {
         type: 'doughnut',
         data: {
-          labels: mrpData.map(m => m.range),
+          labels: mrpData.map(m => (m.band || '').replace('< 500', '< ₹500').replace('500-1499', '₹500-1.5K').replace('1500-4999', '₹1.5K-5K').replace('>= 5000', '> ₹5,000')),
           datasets: [{
             data: mrpData.map(m => m.pct),
             backgroundColor: ['#10b981', '#0284c7', '#f59e0b', '#ef4444'],
@@ -1485,12 +1455,24 @@ setComponentViewMode(mode) {
             tooltip: {
               backgroundColor: '#0f172a',
               callbacks: {
-                label: (ctx) => ` ${ctx.label}: ${ctx.raw}% (${(mrpData[ctx.dataIndex]?.count / 1000000).toFixed(1)}M SKUs)`
+                label: (ctx) => ` ${ctx.label}: ${ctx.raw}% (${((mrpData[ctx.dataIndex]?.count || 0) / 1000000).toFixed(1)}M SKUs)`
               }
             }
           }
         }
       });
+    }
+
+    // Fill MRP Bands summary text
+    if (mrpData && mrpData.length >= 4) {
+      const el0 = document.getElementById('cat-mrp-band-0');
+      const el1 = document.getElementById('cat-mrp-band-1');
+      const el2 = document.getElementById('cat-mrp-band-2');
+      const el3 = document.getElementById('cat-mrp-band-3');
+      if (el0) el0.innerHTML = `&lt;₹500: <strong>${mrpData[0].pct}%</strong>`;
+      if (el1) el1.innerHTML = `₹500-1.5K: <strong>${mrpData[1].pct}%</strong>`;
+      if (el2) el2.innerHTML = `₹1.5K-5K: <strong>${mrpData[2].pct}%</strong>`;
+      if (el3) el3.innerHTML = `&gt;₹5K: <strong>${mrpData[3].pct}%</strong>`;
     }
   },
 
@@ -1575,6 +1557,7 @@ setComponentViewMode(mode) {
       const res = await fetch(`/api/overall-catalogue/suggestions?q=${encodeURIComponent(query)}&limit=8`);
       if (!res.ok) throw new Error("Suggestion fetch failed");
       const data = await res.json();
+      this.selectedSuggestionIndex = -1;
       const suggestions = data.suggestions || [];
 
       if (suggestions.length === 0) {
@@ -1602,7 +1585,7 @@ setComponentViewMode(mode) {
             const lineCode = s.lineCode || (pNo.length > 3 ? pNo.substring(0, 3) : '');
 
             return `
-              <div onmousedown="event.preventDefault(); event.stopPropagation(); OverallCataloguePortal.selectSuggestion('${this.escapeJs(pNo)}')" onclick="OverallCataloguePortal.selectSuggestion('${this.escapeJs(pNo)}')" style="padding: 0.65rem 0.85rem; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; background: #ffffff;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">
+              <div class="cat-suggestion-item" data-part-no="${this.escapeHtml(pNo)}" onmousedown="event.preventDefault(); event.stopPropagation(); OverallCataloguePortal.selectSuggestion('${this.escapeJs(pNo)}')" onclick="OverallCataloguePortal.selectSuggestion('${this.escapeJs(pNo)}')" style="padding: 0.65rem 0.85rem; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; background: #ffffff;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#ffffff'">
                 <div style="display: flex; align-items: center; gap: 0.75rem; min-width: 0;">
                   <span style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; padding: 0.15rem 0.45rem; border-radius: 4px; font-family: monospace; font-size: 0.74rem; font-weight: 900; white-space: nowrap;">
                     ${this.escapeHtml(lineCode ? 'LC ' + lineCode : 'SKU')}
@@ -1632,6 +1615,61 @@ setComponentViewMode(mode) {
     }
   },
 
+  selectedSuggestionIndex: -1,
+
+  handleSearchKeydown(event) {
+    const dropdown = document.getElementById('cat-suggestions-dropdown');
+    const isDropdownVisible = dropdown && dropdown.style.display !== 'none';
+    const items = dropdown ? dropdown.querySelectorAll('.cat-suggestion-item') : [];
+
+    if (event.key === 'Escape') {
+      this.hideSuggestions();
+      event.preventDefault();
+      return;
+    }
+
+    if (event.key === 'ArrowDown') {
+      if (isDropdownVisible && items.length > 0) {
+        event.preventDefault();
+        this.selectedSuggestionIndex = (this.selectedSuggestionIndex + 1) % items.length;
+        this.updateSelectedSuggestion(items);
+      }
+      return;
+    }
+
+    if (event.key === 'ArrowUp') {
+      if (isDropdownVisible && items.length > 0) {
+        event.preventDefault();
+        this.selectedSuggestionIndex = (this.selectedSuggestionIndex - 1 + items.length) % items.length;
+        this.updateSelectedSuggestion(items);
+      }
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (isDropdownVisible && this.selectedSuggestionIndex >= 0 && this.selectedSuggestionIndex < items.length) {
+        const selPartNo = items[this.selectedSuggestionIndex].getAttribute('data-part-no');
+        if (selPartNo) {
+          this.selectSuggestion(selPartNo);
+          return;
+        }
+      }
+      this.triggerSearch();
+    }
+  },
+
+  updateSelectedSuggestion(items) {
+    items.forEach((item, idx) => {
+      if (idx === this.selectedSuggestionIndex) {
+        item.style.background = '#e0f2fe';
+        item.scrollIntoView({ block: 'nearest' });
+      } else {
+        item.style.background = '#ffffff';
+      }
+    });
+  },
+
   selectSuggestion(partNo) {
     const input = document.getElementById('cat-search-q');
     if (input) input.value = partNo;
@@ -1645,6 +1683,7 @@ setComponentViewMode(mode) {
   },
 
   hideSuggestions() {
+    this.selectedSuggestionIndex = -1;
     const dropdown = document.getElementById('cat-suggestions-dropdown');
     if (dropdown) dropdown.style.display = 'none';
   },
@@ -2127,11 +2166,16 @@ setComponentViewMode(mode) {
     if (!gridWrapper) return;
 
     if (rows.length === 0) {
+      const qVal = (this.q || '').trim();
+      const emptyMsg = qVal 
+        ? `No parts found for '<strong>${this.escapeHtml(qVal)}</strong>'. Try the part number without dashes, or pick Make → Model below.`
+        : `No catalogue parts found matching the selected filters. Try adjusting your filters or pick Make → Model below.`;
+
       gridWrapper.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem; color: #94a3b8; font-weight: 600;">
-          <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">🔍</span>
-          No catalogue parts found matching the selected query or filters.<br>
-          <button type="button" onclick="OverallCataloguePortal.resetFilters()" style="margin-top: 1rem; padding: 0.6rem 1.25rem; background: #0284c7; border: none; border-radius: 8px; color: #fff; font-weight: 800; cursor: pointer;">
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1.5rem; color: #475569; font-weight: 600; background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; margin: 1rem 0;">
+          <span style="font-size: 2.2rem; display: block; margin-bottom: 0.65rem;">🔍</span>
+          <div style="font-size: 0.95rem; color: #0f172a; margin-bottom: 0.85rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.5;">${emptyMsg}</div>
+          <button type="button" onclick="OverallCataloguePortal.resetFilters()" style="padding: 0.6rem 1.25rem; background: #0284c7; border: none; border-radius: 8px; color: #fff; font-weight: 800; cursor: pointer;">
             🔄 Clear All Filters
           </button>
         </div>
@@ -2236,7 +2280,22 @@ setComponentViewMode(mode) {
     if (!tbody) return;
 
     if (rows.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 3rem; color: #64748b; font-weight: 600;">No catalogue parts found matching the selected query and filters.</td></tr>`;
+      const qVal = (this.q || '').trim();
+      const emptyMsg = qVal 
+        ? `No parts found for '<strong>${this.escapeHtml(qVal)}</strong>'. Try the part number without dashes, or pick Make → Model below.`
+        : `No catalogue parts found matching the selected filters. Try adjusting your filters or pick Make → Model below.`;
+
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="9" style="text-align: center; padding: 3.5rem 1.5rem; color: #475569; font-weight: 600; background: #f8fafc;">
+            <span style="font-size: 2.2rem; display: block; margin-bottom: 0.65rem;">🔍</span>
+            <div style="font-size: 0.95rem; color: #0f172a; margin-bottom: 0.85rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.5;">${emptyMsg}</div>
+            <button type="button" onclick="OverallCataloguePortal.resetFilters()" style="padding: 0.6rem 1.25rem; background: #0284c7; border: none; border-radius: 8px; color: #fff; font-weight: 800; cursor: pointer;">
+              🔄 Clear All Filters
+            </button>
+          </td>
+        </tr>
+      `;
       return;
     }
 

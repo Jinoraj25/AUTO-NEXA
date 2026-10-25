@@ -5,6 +5,7 @@ import csv
 import io
 import re
 import difflib
+import time
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "overall_catalogue.db")
 
@@ -18,6 +19,171 @@ def get_db():
 _STATS_CACHE = None
 _FILTERS_CACHE = None
 _BRAND_LC_CACHE = None
+_ANALYTICS_CACHE = None
+_ANALYTICS_CACHE_TIME = 0
+_FILTER_OPTIONS_CACHE = {}
+
+def get_catalogue_analytics():
+    global _ANALYTICS_CACHE, _ANALYTICS_CACHE_TIME
+    now = time.time()
+    if _ANALYTICS_CACHE is not None and (now - _ANALYTICS_CACHE_TIME) < 600:
+        return _ANALYTICS_CACHE
+
+    cache_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "catalogue_live_analytics_cache.json")
+    if _ANALYTICS_CACHE is None and os.path.exists(cache_file):
+        try:
+            with open(cache_file, "r", encoding="utf-8") as f:
+                _ANALYTICS_CACHE = json.load(f)
+                _ANALYTICS_CACHE_TIME = now
+                return _ANALYTICS_CACHE
+        except Exception:
+            pass
+
+    conn = get_db()
+    if not conn:
+        return {"totals": {}, "top_makes": [], "top_aggregates": [], "top_brands": [], "mrp_bands": []}
+
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM overall_catalogue")
+        total_rows = cur.fetchone()[0]
+
+        cur.execute("SELECT COUNT(DISTINCT line_code_part_number) FROM overall_catalogue")
+        distinct_parts = cur.fetchone()[0]
+
+        cur.execute("SELECT COUNT(DISTINCT brand_name) FROM overall_catalogue WHERE brand_name != ''")
+        distinct_brands = cur.fetchone()[0]
+
+        cur.execute("SELECT COUNT(DISTINCT vehicle_make) FROM overall_catalogue WHERE vehicle_make != ''")
+        distinct_makes = cur.fetchone()[0]
+
+        cur.execute("SELECT COUNT(DISTINCT vehicle_model) FROM overall_catalogue WHERE vehicle_model != ''")
+        distinct_models = cur.fetchone()[0]
+
+        cur.execute("SELECT COUNT(DISTINCT aggregate) FROM overall_catalogue WHERE aggregate != ''")
+        distinct_aggregates = cur.fetchone()[0]
+
+        cur.execute("SELECT COUNT(DISTINCT sub_aggregate) FROM overall_catalogue WHERE sub_aggregate != ''")
+        distinct_sub_aggregates = cur.fetchone()[0]
+
+        cur.execute("SELECT vehicle_make, COUNT(*) FROM overall_catalogue WHERE vehicle_make != '' GROUP BY vehicle_make ORDER BY COUNT(*) DESC LIMIT 10")
+        top_makes = [{"make": r[0], "count": r[1], "pct": round(r[1] * 100.0 / total_rows, 1)} for r in cur.fetchall()]
+
+        cur.execute("SELECT aggregate, COUNT(*) FROM overall_catalogue WHERE aggregate != '' GROUP BY aggregate ORDER BY COUNT(*) DESC LIMIT 10")
+        top_aggregates = [{"aggregate": r[0], "count": r[1], "pct": round(r[1] * 100.0 / total_rows, 1)} for r in cur.fetchall()]
+
+        cur.execute("SELECT brand_name, COUNT(*) FROM overall_catalogue WHERE brand_name != '' GROUP BY brand_name ORDER BY COUNT(*) DESC LIMIT 10")
+        top_brands = [{"brand": r[0], "count": r[1], "pct": round(r[1] * 100.0 / total_rows, 1)} for r in cur.fetchall()]
+
+        cur.execute("""
+            SELECT 
+                CASE 
+                    WHEN mrp_price < 500 THEN '< 500'
+                    WHEN mrp_price < 1500 THEN '500-1499'
+                    WHEN mrp_price < 5000 THEN '1500-4999'
+                    ELSE '>= 5000'
+                END as band,
+                COUNT(*) 
+            FROM overall_catalogue 
+            GROUP BY band
+        """)
+        mrp_counts = {r[0]: r[1] for r in cur.fetchall()}
+        bands_order = ['< 500', '500-1499', '1500-4999', '>= 5000']
+        mrp_bands = [{"band": b, "count": mrp_counts.get(b, 0), "pct": round(mrp_counts.get(b, 0) * 100.0 / total_rows, 1)} for b in bands_order]
+
+        conn.close()
+
+        _ANALYTICS_CACHE = {
+            "totals": {
+                "total_rows": total_rows,
+                "distinct_parts": distinct_parts,
+                "distinct_brands": distinct_brands,
+                "distinct_makes": distinct_makes,
+                "distinct_models": distinct_models,
+                "distinct_aggregates": distinct_aggregates,
+                "distinct_sub_aggregates": distinct_sub_aggregates
+            },
+            "top_makes": top_makes,
+            "top_aggregates": top_aggregates,
+            "top_brands": top_brands,
+            "mrp_bands": mrp_bands
+        }
+        _ANALYTICS_CACHE_TIME = now
+        try:
+            with open(cache_file, "w", encoding="utf-8") as f:
+                json.dump(_ANALYTICS_CACHE, f, indent=2)
+        except Exception:
+            pass
+        return _ANALYTICS_CACHE
+    except Exception as e:
+        if conn: conn.close()
+        return {"totals": {}, "top_makes": [], "top_aggregates": [], "top_brands": [], "mrp_bands": [], "error": str(e)}
+
+def get_catalogue_filter_options(make=None, model=None, sub_model=None):
+    cache_key = (make or "", model or "", sub_model or "")
+    if cache_key in _FILTER_OPTIONS_CACHE:
+        return _FILTER_OPTIONS_CACHE[cache_key]
+
+    conn = get_db()
+    if not conn:
+        return {"fuels": [], "years": []}
+
+    try:
+        cur = conn.cursor()
+        clauses = []
+        params = []
+        if make:
+            clauses.append("vehicle_make = ?")
+            params.append(make)
+        if model:
+            clauses.append("vehicle_model = ?")
+            params.append(model)
+        if sub_model:
+            clauses.append("vehicle_sub_model = ?")
+            params.append(sub_model)
+
+        where = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+
+        cur.execute(f"SELECT DISTINCT vehicle_fuel_type FROM overall_catalogue{where}", params)
+        raw_fuels = [r[0] for r in cur.fetchall() if r[0] and str(r[0]).strip()]
+        fuels = sorted(list(set(raw_fuels)))
+
+        cur.execute(f"SELECT DISTINCT vehicle_from_year, vehicle_to_year FROM overall_catalogue{where}", params)
+        year_pairs = cur.fetchall()
+        conn.close()
+
+        all_years = set()
+        current_year = 2026
+        for f_yr, t_yr in year_pairs:
+            if not f_yr or not str(f_yr).strip():
+                continue
+            try:
+                start_yr = int(re.sub(r'\D', '', str(f_yr))[:4])
+                if not (1970 <= start_yr <= current_year + 2):
+                    continue
+            except Exception:
+                continue
+
+            try:
+                if t_yr and str(t_yr).strip():
+                    end_yr = int(re.sub(r'\D', '', str(t_yr))[:4])
+                    if not (start_yr <= end_yr <= current_year + 5):
+                        end_yr = current_year
+                else:
+                    end_yr = current_year
+            except Exception:
+                end_yr = current_year
+
+            for y in range(start_yr, end_yr + 1):
+                all_years.add(str(y))
+
+        years = sorted(list(all_years), key=lambda x: int(x), reverse=True)
+        res = {"fuels": fuels, "years": years}
+        _FILTER_OPTIONS_CACHE[cache_key] = res
+        return res
+    except Exception as e:
+        if conn: conn.close()
+        return {"fuels": [], "years": [], "error": str(e)}
 
 def get_brand_line_codes():
     global _BRAND_LC_CACHE
@@ -1179,13 +1345,19 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
                 where_clauses.append(f"id IN ({id_placeholders})")
                 params.extend(fast_ids)
             else:
+                COMMON_STOPWORDS = {"PART", "PARTS", "GENUINE", "OEM", "OES", "ASSY", "KIT", "SET", "NUMBER", "NO", "TYPE", "FOR", "THE", "AND", "WITH", "CAR"}
                 fts_tokens = [t for t in re.findall(r'[A-Za-z0-9]+', q) if len(t) >= 2]
+                meaningful_tokens = [t for t in fts_tokens if t.upper() not in COMMON_STOPWORDS and len(t) >= 3]
                 fts_ids = []
                 if fts_tokens:
                     try:
                         safe_q = ' '.join([f'{t}*' for t in fts_tokens])
                         cur_fast.execute("SELECT rowid FROM overall_catalogue_fts WHERE overall_catalogue_fts MATCH ? LIMIT 150", (safe_q,))
                         fts_ids = [r[0] for r in cur_fast.fetchall()]
+                        if not fts_ids and meaningful_tokens:
+                            safe_q_or = ' OR '.join([f'{t}*' for t in meaningful_tokens])
+                            cur_fast.execute("SELECT rowid FROM overall_catalogue_fts WHERE overall_catalogue_fts MATCH ? LIMIT 150", (safe_q_or,))
+                            fts_ids = [r[0] for r in cur_fast.fetchall()]
                     except Exception:
                         fts_ids = []
 
@@ -1194,8 +1366,7 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
                     where_clauses.append(f"id IN ({id_placeholders})")
                     params.extend(fts_ids)
                 else:
-                    where_clauses.append("(line_code_part_number LIKE ? OR part_description LIKE ? OR brand_name LIKE ?)")
-                    params.extend([f"%{q}%", f"%{q}%", f"%{q}%"])
+                    where_clauses.append("1 = 0")
 
         if brand:
             where_clauses.append("brand_name = ?")

@@ -5717,18 +5717,19 @@ body.sidebar-collapsed footer.app-footer {
 }
 
 /* Master Catalogue Gap-Free Symmetrical Grids */
+/* Master Catalogue KPI Row (4 equal cols >=1200px, 2 cols on tablet, 1 on phone, 20px padding, 16px gap) */
 .cat-kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 16px;
   margin-bottom: 1.5rem;
 }
-@media (max-width: 1024px) {
+@media (max-width: 1199px) {
   .cat-kpi-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (max-width: 580px) {
+@media (max-width: 640px) {
   .cat-kpi-grid {
     grid-template-columns: 1fr;
   }
@@ -5747,49 +5748,120 @@ body.sidebar-collapsed footer.app-footer {
   }
 }
 
+/* Master Catalogue Chart Grid (2 columns on >=1100px, 1 column below; fixed height 320px) */
 .cat-charts-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
   margin-bottom: 1.5rem;
-  align-items: stretch;
 }
-@media (max-width: 1200px) {
-  .cat-charts-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 640px) {
+@media (max-width: 1099px) {
   .cat-charts-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* Catalog KPI Card Uniform Heights, Padding, and Spacing */
+/* Catalog KPI Card Uniform Heights, Padding (20px), and Spacing */
 .cat-kpi-card {
-  min-height: 145px;
+  height: 160px;
+  min-height: 160px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 1.25rem;
+  padding: 20px;
   border-radius: 16px;
+  position: relative;
+  overflow: hidden;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 .cat-kpi-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
 }
+.cat-kpi-number {
+  font-size: 1.85rem;
+  font-weight: 900;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  color: #0f172a;
+}
+.cat-kpi-card-blue {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+}
+.cat-kpi-card-purple {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+}
+.cat-kpi-card-orange {
+  background: linear-gradient(135deg, #ea580c 0%, #f97316 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 18px rgba(234, 88, 12, 0.25) !important;
+}
+.cat-kpi-card-green {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 18px rgba(5, 150, 105, 0.25) !important;
+}
+
+.cat-chart-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  height: 320px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.cat-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.cat-chart-title {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cat-chart-body {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cat-chart-unavailable {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
 /* Two-Column Side-by-Side Aggregate Selection Studio */
 .v-agg-side-by-side-container {
   display: grid;
-  grid-template-columns: 330px 1fr;
+  grid-template-columns: 35% calc(65% - 1.25rem);
   gap: 1.25rem;
   align-items: start;
   margin-top: 1.25rem;
 }
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .v-agg-side-by-side-container {
     grid-template-columns: 1fr;
   }
@@ -5799,14 +5871,16 @@ body.sidebar-collapsed footer.app-footer {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
-  max-height: 580px;
+  max-height: 560px;
   overflow-y: auto;
   padding-right: 0.35rem;
 }
-.agg-vertical-list::-webkit-scrollbar {
+.agg-vertical-list::-webkit-scrollbar,
+.subagg-selection-grid::-webkit-scrollbar {
   width: 6px;
 }
-.agg-vertical-list::-webkit-scrollbar-thumb {
+.agg-vertical-list::-webkit-scrollbar-thumb,
+.subagg-selection-grid::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
@@ -5830,7 +5904,8 @@ body.sidebar-collapsed footer.app-footer {
 }
 .agg-vertical-card.active {
   background: #eff6ff;
-  border: 2px solid #0284c7;
+  border: 1.5px solid #0284c7;
+  border-left: 5px solid #0284c7;
   box-shadow: 0 3px 12px rgba(2, 132, 199, 0.16);
 }
 .agg-vertical-card.active .agg-vcard-name {
@@ -7551,3 +7626,95 @@ body:has(#tab-catalogue-ai.active) .main-content > div:last-child {
   align-items: center !important;
   gap: 0.4rem !important;
 }
+
+/* Catalog AI Copilot Split Layout (62% Chat / 38% Sticky Inspector) */
+.cat-ai-body-split {
+  flex: 1 !important;
+  display: flex !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.cat-ai-chat-column {
+  flex: 0 0 62% !important;
+  max-width: 62% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  border-right: 1.5px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  position: relative !important;
+}
+
+.cat-ai-side-inspector {
+  flex: 0 0 38% !important;
+  max-width: 38% !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+  background: #f8fafc !important;
+  padding: 1.15rem 1rem !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+}
+
+.cat-ai-side-card {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 1rem !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+}
+
+.cat-ai-side-title {
+  font-size: 0.82rem !important;
+  font-weight: 850 !important;
+  color: #0f172a !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 0.65rem !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  padding-bottom: 0.45rem !important;
+}
+
+@media (max-width: 1100px) {
+  .cat-ai-body-split {
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+  .cat-ai-side-inspector {
+    flex: none !important;
+    max-width: 100% !important;
+    order: -1 !important;
+    max-height: 280px !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+    border-left: none !important;
+  }
+  .cat-ai-chat-column {
+    flex: 1 !important;
+    max-width: 100% !important;
+    border-right: none !important;
+    min-height: 480px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .cat-ai-sidebar-panel {
+    display: none !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    z-index: 50 !important;
+    width: 260px !important;
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.3) !important;
+  }
+  .cat-ai-sidebar-panel.mobile-open {
+    display: flex !important;
+  }
+}
+

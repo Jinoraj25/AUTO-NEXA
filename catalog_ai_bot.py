@@ -839,9 +839,33 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
             if vehicle_context.get("variant") or vehicle_context.get("sub_model"):
                 session_state["sub_model"] = vehicle_context.get("variant") or vehicle_context.get("sub_model")
 
-    # Merge newly detected entities into current session state
-    if entities["make"]: session_state["make"] = entities["make"]
-    if entities["model"]: session_state["model"] = entities["model"]
+    # Check if user named a DIFFERENT make or model
+    new_make = entities.get("make")
+    new_model = entities.get("model")
+    curr_make = session_state.get("make")
+    curr_model = session_state.get("model")
+
+    if new_make and new_make != curr_make:
+        # Different make named -> clear everything for previous vehicle
+        session_state["make"] = new_make
+        session_state["model"] = new_model or ""
+        session_state["sub_model"] = ""
+        session_state["fuel"] = ""
+        session_state["year"] = ""
+        session_state["component"] = ""
+        session_state["part_no"] = ""
+    elif new_model and new_model != curr_model:
+        # Different model named -> clear sub_model, fuel, year, component
+        session_state["model"] = new_model
+        session_state["sub_model"] = ""
+        session_state["fuel"] = ""
+        session_state["year"] = ""
+        session_state["component"] = ""
+        session_state["part_no"] = ""
+    else:
+        if new_make: session_state["make"] = new_make
+        if new_model: session_state["model"] = new_model
+
     if entities["fuel"]: session_state["fuel"] = entities["fuel"]
     if entities["year"]: session_state["year"] = entities["year"]
     if entities["component"]: session_state["component"] = entities["component"]
@@ -874,48 +898,6 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
                     "oes": details.get("oesParts", [])
                 }
             }
-
-        # 1B. IMAGE-BASED SEARCH HANDLER
-    if user_text.startswith("IMAGE_SEARCH:") or "IMAGE:" in user_text:
-        img_name = user_text.replace("IMAGE_SEARCH:", "").strip()
-        detected_comp = "BRAKE PAD"
-        detected_make = "HYUNDAI"
-        detected_model = "GRAND I10 NIOS"
-        if "shocker" in img_name.lower() or "strut" in img_name.lower():
-            detected_comp = "SHOCK ABSORBER"
-            detected_make = "HYUNDAI"
-            detected_model = "CRETA"
-        elif "clutch" in img_name.lower():
-            detected_comp = "CLUTCH SET"
-            detected_make = "TOYOTA"
-            detected_model = "INNOVA CRYSTA"
-        elif "filter" in img_name.lower():
-            detected_comp = "OIL FILTER"
-            detected_make = "MARUTI SUZUKI"
-            detected_model = "SWIFT"
-        elif "tie" in img_name.lower() or "rod" in img_name.lower():
-            detected_comp = "TIE ROD END"
-            detected_make = "TATA"
-            detected_model = "INDICA VISTA"
-
-        session_state["make"] = detected_make
-        session_state["model"] = detected_model
-        session_state["component"] = detected_comp
-
-        parts_data = fetch_parts_for_component(detected_make, detected_model, component=detected_comp)
-        return {
-            "reply": f"📷 **Visual AI Part Image Inspection Verified**:\n\nIdentified component: **{detected_comp}** for **{detected_make} {detected_model}**.\n\nShowing verified OEM specification and Tier-1 OES aftermarket alternatives (25% lower price than OEM with 100% OE fitment guarantee):",
-            "step": "parts_result",
-            "state": session_state,
-            "action": {
-                "type": "parts_matrix",
-                "component": detected_comp,
-                "vehicle": f"{detected_make} {detected_model}",
-                "oem": parts_data["oem"],
-                "oes": parts_data["oes"],
-                "relatable": get_relatable_parts_list(detected_comp)
-            }
-        }
 
     # 1C. CROSS-COMPATIBILITY VARIANT INQUIRY HANDLER
     if user_text.startswith("CHECK_CROSS_FITMENT:") or user_text.startswith("SHOW_COMPATIBLE_VARIANTS:"):
@@ -1023,47 +1005,79 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
     curr_comp = session_state.get("component")
 
     if curr_make and curr_model:
-        # If no component is specified yet, prompt with top vehicle repair assemblies
-        if not curr_comp:
-            bot_reply = f"🚘 Identified **{curr_make} {curr_model}**! What repair service or component assembly do you need assistance with?"
-            return {
-                "reply": bot_reply,
-                "step": "ask_component_for_vehicle",
-                "state": session_state,
-                "active_vehicle": {
-                    "make": curr_make,
-                    "model": curr_model,
-                    "variant": session_state.get("sub_model") or "",
-                    "fuel": session_state.get("fuel") or "",
-                    "year": session_state.get("year") or ""
-                },
-                "action": {
-                    "type": "component_quick_chips",
-                    "make": curr_make,
-                    "model": curr_model,
-                    "components": ["BRAKE PAD", "OIL FILTER", "CLUTCH SET", "SHOCK ABSORBER", "AIR FILTER", "TRANSMISSION", "WATER PUMP", "BATTERY"]
+        # Case A: Variant (sub_model) IS KNOWN
+        if curr_sub:
+            if curr_comp:
+                parts_data = fetch_parts_for_component(
+                    curr_make, curr_model,
+                    sub_model=curr_sub, component=curr_comp,
+                    fuel_type=curr_fuel, year=curr_year
+                )
+                relatable = get_relatable_parts_list(curr_comp)
+                oem_part = parts_data["oem"]
+                oes_list = parts_data["oes"]
+                mech_note = get_mechanic_translation_note(user_text, curr_comp)
+                veh_disp = f"{curr_make} {curr_model} ({curr_sub})".strip()
+
+                bot_reply = f"Verified exact fitment for **{curr_comp}** on **{veh_disp}**."
+                return {
+                    "reply": bot_reply,
+                    "step": "parts_result",
+                    "state": session_state,
+                    "active_vehicle": {
+                        "make": curr_make,
+                        "model": curr_model,
+                        "variant": curr_sub,
+                        "fuel": curr_fuel,
+                        "year": curr_year
+                    },
+                    "action": {
+                        "type": "parts_matrix",
+                        "component": curr_comp,
+                        "diagnostic_note": mech_note,
+                        "variant": curr_sub,
+                        "vehicle": veh_disp,
+                        "oem": oem_part,
+                        "oes": oes_list,
+                        "relatable": relatable
+                    }
                 }
-            }
+            else:
+                bot_reply = f"Selected **{curr_make} {curr_model}** (`{curr_sub}`). Which component or assembly do you need?"
+                return {
+                    "reply": bot_reply,
+                    "step": "ask_component",
+                    "state": session_state,
+                    "active_vehicle": {
+                        "make": curr_make,
+                        "model": curr_model,
+                        "variant": curr_sub,
+                        "fuel": curr_fuel,
+                        "year": curr_year
+                    },
+                    "action": {
+                        "type": "component_quick_chips",
+                        "make": curr_make,
+                        "model": curr_model,
+                        "variant": curr_sub,
+                        "components": ["TRANSMISSION", "BRAKE PAD", "OIL FILTER", "CLUTCH SET", "SHOCK ABSORBER", "AIR FILTER", "WATER PUMP", "BATTERY"]
+                    }
+                }
 
-        # If component is specified:
-        if curr_comp:
-            curr_sub = session_state.get("sub_model") or ""
-            curr_fuel = session_state.get("fuel") or ""
-            curr_year = session_state.get("year") or ""
+        # Case B: Variant (sub_model) is NOT yet chosen
+        # Check if user mentioned variant or trim in query text
+        u_text = user_text.upper()
+        if "VISTA" in u_text:
+            curr_sub = "INDICA VISTA"
+            session_state["sub_model"] = "INDICA VISTA"
+        elif "DZIRE" in u_text:
+            curr_sub = "SWIFT DZIRE"
+            session_state["sub_model"] = "SWIFT DZIRE"
+        elif "CRYSTA" in u_text:
+            curr_sub = "INNOVA CRYSTA"
+            session_state["sub_model"] = "INNOVA CRYSTA"
 
-            # Check if user mentioned variant or trim in query
-            if not curr_sub:
-                u_text = user_text.upper()
-                if "VISTA" in u_text:
-                    curr_sub = "INDICA VISTA"
-                    session_state["sub_model"] = "INDICA VISTA"
-                elif "DZIRE" in u_text:
-                    curr_sub = "SWIFT DZIRE"
-                    session_state["sub_model"] = "SWIFT DZIRE"
-                elif "CRYSTA" in u_text:
-                    curr_sub = "INNOVA CRYSTA"
-                    session_state["sub_model"] = "INNOVA CRYSTA"
-
+        if curr_sub and curr_comp:
             parts_data = fetch_parts_for_component(
                 curr_make, curr_model,
                 sub_model=curr_sub, component=curr_comp,
@@ -1073,9 +1087,9 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
             oem_part = parts_data["oem"]
             oes_list = parts_data["oes"]
             mech_note = get_mechanic_translation_note(user_text, curr_comp)
-            veh_disp = f"{curr_make} {curr_model} {curr_sub}".strip()
+            veh_disp = f"{curr_make} {curr_model} ({curr_sub})".strip()
 
-            bot_reply = f"✨ Verified exact fitment for **{curr_comp}** on **{veh_disp}**."
+            bot_reply = f"Verified exact fitment for **{curr_comp}** on **{veh_disp}**."
             return {
                 "reply": bot_reply,
                 "step": "parts_result",
@@ -1091,7 +1105,7 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
                     "type": "parts_matrix",
                     "component": curr_comp,
                     "diagnostic_note": mech_note,
-                    "variant": curr_sub or f"{curr_make} {curr_model}",
+                    "variant": curr_sub,
                     "vehicle": veh_disp,
                     "oem": oem_part,
                     "oes": oes_list,
@@ -1099,13 +1113,11 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
                 }
             }
 
-        # If both Fuel AND Year are provided, or user chose to proceed with current filters:
-        # Render the Visual Variant Cards with Oriparts 3D images!
+        # If user provided Fuel and Year or requested variants:
         if (curr_fuel and curr_year) or user_text.startswith("SHOW_VARIANTS"):
             variants = fetch_variant_cards_for_chat(curr_make, curr_model, fuel_type=curr_fuel, year=curr_year)
             comp_display = curr_comp or "Parts Catalogue"
-            bot_reply = f"🚗 I found **{len(variants)} matching {curr_make} {curr_model} generations/variants** for {curr_fuel or 'All Fuels'} ({curr_year or 'All Years'}).\n\nPlease select your exact vehicle variant below to see verified fitment for **{comp_display}**:"
-            
+            bot_reply = f"Found **{len(variants)} matching {curr_make} {curr_model} variants**.\n\nPlease select your exact vehicle variant below:"
             return {
                 "reply": bot_reply,
                 "step": "choose_variant",
@@ -1121,13 +1133,17 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
                 }
             }
         else:
-            # Prompt user for Fuel Type and Year
+            # Query live filter options from DB for this make & model
+            import overall_catalogue_api
+            f_opts = overall_catalogue_api.get_catalogue_filter_options(curr_make, curr_model)
+            fuel_options = f_opts.get("fuels") or ["Petrol", "Diesel", "CNG"]
+            raw_years = f_opts.get("years") or []
+            year_options = raw_years[:10] if raw_years else ["2024", "2023", "2022", "2021", "2020"]
+            if "All Years" not in year_options:
+                year_options.append("All Years")
+
             comp_display = f"**{curr_comp}**" if curr_comp else "parts"
-            bot_reply = f"🚘 Identified **{curr_make} {curr_model}** for {comp_display}!\n\nTo ensure 100% precision fitment (OEM specifications and prices differ by engine & facelift year), please select your **Fuel Type** and **Manufacturing Year**:"
-            
-            fuel_options = ["Petrol", "Diesel", "CNG", "Petrol/CNG"]
-            year_options = ["2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "All Years"]
-            
+            bot_reply = f"Identified **{curr_make} {curr_model}** for {comp_display}.\n\nPlease select your **Fuel Type** and **Year**:"
             return {
                 "reply": bot_reply,
                 "step": "ask_fuel_year",

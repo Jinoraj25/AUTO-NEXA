@@ -284,7 +284,7 @@
             <span style="font-weight: 850;">Catalogue</span>
           </div>
           <div style="display: flex; align-items: center; gap: 0.4rem;">
-            <span class="sb-badge-pill" style="background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa;">23.6M</span>
+            <span class="sb-badge-pill" id="cat-sidebar-badge" style="background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa;">—</span>
             <span class="sb-chevron">▾</span>
           </div>
         </button>
@@ -399,7 +399,7 @@
       <!-- Live SKUs Status Chip -->
       <div style="display: flex; align-items: center; gap: 0.45rem; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.3rem 0.75rem; border-radius: 20px; font-size: 0.76rem; font-weight: 850; color: #166534;">
         <span style="width: 7px; height: 7px; background: #16a34a; border-radius: 50%; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);"></span>
-        <span>23.6M SKUs Live</span>
+        <span id="header-stat-skus">—</span>
       </div>
 
       <div class="header-divider" style="width: 1px; height: 26px; background: #e2e8f0;"></div>
@@ -674,11 +674,11 @@
                 Master Catalogue Intelligence Dashboard
               </h1>
               <p class="cat-hero-subtitle">
-                Direct live access to 23,671,472 multi-OEM cross-referenced automotive parts, specifications, verified OES replacements, and fitment records across 30+ vehicle manufacturers.
+                Direct live access to <span id="cat-hero-total-skus">—</span> multi-OEM cross-referenced automotive parts, specifications, verified OES replacements, and fitment records across 30+ vehicle manufacturers.
               </p>
               <div class="cat-hero-tags">
-                <div class="cat-hero-metric-chip">📊 <span>23,671,472 SKUs</span></div>
-                <div class="cat-hero-metric-chip">🏎️ <span>30+ Major Auto Makes</span></div>
+                <div class="cat-hero-metric-chip">📊 <span id="cat-hero-chip-skus">— SKUs</span></div>
+                <div class="cat-hero-metric-chip">🏎️ <span id="cat-hero-chip-makes">— Makes • — Models</span></div>
                 <div class="cat-hero-metric-chip">🎯 <span>99.4% Match Accuracy</span></div>
                 <div class="cat-hero-metric-chip">⚡ <span>&lt; 12ms Search Latency</span></div>
               </div>
@@ -703,11 +703,11 @@
         </div>
 
         <div class="cat-kpi-grid">
-          <!-- Card 1: 23,671,472 SKUs -->
-          <div class="card cat-kpi-card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
+          <!-- Card 1: SKUs (Blue) -->
+          <div class="card cat-kpi-card cat-kpi-card-blue">
             <div style="display: flex; align-items: center; gap: 0.65rem;">
               <div style="width: 36px; height: 36px; border-radius: 10px; background: #eff6ff; display: flex; align-items: center; justify-content: center; color: #0284c7; font-size: 1.1rem; flex-shrink: 0;">📊</div>
-              <div id="cat-stat-records" style="font-size: 1.85rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; line-height: 1.1;">23,671,472</div>
+              <div id="cat-stat-records" class="cat-kpi-number">—</div>
             </div>
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.45rem; font-size: 0.76rem; color: #64748b; font-weight: 700;">
               <span>Total Multi-OEM SKUs</span>
@@ -719,11 +719,11 @@
             </svg>
           </div>
 
-          <!-- Card 2: 416,045 Line-codes -->
-          <div class="card cat-kpi-card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
+          <!-- Card 2: Line-codes (Purple) -->
+          <div class="card cat-kpi-card cat-kpi-card-purple">
             <div style="display: flex; align-items: center; gap: 0.65rem;">
               <div style="width: 36px; height: 36px; border-radius: 10px; background: #f5f3ff; display: flex; align-items: center; justify-content: center; color: #7c3aed; font-size: 1.1rem; flex-shrink: 0;">🏷️</div>
-              <div id="cat-stat-parts" style="font-size: 1.85rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px; line-height: 1.1;">416,045</div>
+              <div id="cat-stat-parts" class="cat-kpi-number">—</div>
             </div>
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.45rem; font-size: 0.76rem; color: #64748b; font-weight: 700;">
               <span>Distinct Line-codes</span>
@@ -735,11 +735,11 @@
             </svg>
           </div>
 
-          <!-- Card 3: 170+ Brands with OEM logos (Orange card) -->
-          <div class="card cat-kpi-card" style="background: linear-gradient(135deg, #ea580c 0%, #f97316 100%); border-radius: 16px; padding: 1.25rem; color: #ffffff; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 18px rgba(234, 88, 12, 0.25);">
+          <!-- Card 3: Brands (Orange card) -->
+          <div class="card cat-kpi-card cat-kpi-card-orange">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <div>
-                <div style="font-size: 1.85rem; font-weight: 900; font-family: 'Outfit', sans-serif; line-height: 1.1; letter-spacing: -0.5px;">170+</div>
+                <div id="cat-stat-brands" class="cat-kpi-number" style="color: #ffffff;">—</div>
                 <div style="font-size: 0.76rem; color: #fed7aa; margin-top: 0.35rem; font-weight: 700;">Verified component manufacturers</div>
               </div>
               <!-- Grid of OEM brand circular badges -->
@@ -752,14 +752,14 @@
                 <span style="width: 24px; height: 24px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" title="Mahindra"><img src="images/makes/mahindra.png" alt="Mahindra" style="width: 100%; height: 100%; object-fit: contain;"></span>
               </div>
             </div>
-            <div style="font-size: 0.72rem; color: #ffedd5; font-weight: 600; margin-top: 0.6rem;">Multi-tier OEM, OES & Tier-1 aftermarket brands</div>
+            <div style="font-size: 0.72rem; color: #ffedd5; font-weight: 600; margin-top: 0.6rem;">Multi-tier OEM, OES &amp; Tier-1 aftermarket brands</div>
           </div>
 
-          <!-- Card 4: 39 Makes • 504 Models (Green card with REAL CAR MINI IMAGE) -->
-          <div class="card cat-kpi-card" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%); border-radius: 16px; padding: 1.25rem; color: #ffffff; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 18px rgba(5, 150, 105, 0.25);">
+          <!-- Card 4: Makes & Models (Green card) -->
+          <div class="card cat-kpi-card cat-kpi-card-green">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
               <div>
-                <div style="font-size: 1.55rem; font-weight: 900; font-family: 'Outfit', sans-serif; line-height: 1.15; letter-spacing: -0.3px;">39 Makes •<br>504 Models</div>
+                <div id="cat-stat-makes" class="cat-kpi-number" style="font-size: 1.55rem; line-height: 1.15; color: #ffffff;">—</div>
               </div>
               <img src="images/real_car_front.jpg" alt="Car Fleet" style="width: 54px; height: 36px; object-fit: cover; border-radius: 6px; box-shadow: 0 3px 8px rgba(0,0,0,0.3); border: 1.5px solid rgba(255,255,255,0.4);">
             </div>
@@ -769,18 +769,18 @@
           </div>
         </div>
 
-        <!-- Section Header: INTERACTIVE DATA BLOCKS & NEW VISUALS (Image 2 Reference) -->
+        <!-- Section Header: INTERACTIVE DATA BLOCKS & NEW VISUALS -->
         <div style="font-size: 0.82rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.8px; margin: 1.5rem 0 0.75rem; font-family: 'Outfit', sans-serif;">
-          INTERACTIVE DATA BLOCKS & NEW VISUALS
+          INTERACTIVE DATA BLOCKS &amp; NEW VISUALS
         </div>
 
         <div class="cat-datablocks-grid">
-          <!-- Block 1: TAXONOMY STRUCTURE (26 Aggregates • 923 Components • 5 Categories) -->
+          <!-- Block 1: TAXONOMY STRUCTURE -->
           <div class="card" style="background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 16px; padding: 1.25rem 1.25rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(225, 29, 72, 0.04); overflow: hidden;">
             <div style="flex: 1; min-width: 0;">
               <div style="font-size: 0.72rem; font-weight: 900; color: #9f1239; text-transform: uppercase; letter-spacing: 0.8px;">TAXONOMY STRUCTURE</div>
               <div style="display: flex; align-items: baseline; gap: 0.45rem; margin-top: 0.25rem;">
-                <span id="cat-stat-taxonomy" style="font-size: 2.2rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1;">26</span>
+                <span id="cat-stat-taxonomy" style="font-size: 2.2rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1;">—</span>
                 <span style="font-size: 1.05rem; font-weight: 900; color: #9f1239; font-family: 'Outfit', sans-serif;">System Aggregates</span>
               </div>
               <div style="font-size: 0.72rem; color: #be123c; margin-top: 0.25rem; font-weight: 750;">Canonical Vehicle Systems</div>
@@ -788,12 +788,12 @@
             <!-- Clean Real Metrics Badge Strip -->
             <div style="display: flex; flex-direction: column; align-items: stretch; gap: 0.45rem; border-left: 2px dashed #fda4af; padding-left: 0.85rem; flex-shrink: 0;">
               <div style="background: #ffffff; border: 1.5px solid #fda4af; border-radius: 8px; padding: 0.3rem 0.6rem; text-align: center; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.06); min-width: 82px;">
-                <div style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">923</div>
-                <div style="font-size: 0.6rem; font-weight: 850; color: #9f1239; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.4px;">COMPONENTS</div>
+                <div id="cat-stat-subaggregates" style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">—</div>
+                <div style="font-size: 0.6rem; font-weight: 850; color: #9f1239; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.4px;">SUB-AGGREGATES</div>
               </div>
               <div style="background: #ffffff; border: 1.5px solid #fda4af; border-radius: 8px; padding: 0.3rem 0.6rem; text-align: center; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.06); min-width: 82px;">
-                <div style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">5 CORE</div>
-                <div style="font-size: 0.6rem; font-weight: 850; color: #9f1239; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.4px;">CATEGORIES</div>
+                <div style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">LIVE</div>
+                <div style="font-size: 0.6rem; font-weight: 850; color: #9f1239; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.4px;">TAXONOMY</div>
               </div>
             </div>
           </div>
@@ -864,7 +864,7 @@
               <span style="font-size: 0.78rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 0.4rem;">
                 <span>📊</span> <span>AGGREGATE MASTER CATEGORY SPLIT</span>
               </span>
-              <span style="font-size: 0.72rem; font-weight: 800; color: #0284c7; background: #eff6ff; padding: 0.2rem 0.55rem; border-radius: 6px; white-space: nowrap;">923 Comps • 26 Aggregates</span>
+              <span style="font-size: 0.72rem; font-weight: 800; color: #0284c7; background: #eff6ff; padding: 0.2rem 0.55rem; border-radius: 6px; white-space: nowrap;">923 Comps • 29 Aggregates</span>
             </div>
             
             <!-- Segmented Progress Bar -->
@@ -913,52 +913,64 @@
 
         <div class="cat-charts-grid">
           <!-- Chart 1: Top Vehicle Makes (Real DB Data) -->
-          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">TOP VEHICLE MAKES BY SKUs</span>
-              <span style="background: #eff6ff; color: #0284c7; padding: 0.15rem 0.5rem; border-radius: 8px; font-size: 0.68rem; font-weight: 850;">Top 10 OEMs</span>
+          <div class="cat-chart-card">
+            <div class="cat-chart-header">
+              <span class="cat-chart-title">
+                <img src="images/real_car_front.jpg" alt="Car" style="width: 20px; height: 14px; object-fit: cover; border-radius: 3px; border: 1px solid #cbd5e1;">
+                <span>TOP VEHICLE MAKES BY SKUs</span>
+              </span>
+              <span style="background: #eff6ff; color: #0284c7; padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 850;">Top 10 OEMs</span>
             </div>
-            <div style="height: 175px; position: relative;">
+            <div class="cat-chart-body" id="cat-chart-makes-wrapper">
               <canvas id="cat-chart-makes"></canvas>
             </div>
           </div>
 
-          <!-- Chart 2: Major Vehicle System Aggregates (Real DB Doughnut) -->
-          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">MAJOR SYSTEM AGGREGATES</span>
-              <span style="background: #fdf2f8; color: #9d174d; padding: 0.15rem 0.5rem; border-radius: 8px; font-size: 0.68rem; font-weight: 850;">23.6M Master</span>
+          <!-- Chart 2: Major Vehicle System Aggregates (Real DB Data) -->
+          <div class="cat-chart-card">
+            <div class="cat-chart-header">
+              <span class="cat-chart-title">
+                <span>📊</span>
+                <span>MAJOR SYSTEM AGGREGATES</span>
+              </span>
+              <span style="background: #fdf2f8; color: #9d174d; padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 850;">Live Database</span>
             </div>
-            <div style="height: 175px; position: relative; display: flex; align-items: center; justify-content: center;">
+            <div class="cat-chart-body" id="cat-chart-aggregates-wrapper">
               <canvas id="cat-chart-aggregates"></canvas>
             </div>
           </div>
 
           <!-- Chart 3: Top Mapped OEM & OES Brands (Real DB Data) -->
-          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">TOP MAPPED BRANDS (OEM &amp; OES)</span>
-              <span style="background: #f5f3ff; color: #7c3aed; padding: 0.15rem 0.5rem; border-radius: 8px; font-size: 0.68rem; font-weight: 850;">170+ Brands</span>
+          <div class="cat-chart-card">
+            <div class="cat-chart-header">
+              <span class="cat-chart-title">
+                <span>🏷️</span>
+                <span>TOP MAPPED BRANDS (OEM &amp; OES)</span>
+              </span>
+              <span id="cat-stat-brands-badge" style="background: #f5f3ff; color: #7c3aed; padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 850;">Top 10 Brands</span>
             </div>
-            <div style="height: 175px; position: relative;">
+            <div class="cat-chart-body" id="cat-chart-brands-wrapper">
               <canvas id="cat-chart-brands"></canvas>
             </div>
           </div>
 
           <!-- Chart 4: Parts MRP Spectrum Distribution (Real DB Data) -->
-          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03); display: flex; flex-direction: column; justify-content: space-between;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">PARTS MRP SPECTRUM</span>
-              <span style="background: #ecfdf5; color: #059669; padding: 0.15rem 0.5rem; border-radius: 8px; font-size: 0.68rem; font-weight: 850;">Price Tiers</span>
+          <div class="cat-chart-card">
+            <div class="cat-chart-header">
+              <span class="cat-chart-title">
+                <span>💰</span>
+                <span>PARTS MRP SPECTRUM</span>
+              </span>
+              <span style="background: #ecfdf5; color: #059669; padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 850;">Price Tiers</span>
             </div>
-            <div style="height: 145px; position: relative; display: flex; align-items: center; justify-content: center; margin-top: 0.35rem;">
+            <div class="cat-chart-body" id="cat-chart-mrp-wrapper">
               <canvas id="cat-chart-mrp"></canvas>
             </div>
             <div style="display: flex; justify-content: space-around; font-size: 0.68rem; font-weight: 800; color: #64748b; margin-top: 0.35rem; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
-              <span>&lt;₹500: <strong>60.7%</strong></span>
-              <span>₹500-1.5K: <strong>17.7%</strong></span>
-              <span>₹1.5K-5K: <strong>13.7%</strong></span>
-              <span>&gt;₹5K: <strong>7.9%</strong></span>
+              <span id="cat-mrp-band-0">&lt;₹500: <strong>—</strong></span>
+              <span id="cat-mrp-band-1">₹500-1.5K: <strong>—</strong></span>
+              <span id="cat-mrp-band-2">₹1.5K-5K: <strong>—</strong></span>
+              <span id="cat-mrp-band-3">&gt;₹5K: <strong>—</strong></span>
             </div>
           </div>
         </div>
@@ -979,8 +991,7 @@
           <div style="position: relative; width: 100%;">
             <div style="display: flex; gap: 0.65rem; align-items: center;">
               <div style="position: relative; flex: 1;">
-                <span style="position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: #64748b; pointer-events: none;">🔎</span>
-                <input type="text" id="cat-search-q" autocomplete="off" placeholder="Type Part Number with or without Line Code (e.g. 21611404, 11404-10656K, 98850H9000, 04152-YZZA6) or Component..." style="width: 100%; box-sizing: border-box; padding: 0.85rem 3rem 0.85rem 3.1rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; color: #0f172a; font-size: 1rem; font-weight: 700; outline: none; transition: all 0.2s;" oninput="OverallCataloguePortal.handleSearchInput(this.value)" onkeydown="if(event.key==='Enter') OverallCataloguePortal.triggerSearch(); if(event.key==='Escape') OverallCataloguePortal.hideSuggestions();">
+                <input type="text" id="cat-search-q" autocomplete="off" placeholder="Part number (with or without dashes) or component name" style="width: 100%; box-sizing: border-box; padding: 0.85rem 3rem 0.85rem 3.1rem; background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; color: #0f172a; font-size: 1rem; font-weight: 700; outline: none; transition: all 0.2s;" oninput="OverallCataloguePortal.handleSearchInput(this.value)" onkeydown="OverallCataloguePortal.handleSearchKeydown(event)">
                 <button type="button" id="cat-search-clear-btn" onclick="OverallCataloguePortal.clearSearchInput()" title="Clear Search" style="display: none; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: #e2e8f0; border: none; color: #475569; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; align-items: center; justify-content: center; font-weight: 900; font-size: 0.8rem;">✕</button>
               </div>
 
@@ -1194,23 +1205,28 @@
               <div class="exploded-stage-header">
                 <div class="exploded-stage-title">
                   <span style="font-size: 1.35rem;">🚗</span>
-                  <span>Interactive 3D Exploded Vehicle Assembly</span>
-                  <span class="badge" style="background: #eff6ff; color: #0284c7; border: 1px solid #bfdbfe; font-size: 0.68rem; font-weight: 850;">26 AGGREGATES INDEXED</span>
+                  <span>Vehicle System Assemblies & Taxonomy</span>
+                  <span class="badge" style="background: #eff6ff; color: #0284c7; border: 1px solid #bfdbfe; font-size: 0.68rem; font-weight: 850;">29 AGGREGATES INDEXED</span>
                 </div>
                 <div style="font-size: 0.74rem; color: #64748b;">
-                  Click any hotspot pin or aggregate button directly on the technical diagram to explore its sub-assemblies:
+                  Select any primary aggregate on the left to explore its sub-assemblies and components:
                 </div>
               </div>
 
-              <!-- Exploded Isometric Viewport: Clean and Unobstructed 3D Vehicle Anatomy -->
-              <div class="exploded-viewport" style="position: relative; max-width: 1050px; margin: 0 auto; border-radius: 14px; overflow: hidden; background: #ffffff; border: 1.5px solid #e2e8f0; padding: 1rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); text-align: center;">
-                <img src="images/exploded_car_aggregates.png" alt="Exploded Vehicle Assembly" class="exploded-diagram-img" style="width: 100%; max-height: 480px; object-fit: contain; display: block; margin: 0 auto;">
-              </div>
+              <!-- Collapsed 3D Vehicle Anatomy Diagram (Optional Diagram Accordion) -->
+              <details class="exploded-diagram-accordion" style="margin-bottom: 1rem; border: 1.5px solid #e2e8f0; border-radius: 12px; background: #ffffff; overflow: hidden;">
+                <summary style="padding: 0.75rem 1rem; font-size: 0.82rem; font-weight: 800; color: #0284c7; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; user-select: none;">
+                  <span>🚗 Show vehicle diagram</span>
+                </summary>
+                <div class="exploded-viewport" style="position: relative; max-width: 1050px; margin: 0 auto; padding: 1rem; text-align: center;">
+                  <img src="images/exploded_car_aggregates.png" alt="Exploded Vehicle Assembly" class="exploded-diagram-img" style="width: 100%; max-height: 480px; object-fit: contain; display: block; margin: 0 auto;">
+                </div>
+              </details>
 
               <!-- ==================== TWO-COLUMN SIDE-BY-SIDE AGGREGATE & SUB-AGGREGATE STUDIO ==================== -->
               <div class="v-agg-side-by-side-container" id="v-agg-side-by-side-studio">
                 
-                <!-- LEFT COLUMN: PRIMARY SYSTEM AGGREGATES (26 Systems) -->
+                <!-- LEFT COLUMN: PRIMARY SYSTEM AGGREGATES (29 Systems) -->
                 <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.15rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); display: flex; flex-direction: column;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 0.65rem;">
                     <div style="display: flex; align-items: center; gap: 0.45rem;">
@@ -1220,7 +1236,7 @@
                       </strong>
                     </div>
                     <span id="v-tax-agg-count" style="font-size: 0.72rem; font-weight: 850; background: #eff6ff; color: #0284c7; padding: 0.15rem 0.5rem; border-radius: 6px; border: 1px solid #bfdbfe;">
-                      26 Systems
+                      29 Systems
                     </span>
                   </div>
 
@@ -1230,9 +1246,9 @@
                     <input type="text" id="v-agg-filter-input" placeholder="Filter systems (e.g. Brake, Engine)..." oninput="OverallCataloguePortal.filterAggregatesList(this.value)" style="width: 100%; box-sizing: border-box; padding: 0.4rem 0.6rem 0.4rem 1.85rem; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.78rem; font-weight: 650; color: #0f172a; outline: none;">
                   </div>
 
-                  <!-- Vertical List of Primary Aggregates -->
-                  <div id="v-agg-vertical-list" class="agg-vertical-list">
-                    <!-- Populated dynamically via OverallCataloguePortal.renderAggregatesList() -->
+                  <!-- Vertical List of Primary Aggregates (Supports both v-tax-agg-list and v-agg-vertical-list) -->
+                  <div id="v-tax-agg-list" class="agg-vertical-list">
+                    <!-- Populated dynamically via OverallCataloguePortal.loadVisualAggregates() -->
                   </div>
                 </div>
 
@@ -1628,7 +1644,7 @@
                     </span>
                   </div>
                   <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 0.15rem;">
-                    Universal Anything Search • 923 Components • 26 Aggregates • 17-Digit VIN Decoder • 3D Assembly
+                    Universal Anything Search • 923 Components • 29 Aggregates • 17-Digit VIN Decoder • 3D Assembly
                   </div>
                 </div>
               </div>
@@ -1637,57 +1653,89 @@
                 <button type="button" class="btn-toggle-ai-history" onclick="CatalogAiChat.toggleHistory()" title="Toggle History Sidebar" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.85rem; font-size: 0.78rem; font-weight: 850; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; border-radius: 8px; cursor: pointer; transition: background 0.15s;">
                   <span>⏱️</span> <span>History</span>
                 </button>
-                <button type="button" onclick="CatalogAiChat.resetChat()" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.95rem; font-size: 0.78rem; font-weight: 850; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; border-radius: 8px; cursor: pointer; transition: background 0.15s;">
-                  <span>🔄</span> <span>New Chat / Reset</span>
+                <button type="button" onclick="CatalogAiChat.resetChat()" title="Start a fresh chat conversation" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.95rem; font-size: 0.78rem; font-weight: 850; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; border-radius: 8px; cursor: pointer; transition: background 0.15s;">
+                  <span>🔄</span> <span>Start Over</span>
                 </button>
               </div>
             </div>
 
-            <!-- Active Vehicle Context Session Pill / Tag (Persistent Banner) -->
-            <div id="cat-ai-active-vehicle-bar" class="cat-ai-active-vehicle-bar">
-              <div style="display: flex; align-items: center; gap: 0.65rem; min-width: 0;">
-                <span style="font-size: 1.15rem; flex-shrink: 0;">🚗</span>
-                <div style="font-size: 0.8rem; font-weight: 750; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                  <span>Active Vehicle: </span>
-                  <strong id="cat-ai-vehicle-pill-name" style="color: #0f172a; font-weight: 900;">None</strong>
-                  <span id="cat-ai-vehicle-pill-sub" style="font-size: 0.72rem; color: #64748b; margin-left: 0.35rem;">(Identified vehicles stay pinned across queries)</span>
+            <!-- Chat & Inspector Body Split (62% Left Chat / 38% Right Sticky Inspector) -->
+            <div class="cat-ai-body-split">
+              
+              <!-- Left 62% Column: Chat Stream & Input -->
+              <div class="cat-ai-chat-column">
+                
+                <!-- Active Vehicle Context Session Pill / Tag (Persistent Banner) -->
+                <div id="cat-ai-active-vehicle-bar" class="cat-ai-active-vehicle-bar">
+                  <div style="display: flex; align-items: center; gap: 0.65rem; min-width: 0;">
+                    <span style="font-size: 1.15rem; flex-shrink: 0;">🚗</span>
+                    <div style="font-size: 0.8rem; font-weight: 750; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                      <span>Active Vehicle: </span>
+                      <strong id="cat-ai-vehicle-pill-name" style="color: #0f172a; font-weight: 900;">None</strong>
+                      <span id="cat-ai-vehicle-pill-sub" style="font-size: 0.72rem; color: #64748b; margin-left: 0.35rem;">(Identified vehicles stay pinned across queries)</span>
+                    </div>
+                  </div>
+                  <div id="cat-ai-vehicle-pill-actions" style="display: flex; align-items: center; gap: 0.45rem; flex-shrink: 0;">
+                    <button type="button" id="cat-ai-clear-vehicle-btn" onclick="CatalogAiChat.clearActiveVehicleContext()" style="display: none; padding: 0.25rem 0.65rem; background: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; border-radius: 6px; font-size: 0.72rem; font-weight: 850; cursor: pointer;">
+                      ✕ Clear / Change Vehicle
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div id="cat-ai-vehicle-pill-actions" style="display: flex; align-items: center; gap: 0.45rem; flex-shrink: 0;">
-                <button type="button" id="cat-ai-clear-vehicle-btn" onclick="CatalogAiChat.clearActiveVehicleContext()" style="display: none; padding: 0.25rem 0.65rem; background: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; border-radius: 6px; font-size: 0.72rem; font-weight: 850; cursor: pointer;">
-                  ✕ Clear / Change Vehicle
-                </button>
-              </div>
-            </div>
 
-            <!-- Chat Thread Message Stream -->
-            <div id="cat-ai-chat-thread" class="cat-ai-thread">
-              <!-- Dynamically rendered by CatalogAiChat with wireframe car greeting -->
-            </div>
+                <!-- Chat Thread Message Stream -->
+                <div id="cat-ai-chat-thread" class="cat-ai-thread">
+                  <!-- Dynamically rendered by CatalogAiChat with wireframe car greeting -->
+                </div>
 
-            <!-- Chat Bottom Capsule Bar -->
-            <div class="cat-ai-input-wrapper">
-              <div id="cat-ai-image-preview" style="display: none; padding: 0 0.5rem 0.35rem;"></div>
-              <div class="cat-ai-capsule-bar">
-                <button type="button" class="cat-ai-action-btn" id="cat-ai-mic-btn" title="Speak to Search (Voice Recognition)" onclick="CatalogAiChat.toggleSpeechRecognition()">
-                  <span id="cat-ai-mic-icon">🎙️</span>
-                </button>
-                <button type="button" class="cat-ai-action-btn" title="Search by Part or Label Image" onclick="CatalogAiChat.triggerImageUpload()">
-                  <span>📷</span>
-                </button>
-                <input type="file" id="cat-ai-image-file-input" accept="image/*" style="display: none;" onchange="CatalogAiChat.handleImageSelected(event)">
-                <input 
-                  type="text" 
-                  id="cat-ai-chat-input" 
-                  placeholder="Ask Catalog AI: e.g. 'Grand i10 nios brake pad', 'Innova clutch plate', or upload part photo..."
-                  autocomplete="off"
-                >
-                <button type="button" class="cat-ai-send-btn" onclick="CatalogAiChat.handleSend()">
-                  <span>Ask</span> <span style="font-size: 1rem;">✈️</span>
-                </button>
+                <!-- Chat Bottom Capsule Bar -->
+                <div class="cat-ai-input-wrapper">
+                  <div class="cat-ai-capsule-bar">
+                    <button type="button" class="cat-ai-action-btn" id="cat-ai-mic-btn" title="Speak to Search (Voice Recognition)" onclick="CatalogAiChat.toggleSpeechRecognition()">
+                      <span id="cat-ai-mic-icon">🎙️</span>
+                    </button>
+                    <input 
+                      type="text" 
+                      id="cat-ai-chat-input" 
+                      placeholder="Ask Catalog AI: e.g. 'Grand i10 nios brake pad', 'Innova clutch plate', or part number..."
+                      autocomplete="off"
+                    >
+                    <button type="button" class="cat-ai-send-btn" onclick="CatalogAiChat.handleSend()">
+                      <span>Ask</span> <span style="font-size: 1rem;">✈️</span>
+                    </button>
+                  </div>
+                </div>
+
               </div>
-            </div>
 
+              <!-- Right 38% Column: Sticky Current Vehicle Card & Live Parts Inspector -->
+              <aside class="cat-ai-side-inspector" id="cat-ai-side-inspector">
+                <!-- Current Vehicle Card -->
+                <div class="cat-ai-side-card" id="cat-ai-side-vehicle-box">
+                  <div class="cat-ai-side-title">
+                    <span>🚗 Current Vehicle Session</span>
+                    <button type="button" id="cat-ai-side-clear-btn" onclick="CatalogAiChat.clearActiveVehicleContext()" style="display: none; padding: 2px 8px; font-size: 0.7rem; background: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; border-radius: 4px; font-weight: 800; cursor: pointer;">Clear</button>
+                  </div>
+                  <div id="cat-ai-side-vehicle-content">
+                    <div style="font-size: 0.82rem; color: #64748b; line-height: 1.45;">
+                      No vehicle pinned yet. Enter a vehicle or part query (e.g. <em>"Grand i10 Nios brake pad"</em>) to lock vehicle context.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Live Component & Parts Result Inspector -->
+                <div class="cat-ai-side-card" id="cat-ai-side-parts-box">
+                  <div class="cat-ai-side-title">
+                    <span>🔍 Component &amp; Parts Inspector</span>
+                  </div>
+                  <div id="cat-ai-side-parts-content">
+                    <div style="font-size: 0.82rem; color: #64748b; line-height: 1.45;">
+                      Search or select any component to inspect OEM specs and Tier-1 OES alternatives with live savings calculations.
+                    </div>
+                  </div>
+                </div>
+              </aside>
+
+            </div>
           </main>
 
         </div>
@@ -1717,314 +1765,62 @@
     
     </section>
 
-    <!-- ==================== TAB 1D: OEM TO OES CONVERSION INTELLIGENCE ==================== -->
+    <!-- ==================== TAB 1D: OEM TO OES CONVERTER ==================== -->
     <section id="tab-catalogue-oem-to-oes" class="tab-pane">
-      <div style="max-width: 1540px; margin: 0 auto; padding: 0 0.5rem 2rem;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 3rem;">
         
-        <!-- Top Tab Bar (Matching Image 5) -->
-        <div style="background: #ffffff; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 2rem; padding: 0 1.25rem; margin-bottom: 1.25rem;">
-          <button type="button" class="oes-subtab-btn" data-subtab="cross-ref" onclick="OemToOesPortal.switchSubTab('cross-ref')" style="background: transparent; border: none; border-bottom: 3px solid transparent; padding: 0.85rem 0.25rem; font-size: 0.95rem; font-weight: 750; color: #64748b; cursor: pointer; transition: all 0.15s;">
-            OEM/OES Cross-Reference
-          </button>
-          <button type="button" class="oes-subtab-btn active" data-subtab="interchanges" onclick="OemToOesPortal.switchSubTab('interchanges')" style="background: transparent; border: none; border-bottom: 3px solid #0f172a; padding: 0.85rem 0.25rem; font-size: 0.95rem; font-weight: 850; color: #0f172a; cursor: pointer; transition: all 0.15s;">
-            Direct Interchanges
-          </button>
-          <button type="button" class="oes-subtab-btn" data-subtab="conversion-matrix" onclick="OemToOesPortal.switchSubTab('conversion-matrix')" style="background: transparent; border: none; border-bottom: 3px solid transparent; padding: 0.85rem 0.25rem; font-size: 0.95rem; font-weight: 750; color: #64748b; cursor: pointer; transition: all 0.15s;">
-            Inventory &amp; Pricing
-          </button>
+        <!-- Header -->
+        <div style="margin-bottom: 1.75rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.35rem;">
+            <div style="width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: #fff; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);">
+              ⇄
+            </div>
+            <h2 style="font-size: 1.6rem; font-weight: 900; color: #0f172a; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.3px;">
+              OEM → OES Converter
+            </h2>
+          </div>
+          <p style="font-size: 0.9rem; color: #64748b; margin: 0;">
+            Cross-reference dealership OEM part numbers directly to verified Tier-1 OES aftermarket equivalents (Bosch, Valeo, LuK, Purolator, Mahle, Brembo, TVS Girling) with real price savings.
+          </p>
         </div>
 
-        <!-- ==================== VIEW 1: DIRECT INTERCHANGES HUB (IMAGE 5 PIXEL-FOR-PIXEL) ==================== -->
-        <div id="oes-view-interchanges" style="display: block;">
-          <div style="display: grid; grid-template-columns: 200px 1fr; gap: 1.5rem; align-items: start;">
-            
-            <!-- Left Side Sub-Navigation (Matching Image 5) -->
-            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 0.75rem 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
-              <div class="oes-left-nav-item" data-nav="dashboard" onclick="OemToOesPortal.switchSubTab('cross-ref')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 750; color: #475569; cursor: pointer; transition: background 0.15s;">
-                <span style="font-size: 1rem;">▦</span>
-                <span>Dashboard</span>
-              </div>
-              <div class="oes-left-nav-item active" data-nav="interchange-search" onclick="OemToOesPortal.switchSubTab('interchanges')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 850; color: #0f172a; background: #f1f5f9; border: 1px solid #cbd5e1; cursor: pointer; transition: background 0.15s;">
-                <span style="font-size: 1rem;">⊞</span>
-                <span>Interchange Search</span>
-              </div>
-              <div class="oes-left-nav-item" data-nav="conversion-matrix" onclick="OemToOesPortal.switchSubTab('conversion-matrix')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 750; color: #475569; cursor: pointer; transition: background 0.15s;">
-                <span style="font-size: 1rem;">❖</span>
-                <span>Conversion Matrix</span>
-              </div>
-              <div class="oes-left-nav-item" data-nav="saved-matches" onclick="alert('Saved Matches: Valeo VAL-826330, LuK LUK-622333609 bookmarked.')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 750; color: #475569; cursor: pointer; transition: background 0.15s;">
-                <span style="font-size: 1rem;">🔖</span>
-                <span>Saved Matches</span>
-              </div>
-              <div class="oes-left-nav-item" data-nav="search-history" onclick="alert('Search History:\n1. VAL-826330 (Clutch Plate)\n2. 13780M75J00 (Air Filter)\n3. 55810M68P00 (Brake Pad)')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 750; color: #475569; cursor: pointer; transition: background 0.15s;">
-                <span style="font-size: 1rem;">🕒</span>
-                <span>Search History</span>
-              </div>
-            </div>
-
-            <!-- Right Main Work Area -->
-            <div>
-              <!-- Header & Subtitle -->
-              <div style="margin-bottom: 1.25rem;">
-                <h2 style="font-size: 1.55rem; font-weight: 900; color: #0f172a; margin: 0 0 0.35rem; font-family: 'Outfit', sans-serif; letter-spacing: -0.3px;">
-                  OES to OES Conversion and Alternative Interchange Hub
-                </h2>
-                <p style="font-size: 0.88rem; color: #475569; margin: 0; line-height: 1.4;">
-                  Cross-reference alternative OES, tier-1 brands, and aftermarket equivalents when original OEM specs or part numbers are unavailable.
-                </p>
-              </div>
-
-              <!-- Top Row: Search Box & Verified Interconnected Vehicles -->
-              <div style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem; align-items: stretch; margin-bottom: 1.5rem;">
-                
-                <!-- Search Box Card -->
-                <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.25rem 1.35rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03); display: flex; flex-direction: column; justify-content: space-between;">
-                  <div>
-                    <label style="font-size: 0.82rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.5rem;">
-                      OES Input Search Bar
-                    </label>
-                    <div style="display: flex; gap: 0.75rem;">
-                      <input type="text" id="oes-interchange-input" value="VAL-826330  [OES Anchor Part]" 
-                             placeholder="Enter OES or OEM Part Number..."
-                             style="flex: 1; padding: 0.75rem 1rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; font-weight: 750; color: #0f172a; outline: none; transition: border-color 0.15s;"
-                             onfocus="this.style.borderColor='#ea580c'" onblur="this.style.borderColor='#cbd5e1'"
-                             onkeydown="if(event.key==='Enter') OemToOesPortal.searchInterchange();">
-                      <button type="button" onclick="OemToOesPortal.searchInterchange();" style="background: #ea580c; color: #ffffff; border: none; padding: 0.75rem 1.6rem; border-radius: 8px; font-weight: 850; font-size: 0.9rem; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25); transition: background 0.15s;">
-                        Search &amp; Cross-Refer
-                      </button>
-                    </div>
-                  </div>
-                  <!-- Status Line -->
-                  <div id="oes-anchor-status-line" style="font-size: 0.76rem; color: #334155; font-weight: 750; margin-top: 0.85rem; line-height: 1.4;">
-                    Active Anchor: Valeo VAL-826330 (Clutch Plate / Pressure Plate Assembly) | Status: No OEM Part Listed / Discontinued | Target Segment: Clutch System
-                  </div>
-                </div>
-
-                <!-- Verified Interconnected Vehicles Card -->
-                <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.15rem 1.25rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
-                  <div style="font-size: 0.82rem; font-weight: 850; color: #0f172a; margin-bottom: 0.55rem;">
-                    Verified Interconnected Vehicles
-                  </div>
-                  <div id="oes-connected-vehicles-list" style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8rem; color: #334155;">
-                    <div>Hyundai Creta (2015-2020) 1.6L CRDi Diesel</div>
-                    <div>Kia Seltos (2019-2025) 1.5L CRDi Diesel</div>
-                    <div>Hyundai Verna (2016-2020) 1.6L CRDi Diesel</div>
-                  </div>
-                </div>
-
-              </div>
-
-              <!-- Section 1 Heading -->
-              <div style="font-size: 0.9rem; font-weight: 900; color: #0f172a; margin: 0 0 0.55rem; text-transform: uppercase; letter-spacing: 0.3px;">
-                DIRECT OES-to-OES INTERCHANGES <span style="font-weight: 700; color: #64748b; text-transform: none;">(Identical Specification &amp; Line-Fit Alternatives)</span>
-              </div>
-
-              <!-- Section 1 Split: Table + Filters -->
-              <div style="display: grid; grid-template-columns: 1fr 215px; gap: 1rem; align-items: start; margin-bottom: 1.75rem;">
-                
-                <!-- Table Card -->
-                <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
-                  <div style="padding: 0.75rem 1.25rem; border-bottom: 1px solid #e2e8f0; background: #f8fafc; font-size: 0.78rem; font-weight: 900; color: #0f172a; letter-spacing: 0.4px;">
-                    DIRECT OES-TO-OES INTERCHANGES (INTERCHANGE PREDICTIONS) <span style="color: #64748b; font-weight: normal; cursor: help;" title="Form-Fit-Function cross-reference calculated using Virtual Interchange Group">ⓘ</span>
-                  </div>
-                  <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                      <thead>
-                        <tr style="border-bottom: 1.5px solid #e2e8f0; background: #ffffff;">
-                          <th style="padding: 0.75rem 0.85rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 110px;">OES Brand</th>
-                          <th style="padding: 0.75rem 0.85rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 150px;">Equivalent Part No. ⇅</th>
-                          <th style="padding: 0.75rem 0.85rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 290px;">Confidence Score / Match Type</th>
-                          <th style="padding: 0.75rem 0.85rem; text-align: right; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 280px;">Availability &amp; Action</th>
-                        </tr>
-                      </thead>
-                      <tbody id="oes-direct-table-body">
-                        <!-- Populated dynamically by OemToOesPortal -->
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <!-- Right Filters Panel -->
-                <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 1.25rem 1rem; display: flex; flex-direction: column; gap: 1.15rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
-                  <div>
-                    <label style="font-size: 0.78rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.4rem;">
-                      Filter by Vehicle Make
-                    </label>
-                    <select id="oes-filter-vehicle" onchange="OemToOesPortal.filterInterchangeResults()" style="width: 100%; padding: 0.55rem 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; color: #0f172a; outline: none; background: #ffffff;">
-                      <option value="">Filter by Vehicle...</option>
-                      <option value="Hyundai">Hyundai</option>
-                      <option value="Kia">Kia</option>
-                      <option value="Maruti Suzuki">Maruti Suzuki</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label style="font-size: 0.78rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.4rem;">
-                      Filter by Brand Tier
-                    </label>
-                    <select id="oes-filter-tier" onchange="OemToOesPortal.filterInterchangeResults()" style="width: 100%; padding: 0.55rem 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; color: #0f172a; outline: none; background: #ffffff;">
-                      <option value="">Filter by Brand Tier...</option>
-                      <option value="Tier-1 OES">Tier-1 OES Only</option>
-                      <option value="Aftermarket">Aftermarket Only</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label style="font-size: 0.78rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.4rem;">
-                      Filter by More Options
-                    </label>
-                    <select id="oes-filter-more" onchange="OemToOesPortal.filterInterchangeResults()" style="width: 100%; padding: 0.55rem 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; color: #0f172a; outline: none; background: #ffffff;">
-                      <option value="">Filter by More...</option>
-                      <option value="In Stock Only">In Stock Only</option>
-                      <option value="Line-Fit Matches">100% Line-Fit Only</option>
-                    </select>
-                  </div>
-                </div>
-
-              </div>
-
-              <!-- Section 2 Heading -->
-              <div style="font-size: 0.9rem; font-weight: 900; color: #0f172a; margin: 0 0 0.55rem;">
-                Secondary Matrix - <span style="font-style: italic; font-weight: 750;">"Alternative / Aftermarket OES-Equivalent Interchanges"</span>
-              </div>
-
-              <!-- Section 2 Table Card -->
-              <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
-                <div style="padding: 0.75rem 1.25rem; border-bottom: 1px solid #e2e8f0; background: #f8fafc; font-size: 0.78rem; font-weight: 900; color: #0f172a; letter-spacing: 0.4px;">
-                  INDIRECT BRAND ALTERNATIVES &amp; AFTERMARKET CROSS-REFERENCES <span style="color: #64748b; font-weight: normal; cursor: help;">ⓘ</span>
-                </div>
-                <div style="overflow-x: auto;">
-                  <table style="width: 100%; border-collapse: collapse; min-width: 900px;">
-                    <thead>
-                      <tr style="border-bottom: 1.5px solid #e2e8f0; background: #ffffff;">
-                        <th style="padding: 0.75rem 1.25rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 150px;">Brand</th>
-                        <th style="padding: 0.75rem 1.25rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 180px;">Alternate Part No.</th>
-                        <th style="padding: 0.75rem 1.25rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 280px;">Relationship</th>
-                        <th style="padding: 0.75rem 1.25rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 300px;">Notes / Variant differences</th>
-                        <th style="padding: 0.75rem 1.25rem; text-align: right; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 150px;">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody id="oes-secondary-table-body">
-                      <!-- Populated dynamically by OemToOesPortal -->
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-            </div>
-
+        <!-- Search Box Card -->
+        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04); margin-bottom: 1.5rem;">
+          <label for="oem-oes-search-input" style="font-size: 0.85rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.6rem;">
+            Enter OEM part number or description:
+          </label>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <input 
+              type="text" 
+              id="oem-oes-search-input" 
+              placeholder="Enter OEM part number or description (e.g. 13780M75J00, 55810M68P00, 21611404)" 
+              style="flex: 1 1 240px; min-width: 0; padding: 0.85rem 1.15rem; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; font-weight: 750; color: #0f172a; outline: none; transition: border-color 0.15s;"
+              onfocus="this.style.borderColor='#0284c7'" 
+              onblur="this.style.borderColor='#cbd5e1'"
+              onkeydown="if(event.key==='Enter') OemToOesPortal.search();"
+            >
+            <button 
+              type="button" 
+              id="oem-oes-search-btn"
+              onclick="OemToOesPortal.search()" 
+              style="flex: 0 0 auto; background: linear-gradient(135deg, #0284c7, #2563eb); color: #ffffff; border: none; padding: 0.85rem 1.75rem; border-radius: 10px; font-weight: 850; font-size: 0.92rem; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25); transition: transform 0.15s;"
+            >
+              Convert to OES
+            </button>
+            <button 
+              type="button" 
+              onclick="OemToOesPortal.clear()" 
+              style="flex: 0 0 auto; background: #f1f5f9; color: #475569; border: 1.5px solid #cbd5e1; padding: 0.85rem 1.25rem; border-radius: 10px; font-weight: 850; font-size: 0.9rem; cursor: pointer;"
+            >
+              Clear
+            </button>
           </div>
         </div>
 
-        <!-- ==================== VIEW 2: INSTANT LOOKUP CONVERTER ==================== -->
-        <div id="oes-view-cross-ref" style="display: none; margin-top: 1rem;">
-          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.75rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-              <div>
-                <div style="font-size: 0.75rem; font-weight: 900; color: #0284c7; text-transform: uppercase; letter-spacing: 0.6px;">INSTANT LOOKUP ENGINE</div>
-                <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0.2rem 0 0; font-family: 'Outfit', sans-serif;">Convert Any OEM Part to Tier-1 OES Alternative</h3>
-              </div>
-              <span style="font-size: 0.75rem; color: #64748b; font-weight: 700;">Cross-references 23.6M Master Catalogue</span>
-            </div>
-
-            <div style="display: flex; gap: 0.75rem;">
-              <div style="flex: 1; position: relative;">
-                <input type="text" id="oem-convert-input" placeholder="Enter OEM Part Number (e.g. 21658101B4A05, 13780M75J00, 55810M68P00) or Model &amp; Component..." 
-                       style="width: 100%; padding: 0.85rem 1rem; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 0.95rem; font-weight: 700; color: #0f172a; outline: none; transition: border-color 0.2s;"
-                       onfocus="this.style.borderColor='#0284c7'" onblur="this.style.borderColor='#cbd5e1'"
-                       onkeydown="if(event.key==='Enter') OemToOesPortal.handleLiveConvertSearch();">
-              </div>
-              <button type="button" onclick="OemToOesPortal.handleLiveConvertSearch()" style="background: linear-gradient(135deg, #0284c7, #2563eb); color: #ffffff; border: none; padding: 0.85rem 1.5rem; border-radius: 12px; font-weight: 850; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">
-                <span>Convert to OES</span> <span>➔</span>
-              </button>
-            </div>
-
-            <!-- Conversion Result Container -->
-            <div id="oem-convert-result-box" style="display: none;"></div>
-          </div>
-        </div>
-
-        <!-- ==================== VIEW 3: PMS KIT CONVERSION MATRIX ==================== -->
-        <div id="oes-view-matrix" style="display: none; margin-top: 1rem;">
-          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.75rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
-              <div>
-                <div style="font-size: 0.75rem; font-weight: 900; color: #059669; text-transform: uppercase; letter-spacing: 0.6px;">HIGH-VOLUME COMMERCIAL OPPORTUNITY</div>
-                <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0.2rem 0 0; font-family: 'Outfit', sans-serif;">
-                  Top Volume Models PMS Service Kit Conversion Matrix
-                </h3>
-                <p style="font-size: 0.8rem; color: #64748b; margin: 0.25rem 0 0;">
-                  Pre-packaged Periodic Maintenance Service (PMS) kits comparing Dealership OEM costs against AutoNexa Tier-1 OES kits
-                </p>
-              </div>
-
-              <!-- Model Tabs -->
-              <div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
-                <button type="button" class="oem-kit-tab-btn active" data-kit="MARUTI_SWIFT" onclick="OemToOesPortal.selectKit('MARUTI_SWIFT')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
-                  Swift / Dzire
-                </button>
-                <button type="button" class="oem-kit-tab-btn" data-kit="HYUNDAI_CRETA" onclick="OemToOesPortal.selectKit('HYUNDAI_CRETA')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
-                  Hyundai Creta
-                </button>
-                <button type="button" class="oem-kit-tab-btn" data-kit="TOYOTA_CRYSTA" onclick="OemToOesPortal.selectKit('TOYOTA_CRYSTA')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
-                  Innova Crysta
-                </button>
-                <button type="button" class="oem-kit-tab-btn" data-kit="HYUNDAI_NIOS" onclick="OemToOesPortal.selectKit('HYUNDAI_NIOS')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
-                  Grand i10 Nios
-                </button>
-                <button type="button" class="oem-kit-tab-btn" data-kit="TATA_NEXON" onclick="OemToOesPortal.selectKit('TATA_NEXON')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
-                  Tata Nexon
-                </button>
-                <button type="button" class="oem-kit-tab-btn" data-kit="MAHINDRA_SCORPIO" onclick="OemToOesPortal.selectKit('MAHINDRA_SCORPIO')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
-                  Scorpio Classic
-                </button>
-              </div>
-            </div>
-
-            <!-- Active Vehicle Summary Header -->
-            <div style="background: linear-gradient(135deg, #f0fdf4, #eff6ff); border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 1.15rem 1.35rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-              <div style="display: flex; align-items: center; gap: 1rem;">
-                <img id="oem-kit-hero-img" src="images/vehicles/MARUTI SUZUKI/SWIFT 3RD GEN (2018-2021).png" alt="Vehicle" style="width: 80px; height: 50px; object-fit: contain; border-radius: 8px; background: #ffffff; border: 1px solid #e2e8f0; padding: 4px;" onerror="this.src='images/home_menu_catalogue.jpg'">
-                <div>
-                  <strong id="oem-kit-hero-title" style="font-size: 1.15rem; color: #0f172a; font-family: 'Outfit', sans-serif;">Maruti Suzuki Swift (Diesel / Petrol)</strong>
-                  <div style="font-size: 0.74rem; color: #166534; font-weight: 750; margin-top: 0.15rem;">Complete 10,000 km / Annual Scheduled Service Package</div>
-                </div>
-              </div>
-
-              <!-- Aggregated Savings Summary -->
-              <div style="display: flex; align-items: center; gap: 1.5rem;">
-                <div>
-                  <div style="font-size: 0.68rem; color: #64748b; font-weight: 750;">OEM Dealership Total</div>
-                  <div id="oem-kit-total-oem" style="font-size: 1.15rem; font-weight: 900; color: #64748b; font-family: 'Outfit', sans-serif; text-decoration: line-through;">₹0</div>
-                </div>
-                <div>
-                  <div style="font-size: 0.68rem; color: #166534; font-weight: 850;">AutoNexa OES Total</div>
-                  <div id="oem-kit-total-oes" style="font-size: 1.45rem; font-weight: 900; color: #16a34a; font-family: 'Outfit', sans-serif;">₹0</div>
-                </div>
-                <div style="background: #ffffff; border: 1.5px solid #86efac; border-radius: 10px; padding: 0.35rem 0.85rem; text-align: center; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15);">
-                  <div id="oem-kit-total-save" style="font-size: 1.15rem; font-weight: 900; color: #dc2626; font-family: 'Outfit', sans-serif;">Save ₹0</div>
-                  <div id="oem-kit-total-pct" style="font-size: 0.68rem; font-weight: 850; color: #166534;">0% Net Savings</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Service Kit Items Table -->
-            <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
-              <table class="data-table" style="width: 100%; border-collapse: collapse; min-width: 1000px; table-layout: fixed;">
-                <thead>
-                  <tr style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0;">
-                    <th style="color: #0f172a; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 220px;">Component Service Item</th>
-                    <th style="color: #475569; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 170px;">Dealership OEM Ref</th>
-                    <th style="color: #475569; font-weight: 850; text-align: right; padding: 0.85rem 1rem; width: 120px;">OEM Price</th>
-                    <th style="color: #0284c7; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 200px;">AutoNexa Tier-1 OES Ref</th>
-                    <th style="color: #059669; font-weight: 850; text-align: right; padding: 0.85rem 1rem; width: 130px;">OES Price</th>
-                    <th style="color: #dc2626; font-weight: 850; text-align: right; padding: 0.85rem 1rem; width: 150px;">Customer Savings</th>
-                    <th style="color: #0f172a; font-weight: 850; text-align: center; padding: 0.85rem 1rem; width: 110px;">Action</th>
-                  </tr>
-                </thead>
-                <tbody id="oem-kit-table-body">
-                  <!-- Rendered dynamically by OemToOesPortal -->
-                </tbody>
-              </table>
-            </div>
+        <!-- Results Container -->
+        <div id="oem-oes-results-container">
+          <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 2.5rem; text-align: center; color: #64748b; font-size: 0.92rem;">
+            Please enter an OEM part number or description to search for verified OES alternatives.
           </div>
         </div>
 

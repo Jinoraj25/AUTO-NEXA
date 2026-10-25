@@ -85,10 +85,8 @@ def init_db():
     conn.close()
 
 def seed_knowledge_base(conn):
-    c = conn.cursor()
-    c.execute("SELECT COUNT(*) FROM interchange_groups;")
-    if c.fetchone()[0] > 0:
-        return # Already seeded
+    # Disabled sample seeding so only verified real database clusters are used
+    return
 
     # --- CLUSTER 1: VIG-CLU-0941 (Valeo VAL-826330 Anchor - Image 5 Reference) ---
     c.execute("""
