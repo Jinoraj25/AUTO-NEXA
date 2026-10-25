@@ -495,10 +495,32 @@ def get_visual_variants(make, model=None, fuel_type=None, year=None, search=None
                 "maxYear": mr["max_yr"]
             })
 
+        target_meta = next((m for m in models_meta if m["name"].upper() == (model or "").upper()), None)
+        available_fuels = target_meta["fuels"] if target_meta and target_meta.get("fuels") else sorted(list(set(v["fuelType"] for v in variants if v.get("fuelType"))))
+        
+        years_set = set()
+        for v in variants:
+            fy = v.get("fromYear")
+            ty = v.get("toYear")
+            m_fy = re.search(r'\d{4}', str(fy or ''))
+            m_ty = re.search(r'\d{4}', str(ty or ''))
+            if m_fy:
+                f_y = int(m_fy.group(0))
+                t_y = int(m_ty.group(0)) if m_ty else f_y
+                for y in range(max(1995, f_y), min(2027, t_y + 1)):
+                    years_set.add(str(y))
+        available_years = sorted(list(years_set), reverse=True)
+        if not available_years and target_meta and target_meta.get("minYear") and target_meta.get("maxYear"):
+            min_y = max(1995, target_meta["minYear"])
+            max_y = min(2026, target_meta["maxYear"])
+            available_years = sorted([str(y) for y in range(min_y, max_y + 1)], reverse=True)
+
         return {
             "variants": variants,
             "models": all_models,
             "modelsMeta": models_meta,
+            "availableFuels": available_fuels,
+            "availableYears": available_years,
             "totalCount": len(variants)
         }
     except Exception as e:

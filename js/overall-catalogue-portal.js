@@ -1,4 +1,7 @@
-/* AUTO NEXA - AutoDukan Master   AGGREGATE_ICONS: {
+/* AUTO NEXA - Master Catalogue Intelligence Portal (23.6M+ Records) */
+
+window.OverallCataloguePortal = {
+  AGGREGATE_ICONS: {
     'ENGINE': '⚙️',
     'TRANSMISSION': '🔄',
     'CLUTCH SYSTEM': '⚙️',
@@ -26,9 +29,6 @@
     'RUBBERS HOSES AND MOUNTINGS': '🩹',
     'ACCESSORIES': '✨'
   },
-Catalogue Intelligence Portal (23.6M+ Records) */
-
-window.OverallCataloguePortal = {
   viewMode: 'grid', // 'grid' (Cards) or 'table' (Enterprise Grid)
   currentPage: 1,
   limit: 48,
@@ -636,9 +636,35 @@ window.OverallCataloguePortal = {
       
       const variants = data.variants || [];
       const models = data.models || [];
+      const availableFuels = data.availableFuels || [];
+      const availableYears = data.availableYears || [];
       
       if (countEl) {
         countEl.textContent = `${variants.length} Variants Available`;
+      }
+
+      // Dynamic Cascading: Populate Fuel Type dropdown strictly from DB
+      const fuelSel = document.getElementById('v-filter-fuel');
+      if (fuelSel) {
+        const curFuel = fuelSel.value;
+        let fuelOpts = `<option value="">All Fuels (${availableFuels.length})</option>`;
+        availableFuels.forEach(f => {
+          const isSel = (curFuel.toUpperCase() === f.toUpperCase()) ? 'selected' : '';
+          fuelOpts += `<option value="${this.escapeHtml(f)}" ${isSel}>${this.escapeHtml(f)}</option>`;
+        });
+        fuelSel.innerHTML = fuelOpts;
+      }
+
+      // Dynamic Cascading: Populate Year dropdown strictly from DB
+      const yrSel = document.getElementById('v-filter-year');
+      if (yrSel) {
+        const curYr = yrSel.value;
+        let yrOpts = `<option value="">All Years (${availableYears.length})</option>`;
+        availableYears.forEach(y => {
+          const isSel = (curYr === y) ? 'selected' : '';
+          yrOpts += `<option value="${this.escapeHtml(y)}" ${isSel}>${this.escapeHtml(y)}</option>`;
+        });
+        yrSel.innerHTML = yrOpts;
       }
       
       // Render Model Pills
@@ -666,6 +692,17 @@ window.OverallCataloguePortal = {
         grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 2.5rem; color: #f87171;">⚠️ Failed to load vehicle variants: ${this.escapeHtml(err.message)}</div>`;
       }
     }
+  },
+
+  onFuelFilterSelect() {
+    // When fuel changes, reset year to cascade strictly
+    const yrSel = document.getElementById('v-filter-year');
+    if (yrSel) yrSel.value = '';
+    this.loadVisualVariants();
+  },
+
+  onYearFilterSelect() {
+    this.loadVisualVariants();
   },
 
   renderVisualVariants(variants) {
@@ -784,22 +821,17 @@ window.OverallCataloguePortal = {
   },
 
   async loadVisualAggregates() {
-    const listEl = document.getElementById('v-tax-agg-list');
+    const listEl = document.getElementById('v-agg-vertical-list') || document.getElementById('v-tax-agg-list');
     const countEl = document.getElementById('v-tax-agg-count');
     if (listEl) {
-      listEl.innerHTML = `<div style="text-align: center; padding: 2rem; color: #0284c7;">⚡ Loading aggregates...</div>`;
+      listEl.innerHTML = `<div style="text-align: center; padding: 2rem; color: #0284c7; font-weight: 700;">⚡ Loading aggregates...</div>`;
     }
     
-    // Clear sub-aggregate and component columns
+    // Clear sub-aggregate column
     const subList = document.getElementById('v-tax-subagg-list');
     const subCount = document.getElementById('v-tax-subagg-count');
-    if (subList) subList.innerHTML = `<div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">← Select a System Aggregate to view its Sub-Aggregates</div>`;
+    if (subList) subList.innerHTML = `<div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.85rem;">👈 Select a Primary System Aggregate on the left to view its Sub-Aggregates</div>`;
     if (subCount) subCount.textContent = 'Select Aggregate';
-    
-    const compList = document.getElementById('v-tax-comp-list');
-    const compCount = document.getElementById('v-tax-comp-count');
-    if (compList) compList.innerHTML = `<div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">← Select a Sub-Aggregate to view Components</div>`;
-    if (compCount) compCount.textContent = 'Select Sub-Aggregate';
     
     try {
       const params = new URLSearchParams();
@@ -811,6 +843,7 @@ window.OverallCataloguePortal = {
       if (!res.ok) throw new Error("Aggregates fetch failed");
       const data = await res.json();
       const items = data.items || [];
+      this.loadedAggregatesList = items;
       
       if (countEl) countEl.textContent = `${items.length} Systems`;
       
@@ -820,21 +853,54 @@ window.OverallCataloguePortal = {
         return;
       }
       
-      listEl.innerHTML = items.map(item => `
-        <div class="taxonomy-item-pill ${this.selectedAggregate === item.name ? 'active' : ''}" onclick="OverallCataloguePortal.selectAggregateVisual('${this.escapeJs(item.name)}', this)">
-          <div style="display: flex; align-items: center; gap: 0.5rem; min-width: 0;">
-            <span style="font-size: 1.15rem;">${item.icon || '📦'}</span>
-            <strong style="font-size: 0.8rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${this.escapeHtml(item.name)}</strong>
+      listEl.innerHTML = items.map(item => {
+        const isSelected = this.selectedAggregate === item.name;
+        const iconChar = (this.AGGREGATE_ICONS && this.AGGREGATE_ICONS[item.name]) || item.icon || '📦';
+        return `
+          <div class="agg-vertical-card ${isSelected ? 'active' : ''}" 
+               data-agg-name="${this.escapeHtml(item.name)}"
+               onclick="OverallCataloguePortal.selectAggregateVisual('${this.escapeJs(item.name)}', this)">
+            <div style="display: flex; align-items: center; gap: 0.65rem; min-width: 0;">
+              <span style="font-size: 1.25rem; flex-shrink: 0;">${iconChar}</span>
+              <div style="min-width: 0;">
+                <div class="agg-vcard-name" style="font-size: 0.82rem; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${this.escapeHtml(item.name)}">
+                  ${this.escapeHtml(item.name)}
+                </div>
+                <div style="font-size: 0.68rem; color: #64748b; font-weight: 650;">
+                  ${Number(item.count || 0).toLocaleString('en-IN')} SKUs
+                </div>
+              </div>
+            </div>
+            <span class="agg-vcard-arrow" style="color: ${isSelected ? '#0284c7' : '#94a3b8'}; font-size: 0.9rem; font-weight: 900; transition: transform 0.15s;">➔</span>
           </div>
-          <span class="count-badge" style="background: #f1f5f9; color: #475569; font-size: 0.68rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px; border: 1px solid #e2e8f0;">
-            ${Number(item.count || 0).toLocaleString('en-IN')}
-          </span>
-        </div>
-      `).join('');
+        `;
+      }).join('');
+
+      // Auto-select initial aggregate (first or existing) so the right column immediately displays sub-aggregates
+      const targetAgg = this.selectedAggregate || (items.find(i => i.name === 'ENGINE' || i.name === 'BRAKE SYSTEM')?.name || (items[0] && items[0].name));
+      if (targetAgg) {
+        const activeCard = listEl.querySelector(`.agg-vertical-card[data-agg-name="${targetAgg}"]`);
+        this.selectAggregateVisual(targetAgg, activeCard);
+      }
     } catch (err) {
       console.error("Error loading visual aggregates:", err);
       if (listEl) listEl.innerHTML = `<div style="text-align: center; padding: 2rem; color: #f87171;">⚠️ ${this.escapeHtml(err.message)}</div>`;
     }
+  },
+
+  filterAggregatesList(q) {
+    const listEl = document.getElementById('v-agg-vertical-list') || document.getElementById('v-tax-agg-list');
+    if (!listEl) return;
+    const cleanQ = (q || '').trim().toUpperCase();
+    const cards = listEl.querySelectorAll('.agg-vertical-card, .taxonomy-item-pill');
+    cards.forEach(card => {
+      const name = (card.getAttribute('data-agg-name') || card.textContent || '').toUpperCase();
+      if (!cleanQ || name.includes(cleanQ)) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
   },
 
   fetchCatalogueData() {
@@ -863,7 +929,21 @@ window.OverallCataloguePortal = {
     delete this.filters.sub_aggregate;
     delete this.filters.component;
 
-    // Highlight blueprint tags on 3D car diagram
+    // Highlight card in left list
+    const listEl = document.getElementById('v-agg-vertical-list') || document.getElementById('v-tax-agg-list');
+    if (listEl) {
+      listEl.querySelectorAll('.agg-vertical-card').forEach(card => {
+        const isThis = card.getAttribute('data-agg-name') === aggName;
+        card.classList.toggle('active', isThis);
+        const arrow = card.querySelector('.agg-vcard-arrow');
+        if (arrow) arrow.style.color = isThis ? '#0284c7' : '#94a3b8';
+      });
+      listEl.querySelectorAll('.taxonomy-item-pill').forEach(pill => {
+        pill.classList.toggle('active', pill.textContent.toUpperCase().includes(aggName.toUpperCase()));
+      });
+    }
+
+    // Highlight blueprint tags on 3D car diagram if present
     document.querySelectorAll('.agg-blueprint-tag').forEach(tag => {
       const txt = tag.textContent.trim().toUpperCase();
       const q = aggName.toUpperCase();

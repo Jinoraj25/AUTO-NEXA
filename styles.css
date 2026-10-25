@@ -5765,7 +5765,191 @@ body.sidebar-collapsed footer.app-footer {
   }
 }
 
-/* Catalog AI Fitment Modal Overlay */
+/* Catalog KPI Card Uniform Heights, Padding, and Spacing */
+.cat-kpi-card {
+  min-height: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  border-radius: 16px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.cat-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+}
+
+/* Two-Column Side-by-Side Aggregate Selection Studio */
+.v-agg-side-by-side-container {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+  margin-top: 1.25rem;
+}
+@media (max-width: 1024px) {
+  .v-agg-side-by-side-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.agg-vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: 580px;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+.agg-vertical-list::-webkit-scrollbar {
+  width: 6px;
+}
+.agg-vertical-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.agg-vertical-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.95rem;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+.agg-vertical-card:hover {
+  background: #f8fafc;
+  border-color: #0284c7;
+  transform: translateX(2px);
+}
+.agg-vertical-card.active {
+  background: #eff6ff;
+  border: 2px solid #0284c7;
+  box-shadow: 0 3px 12px rgba(2, 132, 199, 0.16);
+}
+.agg-vertical-card.active .agg-vcard-name {
+  color: #0284c7 !important;
+  font-weight: 900 !important;
+}
+.agg-vertical-card.active .agg-vcard-arrow {
+  color: #0284c7 !important;
+  transform: translateX(3px);
+}
+
+/* Catalog AI Structured Component Cards */
+.cat-ai-comp-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.15rem 1.25rem;
+  margin-bottom: 0.85rem;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+  transition: all 0.18s ease;
+}
+.cat-ai-comp-card.oem-highlight {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+  border: 2px solid #86efac;
+}
+.cat-ai-comp-card.oes-highlight {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+}
+.cat-ai-comp-card:hover {
+  border-color: #0284c7;
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.1);
+}
+
+/* Catalog AI Active Vehicle Pill Bar */
+.cat-ai-active-vehicle-bar {
+  background: #f8fafc;
+  border-bottom: 1.5px solid #e2e8f0;
+  padding: 0.65rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.cat-ai-active-vehicle-bar.has-vehicle {
+  background: #f0fdf4;
+  border-bottom-color: #86efac;
+}
+
+.cat-ai-oem-pill {
+  display: inline-block;
+  background: #16a34a;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 900;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+.cat-ai-badge-fitment {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.72rem;
+  font-weight: 850;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #bbf7d0;
+}
+.cat-ai-badge-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #eff6ff;
+  color: #1e40af;
+  font-size: 0.72rem;
+  font-weight: 850;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #bfdbfe;
+}
+.cat-ai-action-btn {
+  border-radius: 8px;
+  font-weight: 850;
+  font-size: 0.78rem;
+  padding: 0.45rem 0.95rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+.cat-ai-action-btn.primary {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+.cat-ai-action-btn.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+.cat-ai-action-btn.secondary {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+}
+.cat-ai-action-btn.secondary:hover {
+  background: #eff6ff;
+  border-color: #0284c7;
+  color: #0284c7;
+}
+
+
 .cat-ai-modal-overlay {
   position: fixed;
   inset: 0;

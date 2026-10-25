@@ -505,8 +505,14 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
             if path_only == '/api/catalog-ai/chat':
                 q_val = get_param('q') or get_param('message') or ''
+                vc = {}
+                if get_param('make'): vc['make'] = get_param('make')
+                if get_param('model'): vc['model'] = get_param('model')
+                if get_param('variant') or get_param('sub_model'): vc['variant'] = get_param('variant') or get_param('sub_model')
+                if get_param('fuel') or get_param('fuel_type'): vc['fuel'] = get_param('fuel') or get_param('fuel_type')
+                if get_param('year'): vc['year'] = get_param('year')
                 if catalog_ai_bot:
-                    bot_res = catalog_ai_bot.process_chat_message(q_val)
+                    bot_res = catalog_ai_bot.process_chat_message(q_val, vehicle_context=vc)
                 else:
                     bot_res = {"reply": "Catalog AI service is initializing...", "step": "error"}
                 self.send_response(200)
@@ -818,9 +824,10 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 payload = json.loads(body_bytes.decode('utf-8'))
                 message = payload.get('message', '')
                 state = payload.get('state', {})
+                vehicle_context = payload.get('vehicle_context') or payload.get('activeVehicleContext') or {}
 
                 if catalog_ai_bot:
-                    bot_res = catalog_ai_bot.process_chat_message(message, session_state=state)
+                    bot_res = catalog_ai_bot.process_chat_message(message, session_state=state, vehicle_context=vehicle_context)
                 else:
                     bot_res = {"reply": "Catalog AI service is initializing...", "step": "error"}
 
