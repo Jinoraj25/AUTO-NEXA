@@ -11219,6 +11219,19 @@ window.DataEngine = {
     if (cleanDesc) {
       const d = cleanDesc;
       const DOMAIN_KEYWORDS = [
+        ['TMC', 'BRAKE SYSTEM', 'MC & BOOSTER', 'BRAKE MASTER CYLINDER'],
+        ['T M C', 'BRAKE SYSTEM', 'MC & BOOSTER', 'BRAKE MASTER CYLINDER'],
+        ['TANDEM MASTER', 'BRAKE SYSTEM', 'MC & BOOSTER', 'BRAKE MASTER CYLINDER'],
+        ['BRAKE BOOSTER', 'BRAKE SYSTEM', 'MC & BOOSTER', 'BRAKE BOOSTER'],
+        ['BOOSTER', 'BRAKE SYSTEM', 'MC & BOOSTER', 'BRAKE BOOSTER'],
+        ['CHAIN LUBE', 'LUBES', 'CHAIN LUBRICANT', 'CHAIN LUBRICANT'],
+        ['CHAIN LUBRICANT', 'LUBES', 'CHAIN LUBRICANT', 'CHAIN LUBRICANT'],
+        ['RADIAL PISTON', 'FUEL SYSTEM', 'INJECTOR', 'INJECTION PUMP'],
+        ['PISTON PUMP', 'FUEL SYSTEM', 'INJECTOR', 'INJECTION PUMP'],
+        ['BRACKET - BUMPER', 'BODY PARTS', 'BUMPER', 'FRONT BUMPER BRACKET'],
+        ['BUMPER MOUNTING', 'BODY PARTS', 'BUMPER', 'FRONT BUMPER BRACKET'],
+        ['BUMPER BRACKET', 'BODY PARTS', 'BUMPER', 'FRONT BUMPER BRACKET'],
+
         ['BRAKE SHOE', 'BRAKE SYSTEM', 'DRUM BRAKE', 'BRAKE SHOE'],
         ['DRUM BRAKE', 'BRAKE SYSTEM', 'DRUM BRAKE', 'BRAKE SHOE'],
         ['BRAKE PAD', 'BRAKE SYSTEM', 'DISC BRAKE', 'BRAKE PAD'],
@@ -11370,11 +11383,25 @@ window.DataEngine = {
 
       for (let rule of DOMAIN_KEYWORDS) {
         if (d.includes(rule[0])) {
+          const aggU = (rule[1] || "").toUpperCase();
+          const compU = (rule[3] || "").toUpperCase();
+          let cat = "Mechanical Parts";
+          if (['BODY PARTS', 'BODY & TRIM', 'LIGHTING', 'GLASS', 'WIPER SYSTEM'].includes(aggU) ||
+              ['BODY', 'BUMPER', 'FENDER', 'DOOR', 'MIRROR', 'GLASS', 'PANEL', 'TRIM'].some(k => compU.includes(k))) {
+            cat = "Body Parts";
+          } else if (['LUBES', 'FLUIDS COOLANT AND GREASE'].includes(aggU) || compU.includes('CHAIN LUBRICANT') || compU.includes('LUBRICANT') || compU.includes('OIL') || compU.includes('GREASE') || compU.includes('COOLANT')) {
+            cat = "Lubes";
+          } else if (aggU === 'ACCESSORIES') {
+            cat = "Accessories";
+          } else if (aggU === 'PAINTS AND CONSUMABLES') {
+            cat = "Paints and Consumables";
+          }
+
           return {
             aggregate: rule[1],
             subAggregate: rule[2],
             component: rule[3],
-            category: "Mechanical Parts",
+            category: cat,
             make: brandUpper || "GENERIC",
             matchMethod: "DOMAIN_KEYWORD_MATCH",
             confidence: "HIGH",

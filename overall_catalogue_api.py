@@ -17,6 +17,22 @@ def get_db():
 
 _STATS_CACHE = None
 _FILTERS_CACHE = None
+_BRAND_LC_CACHE = None
+
+def get_brand_line_codes():
+    global _BRAND_LC_CACHE
+    if _BRAND_LC_CACHE is not None:
+        return _BRAND_LC_CACHE
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "brand_to_line_code.json")
+    if os.path.exists(p):
+        try:
+            with open(p, "r", encoding="utf-8") as f:
+                _BRAND_LC_CACHE = json.load(f)
+                return _BRAND_LC_CACHE
+        except Exception as e:
+            print("Error loading brand_to_line_code.json:", e)
+    _BRAND_LC_CACHE = {"brand_to_line_code": {}, "all_line_codes": []}
+    return _BRAND_LC_CACHE
 
 def get_catalogue_stats():
     global _STATS_CACHE
@@ -427,7 +443,6 @@ def get_visual_variants(make, model=None, fuel_type=None, year=None, search=None
         """, params + [limit])
         
         raw_rows = cur.fetchall()
-        conn.close()
         
         variants = []
         for r in raw_rows:
@@ -454,14 +469,41 @@ def get_visual_variants(make, model=None, fuel_type=None, year=None, search=None
                 "image": img_url
             })
             
+        cur.execute(f"""
+            SELECT vehicle_model, COUNT(*) as variant_count,
+                   GROUP_CONCAT(DISTINCT vehicle_fuel_type) as fuels,
+                   MIN(CAST(vehicle_from_year AS INTEGER)) as min_yr,
+                   MAX(CAST(vehicle_to_year AS INTEGER)) as max_yr
+            FROM overall_catalogue
+            WHERE {' AND '.join(make_clauses)} AND vehicle_model != ''
+            GROUP BY vehicle_model
+            ORDER BY vehicle_model ASC
+        """, make_params)
+        model_rows = cur.fetchall()
+        conn.close()
+        models_meta = []
+        for mr in model_rows:
+            m_name = mr["vehicle_model"]
+            m_img = match_vehicle_image(make, m_name, "")
+            fuels_list = [f.strip() for f in (mr["fuels"] or "").split(",") if f.strip()]
+            models_meta.append({
+                "name": m_name,
+                "image": m_img,
+                "variantCount": mr["variant_count"],
+                "fuels": fuels_list,
+                "minYear": mr["min_yr"],
+                "maxYear": mr["max_yr"]
+            })
+
         return {
             "variants": variants,
             "models": all_models,
+            "modelsMeta": models_meta,
             "totalCount": len(variants)
         }
     except Exception as e:
         if conn: conn.close()
-        return {"variants": [], "models": [], "totalCount": 0, "error": str(e)}
+        return {"variants": [], "models": [], "modelsMeta": [], "totalCount": 0, "error": str(e)}
 
 AGGREGATE_ICONS = {
     "BRAKE SYSTEM": "🛑",
@@ -1404,6 +1446,51 @@ def map_single_part_ai_rule(part_no, desc, brand=""):
     brand_upper = (brand or "").upper()
     is_body = False
 
+    # 0a. Specific Braking Hydraulics (TMC / Tandem Master Cylinder & Brake Booster)
+    if 'TMC' in desc_upper or 'T M C' in desc_upper or 'TANDEM MASTER' in desc_upper:
+        return {
+            "aggregate": "BRAKE SYSTEM", "subAggregate": "MC & BOOSTER", "component": "BRAKE MASTER CYLINDER",
+            "category": "Mechanical Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": "Tandem Master Cylinder identified: BRAKE MASTER CYLINDER"
+        }
+    if 'BOOSTER' in desc_upper:
+        return {
+            "aggregate": "BRAKE SYSTEM", "subAggregate": "MC & BOOSTER", "component": "BRAKE BOOSTER",
+            "category": "Mechanical Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": "Brake Booster identified: BRAKE SYSTEM"
+        }
+
+    # 0b. Chain Lubricants vs Timing Chains
+    if 'CHAIN LUBE' in desc_upper or 'CHAIN LUBRICANT' in desc_upper or ('CHAIN' in desc_upper and ('LUBE' in desc_upper or 'SPRAY' in desc_upper)):
+        return {
+            "aggregate": "LUBES", "subAggregate": "CHAIN LUBRICANT", "component": "CHAIN LUBRICANT",
+            "category": "Lubes", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": "Chain lubricant identified: LUBES (prevented timing chain misclassification)"
+        }
+
+    # 0c. Fuel Injection Pumps (Radial Piston Pump) vs Engine Block Pistons
+    if 'RADIAL PISTON' in desc_upper or 'PISTON PUMP' in desc_upper or 'HIGH PRESSURE PUMP' in desc_upper:
+        return {
+            "aggregate": "FUEL SYSTEM", "subAggregate": "INJECTOR", "component": "INJECTION PUMP",
+            "category": "Mechanical Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": "Fuel injection pump identified: INJECTION PUMP (prevented engine piston misclassification)"
+        }
+
+    # 0d. Bumper Mounting Brackets & Fenders
+    if 'BRACKET' in desc_upper and 'BUMPER' in desc_upper:
+        return {
+            "aggregate": "BODY PARTS", "subAggregate": "BUMPER", "component": "FRONT BUMPER BRACKET",
+            "category": "Body Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P15",
+            "remarks": "Bumper mounting bracket identified: BODY PARTS"
+        }
+    if 'FENDER' in desc_upper:
+        comp = 'FENDER PANEL - LH' if 'LH' in desc_upper else ('FENDER PANEL - RH' if 'RH' in desc_upper else 'FRONT FENDER')
+        return {
+            "aggregate": "BODY PARTS", "subAggregate": "PANEL", "component": comp,
+            "category": "Body Parts", "confidence": "HIGH", "matchMethod": "CONSOLIDATED_AI_RULE_P4",
+            "remarks": "Fender sheet metal panel: BODY PARTS"
+        }
+
     # 1. Fasteners (Bolt, Screw, Nut, Washer, Clip, Pin, Stud, Rivet, Bracket)
     if re.search(r'\b(BOLT|SCREW|NUT|WASHER|CLIP|STUD|RIVET|FASTENER)\b', desc_upper):
         if 'BOLT' in desc_upper: comp = 'BOLT'
@@ -1574,15 +1661,37 @@ def smart_map_parts(part_items):
     try:
         cur = conn.cursor() if conn else None
         
-        # 1. Step 1: Lookup in 23.6M Database
+        # 1. Step 1: Lookup in 23.6M Database with multi-line-code candidate keys
         if cur:
-            all_parts = list(set([r["partNo"] for r in input_rows]))
-            chunk_size = 200
-            for i in range(0, len(all_parts), chunk_size):
-                chunk = all_parts[i:i+chunk_size]
-                clean_chunk = [re.sub(r'[^A-Za-z0-9]', '', p).upper() for p in chunk]
-                all_candidates = list(set(chunk + clean_chunk))
-                placeholders = ",".join(["?"] * len(all_candidates))
+            brand_lc_data = get_brand_line_codes()
+            brand_to_lc = brand_lc_data.get("brand_to_line_code", {})
+            all_lcs = brand_lc_data.get("all_line_codes", [])
+
+            # Map candidate_key -> set of original input partNos
+            cand_to_parts = {}
+            for r in input_rows:
+                p = r["partNo"]
+                clean_p = re.sub(r'[^A-Za-z0-9]', '', p).upper()
+                brand_u = (r["brand"] or "").strip().upper()
+
+                cands = [p, clean_p]
+                for lc in brand_to_lc.get(brand_u, []):
+                    cands.append(f"{lc}{p}")
+                    cands.append(f"{lc}{clean_p}")
+                for lc in all_lcs:
+                    cands.append(f"{lc}{p}")
+                    cands.append(f"{lc}{clean_p}")
+
+                for c_key in set(cands):
+                    if c_key not in cand_to_parts:
+                        cand_to_parts[c_key] = []
+                    cand_to_parts[c_key].append(p)
+
+            all_candidates = list(cand_to_parts.keys())
+            chunk_size = 500
+            for i in range(0, len(all_candidates), chunk_size):
+                chunk = all_candidates[i:i+chunk_size]
+                placeholders = ",".join(["?"] * len(chunk))
                 sql = f"""
                 SELECT line_code_part_number, brand_name, part_description, mrp_price, list_price,
                        tax_rate, vehicle_segment, vehicle_make, vehicle_model, aggregate,
@@ -1591,15 +1700,29 @@ def smart_map_parts(part_items):
                 WHERE line_code_part_number IN ({placeholders})
                 ORDER BY CASE WHEN mrp_price > 0 THEN 0 ELSE 1 END, id ASC
                 """
-                cur.execute(sql, all_candidates)
+                cur.execute(sql, chunk)
                 for r in cur.fetchall():
-                    p_no = r["line_code_part_number"]
-                    clean_db_no = re.sub(r'[^A-Za-z0-9]', '', p_no).upper()
+                    matched_db_key = r["line_code_part_number"]
+                    orig_part_list = cand_to_parts.get(matched_db_key, [])
                     
                     agg = r["aggregate"] or "CHILD PARTS"
                     comp = r["components"] or "SPARE PART"
-                    is_body = any(b in agg.upper() or b in comp.upper() for b in ['BODY', 'BUMPER', 'FENDER', 'DOOR', 'MIRROR', 'GLASS', 'TRIM'])
-                    category = "Body Parts" if is_body else "Mechanical Parts"
+                    agg_u = agg.upper()
+                    comp_u = comp.upper()
+
+                    # Genuine Category Resolution
+                    if any(b in agg_u for b in ['BODY PARTS', 'BODY & TRIM', 'LIGHTING', 'GLASS', 'WIPER SYSTEM']) or \
+                       any(b in comp_u for b in ['BODY', 'BUMPER', 'FENDER', 'DOOR', 'MIRROR', 'GLASS', 'TRIM', 'PANEL', 'GRILLE', 'WINDSHIELD']):
+                        category = "Body Parts"
+                    elif (any(b in agg_u for b in ['LUBE', 'LUBES', 'LUBRICANT', 'OIL', 'FLUID', 'GREASE', 'COOLANT']) or \
+                          any(b in comp_u for b in ['CHAIN LUBRICANT', 'ENGINE OIL', 'GEAR OIL', 'BRAKE FLUID', 'COOLANT', 'GREASE', 'TRANSMISSION OIL'])) and agg_u != 'FILTERS':
+                        category = "Lubes"
+                    elif 'ACCESSOR' in agg_u:
+                        category = "Accessories"
+                    elif any(b in agg_u for b in ['PAINT', 'CONSUMABLE']):
+                        category = "Paints and Consumables"
+                    else:
+                        category = "Mechanical Parts"
 
                     matched_data = {
                         "brand": r["brand_name"] or "GENERIC",
@@ -1615,12 +1738,13 @@ def smart_map_parts(part_items):
                         "component": comp,
                         "category": category,
                         "confidence": "HIGH",
-                        "confidenceScore": 98,
+                        "confidenceScore": 99,
                         "matchMethod": "DB_EXACT_CATALOGUE",
-                        "remarks": "Exact Match from 23.6M Master Catalogue Database"
+                        "remarks": f"Verified match from 23.6M Master Catalogue DB ({matched_db_key})"
                     }
-                    if p_no not in results: results[p_no] = matched_data
-                    if clean_db_no not in results: results[clean_db_no] = matched_data
+                    for orig_p in orig_part_list:
+                        if orig_p not in results:
+                            results[orig_p] = matched_data
             conn.close()
 
         # 2. Step 2: Apply AI Rules Engine Fallback from COMPONENT_MAPPING_RULES_CONSOLIDATED.md for unmatched rows

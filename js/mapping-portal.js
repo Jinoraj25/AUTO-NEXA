@@ -218,6 +218,31 @@ window.MappingPortal = {
           }
         }
 
+        // High-precision DB Match against 23.6M Master Catalogue Database
+        let dbMapLookup = {};
+        try {
+          const sampleRows = rawRows.slice(0, 2000).map((r, i) => {
+            let partNo = detectedPartCol ? String(r[detectedPartCol] || '') : "";
+            let desc = detectedDescCol ? String(r[detectedDescCol] || '') : "";
+            let brand = detectedBrandCol ? String(r[detectedBrandCol] || '') : "";
+            if (!partNo) partNo = String(r.partNo || r['Part No'] || r['ItemCode'] || r['Part Number'] || r['Item Code'] || Object.values(r)[0] || '').trim();
+            if (!desc) desc = String(r.description || r.desc || r['Description'] || r['ItemDesc'] || Object.values(r)[1] || '').trim();
+            if (!brand) brand = String(r.brand || r['Brand'] || r['BRAND'] || 'GENERIC').trim();
+            return { partNo, description: desc, brand };
+          });
+          const smartRes = await fetch('/api/overall-catalogue/smart-map', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: sampleRows })
+          });
+          if (smartRes.ok) {
+            dbMapLookup = await smartRes.json();
+            console.log(`✅ Loaded ${Object.keys(dbMapLookup).length} verified Master Catalogue database matches!`);
+          }
+        } catch (e) {
+          console.warn("Master Catalogue DB smart mapping notice:", e);
+        }
+
         mapped = rawRows.map((row, idx) => {
           let partNo = detectedPartCol ? String(row[detectedPartCol] || '') : "";
           let desc = detectedDescCol ? String(row[detectedDescCol] || '') : "";
@@ -230,15 +255,17 @@ window.MappingPortal = {
           const qty = parseFloat(row.qty || row['Qty'] || 1) || 1;
           const unitPrice = parseFloat(row.price || row['Price'] || row['UnitCost'] || 250) || 250;
 
-          const m = (window.DataEngine && typeof window.DataEngine.mapRow === 'function')
+          const cleanP = partNo.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+          const dbMatch = dbMapLookup[partNo] || dbMapLookup[cleanP];
+          const m = dbMatch || ((window.DataEngine && typeof window.DataEngine.mapRow === 'function')
             ? window.DataEngine.mapRow(partNo, desc, brand)
-            : this.applyInlineDomainRules(partNo, desc, brand);
+            : this.applyInlineDomainRules(partNo, desc, brand));
 
           return {
             id: `MAP-${idx + 1001}`,
             partNo: partNo,
             description: desc,
-            brand: brand || m.make || 'GENERIC',
+            brand: brand || m.brand || m.make || 'GENERIC',
             aggregate: m.aggregate || "CHILD PARTS",
             subAggregate: m.subAggregate || "GENERAL",
             component: m.component || "BOLT",
@@ -247,9 +274,9 @@ window.MappingPortal = {
             unitPrice: unitPrice,
             totalSales: qty * unitPrice,
             confidence: m.confidence || "HIGH",
-            confidenceScore: m.confidenceScore || 95,
-            matchMethod: m.matchMethod || "HEURISTIC_DOMAIN_RULE",
-            remarks: m.remarks || "Auto Mapped (Domain Rule)",
+            confidenceScore: m.confidenceScore || (dbMatch ? 99 : 92),
+            matchMethod: m.matchMethod || (dbMatch ? "DB_EXACT_CATALOGUE" : "HEURISTIC_DOMAIN_RULE"),
+            remarks: m.remarks || (dbMatch ? "Verified from 23.6M Master Catalogue DB" : "Auto Mapped (Domain Rule)"),
             isEdited: false,
             ...row
           };

@@ -118,6 +118,15 @@ window.App = {
         breadcrumbPg = 'Catalog AI Assistant';
         break;
 
+      case 'catalogue-oem-to-oes':
+        targetSectionId = 'tab-catalogue-oem-to-oes';
+        breadcrumbSec = 'CATALOGUE';
+        breadcrumbPg = 'OEM ➔ OES Conversion Intelligence';
+        if (window.OemToOesPortal && window.OemToOesPortal.init) {
+          window.OemToOesPortal.init();
+        }
+        break;
+
       case 'inventory':
       case 'inventory-dashboard':
         targetSectionId = 'tab-inventory';
@@ -154,18 +163,6 @@ window.App = {
         targetSectionId = 'tab-analytics';
         breadcrumbSec = 'SALES';
         breadcrumbPg = 'Overall Sales Performance';
-        break;
-
-      case 'forecasting':
-        targetSectionId = 'tab-forecasting';
-        breadcrumbSec = 'OPERATIONS';
-        breadcrumbPg = 'Demand & Inventory Planning';
-        break;
-
-      case 'deviation':
-        targetSectionId = 'tab-deviation';
-        breadcrumbSec = 'OPERATIONS';
-        breadcrumbPg = 'Compliance & Leakage Reports';
         break;
 
       default:

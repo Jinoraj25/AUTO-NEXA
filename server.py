@@ -23,7 +23,11 @@ try:
 except ImportError:
     pymysql = None
 
-DB_PATH = os.path.join(os.getcwd(), 'data', 'autonexa.db')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
+DB_PATH = os.path.join(BASE_DIR, 'data', 'autonexa.db')
 
 MYSQL_HOST = os.environ.get("MYSQL_HOST", "127.0.0.1")
 MYSQL_PORT = int(os.environ.get("MYSQL_PORT", 3306))
@@ -405,7 +409,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
             return
 
         # Overall Catalogue, Vahan & Catalog AI API Endpoints
-        if self.path.startswith('/api/overall-catalogue') or self.path.startswith('/api/vahan') or self.path.startswith('/api/catalog-ai'):
+        if self.path.startswith('/api/overall-catalogue') or self.path.startswith('/api/vahan') or self.path.startswith('/api/catalog-ai') or self.path.startswith('/api/oem-to-oes'):
             parsed_url = urllib.parse.urlparse(self.path)
             path_only = parsed_url.path
             params = urllib.parse.parse_qs(parsed_url.query)
@@ -477,6 +481,26 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
                 self.wfile.write(json.dumps({"components": res}, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/oem-to-oes/convert':
+                q_val = get_param('q') or get_param('query') or ''
+                import oem_to_oes_service
+                conv_res = oem_to_oes_service.convert_oem_to_oes(q_val)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(conv_res, ensure_ascii=False).encode('utf-8'))
+                return
+
+            if path_only == '/api/oem-to-oes/interchange':
+                q_val = get_param('q') or get_param('query') or ''
+                import vig_engine
+                int_res = vig_engine.search_interchange(q_val)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(int_res, ensure_ascii=False).encode('utf-8'))
                 return
 
             if path_only == '/api/catalog-ai/chat':
@@ -747,6 +771,46 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         super().do_GET()
 
     def do_POST(self):
+        if self.path.startswith('/api/oem-to-oes/convert'):
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                body_bytes = self.rfile.read(content_length)
+                payload = json.loads(body_bytes.decode('utf-8'))
+                query = payload.get('query') or payload.get('message') or ''
+                import oem_to_oes_service
+                conv_res = oem_to_oes_service.convert_oem_to_oes(query)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(conv_res, ensure_ascii=False).encode('utf-8'))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+                return
+
+        if self.path.startswith('/api/oem-to-oes/interchange'):
+            try:
+                content_length = int(self.headers.get('Content-Length', 0))
+                body_bytes = self.rfile.read(content_length)
+                payload = json.loads(body_bytes.decode('utf-8'))
+                query = payload.get('query') or payload.get('q') or ''
+                import vig_engine
+                int_res = vig_engine.search_interchange(query)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(int_res, ensure_ascii=False).encode('utf-8'))
+                return
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
+                return
+
         if self.path.startswith('/api/catalog-ai/chat'):
             try:
                 content_length = int(self.headers.get('Content-Length', 0))

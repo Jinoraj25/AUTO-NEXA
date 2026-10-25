@@ -31,5 +31,7 @@ data/*.json
 !data/trained_mapping_db.json.gz
 !aggregate_master_rules.json.gz
 !data/aggregate_master_rules.json.gz
-
-
+# Ignore temporary screenshot and test scratch files
+shot_*.png
+test_*.html
+test_*.py

@@ -304,6 +304,13 @@
             </span>
             <span class="sb-badge-pill" style="background: #ecfdf5; color: #059669; font-size: 0.62rem;">CHAT</span>
           </button>
+          <button type="button" class="sb-sub-item" data-tab="catalogue-oem-to-oes" onclick="App.switchTab('catalogue-oem-to-oes');">
+            <span style="display: inline-flex; align-items: center; gap: 6px;">
+              <span style="font-size: 0.95rem;">🔄</span>
+              <span>OEM ➔ OES Conversion</span>
+            </span>
+            <span class="sb-badge-pill" style="background: #fef2f2; color: #dc2626; font-size: 0.62rem; font-weight: 850;">-25% SAVE</span>
+          </button>
         </div>
       </div>
 
@@ -356,31 +363,10 @@
           </button>
         </div>
       </div>
-
-      <div class="sb-section-divider">OPERATIONS &amp; PLANNING</div>
-
-      <!-- Planning -->
-      <button type="button" class="sb-nav-item" data-tab="forecasting" onclick="App.switchTab('forecasting');">
-        <div class="sb-item-left">
-          <span class="sb-icon-box sb-icon-plan"><img src="images/icons/menu_planning.jpg" alt="Planning" class="sb-menu-img-icon"></span>
-          <span>Demand Planning</span>
-        </div>
-        <span class="sb-badge-pill" style="background: #fffbeb; color: #d97706; border: 1px solid #fde68a;">AUTO</span>
-      </button>
-
-      <!-- Reports -->
-      <button type="button" class="sb-nav-item" data-tab="deviation" onclick="App.switchTab('deviation');">
-        <div class="sb-item-left">
-          <span class="sb-icon-box sb-icon-rep"><img src="images/icons/menu_reports.jpg" alt="Reports" class="sb-menu-img-icon"></span>
-          <span>Compliance Reports</span>
-        </div>
-        <span class="sb-badge-pill" style="background: #f0fdfa; color: #0d9488; border: 1px solid #99f6e4;">AUDIT</span>
-      </button>
-
     </div>
 
     <!-- Sidebar Footer -->
-    <div class="sidebar-footer-box" style="background: #ffffff; border-top: 1px solid #e2e8f0;">
+    <div class="sidebar-footer-box" style="margin-top: auto; flex-shrink: 0; background: #ffffff; border-top: 1px solid #e2e8f0; width: 100%; box-sizing: border-box;">
       <div class="profile-details" style="display: flex; align-items: center; gap: 0.6rem; min-width: 0;">
         <span class="profile-avatar" style="width: 32px; height: 32px; border-radius: 8px; background: #1765c1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.82rem; color: #fff; flex-shrink: 0;">JG</span>
         <div class="profile-info" style="min-width: 0; line-height: 1.2;">
@@ -394,7 +380,7 @@
     </div>
   </aside>
 
-  <!-- Top Bar with AUTO NEXA Branding, support@autonexa.io, Welcome Jino George -->
+  <!-- Top Bar with AUTO NEXA Branding, Welcome Jino George -->
   <header id="app-header" class="app-header" style="display: flex; align-items: center; justify-content: space-between; padding: 0 1.75rem; height: 64px; background: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
     <div style="display: flex; align-items: center; gap: 1.25rem;">
       <button type="button" id="sidebar-toggle-btn" onclick="App.toggleSidebar()" title="Toggle Sidebar">
@@ -415,11 +401,6 @@
         <span style="width: 7px; height: 7px; background: #16a34a; border-radius: 50%; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);"></span>
         <span>23.6M SKUs Live</span>
       </div>
-
-      <a href="mailto:support@autonexa.io" style="display: flex; align-items: center; gap: 0.45rem; color: #475569; font-size: 0.86rem; font-weight: 650; text-decoration: none;">
-        <span style="font-size: 1.05rem; color: #0284c7;">✉</span>
-        <span>support@autonexa.io</span>
-      </a>
 
       <div class="header-divider" style="width: 1px; height: 26px; background: #e2e8f0;"></div>
 
@@ -482,9 +463,7 @@
               <button type="button" class="hero-chip" onclick="App.switchTab('catalogue-dashboard')">📖 Master Catalogue</button>
               <button type="button" class="hero-chip" onclick="App.switchTab('catalogue-mapping')">⚙️ AI Mapping Engine</button>
               <button type="button" class="hero-chip" onclick="App.switchTab('catalogue-ai')">🤖 Catalog AI Assistant</button>
-              <button type="button" class="hero-chip" onclick="App.switchTab('inventory-dashboard')">📦 Smart Inventory</button>
-              <button type="button" class="hero-chip" onclick="App.switchTab('sales-overall')">📈 Sales Analytics</button>
-              <button type="button" class="hero-chip" onclick="App.switchTab('forecasting')">📅 Demand Planning</button>
+              <button type="button" class="hero-chip" onclick="App.switchTab('inventory-not-available')">🚫 Lost Demand</button>
             </div>
           </div>
         </header>
@@ -620,37 +599,6 @@
             </div>
           </article>
 
-          <!-- 04 Planning -->
-          <article class="scenic-module-card mod-plan" onclick="App.switchTab('forecasting')" style="position: relative; overflow: hidden; cursor: pointer;">
-            <img src="images/home_menu_planning.jpg" onerror="this.onerror=null;this.src='images/home_menu_planning.jpg'" alt="Planning" class="scenic-mod-bg-img">
-            <div class="scenic-mod-bg-overlay"></div>
-            <div class="scenic-mod-card-body">
-              <div class="card-num-badge">04</div>
-              <div class="scenic-mod-icon">📅</div>
-              <h3>Planning</h3>
-              <p>Forecast demand, manage stock and optimise orders.</p>
-              <div class="scenic-mod-action">
-                <span>Explore Planning</span>
-                <span class="circle-arrow">→</span>
-              </div>
-            </div>
-          </article>
-
-          <!-- 05 Reports -->
-          <article class="scenic-module-card mod-rep" onclick="App.switchTab('deviation')" style="position: relative; overflow: hidden; cursor: pointer;">
-            <img src="images/home_menu_reports.jpg" onerror="this.onerror=null;this.src='images/home_menu_reports.jpg'" alt="Reports" class="scenic-mod-bg-img">
-            <div class="scenic-mod-bg-overlay"></div>
-            <div class="scenic-mod-card-body">
-              <div class="card-num-badge">05</div>
-              <div class="scenic-mod-icon">📄</div>
-              <h3>Reports</h3>
-              <p>Detect deviations, track leakages and ensure compliance.</p>
-              <div class="scenic-mod-action">
-                <span>Explore Reports</span>
-                <span class="circle-arrow">→</span>
-              </div>
-            </div>
-          </article>
         </div>
 
         <!-- Quick Insights Horizontal Strip -->
@@ -736,7 +684,7 @@
               </div>
             </div>
             <div class="cat-hero-actions">
-              <button type="button" class="btn-cat-hero-primary" onclick="document.getElementById('make-model-wise-search-card')?.scrollIntoView({behavior: 'smooth'})">
+              <button type="button" class="btn-cat-hero-primary" onclick="document.getElementById('cat-visual-navigator')?.scrollIntoView({behavior: 'smooth'})">
                 <span>🔍</span> <span>Make &amp; Model Search</span>
               </button>
               <button type="button" class="btn-cat-hero-secondary" onclick="App.switchTab('catalogue-ai')">
@@ -749,7 +697,7 @@
           </div>
         </div>
 
-        <!-- Section Header: TOP STAT CARDS (Image 2 Reference) -->
+        <!-- Section Header: TOP STAT CARDS -->
         <div style="font-size: 0.82rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.75rem; font-family: 'Outfit', sans-serif;">
           TOP STAT CARDS
         </div>
@@ -763,9 +711,9 @@
             </div>
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.45rem; font-size: 0.76rem; color: #64748b; font-weight: 700;">
               <span>Total Multi-OEM SKUs</span>
-              <span style="background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; padding: 0.1rem 0.4rem; border-radius: 12px; font-size: 0.68rem; font-weight: 850;">▲ +4.2%</span>
+              <span style="background: #eff6ff; color: #0284c7; border: 1px solid #bfdbfe; padding: 0.1rem 0.45rem; border-radius: 12px; font-size: 0.68rem; font-weight: 850;">100% Active DB Records</span>
             </div>
-            <!-- Blue SVG sparkline curve matching Image 2 -->
+            <!-- Blue SVG sparkline curve -->
             <svg viewBox="0 0 200 40" style="width: 100%; height: 32px; margin-top: 0.5rem; display: block;" preserveAspectRatio="none">
               <path d="M0,32 Q30,12 60,25 T120,18 T170,22 T200,8" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
@@ -779,9 +727,9 @@
             </div>
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.45rem; font-size: 0.76rem; color: #64748b; font-weight: 700;">
               <span>Distinct Line-codes</span>
-              <span style="background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; padding: 0.1rem 0.4rem; border-radius: 12px; font-size: 0.68rem; font-weight: 850;">▲ +4.2%</span>
+              <span style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; padding: 0.1rem 0.45rem; border-radius: 12px; font-size: 0.68rem; font-weight: 850;">Indexed Part Keys</span>
             </div>
-            <!-- Purple SVG sparkline curve matching Image 2 -->
+            <!-- Purple SVG sparkline curve -->
             <svg viewBox="0 0 200 40" style="width: 100%; height: 32px; margin-top: 0.5rem; display: block;" preserveAspectRatio="none">
               <path d="M0,28 Q40,35 80,18 T140,24 T180,12 T200,6" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
@@ -827,52 +775,48 @@
         </div>
 
         <div class="cat-datablocks-grid">
-          <!-- Block 1: TAXONOMY STRUCTURE (Rose card with 36% & 50% circular badges) -->
-          <div class="card" style="background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 16px; padding: 1.35rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(225, 29, 72, 0.04);">
-            <div>
+          <!-- Block 1: TAXONOMY STRUCTURE (26 Aggregates • 923 Components • 5 Categories) -->
+          <div class="card" style="background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 16px; padding: 1.25rem 1.25rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(225, 29, 72, 0.04); overflow: hidden;">
+            <div style="flex: 1; min-width: 0;">
               <div style="font-size: 0.72rem; font-weight: 900; color: #9f1239; text-transform: uppercase; letter-spacing: 0.8px;">TAXONOMY STRUCTURE</div>
-              <div id="cat-stat-taxonomy" style="font-size: 2.1rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1; margin-top: 0.35rem;">29</div>
-              <div style="font-size: 1.15rem; font-weight: 900; color: #9f1239; font-family: 'Outfit', sans-serif;">Aggregates</div>
-              <div style="font-size: 0.75rem; color: #be123c; margin-top: 0.35rem; font-weight: 700;">Sub-Aggregates & Components</div>
+              <div style="display: flex; align-items: baseline; gap: 0.45rem; margin-top: 0.25rem;">
+                <span id="cat-stat-taxonomy" style="font-size: 2.2rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1;">26</span>
+                <span style="font-size: 1.05rem; font-weight: 900; color: #9f1239; font-family: 'Outfit', sans-serif;">System Aggregates</span>
+              </div>
+              <div style="font-size: 0.72rem; color: #be123c; margin-top: 0.25rem; font-weight: 750;">Canonical Vehicle Systems</div>
             </div>
-            <!-- Percentage badges with dotted line -->
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 0.65rem; border-left: 2px dashed #fda4af; padding-left: 1.1rem;">
-              <div style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; border: 2.5px solid #e11d48; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 900; color: #e11d48; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.15);">36%</div>
-              <div style="width: 44px; height: 44px; border-radius: 50%; background: #ffffff; border: 2.5px solid #e11d48; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 900; color: #e11d48; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.15);">50%</div>
+            <!-- Clean Real Metrics Badge Strip -->
+            <div style="display: flex; flex-direction: column; align-items: stretch; gap: 0.45rem; border-left: 2px dashed #fda4af; padding-left: 0.85rem; flex-shrink: 0;">
+              <div style="background: #ffffff; border: 1.5px solid #fda4af; border-radius: 8px; padding: 0.3rem 0.6rem; text-align: center; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.06); min-width: 82px;">
+                <div style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">923</div>
+                <div style="font-size: 0.6rem; font-weight: 850; color: #9f1239; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.4px;">COMPONENTS</div>
+              </div>
+              <div style="background: #ffffff; border: 1.5px solid #fda4af; border-radius: 8px; padding: 0.3rem 0.6rem; text-align: center; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.06); min-width: 82px;">
+                <div style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">5 CORE</div>
+                <div style="font-size: 0.6rem; font-weight: 850; color: #9f1239; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.4px;">CATEGORIES</div>
+              </div>
             </div>
           </div>
 
-          <!-- Block 2: TOP MAKES FITMENT SHARE (Maruti, Tata, Hyundai, Mahindra) -->
+          <!-- Block 2: TOP MAKES FITMENT SHARE (Real DB Statistics) -->
           <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.35rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
               <span style="font-size: 0.78rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 0.45rem;">
                 <img src="images/real_car_front.jpg" alt="Car" style="width: 20px; height: 14px; object-fit: cover; border-radius: 3px; border: 1px solid #cbd5e1;"> <span>TOP MAKES FITMENT SHARE</span>
               </span>
-              <span style="font-size: 0.72rem; font-weight: 800; color: #0284c7; background: #eff6ff; padding: 0.2rem 0.55rem; border-radius: 6px;">39 Makes</span>
+              <span style="font-size: 0.72rem; font-weight: 800; color: #0284c7; background: #eff6ff; padding: 0.2rem 0.55rem; border-radius: 6px;">39 Makes • 504 Models</span>
             </div>
             <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.8rem;">
-              <div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem; font-weight: 750; color: #334155; align-items: center;">
-                  <span style="display: flex; align-items: center; gap: 0.45rem;">
-                    <img src="images/makes/maruti.png" alt="Maruti" style="width: 20px; height: 16px; object-fit: contain; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px;">
-                    <span>Maruti Suzuki</span>
-                  </span>
-                  <span style="font-weight: 850; color: #0f172a;">4.2M records <small style="color: #64748b; font-weight: 600;">(18.2%)</small></span>
-                </div>
-                <div style="height: 6px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
-                  <div style="height: 100%; width: 18.2%; background: linear-gradient(90deg, #2563eb, #60a5fa); border-radius: 4px;"></div>
-                </div>
-              </div>
               <div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem; font-weight: 750; color: #334155; align-items: center;">
                   <span style="display: flex; align-items: center; gap: 0.45rem;">
                     <img src="images/makes/tata.png" alt="Tata" style="width: 20px; height: 16px; object-fit: contain; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px;">
                     <span>Tata Motors</span>
                   </span>
-                  <span style="font-weight: 850; color: #0f172a;">3.8M records <small style="color: #64748b; font-weight: 600;">(16.1%)</small></span>
+                  <span style="font-weight: 850; color: #0f172a;">5.21M records <small style="color: #64748b; font-weight: 600;">(22.0%)</small></span>
                 </div>
                 <div style="height: 6px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
-                  <div style="height: 100%; width: 16.1%; background: linear-gradient(90deg, #0284c7, #38bdf8); border-radius: 4px;"></div>
+                  <div style="height: 100%; width: 22.0%; background: linear-gradient(90deg, #0284c7, #38bdf8); border-radius: 4px;"></div>
                 </div>
               </div>
               <div>
@@ -881,10 +825,22 @@
                     <img src="images/makes/hyundai.png" alt="Hyundai" style="width: 20px; height: 16px; object-fit: contain; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px;">
                     <span>Hyundai Motor</span>
                   </span>
-                  <span style="font-weight: 850; color: #0f172a;">3.1M records <small style="color: #64748b; font-weight: 600;">(13.4%)</small></span>
+                  <span style="font-weight: 850; color: #0f172a;">4.75M records <small style="color: #64748b; font-weight: 600;">(20.1%)</small></span>
                 </div>
                 <div style="height: 6px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
-                  <div style="height: 100%; width: 13.4%; background: linear-gradient(90deg, #059669, #34d399); border-radius: 4px;"></div>
+                  <div style="height: 100%; width: 20.1%; background: linear-gradient(90deg, #059669, #34d399); border-radius: 4px;"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem; font-weight: 750; color: #334155; align-items: center;">
+                  <span style="display: flex; align-items: center; gap: 0.45rem;">
+                    <img src="images/makes/maruti.png" alt="Maruti" style="width: 20px; height: 16px; object-fit: contain; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px;">
+                    <span>Maruti Suzuki</span>
+                  </span>
+                  <span style="font-weight: 850; color: #0f172a;">4.65M records <small style="color: #64748b; font-weight: 600;">(19.6%)</small></span>
+                </div>
+                <div style="height: 6px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
+                  <div style="height: 100%; width: 19.6%; background: linear-gradient(90deg, #2563eb, #60a5fa); border-radius: 4px;"></div>
                 </div>
               </div>
               <div>
@@ -893,32 +849,59 @@
                     <img src="images/makes/mahindra.png" alt="Mahindra" style="width: 20px; height: 16px; object-fit: contain; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 1px;">
                     <span>Mahindra</span>
                   </span>
-                  <span style="font-weight: 850; color: #0f172a;">2.9M records <small style="color: #64748b; font-weight: 600;">(12.2%)</small></span>
+                  <span style="font-weight: 850; color: #0f172a;">2.97M records <small style="color: #64748b; font-weight: 600;">(12.5%)</small></span>
                 </div>
                 <div style="height: 6px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
-                  <div style="height: 100%; width: 12.2%; background: linear-gradient(90deg, #ea580c, #fb923c); border-radius: 4px;"></div>
+                  <div style="height: 100%; width: 12.5%; background: linear-gradient(90deg, #ea580c, #fb923c); border-radius: 4px;"></div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Block 3: TAXONOMY & CATEGORY SPLIT (Pills) -->
-          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.35rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
+          <!-- Block 3: AGGREGATE MASTER CATEGORY BREAKDOWN CHART -->
+          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem 1.35rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
               <span style="font-size: 0.78rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 0.4rem;">
-                <span>📦</span> <span>TAXONOMY & CATEGORY SPLIT</span>
+                <span>📊</span> <span>AGGREGATE MASTER CATEGORY SPLIT</span>
               </span>
-              <span style="font-size: 0.72rem; font-weight: 800; color: #7c3aed; background: #f5f3ff; padding: 0.2rem 0.55rem; border-radius: 6px;">29 Aggregates</span>
+              <span style="font-size: 0.72rem; font-weight: 800; color: #0284c7; background: #eff6ff; padding: 0.2rem 0.55rem; border-radius: 6px; white-space: nowrap;">923 Comps • 26 Aggregates</span>
             </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.45rem;">
-              <span style="background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.74rem; font-weight: 800; padding: 0.35rem 0.7rem; border-radius: 10px;">Engine: 88,410</span>
-              <span style="background: #fdf2f8; border: 1px solid #fbcfe8; color: #9d174d; font-size: 0.74rem; font-weight: 800; padding: 0.35rem 0.7rem; border-radius: 10px;">Suspension: 64,120</span>
-              <span style="background: #f5f3ff; border: 1px solid #ddd6fe; color: #6d28d9; font-size: 0.74rem; font-weight: 800; padding: 0.35rem 0.7rem; border-radius: 10px;">Electrical: 49,110</span>
-              <span style="background: #fffbeb; border: 1px solid #fde68a; color: #b45309; font-size: 0.74rem; font-weight: 800; padding: 0.35rem 0.7rem; border-radius: 10px;">Brakes & ABS: 58,340</span>
-              <span style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #047857; font-size: 0.74rem; font-weight: 800; padding: 0.35rem 0.7rem; border-radius: 10px;">Cooling/AC: 3,450</span>
-              <span style="background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; font-size: 0.74rem; font-weight: 800; padding: 0.35rem 0.7rem; border-radius: 10px;">Transmission: 42,950</span>
-              <span style="background: #f0fdfa; border: 1px solid #99f6e4; color: #0f766e; font-size: 0.74rem; font-weight: 800; padding: 0.35rem 0.7rem; border-radius: 10px;">Filters: 38,200</span>
-              <span style="background: #f8fafc; border: 1px solid #cbd5e1; color: #334155; font-size: 0.74rem; font-weight: 800; padding: 0.35rem 0.7rem; border-radius: 10px;">Body Panels: 41,775</span>
+            
+            <!-- Segmented Progress Bar -->
+            <div style="height: 12px; width: 100%; background: #f1f5f9; border-radius: 6px; overflow: hidden; display: flex; margin-bottom: 0.85rem; box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);">
+              <div style="width: 67.3%; background: #0284c7;" title="Mechanical: 621 components (67.3%)"></div>
+              <div style="width: 22.8%; background: #f97316;" title="Body: 210 components (22.8%)"></div>
+              <div style="width: 6.6%; background: #8b5cf6;" title="Accessories: 61 components (6.6%)"></div>
+              <div style="width: 2.3%; background: #10b981;" title="Lubes & Fluids: 21 components (2.3%)"></div>
+              <div style="width: 1.1%; background: #ec4899;" title="Consumables: 10 components (1.1%)"></div>
+            </div>
+
+            <!-- Category Legend Items with Counts (Balanced 2x2 Grid with No Wrapping) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.74rem;">
+              <div style="display: flex; align-items: center; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 0.45rem 0.65rem; min-height: 38px;">
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #1e40af; font-weight: 800; white-space: nowrap;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #0284c7; flex-shrink: 0;"></span> Mechanical
+                </span>
+                <span style="font-weight: 850; color: #0f172a; white-space: nowrap; margin-left: 0.25rem;">621 <small style="color: #64748b; font-weight: 600;">(67.3%)</small></span>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 0.45rem 0.65rem; min-height: 38px;">
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #c2410c; font-weight: 800; white-space: nowrap;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #f97316; flex-shrink: 0;"></span> Body Parts
+                </span>
+                <span style="font-weight: 850; color: #0f172a; white-space: nowrap; margin-left: 0.25rem;">210 <small style="color: #64748b; font-weight: 600;">(22.8%)</small></span>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 0.45rem 0.65rem; min-height: 38px;">
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #6d28d9; font-weight: 800; white-space: nowrap;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #8b5cf6; flex-shrink: 0;"></span> Accessories
+                </span>
+                <span style="font-weight: 850; color: #0f172a; white-space: nowrap; margin-left: 0.25rem;">61 <small style="color: #64748b; font-weight: 600;">(6.6%)</small></span>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 0.45rem 0.65rem; min-height: 38px;">
+                <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #047857; font-weight: 800; white-space: nowrap;">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></span> Lubes & Fluids
+                </span>
+                <span style="font-weight: 850; color: #0f172a; white-space: nowrap; margin-left: 0.25rem;">21 <small style="color: #64748b; font-weight: 600;">(2.3%)</small></span>
+              </div>
             </div>
           </div>
         </div>
@@ -929,57 +912,53 @@
         </div>
 
         <div class="cat-charts-grid">
-          <!-- Chart 1: SKU Growth Trend -->
+          <!-- Chart 1: Top Vehicle Makes (Real DB Data) -->
           <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">SKU GROWTH TREND</span>
-              <button type="button" onclick="OverallCataloguePortal.exportExcel()" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #0284c7; padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 800; cursor: pointer;">📥 export</button>
+              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">TOP VEHICLE MAKES BY SKUs</span>
+              <span style="background: #eff6ff; color: #0284c7; padding: 0.15rem 0.5rem; border-radius: 8px; font-size: 0.68rem; font-weight: 850;">Top 10 OEMs</span>
             </div>
-            <div style="height: 170px; position: relative;">
-              <canvas id="cat-chart-growth"></canvas>
+            <div style="height: 175px; position: relative;">
+              <canvas id="cat-chart-makes"></canvas>
             </div>
           </div>
 
-          <!-- Chart 2: Data Health & Mapping Status -->
+          <!-- Chart 2: Major Vehicle System Aggregates (Real DB Doughnut) -->
           <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">DATA HEALTH & MAPPING STATUS</span>
-              <span style="color: #64748b; font-size: 0.85rem;">⚙️</span>
+              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">MAJOR SYSTEM AGGREGATES</span>
+              <span style="background: #fdf2f8; color: #9d174d; padding: 0.15rem 0.5rem; border-radius: 8px; font-size: 0.68rem; font-weight: 850;">23.6M Master</span>
             </div>
-            <div style="height: 170px; position: relative; display: flex; align-items: center; justify-content: center;">
-              <canvas id="cat-chart-health"></canvas>
-              <div style="position: absolute; text-align: center; pointer-events: none;">
-                <div style="font-size: 1.15rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">80.4M</div>
-                <div style="font-size: 0.65rem; font-weight: 750; color: #64748b;">SKUs</div>
-              </div>
+            <div style="height: 175px; position: relative; display: flex; align-items: center; justify-content: center;">
+              <canvas id="cat-chart-aggregates"></canvas>
             </div>
           </div>
 
-          <!-- Chart 3: Top Mapped Brands -->
+          <!-- Chart 3: Top Mapped OEM & OES Brands (Real DB Data) -->
           <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">TOP MAPPED BRANDS</span>
-              <button type="button" onclick="OverallCataloguePortal.exportExcel()" style="background: #eff6ff; border: 1px solid #bfdbfe; color: #0284c7; padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 800; cursor: pointer;">📥 export</button>
+              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">TOP MAPPED BRANDS (OEM &amp; OES)</span>
+              <span style="background: #f5f3ff; color: #7c3aed; padding: 0.15rem 0.5rem; border-radius: 8px; font-size: 0.68rem; font-weight: 850;">170+ Brands</span>
             </div>
-            <div style="height: 170px; position: relative;">
+            <div style="height: 175px; position: relative;">
               <canvas id="cat-chart-brands"></canvas>
             </div>
           </div>
 
-          <!-- Chart 4: AI Suggestion Accuracy -->
+          <!-- Chart 4: Parts MRP Spectrum Distribution (Real DB Data) -->
           <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03); display: flex; flex-direction: column; justify-content: space-between;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">ACCURACY INDEX</span>
-              <span style="background: #ecfdf5; color: #059669; padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.68rem; font-weight: 850;">AI Active</span>
+              <span style="font-size: 0.76rem; font-weight: 900; color: #0f172a; text-transform: uppercase;">PARTS MRP SPECTRUM</span>
+              <span style="background: #ecfdf5; color: #059669; padding: 0.15rem 0.5rem; border-radius: 8px; font-size: 0.68rem; font-weight: 850;">Price Tiers</span>
             </div>
-            <div style="height: 120px; position: relative; display: flex; align-items: center; justify-content: center; margin-top: 0.5rem;">
-              <canvas id="cat-chart-accuracy"></canvas>
-              <div style="position: absolute; bottom: 5px; text-align: center; pointer-events: none;">
-                <div style="font-size: 1.85rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif;">85.3%</div>
-              </div>
+            <div style="height: 145px; position: relative; display: flex; align-items: center; justify-content: center; margin-top: 0.35rem;">
+              <canvas id="cat-chart-mrp"></canvas>
             </div>
-            <div style="text-align: center; font-size: 0.72rem; font-weight: 850; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 0.35rem;">
-              AI SUGGESTION ACCURACY
+            <div style="display: flex; justify-content: space-around; font-size: 0.68rem; font-weight: 800; color: #64748b; margin-top: 0.35rem; border-top: 1px solid #f1f5f9; padding-top: 0.35rem;">
+              <span>&lt;₹500: <strong>60.7%</strong></span>
+              <span>₹500-1.5K: <strong>17.7%</strong></span>
+              <span>₹1.5K-5K: <strong>13.7%</strong></span>
+              <span>&gt;₹5K: <strong>7.9%</strong></span>
             </div>
           </div>
         </div>
@@ -1036,7 +1015,7 @@
               </div>
             </div>
 
-            <!-- Stepper Pills -->
+            <!-- Stepper Pills (5-Step Visual Hierarchy) -->
             <div class="visual-stepper-bar">
               <button type="button" class="visual-step-pill active" id="v-step-pill-1" onclick="OverallCataloguePortal.navGoToStep(1)">
                 <span class="v-step-num">1</span>
@@ -1045,16 +1024,21 @@
               <span class="v-step-sep">➔</span>
               <button type="button" class="visual-step-pill" id="v-step-pill-2" onclick="OverallCataloguePortal.navGoToStep(2)">
                 <span class="v-step-num">2</span>
-                <span id="v-step-label-2">Choose Variant</span>
+                <span id="v-step-label-2">Select Model</span>
               </button>
               <span class="v-step-sep">➔</span>
               <button type="button" class="visual-step-pill" id="v-step-pill-3" onclick="OverallCataloguePortal.navGoToStep(3)">
                 <span class="v-step-num">3</span>
-                <span id="v-step-label-3">Assembly & Component</span>
+                <span id="v-step-label-3">Choose Variant</span>
               </button>
               <span class="v-step-sep">➔</span>
               <button type="button" class="visual-step-pill" id="v-step-pill-4" onclick="OverallCataloguePortal.navGoToStep(4)">
                 <span class="v-step-num">4</span>
+                <span id="v-step-label-4">Assembly & Component</span>
+              </button>
+              <span class="v-step-sep">➔</span>
+              <button type="button" class="visual-step-pill" id="v-step-pill-5" onclick="OverallCataloguePortal.navGoToStep(5)">
+                <span class="v-step-num">5</span>
                 <span>Parts Table</span>
               </button>
             </div>
@@ -1090,7 +1074,7 @@
             </div>
           </div>
 
-          <!-- ==================== STEP 2: VARIANT SELECTION (ORIPARTS VEHICLE CARDS) ==================== -->
+          <!-- ==================== STEP 2: MODEL SELECTION ==================== -->
           <div id="v-nav-step-2" class="v-nav-step-pane" style="display: none;">
             
             <!-- Active Make Sub-Header & Controls -->
@@ -1099,6 +1083,39 @@
               <div style="display: flex; align-items: center; gap: 0.85rem;">
                 <button type="button" onclick="OverallCataloguePortal.navGoToStep(1)" style="padding: 0.4rem 0.8rem; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.78rem; font-weight: 800; color: #475569; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
                   <span>←</span> <span>Change Make</span>
+                </button>
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                  <img id="v-step2-make-logo" src="" alt="Make Logo" style="height: 32px; width: 44px; object-fit: contain; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 2px;">
+                  <div>
+                    <h4 id="v-step2-make-name" style="margin: 0; font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">MARUTI SUZUKI</h4>
+                    <span id="v-step2-models-count" style="font-size: 0.72rem; color: #64748b; font-weight: 700;">Loading models...</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Search Model Input -->
+              <div style="position: relative;">
+                <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); font-size: 0.85rem; color: #64748b; pointer-events: none;">🔍</span>
+                <input type="text" id="v-model-search-input" placeholder="Search model (e.g. Swift, Innova, Creta)..." oninput="OverallCataloguePortal.filterModelsGrid(this.value)" style="padding: 0.45rem 0.75rem 0.45rem 2rem; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; font-weight: 600; color: #0f172a; outline: none; width: 230px;">
+              </div>
+
+            </div>
+
+            <!-- Models Cards Grid -->
+            <div id="v-models-grid" class="visual-models-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem;">
+              <!-- Dynamically rendered via JS -->
+            </div>
+          </div>
+
+          <!-- ==================== STEP 3: VARIANT SELECTION (ORIPARTS VEHICLE CARDS) ==================== -->
+          <div id="v-nav-step-3" class="v-nav-step-pane" style="display: none;">
+            
+            <!-- Active Make & Model Sub-Header & Controls -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 0.85rem 1.15rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+              
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <button type="button" onclick="OverallCataloguePortal.navGoToStep(2)" style="padding: 0.4rem 0.8rem; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.78rem; font-weight: 800; color: #475569; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+                  <span>←</span> <span>Change Model</span>
                 </button>
                 <div style="display: flex; align-items: center; gap: 0.6rem;">
                   <img id="v-active-make-logo" src="" alt="Make Logo" style="height: 32px; width: 44px; object-fit: contain; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 2px;">
@@ -1165,19 +1182,14 @@
 
             </div>
 
-            <!-- Model Pills Strip for Quick Filtering -->
-            <div id="v-model-pills-wrap" style="display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.75rem; margin-bottom: 0.85rem; scrollbar-width: thin;">
-              <!-- Dynamic model pills: All, Swift, Baleno, Alto, etc. -->
-            </div>
-
             <!-- Oriparts 3D Vehicle Variant Cards Grid -->
             <div id="v-variants-grid" class="visual-variants-grid">
               <!-- Dynamically populated variant cards with photos -->
             </div>
           </div>
 
-          <!-- ==================== STEP 3: CREATIVE ASSEMBLY & TAXONOMY STUDIO ==================== -->
-          <div id="v-nav-step-3" class="v-nav-step-pane" style="display: none;">
+          <!-- ==================== STEP 4: CREATIVE ASSEMBLY & TAXONOMY STUDIO ==================== -->
+          <div id="v-nav-step-4" class="v-nav-step-pane" style="display: none;">
             
             <!-- Selected Vehicle Summary Banner -->
             <div style="background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 12px; padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
@@ -1195,72 +1207,108 @@
               </div>
 
               <div style="display: flex; gap: 0.5rem;">
-                <button type="button" onclick="OverallCataloguePortal.navGoToStep(2)" style="padding: 0.45rem 0.85rem; background: #ffffff; border: 1.5px solid #86efac; border-radius: 8px; font-size: 0.78rem; font-weight: 800; color: #166534; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
+                <button type="button" onclick="OverallCataloguePortal.navGoToStep(3)" style="padding: 0.45rem 0.85rem; background: #ffffff; border: 1.5px solid #86efac; border-radius: 8px; font-size: 0.78rem; font-weight: 800; color: #166534; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;">
                   <span>←</span> <span>Change Variant</span>
                 </button>
               </div>
             </div>
 
-            <!-- Studio Subheader -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
-              <div style="font-size: 0.8rem; font-weight: 850; color: #0284c7; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 0.4rem;">
-                <span>⚙️</span> <span>Select Component Hierarchy (Aggregate ➔ Sub-Aggregate ➔ Component)</span>
+            <!-- ==================== 3D INTERACTIVE EXPLODED VEHICLE ASSEMBLY STAGE ==================== -->
+            <div class="exploded-assembly-stage" id="v-exploded-stage">
+              <div class="exploded-stage-header">
+                <div class="exploded-stage-title">
+                  <span style="font-size: 1.35rem;">🚗</span>
+                  <span>Interactive 3D Exploded Vehicle Assembly</span>
+                  <span class="badge" style="background: #eff6ff; color: #0284c7; border: 1px solid #bfdbfe; font-size: 0.68rem; font-weight: 850;">26 AGGREGATES INDEXED</span>
+                </div>
+                <div style="font-size: 0.74rem; color: #64748b;">
+                  Click any hotspot pin or aggregate button directly on the technical diagram to explore its sub-assemblies:
+                </div>
               </div>
-              <span style="font-size: 0.74rem; color: #64748b;">Click any component to instantly launch its complete parts information table</span>
+
+              <!-- Exploded Isometric Viewport: Clean and Unobstructed 3D Vehicle Anatomy -->
+              <div class="exploded-viewport" style="position: relative; max-width: 1050px; margin: 0 auto; border-radius: 14px; overflow: hidden; background: #ffffff; border: 1.5px solid #e2e8f0; padding: 1rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); text-align: center;">
+                <img src="images/exploded_car_aggregates.png" alt="Exploded Vehicle Assembly" class="exploded-diagram-img" style="width: 100%; max-height: 480px; object-fit: contain; display: block; margin: 0 auto;">
+              </div>
+
+              <!-- 26-Aggregate Interactive Command Studio (All 26 System Aggregates Clearly Indexed as Buttons) -->
+              <div class="agg-ribbon-wrapper" style="margin-top: 1.25rem; padding-top: 1.15rem; border-top: 1.5px solid #e2e8f0;">
+                <div class="agg-ribbon-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 0.95rem;">⚡</span>
+                    <strong style="font-size: 0.82rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.6px; font-family: 'Outfit', sans-serif;">
+                      Select Any of the 26 System Aggregates:
+                    </strong>
+                  </div>
+                  <span style="font-size: 0.72rem; color: #0284c7; font-weight: 800; background: #eff6ff; padding: 0.2rem 0.65rem; border-radius: 999px; border: 1px solid #bfdbfe;">
+                    All 26 Aggregates Interactive • Click to View Sub-Assemblies Below
+                  </span>
+                </div>
+
+                <div class="agg-ribbon-grid" id="v-agg-quick-ribbon" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.55rem; max-height: none; overflow: visible;">
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('ENGINE', this)"><span>🚀 ENGINE</span> <span class="agg-ribbon-count">112 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('TRANSMISSION', this)"><span>⚙️ TRANSMISSION</span> <span class="agg-ribbon-count">47 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('CLUTCH SYSTEM', this)"><span>🔄 CLUTCH SYSTEM</span> <span class="agg-ribbon-count">19 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn active" onclick="OverallCataloguePortal.selectAggregateVisual('BRAKE SYSTEM', this)"><span>🛑 BRAKE SYSTEM</span> <span class="agg-ribbon-count">48 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('SUSPENSION', this)"><span>🌀 SUSPENSION</span> <span class="agg-ribbon-count">81 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('STEERING', this)"><span>🎯 STEERING</span> <span class="agg-ribbon-count">31 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('FILTERS', this)"><span>🛢️ FILTERS</span> <span class="agg-ribbon-count">15 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('ELECTRICALS AND ELECTRONICS', this)"><span>⚡ ELECTRICALS</span> <span class="agg-ribbon-count">90 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('HVAC/THERMAL', this)"><span>❄️ HVAC / AC</span> <span class="agg-ribbon-count">31 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('FUEL SYSTEM', this)"><span>⛽ FUEL SYSTEM</span> <span class="agg-ribbon-count">12 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('LIGHTING', this)"><span>💡 LIGHTING</span> <span class="agg-ribbon-count">31 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('BATTERY', this)"><span>🔋 BATTERY</span> <span class="agg-ribbon-count">10 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('WIPER SYSTEM', this)"><span>🌧️ WIPER SYSTEM</span> <span class="agg-ribbon-count">14 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('BELTS AND TENSIONER', this)"><span>⛓️ BELTS & TENSIONER</span> <span class="agg-ribbon-count">34 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('BEARING', this)"><span>🔘 BEARING</span> <span class="agg-ribbon-count">4 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('BODY PARTS', this)"><span>🚪 BODY PARTS</span> <span class="agg-ribbon-count">174 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('WHEELS AND TYRES', this)"><span>🚗 WHEELS & TYRES</span> <span class="agg-ribbon-count">17 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('CABLES AND WIRES', this)"><span>🔌 CABLES & WIRES</span> <span class="agg-ribbon-count">16 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('FLUIDS COOLANT AND GREASE', this)"><span>🧪 COOLANT & GREASE</span> <span class="agg-ribbon-count">13 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('GLASS', this)"><span>🪟 GLASS</span> <span class="agg-ribbon-count">5 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('HORNS', this)"><span>📢 HORNS</span> <span class="agg-ribbon-count">3 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('INTERIOR AND COMFORTS', this)"><span>💺 INTERIOR</span> <span class="agg-ribbon-count">8 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('LUBES', this)"><span>🛢️ LUBES</span> <span class="agg-ribbon-count">8 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('PAINTS AND CONSUMABLES', this)"><span>🎨 CONSUMABLES</span> <span class="agg-ribbon-count">10 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('RUBBERS HOSES AND MOUNTINGS', this)"><span>🧰 MOUNTINGS</span> <span class="agg-ribbon-count">17 Comps</span></button>
+                  <button type="button" class="agg-ribbon-btn" onclick="OverallCataloguePortal.selectAggregateVisual('ACCESSORIES', this)"><span>⭐ ACCESSORIES</span> <span class="agg-ribbon-count">61 Comps</span></button>
+                </div>
+              </div>
             </div>
 
-            <!-- 3-Column Creative Assembly Taxonomy Studio Grid -->
-            <div class="taxonomy-studio-grid">
-              
-              <!-- Column 1: System Aggregate -->
-              <div class="taxonomy-column">
-                <div class="taxonomy-col-header">
-                  <div class="taxonomy-col-title">
-                    <span>🛑</span> <span>1. System Aggregate</span>
+            <!-- Dedicated Sub-Aggregate Selection Window (Sole window below 3D diagram) -->
+            <div class="sub-aggregate-stage-window" id="v-subagg-stage-window" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.35rem 1.5rem; margin-top: 1.25rem; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 0.85rem; flex-wrap: wrap; gap: 0.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span id="v-selected-agg-badge-icon" style="font-size: 1.6rem; width: 44px; height: 44px; border-radius: 10px; background: #eff6ff; display: flex; align-items: center; justify-content: center; border: 1px solid #bfdbfe;">⚙️</span>
+                  <div>
+                    <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;" id="v-selected-agg-badge-name">
+                      ENGINE ASSEMBLIES & SUB-SYSTEMS
+                    </div>
+                    <div style="font-size: 0.74rem; color: #64748b;" id="v-selected-agg-badge-sub">
+                      Select any Sub-Aggregate below to instantly view its verified parts in the Master Catalogue table:
+                    </div>
                   </div>
-                  <span id="v-tax-agg-count" style="font-size: 0.72rem; color: #64748b; font-weight: 700;">Loading...</span>
                 </div>
-                <div id="v-tax-agg-list" class="taxonomy-list-box">
-                  <!-- Aggregates with icons and counts -->
+                <div style="display: flex; align-items: center; gap: 0.65rem;">
+                  <span id="v-tax-subagg-count" style="font-size: 0.76rem; font-weight: 850; background: #eff6ff; color: #0284c7; padding: 0.25rem 0.75rem; border-radius: 999px; border: 1px solid #bfdbfe;">
+                    Loading Assemblies...
+                  </span>
+                  <button type="button" onclick="OverallCataloguePortal.showAllPartsForCurrentAggregate()" style="background: linear-gradient(135deg, #0284c7, #2563eb); color: #ffffff; border: none; padding: 0.45rem 1rem; border-radius: 8px; font-size: 0.76rem; font-weight: 850; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25); transition: transform 0.15s;">
+                    <span>Show All Parts in System</span> <span>➔</span>
+                  </button>
                 </div>
               </div>
 
-              <!-- Column 2: Sub-Aggregate -->
-              <div class="taxonomy-column">
-                <div class="taxonomy-col-header">
-                  <div class="taxonomy-col-title">
-                    <span>📦</span> <span>2. Sub-Aggregate Assembly</span>
-                  </div>
-                  <span id="v-tax-subagg-count" style="font-size: 0.72rem; color: #64748b; font-weight: 700;">Select Aggregate</span>
-                </div>
-                <div id="v-tax-subagg-list" class="taxonomy-list-box">
-                  <div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">
-                    ← Select a System Aggregate to view its Sub-Aggregates
-                  </div>
+              <!-- Sub-Aggregate Interactive Grid / Pills -->
+              <div id="v-tax-subagg-list" class="subagg-selection-grid">
+                <div style="text-align: center; padding: 2.5rem; color: #94a3b8; font-size: 0.85rem;">
+                  👈 Select any System Aggregate on the 3D diagram or ribbon above to display its Sub-Aggregates
                 </div>
               </div>
-
-              <!-- Column 3: Component -->
-              <div class="taxonomy-column" style="background: #ffffff; border-color: #0284c7; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.06);">
-                <div class="taxonomy-col-header" style="border-bottom-color: #bae6fd;">
-                  <div class="taxonomy-col-title" style="color: #0284c7;">
-                    <span>⚡</span> <span>3. Component & Action</span>
-                  </div>
-                  <span id="v-tax-comp-count" style="font-size: 0.72rem; color: #0284c7; font-weight: 700;">Select Sub-Aggregate</span>
-                </div>
-                <div id="v-tax-comp-list" class="taxonomy-list-box">
-                  <div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">
-                    ← Select a Sub-Aggregate to view Components
-                  </div>
-                </div>
-              </div>
-
             </div>
 
-          </div>
-
-          <!-- Active Fitment Banner (Visible when vehicle is selected) -->
-          <div id="v-active-fitment-bar" style="display: none; margin-top: 1rem; padding: 0.75rem 1.15rem; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+            <div id="v-active-fitment-bar" style="display: none; margin-top: 1rem; padding: 0.75rem 1.15rem; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
             <div style="display: flex; align-items: center; gap: 0.75rem;">
               <span style="font-size: 1.1rem;">🚗</span>
               <div style="font-size: 0.82rem; color: #166534; font-weight: 700;">
@@ -1341,8 +1389,9 @@
               <thead>
                 <tr style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0;">
                   <th style="color: #0284c7; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 140px;">Part Number</th>
-                  <th style="color: #b45309; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 110px;">Brand</th>
-                  <th style="color: #0f172a; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 280px;">Description</th>
+                  <th style="color: #b45309; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 130px;">Brand & Tier</th>
+                  <th style="color: #0284c7; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 175px;">Component Schematic</th>
+                  <th style="color: #0f172a; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 250px;">Description</th>
                   <th style="color: #059669; font-weight: 850; text-align: right; padding: 0.85rem 1rem; width: 110px;">MRP Price</th>
                   <th style="color: #64748b; font-weight: 850; text-align: right; padding: 0.85rem 1rem; width: 100px;">List Price</th>
                   <th style="color: #7c3aed; font-weight: 850; text-align: center; padding: 0.85rem 1rem; width: 90px;">Segment</th>
@@ -1353,7 +1402,7 @@
               </thead>
               <tbody id="cat-table-body">
                 <tr>
-                  <td colspan="9" style="text-align: center; padding: 3rem; color: #0284c7; font-weight: 700;">⚡ Querying 23.6M+ Master Catalogue Records...</td>
+                  <td colspan="10" style="text-align: center; padding: 3rem; color: #0284c7; font-weight: 700;">⚡ Querying 23.6M+ Master Catalogue Records...</td>
                 </tr>
               </tbody>
             </table>
@@ -1505,90 +1554,165 @@
 
     <!-- ==================== TAB 1C: CATALOG AI ASSISTANT ==================== -->
     <section id="tab-catalogue-ai" class="tab-pane">
-      <div style="padding: 0 0.5rem; max-width: 1200px; margin: 0 auto;">
+      <div style="height: 100%; max-height: 100%; display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0; max-width: 1400px; margin: 0 auto; width: 100%;">
         
-        <!-- Chatbot Studio Frame -->
-        <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; min-height: 720px;">
+        <!-- Copilot Workspace (Sidebar + Chat matching Gemini_Generated_Image_4qh9lg4qh9lg4qh9.png) -->
+        <div class="cat-ai-workspace">
           
-          <!-- Chat Header Bar -->
-          <div style="padding: 1.1rem 1.6rem; background: linear-gradient(135deg, #0f172a, #1e293b); color: #ffffff; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #334155;">
-            <div style="display: flex; align-items: center; gap: 0.85rem;">
-              <div style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #0284c7); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);">
-                🤖
-              </div>
+          <!-- Left Panel: Recent Vehicle Searches & Query History -->
+          <aside class="cat-ai-sidebar-panel">
+            <div class="cat-ai-sidebar-header">
+              <span style="font-size: 1.15rem;">⏱️</span>
               <div>
-                <div style="display: flex; align-items: center; gap: 0.6rem;">
-                  <span style="font-size: 1.15rem; font-weight: 900; letter-spacing: -0.3px; font-family: 'Outfit', sans-serif;">
-                    AutoNexa Catalog AI Copilot
-                  </span>
-                  <span style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); font-size: 0.68rem; font-weight: 850; padding: 0.15rem 0.55rem; border-radius: 999px;">
-                    ● LIVE BOT
-                  </span>
+                <h4 style="margin: 0; font-size: 0.92rem; font-weight: 900; color: #f8fafc; font-family: 'Outfit', sans-serif;">Recent Vehicle Searches</h4>
+                <span style="font-size: 0.68rem; color: #94a3b8;">Click any vehicle card to load</span>
+              </div>
+            </div>
+
+            <!-- Recent Vehicle Cards with photos -->
+            <div class="cat-ai-recent-vehicles">
+              <div class="cat-ai-recent-card" onclick="CatalogAiChat.quickSend('Tata Indica tie rod end')">
+                <img src="images/vehicles/TATA/INDICA VISTA (01.2008-12.2012).jpg" onerror="this.src='images/oriparts_default_car.png'" alt="Tata Indica">
+                <div class="cat-ai-recent-info">
+                  <span class="cat-ai-recent-title">Tata Indica Vista</span>
+                  <div class="cat-ai-recent-meta">
+                    <span class="cat-ai-tag">DIESEL</span>
+                    <span>2018 • Steering</span>
+                  </div>
                 </div>
-                <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 0.15rem;">
-                  Conversational Diagnostic Engine • Fuel/Year Stepper • 3D Oriparts Variant Photos • Relatable Parts
+              </div>
+
+              <div class="cat-ai-recent-card" onclick="CatalogAiChat.quickSend('Grand i10 Nios brake pad')">
+                <img src="images/vehicles/HYUNDAI/GRAND I10 NIOS (08.2019-12.2022).png" onerror="this.src='images/oriparts_default_car.png'" alt="Grand i10">
+                <div class="cat-ai-recent-info">
+                  <span class="cat-ai-recent-title">Grand i10 Nios</span>
+                  <div class="cat-ai-recent-meta">
+                    <span class="cat-ai-tag" style="background: rgba(14, 165, 233, 0.15); color: #38bdf8;">PETROL</span>
+                    <span>2020 • Brakes</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cat-ai-recent-card" onclick="CatalogAiChat.quickSend('Swift diesel 2018 oil filter')">
+                <img src="images/vehicles/MARUTI SUZUKI/SWIFT 3RD GEN (2018-2021).png" onerror="this.src='images/oriparts_default_car.png'" alt="Swift">
+                <div class="cat-ai-recent-info">
+                  <span class="cat-ai-recent-title">Maruti Suzuki Swift</span>
+                  <div class="cat-ai-recent-meta">
+                    <span class="cat-ai-tag">DIESEL</span>
+                    <span>2019 • Filters</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div style="display: flex; align-items: center; gap: 0.65rem;">
-              <button type="button" onclick="CatalogAiChat.resetChat()" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.95rem; font-size: 0.78rem; font-weight: 850; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; border-radius: 8px; cursor: pointer; transition: background 0.15s;">
-                <span>🔄</span> <span>New Chat / Reset</span>
-              </button>
+            <!-- Recent Queries List -->
+            <div class="cat-ai-recent-queries-section">
+              <div style="font-size: 0.72rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
+                <span>Recent Diagnostics</span>
+                <span style="font-size: 0.65rem; color: #64748b;">Click to Run</span>
+              </div>
+              <div class="cat-ai-query-list">
+                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Grand i10 Nios brake pad')">
+                  <span>🏎️</span> <span>Grand i10 nios brake pad</span>
+                </button>
+                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Swift diesel 2018 oil filter')">
+                  <span>🛢️</span> <span>Swift diesel 2018 oil filter</span>
+                </button>
+                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Innova clutch plate')">
+                  <span>⚙️</span> <span>Innova clutch plate</span>
+                </button>
+                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Tata Indica kharab hai')">
+                  <span>🔧</span> <span>Tata Indica kharab hai</span>
+                </button>
+                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Creta shocker kharab hai')">
+                  <span>⚡</span> <span>Creta shocker kharab hai</span>
+                </button>
+                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('21658101B4A05')">
+                  <span>🏷️</span> <span>Part: 21658101B4A05 (Cross LC)</span>
+                </button>
+                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('VIN: MALBB51BLHM123456')">
+                  <span>🔍</span> <span>VIN: MALBB51BLHM123456</span>
+                </button>
+              </div>
             </div>
-          </div>
 
-          <!-- Chat Thread Message Stream -->
-          <div id="cat-ai-chat-thread" style="flex: 1; min-height: 480px; max-height: 620px; overflow-y: auto; padding: 1.6rem 1.8rem; background: #f8fafc; scroll-behavior: smooth;">
-            <!-- Dynamic bot and user bubbles rendered by CatalogAiChat -->
-          </div>
+            <!-- Sidebar Footer -->
+            <div class="cat-ai-sidebar-footer">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span class="live-dot-pulse"></span>
+                <span style="font-size: 0.74rem; color: #cbd5e1; font-weight: 750;">23.6M+ Parts Live Search</span>
+              </div>
+              <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">v72.0</span>
+            </div>
+          </aside>
 
-          <!-- Chat Input Control Bar -->
-          <div style="padding: 1.1rem 1.6rem; background: #ffffff; border-top: 1.5px solid #e2e8f0;">
-            <div style="display: flex; gap: 0.75rem; align-items: center;">
-              <div style="flex: 1; position: relative;">
+          <!-- Right Main Chat Panel -->
+          <main class="cat-ai-main-chat">
+            
+            <!-- Chat Header Bar -->
+            <div class="cat-ai-chat-header">
+              <div style="display: flex; align-items: center; gap: 0.85rem;">
+                <div style="width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #0284c7); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);">
+                  🤖
+                </div>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.15rem; font-weight: 900; letter-spacing: -0.3px; font-family: 'Outfit', sans-serif;">
+                      AutoNexa Catalog AI Copilot
+                    </span>
+                    <span style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); font-size: 0.68rem; font-weight: 850; padding: 0.15rem 0.55rem; border-radius: 999px;">
+                      ● LIVE BOT
+                    </span>
+                  </div>
+                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 0.15rem;">
+                    Universal Anything Search • 923 Components • 26 Aggregates • 17-Digit VIN Decoder • 3D Assembly
+                  </div>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <button type="button" class="btn-toggle-ai-history" onclick="CatalogAiChat.toggleHistory()" title="Toggle History Sidebar" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.85rem; font-size: 0.78rem; font-weight: 850; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; border-radius: 8px; cursor: pointer; transition: background 0.15s;">
+                  <span>⏱️</span> <span>History</span>
+                </button>
+                <button type="button" onclick="CatalogAiChat.resetChat()" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.95rem; font-size: 0.78rem; font-weight: 850; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; border-radius: 8px; cursor: pointer; transition: background 0.15s;">
+                  <span>🔄</span> <span>New Chat / Reset</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Chat Thread Message Stream -->
+            <div id="cat-ai-chat-thread" class="cat-ai-thread">
+              <!-- Dynamically rendered by CatalogAiChat with wireframe car greeting -->
+            </div>
+
+            <!-- Chat Bottom Capsule Bar -->
+            <div class="cat-ai-input-wrapper">
+              <div id="cat-ai-image-preview" style="display: none; padding: 0 0.5rem 0.35rem;"></div>
+              <div class="cat-ai-capsule-bar">
+                <button type="button" class="cat-ai-action-btn" id="cat-ai-mic-btn" title="Speak to Search (Voice Recognition)" onclick="CatalogAiChat.toggleSpeechRecognition()">
+                  <span id="cat-ai-mic-icon">🎙️</span>
+                </button>
+                <button type="button" class="cat-ai-action-btn" title="Search by Part or Label Image" onclick="CatalogAiChat.triggerImageUpload()">
+                  <span>📷</span>
+                </button>
+                <input type="file" id="cat-ai-image-file-input" accept="image/*" style="display: none;" onchange="CatalogAiChat.handleImageSelected(event)">
                 <input 
                   type="text" 
                   id="cat-ai-chat-input" 
-                  placeholder="Ask Catalog AI: e.g. 'Grand i10 nios brake pad', 'Swift diesel 2018 oil filter', 'Innova cluch plate', 'Creta shocker kharab hai'..."
-                  style="width: 100%; padding: 0.85rem 1.25rem; font-size: 0.95rem; font-weight: 650; color: #0f172a; background: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px; outline: none; transition: border-color 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.02);"
-                  onfocus="this.style.borderColor='#0284c7';"
-                  onblur="this.style.borderColor='#cbd5e1';"
+                  placeholder="Ask Catalog AI: e.g. 'Grand i10 nios brake pad', 'Innova clutch plate', or upload part photo..."
+                  autocomplete="off"
                 >
+                <button type="button" class="cat-ai-send-btn" onclick="CatalogAiChat.handleSend()">
+                  <span>Ask</span> <span style="font-size: 1rem;">✈️</span>
+                </button>
               </div>
-              <button 
-                type="button" 
-                onclick="CatalogAiChat.handleSend()" 
-                style="padding: 0.85rem 1.85rem; background: linear-gradient(135deg, #0284c7, #2563eb); color: #ffffff; font-weight: 850; font-size: 0.92rem; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3); display: flex; align-items: center; gap: 0.4rem; transition: transform 0.15s;"
-              >
-                <span>Ask AI</span> <span>⚡</span>
-              </button>
             </div>
 
-            <!-- Quick Starter Prompts Strip -->
-            <div style="display: flex; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.75rem; align-items: center;">
-              <span style="font-size: 0.74rem; color: #64748b; font-weight: 850;">Quick Prompts:</span>
-              <button type="button" class="chat-prompt-pill" onclick="CatalogAiChat.quickSend('Grand i10 Nios brake pad')">
-                🏎️ Grand i10 Nios brake pad
-              </button>
-              <button type="button" class="chat-prompt-pill" onclick="CatalogAiChat.quickSend('Swift diesel 2018 oil filter')">
-                🛢️ Swift diesel 2018 oil filter
-              </button>
-              <button type="button" class="chat-prompt-pill" onclick="CatalogAiChat.quickSend('Innova clutch plate')">
-                ⚙️ Innova clutch plate
-              </button>
-              <button type="button" class="chat-prompt-pill" onclick="CatalogAiChat.quickSend('Creta shocker kharab hai')">
-                🔧 Creta shocker kharab hai
-              </button>
-              <button type="button" class="chat-prompt-pill" onclick="CatalogAiChat.quickSend('21658101B4A05')">
-                🏷️ 21658101B4A05
-              </button>
-            </div>
-          </div>
+          </main>
 
         </div>
 
-        <!-- Fitment Details Modal Overlay (In-Place, Does NOT redirect to dashboard) -->
+        <!-- Fitment Details Modal Overlay -->
         <div id="cat-ai-fitment-modal" class="cat-ai-modal-overlay" style="display: none;" onclick="if(event.target===this) CatalogAiChat.closeFitmentModal();">
           <div class="cat-ai-modal-card">
             <div class="cat-ai-modal-header">
@@ -1597,16 +1721,329 @@
                   🔍
                 </div>
                 <div>
-                  <div id="cat-ai-modal-title" style="font-size: 1.1rem; font-weight: 900; font-family: 'Outfit', sans-serif;">Part Fitment & OE Specifications</div>
-                  <div id="cat-ai-modal-subtitle" style="font-size: 0.76rem; color: #94a3b8;">Detailed application mapping and cross-reference</div>
+                  <h3 id="cat-ai-modal-title" style="margin: 0; font-size: 1.1rem; font-weight: 900; color: #ffffff;">Part Details & Fitments</h3>
+                  <div id="cat-ai-modal-subtitle" style="font-size: 0.78rem; color: #94a3b8;">Part Number: --</div>
                 </div>
               </div>
-              <button type="button" onclick="CatalogAiChat.closeFitmentModal()" style="background: rgba(255,255,255,0.1); border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; font-weight: 900; display: flex; align-items: center; justify-content: center; transition: background 0.15s;">
-                ✕
-              </button>
+              <button type="button" onclick="CatalogAiChat.closeFitmentModal()" style="background: rgba(255,255,255,0.1); border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.1rem;">✕</button>
             </div>
             <div id="cat-ai-modal-body" class="cat-ai-modal-body">
-              <!-- Content rendered dynamically by CatalogAiChat.showFitmentModal -->
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    
+    </section>
+
+    <!-- ==================== TAB 1D: OEM TO OES CONVERSION INTELLIGENCE ==================== -->
+    <section id="tab-catalogue-oem-to-oes" class="tab-pane">
+      <div style="max-width: 1540px; margin: 0 auto; padding: 0 0.5rem 2rem;">
+        
+        <!-- Top Tab Bar (Matching Image 5) -->
+        <div style="background: #ffffff; border-bottom: 2px solid #e2e8f0; display: flex; align-items: center; gap: 2rem; padding: 0 1.25rem; margin-bottom: 1.25rem;">
+          <button type="button" class="oes-subtab-btn" data-subtab="cross-ref" onclick="OemToOesPortal.switchSubTab('cross-ref')" style="background: transparent; border: none; border-bottom: 3px solid transparent; padding: 0.85rem 0.25rem; font-size: 0.95rem; font-weight: 750; color: #64748b; cursor: pointer; transition: all 0.15s;">
+            OEM/OES Cross-Reference
+          </button>
+          <button type="button" class="oes-subtab-btn active" data-subtab="interchanges" onclick="OemToOesPortal.switchSubTab('interchanges')" style="background: transparent; border: none; border-bottom: 3px solid #0f172a; padding: 0.85rem 0.25rem; font-size: 0.95rem; font-weight: 850; color: #0f172a; cursor: pointer; transition: all 0.15s;">
+            Direct Interchanges
+          </button>
+          <button type="button" class="oes-subtab-btn" data-subtab="conversion-matrix" onclick="OemToOesPortal.switchSubTab('conversion-matrix')" style="background: transparent; border: none; border-bottom: 3px solid transparent; padding: 0.85rem 0.25rem; font-size: 0.95rem; font-weight: 750; color: #64748b; cursor: pointer; transition: all 0.15s;">
+            Inventory &amp; Pricing
+          </button>
+        </div>
+
+        <!-- ==================== VIEW 1: DIRECT INTERCHANGES HUB (IMAGE 5 PIXEL-FOR-PIXEL) ==================== -->
+        <div id="oes-view-interchanges" style="display: block;">
+          <div style="display: grid; grid-template-columns: 200px 1fr; gap: 1.5rem; align-items: start;">
+            
+            <!-- Left Side Sub-Navigation (Matching Image 5) -->
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 0.75rem 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
+              <div class="oes-left-nav-item" data-nav="dashboard" onclick="OemToOesPortal.switchSubTab('cross-ref')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 750; color: #475569; cursor: pointer; transition: background 0.15s;">
+                <span style="font-size: 1rem;">▦</span>
+                <span>Dashboard</span>
+              </div>
+              <div class="oes-left-nav-item active" data-nav="interchange-search" onclick="OemToOesPortal.switchSubTab('interchanges')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 850; color: #0f172a; background: #f1f5f9; border: 1px solid #cbd5e1; cursor: pointer; transition: background 0.15s;">
+                <span style="font-size: 1rem;">⊞</span>
+                <span>Interchange Search</span>
+              </div>
+              <div class="oes-left-nav-item" data-nav="conversion-matrix" onclick="OemToOesPortal.switchSubTab('conversion-matrix')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 750; color: #475569; cursor: pointer; transition: background 0.15s;">
+                <span style="font-size: 1rem;">❖</span>
+                <span>Conversion Matrix</span>
+              </div>
+              <div class="oes-left-nav-item" data-nav="saved-matches" onclick="alert('Saved Matches: Valeo VAL-826330, LuK LUK-622333609 bookmarked.')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 750; color: #475569; cursor: pointer; transition: background 0.15s;">
+                <span style="font-size: 1rem;">🔖</span>
+                <span>Saved Matches</span>
+              </div>
+              <div class="oes-left-nav-item" data-nav="search-history" onclick="alert('Search History:\n1. VAL-826330 (Clutch Plate)\n2. 13780M75J00 (Air Filter)\n3. 55810M68P00 (Brake Pad)')" style="display: flex; align-items: center; gap: 0.65rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.85rem; font-weight: 750; color: #475569; cursor: pointer; transition: background 0.15s;">
+                <span style="font-size: 1rem;">🕒</span>
+                <span>Search History</span>
+              </div>
+            </div>
+
+            <!-- Right Main Work Area -->
+            <div>
+              <!-- Header & Subtitle -->
+              <div style="margin-bottom: 1.25rem;">
+                <h2 style="font-size: 1.55rem; font-weight: 900; color: #0f172a; margin: 0 0 0.35rem; font-family: 'Outfit', sans-serif; letter-spacing: -0.3px;">
+                  OES to OES Conversion and Alternative Interchange Hub
+                </h2>
+                <p style="font-size: 0.88rem; color: #475569; margin: 0; line-height: 1.4;">
+                  Cross-reference alternative OES, tier-1 brands, and aftermarket equivalents when original OEM specs or part numbers are unavailable.
+                </p>
+              </div>
+
+              <!-- Top Row: Search Box & Verified Interconnected Vehicles -->
+              <div style="display: grid; grid-template-columns: 1fr 340px; gap: 1.25rem; align-items: stretch; margin-bottom: 1.5rem;">
+                
+                <!-- Search Box Card -->
+                <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.25rem 1.35rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03); display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <label style="font-size: 0.82rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.5rem;">
+                      OES Input Search Bar
+                    </label>
+                    <div style="display: flex; gap: 0.75rem;">
+                      <input type="text" id="oes-interchange-input" value="VAL-826330  [OES Anchor Part]" 
+                             placeholder="Enter OES or OEM Part Number..."
+                             style="flex: 1; padding: 0.75rem 1rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; font-weight: 750; color: #0f172a; outline: none; transition: border-color 0.15s;"
+                             onfocus="this.style.borderColor='#ea580c'" onblur="this.style.borderColor='#cbd5e1'"
+                             onkeydown="if(event.key==='Enter') OemToOesPortal.searchInterchange();">
+                      <button type="button" onclick="OemToOesPortal.searchInterchange();" style="background: #ea580c; color: #ffffff; border: none; padding: 0.75rem 1.6rem; border-radius: 8px; font-weight: 850; font-size: 0.9rem; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(234, 88, 12, 0.25); transition: background 0.15s;">
+                        Search &amp; Cross-Refer
+                      </button>
+                    </div>
+                  </div>
+                  <!-- Status Line -->
+                  <div id="oes-anchor-status-line" style="font-size: 0.76rem; color: #334155; font-weight: 750; margin-top: 0.85rem; line-height: 1.4;">
+                    Active Anchor: Valeo VAL-826330 (Clutch Plate / Pressure Plate Assembly) | Status: No OEM Part Listed / Discontinued | Target Segment: Clutch System
+                  </div>
+                </div>
+
+                <!-- Verified Interconnected Vehicles Card -->
+                <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 1.15rem 1.25rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
+                  <div style="font-size: 0.82rem; font-weight: 850; color: #0f172a; margin-bottom: 0.55rem;">
+                    Verified Interconnected Vehicles
+                  </div>
+                  <div id="oes-connected-vehicles-list" style="display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8rem; color: #334155;">
+                    <div>Hyundai Creta (2015-2020) 1.6L CRDi Diesel</div>
+                    <div>Kia Seltos (2019-2025) 1.5L CRDi Diesel</div>
+                    <div>Hyundai Verna (2016-2020) 1.6L CRDi Diesel</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Section 1 Heading -->
+              <div style="font-size: 0.9rem; font-weight: 900; color: #0f172a; margin: 0 0 0.55rem; text-transform: uppercase; letter-spacing: 0.3px;">
+                DIRECT OES-to-OES INTERCHANGES <span style="font-weight: 700; color: #64748b; text-transform: none;">(Identical Specification &amp; Line-Fit Alternatives)</span>
+              </div>
+
+              <!-- Section 1 Split: Table + Filters -->
+              <div style="display: grid; grid-template-columns: 1fr 215px; gap: 1rem; align-items: start; margin-bottom: 1.75rem;">
+                
+                <!-- Table Card -->
+                <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
+                  <div style="padding: 0.75rem 1.25rem; border-bottom: 1px solid #e2e8f0; background: #f8fafc; font-size: 0.78rem; font-weight: 900; color: #0f172a; letter-spacing: 0.4px;">
+                    DIRECT OES-TO-OES INTERCHANGES (INTERCHANGE PREDICTIONS) <span style="color: #64748b; font-weight: normal; cursor: help;" title="Form-Fit-Function cross-reference calculated using Virtual Interchange Group">ⓘ</span>
+                  </div>
+                  <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                      <thead>
+                        <tr style="border-bottom: 1.5px solid #e2e8f0; background: #ffffff;">
+                          <th style="padding: 0.75rem 0.85rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 110px;">OES Brand</th>
+                          <th style="padding: 0.75rem 0.85rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 150px;">Equivalent Part No. ⇅</th>
+                          <th style="padding: 0.75rem 0.85rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 290px;">Confidence Score / Match Type</th>
+                          <th style="padding: 0.75rem 0.85rem; text-align: right; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 280px;">Availability &amp; Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="oes-direct-table-body">
+                        <!-- Populated dynamically by OemToOesPortal -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Right Filters Panel -->
+                <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 1.25rem 1rem; display: flex; flex-direction: column; gap: 1.15rem; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
+                  <div>
+                    <label style="font-size: 0.78rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.4rem;">
+                      Filter by Vehicle Make
+                    </label>
+                    <select id="oes-filter-vehicle" onchange="OemToOesPortal.filterInterchangeResults()" style="width: 100%; padding: 0.55rem 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; color: #0f172a; outline: none; background: #ffffff;">
+                      <option value="">Filter by Vehicle...</option>
+                      <option value="Hyundai">Hyundai</option>
+                      <option value="Kia">Kia</option>
+                      <option value="Maruti Suzuki">Maruti Suzuki</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="font-size: 0.78rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.4rem;">
+                      Filter by Brand Tier
+                    </label>
+                    <select id="oes-filter-tier" onchange="OemToOesPortal.filterInterchangeResults()" style="width: 100%; padding: 0.55rem 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; color: #0f172a; outline: none; background: #ffffff;">
+                      <option value="">Filter by Brand Tier...</option>
+                      <option value="Tier-1 OES">Tier-1 OES Only</option>
+                      <option value="Aftermarket">Aftermarket Only</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="font-size: 0.78rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.4rem;">
+                      Filter by More Options
+                    </label>
+                    <select id="oes-filter-more" onchange="OemToOesPortal.filterInterchangeResults()" style="width: 100%; padding: 0.55rem 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.82rem; color: #0f172a; outline: none; background: #ffffff;">
+                      <option value="">Filter by More...</option>
+                      <option value="In Stock Only">In Stock Only</option>
+                      <option value="Line-Fit Matches">100% Line-Fit Only</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Section 2 Heading -->
+              <div style="font-size: 0.9rem; font-weight: 900; color: #0f172a; margin: 0 0 0.55rem;">
+                Secondary Matrix - <span style="font-style: italic; font-weight: 750;">"Alternative / Aftermarket OES-Equivalent Interchanges"</span>
+              </div>
+
+              <!-- Section 2 Table Card -->
+              <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);">
+                <div style="padding: 0.75rem 1.25rem; border-bottom: 1px solid #e2e8f0; background: #f8fafc; font-size: 0.78rem; font-weight: 900; color: #0f172a; letter-spacing: 0.4px;">
+                  INDIRECT BRAND ALTERNATIVES &amp; AFTERMARKET CROSS-REFERENCES <span style="color: #64748b; font-weight: normal; cursor: help;">ⓘ</span>
+                </div>
+                <div style="overflow-x: auto;">
+                  <table style="width: 100%; border-collapse: collapse; min-width: 900px;">
+                    <thead>
+                      <tr style="border-bottom: 1.5px solid #e2e8f0; background: #ffffff;">
+                        <th style="padding: 0.75rem 1.25rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 150px;">Brand</th>
+                        <th style="padding: 0.75rem 1.25rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 180px;">Alternate Part No.</th>
+                        <th style="padding: 0.75rem 1.25rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 280px;">Relationship</th>
+                        <th style="padding: 0.75rem 1.25rem; text-align: left; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 300px;">Notes / Variant differences</th>
+                        <th style="padding: 0.75rem 1.25rem; text-align: right; font-size: 0.78rem; font-weight: 850; color: #0f172a; width: 150px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="oes-secondary-table-body">
+                      <!-- Populated dynamically by OemToOesPortal -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ==================== VIEW 2: INSTANT LOOKUP CONVERTER ==================== -->
+        <div id="oes-view-cross-ref" style="display: none; margin-top: 1rem;">
+          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.75rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 900; color: #0284c7; text-transform: uppercase; letter-spacing: 0.6px;">INSTANT LOOKUP ENGINE</div>
+                <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0.2rem 0 0; font-family: 'Outfit', sans-serif;">Convert Any OEM Part to Tier-1 OES Alternative</h3>
+              </div>
+              <span style="font-size: 0.75rem; color: #64748b; font-weight: 700;">Cross-references 23.6M Master Catalogue</span>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <div style="flex: 1; position: relative;">
+                <input type="text" id="oem-convert-input" placeholder="Enter OEM Part Number (e.g. 21658101B4A05, 13780M75J00, 55810M68P00) or Model &amp; Component..." 
+                       style="width: 100%; padding: 0.85rem 1rem; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 0.95rem; font-weight: 700; color: #0f172a; outline: none; transition: border-color 0.2s;"
+                       onfocus="this.style.borderColor='#0284c7'" onblur="this.style.borderColor='#cbd5e1'"
+                       onkeydown="if(event.key==='Enter') OemToOesPortal.handleLiveConvertSearch();">
+              </div>
+              <button type="button" onclick="OemToOesPortal.handleLiveConvertSearch()" style="background: linear-gradient(135deg, #0284c7, #2563eb); color: #ffffff; border: none; padding: 0.85rem 1.5rem; border-radius: 12px; font-weight: 850; font-size: 0.9rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">
+                <span>Convert to OES</span> <span>➔</span>
+              </button>
+            </div>
+
+            <!-- Conversion Result Container -->
+            <div id="oem-convert-result-box" style="display: none;"></div>
+          </div>
+        </div>
+
+        <!-- ==================== VIEW 3: PMS KIT CONVERSION MATRIX ==================== -->
+        <div id="oes-view-matrix" style="display: none; margin-top: 1rem;">
+          <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.75rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <div style="font-size: 0.75rem; font-weight: 900; color: #059669; text-transform: uppercase; letter-spacing: 0.6px;">HIGH-VOLUME COMMERCIAL OPPORTUNITY</div>
+                <h3 style="font-size: 1.35rem; font-weight: 900; color: #0f172a; margin: 0.2rem 0 0; font-family: 'Outfit', sans-serif;">
+                  Top Volume Models PMS Service Kit Conversion Matrix
+                </h3>
+                <p style="font-size: 0.8rem; color: #64748b; margin: 0.25rem 0 0;">
+                  Pre-packaged Periodic Maintenance Service (PMS) kits comparing Dealership OEM costs against AutoNexa Tier-1 OES kits
+                </p>
+              </div>
+
+              <!-- Model Tabs -->
+              <div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
+                <button type="button" class="oem-kit-tab-btn active" data-kit="MARUTI_SWIFT" onclick="OemToOesPortal.selectKit('MARUTI_SWIFT')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
+                  Swift / Dzire
+                </button>
+                <button type="button" class="oem-kit-tab-btn" data-kit="HYUNDAI_CRETA" onclick="OemToOesPortal.selectKit('HYUNDAI_CRETA')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
+                  Hyundai Creta
+                </button>
+                <button type="button" class="oem-kit-tab-btn" data-kit="TOYOTA_CRYSTA" onclick="OemToOesPortal.selectKit('TOYOTA_CRYSTA')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
+                  Innova Crysta
+                </button>
+                <button type="button" class="oem-kit-tab-btn" data-kit="HYUNDAI_NIOS" onclick="OemToOesPortal.selectKit('HYUNDAI_NIOS')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
+                  Grand i10 Nios
+                </button>
+                <button type="button" class="oem-kit-tab-btn" data-kit="TATA_NEXON" onclick="OemToOesPortal.selectKit('TATA_NEXON')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
+                  Tata Nexon
+                </button>
+                <button type="button" class="oem-kit-tab-btn" data-kit="MAHINDRA_SCORPIO" onclick="OemToOesPortal.selectKit('MAHINDRA_SCORPIO')" style="padding: 0.45rem 0.85rem; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid #cbd5e1; background: #ffffff; cursor: pointer; transition: all 0.15s;">
+                  Scorpio Classic
+                </button>
+              </div>
+            </div>
+
+            <!-- Active Vehicle Summary Header -->
+            <div style="background: linear-gradient(135deg, #f0fdf4, #eff6ff); border: 1.5px solid #bbf7d0; border-radius: 12px; padding: 1.15rem 1.35rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <img id="oem-kit-hero-img" src="images/vehicles/MARUTI SUZUKI/SWIFT 3RD GEN (2018-2021).png" alt="Vehicle" style="width: 80px; height: 50px; object-fit: contain; border-radius: 8px; background: #ffffff; border: 1px solid #e2e8f0; padding: 4px;" onerror="this.src='images/home_menu_catalogue.jpg'">
+                <div>
+                  <strong id="oem-kit-hero-title" style="font-size: 1.15rem; color: #0f172a; font-family: 'Outfit', sans-serif;">Maruti Suzuki Swift (Diesel / Petrol)</strong>
+                  <div style="font-size: 0.74rem; color: #166534; font-weight: 750; margin-top: 0.15rem;">Complete 10,000 km / Annual Scheduled Service Package</div>
+                </div>
+              </div>
+
+              <!-- Aggregated Savings Summary -->
+              <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <div>
+                  <div style="font-size: 0.68rem; color: #64748b; font-weight: 750;">OEM Dealership Total</div>
+                  <div id="oem-kit-total-oem" style="font-size: 1.15rem; font-weight: 900; color: #64748b; font-family: 'Outfit', sans-serif; text-decoration: line-through;">₹0</div>
+                </div>
+                <div>
+                  <div style="font-size: 0.68rem; color: #166534; font-weight: 850;">AutoNexa OES Total</div>
+                  <div id="oem-kit-total-oes" style="font-size: 1.45rem; font-weight: 900; color: #16a34a; font-family: 'Outfit', sans-serif;">₹0</div>
+                </div>
+                <div style="background: #ffffff; border: 1.5px solid #86efac; border-radius: 10px; padding: 0.35rem 0.85rem; text-align: center; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15);">
+                  <div id="oem-kit-total-save" style="font-size: 1.15rem; font-weight: 900; color: #dc2626; font-family: 'Outfit', sans-serif;">Save ₹0</div>
+                  <div id="oem-kit-total-pct" style="font-size: 0.68rem; font-weight: 850; color: #166534;">0% Net Savings</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Service Kit Items Table -->
+            <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 12px; background: #ffffff;">
+              <table class="data-table" style="width: 100%; border-collapse: collapse; min-width: 1000px; table-layout: fixed;">
+                <thead>
+                  <tr style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0;">
+                    <th style="color: #0f172a; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 220px;">Component Service Item</th>
+                    <th style="color: #475569; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 170px;">Dealership OEM Ref</th>
+                    <th style="color: #475569; font-weight: 850; text-align: right; padding: 0.85rem 1rem; width: 120px;">OEM Price</th>
+                    <th style="color: #0284c7; font-weight: 850; text-align: left; padding: 0.85rem 1rem; width: 200px;">AutoNexa Tier-1 OES Ref</th>
+                    <th style="color: #059669; font-weight: 850; text-align: right; padding: 0.85rem 1rem; width: 130px;">OES Price</th>
+                    <th style="color: #dc2626; font-weight: 850; text-align: right; padding: 0.85rem 1rem; width: 150px;">Customer Savings</th>
+                    <th style="color: #0f172a; font-weight: 850; text-align: center; padding: 0.85rem 1rem; width: 110px;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="oem-kit-table-body">
+                  <!-- Rendered dynamically by OemToOesPortal -->
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -2424,328 +2861,10 @@
     </section>
 
 
-    <!-- ==================== TAB 4: REPORTS & DEVIATION AUDITS ==================== -->
-    <section id="tab-deviation" class="tab-pane">
-      
-      <!-- Reports Scenic Hero Banner (Matching Reference Image 4) -->
-      <div class="page-hero-scenic rep-hero-scenic">
-        <img src="images/home_menu_reports.jpg" onerror="this.onerror=null;this.src='images/home_menu_reports.jpg'" alt="Purchase Compliance & Leakage Intelligence" class="page-hero-bg-img">
-        <div class="page-hero-overlay"></div>
-        
-        <div class="page-hero-left">
-          <div class="page-hero-kicker"><span>🛡️</span> PURCHASE COMPLIANCE & LEAKAGE INTELLIGENCE</div>
-          <h1 class="page-hero-headline">Purchase Compliance & Leakage Intelligence</h1>
-          <p class="page-hero-lead">Detect avoidable purchases. Protect margin. Improve procurement compliance.</p>
-        </div>
-
-        <div class="page-hero-right">
-          <div style="display: flex; align-items: center; gap: 0.45rem; background: #ffffff; padding: 0.35rem 0.75rem; border-radius: 10px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
-            <label style="font-size: 0.78rem; font-weight: 850; color: #d97706;">📅 Month:</label>
-            <select id="reports-month-select" class="search-input" style="width: 160px; padding: 0.3rem 0.6rem; font-size: 0.82rem; font-weight: 800; color: #0f172a; border: none; background: transparent;">
-              <option value="AUG" selected>August 2026 (AUG)</option>
-              <option value="JUL">July 2026 (JUL)</option>
-              <option value="JUN">June 2026 (JUN)</option>
-              <option value="ALL">All Months</option>
-            </select>
-          </div>
-
-          <button class="btn btn-secondary" onclick="DeviationPortal.exportComplianceReport();" style="padding: 0.55rem 1rem; font-size: 0.82rem; font-weight: 700;">
-            📤 Export Report
-          </button>
-        </div>
-      </div>
-
-      <!-- 5 Telemetry KPI Cards Strip (Matching Reference Image 4) -->
-      <div class="ref-kpi-strip" style="grid-template-columns: repeat(4, 1fr);">
-        <div class="ref-kpi-card" style="border-top: 3px solid #ff3b30;">
-          <div class="ref-kpi-title">TOTAL IDENTIFIED LEAKAGE</div>
-          <div id="kpi-total-leakage" class="ref-kpi-value" style="color: #ff3b30;">₹12.48 L</div>
-          <div class="ref-kpi-subtext"><span style="color: #ff3b30;">↑ 8.3%</span> vs previous month</div>
-        </div>
-
-        <div class="ref-kpi-card" style="border-top: 3px solid #ffb84d;">
-          <div class="ref-kpi-title">DEVIATION LINES</div>
-          <div id="kpi-deviation-lines" class="ref-kpi-value">428</div>
-          <div class="ref-kpi-subtext">Invoice lines</div>
-        </div>
-
-        <div class="ref-kpi-card" style="border-top: 3px solid #38d7ff;">
-          <div class="ref-kpi-title">AFFECTED PARTS</div>
-          <div class="ref-kpi-value">186</div>
-          <div class="ref-kpi-subtext">Unique parts</div>
-        </div>
-
-        <div class="ref-kpi-card" style="border-top: 3px solid #a78bfa;">
-          <div class="ref-kpi-title">OUTSIDE VENDORS</div>
-          <div id="kpi-top-vendor" class="ref-kpi-value" style="color: #a78bfa;">24</div>
-          <div class="ref-kpi-subtext">Vendor sources</div>
-        </div>
-
-        <div class="ref-kpi-card" style="border-top: 3px solid #29d391;">
-          <div class="ref-kpi-title">COMPLIANCE RATE</div>
-          <div class="ref-kpi-value" style="color: #29d391;">94.8%</div>
-          <div class="ref-kpi-subtext" style="color: #29d391;">↑ 2.1 pp</div>
-        </div>
-      </div>
-
-      <!-- MIDDLE SECTION GRID (Leakage Trend, Leakage by Vendor, Leakage by Category, Root Cause) -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-        
-        <!-- Card 1: Leakage Trend -->
-        <div class="card" style="padding: 1.25rem;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">Leakage Trend</div>
-          <div style="height: 160px; position: relative;">
-            <canvas id="chart-leakage-trend"></canvas>
-          </div>
-        </div>
-
-        <!-- Card 2: Leakage by Vendor -->
-        <div class="card" style="padding: 1.25rem;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem;">Leakage by Vendor</div>
-          <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.78rem;">
-            <div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                <span>Vendor A</span><strong>28.4%</strong>
-              </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 28.4%; background: #38bdf8;"></div></div>
-            </div>
-            <div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                <span>Vendor B</span><strong>18.7%</strong>
-              </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 18.7%; background: #5ca9ff;"></div></div>
-            </div>
-            <div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                <span>Vendor C</span><strong>14.6%</strong>
-              </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 14.6%; background: #ffb84d;"></div></div>
-            </div>
-            <div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                <span>Vendor D</span><strong>11.2%</strong>
-              </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 11.2%; background: #a78bfa;"></div></div>
-            </div>
-            <div>
-              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
-                <span>Others</span><strong>27.1%</strong>
-              </div>
-              <div class="ref-progress-bar-track" style="margin: 0; background: #f1f5f9;"><div class="ref-progress-bar-fill" style="width: 27.1%; background: #64748b;"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card 3: Leakage by Category Donut -->
-        <div class="card" style="padding: 1.25rem; text-align: center;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; text-align: left;">Leakage by Category</div>
-          <div style="height: 140px; position: relative; display: flex; justify-content: center; align-items: center;">
-            <canvas id="chart-leakage-category"></canvas>
-          </div>
-        </div>
-
-        <!-- Card 4: Root Cause Analysis Donut -->
-        <div class="card" style="padding: 1.25rem; text-align: center;">
-          <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 0.75rem; text-align: left;">Root Cause Analysis</div>
-          <div style="height: 140px; position: relative; display: flex; justify-content: center; align-items: center;">
-            <canvas id="chart-root-cause"></canvas>
-          </div>
-        </div>
-      </div>
-
-      <!-- Leakage Details Table -->
-      <div class="table-wrapper">
-        <div class="table-toolbar" style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-weight: 850; font-size: 0.95rem; font-family: 'Outfit', sans-serif;">Leakage Details</span>
-          <button class="btn btn-secondary" onclick="DeviationPortal.updateDeviationAnalysis()" style="font-size: 0.78rem;">🔄 Re-run Audit</button>
-        </div>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Invoice No</th>
-              <th>Part Number</th>
-              <th>Description</th>
-              <th>Vendor</th>
-              <th>External Price</th>
-              <th>Internal Cost</th>
-              <th>Difference</th>
-              <th>Available Stock</th>
-              <th>Leakage</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="deviation-table-body">
-            <!-- Dynamically populated via deviation-portal.js -->
-          </tbody>
-        </table>
-      </div>
-    </section>
 
 
-    <!-- ==================== TAB 5: DEMAND FORECASTING ==================== -->
-    <section id="tab-forecasting" class="tab-pane">
-      
-      <!-- Planning Scenic Hero Banner (Matching Reference Image 3) -->
-      <div class="page-hero-scenic plan-hero-scenic">
-        <img src="images/home_menu_planning.jpg" onerror="this.onerror=null;this.src='images/home_menu_planning.jpg'" alt="Demand & Inventory Planning" class="page-hero-bg-img">
-        <div class="page-hero-overlay"></div>
-        
-        <div class="page-hero-left">
-          <div class="page-hero-kicker"><span>📅</span> DEMAND & INVENTORY PLANNING</div>
-          <h1 class="page-hero-headline">Demand & Inventory Planning</h1>
-          <p class="page-hero-lead">Forecast demand. Protect availability. Optimise working capital.</p>
-        </div>
 
-        <div class="page-hero-right">
-          <!-- Horizon Selector Buttons -->
-          <div style="display: flex; gap: 0.35rem; background: #ffffff; padding: 0.3rem 0.5rem; border-radius: 10px; border: 1.5px solid #cbd5e1; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
-            <span style="font-size: 0.75rem; font-weight: 800; color: #475569; align-self: center; padding: 0 0.4rem;">Horizon:</span>
-            <button class="btn btn-amber" style="padding: 0.35rem 0.75rem; font-size: 0.78rem; font-weight: 800;">30 Days</button>
-            <button class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">60 Days</button>
-            <button class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">90 Days</button>
-          </div>
 
-          <button id="btn-recalculate-plan" class="btn btn-emerald" onclick="ForecastingPortal.recalculatePlan()" style="padding: 0.55rem 1.1rem; font-size: 0.82rem; font-weight: 800;">
-            🔄 Recalculate Plan
-          </button>
-        </div>
-      </div>
-
-      <!-- Planning Control Bar (Lead Time & Safety Buffer Controls) -->
-      <div class="planning-control-bar" style="margin-bottom: 1.5rem;">
-        <div><span class="section-kicker">PLANNING CONTROLS</span><strong>Adjust Planning Assumptions</strong><small>Recalculate MSL and reorder priorities instantly.</small></div>
-        <div class="planning-control"><label for="slider-lead-time">Supplier Lead Time</label><input id="slider-lead-time" type="range" min="1" max="45" value="14"><b id="val-lead-time">14 Days</b></div>
-        <div class="planning-control"><label for="slider-safety-days">Safety Stock Buffer</label><input id="slider-safety-days" type="range" min="1" max="30" value="7"><b id="val-safety-days">7 Days</b></div>
-        <button id="btn-generate-po" class="btn btn-primary" style="padding: 0.6rem 1.2rem; font-weight: 800;">Generate PO Draft <span>↗</span></button>
-      </div>
-
-      <!-- 4 Telemetry KPI Cards Strip (Matching Reference Image 3) -->
-      <div class="ref-kpi-strip" style="grid-template-columns: repeat(4, 1fr);">
-        <div class="ref-kpi-card" style="border-top: 3px solid #ff3b30;">
-          <div class="ref-kpi-title">CRITICAL COMPONENTS</div>
-          <div id="kpi-msl-critical" class="ref-kpi-value" style="color: #ff3b30;">42</div>
-          <div class="ref-kpi-subtext" style="color: #ff3b30;">Immediate action required</div>
-        </div>
-
-        <div class="ref-kpi-card" style="border-top: 3px solid #ffb84d;">
-          <div class="ref-kpi-title">REORDER COMPONENTS</div>
-          <div id="kpi-msl-reorder" class="ref-kpi-value" style="color: #ffb84d;">186</div>
-          <div class="ref-kpi-subtext">Plan procurement</div>
-        </div>
-
-        <div class="ref-kpi-card" style="border-top: 3px solid #29d391;">
-          <div class="ref-kpi-title">OPTIMAL COMPONENTS</div>
-          <div id="kpi-msl-optimal" class="ref-kpi-value" style="color: #29d391;">2,410</div>
-          <div class="ref-kpi-subtext">Healthy stock levels</div>
-        </div>
-
-        <div class="ref-kpi-card" style="border-top: 3px solid #38d7ff;">
-          <div class="ref-kpi-title">EXCESS STOCK</div>
-          <div class="ref-kpi-value" style="color: #38d7ff;">98</div>
-          <div class="ref-kpi-subtext">Review & optimise</div>
-        </div>
-      </div>
-
-      <!-- MIDDLE SECTION GRID (Demand Forecast Chart & Forecast vs Current Stock Chart) -->
-      <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
-        
-        <!-- Left: Demand Forecast Line Chart -->
-        <div class="card" style="padding: 1.25rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <div>
-              <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif;">Demand Forecast</div>
-              <div style="font-size: 0.75rem; color: #64758b;">Actual Sales vs Forecast Demand vs Safety Stock</div>
-            </div>
-            <span class="badge badge-info" style="background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; font-weight: 800;">Next 90 Days</span>
-          </div>
-          <div style="height: 220px; position: relative;">
-            <canvas id="chart-demand-forecast"></canvas>
-          </div>
-        </div>
-
-        <!-- Right: Forecast vs Current Stock Horizontal Bar Chart -->
-        <div class="card" style="padding: 1.25rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <div>
-              <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a; font-family: 'Outfit', sans-serif;">Forecast vs Current Stock</div>
-              <div style="font-size: 0.75rem; color: #64758b;">Comparison of available stock vs 30D demand</div>
-            </div>
-            <span class="badge badge-amber" style="background: #fff7ed; color: #ea580c; border: 1px solid #ffedd5; font-weight: 800;">Stock Coverage</span>
-          </div>
-          <div style="height: 220px; position: relative;">
-            <canvas id="chart-forecast-vs-stock"></canvas>
-          </div>
-        </div>
-      </div>
-
-      <!-- BOTTOM GRID (Priority Components Table + Component Insights Card) -->
-      <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.25rem;">
-        
-        <!-- Priority Components Table -->
-        <div class="table-wrapper">
-          <div class="table-toolbar" style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: 850; font-size: 0.95rem; font-family: 'Outfit', sans-serif;">Priority Components</span>
-            <button class="btn btn-amber" onclick="ForecastingPortal.exportPODraft()" style="font-size: 0.78rem;">Export PO Draft Excel ↓</button>
-          </div>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Component</th>
-                <th>Current Stock</th>
-                <th>30D Forecast</th>
-                <th>MSL</th>
-                <th>Suggested Order</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="forecast-table-body">
-              <!-- Dynamically populated via forecasting-portal.js -->
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Component Insights Card -->
-        <div class="card" style="padding: 1.25rem; border: 1.5px solid rgba(56, 189, 248, 0.35); display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="font-size: 0.75rem; font-weight: 850; color: #38bdf8; letter-spacing: 0.12em; text-transform: uppercase;">COMPONENT INSIGHTS</div>
-            <h3 style="font-size: 1.2rem; font-weight: 850; color: #fff; margin: 0.35rem 0 1rem; font-family: 'Outfit', sans-serif;">BRAKE PAD, FRONT</h3>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; font-size: 0.82rem;">
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: 8px;">
-                <span style="color: #94a3b8; display: block;">Current Stock</span>
-                <strong style="font-size: 1.1rem; color: #fff;">182</strong>
-              </div>
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: 8px;">
-                <span style="color: #94a3b8; display: block;">Recommended MSL</span>
-                <strong style="font-size: 1.1rem; color: #38bdf8;">294</strong>
-              </div>
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: 8px;">
-                <span style="color: #94a3b8; display: block;">Avg Daily Sales</span>
-                <strong style="font-size: 1.1rem; color: #fff;">14.0</strong>
-              </div>
-              <div style="background: rgba(255,255,255,0.04); padding: 0.6rem; border-radius: 8px;">
-                <span style="color: #ff3b30; display: block;">Suggested Order Qty</span>
-                <strong style="font-size: 1.1rem; color: #ff3b30;">238</strong>
-              </div>
-            </div>
-
-            <div style="font-size: 0.78rem; color: #94a3b8; line-height: 1.5; background: rgba(255,255,255,0.02); padding: 0.75rem; border-radius: 8px; border-left: 3px solid #ffb84d;">
-              <strong>Why?</strong><br>
-              • Sales velocity <span style="color: #29d391;">↑ 12.4%</span><br>
-              • Stock coverage: 13 days<br>
-              • Required coverage: 21 days
-            </div>
-          </div>
-
-          <button class="btn btn-primary" onclick="ForecastingPortal.generateComponentPODraft('BRAKE PAD, FRONT');" style="margin-top: 1rem; width: 100%; font-weight: 800; padding: 0.65rem;">
-            Generate PO Draft
-          </button>
-        </div>
-      </div>
-
-    </section>
 
   </main>
 
@@ -2764,7 +2883,9 @@
   <script src="js/mapping-portal.js?v=72.0.0"></script>
   <script src="js/deviation-portal.js?v=72.0.0"></script>
   <script src="js/forecasting-portal.js?v=72.0.0"></script>
+  <script src="js/component-image-resolver.js?v=72.0.0"></script>
   <script src="js/overall-catalogue-portal.js?v=72.0.0"></script>
+  <script src="js/oem-oes-portal.js?v=72.0.0"></script>
   <script src="js/canvas-3d-car.js?v=72.0.0"></script>
   <script src="js/catalog-ai-chat.js?v=72.0.0"></script>
   <script src="js/app.js?v=72.0.0"></script>

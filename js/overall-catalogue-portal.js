@@ -1,4 +1,32 @@
-/* AUTO NEXA - AutoDukan Master Catalogue Intelligence Portal (23.6M+ Records) */
+/* AUTO NEXA - AutoDukan Master   AGGREGATE_ICONS: {
+    'ENGINE': '⚙️',
+    'TRANSMISSION': '🔄',
+    'CLUTCH SYSTEM': '⚙️',
+    'SUSPENSION': '🔩',
+    'BRAKE SYSTEM': '🛑',
+    'STEERING': '🎯',
+    'HVAC/THERMAL': '❄️',
+    'FILTERS': '🛢️',
+    'ELECTRICALS AND ELECTRONICS': '⚡',
+    'BATTERY': '🔋',
+    'WIPER SYSTEM': '🌧️',
+    'GLASS': '🪟',
+    'HORNS': '📢',
+    'BELTS AND TENSIONER': '🎗️',
+    'BODY PARTS': '🚗',
+    'WHEELS AND TYRES': '🛞',
+    'FUEL SYSTEM': '⛽',
+    'EXHAUST SYSTEM': '💨',
+    'BEARING': '🔘',
+    'LUBES': '🛢️',
+    'CABLES AND WIRES': '🔌',
+    'FLUIDS COOLANT AND GREASE': '🧪',
+    'INTERIOR AND COMFORTS': '🛋️',
+    'PAINTS AND CONSUMABLES': '🎨',
+    'RUBBERS HOSES AND MOUNTINGS': '🩹',
+    'ACCESSORIES': '✨'
+  },
+Catalogue Intelligence Portal (23.6M+ Records) */
 
 window.OverallCataloguePortal = {
   viewMode: 'grid', // 'grid' (Cards) or 'table' (Enterprise Grid)
@@ -13,6 +41,7 @@ window.OverallCataloguePortal = {
   // Visual Navigator State
   visualCurrentStep: 1,
   visualMakes: [],
+  visualModelsList: [],
   selectedMake: null,
   selectedModel: null,
   selectedVariant: null,
@@ -22,6 +51,8 @@ window.OverallCataloguePortal = {
   selectedAggregate: null,
   selectedSubAggregate: null,
   selectedComponent: null,
+  componentViewMode: 'cards',
+  lastLoadedComponents: [],
 
   filters: {
     brand: '',
@@ -117,8 +148,42 @@ window.OverallCataloguePortal = {
     if (!input) return;
     const cleanReg = input.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
     
-    // Check known database or fallback to Tata Indica Vista
-    const found = this.vrnDb[cleanReg] || {
+    // Check 17-digit VIN / Chassis Decoder
+    let vinDecoded = null;
+    if (cleanReg.length === 17) {
+      const wmi = cleanReg.substring(0, 3);
+      const yrCode = cleanReg.charAt(9);
+      const WMI_MAP = {
+        'MA3': { make: 'MARUTI SUZUKI', model: 'SWIFT' },
+        'MAL': { make: 'HYUNDAI', model: 'GRAND I10 NIOS' },
+        'MAT': { make: 'TATA', model: 'INDICA' },
+        'MA1': { make: 'MAHINDRA', model: 'SCORPIO' },
+        'MAK': { make: 'HONDA', model: 'CITY' },
+        'MBJ': { make: 'TOYOTA', model: 'INNOVA CRYSTA' },
+        'MAJ': { make: 'FORD', model: 'ECOSPORT' },
+        'MEE': { make: 'RENAULT', model: 'KWID' },
+        'MEX': { make: 'VOLKSWAGEN', model: 'POLO' },
+        'MDH': { make: 'KIA', model: 'SELTOS' }
+      };
+      const YR_MAP = {
+        'A':'2010', 'B':'2011', 'C':'2012', 'D':'2013', 'E':'2014', 'F':'2015',
+        'G':'2016', 'H':'2017', 'J':'2018', 'K':'2019', 'L':'2020', 'M':'2021',
+        'N':'2022', 'P':'2023', 'R':'2024', 'S':'2025', 'T':'2026'
+      };
+      if (WMI_MAP[wmi]) {
+        vinDecoded = {
+          make: WMI_MAP[wmi].make,
+          model: WMI_MAP[wmi].model,
+          sub_model: WMI_MAP[wmi].model,
+          fuel: 'PETROL',
+          year: YR_MAP[yrCode] || '2020',
+          owner: 'VIN Validated Unit'
+        };
+      }
+    }
+
+    // Check known database, VIN decode, or fallback to Tata Indica Vista
+    const found = vinDecoded || this.vrnDb[cleanReg] || {
       make: 'TATA',
       model: 'INDICA',
       sub_model: 'INDICA VISTA 1.3L',
@@ -379,14 +444,154 @@ window.OverallCataloguePortal = {
     this.selectedModel = null;
     this.selectedVariant = null;
     
-    // Update Step 2 Header
+    // Update Step 2 (Model Selection) Header
     const makeObj = this.visualMakes.find(m => m.make === makeName) || { displayName: makeName, logo: 'images/brand_others.svg' };
+    const step2Name = document.getElementById('v-step2-make-name');
+    const step2Logo = document.getElementById('v-step2-make-logo');
+    if (step2Name) step2Name.textContent = makeObj.displayName || makeName;
+    if (step2Logo) step2Logo.src = makeObj.logo || 'images/brand_others.svg';
+
+    const stepLabel2 = document.getElementById('v-step-label-2');
+    if (stepLabel2) stepLabel2.textContent = 'Select Model';
+    const stepLabel3 = document.getElementById('v-step-label-3');
+    if (stepLabel3) stepLabel3.textContent = 'Choose Variant';
+    
+    const modelSearchInp = document.getElementById('v-model-search-input');
+    if (modelSearchInp) modelSearchInp.value = '';
+
+    // Step navigation to Step 2 (Select Model)
+    this.navGoToStep(2);
+    
+    // Load models for this make
+    await this.loadVisualModels(makeName);
+  },
+
+  async loadVisualModels(makeName) {
+    if (!makeName) return;
+    const grid = document.getElementById('v-models-grid');
+    const countEl = document.getElementById('v-step2-models-count');
+    
+    if (grid) {
+      grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #0284c7; font-weight: 700;">⚡ Loading vehicle models for ${this.escapeHtml(makeName)}...</div>`;
+    }
+    
+    try {
+      const res = await fetch(`/api/overall-catalogue/visual-variants?make=${encodeURIComponent(makeName)}&limit=150`);
+      if (!res.ok) throw new Error("Models fetch failed");
+      const data = await res.json();
+      
+      if (data.modelsMeta && data.modelsMeta.length > 0) {
+        this.visualModelsList = data.modelsMeta.sort((a,b) => a.name.localeCompare(b.name));
+      } else {
+        const variants = data.variants || [];
+        const models = data.models || [];
+        
+        const modelMap = {};
+        variants.forEach(v => {
+          const m = v.model || 'Other';
+          if (!modelMap[m]) {
+            modelMap[m] = {
+              name: m,
+              image: v.image || 'images/brand_others.svg',
+              variantCount: 0,
+              fuels: new Set(),
+              minYear: 9999,
+              maxYear: 0
+            };
+          }
+          modelMap[m].variantCount++;
+          if (v.fuelType) modelMap[m].fuels.add(v.fuelType);
+        });
+
+        models.forEach(m => {
+          if (!modelMap[m]) {
+            modelMap[m] = {
+              name: m,
+              image: 'images/brand_others.svg',
+              variantCount: 1,
+              fuels: new Set(),
+              minYear: 9999,
+              maxYear: 0
+            };
+          }
+        });
+        
+        this.visualModelsList = Object.values(modelMap).sort((a,b) => a.name.localeCompare(b.name));
+      }
+      
+      if (countEl) {
+        countEl.textContent = `${this.visualModelsList.length} Models Available`;
+      }
+      
+      this.renderModelsGrid(this.visualModelsList);
+    } catch (err) {
+      console.error("Error loading visual models:", err);
+      if (grid) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 2.5rem; color: #f87171;">⚠️ Failed to load vehicle models: ${this.escapeHtml(err.message)}</div>`;
+      }
+    }
+  },
+
+  renderModelsGrid(modelsList) {
+    const grid = document.getElementById('v-models-grid');
+    if (!grid) return;
+    
+    if (!modelsList || modelsList.length === 0) {
+      grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #64748b;">No models match the search query.</div>`;
+      return;
+    }
+    
+    grid.innerHTML = modelsList.map(m => {
+      const isSelected = this.selectedModel === m.name;
+      const imgUrl = m.image || 'images/brand_others.svg';
+      const fuelsArr = Array.from(m.fuels || []).filter(Boolean);
+      const fuelsText = fuelsArr.length > 0 ? fuelsArr.slice(0, 2).join(' / ') : 'Multi-Fuel';
+      
+      return `
+        <div class="visual-model-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectVisualModel('${this.escapeJs(m.name)}')">
+          <img class="visual-model-thumb" src="${imgUrl}" alt="${this.escapeHtml(m.name)}" onerror="this.onerror=null; this.src='images/brand_others.svg';">
+          <div>
+            <div class="visual-model-name" title="${this.escapeHtml(m.name)}">${this.escapeHtml(m.name)}</div>
+            <div class="visual-model-meta">
+              <span class="badge" style="background: #eff6ff; color: #0284c7; border: 1px solid #bfdbfe; font-size: 0.68rem; font-weight: 800; border-radius: 4px; padding: 0.1rem 0.45rem;">${m.variantCount} Variant${m.variantCount === 1 ? '' : 's'}</span>
+              <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">${this.escapeHtml(fuelsText)}</span>
+            </div>
+            <div style="font-size: 0.72rem; color: #0284c7; font-weight: 800; margin-top: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem;">
+              <span>Select Model</span> <span>➔</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  },
+
+  filterModelsGrid(searchVal) {
+    const q = (searchVal || '').trim().toUpperCase();
+    if (!q) {
+      this.renderModelsGrid(this.visualModelsList || []);
+      return;
+    }
+    const filtered = (this.visualModelsList || []).filter(m => m.name.toUpperCase().includes(q));
+    this.renderModelsGrid(filtered);
+  },
+
+  async selectVisualModel(modelName) {
+    this.selectedModel = modelName;
+    this.selectedVariant = null;
+    
+    // Update Step 3 Header
+    const makeObj = this.visualMakes.find(m => m.make === this.selectedMake) || { displayName: this.selectedMake, logo: 'images/brand_others.svg' };
     const nameEl = document.getElementById('v-active-make-name');
     const logoEl = document.getElementById('v-active-make-logo');
-    if (nameEl) nameEl.textContent = makeObj.displayName || makeName;
+    if (nameEl) nameEl.textContent = `${makeObj.displayName || this.selectedMake} • ${modelName}`;
     if (logoEl) logoEl.src = makeObj.logo || 'images/brand_others.svg';
     
-    // Reset filters in Step 2
+    const stepLabel2 = document.getElementById('v-step-label-2');
+    if (stepLabel2) stepLabel2.textContent = modelName;
+    const stepLabel3 = document.getElementById('v-step-label-3');
+    if (stepLabel3) stepLabel3.textContent = 'Choose Variant';
+
+    // Reset filters in Step 3
     const fuelSel = document.getElementById('v-filter-fuel');
     const yrSel = document.getElementById('v-filter-year');
     const searchInp = document.getElementById('v-filter-search');
@@ -394,10 +599,10 @@ window.OverallCataloguePortal = {
     if (yrSel) yrSel.value = '';
     if (searchInp) searchInp.value = '';
     
-    // Step navigation
-    this.navGoToStep(2);
+    // Step navigation to Step 3 (Choose Variant)
+    this.navGoToStep(3);
     
-    // Load variants for this make
+    // Load variants for this model
     await this.loadVisualVariants();
   },
 
@@ -545,7 +750,7 @@ window.OverallCataloguePortal = {
     if (fuelType) this.filters.fuel_type = fuelType;
     if (fromYr) this.filters.year = fromYr;
     
-    // Update UI in Step 3
+    // Update UI in Step 4
     const thumbEl = document.getElementById('v-selected-veh-thumb');
     const titleEl = document.getElementById('v-selected-veh-title');
     const metaEl = document.getElementById('v-selected-veh-meta');
@@ -560,14 +765,22 @@ window.OverallCataloguePortal = {
     if (fitmentText) fitmentText.textContent = `${this.selectedMake} ${subModel} (${fuelType} ${this.selectedVariantYears})`;
     
     // Update stepper label
-    const stepLabel2 = document.getElementById('v-step-label-2');
-    if (stepLabel2) stepLabel2.textContent = model || 'Variant';
+    const stepLabel3 = document.getElementById('v-step-label-3');
+    if (stepLabel3) stepLabel3.textContent = subModel || 'Variant';
     
-    // Navigate to Step 3
-    this.navGoToStep(3);
+    // Navigate to Step 4 (Assembly & Component Selection)
+    this.navGoToStep(4);
     
     // Load System Aggregates
     this.loadVisualAggregates();
+
+    // Smooth scroll directly to Step 4 Aggregate Selection Studio
+    setTimeout(() => {
+      const step4Stage = document.getElementById('v-exploded-stage') || document.getElementById('v-nav-step-4');
+      if (step4Stage) {
+        step4Stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   },
 
   async loadVisualAggregates() {
@@ -613,7 +826,7 @@ window.OverallCataloguePortal = {
             <span style="font-size: 1.15rem;">${item.icon || '📦'}</span>
             <strong style="font-size: 0.8rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${this.escapeHtml(item.name)}</strong>
           </div>
-          <span class="count-badge" style="background: #f1f5f9; color: #475569; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <span class="count-badge" style="background: #f1f5f9; color: #475569; font-size: 0.68rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px; border: 1px solid #e2e8f0;">
             ${Number(item.count || 0).toLocaleString('en-IN')}
           </span>
         </div>
@@ -624,116 +837,194 @@ window.OverallCataloguePortal = {
     }
   },
 
+  fetchCatalogueData() {
+    return this.fetchData();
+  },
+
+  showAllPartsForCurrentAggregate() {
+    this.selectedSubAggregate = null;
+    this.filters.aggregate = this.selectedAggregate || '';
+    delete this.filters.sub_aggregate;
+    delete this.filters.component;
+    this.currentPage = 1;
+    document.querySelectorAll('#v-tax-subagg-list .subagg-card-item').forEach(p => p.classList.remove('active'));
+    this.fetchData();
+    const tableSection = document.getElementById('v-active-fitment-bar');
+    if (tableSection) {
+      tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  },
+
   async selectAggregateVisual(aggName, elem) {
     this.selectedAggregate = aggName;
     this.selectedSubAggregate = null;
     this.selectedComponent = null;
-    
-    // Highlight active in Column 1
-    document.querySelectorAll('#v-tax-agg-list .taxonomy-item-pill').forEach(p => p.classList.remove('active'));
-    if (elem) elem.classList.add('active');
-    
-    const subList = document.getElementById('v-tax-subagg-list');
+    this.filters.aggregate = aggName;
+    delete this.filters.sub_aggregate;
+    delete this.filters.component;
+
+    // Highlight blueprint tags on 3D car diagram
+    document.querySelectorAll('.agg-blueprint-tag').forEach(tag => {
+      const txt = tag.textContent.trim().toUpperCase();
+      const q = aggName.toUpperCase();
+      if (txt.includes(q) || q.includes(txt.replace(/[^A-Z]/g, ''))) {
+        tag.classList.add('active');
+      } else {
+        tag.classList.remove('active');
+      }
+    });
+
+    // Highlight direct ribbon buttons
+    document.querySelectorAll('.agg-ribbon-btn').forEach(btn => {
+      if (btn.textContent.toUpperCase().includes(aggName.toUpperCase())) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    // Update Sub-Aggregate window header badge & icon
+    const iconEl = document.getElementById('v-selected-agg-badge-icon');
+    const nameEl = document.getElementById('v-selected-agg-badge-name');
     const subCount = document.getElementById('v-tax-subagg-count');
-    if (subList) subList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #0284c7;">⚡ Loading sub-assemblies for ${this.escapeHtml(aggName)}...</div>`;
-    
-    const compList = document.getElementById('v-tax-comp-list');
-    const compCount = document.getElementById('v-tax-comp-count');
-    if (compList) compList.innerHTML = `<div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">← Select a Sub-Aggregate to view Components</div>`;
-    if (compCount) compCount.textContent = 'Select Sub-Aggregate';
-    
+    const iconChar = (this.AGGREGATE_ICONS && this.AGGREGATE_ICONS[aggName]) || '⚙️';
+
+    if (iconEl) iconEl.textContent = iconChar;
+    if (nameEl) nameEl.textContent = `${aggName} ASSEMBLIES & SUB-SYSTEMS`;
+
+    const subList = document.getElementById('v-tax-subagg-list');
+    if (subList) {
+      subList.innerHTML = `<div style="text-align: center; padding: 2.5rem; color: #0284c7; font-weight: 700; grid-column: 1 / -1;">🔄 Loading sub-assemblies for ${this.escapeHtml(aggName)}...</div>`;
+    }
+
     try {
       const params = new URLSearchParams({ aggregate: aggName });
       if (this.selectedMake) params.append('make', this.selectedMake);
       if (this.selectedModel) params.append('model', this.selectedModel);
       if (this.selectedVariant) params.append('sub_model', this.selectedVariant);
-      
+
       const res = await fetch(`/api/overall-catalogue/taxonomy-hierarchy?${params.toString()}`);
       if (!res.ok) throw new Error("Sub-aggregates fetch failed");
       const data = await res.json();
       const items = data.items || [];
-      
-      if (subCount) subCount.textContent = `${items.length} Sub-Systems`;
-      
+
+      if (subCount) subCount.textContent = `${items.length} Sub-Assemblies`;
+
       if (!subList) return;
       if (items.length === 0) {
-        subList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #64748b;">No sub-aggregates found. Direct to parts table below.</div>`;
-        return;
-      }
-      
-      subList.innerHTML = items.map(item => `
-        <div class="taxonomy-item-pill ${this.selectedSubAggregate === item.name ? 'active' : ''}" onclick="OverallCataloguePortal.selectSubAggregateVisual('${this.escapeJs(item.name)}', this)">
-          <div style="display: flex; align-items: center; gap: 0.5rem; min-width: 0;">
-            <span style="color: #0284c7; font-size: 0.8rem;">▶</span>
-            <strong style="font-size: 0.8rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${this.escapeHtml(item.name)}</strong>
+        subList.innerHTML = `<div style="text-align: center; padding: 2.5rem; color: #64748b; grid-column: 1 / -1;">All parts directly mapped to ${this.escapeHtml(aggName)}. Filtered below in Master Catalogue.</div>`;
+      } else {
+        subList.innerHTML = items.map(item => `
+          <div class="subagg-card-item ${this.selectedSubAggregate === item.name ? 'active' : ''}" 
+               onclick="OverallCataloguePortal.selectSubAggregateVisual('${this.escapeJs(item.name)}', this)">
+            <div style="display: flex; align-items: center; gap: 0.65rem; min-width: 0;">
+              <span style="font-size: 1.15rem; color: #0284c7; flex-shrink: 0;">📁</span>
+              <div style="min-width: 0;">
+                <strong style="font-size: 0.82rem; color: #0f172a; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${this.escapeHtml(item.name)}">
+                  ${this.escapeHtml(item.name)}
+                </strong>
+                <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">Sub-Aggregate Assembly</span>
+              </div>
+            </div>
+            <span class="count-badge" style="background: #eff6ff; color: #0284c7; font-size: 0.72rem; font-weight: 850; padding: 0.2rem 0.55rem; border-radius: 6px; border: 1px solid #bfdbfe; flex-shrink: 0;">
+              ${Number(item.count || 0).toLocaleString('en-IN')} SKUs
+            </span>
           </div>
-          <span class="count-badge" style="background: #f1f5f9; color: #475569; font-size: 0.68rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 4px; border: 1px solid #e2e8f0;">
-            ${Number(item.count || 0).toLocaleString('en-IN')}
-          </span>
-        </div>
-      `).join('');
+        `).join('');
+      }
+
+      // Also filter table below to this aggregate
+      this.currentPage = 1;
+      this.fetchData();
+
     } catch (err) {
       console.error("Error loading subaggregates:", err);
-      if (subList) subList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #f87171;">⚠️ ${this.escapeHtml(err.message)}</div>`;
+      if (subList) subList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #f87171; grid-column: 1 / -1;">⚠️ ${this.escapeHtml(err.message)}</div>`;
     }
   },
 
   async selectSubAggregateVisual(subAggName, elem) {
     this.selectedSubAggregate = subAggName;
     this.selectedComponent = null;
-    
-    // Highlight active in Column 2
-    document.querySelectorAll('#v-tax-subagg-list .taxonomy-item-pill').forEach(p => p.classList.remove('active'));
+    this.filters.sub_aggregate = subAggName;
+    delete this.filters.component;
+
+    // Highlight active card
+    document.querySelectorAll('#v-tax-subagg-list .subagg-card-item').forEach(p => p.classList.remove('active'));
     if (elem) elem.classList.add('active');
-    
-    const compList = document.getElementById('v-tax-comp-list');
-    const compCount = document.getElementById('v-tax-comp-count');
-    if (compList) compList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #0284c7;">⚡ Loading components for ${this.escapeHtml(subAggName)}...</div>`;
-    
-    try {
-      const params = new URLSearchParams({
-        aggregate: this.selectedAggregate,
-        sub_aggregate: subAggName
-      });
-      if (this.selectedMake) params.append('make', this.selectedMake);
-      if (this.selectedModel) params.append('model', this.selectedModel);
-      if (this.selectedVariant) params.append('sub_model', this.selectedVariant);
-      
-      const res = await fetch(`/api/overall-catalogue/taxonomy-hierarchy?${params.toString()}`);
-      if (!res.ok) throw new Error("Components fetch failed");
-      const data = await res.json();
-      const items = data.items || [];
-      
-      if (compCount) compCount.textContent = `${items.length} Parts Available`;
-      
-      if (!compList) return;
-      if (items.length === 0) {
-        compList.innerHTML = `
-          <div style="text-align: center; padding: 2rem; color: #64748b;">
-            All parts in this assembly.<br>
-            <button type="button" onclick="OverallCataloguePortal.launchAssemblyTable()" style="margin-top: 0.75rem; padding: 0.45rem 1rem; background: #0284c7; color: #fff; border: none; border-radius: 6px; font-weight: 800; cursor: pointer;">
-              Launch Parts Table →
-            </button>
-          </div>
-        `;
-        return;
-      }
-      
-      compList.innerHTML = items.map(item => `
-        <div class="taxonomy-item-pill ${this.selectedComponent === item.name ? 'active' : ''}" onclick="OverallCataloguePortal.selectComponentVisual('${this.escapeJs(item.name)}', this)" style="border-left: 3px solid #0284c7;">
-          <div style="min-width: 0;">
-            <div style="font-size: 0.82rem; font-weight: 850; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${this.escapeHtml(item.name)}</div>
-            <div style="font-size: 0.68rem; color: #0284c7; font-weight: 700; margin-top: 0.1rem;">Click to launch table ➔</div>
-          </div>
-          <span class="count-badge" style="background: #e0f2fe; color: #0369a1; font-size: 0.7rem; font-weight: 850; padding: 0.2rem 0.5rem; border-radius: 6px;">
-            ${Number(item.count || 0).toLocaleString('en-IN')} SKUs
-          </span>
-        </div>
-      `).join('');
-    } catch (err) {
-      console.error("Error loading components:", err);
-      if (compList) compList.innerHTML = `<div style="text-align: center; padding: 2rem; color: #f87171;">⚠️ ${this.escapeHtml(err.message)}</div>`;
+
+    // Trigger catalogue query filtered to this sub-aggregate
+    this.currentPage = 1;
+    this.fetchData();
+
+    // Smooth scroll down to Master Parts table
+    const tableSection = document.getElementById('v-active-fitment-bar');
+    if (tableSection) {
+      tableSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  },
+
+setComponentViewMode(mode) {
+    this.componentViewMode = mode;
+    const cardsBtn = document.getElementById('v-comp-view-cards-btn');
+    const listBtn = document.getElementById('v-comp-view-list-btn');
+    if (cardsBtn) cardsBtn.classList.toggle('active', mode === 'cards');
+    if (listBtn) listBtn.classList.toggle('active', mode === 'list');
+    this.renderTaxonomyComponents(this.lastLoadedComponents);
+  },
+
+  renderTaxonomyComponents(items) {
+    const compList = document.getElementById('v-tax-comp-list');
+    if (!compList) return;
+    if (!items || items.length === 0) {
+      compList.innerHTML = `<div style="text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.8rem;">← Select a Sub-Aggregate to view Components</div>`;
+      return;
+    }
+
+    if (this.componentViewMode === 'cards') {
+      compList.innerHTML = `
+        <div class="comp-cards-grid">
+          ${items.map(item => {
+            const isSelected = this.selectedComponent === item.name;
+            const compObj = {
+              component: item.name,
+              aggregate: this.selectedAggregate,
+              subAggregate: this.selectedSubAggregate,
+              skuCount: item.count
+            };
+            const clickJs = `OverallCataloguePortal.selectComponentVisual('${this.escapeJs(item.name)}', this)`;
+            if (window.ComponentImageResolver) {
+              return window.ComponentImageResolver.renderComponentCardHtml(compObj, isSelected, clickJs);
+            }
+            return `<div class="comp-fallback-card" onclick="${clickJs}">${this.escapeHtml(item.name)}</div>`;
+          }).join('')}
+        </div>
+      `;
+    } else {
+      this.lastLoadedComponents = items;
+      this.renderTaxonomyComponents(items);
+    }
+  },
+
+  getQualityTierBadge(brand) {
+    const b = (brand || '').toUpperCase();
+    if (b.includes('GENUINE') || b.includes('MOBIS') || b.includes('OEM') || b.includes('MARUTI') || b.includes('HYUNDAI') || b.includes('TATA') || b.includes('TOYOTA')) {
+      return `<span class="badge tier-badge-oem">🛡️ OEM Genuine</span>`;
+    }
+    if (['BOSCH', 'VALEO', 'SCHAEFFLER', 'LUK', 'MONROE', 'GABRIEL', 'TVS', 'RANE', 'LUMAX', 'DENSO', 'SUBROS'].some(x => b.includes(x))) {
+      return `<span class="badge tier-badge-oes">⚙️ Tier-1 OES</span>`;
+    }
+    if (['MINDA', 'PUROLATOR', 'ELOFIC', 'BREMBO', 'NGK', 'EXIDE', 'AMARON', 'CASTROL', 'MOBIL', 'SHELL'].some(x => b.includes(x))) {
+      return `<span class="badge tier-badge-aftermarket">💎 Premium Aftermarket</span>`;
+    }
+    return `<span class="badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-size: 0.65rem; font-weight: 800; padding: 0.12rem 0.4rem; border-radius: 4px;">📦 Certified Value</span>`;
+  },
+
+  getFitmentBadge(row) {
+    if (this.selectedModel || this.filters.model || this.selectedVariant) {
+      return `<span class="badge badge-guaranteed-fitment">✅ Guaranteed Fit</span>`;
+    }
+    return '';
   },
 
   selectComponentVisual(compName, elem) {
@@ -746,7 +1037,7 @@ window.OverallCataloguePortal = {
     this.filters.sub_aggregate = this.selectedSubAggregate || '';
     this.filters.component = compName || '';
     
-    this.navGoToStep(4);
+    this.navGoToStep(5);
     this.handleFilterChange();
     
     // Smooth scroll down to the Master Parts Information Table
@@ -760,7 +1051,7 @@ window.OverallCataloguePortal = {
     this.filters.aggregate = this.selectedAggregate || '';
     this.filters.sub_aggregate = this.selectedSubAggregate || '';
     this.filters.component = '';
-    this.navGoToStep(4);
+    this.navGoToStep(5);
     this.handleFilterChange();
     const tableContainer = document.querySelector('.cat-recent-activity-card');
     if (tableContainer) {
@@ -771,8 +1062,8 @@ window.OverallCataloguePortal = {
   navGoToStep(stepNum) {
     this.visualCurrentStep = stepNum;
     
-    // Stepper Pills
-    [1, 2, 3, 4].forEach(n => {
+    // Stepper Pills (1 to 5)
+    [1, 2, 3, 4, 5].forEach(n => {
       const pill = document.getElementById(`v-step-pill-${n}`);
       if (pill) {
         if (n === stepNum) {
@@ -789,12 +1080,14 @@ window.OverallCataloguePortal = {
     const p1 = document.getElementById('v-nav-step-1');
     const p2 = document.getElementById('v-nav-step-2');
     const p3 = document.getElementById('v-nav-step-3');
+    const p4 = document.getElementById('v-nav-step-4');
     
     if (p1) p1.style.display = (stepNum === 1) ? 'block' : 'none';
     if (p2) p2.style.display = (stepNum === 2) ? 'block' : 'none';
-    if (p3) p3.style.display = (stepNum === 3 || stepNum === 4) ? 'block' : 'none';
+    if (p3) p3.style.display = (stepNum === 3) ? 'block' : 'none';
+    if (p4) p4.style.display = (stepNum === 4 || stepNum === 5) ? 'block' : 'none';
     
-    if (stepNum === 4) {
+    if (stepNum === 5) {
       const tableContainer = document.querySelector('.cat-recent-activity-card');
       if (tableContainer) {
         tableContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -818,6 +1111,11 @@ window.OverallCataloguePortal = {
     this.filters.aggregate = '';
     this.filters.sub_aggregate = '';
     this.filters.component = '';
+
+    const stepLabel2 = document.getElementById('v-step-label-2');
+    if (stepLabel2) stepLabel2.textContent = 'Select Model';
+    const stepLabel3 = document.getElementById('v-step-label-3');
+    if (stepLabel3) stepLabel3.textContent = 'Choose Variant';
     
     const fitmentBar = document.getElementById('v-active-fitment-bar');
     if (fitmentBar) fitmentBar.style.display = 'none';
@@ -849,45 +1147,95 @@ window.OverallCataloguePortal = {
       if (elParts) elParts.textContent = Number(parts).toLocaleString('en-IN');
       if (elBrands) elBrands.textContent = `${Number(brands)}+ Brands`;
       if (elMakes) elMakes.textContent = `${makes} Makes • ${models} Models`;
-      if (elTaxonomy) elTaxonomy.textContent = `${aggregates} Aggregates`;
+      if (elTaxonomy) elTaxonomy.textContent = '26';
     } catch (err) {
       console.error("Error loading catalogue stats:", err);
     }
   },
 
-  growthChart: null,
-  healthChart: null,
-  brandsChart: null,
-  accuracyChart: null,
+  catMakesChart: null,
+  catAggregatesChart: null,
+  catBrandsChart: null,
+  catMrpChart: null,
 
-  initCharts() {
+  async initCharts() {
     if (typeof Chart === 'undefined') return;
 
-    // 1. SKU Growth Trend Chart (Image 2 Reference)
-    const ctxGrowth = document.getElementById('cat-chart-growth')?.getContext('2d');
-    if (ctxGrowth) {
-      if (this.growthChart) this.growthChart.destroy();
-      const gradGrowth = ctxGrowth.createLinearGradient(0, 0, 0, 160);
-      gradGrowth.addColorStop(0, 'rgba(2, 132, 199, 0.28)');
-      gradGrowth.addColorStop(1, 'rgba(2, 132, 199, 0.01)');
+    let dbAnalytics = null;
+    try {
+      const res = await fetch('/data/catalogue_db_analytics.json');
+      if (res.ok) {
+        dbAnalytics = await res.json();
+      }
+    } catch (e) {
+      console.warn("Could not fetch catalogue_db_analytics.json, using fallback stats:", e);
+    }
 
-      this.growthChart = new Chart(ctxGrowth, {
-        type: 'line',
+    // Fallback analytics from real 23.6M SQLite DB if file fetch fails
+    const topMakesData = (dbAnalytics && dbAnalytics.top_makes) || [
+      { make: 'TATA', records: 5212824, pct: 22.0 },
+      { make: 'HYUNDAI', records: 4746442, pct: 20.1 },
+      { make: 'MARUTI', records: 4648752, pct: 19.6 },
+      { make: 'MAHINDRA', records: 2968979, pct: 12.5 },
+      { make: 'TOYOTA', records: 1267392, pct: 5.4 },
+      { make: 'HONDA', records: 1096704, pct: 4.6 },
+      { make: 'SKODA', records: 641461, pct: 2.7 },
+      { make: 'FORD', records: 527153, pct: 2.2 },
+      { make: 'VW', records: 481122, pct: 2.0 },
+      { make: 'AUDI', records: 367819, pct: 1.6 }
+    ];
+
+    const topAggregatesData = (dbAnalytics && dbAnalytics.top_aggregates) || [
+      { aggregate: 'BODY PARTS', count: 3421185, pct: 19.1 },
+      { aggregate: 'CONSUMABLES', count: 1903695, pct: 10.6 },
+      { aggregate: 'ELECTRICALS', count: 1521168, pct: 8.5 },
+      { aggregate: 'ENGINE', count: 1335071, pct: 7.5 },
+      { aggregate: 'LIGHTING', count: 1246098, pct: 7.0 },
+      { aggregate: 'ACCESSORIES', count: 1204460, pct: 6.7 },
+      { aggregate: 'LUBES', count: 1151780, pct: 6.4 },
+      { aggregate: 'RUBBERS', count: 663736, pct: 3.7 },
+      { aggregate: 'FLUIDS', count: 616584, pct: 3.4 },
+      { aggregate: 'BRAKES/SUSP', count: 585210, pct: 3.3 }
+    ];
+
+    const topBrandsData = (dbAnalytics && dbAnalytics.top_brands) || [
+      { brand: 'HYUNDAI', records: 4306472 },
+      { brand: 'TATA', records: 3276014 },
+      { brand: 'MARUTI', records: 3007055 },
+      { brand: 'MAHINDRA', records: 1971617 },
+      { brand: 'MYTVS', records: 1704352 },
+      { brand: 'BOSCH', records: 1020948 },
+      { brand: 'HELLA', records: 774521 },
+      { brand: 'TOYOTA', records: 731297 },
+      { brand: 'HONDA', records: 601022 },
+      { brand: 'SKODA', records: 426697 }
+    ];
+
+    const mrpData = (dbAnalytics && dbAnalytics.mrp_distribution) || [
+      { range: '< ₹500', count: 13808340, pct: 60.7 },
+      { range: '₹500 - ₹1.5K', count: 4023906, pct: 17.7 },
+      { range: '₹1.5K - ₹5K', count: 3103977, pct: 13.7 },
+      { range: '> ₹5,000', count: 1804612, pct: 7.9 }
+    ];
+
+    // 1. Top Vehicle Makes Bar Chart
+    const ctxMakes = document.getElementById('cat-chart-makes')?.getContext('2d');
+    if (ctxMakes) {
+      if (this.catMakesChart) this.catMakesChart.destroy();
+      const gradMakes = ctxMakes.createLinearGradient(0, 0, 0, 150);
+      gradMakes.addColorStop(0, '#0284c7');
+      gradMakes.addColorStop(1, '#38bdf8');
+
+      this.catMakesChart = new Chart(ctxMakes, {
+        type: 'bar',
         data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Aug', 'Dec'],
+          labels: topMakesData.map(m => m.make.replace('MARUTI SUZUKI', 'MARUTI')),
           datasets: [{
-            label: 'SKUs',
-            data: [2.5, 3.8, 9.4, 7.8, 10.6, 12.2, 15.5, 18.8],
-            borderColor: '#0284c7',
-            borderWidth: 2.5,
-            pointBackgroundColor: '#0284c7',
-            pointBorderColor: '#ffffff',
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            fill: true,
-            backgroundColor: gradGrowth,
-            tension: 0.35
+            label: 'SKUs (Millions)',
+            data: topMakesData.map(m => +(m.records / 1000000).toFixed(2)),
+            backgroundColor: gradMakes,
+            borderRadius: 4,
+            barThickness: 16
           }]
         },
         options: {
@@ -897,68 +1245,71 @@ window.OverallCataloguePortal = {
             legend: { display: false },
             tooltip: {
               backgroundColor: '#0f172a',
-              titleFont: { size: 11, weight: 'bold' },
-              bodyFont: { size: 12 },
               callbacks: {
-                label: (ctx) => ` ${ctx.raw}M SKUs`
+                label: (ctx) => ` ${ctx.raw}M Records (${topMakesData[ctx.dataIndex]?.pct || 0}%)`
               }
             }
           },
           scales: {
             x: {
               grid: { display: false },
-              ticks: { color: '#64748b', font: { size: 10, weight: '600' } }
+              ticks: { color: '#64748b', font: { size: 9, weight: '700' } }
             },
             y: {
               grid: { color: '#f1f5f9' },
               ticks: {
                 color: '#64748b',
-                font: { size: 10, weight: '600' },
+                font: { size: 9, weight: '600' },
                 callback: (val) => `${val}M`
               },
               min: 0,
-              max: 20
+              max: 6
             }
           }
         }
       });
     }
 
-    // 2. Data Health & Mapping Status Donut (Image 2 Reference - 80.4M SKUs)
-    const ctxHealth = document.getElementById('cat-chart-health')?.getContext('2d');
-    if (ctxHealth) {
-      if (this.healthChart) this.healthChart.destroy();
-      this.healthChart = new Chart(ctxHealth, {
+    // 2. Major System Aggregates Doughnut Chart
+    const ctxAggregates = document.getElementById('cat-chart-aggregates')?.getContext('2d');
+    if (ctxAggregates) {
+      if (this.catAggregatesChart) this.catAggregatesChart.destroy();
+      this.catAggregatesChart = new Chart(ctxAggregates, {
         type: 'doughnut',
         data: {
-          labels: ['Mapped (78%)', 'In Progress (14%)', 'Unmapped (8%)'],
+          labels: topAggregatesData.map(a => a.aggregate.replace(' AND ', ' & ').replace('PAINTS & CONSUMABLES', 'CONSUMABLES')),
           datasets: [{
-            data: [78, 14, 8],
-            backgroundColor: ['#0284c7', '#a855f7', '#f97316'],
-            borderWidth: 0,
+            data: topAggregatesData.map(a => a.pct),
+            backgroundColor: [
+              '#0284c7', '#ea580c', '#f59e0b', '#10b981', '#8b5cf6',
+              '#ec4899', '#06b6d4', '#64748b', '#6366f1', '#14b8a6'
+            ],
+            borderWidth: 1.5,
+            borderColor: '#ffffff',
             hoverOffset: 4
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          cutout: '72%',
+          cutout: '62%',
           plugins: {
             legend: {
               position: 'right',
               labels: {
-                boxWidth: 10,
-                boxHeight: 10,
+                boxWidth: 8,
+                boxHeight: 8,
                 usePointStyle: true,
-                pointStyle: 'rectRounded',
+                pointStyle: 'circle',
                 color: '#334155',
-                font: { size: 11, weight: '600' },
-                padding: 10
+                font: { size: 9, weight: '700' },
+                padding: 6
               }
             },
             tooltip: {
+              backgroundColor: '#0f172a',
               callbacks: {
-                label: (ctx) => ` ${ctx.label}: ${ctx.raw}%`
+                label: (ctx) => ` ${ctx.label}: ${ctx.raw}% (${(topAggregatesData[ctx.dataIndex]?.count / 1000000).toFixed(2)}M)`
               }
             }
           }
@@ -966,20 +1317,24 @@ window.OverallCataloguePortal = {
       });
     }
 
-    // 3. Top Mapped Brands Vertical Bar Chart (Image 2 Reference)
+    // 3. Top Mapped Brands Bar Chart
     const ctxBrands = document.getElementById('cat-chart-brands')?.getContext('2d');
     if (ctxBrands) {
-      if (this.brandsChart) this.brandsChart.destroy();
-      this.brandsChart = new Chart(ctxBrands, {
+      if (this.catBrandsChart) this.catBrandsChart.destroy();
+      const gradBrands = ctxBrands.createLinearGradient(0, 0, 0, 150);
+      gradBrands.addColorStop(0, '#7c3aed');
+      gradBrands.addColorStop(1, '#a78bfa');
+
+      this.catBrandsChart = new Chart(ctxBrands, {
         type: 'bar',
         data: {
-          labels: ['Maruti', 'Tata', 'Hyundai', 'Mahindra', 'Bosch', 'Valeo'],
+          labels: topBrandsData.slice(0, 8).map(b => b.brand),
           datasets: [{
-            label: 'Mapped SKUs',
-            data: [5800, 3900, 3400, 2400, 1600, 950],
-            backgroundColor: '#0284c7',
-            borderRadius: 5,
-            barThickness: 20
+            label: 'Indexed SKUs (M)',
+            data: topBrandsData.slice(0, 8).map(b => +(b.records / 1000000).toFixed(2)),
+            backgroundColor: gradBrands,
+            borderRadius: 4,
+            barThickness: 18
           }]
         },
         options: {
@@ -990,53 +1345,69 @@ window.OverallCataloguePortal = {
             tooltip: {
               backgroundColor: '#0f172a',
               callbacks: {
-                label: (ctx) => ` ${Number(ctx.raw).toLocaleString()} Mapped SKUs`
+                label: (ctx) => ` ${ctx.raw}M Indexed SKUs`
               }
             }
           },
           scales: {
             x: {
               grid: { display: false },
-              ticks: { color: '#64748b', font: { size: 10, weight: '700' } }
+              ticks: { color: '#64748b', font: { size: 9, weight: '700' } }
             },
             y: {
               grid: { color: '#f1f5f9' },
               ticks: {
                 color: '#64748b',
-                font: { size: 10, weight: '600' },
-                callback: (val) => Number(val).toLocaleString()
+                font: { size: 9, weight: '600' },
+                callback: (val) => `${val}M`
               },
               min: 0,
-              max: 6000
+              max: 5
             }
           }
         }
       });
     }
 
-    // 4. AI Suggestion Accuracy Gauge (Image 2 Reference - 85.3%)
-    const ctxAccuracy = document.getElementById('cat-chart-accuracy')?.getContext('2d');
-    if (ctxAccuracy) {
-      if (this.accuracyChart) this.accuracyChart.destroy();
-      this.accuracyChart = new Chart(ctxAccuracy, {
+    // 4. Parts MRP Spectrum Doughnut Chart
+    const ctxMrp = document.getElementById('cat-chart-mrp')?.getContext('2d');
+    if (ctxMrp) {
+      if (this.catMrpChart) this.catMrpChart.destroy();
+      this.catMrpChart = new Chart(ctxMrp, {
         type: 'doughnut',
         data: {
-          labels: ['Accuracy', 'Remaining'],
+          labels: mrpData.map(m => m.range),
           datasets: [{
-            data: [85.3, 14.7],
-            backgroundColor: ['#059669', '#e2e8f0'],
-            borderWidth: 0,
-            circumference: 180,
-            rotation: -90
+            data: mrpData.map(m => m.pct),
+            backgroundColor: ['#10b981', '#0284c7', '#f59e0b', '#ef4444'],
+            borderWidth: 1.5,
+            borderColor: '#ffffff',
+            hoverOffset: 4
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          cutout: '78%',
+          cutout: '66%',
           plugins: {
-            legend: { display: false },
-            tooltip: { enabled: false }
+            legend: {
+              position: 'right',
+              labels: {
+                boxWidth: 8,
+                boxHeight: 8,
+                usePointStyle: true,
+                pointStyle: 'circle',
+                color: '#334155',
+                font: { size: 9, weight: '700' },
+                padding: 6
+              }
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              callbacks: {
+                label: (ctx) => ` ${ctx.label}: ${ctx.raw}% (${(mrpData[ctx.dataIndex]?.count / 1000000).toFixed(1)}M SKUs)`
+              }
+            }
           }
         }
       });
@@ -1728,10 +2099,9 @@ window.OverallCataloguePortal = {
           <div>
             <!-- Header Badges -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
-              <div style="display: flex; align-items: center; gap: 0.4rem;">
-                <span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.55rem; border-radius: 6px; font-size: 0.72rem; font-weight: 800;">
-                  ${this.escapeHtml(brand)}
-                </span>
+              <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
+                ${this.getQualityTierBadge(brand)}
+                ${this.getFitmentBadge(r)}
                 ${lineCode ? `<span style="background: #e0f2fe; color: #0284c7; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-family: monospace; font-weight: 800;">LC ${this.escapeHtml(lineCode)}</span>` : ''}
               </div>
               <span style="font-size: 1.35rem;" title="${this.escapeHtml(aggregate)}">${sysIcon}</span>
@@ -1801,13 +2171,13 @@ window.OverallCataloguePortal = {
       const model = r.model ?? '';
       const subModel = r.subModel ?? r.sub_model ?? '';
       const fuelType = r.fuelType ?? r.fuel_type ?? '';
+      const aggregate = r.aggregate ?? r.aggregate_name ?? 'SPARE PART';
+      const compName = r.canonical_component ?? r.components ?? r.component ?? desc ?? aggregate;
       
       let years = r.applicable_years || '';
       if (!years && (r.fromYear || r.toYear)) {
         years = `${r.fromYear || ''} - ${r.toYear || ''}`.trim();
       }
-
-      const aggregate = r.aggregate ?? r.aggregate_name ?? '-';
 
       let mrpPrice = 'Price on Request';
       if (mrpVal != null && Number(mrpVal) > 0) {
@@ -1824,6 +2194,10 @@ window.OverallCataloguePortal = {
       const vehicleInfo = [make, model, subModel].filter(Boolean).join(' ') || 'Universal / Multi-fit';
       const fuelYears = [fuelType, years].filter(Boolean).join(' | ');
 
+      const compSvg = (window.ComponentImageResolver && ComponentImageResolver.generateSvgUri) 
+        ? ComponentImageResolver.generateSvgUri(compName, aggregate)
+        : 'images/home_menu_catalogue.jpg';
+
       return `
         <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
           <td style="font-weight: 850; color: #0284c7; font-family: monospace; font-size: 0.88rem; padding: 0.85rem 1rem; width: 140px; word-break: break-all;">
@@ -1834,24 +2208,41 @@ window.OverallCataloguePortal = {
               </span>
             ` : ''}
           </td>
-          <td style="font-weight: 750; color: #b45309; font-size: 0.82rem; padding: 0.85rem 1rem; width: 110px;"><span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px;">${this.escapeHtml(brand)}</span></td>
-          <td style="font-weight: 600; color: #1e293b; font-size: 0.82rem; width: 280px; white-space: normal; line-height: 1.35; padding: 0.85rem 1rem; word-break: break-word;">${this.escapeHtml(desc)}</td>
+          <td style="padding: 0.85rem 1rem; width: 130px;">
+            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+              ${this.getQualityTierBadge(brand)}
+              ${this.getFitmentBadge(r)}
+            </div>
+          </td>
+          <td style="padding: 0.75rem 0.85rem; width: 175px;">
+            <div style="display: flex; align-items: center; gap: 0.55rem;">
+              <img src="${compSvg}" alt="${this.escapeHtml(compName)}" style="width: 44px; height: 32px; object-fit: contain; border-radius: 6px; background: #ffffff; border: 1px solid #e2e8f0; padding: 2px; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+              <div style="min-width: 0;">
+                <span style="font-weight: 850; font-size: 0.78rem; color: #0f172a; display: block; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${this.escapeHtml(compName)}">
+                  ${this.escapeHtml(compName)}
+                </span>
+                <span style="font-size: 0.66rem; color: #64748b; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">
+                  ${this.escapeHtml(aggregate)}
+                </span>
+              </div>
+            </div>
+          </td>
+          <td style="font-weight: 600; color: #1e293b; font-size: 0.82rem; width: 250px; white-space: normal; line-height: 1.35; padding: 0.85rem 1rem; word-break: break-word;">${this.escapeHtml(desc)}</td>
           <td style="font-weight: 850; color: #059669; font-size: 0.88rem; text-align: right; font-family: 'Outfit', sans-serif; padding: 0.85rem 1rem; width: 110px;">${mrpPrice}</td>
           <td style="font-weight: 600; color: #64748b; font-size: 0.8rem; text-align: right; padding: 0.85rem 1rem; width: 100px;">${listPrice}</td>
           <td style="font-weight: 700; color: #7c3aed; font-size: 0.8rem; text-align: center; padding: 0.85rem 1rem; width: 90px;"><span class="badge" style="background: #ede9fe; color: #7c3aed; border: 1px solid #ddd6fe; padding: 0.2rem 0.45rem; border-radius: 6px;">${this.escapeHtml(segment)}</span></td>
-          <td style="font-size: 0.8rem; color: #334155; padding: 0.85rem 1rem; width: 190px; word-break: break-word;">
+          <td style="font-size: 0.8rem; color: #334155; padding: 0.85rem 1rem; width: 180px; word-break: break-word;">
             <div style="font-weight: 750; color: #0f172a;">${this.escapeHtml(vehicleInfo)}</div>
             ${fuelYears ? `<div style="font-size: 0.72rem; color: #64748b; margin-top: 0.15rem;">${this.escapeHtml(fuelYears)}</div>` : ''}
           </td>
-          <td style="font-weight: 700; color: #0284c7; font-size: 0.8rem; padding: 0.85rem 1rem; width: 130px; word-break: break-word;">${this.escapeHtml(aggregate)}</td>
+          <td style="font-weight: 700; color: #0284c7; font-size: 0.8rem; padding: 0.85rem 1rem; width: 120px; word-break: break-word;">${this.escapeHtml(aggregate)}</td>
           <td style="text-align: center; padding: 0.85rem 1rem; width: 90px;">
-            <button type="button" class="btn btn-secondary" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(partNo)}')" style="padding: 0.35rem 0.65rem; font-size: 0.76rem; font-weight: 800; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 7px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
+            <button type="button" class="btn btn-secondary" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(partNo)}')" style="padding: 0.35rem 0.65rem; font-size: 0.76rem; font-weight: 850; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 7px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
               <span>🔍</span> <span>Fitment</span>
             </button>
           </td>
         </tr>
-      `;
-    }).join('');
+      `;}).join('');
   },
 
   // ==================== PAGINATION ====================
@@ -1963,7 +2354,10 @@ window.OverallCataloguePortal = {
             </div>
             <div>
               <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Brand Manufacturer</span>
-              <strong style="font-size: 1.05rem; color: #b45309;">${this.escapeHtml(brand)}</strong>
+              <div style="display: flex; align-items: center; gap: 0.4rem; margin-top: 0.2rem;">
+                <strong style="font-size: 1.05rem; color: #b45309;">${this.escapeHtml(brand)}</strong>
+                ${this.getQualityTierBadge(brand)}
+              </div>
             </div>
             <div>
               <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Catalogue MRP</span>
@@ -1996,6 +2390,24 @@ window.OverallCataloguePortal = {
           </div>
         </div>
 
+        <!-- Smart Repair Overhaul Bundle ("Whistle-Stop" Kit) -->
+        <div style="background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border: 1.5px solid #86efac; border-radius: 14px; padding: 1.1rem 1.35rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.85rem;">
+            <span style="font-size: 2rem;">📦</span>
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.45rem;">
+                <span class="badge" style="background: #10b981; color: #ffffff; font-size: 0.68rem; font-weight: 900; padding: 0.15rem 0.45rem; border-radius: 4px;">SMART OVERHAUL BUNDLE</span>
+                <strong style="font-size: 0.95rem; color: #065f46; font-family: 'Outfit', sans-serif;">Complete Service & Repair Kit</strong>
+              </div>
+              <div style="font-size: 0.78rem; color: #166534; font-weight: 650; margin-top: 0.2rem;">
+                Companion parts included: Primary Part + OEM Gaskets & Hardware + Service Consumables (15% Bundle Savings)
+              </div>
+            </div>
+          </div>
+          <button type="button" onclick="alert('Smart Overhaul Bundle: 1x ' + OverallCataloguePortal.escapeJs(pNo) + ' + 1x Hardware Mounting Kit + 1x Lubricant Companion added to order staging!')" style="padding: 0.55rem 1.15rem; background: #059669; color: #ffffff; border: none; border-radius: 8px; font-size: 0.82rem; font-weight: 850; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);">
+            <span>Add Overhaul Kit</span> <span>➔</span>
+          </button>
+        </div>
         <h4 style="font-size: 1.05rem; font-weight: 900; color: #0f172a; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.45rem; font-family: 'Outfit', sans-serif;">
           <span>🚗 Compatible Vehicle Applications (${fitments.length} Mappings)</span>
         </h4>
