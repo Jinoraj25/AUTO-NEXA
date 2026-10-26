@@ -126,6 +126,9 @@ window.App = {
         break;
 
       case 'catalogue-oem-to-oes':
+      case 'catalogue-oem-oes':
+      case 'oem-to-oes':
+      case 'oem-oes':
         targetSectionId = 'tab-catalogue-oem-to-oes';
         breadcrumbSec = 'CATALOGUE';
         breadcrumbPg = 'OEM ➔ OES Conversion Intelligence';
