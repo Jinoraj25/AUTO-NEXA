@@ -6,6 +6,15 @@ from collections import defaultdict
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CATALOG_DB = os.path.join(BASE_DIR, "data", "overall_catalogue.db")
+COMPACT_CATALOG_DB = os.path.join(BASE_DIR, "data", "autonexa_catalog.db")
+
+def get_catalog_db_path():
+    if os.path.exists(CATALOG_DB) and os.path.getsize(CATALOG_DB) > 1000:
+        return CATALOG_DB
+    if os.path.exists(COMPACT_CATALOG_DB):
+        return COMPACT_CATALOG_DB
+    return None
+
 MASTER_BRAND_JSON = os.path.join(BASE_DIR, "data", "master_brand_categories.json")
 KNOWN_LINE_CODES_JSON = os.path.join(BASE_DIR, "data", "known_line_codes.json")
 
@@ -145,10 +154,11 @@ def convert_oem_to_oes(query_str, selected_model=None):
     if not candidates:
         return {"status": "error", "found": False, "message": "Empty or invalid part number"}
 
-    if not os.path.exists(CATALOG_DB):
+    db_path = get_catalog_db_path()
+    if not db_path:
         return {"status": "error", "found": False, "message": "Catalogue database not found"}
 
-    conn = sqlite3.connect(CATALOG_DB)
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
     placeholders = ','.join(['?'] * len(candidates))

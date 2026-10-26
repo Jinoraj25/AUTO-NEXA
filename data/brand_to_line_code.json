@@ -1,0 +1,736 @@
+{
+  "brand_to_line_code": {
+    "3M": [
+      "212"
+    ],
+    "A L P RUBBER ITEMS": [
+      "ALP"
+    ],
+    "AAYUB": [
+      "AAY"
+    ],
+    "ACCURATE": [
+      "069"
+    ],
+    "ADD LUB ITEMS": [
+      "ADD"
+    ],
+    "AFRO": [
+      "AFR"
+    ],
+    "AIS GLASS": [
+      "250"
+    ],
+    "AMP GENIE ITEMS": [
+      "AMP"
+    ],
+    "ANABOND": [
+      "170"
+    ],
+    "ANAND MOTOR PRODUCTS": [
+      "451"
+    ],
+    "ANUPAM ITEMS": [
+      "ANU"
+    ],
+    "ASHOK LEYLAND": [
+      "001"
+    ],
+    "ASIAN PPG TINTS": [
+      "245"
+    ],
+    "AUDI": [
+      "226"
+    ],
+    "AUTO EQUIP": [
+      "AEQ"
+    ],
+    "AUTO GOLD": [
+      "502",
+      "ATG"
+    ],
+    "AUTOKOI": [
+      "AOK",
+      "502"
+    ],
+    "AUTOLEC": [
+      "014"
+    ],
+    "BANCO": [
+      "015",
+      "017"
+    ],
+    "BANDO": [
+      "502"
+    ],
+    "BANDO BELTS": [
+      "461"
+    ],
+    "BEHR": [
+      "582"
+    ],
+    "BMW": [
+      "224"
+    ],
+    "BOSCH": [
+      "706"
+    ],
+    "BRAKES INDIA": [
+      "016"
+    ],
+    "BRAVO": [
+      "BRV"
+    ],
+    "BRIDGESTONE": [
+      "198"
+    ],
+    "CASTROL": [
+      "138"
+    ],
+    "CEEKAY": [
+      "059"
+    ],
+    "CHAMPION": [
+      "287"
+    ],
+    "CHAMPION ITEMS": [
+      "CHM"
+    ],
+    "CHEVROLET": [
+      "174"
+    ],
+    "CONTITECH": [
+      "167",
+      "213"
+    ],
+    "DAYCO": [
+      "DAY",
+      "502"
+    ],
+    "DELPHI": [
+      "096"
+    ],
+    "DELPHI TECH": [
+      "282"
+    ],
+    "DELPHI TVS": [
+      "096"
+    ],
+    "DENSO": [
+      "214"
+    ],
+    "DEPO": [
+      "DEP",
+      "502"
+    ],
+    "DMS LOCAL PURCHASE": [
+      "504"
+    ],
+    "ELOFIC": [
+      "502",
+      "ELO"
+    ],
+    "ELPIS AUTOMOTIVE PARTS": [
+      "ELP"
+    ],
+    "EXEDY": [
+      "237"
+    ],
+    "FAG": [
+      "703"
+    ],
+    "FENNER": [
+      "111"
+    ],
+    "FERODO": [
+      "188",
+      "502"
+    ],
+    "FIAT": [
+      "227"
+    ],
+    "FILTRON": [
+      "471"
+    ],
+    "FINOLEX": [
+      "172"
+    ],
+    "FLEET GASKETS": [
+      "470"
+    ],
+    "FORCE": [
+      "173"
+    ],
+    "FORD": [
+      "215"
+    ],
+    "GABRIEL": [
+      "205"
+    ],
+    "GALIO": [
+      "502"
+    ],
+    "GALIO MONOGRAM PARTS": [
+      "GAL"
+    ],
+    "GARRETT": [
+      "502"
+    ],
+    "GATES": [
+      "189"
+    ],
+    "GOETZE": [
+      "130"
+    ],
+    "GOODYEAR": [
+      "235"
+    ],
+    "HANON": [
+      "468"
+    ],
+    "HELICORD": [
+      "502"
+    ],
+    "HELICORD ITEMS": [
+      "HEC"
+    ],
+    "HELLA": [
+      "190"
+    ],
+    "HI-Q": [
+      "HIQ"
+    ],
+    "HITACHI": [
+      "HIT"
+    ],
+    "HL MANDO ANAND": [
+      "419"
+    ],
+    "HONDA": [
+      "219"
+    ],
+    "HYUNDAI": [
+      "216"
+    ],
+    "IDEAL": [
+      "502"
+    ],
+    "IMB BEARING": [
+      "502",
+      "IMB"
+    ],
+    "IMPERIAL AUTO": [
+      "IMA"
+    ],
+    "INA": [
+      "702"
+    ],
+    "INDO LITE": [
+      "502"
+    ],
+    "JEEP": [
+      "JCO"
+    ],
+    "JK TYRE": [
+      "210"
+    ],
+    "K TEK": [
+      "262"
+    ],
+    "KBX": [
+      "272"
+    ],
+    "KD RUBBER": [
+      "KDR"
+    ],
+    "KIA": [
+      "403"
+    ],
+    "KK LIGHTINGS": [
+      "485"
+    ],
+    "KTEK": [
+      "262"
+    ],
+    "KWIK PATCH": [
+      "294"
+    ],
+    "LIVGUARD": [
+      "285"
+    ],
+    "LUCAS": [
+      "033",
+      "034"
+    ],
+    "LUCAS - TVS": [
+      "033",
+      "034"
+    ],
+    "LUK": [
+      "112"
+    ],
+    "LUMAX": [
+      "124"
+    ],
+    "MACLITE": [
+      "502"
+    ],
+    "MAHINDRA": [
+      "006",
+      "536",
+      "002",
+      "540",
+      "007",
+      "534",
+      "532",
+      "533",
+      "542",
+      "088"
+    ],
+    "MAHLE": [
+      "277"
+    ],
+    "MANN FILTER": [
+      "191"
+    ],
+    "MARK XTRALIFE": [
+      "MKX"
+    ],
+    "MARUTI SUZUKI": [
+      "217",
+      "554"
+    ],
+    "MERCEDES BENZ": [
+      "225"
+    ],
+    "MGT AUTO PARTS": [
+      "502"
+    ],
+    "MINDA": [
+      "157"
+    ],
+    "MITSUBISHI": [
+      "239"
+    ],
+    "MONROE": [
+      "241"
+    ],
+    "MORRIS GARAGES": [
+      "404"
+    ],
+    "MOTHERSON": [
+      "234"
+    ],
+    "MSL - MAHINDRA SONA": [
+      "467"
+    ],
+    "MYTVS": [
+      "850",
+      "805",
+      "351",
+      "801",
+      "804",
+      "328",
+      "352",
+      "313",
+      "307",
+      "267",
+      "286",
+      "501",
+      "481",
+      "802"
+    ],
+    "NEW ERA CABLE ITEMS": [
+      "NEW"
+    ],
+    "NEXA": [
+      "502"
+    ],
+    "NGK": [
+      "238"
+    ],
+    "NISSAN": [
+      "221"
+    ],
+    "NMK BEARINGS": [
+      "266"
+    ],
+    "NRB": [
+      "108"
+    ],
+    "OPTIBELT": [
+      "OPT",
+      "502"
+    ],
+    "OSRAM": [
+      "566"
+    ],
+    "PAINTS AND CONSUMABLES": [
+      "502"
+    ],
+    "PFI": [
+      "472"
+    ],
+    "PHC": [
+      "502"
+    ],
+    "PHC VALEO": [
+      "PHC"
+    ],
+    "PHILIPS HALOGEN BULB": [
+      "PHB"
+    ],
+    "PHOENIX": [
+      "453"
+    ],
+    "PIONEER": [
+      "110"
+    ],
+    "PIS LOCAL": [
+      "502"
+    ],
+    "PIX": [
+      "502"
+    ],
+    "POTAUTO": [
+      "POT"
+    ],
+    "PUROLATOR": [
+      "204"
+    ],
+    "RANE AUTO PARTS": [
+      "581"
+    ],
+    "RANE BRAKE LINING": [
+      "195"
+    ],
+    "RANE BRAKE LININGS": [
+      "195"
+    ],
+    "RANE MADRAS LIMITED": [
+      "039"
+    ],
+    "RANE TRW": [
+      "063"
+    ],
+    "REFEX": [
+      "580"
+    ],
+    "RENAULT": [
+      "220"
+    ],
+    "ROOTS": [
+      "131"
+    ],
+    "ROYAL": [
+      "502"
+    ],
+    "SAINT GOBAIN GLASS": [
+      "249"
+    ],
+    "SANDEN": [
+      "502",
+      "SDN"
+    ],
+    "SHELL LUBES": [
+      "258"
+    ],
+    "SKF": [
+      "055"
+    ],
+    "SKODA": [
+      "222"
+    ],
+    "SMIC AUTOPARTS": [
+      "SMA"
+    ],
+    "SMR BEARINGS": [
+      "SMR",
+      "502"
+    ],
+    "SOFIMA": [
+      "454"
+    ],
+    "SONA": [
+      "231"
+    ],
+    "SONA MAHINDRA": [
+      "231"
+    ],
+    "SPICER": [
+      "705"
+    ],
+    "STALLION": [
+      "502"
+    ],
+    "STARKE": [
+      "251"
+    ],
+    "SUBROS": [
+      "567"
+    ],
+    "SUNDARAM BRAKE LININGS": [
+      "054"
+    ],
+    "SUNDARAM FASTENERS LIMITED": [
+      "041"
+    ],
+    "SUPER CIRCLE AUTO LIMITED": [
+      "SCU"
+    ],
+    "SUPER CYCLE": [
+      "502"
+    ],
+    "SUPER SEALS": [
+      "145"
+    ],
+    "SWARUP ITEMS": [
+      "SWA"
+    ],
+    "TALBROS": [
+      "199",
+      "134"
+    ],
+    "TATA": [
+      "201",
+      "035"
+    ],
+    "TATA FICOSA": [
+      "TTF"
+    ],
+    "TECHNIX": [
+      "TCX",
+      "502"
+    ],
+    "TEL": [
+      "082"
+    ],
+    "TOYOTA": [
+      "218"
+    ],
+    "TURBO ENERGY": [
+      "082"
+    ],
+    "TVS GIRLING": [
+      "629"
+    ],
+    "UCAP": [
+      "321",
+      "316",
+      "318"
+    ],
+    "UNO MINDA": [
+      "157"
+    ],
+    "VALEO": [
+      "202"
+    ],
+    "VALEO COMPRESSOR": [
+      "547"
+    ],
+    "VIR": [
+      "127"
+    ],
+    "VIR RUBBERS": [
+      "127"
+    ],
+    "VOLKSWAGEN": [
+      "223"
+    ],
+    "VOLVO": [
+      "401"
+    ],
+    "WIX FILTERS": [
+      "WIX"
+    ],
+    "WURTH": [
+      "240"
+    ],
+    "ZF": [
+      "230"
+    ],
+    "ZIP": [
+      "ZIP",
+      "502"
+    ]
+  },
+  "all_line_codes": [
+    "001",
+    "002",
+    "006",
+    "007",
+    "014",
+    "015",
+    "016",
+    "017",
+    "033",
+    "034",
+    "035",
+    "039",
+    "041",
+    "054",
+    "055",
+    "059",
+    "063",
+    "069",
+    "082",
+    "088",
+    "096",
+    "108",
+    "110",
+    "111",
+    "112",
+    "124",
+    "127",
+    "130",
+    "131",
+    "134",
+    "138",
+    "145",
+    "157",
+    "167",
+    "170",
+    "172",
+    "173",
+    "174",
+    "188",
+    "189",
+    "190",
+    "191",
+    "195",
+    "198",
+    "199",
+    "201",
+    "202",
+    "204",
+    "205",
+    "210",
+    "212",
+    "213",
+    "214",
+    "215",
+    "216",
+    "217",
+    "218",
+    "219",
+    "220",
+    "221",
+    "222",
+    "223",
+    "224",
+    "225",
+    "226",
+    "227",
+    "230",
+    "231",
+    "234",
+    "235",
+    "237",
+    "238",
+    "239",
+    "240",
+    "241",
+    "245",
+    "249",
+    "250",
+    "251",
+    "258",
+    "262",
+    "266",
+    "267",
+    "272",
+    "277",
+    "282",
+    "285",
+    "286",
+    "287",
+    "294",
+    "307",
+    "313",
+    "316",
+    "318",
+    "321",
+    "328",
+    "351",
+    "352",
+    "401",
+    "403",
+    "404",
+    "419",
+    "451",
+    "453",
+    "454",
+    "461",
+    "467",
+    "468",
+    "470",
+    "471",
+    "472",
+    "481",
+    "485",
+    "501",
+    "502",
+    "504",
+    "532",
+    "533",
+    "534",
+    "536",
+    "540",
+    "542",
+    "547",
+    "554",
+    "566",
+    "567",
+    "580",
+    "581",
+    "582",
+    "629",
+    "702",
+    "703",
+    "705",
+    "706",
+    "801",
+    "802",
+    "804",
+    "805",
+    "850",
+    "AAY",
+    "ADD",
+    "AEQ",
+    "AFR",
+    "ALP",
+    "AMP",
+    "ANU",
+    "AOK",
+    "ATG",
+    "BRV",
+    "CHM",
+    "DAY",
+    "DEP",
+    "ELO",
+    "ELP",
+    "GAL",
+    "HEC",
+    "HIQ",
+    "HIT",
+    "IMA",
+    "IMB",
+    "JCO",
+    "KDR",
+    "MKX",
+    "NEW",
+    "OPT",
+    "PHB",
+    "PHC",
+    "POT",
+    "SCU",
+    "SDN",
+    "SMA",
+    "SMR",
+    "SWA",
+    "TCX",
+    "TTF",
+    "WIX",
+    "ZIP"
+  ]
+}

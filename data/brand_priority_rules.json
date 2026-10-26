@@ -1,0 +1,808 @@
+{
+  "AIRFILTER": {
+    "canonical_comp": "AIR FILTER",
+    "primary": [
+      "FILTRON"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "PUROLATOR",
+      "SOFIMA",
+      "ELOFIC",
+      "MAHLE",
+      "ZIP"
+    ]
+  },
+  "BRAKEDISCFRONT": {
+    "canonical_comp": "BRAKE DISC FRONT",
+    "primary": [
+      "ZF",
+      "BOSCH"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "DELPHI",
+      "BRAKES INDIA",
+      "RANE",
+      "BREMBO"
+    ]
+  },
+  "BRAKEDISCREAR": {
+    "canonical_comp": "BRAKE DISC REAR",
+    "primary": [
+      "ZF",
+      "BOSCH"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "DELPHI",
+      "BRAKES INDIA",
+      "RANE",
+      "BREMBO"
+    ]
+  },
+  "BRAKEPADSETFRONT": {
+    "canonical_comp": "BRAKE PAD SET FRONT",
+    "primary": [
+      "ZF",
+      "BOSCH"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "DELPHI",
+      "BRAKES INDIA",
+      "RANE",
+      "BREMBO"
+    ]
+  },
+  "BRAKEPADSETREAR": {
+    "canonical_comp": "BRAKE PAD SET REAR",
+    "primary": [
+      "ZF",
+      "BOSCH"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "DELPHI",
+      "BRAKES INDIA",
+      "RANE",
+      "BREMBO"
+    ]
+  },
+  "BUSHSHOCKABSORBER": {
+    "canonical_comp": "BUSH SHOCK ABSORBER",
+    "primary": [
+      "ZF",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "BRAVO",
+      "GABRIEL",
+      "MOTHERSON",
+      "SONA MAHINDRA"
+    ]
+  },
+  "CABINFILTER": {
+    "canonical_comp": "CABIN FILTER",
+    "primary": [
+      "FILTRON"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "PUROLATOR",
+      "SOFIMA",
+      "ELOFIC",
+      "MAHLE",
+      "ZIP"
+    ]
+  },
+  "CLUTCHKIT": {
+    "canonical_comp": "CLUTCH KIT",
+    "primary": [
+      "VALEO",
+      "ZF"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "LUK",
+      "EXEDY",
+      "BRAKES INDIA"
+    ]
+  },
+  "CLUTCHMASTERCYLINDERASSY": {
+    "canonical_comp": "CLUTCH MASTER CYLINDER ASSY",
+    "primary": [
+      "VALEO",
+      "ZF"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "LUK",
+      "EXEDY",
+      "BRAKES INDIA"
+    ]
+  },
+  "CLUTCHRELEASEBEARING": {
+    "canonical_comp": "CLUTCH RELEASE BEARING",
+    "primary": [
+      "VALEO",
+      "ZF"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "LUK",
+      "SCHAFFLER",
+      "SKF",
+      "SMR",
+      "IMB"
+    ]
+  },
+  "CLUTCHSET": {
+    "canonical_comp": "CLUTCH SET",
+    "primary": [
+      "VALEO",
+      "ZF"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "LUK",
+      "EXEDY",
+      "BRAKES INDIA"
+    ]
+  },
+  "CLUTCHSLEEVECYLINDER": {
+    "canonical_comp": "CLUTCH SLEEVE CYLINDER",
+    "primary": [
+      "VALEO",
+      "ZF"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "LUK",
+      "EXEDY",
+      "BRAKES INDIA"
+    ]
+  },
+  "FRONTBALANCERODBUSH": {
+    "canonical_comp": "FRONT BALANCE ROD BUSH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTLOWERARMBUSH": {
+    "canonical_comp": "FRONT LOWER ARM BUSH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTMAJORREPAIRSTRUTKIT": {
+    "canonical_comp": "FRONT MAJOR REPAIR STRUT KIT",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTSTABILIZERASSYSETOF2RHLH": {
+    "canonical_comp": "FRONT STABILIZER ASSY SET OF 2 RH/ LH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTSTRUTKIT": {
+    "canonical_comp": "FRONT STRUT KIT",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTSTRUTKITWITHBEARING": {
+    "canonical_comp": "FRONT STRUT KIT WITH BEARING",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTSTRUTLH": {
+    "canonical_comp": "FRONT STRUT LH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTSTRUTMOUNT": {
+    "canonical_comp": "FRONT STRUT MOUNT",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTSTRUTRH": {
+    "canonical_comp": "FRONT STRUT RH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTSUSPENSIONKIT": {
+    "canonical_comp": "FRONT SUSPENSION KIT",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "FRONTWHEELBEARING": {
+    "canonical_comp": "FRONT WHEEL BEARING",
+    "primary": [
+      "FAG"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "SKF",
+      "IMB",
+      "SMR",
+      "AUTOKOI"
+    ]
+  },
+  "FUELFILTER": {
+    "canonical_comp": "FUEL FILTER",
+    "primary": [
+      "FILTRON"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "PUROLATOR",
+      "SOFIMA",
+      "ELOFIC",
+      "MAHLE",
+      "ZIP"
+    ]
+  },
+  "INNERBALLJOINT": {
+    "canonical_comp": "INNER BALL JOINT",
+    "primary": [
+      "ZF",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "RANE",
+      "TALBROS"
+    ]
+  },
+  "KITLINEDSHOE": {
+    "canonical_comp": "KIT LINED SHOE",
+    "primary": [
+      "BOSCH",
+      "DELPHI",
+      "TVS GIRLING"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "KBX",
+      "BRAKES INDIA"
+    ]
+  },
+  "LOWERARMLH": {
+    "canonical_comp": "LOWER ARM LH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "LOWERARMRH": {
+    "canonical_comp": "LOWER ARM RH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "LOWERSUSPENSIONBALLJOINTASSY": {
+    "canonical_comp": "LOWER SUSPENSION BALL JOINT ASSY",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "OILFILTER": {
+    "canonical_comp": "OIL FILTER",
+    "primary": [
+      "FILTRON"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "PUROLATOR",
+      "SOFIMA",
+      "ELOFIC",
+      "MAHLE",
+      "ZIP"
+    ]
+  },
+  "REARLOWERARMBUSH": {
+    "canonical_comp": "REAR LOWER ARM BUSH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "REARLOWERARMKIT": {
+    "canonical_comp": "REAR LOWER ARM KIT",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "REARSHOCKABSORBER": {
+    "canonical_comp": "REAR SHOCK ABSORBER",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "REARSPRINGPAD": {
+    "canonical_comp": "REAR SPRING PAD",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "REARSUSPENSIONBUSHKIT": {
+    "canonical_comp": "REAR SUSPENSION BUSH KIT",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "REARWHEELBEARING": {
+    "canonical_comp": "REAR WHEEL BEARING",
+    "primary": [
+      "FAG"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "SKF",
+      "IMB",
+      "SMR",
+      "AUTOKOI"
+    ]
+  },
+  "SPARKPLUG": {
+    "canonical_comp": "SPARK PLUG",
+    "primary": [
+      "BOSCH"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "NGK"
+    ]
+  },
+  "SUSPENSIONBALLJOINTUPPER": {
+    "canonical_comp": "SUSPENSION BALL JOINT - UPPER",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "TIERODENDLH": {
+    "canonical_comp": "TIE ROD END LH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "TIERODENDRH": {
+    "canonical_comp": "TIE ROD END RH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "UPPERARMBUSH": {
+    "canonical_comp": "UPPER ARM BUSH",
+    "primary": [
+      "ZF",
+      "MONROE",
+      "VIR"
+    ],
+    "pl": [
+      "MYTVS MOUNTING"
+    ],
+    "secondary": [
+      "TALBROS",
+      "TECHNIX",
+      "RANE",
+      "BRAVO",
+      "AUTOKOI",
+      "GABRIEL",
+      "MOTHERSON"
+    ]
+  },
+  "WHEELCYLINDERASSYLH": {
+    "canonical_comp": "WHEEL CYLINDER ASSY-LH",
+    "primary": [
+      "ZF",
+      "BOSCH"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "DELPHI",
+      "BRAKES INDIA",
+      "RANE",
+      "BREMBO"
+    ]
+  },
+  "WHEELCYLINDERASSYRH": {
+    "canonical_comp": "WHEEL CYLINDER ASSY-RH",
+    "primary": [
+      "ZF",
+      "BOSCH"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "DELPHI",
+      "BRAKES INDIA",
+      "RANE",
+      "BREMBO"
+    ]
+  },
+  "CLUTCHDISC": {
+    "canonical_comp": "CLUTCH DISC",
+    "primary": [
+      "VALEO",
+      "ZF"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "LUK",
+      "EXEDY",
+      "BRAKES INDIA"
+    ]
+  },
+  "CLUTCHPRESSUREPLATE": {
+    "canonical_comp": "CLUTCH PRESSURE PLATE",
+    "primary": [
+      "VALEO",
+      "ZF"
+    ],
+    "pl": [
+      "MYTVS"
+    ],
+    "secondary": [
+      "BOSCH",
+      "LUK",
+      "EXEDY",
+      "BRAKES INDIA"
+    ]
+  }
+}

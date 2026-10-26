@@ -20,6 +20,7 @@ data/remaining_*.txt
 *.db-*
 data/*.db
 data/*.db-*
+!data/autonexa_catalog.db
 
 # Ignore raw dataset files & archives
 *.xls
@@ -43,6 +44,14 @@ data/*.json
 !data/trained_mapping_db.json.gz
 !aggregate_master_rules.json.gz
 !data/aggregate_master_rules.json.gz
+!data/catalogue_live_analytics_cache.json
+!data/catalogue_stats_cache.json
+!data/catalogue_filters_cache.json
+!data/brand_to_line_code.json
+!data/brand_priority_rules.json
+!data/master_brand_categories.json
+!data/known_line_codes.json
+!data/models_meta_cache.json
 
 # Ignore temporary screenshot and test scratch files
 shot_*.png

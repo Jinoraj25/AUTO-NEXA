@@ -1,0 +1,225 @@
+{
+  "totals": {
+    "total_rows": 23671472,
+    "distinct_parts": 416045,
+    "distinct_brands": 170,
+    "distinct_makes": 39,
+    "distinct_models": 504,
+    "distinct_aggregates": 29,
+    "distinct_sub_aggregates": 213,
+    "distinct_components": 962
+  },
+  "top_makes": [
+    {
+      "make": "TATA",
+      "count": 5212824,
+      "pct": 22.0
+    },
+    {
+      "make": "HYUNDAI",
+      "count": 4746442,
+      "pct": 20.1
+    },
+    {
+      "make": "MARUTI SUZUKI",
+      "count": 4648752,
+      "pct": 19.6
+    },
+    {
+      "make": "MAHINDRA",
+      "count": 2968979,
+      "pct": 12.5
+    },
+    {
+      "make": "TOYOTA",
+      "count": 1267392,
+      "pct": 5.4
+    },
+    {
+      "make": "HONDA",
+      "count": 1096704,
+      "pct": 4.6
+    },
+    {
+      "make": "SKODA",
+      "count": 641461,
+      "pct": 2.7
+    },
+    {
+      "make": "FORD",
+      "count": 527153,
+      "pct": 2.2
+    },
+    {
+      "make": "VOLKSWAGEN",
+      "count": 481122,
+      "pct": 2.0
+    },
+    {
+      "make": "AUDI",
+      "count": 367819,
+      "pct": 1.6
+    }
+  ],
+  "top_aggregates": [
+    {
+      "aggregate": "CHILD PARTS",
+      "count": 5805629,
+      "pct": 24.5
+    },
+    {
+      "aggregate": "BODY PARTS",
+      "count": 3421185,
+      "pct": 14.5
+    },
+    {
+      "aggregate": "PAINTS AND CONSUMABLES",
+      "count": 1903695,
+      "pct": 8.0
+    },
+    {
+      "aggregate": "ELECTRICALS AND ELECTRONICS",
+      "count": 1521168,
+      "pct": 6.4
+    },
+    {
+      "aggregate": "ENGINE",
+      "count": 1335071,
+      "pct": 5.6
+    },
+    {
+      "aggregate": "LIGHTING",
+      "count": 1246098,
+      "pct": 5.3
+    },
+    {
+      "aggregate": "ACCESSORIES",
+      "count": 1204460,
+      "pct": 5.1
+    },
+    {
+      "aggregate": "LUBES",
+      "count": 1151780,
+      "pct": 4.9
+    },
+    {
+      "aggregate": "RUBBERS HOSES AND MOUNTINGS",
+      "count": 663736,
+      "pct": 2.8
+    },
+    {
+      "aggregate": "FLUIDS COOLANT AND GREASE",
+      "count": 616584,
+      "pct": 2.6
+    }
+  ],
+  "top_brands": [
+    {
+      "brand": "HYUNDAI",
+      "count": 4306472,
+      "pct": 18.2
+    },
+    {
+      "brand": "TATA",
+      "count": 3276014,
+      "pct": 13.8
+    },
+    {
+      "brand": "MARUTI SUZUKI",
+      "count": 3007055,
+      "pct": 12.7
+    },
+    {
+      "brand": "MAHINDRA",
+      "count": 1971617,
+      "pct": 8.3
+    },
+    {
+      "brand": "MYTVS",
+      "count": 1704352,
+      "pct": 7.2
+    },
+    {
+      "brand": "PIS LOCAL",
+      "count": 1140209,
+      "pct": 4.8
+    },
+    {
+      "brand": "ASIAN PPG TINTS",
+      "count": 1118344,
+      "pct": 4.7
+    },
+    {
+      "brand": "BOSCH",
+      "count": 1020948,
+      "pct": 4.3
+    },
+    {
+      "brand": "HELLA",
+      "count": 774521,
+      "pct": 3.3
+    },
+    {
+      "brand": "TOYOTA",
+      "count": 731297,
+      "pct": 3.1
+    }
+  ],
+  "mrp_bands": [
+    {
+      "band": "< 500",
+      "count": 14738977,
+      "pct": 62.3
+    },
+    {
+      "band": "500-1499",
+      "count": 4023906,
+      "pct": 17.0
+    },
+    {
+      "band": "1500-4999",
+      "count": 3103977,
+      "pct": 13.1
+    },
+    {
+      "band": ">= 5000",
+      "count": 1804612,
+      "pct": 7.6
+    }
+  ],
+  "category_split": {
+    "total_records": 23671472,
+    "categories": [
+      {
+        "category": "Mechanical",
+        "count": 14042371,
+        "pct": 59.3,
+        "color": "#0284c7"
+      },
+      {
+        "category": "Body Parts",
+        "count": 4750654,
+        "pct": 20.1,
+        "color": "#f97316"
+      },
+      {
+        "category": "Paints & Consumables",
+        "count": 1903695,
+        "pct": 8.0,
+        "color": "#ec4899"
+      },
+      {
+        "category": "Lubes & Fluids",
+        "count": 1768364,
+        "pct": 7.5,
+        "color": "#10b981"
+      },
+      {
+        "category": "Accessories",
+        "count": 1206388,
+        "pct": 5.1,
+        "color": "#8b5cf6"
+      }
+    ]
+  }
+}
