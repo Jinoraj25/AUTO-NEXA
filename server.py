@@ -665,11 +665,19 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(csv_data.encode('utf-8'))
                 return
         # Inventory Management & Live Stock Telemetry Endpoints
-        if self.path.startswith('/api/inventory'):
+        if self.path.startswith('/api/inventory') or self.path.startswith('/api/overall-catalogue/inventory-convergence'):
             parsed_url = urllib.parse.urlparse(self.path)
             path_only = parsed_url.path
             params = urllib.parse.parse_qs(parsed_url.query)
             get_param = lambda k, default='': params.get(k, [default])[0]
+
+            if path_only in ('/api/inventory/catalogue-convergence', '/api/inventory/convergence', '/api/overall-catalogue/inventory-convergence'):
+                res = overall_catalogue_api.get_inventory_catalogue_convergence() if overall_catalogue_api else {}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.end_headers()
+                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                return
 
             if path_only == '/api/inventory/sync-status':
                 try:

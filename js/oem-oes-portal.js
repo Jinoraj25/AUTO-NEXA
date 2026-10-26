@@ -61,21 +61,32 @@ const OemToOesPortal = {
     'TVS GIRLING': '/images/brands/tvs_girling.svg',
     'WURTH': '/images/brands/wurth.svg',
     'CASTROL': '/images/brands/castrol.svg',
-    'MARUTI SUZUKI': '/images/brands/maruti_suzuki.svg',
-    'MARUTI': '/images/brands/maruti_suzuki.svg',
-    'HYUNDAI': '/images/brands/hyundai.svg',
-    'TATA': '/images/brands/tata.svg',
-    'MAHINDRA': '/images/brands/mahindra.svg',
-    'HONDA': '/images/brands/honda.svg',
-    'TOYOTA': '/images/brands/toyota.svg',
-    'VOLKSWAGEN': '/images/brands/volkswagen.svg',
-    'SKODA': '/images/brands/skoda.svg',
-    'FORD': '/images/brands/ford.svg',
-    'RENAULT': '/images/brands/renault.svg',
-    'NISSAN': '/images/brands/nissan.svg',
-    'KIA': '/images/brands/kia.svg',
-    'MG': '/images/brands/mg.svg',
-    'MORRIS GARAGES': '/images/brands/mg.svg'
+    'MARUTI SUZUKI': 'images/makes/maruti.png',
+    'MARUTI': 'images/makes/maruti.png',
+    'HYUNDAI': 'images/makes/hyundai.png',
+    'TATA': 'images/makes/tata.png',
+    'MAHINDRA': 'images/makes/mahindra.png',
+    'HONDA': 'images/makes/honda.png',
+    'TOYOTA': 'images/makes/toyota.png',
+    'VOLKSWAGEN': 'images/makes/volkswagen.jpg',
+    'SKODA': 'images/makes/skoda.jpg',
+    'FORD': 'images/makes/ford.png',
+    'RENAULT': 'images/makes/renault.png',
+    'NISSAN': 'images/makes/nissan.png',
+    'KIA': 'images/makes/kia.png',
+    'MG': 'images/makes/mg.png',
+    'MORRIS GARAGES': 'images/makes/mg.png',
+    'BMW': 'images/makes/bmw.png',
+    'AUDI': 'images/makes/audi.png',
+    'MERCEDES': 'images/makes/mercedes.jpg',
+    'MERCEDES BENZ': 'images/makes/mercedes.jpg',
+    'CHEVROLET': 'images/makes/chevrolet.png',
+    'FIAT': 'images/makes/fiat.jpg',
+    'JEEP': 'images/makes/jeep.png',
+    'FORCE': 'images/makes/force.png',
+    'FORCE MOTORS': 'images/makes/force.png',
+    'ASHOK LEYLAND': 'images/makes/ashok_leyland.png',
+    'VOLVO': 'images/makes/volvo.png'
   },
 
   getBrandLogoUrl(brandName) {
@@ -343,9 +354,6 @@ const OemToOesPortal = {
               <span style="font-size: 1rem;">🚗</span>
               <span>Application Fitment — Mapped Across <strong>${mappedModels.length} Models</strong> (${this.escapeHtml(mappedModels[0]?.make || '')})</span>
             </div>
-            <div style="font-size: 0.75rem; color: #059669; font-weight: 750;">
-              ✓ Guaranteed Inherited Fitment Across All Mapped Models
-            </div>
           </div>
           <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
             <button type="button" onclick="OemToOesPortal.filterByModel('ALL')" style="padding: 6px 14px; border-radius: 8px; font-size: 0.78rem; font-weight: 850; border: 1.5px solid ${allActive ? '#0284c7' : '#cbd5e1'}; background: ${allActive ? '#0284c7' : '#ffffff'}; color: ${allActive ? '#ffffff' : '#334155'}; cursor: pointer; transition: all 0.15s; box-shadow: ${allActive ? '0 2px 6px rgba(2, 132, 199, 0.25)' : 'none'};">
@@ -473,11 +481,6 @@ const OemToOesPortal = {
               <div style="font-size: 0.80rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 0.35rem;">
                 <span>🚗</span>
                 <span>${this.escapeHtml(fitmentScope)}</span>
-              </div>
-              <div style="margin-top: 0.3rem;">
-                <span style="font-size: 0.70rem; color: #059669; font-weight: 750; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 2px 7px; border-radius: 4px;">
-                  ✓ Form-Fit-Function Guaranteed
-                </span>
               </div>
             </td>
 
@@ -714,9 +717,6 @@ const OemToOesPortal = {
             <div style="font-size: 0.95rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">
               ${altTableTitle}
             </div>
-            <span style="font-size: 0.75rem; color: #059669; font-weight: 850; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 3px 9px; border-radius: 6px;">
-              ✓ 100% Form-Fit-Function Guaranteed
-            </span>
           </div>
 
           <div style="overflow-x: auto;">

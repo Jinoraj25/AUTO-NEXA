@@ -353,13 +353,11 @@ body:before{display:none !important;}
 
 /* KPI rows: executive scorecards */
 #tab-inventory .nexa-portals-grid,
-#sales-kpi-container,
 #tab-deviation .nexa-portals-grid,
 #tab-forecasting .planning-kpis{
   gap:12px!important;
 }
 #tab-inventory .nexa-portals-grid > .card,
-#sales-kpi-container > .card,
 #tab-deviation .nexa-portals-grid > .card,
 #tab-forecasting .planning-kpis > .card{
   position:relative;overflow:hidden;min-height:132px!important;
@@ -368,21 +366,19 @@ body:before{display:none !important;}
   box-shadow:0 15px 40px rgba(0,0,0,.16)!important;
 }
 #tab-inventory .nexa-portals-grid > .card:after,
-#sales-kpi-container > .card:after,
 #tab-deviation .nexa-portals-grid > .card:after,
 #tab-forecasting .planning-kpis > .card:after{
   content:"";position:absolute;width:110px;height:110px;border-radius:50%;right:-50px;bottom:-60px;
   background:radial-gradient(circle,rgba(85,214,255,.10),transparent 68%);pointer-events:none
 }
-#tab-inventory .nexa-portals-grid > .card:first-child,
-#sales-kpi-container > .card:first-child{
+#tab-inventory .nexa-portals-grid > .card:first-child{
   background:linear-gradient(135deg,rgba(255,59,48,.09),rgba(85,214,255,.055) 50%,var(--surface))!important;
   border-color:rgba(255,59,48,.22)!important;
 }
-#tab-inventory .card-title,#sales-kpi-container .card-title,#tab-deviation .card-title,#tab-forecasting .card-title{
+#tab-inventory .card-title,#tab-deviation .card-title,#tab-forecasting .card-title{
   font-size:9px!important;letter-spacing:.13em!important;text-transform:uppercase!important;color:var(--muted)!important
 }
-#tab-inventory .card-value,#sales-kpi-container .card-value,#tab-deviation .card-value,#tab-forecasting .card-value{
+#tab-inventory .card-value,#tab-deviation .card-value,#tab-forecasting .card-value{
   font-size:29px!important;font-weight:850!important;letter-spacing:-.045em!important;margin-top:8px!important
 }
 
@@ -496,7 +492,6 @@ body:before{display:none !important;}
 
 /* Light theme tuning */
 [data-theme="light"] #tab-inventory .nexa-portals-grid > .card,
-[data-theme="light"] #sales-kpi-container > .card,
 [data-theme="light"] #tab-deviation .nexa-portals-grid > .card,
 [data-theme="light"] #tab-forecasting .planning-kpis > .card,
 [data-theme="light"] #tab-analytics .chart-card,
@@ -964,18 +959,18 @@ button,input,select{font-family:inherit}
 #tab-catalogue > div:first-child p,#tab-inventory h2 + p,#tab-analytics h2 + p,#tab-deviation h2 + p,#tab-forecasting h2 + p{font-size:12px!important;line-height:1.7!important;color:var(--nx-muted)!important}
 
 /* ---------- KPI architecture ---------- */
-#sales-kpi-container,#tab-inventory .nexa-portals-grid,#mapping-summary-section .nexa-portals-grid,.planning-kpis{gap:12px!important}
-#sales-kpi-container .card,#tab-inventory .nexa-portals-grid .card,.planning-kpis .card,#mapping-summary-section .nexa-portals-grid .card{
+#tab-inventory .nexa-portals-grid,#mapping-summary-section .nexa-portals-grid,.planning-kpis{gap:12px!important}
+#tab-inventory .nexa-portals-grid .card,.planning-kpis .card,#mapping-summary-section .nexa-portals-grid .card{
   position:relative;min-height:128px!important;padding:20px!important;border-radius:18px!important;
 }
-#sales-kpi-container .card:after,#tab-inventory .nexa-portals-grid .card:after,.planning-kpis .card:after{
+#tab-inventory .nexa-portals-grid .card:after,.planning-kpis .card:after{
   content:"";position:absolute;right:-28px;bottom:-34px;width:95px;height:95px;border-radius:50%;background:color-mix(in srgb,var(--nx-cyan) 7%,transparent);pointer-events:none;
 }
-#sales-kpi-container .card:first-child,#tab-inventory .nexa-portals-grid .card:first-child{
+#tab-inventory .nexa-portals-grid .card:first-child{
   background:linear-gradient(135deg,color-mix(in srgb,var(--nx-accent) 8%,var(--nx-panel)),var(--nx-panel))!important;
 }
-#sales-kpi-container .card-value,#tab-inventory .card-value{font-size:28px!important;letter-spacing:-.035em}
-#sales-kpi-container .card-title,#tab-inventory .card-title{font-size:9px!important;letter-spacing:.12em!important;font-weight:900!important}
+#tab-inventory .card-value{font-size:28px!important;letter-spacing:-.035em}
+#tab-inventory .card-title{font-size:9px!important;letter-spacing:.12em!important;font-weight:900!important}
 
 /* ---------- Dashboard section headers ---------- */
 #category-cards-wrapper,#mom-chart-container,#region-matrix-container,#make-dashboard-container,#pms-dashboard-container,#mech-aggregates-container{
@@ -1229,28 +1224,18 @@ body{background:#f4f6f9!important; color:#0f172a!important;}
 #tab-analytics > div:first-child{padding:8px 0 22px!important;margin-bottom:22px!important}
 #tab-analytics > div:first-child h2{font-size:31px!important;letter-spacing:-.04em!important;color:#102238!important}
 #tab-analytics > div:first-child p{font-size:12px!important;max-width:900px!important}
-#sales-kpi-container{grid-template-columns:1.35fr 1fr 1fr 1fr!important;gap:14px!important}
-#sales-kpi-container .card{min-height:148px!important;border-radius:18px!important;padding:21px!important;position:relative!important}
-#sales-kpi-container .card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#087eaa}
-#sales-kpi-container .card:first-child:before{background:#e51e2a}
-#sales-kpi-container .card:nth-child(2):before{background:#008d78}
-#sales-kpi-container .card:nth-child(3):before{background:#087eaa}
-#sales-kpi-container .card:nth-child(4):before{background:#6b4fd3}
-#sales-kpi-container .card-title{font-size:9px!important;letter-spacing:.12em!important}
-#sales-kpi-container .card-value{font-size:29px!important;letter-spacing:-.035em!important}
+#sales-kpi-container{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:14px!important}
+#sales-kpi-container .card:before,#sales-kpi-container .card:after{display:none!important}
+#sales-kpi-container .cat-kpi-card-orange{background:linear-gradient(135deg,#ea580c 0%,#f97316 100%)!important;color:#ffffff!important;box-shadow:0 4px 18px rgba(234,88,12,0.25)!important;border:1.5px solid rgba(254,215,170,0.4)!important}
+#sales-kpi-container .cat-kpi-card-green{background:linear-gradient(135deg,#059669 0%,#10b981 100%)!important;color:#ffffff!important;box-shadow:0 4px 18px rgba(5,150,105,0.25)!important;border:1.5px solid rgba(167,243,208,0.4)!important}
+#sales-kpi-container .cat-kpi-card-blue{background:#ffffff!important;border:1.5px solid #bfdbfe!important;box-shadow:0 2px 10px rgba(15,23,42,0.04)!important}
+#sales-kpi-container .cat-kpi-card-purple{background:#ffffff!important;border:1.5px solid #ddd6fe!important;box-shadow:0 2px 10px rgba(15,23,42,0.04)!important}
 
-#category-cards-wrapper{background:#fff!important;border:1px solid #dce5ee!important;border-radius:20px!important;padding:20px!important}
-#category-cards-wrapper>div:first-child{padding-bottom:15px;border-bottom:1px solid #e3eaf1;margin-bottom:15px!important}
-#category-cards-wrapper>div:first-child>div:first-child>div:first-child{color:#102238!important;font-size:18px!important}
-#category-cards-wrapper>div:nth-child(2){gap:10px!important}
-#category-cards-wrapper>div:nth-child(2)>.card{border:1px solid #dfe7ef!important;border-radius:15px!important;background:#f8fafc!important;box-shadow:none!important;padding:16px!important;position:relative}
-#category-cards-wrapper>div:nth-child(2)>.card:after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:currentColor;opacity:.8}
-#category-cards-wrapper [id^="cat-val-"]{font-size:24px!important;color:#102238!important}
-#category-cards-wrapper [id^="cat-pct-"]{font-size:10px!important;color:#64758a!important}
-#category-cards-wrapper{background:#ffffff!important;border-color:#e2e8f0!important}
-#category-cards-wrapper>div:first-child{border-color:#e2e8f0}
-#category-cards-wrapper>div:nth-child(2)>.card{background:#ffffff!important;border-color:#e2e8f0!important}
-#category-cards-wrapper [id^="cat-val-"]{color:#0f172a!important}
+#category-cards-wrapper{background:#ffffff!important;border:1.5px solid #cbd5e1!important;border-radius:20px!important;padding:20px!important;box-shadow:0 4px 20px rgba(15,23,42,0.05)!important}
+#category-cards-wrapper>div:first-child{padding-bottom:15px;border-bottom:1px solid #e2e8f0;margin-bottom:15px!important}
+#category-cards-wrapper>div:first-child>div:first-child>div:first-child{color:#0f172a!important;font-size:18px!important;font-family:'Outfit',sans-serif!important;font-weight:900!important}
+#category-cards-wrapper>div:nth-child(2){gap:12px!important}
+
 
 #mom-chart-container{border-radius:20px!important;padding:21px!important;background:#ffffff!important;border:1px solid #e2e8f0!important}
 #mom-chart-container>div:first-child{padding-bottom:16px;border-bottom:1px solid #f1f5f9;margin-bottom:4px!important}
@@ -3875,8 +3860,8 @@ input[type=checkbox]#login-remember {
   object-fit: cover !important;
   object-position: right center !important;
   z-index: 1 !important;
-  filter: brightness(0.95) contrast(1.08) saturate(1.15) !important;
-  opacity: 0.80 !important;
+  filter: brightness(0.95) contrast(1.1) saturate(1.2) !important;
+  opacity: 0.95 !important;
   image-rendering: -webkit-optimize-contrast !important;
 }
 
@@ -3884,7 +3869,7 @@ input[type=checkbox]#login-remember {
   position: absolute !important;
   inset: 0 !important;
   z-index: 2 !important;
-  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.94) 45%, rgba(255, 255, 255, 0.25) 100%) !important;
+  background: linear-gradient(90deg, #070d1e 0%, rgba(7, 13, 30, 0.94) 45%, rgba(7, 13, 30, 0.70) 75%, rgba(7, 13, 30, 0.35) 100%) !important;
 }
 
 .page-hero-left {
@@ -3897,7 +3882,7 @@ input[type=checkbox]#login-remember {
   font-size: 11px !important;
   font-weight: 850 !important;
   letter-spacing: 0.15em !important;
-  color: #0284c7 !important;
+  color: #fed7aa !important;
   text-transform: uppercase !important;
   margin-bottom: 6px !important;
   display: flex !important;
@@ -3910,15 +3895,17 @@ input[type=checkbox]#login-remember {
   font-size: 28px !important;
   font-weight: 900 !important;
   line-height: 1.2 !important;
-  color: #0f172a !important;
+  color: #ffffff !important;
   margin-bottom: 6px !important;
   letter-spacing: -0.02em !important;
+  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.8) !important;
 }
 
 .page-hero-lead {
   font-size: 13.5px !important;
-  color: #64748b !important;
+  color: #e2e8f0 !important;
   line-height: 1.5 !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8) !important;
 }
 
 .page-hero-right {
@@ -7775,5 +7762,112 @@ body:has(#tab-catalogue-ai.active) .toast-container {
     display: flex !important;
   }
 }
+
+/* ================================================================
+   AUTO NEXA — 5 OFFICIAL MASTER CATEGORIES HIGH-CONTRAST 3D CARDS
+   Styled to match the Master Catalogue aesthetic with rich 3D visuals
+   ================================================================ */
+.cat-sales-category-card {
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 16px !important;
+  min-height: 165px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 1.15rem 1.1rem !important;
+  background: #0b132b !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12) !important;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+}
+
+.cat-sales-category-card:hover {
+  transform: translateY(-4px) scale(1.01) !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.25) !important;
+}
+
+.cat-sales-category-card img.cat-card-bg-img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  opacity: 0.88 !important;
+  filter: brightness(0.95) contrast(1.1) saturate(1.2) !important;
+  pointer-events: none !important;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  z-index: 1 !important;
+}
+
+.cat-sales-category-card:hover img.cat-card-bg-img {
+  transform: scale(1.08) !important;
+}
+
+.cat-sales-category-card .cat-card-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(180deg, rgba(11, 19, 43, 0.45) 0%, rgba(15, 23, 42, 0.80) 55%, rgba(11, 19, 43, 0.96) 100%) !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+  backdrop-filter: blur(1.5px) !important;
+  transition: background 0.3s ease !important;
+}
+
+.cat-sales-category-card:hover .cat-card-overlay {
+  background: linear-gradient(180deg, rgba(11, 19, 43, 0.38) 0%, rgba(15, 23, 42, 0.72) 55%, rgba(11, 19, 43, 0.92) 100%) !important;
+}
+
+.cat-sales-category-card .cat-card-inner-content {
+  position: relative !important;
+  z-index: 3 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  height: 100% !important;
+}
+
+.cat-sales-category-card .cat-card-val {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 1.55rem !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  letter-spacing: -0.5px !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.8) !important;
+  margin: 0.25rem 0 !important;
+}
+
+.cat-sales-category-card .cat-card-sub {
+  font-size: 0.75rem !important;
+  font-weight: 750 !important;
+  color: #e2e8f0 !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8) !important;
+}
+
+.cat-sales-category-card .cat-card-title {
+  font-size: 0.78rem !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  font-family: 'Outfit', sans-serif !important;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.8) !important;
+}
+
+/* Category specific glow accents */
+.cat-card-mech { border: 1.5px solid rgba(124, 58, 237, 0.5) !important; }
+.cat-card-mech:hover { border-color: rgba(167, 139, 250, 0.8) !important; box-shadow: 0 12px 30px rgba(124, 58, 237, 0.35) !important; }
+
+.cat-card-bodyparts { border: 1.5px solid rgba(2, 132, 199, 0.5) !important; }
+.cat-card-bodyparts:hover { border-color: rgba(56, 189, 248, 0.8) !important; box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35) !important; }
+
+.cat-card-lubes { border: 1.5px solid rgba(16, 185, 129, 0.5) !important; }
+.cat-card-lubes:hover { border-color: rgba(52, 211, 153, 0.8) !important; box-shadow: 0 12px 30px rgba(16, 185, 129, 0.35) !important; }
+
+.cat-card-elec { border: 1.5px solid rgba(245, 158, 11, 0.5) !important; }
+.cat-card-elec:hover { border-color: rgba(251, 191, 36, 0.8) !important; box-shadow: 0 12px 30px rgba(245, 158, 11, 0.35) !important; }
+
+.cat-card-acc { border: 1.5px solid rgba(239, 68, 68, 0.5) !important; }
+.cat-card-acc:hover { border-color: rgba(248, 113, 113, 0.8) !important; box-shadow: 0 12px 30px rgba(239, 68, 68, 0.35) !important; }
+
 
 

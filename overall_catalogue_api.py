@@ -887,8 +887,14 @@ def get_taxonomy_hierarchy(make=None, model=None, sub_model=None, aggregate=None
         if aggregate:
             agg_clauses = list(clauses)
             agg_params = list(params)
-            agg_clauses.append("aggregate = ?")
-            agg_params.append(aggregate)
+            aggs = [a.strip() for a in aggregate.split(',') if a.strip()]
+            if len(aggs) == 1:
+                agg_clauses.append("aggregate = ?")
+                agg_params.append(aggs[0])
+            elif len(aggs) > 1:
+                placeholders = ",".join(["?"] * len(aggs))
+                agg_clauses.append(f"aggregate IN ({placeholders})")
+                agg_params.extend(aggs)
             agg_clauses.append("sub_aggregate != ''")
             
             cur.execute(f"""
@@ -905,8 +911,13 @@ def get_taxonomy_hierarchy(make=None, model=None, sub_model=None, aggregate=None
             if not rows and sub_model and model:
                 model_agg_clauses = list(base_clauses)
                 model_agg_params = list(base_params)
-                model_agg_clauses.append("aggregate = ?")
-                model_agg_params.append(aggregate)
+                if len(aggs) == 1:
+                    model_agg_clauses.append("aggregate = ?")
+                    model_agg_params.append(aggs[0])
+                elif len(aggs) > 1:
+                    placeholders = ",".join(["?"] * len(aggs))
+                    model_agg_clauses.append(f"aggregate IN ({placeholders})")
+                    model_agg_params.extend(aggs)
                 model_agg_clauses.append("sub_aggregate != ''")
                 cur.execute(f"""
                     SELECT sub_aggregate, COUNT(*) as cnt
@@ -1479,11 +1490,23 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
             where_clauses.append("vehicle_segment = ?")
             params.append(segment)
         if aggregate:
-            where_clauses.append("aggregate = ?")
-            params.append(aggregate)
+            aggs = [a.strip() for a in aggregate.split(",") if a.strip()]
+            if len(aggs) == 1:
+                where_clauses.append("aggregate = ?")
+                params.append(aggs[0])
+            elif len(aggs) > 1:
+                placeholders = ",".join(["?"] * len(aggs))
+                where_clauses.append(f"aggregate IN ({placeholders})")
+                params.extend(aggs)
         if sub_aggregate:
-            where_clauses.append("sub_aggregate = ?")
-            params.append(sub_aggregate)
+            sub_aggs = [sa.strip() for sa in sub_aggregate.split(",") if sa.strip()]
+            if len(sub_aggs) == 1:
+                where_clauses.append("sub_aggregate = ?")
+                params.append(sub_aggs[0])
+            elif len(sub_aggs) > 1:
+                placeholders = ",".join(["?"] * len(sub_aggs))
+                where_clauses.append(f"sub_aggregate IN ({placeholders})")
+                params.extend(sub_aggs)
         if component:
             where_clauses.append("components = ?")
             params.append(component)

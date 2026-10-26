@@ -19,10 +19,7 @@ const CatalogAiChat = {
   },
 
   toggleInspector() {
-    const inspector = document.getElementById('cat-ai-side-inspector');
-    if (inspector) {
-      inspector.classList.toggle('collapsed');
-    }
+    // Inspector removed per user specification
   },
 
   activeVehicleContext: null,
@@ -730,10 +727,7 @@ const CatalogAiChat = {
               <!-- Quick Status Badges -->
               <div style="display: flex; flex-wrap: wrap; gap: 0.45rem;">
                 <span style="display: inline-flex; align-items: center; gap: 0.35rem; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 6px;">
-                  ✔ 100% Direct Fitment (${this.escapeHtml(oem.make)} ${this.escapeHtml(oem.model)})
-                </span>
-                <span style="display: inline-flex; align-items: center; gap: 0.35rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 6px;">
-                  🟢 In Stock (Dispatch Ready)
+                  ✔ Direct Fitment (${this.escapeHtml(oem.make)} ${this.escapeHtml(oem.model)})
                 </span>
               </div>
             </div>
@@ -745,9 +739,6 @@ const CatalogAiChat = {
                 ${oem.mrp && oem.mrp > 0 ? '₹' + Number(oem.mrp).toLocaleString('en-IN') : 'Price on Request'}
               </div>
               <div style="display: flex; gap: 0.45rem; justify-content: flex-end; margin-top: 0.85rem; flex-wrap: wrap;">
-                <button type="button" onclick="CatalogAiChat.viewInDiagram('${this.escapeJs(compName)}', '${this.escapeJs(aggName)}')" class="cat-ai-action-btn secondary">
-                  <span>📐 View in 3D Diagram</span>
-                </button>
                 <button type="button" onclick="CatalogAiChat.showFitmentModal('${this.escapeJs(oem.partNo)}')" class="cat-ai-action-btn secondary">
                   <span>🔍 Fitment &amp; Specs</span>
                 </button>
@@ -906,8 +897,7 @@ const CatalogAiChat = {
               Part No: <span style="background: #dcfce7; padding: 0.15rem 0.45rem; border-radius: 6px;">${this.escapeHtml(p.partNo)}</span>
             </div>
             <div style="display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.45rem;">
-              <span class="cat-ai-badge-fitment">✔ Fitment Match: 100% Direct Specification</span>
-              <span class="cat-ai-badge-stock">🟢 Stock Availability: In Stock</span>
+              <span class="cat-ai-badge-fitment">✔ Direct Fitment Specification</span>
             </div>
           </div>
           <div style="text-align: right; min-width: 190px;">
@@ -916,9 +906,6 @@ const CatalogAiChat = {
               ${p.mrp && p.mrp > 0 ? '₹' + Number(p.mrp).toLocaleString('en-IN') : 'Price on Request'}
             </div>
             <div style="display: flex; gap: 0.45rem; justify-content: flex-end; margin-top: 0.85rem; flex-wrap: wrap;">
-              <button type="button" onclick="CatalogAiChat.viewInDiagram('${this.escapeJs(p.components || p.desc)}', '${this.escapeJs(p.aggregate || 'BRAKE SYSTEM')}')" class="cat-ai-action-btn secondary">
-                <span>📐 View in Diagram</span>
-              </button>
               <button type="button" onclick="CatalogAiChat.showFitmentModal('${this.escapeJs(p.partNo)}')" class="cat-ai-action-btn secondary">
                 <span>🔍 Fitment &amp; Specs</span>
               </button>

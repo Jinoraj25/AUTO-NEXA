@@ -5,7 +5,7 @@ window.AnalyticsPortal = {
   rfSalesData: [],
   cfSalesData: [],
   activeMonth: 'AUG',
-  activeChannel: 'RF',
+  activeChannel: 'ALL',
   charts: {},
 
   async init() {
@@ -41,17 +41,8 @@ window.AnalyticsPortal = {
     channelBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const channel = btn.getAttribute('data-channel');
-        this.activeChannel = channel;
-
-        channelBtns.forEach(b => {
-          b.classList.remove('active', 'btn-amber');
-          b.classList.add('btn-secondary');
-        });
-        btn.classList.remove('btn-secondary');
-        btn.classList.add('active', 'btn-amber');
-
-        this.updateDashboard();
-        window.App.showToast(`Filtered Sales by ${btn.innerText}`, "info");
+        this.setChannel(channel);
+        window.App.showToast(`Switched to ${btn.innerText} Dashboard`, "info");
       });
     });
 
@@ -70,7 +61,69 @@ window.AnalyticsPortal = {
     }
   },
 
-    async loadSalesCache() {
+  setChannel(channel) {
+    this.activeChannel = channel || 'ALL';
+
+    // Update Channel Filter Buttons UI
+    const channelBtns = document.querySelectorAll('.channel-filter-btn');
+    channelBtns.forEach(btn => {
+      const bChan = btn.getAttribute('data-channel');
+      if (bChan === this.activeChannel) {
+        btn.classList.add('active');
+        btn.classList.remove('btn-secondary');
+        if (bChan === 'CF') {
+          btn.style.background = '#0284c7';
+          btn.style.color = '#fff';
+        } else if (bChan === 'RF') {
+          btn.style.background = '#ea580c';
+          btn.style.color = '#fff';
+        } else {
+          btn.style.background = '#059669';
+          btn.style.color = '#fff';
+        }
+      } else {
+        btn.classList.remove('active', 'btn-amber');
+        btn.classList.add('btn-secondary');
+        btn.style.background = '';
+        btn.style.color = '';
+      }
+    });
+
+    // Update Hero Banner Kicker, Title, Description, and Upload Cards
+    const elKicker = document.getElementById('sales-hero-kicker');
+    const elTitle = document.getElementById('sales-hero-title');
+    const elDesc = document.getElementById('sales-hero-desc');
+    const uploadGrid = document.getElementById('sales-upload-grid');
+    const rfCard = document.getElementById('rf-upload-card-wrapper');
+    const cfCard = document.getElementById('cf-upload-card-wrapper');
+
+    if (this.activeChannel === 'RF') {
+      if (elKicker) elKicker.innerHTML = '<span>🏬</span> RETAIL FRANCHISEE (RF) ANALYTICS DASHBOARD';
+      if (elTitle) elTitle.innerText = 'Retail Franchisee (RF) Sales Performance';
+      if (elDesc) elDesc.innerText = 'Deep-dive analysis of Retail Franchisee store-level turnover, fast-moving service kits, counter walk-ins, and regional dark-store fulfillment.';
+      if (uploadGrid) uploadGrid.style.gridTemplateColumns = '1fr';
+      if (rfCard) rfCard.style.display = 'block';
+      if (cfCard) cfCard.style.display = 'none';
+    } else if (this.activeChannel === 'CF') {
+      if (elKicker) elKicker.innerHTML = '<span>🏢</span> CORPORATE FRANCHISEE (CF) ANALYTICS DASHBOARD';
+      if (elTitle) elTitle.innerText = 'Corporate Franchisee (CF) Sales Performance';
+      if (elDesc) elDesc.innerText = 'Comprehensive B2B & corporate franchisee sales analysis, fleet supply orders, bulk aggregate distribution, and key account margin health.';
+      if (uploadGrid) uploadGrid.style.gridTemplateColumns = '1fr';
+      if (rfCard) rfCard.style.display = 'none';
+      if (cfCard) cfCard.style.display = 'block';
+    } else {
+      if (elKicker) elKicker.innerHTML = '<span>📊</span> CONSOLIDATED ENTERPRISE SALES INTELLIGENCE';
+      if (elTitle) elTitle.innerText = 'Overall Sales Analytics Dashboard (RF + CF Combined)';
+      if (elDesc) elDesc.innerText = 'Consolidated enterprise view combining both Retail Franchisee (RF) and Corporate Franchisee (CF) revenue streams, margin tracking, and pan-India category sales.';
+      if (uploadGrid) uploadGrid.style.gridTemplateColumns = '1fr 1fr';
+      if (rfCard) rfCard.style.display = 'block';
+      if (cfCard) cfCard.style.display = 'block';
+    }
+
+    this.updateDashboard();
+  },
+
+  async loadSalesCache() {
     try {
       let res = await fetch('data/sales_cache.json');
       if (!res.ok) res = await fetch('sales_cache.json');
@@ -275,8 +328,11 @@ window.AnalyticsPortal = {
 
     if (elRev) elRev.innerText = sliceData.totalRevenue >= 10000000 ? `₹${revCrores} Cr` : `₹${revLakhs} L`;
     if (elMom) {
-      const g = sliceData.momRevenueGrowth || 6.8;
-      elMom.innerText = g >= 0 ? `+${g}% MoM Shift vs JUL` : `${g}% MoM Shift vs JUL`;
+      const g = sliceData.momRevenueGrowth || 0.0;
+      const monthsOrder = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP'];
+      const mIdx = monthsOrder.indexOf(this.activeMonth);
+      const prevMonthName = mIdx > 0 ? monthsOrder[mIdx - 1] : 'Prev';
+      elMom.innerText = g >= 0 ? `+${g}% MoM Shift vs ${prevMonthName}` : `${g}% MoM Shift vs ${prevMonthName}`;
       elMom.style.color = g >= 0 ? '#29d391' : '#ff3b30';
     }
 
@@ -332,10 +388,12 @@ window.AnalyticsPortal = {
       const elVal = document.getElementById(`cat-val-${cat.id}`);
       const elPct = document.getElementById(`cat-pct-${cat.id}`);
       const elBar = document.getElementById(`cat-bar-${cat.id}`);
+      const elBadge = document.getElementById(`cat-badge-${cat.id}`);
 
       if (elVal) elVal.innerText = val >= 10000000 ? `₹${crores} Cr` : `₹${lakhs} L`;
       if (elPct) elPct.innerText = `${pct}% Sales Share`;
       if (elBar) elBar.style.width = `${pct}%`;
+      if (elBadge) elBadge.innerText = `${pct}%`;
     });
   },
 
@@ -358,25 +416,44 @@ window.AnalyticsPortal = {
 
     if (this.charts.mom) this.charts.mom.destroy();
 
-        const defaultMomTrend = [
-      { month: 'Jan', revenue: 128400000, marginPct: 14.8 },
-      { month: 'Feb', revenue: 132100000, marginPct: 15.1 },
-      { month: 'Mar', revenue: 135800000, marginPct: 15.3 },
-      { month: 'Apr', revenue: 138900000, marginPct: 15.2 },
-      { month: 'May', revenue: 141200000, marginPct: 15.5 },
-      { month: 'Jun', revenue: 143500000, marginPct: 15.4 },
-      { month: 'Jul', revenue: 145900000, marginPct: 15.6 },
-      { month: 'Aug', revenue: 147280640, marginPct: 15.8 }
-    ];
-    const trendData = (this.salesCache && this.salesCache.momTrend && this.salesCache.momTrend.length > 0) ? this.salesCache.momTrend : defaultMomTrend;
-    const labels = trendData.map(t => t.month);
-    const revValues = trendData.map(t => (t.revenue / 10000000).toFixed(2));
-    const marginRates = trendData.map(t => t.marginPct);
+    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'];
+    const ch = this.activeChannel || 'ALL';
+    let labels = [];
+    let revValues = [];
+    let marginRates = [];
+
+    if (this.salesCache && this.salesCache.data) {
+      months.forEach(m => {
+        const d = this.salesCache.data[`${m}_${ch}`];
+        if (d) {
+          labels.push(m.charAt(0) + m.slice(1).toLowerCase());
+          revValues.push((d.totalRevenue / 10000000).toFixed(2));
+          marginRates.push(d.marginPct || 0);
+        }
+      });
+    }
+
+    if (labels.length === 0) {
+      const defaultMomTrend = [
+        { month: 'Jan', revenue: 128400000, marginPct: 14.8 },
+        { month: 'Feb', revenue: 132100000, marginPct: 15.1 },
+        { month: 'Mar', revenue: 135800000, marginPct: 15.3 },
+        { month: 'Apr', revenue: 138900000, marginPct: 15.2 },
+        { month: 'May', revenue: 141200000, marginPct: 15.5 },
+        { month: 'Jun', revenue: 143500000, marginPct: 15.4 },
+        { month: 'Jul', revenue: 145900000, marginPct: 15.6 },
+        { month: 'Aug', revenue: 147280640, marginPct: 15.8 }
+      ];
+      const trendData = (this.salesCache && this.salesCache.momTrend && this.salesCache.momTrend.length > 0) ? this.salesCache.momTrend : defaultMomTrend;
+      labels = trendData.map(t => t.month);
+      revValues = trendData.map(t => (t.revenue / 10000000).toFixed(2));
+      marginRates = trendData.map(t => t.marginPct);
+    }
 
     if (typeof Chart !== 'undefined' && labels.length > 0) {
       let gradient = ctx.createLinearGradient(0, 0, 0, 320);
-      gradient.addColorStop(0, 'rgba(245, 158, 11, 0.45)');
-      gradient.addColorStop(1, 'rgba(245, 158, 11, 0.02)');
+      gradient.addColorStop(0, 'rgba(234, 88, 12, 0.35)');
+      gradient.addColorStop(1, 'rgba(234, 88, 12, 0.01)');
 
       this.charts.mom = new Chart(ctx, {
         type: 'line',
@@ -386,31 +463,31 @@ window.AnalyticsPortal = {
             {
               label: 'Sales Revenue (₹ Crores)',
               data: revValues,
-              borderColor: '#f59e0b',
+              borderColor: '#ea580c',
               backgroundColor: gradient,
-              borderWidth: 3,
+              borderWidth: 3.5,
               fill: true,
               tension: 0.35,
-              pointBackgroundColor: '#f59e0b',
+              pointBackgroundColor: '#ea580c',
               pointBorderColor: '#ffffff',
-              pointBorderWidth: 2,
-              pointRadius: 5,
-              pointHoverRadius: 8,
+              pointBorderWidth: 2.5,
+              pointRadius: 6,
+              pointHoverRadius: 9,
               yAxisID: 'y'
             },
             {
               label: 'Margin Rate (%)',
               data: marginRates,
-              borderColor: '#10b981',
+              borderColor: '#059669',
               backgroundColor: 'transparent',
               borderWidth: 2.5,
-              borderDash: [4, 4],
+              borderDash: [5, 4],
               tension: 0.35,
-              pointBackgroundColor: '#10b981',
+              pointBackgroundColor: '#059669',
               pointBorderColor: '#ffffff',
-              pointBorderWidth: 2,
-              pointRadius: 5,
-              pointHoverRadius: 8,
+              pointBorderWidth: 2.5,
+              pointRadius: 6,
+              pointHoverRadius: 9,
               yAxisID: 'y1'
             }
           ]
@@ -421,24 +498,41 @@ window.AnalyticsPortal = {
           plugins: {
             legend: {
               display: true,
-              labels: { color: '#ffffff', font: { size: 12, weight: '700' }, padding: 18 }
+              labels: { 
+                color: '#0f172a', 
+                font: { family: "'Outfit', sans-serif", size: 12, weight: '800' }, 
+                padding: 18,
+                usePointStyle: true,
+                pointStyle: 'circle'
+              }
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleColor: '#ffffff',
+              bodyColor: '#e2e8f0',
+              titleFont: { family: "'Outfit', sans-serif", size: 13, weight: 'bold' },
+              bodyFont: { family: "'Outfit', sans-serif", size: 12 },
+              padding: 12,
+              cornerRadius: 8,
+              borderWidth: 1,
+              borderColor: 'rgba(255, 255, 255, 0.15)'
             }
           },
           scales: {
             x: {
-              grid: { color: 'rgba(255, 255, 255, 0.08)' },
-              ticks: { color: '#ffffff', font: { size: 11, weight: '700' } }
+              grid: { color: '#e2e8f0', drawBorder: false },
+              ticks: { color: '#334155', font: { family: "'Outfit', sans-serif", size: 11, weight: '700' } }
             },
             y: { 
-              title: { display: true, text: 'Revenue (₹ Crores)', color: '#ffb84d', font: { size: 12, weight: '800' } },
-              grid: { color: 'rgba(255, 255, 255, 0.08)' },
-              ticks: { color: '#ffffff', font: { size: 11, weight: '700' }, callback: v => `₹${v} Cr` }
+              title: { display: true, text: 'Revenue (₹ Crores)', color: '#ea580c', font: { family: "'Outfit', sans-serif", size: 12, weight: '900' } },
+              grid: { color: '#f1f5f9' },
+              ticks: { color: '#334155', font: { family: "'Outfit', sans-serif", size: 11, weight: '700' }, callback: v => `₹${v} Cr` }
             },
             y1: { 
               position: 'right', 
-              title: { display: true, text: 'Margin (%)', color: '#10b981', font: { size: 12, weight: '800' } }, 
+              title: { display: true, text: 'Margin (%)', color: '#059669', font: { family: "'Outfit', sans-serif", size: 12, weight: '900' } }, 
               grid: { drawOnChartArea: false },
-              ticks: { color: '#ffffff', font: { size: 11, weight: '700' }, callback: v => `${v}%` }
+              ticks: { color: '#334155', font: { family: "'Outfit', sans-serif", size: 11, weight: '700' }, callback: v => `${v}%` }
             }
           }
         }
@@ -474,16 +568,36 @@ window.AnalyticsPortal = {
           responsive: true, 
           maintainAspectRatio: false,
           plugins: {
-            legend: { display: true, labels: { color: '#ffffff', font: { size: 11, weight: '700' } } }
+            legend: { 
+              display: true, 
+              labels: { 
+                color: '#0f172a', 
+                font: { family: "'Outfit', sans-serif", size: 11, weight: '700' } 
+              } 
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleFont: { family: "'Outfit', sans-serif", size: 12, weight: 'bold' },
+              bodyFont: { family: "'Outfit', sans-serif", size: 12 },
+              padding: 10,
+              cornerRadius: 8
+            }
           },
           scales: {
             x: {
-              grid: { color: 'rgba(255, 255, 255, 0.08)' },
-              ticks: { color: '#ffffff', font: { size: 11, weight: '700' } }
+              grid: { display: false },
+              ticks: { 
+                color: '#334155', 
+                font: { family: "'Outfit', sans-serif", size: 11, weight: '700' } 
+              }
             },
             y: {
-              grid: { color: 'rgba(255, 255, 255, 0.08)' },
-              ticks: { color: '#ffffff', font: { size: 11, weight: '700' }, callback: v => `₹${v} Cr` }
+              grid: { color: '#e2e8f0' },
+              ticks: { 
+                color: '#334155', 
+                font: { family: "'Outfit', sans-serif", size: 11, weight: '700' }, 
+                callback: v => `₹${v} Cr` 
+              }
             }
           }
         }
@@ -509,7 +623,8 @@ window.AnalyticsPortal = {
           datasets: [{
             data: revValues,
             backgroundColor: ['#a78bfa', '#38bdf8', '#29d391', '#ffb84d', '#ff3b30'],
-            borderWidth: 0,
+            borderWidth: 1.5,
+            borderColor: '#ffffff',
             hoverOffset: 8,
             spacing: 3
           }]
@@ -521,7 +636,18 @@ window.AnalyticsPortal = {
           plugins: {
             legend: {
               position: 'right',
-              labels: { color: '#ffffff', font: { size: 11, weight: '700' }, padding: 12 }
+              labels: { 
+                color: '#0f172a', 
+                font: { family: "'Outfit', sans-serif", size: 11, weight: '700' }, 
+                padding: 12 
+              }
+            },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              titleFont: { family: "'Outfit', sans-serif", size: 12, weight: 'bold' },
+              bodyFont: { family: "'Outfit', sans-serif", size: 12 },
+              padding: 10,
+              cornerRadius: 8
             }
           }
         }
@@ -540,7 +666,7 @@ window.AnalyticsPortal = {
       { region: 'SOUTH', name: 'SOUTH REGION', revenue: 209000000, margin: 30932000, revenuePct: 29.6, marginPct: 14.8, invoices: 8920, color: '#ff3b30', badge: 'Southern HQ' }
     ];
 
-    const list = (regionList && regionList.length === 4) ? regionList : default4Regions;
+    const list = (regionList && regionList.length > 0) ? regionList : default4Regions;
 
     let html = '';
     list.forEach(r => {
@@ -549,25 +675,25 @@ window.AnalyticsPortal = {
       const marCr = (r.margin / 10000000).toFixed(2);
 
       html += `
-        <div class="card" style="background: linear-gradient(135deg, ${color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${color}45; padding: 1.25rem; border-radius: 14px; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+        <div class="card" style="background: linear-gradient(135deg, ${color}20, rgba(15,23,42,0.96)) !important; border: 1.5px solid ${color}80 !important; padding: 1.25rem; border-radius: 16px; position: relative; box-shadow: 0 6px 24px rgba(15,23,42,0.18);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <span style="font-weight: 900; font-size: 0.95rem; color: ${color}; font-family: 'Outfit', sans-serif;">📍 ${r.name || r.region}</span>
-            <span class="badge" style="background: ${color}25; color: ${color}; border: 1px solid ${color}40; font-weight: 850; font-size: 0.75rem;">${r.revenuePct}% Share</span>
+            <span style="font-weight: 900; font-size: 0.95rem; color: ${color}; font-family: 'Outfit', sans-serif; text-transform: uppercase;">📍 ${r.name || r.region}</span>
+            <span class="badge" style="background: ${color}25; color: ${color}; border: 1px solid ${color}50; font-weight: 850; font-size: 0.75rem;">${r.revenuePct}% Share</span>
           </div>
 
-          <div style="font-size: 1.7rem; font-weight: 900; color: #ffffff; margin: 0.35rem 0;">₹${revCr} Cr</div>
+          <div style="font-size: 1.75rem; font-weight: 900; color: #ffffff !important; margin: 0.35rem 0; font-family: 'Outfit', sans-serif;">₹${revCr} Cr</div>
 
-          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.5rem;">
-            <span>Gross Margin: <strong style="color: ${color};">₹${marCr} Cr</strong></span>
-            <span>Rate: <strong style="color: #29d391;">${r.marginPct}%</strong></span>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #e2e8f0; font-weight: 700; margin-bottom: 0.5rem;">
+            <span>Gross Margin: <strong style="color: ${color}; font-weight: 900;">₹${marCr} Cr</strong></span>
+            <span>Rate: <strong style="color: #34d399; font-weight: 900;">${r.marginPct}%</strong></span>
           </div>
 
-          <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 0.65rem;">
+          <div style="font-size: 0.78rem; color: #cbd5e1; margin-bottom: 0.65rem;">
             📄 ${(r.invoices || 0).toLocaleString()} Invoice Order Lines
           </div>
 
-          <div style="width: 100%; background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="width: ${r.revenuePct * 3.2}%; background: ${color}; height: 100%; border-radius: 3px;"></div>
+          <div style="width: 100%; background: rgba(255,255,255,0.15); height: 6px; border-radius: 3px; overflow: hidden;">
+            <div style="width: ${Math.min(100, r.revenuePct * 3.2)}%; background: ${color}; height: 100%; border-radius: 3px;"></div>
           </div>
         </div>
       `;
@@ -576,54 +702,58 @@ window.AnalyticsPortal = {
     grid.innerHTML = html;
   },
 
-      renderMakeDashboard(makeSales) {
+  renderMakeDashboard(makeSales) {
     const grid = document.getElementById('make-cards-grid');
-    const distList = document.getElementById('make-distribution-list');
+    if (!makeSales) return;
 
-    const makesList = [
-      { num: '01', key: 'MARUTI', name: 'MARUTI SUZUKI', color: '#ff3838', img: 'images/brand_maruti.png', rev: 2.24, units: 14200, share: '30.5%', growth: '+6.8%', grp: 'MHMT Core' },
-      { num: '02', key: 'HYUNDAI', name: 'HYUNDAI MOTORS', color: '#38bdf8', img: 'images/brand_hyundai.png', rev: 1.48, units: 8900, share: '20.1%', growth: '+4.3%', grp: 'MHMT Core' },
-      { num: '03', key: 'MAHINDRA', name: 'MAHINDRA SUV', color: '#f59e0b', img: 'images/brand_mahindra.png', rev: 0.68, units: 4200, share: '9.3%', growth: '-1.2%', grp: 'MHMT Core' },
-      { num: '04', key: 'TATA', name: 'TATA MOTORS', color: '#a855f7', img: 'images/brand_tata.png', rev: 0.42, units: 2800, share: '5.8%', growth: '+3.6%', grp: 'Others' },
-      { num: '05', key: 'HONDA', name: 'HONDA CARS', color: '#ff5252', img: 'images/brand_honda.png', rev: 0.45, units: 2400, share: '6.1%', growth: '+2.1%', grp: 'Others' },
-      { num: '06', key: 'TOYOTA', name: 'TOYOTA KIRLOSKAR', color: '#38bdf8', img: 'images/brand_toyota.png', rev: 0.41, units: 2100, share: '5.6%', growth: '+1.8%', grp: 'Others' },
-      { num: '07', key: 'FORD', name: 'FORD INDIA', color: '#2563eb', img: 'images/brand_ford.png', rev: 0.38, units: 1900, share: '5.2%', growth: '-0.7%', grp: 'Others' },
-      { num: '08', key: 'VOLKSWAGEN', name: 'VOLKSWAGEN', color: '#0284c7', img: 'images/brand_volkswagen.png', rev: 0.34, units: 1600, share: '4.6%', growth: '+3.4%', grp: 'Others' },
-      { num: '09', key: 'SKODA', name: 'SKODA AUTO', color: '#16a34a', img: 'images/brand_skoda.png', rev: 0.29, units: 1400, share: '4.0%', growth: '+2.9%', grp: 'Others' },
-      { num: '10', key: 'RENAULT', name: 'RENAULT INDIA', color: '#eab308', img: 'images/brand_renault.png', rev: 0.25, units: 1200, share: '3.4%', growth: '-1.4%', grp: 'Others' },
-      { num: '11', key: 'NISSAN', name: 'NISSAN MOTORS', color: '#dc2626', img: 'images/brand_nissan.svg', rev: 0.21, units: 950, share: '2.8%', growth: '-2.6%', grp: 'Others' },
-      { num: '12', key: 'OTHERS', name: 'ALL OTHER MAKES', color: '#ec4899', img: 'images/brand_others.svg', rev: 0.19, units: 850, share: '2.5%', growth: '+1.1%', grp: 'Others' }
-    ];
+    const makeMeta = {
+      'MARUTI': { name: 'MARUTI SUZUKI', color: '#ff3838', img: 'images/makes/maruti.png', grp: 'MHMT Core' },
+      'HYUNDAI': { name: 'HYUNDAI MOTORS', color: '#38bdf8', img: 'images/makes/hyundai.png', grp: 'MHMT Core' },
+      'MAHINDRA': { name: 'MAHINDRA SUV', color: '#f59e0b', img: 'images/makes/mahindra.png', grp: 'MHMT Core' },
+      'TATA': { name: 'TATA MOTORS', color: '#a855f7', img: 'images/makes/tata.png', grp: 'MHMT Core' },
+      'HONDA': { name: 'HONDA CARS', color: '#ff5252', img: 'images/makes/honda.png', grp: 'Others' },
+      'TOYOTA': { name: 'TOYOTA KIRLOSKAR', color: '#38bdf8', img: 'images/makes/toyota.png', grp: 'Others' },
+      'FORD': { name: 'FORD INDIA', color: '#2563eb', img: 'images/makes/ford.png', grp: 'Others' },
+      'VOLKSWAGEN': { name: 'VOLKSWAGEN', color: '#0284c7', img: 'images/makes/volkswagen.jpg', grp: 'Others' },
+      'SKODA': { name: 'SKODA AUTO', color: '#16a34a', img: 'images/makes/skoda.jpg', grp: 'Others' },
+      'RENAULT': { name: 'RENAULT INDIA', color: '#eab308', img: 'images/makes/renault.png', grp: 'Others' },
+      'NISSAN': { name: 'NISSAN MOTORS', color: '#dc2626', img: 'images/makes/nissan.png', grp: 'Others' },
+      'OTHERS': { name: 'ALL OTHER MAKES', color: '#ec4899', img: 'images/brand_others.svg', grp: 'Others' }
+    };
 
-    // 1. Render Left Grid Cards
+    let items = (makeSales.items && makeSales.items.length > 0) ? makeSales.items : [];
     let htmlGrid = '';
-    makesList.forEach(m => {
-      const isPos = !m.growth.startsWith('-');
-      const growColor = isPos ? '#29d391' : '#ff3b30';
+    items.forEach((item, idx) => {
+      const meta = makeMeta[item.make] || { name: item.make, color: '#0284c7', img: 'images/brand_others.svg', grp: item.isMhmt ? 'MHMT Core' : 'Others' };
+      const revCr = (item.revenue / 10000000).toFixed(2);
+      const share = `${(item.sharePct || 0).toFixed(1)}%`;
+      const num = String(idx + 1).padStart(2, '0');
+      const units = item.units || 0;
+      const marginPct = (item.marginPct || 0).toFixed(1);
 
       htmlGrid += `
-        <div class="card" style="background: linear-gradient(135deg, ${m.color}15, rgba(15,23,42,0.95)); border: 1.5px solid ${m.color}45; padding: 1rem; border-radius: 14px; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-          <div style="position: absolute; top: 8px; left: 10px; font-size: 0.72rem; font-weight: 900; opacity: 0.4; color: #ffffff;">${m.num}</div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; padding-left: 1.1rem; position: relative; z-index: 2;">
-            <div style="display: flex; align-items: center; gap: 0.4rem;">
-              <img src="${m.img}" alt="${m.name}" style="height: 26px; max-width: 38px; object-fit: contain; background: #ffffff; padding: 2px; border-radius: 5px;">
-              <span style="font-size: 0.8rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif;">${m.name}</span>
+        <div class="card" style="background: linear-gradient(135deg, ${meta.color}15, rgba(15,23,42,0.96)) !important; border: 1.5px solid ${meta.color}50 !important; padding: 1.1rem; border-radius: 16px; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.18);">
+          <div style="position: absolute; top: 8px; left: 10px; font-size: 0.72rem; font-weight: 900; opacity: 0.45; color: #ffffff;">${num}</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem; padding-left: 1.1rem; position: relative; z-index: 2;">
+            <div style="display: flex; align-items: center; gap: 0.45rem;">
+              <img src="${meta.img}" onerror="this.src='images/brand_others.svg'" alt="${meta.name}" style="height: 26px; max-width: 38px; object-fit: contain; background: #ffffff; padding: 2px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <span style="font-size: 0.82rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif;">${meta.name}</span>
             </div>
-            <span class="badge" style="background: ${m.color}30; color: ${m.color}; border: 1px solid ${m.color}50; font-size: 0.7rem; font-weight: 850;">${m.share}</span>
+            <span class="badge" style="background: ${meta.color}35; color: ${meta.color}; border: 1px solid ${meta.color}60; font-size: 0.72rem; font-weight: 850;">${share}</span>
           </div>
 
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.2rem 0; position: relative; z-index: 2;">
-            <div style="font-size: 1.45rem; font-weight: 900; color: #ffffff;">₹${m.rev.toFixed(2)} Cr</div>
-            <div style="font-size: 0.75rem; font-weight: 850; color: ${growColor};">${isPos ? '▲' : '▼'} ${m.growth}</div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.25rem 0; position: relative; z-index: 2;">
+            <div style="font-size: 1.5rem; font-weight: 900; color: #ffffff !important; font-family: 'Outfit', sans-serif;">₹${revCr} Cr</div>
+            <div style="font-size: 0.76rem; font-weight: 850; color: #34d399;">Margin: ${marginPct}%</div>
           </div>
 
-          <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.4rem; position: relative; z-index: 2;">
-            <span>Units Sold: <strong>${m.units.toLocaleString()}</strong></span>
-            <span style="color: ${m.grp === 'MHMT Core' ? '#ffb84d' : '#cbd5e1'}; font-weight: 800;">${m.grp}</span>
+          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.45rem; position: relative; z-index: 2;">
+            <span>Units Sold: <strong style="color: #ffffff;">${units.toLocaleString()}</strong></span>
+            <span style="color: ${meta.grp === 'MHMT Core' ? '#fed7aa' : '#cbd5e1'}; font-weight: 800;">${meta.grp}</span>
           </div>
 
-          <div style="background: rgba(255,255,255,0.15); height: 4px; border-radius: 2px; overflow: hidden; position: relative; z-index: 2;">
-            <div style="background: ${m.color}; height: 100%; width: ${parseFloat(m.share) * 3}%;"></div>
+          <div style="background: rgba(255,255,255,0.15); height: 5px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
+            <div style="background: ${meta.color}; height: 100%; width: ${Math.min(100, (item.sharePct || 0) * 2)}%;"></div>
           </div>
         </div>
       `;
@@ -632,61 +762,67 @@ window.AnalyticsPortal = {
     if (grid) grid.innerHTML = htmlGrid;
 
     // 2. Render Right Side MHMT vs Others Chart & Analytics Panel
-    this.renderMHMTvsOthersChart();
+    this.renderMHMTvsOthersChart(makeSales);
   },
 
-  renderMHMTvsOthersChart() {
+  renderMHMTvsOthersChart(makeSales) {
     const statsContainer = document.getElementById('mhmt-breakdown-stats');
-    
-    // Calculate MHMT vs Others Totals
-    // MHMT Core = Maruti (2.24 Cr), Hyundai (1.48 Cr), Mahindra (0.68 Cr), Tata (0.42 Cr) -> Total = 4.82 Cr (65.7%)
-    // Others = Honda (0.45), Toyota (0.41), Ford (0.38), VW (0.34), Skoda (0.29), Renault (0.25), Nissan (0.21), Others (0.19) -> Total = 2.52 Cr (34.3%)
-    const mhmtRev = 4.82;
-    const othersRev = 2.52;
+    if (!makeSales) return;
+
+    const mhmtRev = (makeSales.mhmtRevenue || 0) / 10000000;
+    const othersRev = (makeSales.othersRevenue || 0) / 10000000;
+    const mhmtPct = (makeSales.mhmtSharePct || 0).toFixed(1);
+    const othersPct = (makeSales.othersSharePct || (100 - parseFloat(mhmtPct))).toFixed(1);
+
+    const items = makeSales.items || [];
+    const maruti = items.find(i => i.make === 'MARUTI') || { sharePct: 0 };
+    const hyundai = items.find(i => i.make === 'HYUNDAI') || { sharePct: 0 };
+    const mahindra = items.find(i => i.make === 'MAHINDRA') || { sharePct: 0 };
+    const tata = items.find(i => i.make === 'TATA') || { sharePct: 0 };
 
     if (statsContainer) {
       statsContainer.innerHTML = `
-        <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+        <div style="background: #fff7ed; border: 1.5px solid #fed7aa; border-radius: 12px; padding: 0.85rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(234, 88, 12, 0.06);">
           <div>
-            <div style="font-size: 0.75rem; color: #ffb84d; font-weight: 850; text-transform: uppercase;">🔥 MHMT Core OEMs</div>
-            <div style="font-size: 0.72rem; color: #94a3b8; font-weight: 600; margin-top: 0.15rem;">Maruti, Hyundai, Mahindra, Tata</div>
+            <div style="font-size: 0.78rem; color: #c2410c; font-weight: 900; text-transform: uppercase; font-family: 'Outfit', sans-serif;">🔥 MHMT Core OEMs</div>
+            <div style="font-size: 0.72rem; color: #64748b; font-weight: 600; margin-top: 0.15rem;">Maruti, Hyundai, Mahindra, Tata</div>
           </div>
           <div style="text-align: right;">
-            <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff;">₹${mhmtRev.toFixed(2)} Cr</div>
-            <div style="font-size: 0.72rem; font-weight: 850; color: #29d391;">65.7% Share</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">₹${mhmtRev.toFixed(2)} Cr</div>
+            <div style="font-size: 0.75rem; font-weight: 850; color: #059669;">${mhmtPct}% Share</div>
           </div>
         </div>
 
-        <div style="background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 10px; padding: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+        <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 0.85rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.06);">
           <div>
-            <div style="font-size: 0.75rem; color: #cbd5e1; font-weight: 850; text-transform: uppercase;">🚗 All Other Makes</div>
-            <div style="font-size: 0.72rem; color: #94a3b8; font-weight: 600; margin-top: 0.15rem;">Honda, Toyota, Ford, VW, etc.</div>
+            <div style="font-size: 0.78rem; color: #0284c7; font-weight: 900; text-transform: uppercase; font-family: 'Outfit', sans-serif;">🚗 All Other Makes</div>
+            <div style="font-size: 0.72rem; color: #64748b; font-weight: 600; margin-top: 0.15rem;">Honda, Toyota, Ford, VW, etc.</div>
           </div>
           <div style="text-align: right;">
-            <div style="font-size: 1.1rem; font-weight: 900; color: #ffffff;">₹${othersRev.toFixed(2)} Cr</div>
-            <div style="font-size: 0.72rem; font-weight: 850; color: #38bdf8;">34.3% Share</div>
+            <div style="font-size: 1.25rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">₹${othersRev.toFixed(2)} Cr</div>
+            <div style="font-size: 0.75rem; font-weight: 850; color: #0284c7;">${othersPct}% Share</div>
           </div>
         </div>
 
         <!-- MHMT Core Contribution Mini Breakdown -->
-        <div style="margin-top: 0.25rem;">
-          <div style="font-size: 0.74rem; font-weight: 800; color: #94a3b8; margin-bottom: 0.4rem;">MHMT Core Breakdown:</div>
-          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem; font-size: 0.72rem;">
-            <div style="background: rgba(255,56,56,0.15); border: 1px solid rgba(255,56,56,0.3); padding: 0.35rem 0.5rem; border-radius: 6px; display: flex; justify-content: space-between;">
-              <span style="color: #ff6b6b; font-weight: 800;">Maruti</span>
-              <span style="color: #ffffff; font-weight: 900;">30.5%</span>
+        <div style="margin-top: 0.4rem;">
+          <div style="font-size: 0.76rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; margin-bottom: 0.45rem;">MHMT Core Breakdown:</div>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; font-size: 0.75rem;">
+            <div style="background: #fef2f2; border: 1.5px solid #fecaca; padding: 0.45rem 0.65rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: #b91c1c; font-weight: 850;">Maruti</span>
+              <span style="color: #0f172a; font-weight: 900; font-family: 'Outfit', sans-serif; font-size: 0.85rem;">${(maruti.sharePct || 0).toFixed(1)}%</span>
             </div>
-            <div style="background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.3); padding: 0.35rem 0.5rem; border-radius: 6px; display: flex; justify-content: space-between;">
-              <span style="color: #38bdf8; font-weight: 800;">Hyundai</span>
-              <span style="color: #ffffff; font-weight: 900;">20.1%</span>
+            <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; padding: 0.45rem 0.65rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: #0284c7; font-weight: 850;">Hyundai</span>
+              <span style="color: #0f172a; font-weight: 900; font-family: 'Outfit', sans-serif; font-size: 0.85rem;">${(hyundai.sharePct || 0).toFixed(1)}%</span>
             </div>
-            <div style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); padding: 0.35rem 0.5rem; border-radius: 6px; display: flex; justify-content: space-between;">
-              <span style="color: #ffb84d; font-weight: 800;">Mahindra</span>
-              <span style="color: #ffffff; font-weight: 900;">9.3%</span>
+            <div style="background: #fff7ed; border: 1.5px solid #fed7aa; padding: 0.45rem 0.65rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: #ea580c; font-weight: 850;">Mahindra</span>
+              <span style="color: #0f172a; font-weight: 900; font-family: 'Outfit', sans-serif; font-size: 0.85rem;">${(mahindra.sharePct || 0).toFixed(1)}%</span>
             </div>
-            <div style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.3); padding: 0.35rem 0.5rem; border-radius: 6px; display: flex; justify-content: space-between;">
-              <span style="color: #c084fc; font-weight: 800;">Tata</span>
-              <span style="color: #ffffff; font-weight: 900;">5.8%</span>
+            <div style="background: #f5f3ff; border: 1.5px solid #ddd6fe; padding: 0.45rem 0.65rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: #7c3aed; font-weight: 850;">Tata</span>
+              <span style="color: #0f172a; font-weight: 900; font-family: 'Outfit', sans-serif; font-size: 0.85rem;">${(tata.sharePct || 0).toFixed(1)}%</span>
             </div>
           </div>
         </div>
@@ -709,26 +845,38 @@ window.AnalyticsPortal = {
         labels: ['MHMT Core (Maruti, Hyundai, Mahindra, Tata)', 'Others (Honda, Toyota, Ford, VW, etc.)'],
         datasets: [{
           data: [mhmtRev, othersRev],
-          backgroundColor: ['#f59e0b', '#38bdf8'],
-          borderWidth: 0,
+          backgroundColor: ['#ea580c', '#0284c7'],
+          borderWidth: 2,
+          borderColor: '#ffffff',
           hoverOffset: 6,
-          spacing: 4
+          spacing: 3
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: '70%',
+        cutout: '68%',
         plugins: {
           legend: {
             position: 'bottom',
-            labels: { color: '#ffffff', font: { size: 10, weight: '700' }, boxWidth: 12, padding: 8 }
+            labels: { 
+              color: '#0f172a', 
+              font: { family: "'Outfit', sans-serif", size: 11, weight: '700' }, 
+              boxWidth: 12, 
+              padding: 10 
+            }
           },
           tooltip: {
+            backgroundColor: '#0f172a',
+            titleFont: { family: 'Outfit', size: 12, weight: 'bold' },
+            bodyFont: { family: 'Outfit', size: 12 },
+            padding: 10,
+            cornerRadius: 8,
             callbacks: {
               label: (ctx) => {
-                const pct = ctx.raw === mhmtRev ? '65.7%' : '34.3%';
-                return ` ${ctx.label}: ₹${ctx.raw} Cr (${pct})`;
+                const val = Number(ctx.raw);
+                const pct = (val / ((mhmtRev + othersRev) || 1) * 100).toFixed(1);
+                return ` ${ctx.label}: ₹${val.toFixed(2)} Cr (${pct}%)`;
               }
             }
           }

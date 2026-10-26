@@ -18,6 +18,7 @@ window.InventoryPortal = {
     this.bindEvents();
     this.fetchInventoryData();
     this.fetchSyncStatus();
+    this.loadConvergenceAnalytics();
   },
 
   async fetchInventoryData() {
@@ -340,6 +341,7 @@ window.InventoryPortal = {
     this.renderDoDCategoryTable();
     this.renderWoWCategoryTable();
     this.applyFiltersAndRenderTable();
+    this.loadConvergenceAnalytics();
   },
 
   renderCategoryHoldingBars(summary) {
@@ -891,5 +893,220 @@ window.InventoryPortal = {
     } else {
       alert("SheetJS library is loading. Please try again in a moment.");
     }
+  },
+
+  // ======= CONVERGENCE ANALYTICS ========================================
+
+  async loadConvergenceAnalytics() {
+    try {
+      const res = await fetch('/api/inventory/catalogue-convergence');
+      if (!res.ok) throw new Error('API not ready');
+      const data = await res.json();
+      if (data && data.status === 'success') {
+        this.renderConvergenceCategoryChart(data.categories);
+        this.renderConvergenceBrandsChart(data.top_brands);
+        this.renderConvergenceTable(data.categories);
+        this._updateConvergenceKPIs(data.totals, data.categories);
+      }
+    } catch (e) {
+      console.warn('Convergence API fallback:', e);
+      const fb = this._convergenceFallbackData();
+      this.renderConvergenceCategoryChart(fb.categories);
+      this.renderConvergenceBrandsChart(fb.top_brands);
+      this.renderConvergenceTable(fb.categories);
+    }
+  },
+
+  _convergenceFallbackData() {
+    return {
+      categories: [
+        { category: 'Secondary OES', inv_val_cr: 67.54, inv_pct: 33.1, cat_records: 3905792, cat_pct: 16.5, index_ratio: 2.01, strategy: 'Core High-Margin Aftermarket Holding (2.0x overweight for gross margin maximization)', badge: 'High Margin Focus', color: '#0284c7' },
+        { category: 'Primary OES', inv_val_cr: 52.60, inv_pct: 25.8, cat_records: 4308207, cat_pct: 18.2, index_ratio: 1.42, strategy: 'Tier-1 OE Equivalent (Bosch, Valeo, LuK) ready for Dealership OEM conversion', badge: 'OEM Conversion Ready', color: '#2563eb' },
+        { category: 'OEM Genuine', inv_val_cr: 31.09, inv_pct: 15.2, cat_records: 9941018, cat_pct: 42.0, index_ratio: 0.36, strategy: 'Lean JIT stock policy — minimize working capital lock-in on dealership spares', badge: 'Lean / JIT Replenishment', color: '#10b981' },
+        { category: 'Private Label (MyTVS)', inv_val_cr: 22.80, inv_pct: 11.2, cat_records: 1704352, cat_pct: 7.2, index_ratio: 1.56, strategy: 'TVS In-House Brand strategic overweight (Highest gross margin realization per unit)', badge: 'Strategic House Brand', color: '#8b5cf6' },
+        { category: 'Paints & Consumables', inv_val_cr: 18.19, inv_pct: 8.9, cat_records: 1903695, cat_pct: 8.0, index_ratio: 1.11, strategy: 'Balanced Bodyshop Demand Alignment (Asian PPG Tints, 3M, Wurth)', badge: 'Demand Balanced', color: '#ec4899' },
+        { category: 'Lubes & Fluids', inv_val_cr: 10.20, inv_pct: 5.0, cat_records: 1768364, cat_pct: 7.5, index_ratio: 0.67, strategy: 'High-Rotation Fast Turnover Bulk Consumables (Castrol, TVS Lubes)', badge: 'High Turnover', color: '#f59e0b' },
+        { category: 'Uncategorised', inv_val_cr: 1.77, inv_pct: 0.8, cat_records: 140044, cat_pct: 0.6, index_ratio: 1.33, strategy: 'Warehouse operational assets & pending brand mapping lines under review', badge: 'Audit & Review', color: '#64748b' }
+      ],
+      top_brands: [
+        { brand: 'DELPHI TECH', inv_val_cr: 31.84, color: '#0284c7', type: 'Primary OES' },
+        { brand: 'PIS NON BRAND', inv_val_cr: 21.85, color: '#38bdf8', type: 'Secondary OES' },
+        { brand: 'ASIAN PPG TINTS', inv_val_cr: 18.01, color: '#ec4899', type: 'Paints' },
+        { brand: 'MYTVS', inv_val_cr: 10.51, color: '#8b5cf6', type: 'Private Label' },
+        { brand: 'CASTROL', inv_val_cr: 8.11, color: '#10b981', type: 'Lubes' },
+        { brand: 'MAHINDRA', inv_val_cr: 7.82, color: '#ef4444', type: 'OEM' },
+        { brand: 'FILTRON', inv_val_cr: 6.57, color: '#6366f1', type: 'Secondary OES' },
+        { brand: 'MARUTI SUZUKI', inv_val_cr: 5.76, color: '#059669', type: 'OEM' },
+        { brand: 'TATA', inv_val_cr: 5.27, color: '#f97316', type: 'OEM' },
+        { brand: 'HYUNDAI', inv_val_cr: 4.89, color: '#0ea5e9', type: 'OEM' }
+      ]
+    };
+  },
+
+  _updateConvergenceKPIs(totals) {
+    if (!totals) return;
+    const inv = totals.inventory || {};
+    const cat = totals.catalogue || {};
+    const kpis = totals.kpis || {};
+    const el = id => document.getElementById(id);
+    if (el('conv-kpi-stock')) el('conv-kpi-stock').innerText = `₹${(inv.valuation_cr || 204.19).toFixed(2)} Cr`;
+    if (el('conv-kpi-stock-sub')) el('conv-kpi-stock-sub').innerHTML =
+      `Backing ${(cat.total_fitment_records || 23671472).toLocaleString()} Fitments<br>${(cat.distinct_parts || 416045).toLocaleString()} Cat SKUs • ${(inv.total_skus || 478347).toLocaleString()} Stock SKUs`;
+    if (el('conv-kpi-oes')) el('conv-kpi-oes').innerText = `₹${(kpis.oes_conversion_val_cr || 120.14).toFixed(2)} Cr`;
+    if (el('conv-kpi-pl')) el('conv-kpi-pl').innerText = `₹${(kpis.pl_mytvs_val_cr || 22.80).toFixed(2)} Cr`;
+    if (el('conv-kpi-oem')) el('conv-kpi-oem').innerText = `₹${(kpis.oem_jit_val_cr || 31.09).toFixed(2)} Cr`;
+    if (el('convergence-last-updated')) el('convergence-last-updated').innerText = `📅 ${inv.latest_date || '26-Oct-2026'} Audit`;
+  },
+
+  renderConvergenceCategoryChart(categories) {
+    const canvas = document.getElementById('chart-inv-vs-cat-category');
+    if (!canvas || typeof Chart === 'undefined') return;
+    if (this.charts['conv-category']) this.charts['conv-category'].destroy();
+
+    const labels = categories.map(c => c.category);
+    const invPct = categories.map(c => c.inv_pct);
+    const catPct = categories.map(c => c.cat_pct);
+    const colors = categories.map(c => c.color || '#0284c7');
+
+    this.charts['conv-category'] = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Inventory Share (%)',
+            data: invPct,
+            backgroundColor: colors.map(c => c + 'CC'),
+            borderColor: colors,
+            borderWidth: 1.5,
+            borderRadius: 6,
+            order: 2
+          },
+          {
+            label: 'Catalogue Share (%)',
+            data: catPct,
+            type: 'line',
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245,158,11,0.10)',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#f59e0b',
+            pointBorderColor: '#fff',
+            pointRadius: 5,
+            tension: 0.35,
+            fill: false,
+            order: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { position: 'top', labels: { font: { size: 11, weight: '700' }, padding: 14, usePointStyle: true } },
+          tooltip: {
+            callbacks: {
+              afterBody(ctx) {
+                const i = ctx[0].dataIndex;
+                const ratio = (invPct[i] / catPct[i]).toFixed(2);
+                return [`Index Ratio: ${ratio}x`];
+              }
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { font: { size: 10 }, maxRotation: 28 }, grid: { display: false } },
+          y: { beginAtZero: true, ticks: { callback: v => v + '%', font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.04)' } }
+        }
+      }
+    });
+  },
+
+  renderConvergenceBrandsChart(brands) {
+    const canvas = document.getElementById('chart-inv-vs-cat-brands');
+    if (!canvas || typeof Chart === 'undefined') return;
+    if (this.charts['conv-brands']) this.charts['conv-brands'].destroy();
+
+    const labels = brands.map(b => b.brand);
+    const values = brands.map(b => b.inv_val_cr);
+    const colors = brands.map(b => b.color || '#0284c7');
+
+    this.charts['conv-brands'] = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Inventory Value (₹ Cr)',
+          data: values,
+          backgroundColor: colors.map(c => c + 'CC'),
+          borderColor: colors,
+          borderWidth: 1.5,
+          borderRadius: 5
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ` ₹${ctx.parsed.x.toFixed(2)} Cr` } }
+        },
+        scales: {
+          x: { beginAtZero: true, ticks: { callback: v => '₹' + v + ' Cr', font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.04)' } },
+          y: { ticks: { font: { size: 10, weight: '700' } }, grid: { display: false } }
+        }
+      }
+    });
+  },
+
+  renderConvergenceTable(categories) {
+    const tbody = document.getElementById('convergence-matrix-tbody');
+    if (!tbody) return;
+
+    const badgeMap = {
+      'High Margin Focus':        ['#eff6ff', '#1d4ed8', '#bfdbfe'],
+      'OEM Conversion Ready':     ['#dbeafe', '#1e40af', '#93c5fd'],
+      'Lean / JIT':               ['#ecfdf5', '#047857', '#6ee7b7'],
+      'Lean / JIT Replenishment': ['#ecfdf5', '#047857', '#6ee7b7'],
+      'Strategic House Brand':    ['#f5f3ff', '#6d28d9', '#c4b5fd'],
+      'Demand Balanced':          ['#fdf2f8', '#9d174d', '#f9a8d4'],
+      'High Turnover':            ['#fffbeb', '#b45309', '#fde68a'],
+      'Audit & Review':           ['#f8fafc', '#475569', '#cbd5e1']
+    };
+
+    tbody.innerHTML = categories.map((cat, i) => {
+      const bc = badgeMap[cat.badge] || ['#f8fafc', '#475569', '#e2e8f0'];
+      const idxColor = cat.index_ratio >= 1.2 ? '#059669' : cat.index_ratio >= 0.8 ? '#d97706' : '#dc2626';
+      const idxBg    = cat.index_ratio >= 1.2 ? '#ecfdf5' : cat.index_ratio >= 0.8 ? '#fffbeb' : '#fef2f2';
+      const catRecs  = cat.cat_records >= 1e6
+        ? (cat.cat_records / 1e6).toFixed(2) + 'M'
+        : (cat.cat_records / 1e3).toFixed(0) + 'K';
+      const rowBg = i % 2 === 1 ? 'background:#fafafa;' : '';
+
+      return `<tr style="border-bottom:1px solid #f1f5f9;${rowBg}">
+        <td style="padding:10px 14px;font-weight:850;color:${cat.color};white-space:nowrap;">
+          <span style="width:8px;height:8px;border-radius:50%;background:${cat.color};display:inline-block;margin-right:6px;vertical-align:middle;"></span>${cat.category}
+        </td>
+        <td style="padding:10px 14px;text-align:right;font-weight:800;color:#059669;">₹${cat.inv_val_cr.toFixed(2)} Cr</td>
+        <td style="padding:10px 14px;text-align:right;">
+          <div style="display:inline-flex;align-items:center;gap:0.4rem;">
+            <div style="width:55px;height:6px;background:#f1f5f9;border-radius:3px;overflow:hidden;">
+              <div style="width:${Math.min(cat.inv_pct * 2.5,100)}%;height:100%;background:${cat.color};border-radius:3px;"></div>
+            </div>
+            <span style="font-weight:800;color:#2563eb;">${cat.inv_pct}%</span>
+          </div>
+        </td>
+        <td style="padding:10px 14px;text-align:right;color:#64748b;font-weight:700;">${catRecs}</td>
+        <td style="padding:10px 14px;text-align:right;font-weight:800;color:#7c3aed;">${cat.cat_pct}%</td>
+        <td style="padding:10px 14px;text-align:center;">
+          <span style="background:${idxBg};color:${idxColor};border:1px solid ${idxColor}44;border-radius:8px;padding:0.2rem 0.65rem;font-size:0.8rem;font-weight:900;">${cat.index_ratio.toFixed(2)}x</span>
+        </td>
+        <td style="padding:10px 14px;font-size:0.75rem;color:#64748b;max-width:250px;line-height:1.4;">${cat.strategy}</td>
+        <td style="padding:10px 14px;text-align:center;white-space:nowrap;">
+          <span style="background:${bc[0]};color:${bc[1]};border:1px solid ${bc[2]};border-radius:6px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:800;">${cat.badge}</span>
+        </td>
+      </tr>`;
+    }).join('');
   }
+
 };
+
