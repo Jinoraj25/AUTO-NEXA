@@ -30,13 +30,12 @@ window.App = {
       if (window.CatalogAiChat && window.CatalogAiChat.init) window.CatalogAiChat.init();
       if (window.InventoryPortal && window.InventoryPortal.init) window.InventoryPortal.init();
       if (window.AnalyticsPortal && window.AnalyticsPortal.init) window.AnalyticsPortal.init();
-      if (window.DeviationPortal && window.DeviationPortal.init) window.DeviationPortal.init();
       if (window.ForecastingPortal && window.ForecastingPortal.init) window.ForecastingPortal.init();
     } catch (e) { console.warn("Sub-portal init warning:", e); }
 
     this.initHomeVideo();
     const urlParams = new URLSearchParams(window.location.search);
-    const initialTab = window._initialTab || urlParams.get('tab') || window.location.hash.replace('#', '') || 'catalogue-dashboard';
+    const initialTab = window._initialTab || urlParams.get('tab') || window.location.hash.replace('#', '') || 'home';
     this.switchTab(initialTab);
     this.showToast("AUTO NEXA Online — Automotive Parts Intelligence loaded.", "success");
   },
@@ -134,18 +133,6 @@ window.App = {
         breadcrumbPg = 'Good Stock Intelligence';
         break;
 
-      case 'inventory-deviation':
-        targetSectionId = 'tab-deviation';
-        breadcrumbSec = 'INVENTORY';
-        breadcrumbPg = 'Purchase Deviation & Leakage Audit';
-        break;
-
-      case 'inventory-not-available':
-        targetSectionId = 'tab-inventory-not-available';
-        breadcrumbSec = 'INVENTORY';
-        breadcrumbPg = 'Product Not Available & Lost Demand';
-        break;
-
       case 'sales-rf':
         targetSectionId = 'tab-analytics';
         breadcrumbSec = 'SALES';
@@ -222,8 +209,6 @@ window.App = {
           window.CatalogAiChat.init();
         } else if (targetSectionId === 'tab-inventory' && window.InventoryPortal) {
           window.InventoryPortal.renderAll();
-        } else if (targetSectionId === 'tab-inventory-not-available') {
-          this.loadLostDemandTable();
         } else if (targetSectionId === 'tab-analytics' && window.AnalyticsPortal) {
           const uploadGrid = document.getElementById('sales-upload-grid');
           const rfCard = document.getElementById('rf-upload-card-wrapper');
@@ -243,8 +228,6 @@ window.App = {
             if (uploadGrid) uploadGrid.style.display = 'none';
           }
           window.AnalyticsPortal.updateDashboard();
-        } else if (targetSectionId === 'tab-deviation' && window.DeviationPortal) {
-          window.DeviationPortal.updateDeviationAnalysis();
         } else if (targetSectionId === 'tab-forecasting' && window.ForecastingPortal) {
           window.ForecastingPortal.updateForecasting();
         }
@@ -252,104 +235,6 @@ window.App = {
         console.warn("Tab switch callback notice:", tabErr);
       }
     }, 50);
-  },
-
-  // ==================== PRODUCT NOT AVAILABLE (LOST DEMAND) ====================
-
-  lostDemandData: [
-    { partNo: '10155210-M74L00', desc: 'BRAKE PAD SET, FRONT DISC', brand: 'MARUTI SUZUKI', make: 'MARUTI', model: 'SWIFT / DZIRE', lostOrders: 184, mrp: 1850, stockoutDays: 14 },
-    { partNo: '04152-YZZA6', desc: 'ELEMENT SUB-ASSY, OIL FILTER', brand: 'TOYOTA', make: 'TOYOTA', model: 'INNOVA / FORTUNER', lostOrders: 142, mrp: 480, stockoutDays: 19 },
-    { partNo: '21658101-1CA00', desc: 'PAD KIT-FRONT DISC BRAKE', brand: 'HYUNDAI', make: 'HYUNDAI', model: 'CRETA / I20', lostOrders: 128, mrp: 3546, stockoutDays: 11 },
-    { partNo: '0060A00251N', desc: 'LOWER BALL JOINT SUSPENSION', brand: 'MAHINDRA', make: 'MAHINDRA', model: 'SCORPIO / BOLERO', lostOrders: 96, mrp: 1220, stockoutDays: 22 },
-    { partNo: '5450004100', desc: 'AIR FILTER ELEMENT', brand: 'TATA MOTORS', make: 'TATA', model: 'NEXON / ALTROZ', lostOrders: 88, mrp: 650, stockoutDays: 15 },
-    { partNo: '21698850-BV000', desc: 'BLADE ASSY-WIPER, REAR', brand: 'HYUNDAI', make: 'HYUNDAI', model: 'EXTER / ALCAZAR', lostOrders: 75, mrp: 397, stockoutDays: 8 },
-    { partNo: '10122400-M74L00', desc: 'CLUTCH DISC ASSEMBLY', brand: 'MARUTI SUZUKI', make: 'MARUTI', model: 'SWIFT PETROL', lostOrders: 64, mrp: 2150, stockoutDays: 16 },
-    { partNo: '0986AB1054', desc: 'DISC BRAKE ROTOR PAIR', brand: 'BOSCH', make: 'MULTI-BRAND', model: 'HONDA CITY / AMAZE', lostOrders: 58, mrp: 3200, stockoutDays: 25 },
-    { partNo: '10113700-M68K00', desc: 'CABIN AIR CONDITION FILTER', brand: 'MARUTI SUZUKI', make: 'MARUTI', model: 'BALENO / WAGON R', lostOrders: 52, mrp: 390, stockoutDays: 9 },
-    { partNo: '21626300-35505', desc: 'SPARK PLUG SET (IRIDIUM)', brand: 'HYUNDAI', make: 'HYUNDAI', model: 'VERNA 1.6L', lostOrders: 49, mrp: 1450, stockoutDays: 12 }
-  ],
-
-  loadLostDemandTable() {
-    const tbody = document.getElementById('lost-demand-table-body');
-    if (!tbody) return;
-
-    tbody.innerHTML = this.lostDemandData.map(r => {
-      const lostVal = r.lostOrders * r.mrp;
-      return `
-        <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-          <td style="font-weight: 850; color: #0284c7; font-family: monospace; padding: 0.85rem;">${r.partNo}</td>
-          <td style="font-weight: 700; color: #0f172a; padding: 0.85rem;">${r.desc}</td>
-          <td style="padding: 0.85rem;"><span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 800;">${r.brand}</span></td>
-          <td style="color: #475569; font-weight: 700; padding: 0.85rem;">${r.model}</td>
-          <td style="text-align: right; font-weight: 900; color: #dc2626; padding: 0.85rem; font-family: 'Outfit', sans-serif;">${r.lostOrders}</td>
-          <td style="text-align: right; font-weight: 700; color: #059669; padding: 0.85rem;">₹${r.mrp.toLocaleString('en-IN')}</td>
-          <td style="text-align: right; font-weight: 900; color: #d97706; padding: 0.85rem; font-family: 'Outfit', sans-serif;">₹${lostVal.toLocaleString('en-IN')}</td>
-          <td style="text-align: center; font-weight: 800; color: #7c3aed; padding: 0.85rem;">${r.stockoutDays}d</td>
-          <td style="text-align: center; padding: 0.85rem;">
-            <button type="button" onclick="App.addLostDemandToPO('${r.partNo}', ${r.lostOrders})" style="padding: 0.4rem 0.8rem; font-size: 0.78rem; font-weight: 850; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 7px; cursor: pointer;">
-              + Add to PO Draft
-            </button>
-          </td>
-        </tr>
-      `;
-    }).join('');
-  },
-
-  filterLostDemandTable(q) {
-    const tbody = document.getElementById('lost-demand-table-body');
-    if (!tbody) return;
-    const cleanQ = q.trim().toUpperCase();
-
-    const filtered = this.lostDemandData.filter(r => 
-      !cleanQ || r.partNo.toUpperCase().includes(cleanQ) || r.desc.toUpperCase().includes(cleanQ) || r.model.toUpperCase().includes(cleanQ)
-    );
-
-    tbody.innerHTML = filtered.map(r => {
-      const lostVal = r.lostOrders * r.mrp;
-      return `
-        <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-          <td style="font-weight: 850; color: #0284c7; font-family: monospace; padding: 0.85rem;">${r.partNo}</td>
-          <td style="font-weight: 700; color: #0f172a; padding: 0.85rem;">${r.desc}</td>
-          <td style="padding: 0.85rem;"><span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 800;">${r.brand}</span></td>
-          <td style="color: #475569; font-weight: 700; padding: 0.85rem;">${r.model}</td>
-          <td style="text-align: right; font-weight: 900; color: #dc2626; padding: 0.85rem; font-family: 'Outfit', sans-serif;">${r.lostOrders}</td>
-          <td style="text-align: right; font-weight: 700; color: #059669; padding: 0.85rem;">₹${r.mrp.toLocaleString('en-IN')}</td>
-          <td style="text-align: right; font-weight: 900; color: #d97706; padding: 0.85rem; font-family: 'Outfit', sans-serif;">₹${lostVal.toLocaleString('en-IN')}</td>
-          <td style="text-align: center; font-weight: 800; color: #7c3aed; padding: 0.85rem;">${r.stockoutDays}d</td>
-          <td style="text-align: center; padding: 0.85rem;">
-            <button type="button" onclick="App.addLostDemandToPO('${r.partNo}', ${r.lostOrders})" style="padding: 0.4rem 0.8rem; font-size: 0.78rem; font-weight: 850; background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; border-radius: 7px; cursor: pointer;">
-              + Add to PO Draft
-            </button>
-          </td>
-        </tr>
-      `;
-    }).join('');
-  },
-
-  addLostDemandToPO(partNo, qty) {
-    this.showToast(`Added Part ${partNo} (Qty: ${qty}) to Purchase Order Draft!`, "success");
-  },
-
-  exportLostDemandExcel() {
-    if (typeof XLSX !== 'undefined') {
-      const rows = this.lostDemandData.map(r => ({
-        "Part Number": r.partNo,
-        "Description": r.desc,
-        "Brand": r.brand,
-        "Vehicle Fitment": r.model,
-        "Lost Customer Orders": r.lostOrders,
-        "Unit MRP (INR)": r.mrp,
-        "Estimated Lost Revenue (INR)": r.lostOrders * r.mrp,
-        "Stockout Days": r.stockoutDays
-      }));
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.json_to_sheet(rows);
-      XLSX.utils.book_append_sheet(wb, ws, "Lost Demand SKUs");
-      XLSX.writeFile(wb, `AUTO_NEXA_Lost_Demand_${Date.now()}.xlsx`);
-      this.showToast("Exported Lost Demand Report to Excel!", "success");
-    } else {
-      alert("Excel export module loading. Please try again.");
-    }
   },
 
   // ==================== CATALOG AI ASSISTANT ====================
@@ -431,12 +316,7 @@ window.App = {
   },
 
   checkAuth() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('autologin') === '1' || urlParams.get('login') === '1' || urlParams.get('tab')) {
-      localStorage.setItem('mytvs_logged_in', 'true');
-    }
-
-    const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true' || localStorage.getItem('mytvs_logged_in') === 'true';
+    const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true';
     const loginOverlay = document.getElementById('mytvs-login-screen');
     const header = document.getElementById('app-header');
     const sidebar = document.getElementById('app-sidebar');
@@ -450,9 +330,15 @@ window.App = {
       if (header) header.style.setProperty('display', 'flex', 'important');
       if (mainContent) mainContent.style.setProperty('display', 'block', 'important');
       if (footer) footer.style.setProperty('display', 'block', 'important');
+      document.body.style.overflow = '';
     } else {
       document.body.classList.remove('is-authenticated');
-      if (loginOverlay) loginOverlay.style.setProperty('display', 'flex', 'important');
+      if (loginOverlay) loginOverlay.style.setProperty('display', 'grid', 'important');
+      if (sidebar) sidebar.style.setProperty('display', 'none', 'important');
+      if (header) header.style.setProperty('display', 'none', 'important');
+      if (mainContent) mainContent.style.setProperty('display', 'none', 'important');
+      if (footer) footer.style.setProperty('display', 'none', 'important');
+      document.body.style.overflow = 'hidden';
     }
   },
 
@@ -467,7 +353,6 @@ window.App = {
     sessionStorage.setItem('mytvs_logged_in', 'true');
     sessionStorage.setItem('mytvs_user_code', userCode);
     sessionStorage.setItem('mytvs_user_name', displayName);
-    localStorage.setItem('mytvs_logged_in', 'true');
 
     document.body.classList.add('is-authenticated');
     const loginOverlay = document.getElementById('mytvs-login-screen');
@@ -484,6 +369,7 @@ window.App = {
     document.body.style.overflow = '';
 
     this.switchTab('home');
+    this.showToast(`Welcome back, ${displayName}! Logged into AUTO NEXA Hub.`, "success");
   },
 
   initHomeVideo() {
@@ -532,7 +418,7 @@ window.App = {
     sessionStorage.removeItem('mytvs_logged_in');
     sessionStorage.removeItem('mytvs_user_code');
     sessionStorage.removeItem('mytvs_user_name');
-    localStorage.removeItem('mytvs_logged_in');
+    try { localStorage.removeItem('mytvs_logged_in'); } catch(e) {}
     document.body.classList.remove('is-authenticated');
     window.location.reload();
   }
@@ -565,7 +451,6 @@ window.loginDirect = function(e) {
   if (e && e.preventDefault) e.preventDefault();
   try {
     sessionStorage.setItem('mytvs_logged_in', 'true');
-    localStorage.setItem('mytvs_logged_in', 'true');
   } catch(err) {}
   document.body.classList.add('is-authenticated');
   var overlay = document.getElementById('mytvs-login-screen');
@@ -580,9 +465,11 @@ window.loginDirect = function(e) {
   if (main) main.style.setProperty('display', 'block', 'important');
   var footer = document.querySelector('footer.app-footer');
   if (footer) footer.style.setProperty('display', 'block', 'important');
-  document.body.style.overflow = 'auto';
-  if (window.App && window.App.handleLogin) {
-    try { window.App.handleLogin(e); } catch(err) {}
+  document.body.style.overflow = '';
+  if (window.App && typeof window.App.handleLogin === 'function') {
+    try { window.App.handleLogin(e); } catch(err) {
+      if (window.App.switchTab) window.App.switchTab('home');
+    }
   } else if (window.App && window.App.switchTab) {
     window.App.switchTab('home');
   }
