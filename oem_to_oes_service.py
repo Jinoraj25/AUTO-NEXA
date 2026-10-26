@@ -120,7 +120,7 @@ def convert_oem_to_oes(query_str, selected_model=None):
     c = conn.cursor()
 
     # Fast indexed candidate array
-    candidate_pnos = list(dict.fromkeys([
+    candidate_list = [
         raw_q,
         raw_q.replace('-', ''),
         clean_q,
@@ -128,7 +128,19 @@ def convert_oem_to_oes(query_str, selected_model=None):
         f"217{clean_q}", f"217{raw_q}",
         f"201{clean_q}", f"201{raw_q}",
         f"218{clean_q}", f"222{clean_q}", f"223{clean_q}", f"220{clean_q}"
-    ]))
+    ]
+
+    # Auto-generate 5-5 hyphenated variants (standard Hyundai/Kia format like 58510-C4930, 31111-0M000)
+    if len(clean_q) == 10:
+        hyphen_55 = f"{clean_q[:5]}-{clean_q[5:]}"
+        candidate_list.extend([
+            hyphen_55,
+            f"216{hyphen_55}",
+            f"217{hyphen_55}",
+            f"201{hyphen_55}"
+        ])
+
+    candidate_pnos = list(dict.fromkeys(candidate_list))
 
     placeholders = ','.join(['?'] * len(candidate_pnos))
     c.execute(f"""
@@ -270,8 +282,29 @@ def convert_oem_to_oes(query_str, selected_model=None):
 
         cbrand_clean = str(cbrand or '').strip()
         cat = classify_brand(cbrand_clean)
-        saving_amount = round(oem_mrp - cand_mrp, 2) if (oem_mrp and cand_mrp and oem_mrp > cand_mrp) else None
-        saving_pct = round((saving_amount / oem_mrp) * 100) if (saving_amount and oem_mrp > 0) else None
+        
+        # Comprehensive Price vs OEM Comparison
+        price_diff = None
+        price_diff_pct = None
+        saving_amount = None
+        saving_pct = None
+        price_status = 'no_oem_price'
+
+        if oem_mrp > 0 and cand_mrp > 0:
+            price_diff = round(oem_mrp - cand_mrp, 2)
+            price_diff_pct = round(((oem_mrp - cand_mrp) / oem_mrp) * 100)
+            if oem_mrp > cand_mrp:
+                saving_amount = price_diff
+                saving_pct = price_diff_pct
+                price_status = 'cheaper'
+            elif cand_mrp > oem_mrp:
+                saving_amount = price_diff # negative
+                saving_pct = round(((cand_mrp - oem_mrp) / oem_mrp) * 100) # positive premium %
+                price_status = 'premium'
+            else:
+                saving_amount = 0
+                saving_pct = 0
+                price_status = 'equal'
 
         item = {
             'partNo': cpno,
@@ -283,6 +316,9 @@ def convert_oem_to_oes(query_str, selected_model=None):
             'mrp': cand_mrp,
             'price': cand_mrp,
             'verified_for_model': cmodel,
+            'price_diff': price_diff,
+            'price_diff_pct': price_diff_pct,
+            'price_status': price_status,
             'saving_amount': saving_amount,
             'saving_pct': saving_pct,
             'savings_amount': saving_amount or 0,
@@ -309,9 +345,16 @@ def convert_oem_to_oes(query_str, selected_model=None):
             item['tier_rank'] = 4
             tier4_other.append(item)
 
-    # Sort within each tier: highest savings percentage first, then lowest MRP
+    # Sort within each tier: items that save money first (highest % discount), then lowest price
     def sort_key(x):
-        return (-(x['savings_pct'] or 0), x['mrp'])
+        st = x.get('price_status')
+        if st == 'cheaper':
+            return (0, -(x.get('saving_pct') or 0), x['mrp'])
+        elif st == 'equal':
+            return (1, 0, x['mrp'])
+        elif st == 'premium':
+            return (2, x.get('saving_pct') or 0, x['mrp'])
+        return (3, 0, x['mrp'])
 
     tier1_primary.sort(key=sort_key)
     tier2_pl.sort(key=sort_key)
