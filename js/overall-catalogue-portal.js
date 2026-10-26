@@ -94,11 +94,11 @@ window.OverallCataloguePortal = {
       }
     });
 
-    await this.loadStats();
+    this.loadStats();
+    this.initCharts();
     await this.initVisualNavigator();
     await this.loadFilterOptions();
     await this.fetchData();
-    this.initCharts();
   },
 
   showCartToast() {
@@ -2527,7 +2527,6 @@ window.OverallCataloguePortal = {
       const listVal = r.listPrice ?? r.list_price;
       const mrpVal = r.mrp ?? r.mrp_price;
       const segment = r.segment ?? 'PCV';
-      const make = r.make ?? '';
       const model = r.model ?? '';
       const subModel = r.subModel ?? r.sub_model ?? '';
       const fuelType = r.fuelType ?? r.fuel_type ?? '';

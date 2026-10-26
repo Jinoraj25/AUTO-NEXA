@@ -211,6 +211,7 @@ window.App = {
     setTimeout(() => {
       try {
         if (targetSectionId === 'tab-catalogue' && window.OverallCataloguePortal) {
+          if (window.OverallCataloguePortal.loadStats) window.OverallCataloguePortal.loadStats();
           window.OverallCataloguePortal.fetchData();
           if (window.OverallCataloguePortal.initCharts) window.OverallCataloguePortal.initCharts();
         } else if (targetSectionId === 'tab-home') {
@@ -224,12 +225,22 @@ window.App = {
         } else if (targetSectionId === 'tab-inventory-not-available') {
           this.loadLostDemandTable();
         } else if (targetSectionId === 'tab-analytics' && window.AnalyticsPortal) {
+          const uploadGrid = document.getElementById('sales-upload-grid');
+          const rfCard = document.getElementById('rf-upload-card-wrapper');
+          const cfCard = document.getElementById('cf-upload-card-wrapper');
           if (this.activeTab === 'sales-rf') {
             window.AnalyticsPortal.setChannel('RF');
+            if (uploadGrid) uploadGrid.style.display = 'grid';
+            if (rfCard) rfCard.style.display = 'block';
+            if (cfCard) cfCard.style.display = 'none';
           } else if (this.activeTab === 'sales-cf') {
             window.AnalyticsPortal.setChannel('CF');
+            if (uploadGrid) uploadGrid.style.display = 'grid';
+            if (rfCard) rfCard.style.display = 'none';
+            if (cfCard) cfCard.style.display = 'block';
           } else {
             window.AnalyticsPortal.setChannel('ALL');
+            if (uploadGrid) uploadGrid.style.display = 'none';
           }
           window.AnalyticsPortal.updateDashboard();
         } else if (targetSectionId === 'tab-deviation' && window.DeviationPortal) {

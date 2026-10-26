@@ -1,13 +1,25 @@
-# Ignore executables
-*.exe
-
-# Ignore Python caches
+# Python caches
 __pycache__/
 *.pyc
+*.pyo
+
+# Executables & Logs
+*.exe
+logs/
+*.log
+
+# Data pickles & intermediate audit text files
+*.pkl
+data/*.pkl
+data/*.txt
+data/all_*.txt
+data/remaining_*.txt
 
 # Ignore SQLite DBs
 *.db
 *.db-*
+data/*.db
+data/*.db-*
 
 # Ignore raw dataset files & archives
 *.xls
@@ -31,7 +43,93 @@ data/*.json
 !data/trained_mapping_db.json.gz
 !aggregate_master_rules.json.gz
 !data/aggregate_master_rules.json.gz
+
 # Ignore temporary screenshot and test scratch files
 shot_*.png
 test_*.html
 test_*.py
+verify_*.html
+verify_*.py
+test_shots/
+
+# One-off root audit / analysis scripts
+apply_master_corrections.py
+audit_*.py
+build_master_replacement_dict.py
+build_resolution_plan.py
+categorize_all_anomalies.py
+check_*.py
+compare_*.py
+compile_*.py
+consolidate_part_variants.py
+create_brand_svgs.py
+create_fallback_images.py
+create_master_correction_mapping.py
+db_search.py
+deep_scan_anomalies.py
+extract_detailed_lag.py
+extract_lag_parts.py
+find_*.py
+fix_remaining_31_rows.py
+group_lag.py
+inspect_*.py
+list_replace_groups.py
+print_*.py
+resolve_blunders.py
+run_test_cases.py
+scan_catalog_oes_anomalies.py
+
+# One-off scripts in scripts/
+scripts/analyze_*.py
+scripts/apply_*.py
+scripts/audit_*.py
+scripts/beautify_*.py
+scripts/build_*.py
+scripts/calculate_*.py
+scripts/capture_*.py
+scripts/categorize_*.py
+scripts/check_*.py
+scripts/comp_*.py
+scripts/compare_*.py
+scripts/compile_*.py
+scripts/component_*.py
+scripts/create_*.py
+scripts/deep_*.py
+scripts/diagnose_*.py
+scripts/diff_*.py
+scripts/display_*.py
+scripts/dump_*.py
+scripts/evaluate_*.py
+scripts/execute_*.py
+scripts/extract_*.py
+scripts/fast_*.py
+scripts/fill_*.py
+scripts/finalize_*.py
+scripts/find_*.py
+scripts/fts_*.py
+scripts/generate_*.py
+scripts/group_*.py
+scripts/index_*.py
+scripts/inspect_*.py
+scripts/list_*.py
+scripts/lookup_*.py
+scripts/match_*.py
+scripts/populate_*.py
+scripts/print_*.py
+scripts/process_*.py
+scripts/render_*.py
+scripts/replace_*.py
+scripts/run_*.py
+scripts/scan_*.py
+scripts/search_*.py
+scripts/show_*.py
+scripts/solve_*.py
+scripts/take_*.py
+scripts/test_*.py
+scripts/update_*.py
+scripts/verify_*.py
+scripts/view_*.py
+scripts/watch_*.py
+scripts/wo_descriptions.txt
+scripts/add_oem_oes_tab.py
+scripts/append_*.py

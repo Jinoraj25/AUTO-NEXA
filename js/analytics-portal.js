@@ -84,8 +84,8 @@ window.AnalyticsPortal = {
       } else {
         btn.classList.remove('active', 'btn-amber');
         btn.classList.add('btn-secondary');
-        btn.style.background = '';
-        btn.style.color = '';
+        btn.style.background = 'transparent';
+        btn.style.color = '#cbd5e1';
       }
     });
 
@@ -320,6 +320,34 @@ window.AnalyticsPortal = {
     const elMhmtSub = document.getElementById('kpi-mhmt-subtext');
     const elInvoices = document.getElementById('kpi-invoice-volume');
     const elUnits = document.getElementById('kpi-units-volume');
+    const elChanBadge = document.getElementById('kpi-channel-badge');
+    const elMonthBadge = document.getElementById('kpi-month-badge');
+
+    // Dynamic Channel Badge (RF Channel / CF Channel / RF + CF)
+    if (elChanBadge) {
+      if (this.activeChannel === 'RF') {
+        elChanBadge.innerText = 'RF Channel';
+        elChanBadge.style.color = '#c2410c';
+        elChanBadge.style.background = '#fff7ed';
+        elChanBadge.style.borderColor = '#fed7aa';
+      } else if (this.activeChannel === 'CF') {
+        elChanBadge.innerText = 'CF Channel';
+        elChanBadge.style.color = '#0284c7';
+        elChanBadge.style.background = '#f0f9ff';
+        elChanBadge.style.borderColor = '#bae6fd';
+      } else {
+        elChanBadge.innerText = 'RF + CF';
+        elChanBadge.style.color = '#047857';
+        elChanBadge.style.background = '#ecfdf5';
+        elChanBadge.style.borderColor = '#a7f3d0';
+      }
+    }
+
+    // Dynamic Month Badge
+    if (elMonthBadge) {
+      const monthNames = { 'SEP': "Sep '26", 'AUG': "Aug '26", 'JUL': "Jul '26", 'JUN': "Jun '26", 'MAY': "May '26", 'APR': "Apr '26", 'MAR': "Mar '26", 'FEB': "Feb '26", 'JAN': "Jan '26", 'ALL': "FY '26" };
+      elMonthBadge.innerText = monthNames[this.activeMonth] || `${this.activeMonth} '26`;
+    }
 
     const revCrores = (sliceData.totalRevenue / 10000000).toFixed(2);
     const revLakhs = (sliceData.totalRevenue / 100000).toFixed(2);
@@ -331,9 +359,18 @@ window.AnalyticsPortal = {
       const g = sliceData.momRevenueGrowth || 0.0;
       const monthsOrder = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP'];
       const mIdx = monthsOrder.indexOf(this.activeMonth);
-      const prevMonthName = mIdx > 0 ? monthsOrder[mIdx - 1] : 'Prev';
-      elMom.innerText = g >= 0 ? `+${g}% MoM Shift vs ${prevMonthName}` : `${g}% MoM Shift vs ${prevMonthName}`;
-      elMom.style.color = g >= 0 ? '#29d391' : '#ff3b30';
+      const prevMonthName = mIdx > 0 ? monthsOrder[mIdx - 1] : 'AUG';
+      const isPos = parseFloat(g) >= 0;
+      elMom.innerText = isPos ? `▲ +${g}% vs ${prevMonthName}` : `▼ ${g}% vs ${prevMonthName}`;
+      if (isPos) {
+        elMom.style.background = '#ecfdf5';
+        elMom.style.color = '#059669';
+        elMom.style.borderColor = '#a7f3d0';
+      } else {
+        elMom.style.background = '#fef2f2';
+        elMom.style.color = '#dc2626';
+        elMom.style.borderColor = '#fecaca';
+      }
     }
 
     if (elMargin) elMargin.innerText = sliceData.totalMargin >= 10000000 ? `₹${marginCrores} Cr` : `₹${marginLakhs} L`;
@@ -344,10 +381,20 @@ window.AnalyticsPortal = {
     const mhmtPct = makeSales.mhmtSharePct || 32.7;
 
     if (elMhmtRev) elMhmtRev.innerText = `₹${mhmtRevCr} Cr`;
-    if (elMhmtSub) elMhmtSub.innerText = `${mhmtPct}% Share (Maruti, Hyundai, Mahindra, Tata)`;
+    if (elMhmtSub) elMhmtSub.innerText = `${mhmtPct}% Core OEM Share`;
 
     if (elInvoices) elInvoices.innerText = (sliceData.totalInvoices || 34210).toLocaleString();
-    if (elUnits) elUnits.innerText = `${(sliceData.totalUnits || 98450).toLocaleString()} Physical Units Sold`;
+    if (elUnits) elUnits.innerText = `${(sliceData.totalUnits || 98450).toLocaleString()} Units Sold`;
+
+    // Update Hero Chips
+    const chipRev = document.getElementById('sales-hero-chip-rev');
+    const chipMargin = document.getElementById('sales-hero-chip-margin');
+    const chipMakes = document.getElementById('sales-hero-chip-makes');
+    const chipLines = document.getElementById('sales-hero-chip-lines');
+    if (chipRev) chipRev.innerText = `${sliceData.totalRevenue >= 10000000 ? '₹' + revCrores + ' Cr' : '₹' + revLakhs + ' L'} (${this.activeMonth || 'SEP'})`;
+    if (chipMargin) chipMargin.innerText = `${sliceData.marginPct || 15.8}% Margin (${sliceData.totalMargin >= 10000000 ? '₹' + marginCrores + ' Cr' : '₹' + marginLakhs + ' L'})`;
+    if (chipMakes) chipMakes.innerText = `${mhmtPct}% MHMT Share`;
+    if (chipLines) chipLines.innerText = `${(sliceData.totalInvoices || 34210).toLocaleString()} Invoices`;
 
     // 2. Update 5 Master Category Cards Values
     try { this.updateCategoryCardsValues(sliceData.categorySales || {}, sliceData.totalRevenue); } catch(e) {}
@@ -655,45 +702,53 @@ window.AnalyticsPortal = {
     }
   },
 
-      renderRegionMapDashboard(regionList) {
+  renderRegionMapDashboard(regionList) {
     const grid = document.getElementById('region-map-grid');
     if (!grid) return;
 
     const default4Regions = [
-      { region: 'NORTH', name: 'NORTH REGION', revenue: 213700000, margin: 23432600, revenuePct: 30.2, marginPct: 11.0, invoices: 7327, color: '#29d391', badge: 'Northern Territory' },
-      { region: 'EAST', name: 'EAST REGION', revenue: 95200000, margin: 9996000, revenuePct: 13.5, marginPct: 10.5, invoices: 3420, color: '#a78bfa', badge: 'Eastern Network' },
-      { region: 'WEST', name: 'WEST REGION', revenue: 188200000, margin: 23336800, revenuePct: 26.7, marginPct: 12.4, invoices: 7140, color: '#38bdf8', badge: 'Western Hub' },
-      { region: 'SOUTH', name: 'SOUTH REGION', revenue: 209000000, margin: 30932000, revenuePct: 29.6, marginPct: 14.8, invoices: 8920, color: '#ff3b30', badge: 'Southern HQ' }
+      { region: 'NORTH', name: 'NORTH REGION', revenue: 213700000, margin: 23432600, revenuePct: 30.2, marginPct: 11.0, invoices: 7327, badge: 'Northern Territory' },
+      { region: 'EAST', name: 'EAST REGION', revenue: 95200000, margin: 9996000, revenuePct: 13.5, marginPct: 10.5, invoices: 3420, badge: 'Eastern Network' },
+      { region: 'WEST', name: 'WEST REGION', revenue: 188200000, margin: 23336800, revenuePct: 26.7, marginPct: 12.4, invoices: 7140, badge: 'Western Hub' },
+      { region: 'SOUTH', name: 'SOUTH REGION', revenue: 209000000, margin: 30932000, revenuePct: 29.6, marginPct: 14.8, invoices: 8920, badge: 'Southern HQ' }
     ];
+
+    const regionStyles = {
+      'NORTH': { color: '#059669', borderColor: '#a7f3d0', bgBadge: '#ecfdf5' },
+      'SOUTH': { color: '#ea580c', borderColor: '#fed7aa', bgBadge: '#fff7ed' },
+      'WEST': { color: '#0284c7', borderColor: '#bfdbfe', bgBadge: '#eff6ff' },
+      'EAST': { color: '#7c3aed', borderColor: '#ddd6fe', bgBadge: '#f5f3ff' }
+    };
 
     const list = (regionList && regionList.length > 0) ? regionList : default4Regions;
 
     let html = '';
     list.forEach(r => {
-      const color = r.color || '#38bdf8';
+      const regKey = (r.region || '').toUpperCase();
+      const style = regionStyles[regKey] || { color: '#0284c7', borderColor: '#cbd5e1', bgBadge: '#f8fafc' };
       const revCr = (r.revenue / 10000000).toFixed(2);
       const marCr = (r.margin / 10000000).toFixed(2);
 
       html += `
-        <div class="card" style="background: linear-gradient(135deg, ${color}20, rgba(15,23,42,0.96)) !important; border: 1.5px solid ${color}80 !important; padding: 1.25rem; border-radius: 16px; position: relative; box-shadow: 0 6px 24px rgba(15,23,42,0.18);">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <span style="font-weight: 900; font-size: 0.95rem; color: ${color}; font-family: 'Outfit', sans-serif; text-transform: uppercase;">📍 ${r.name || r.region}</span>
-            <span class="badge" style="background: ${color}25; color: ${color}; border: 1px solid ${color}50; font-weight: 850; font-size: 0.75rem;">${r.revenuePct}% Share</span>
+        <div class="card" style="background: #ffffff !important; border: 1.5px solid ${style.borderColor} !important; padding: 1.15rem; border-radius: 16px; position: relative; box-shadow: 0 4px 16px rgba(15,23,42,0.04); transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <span style="font-weight: 900; font-size: 0.88rem; color: ${style.color}; font-family: 'Outfit', sans-serif; text-transform: uppercase;">📍 ${r.name || r.region}</span>
+            <span class="badge" style="background: ${style.bgBadge}; color: ${style.color}; border: 1px solid ${style.borderColor}; font-weight: 850; font-size: 0.72rem; padding: 2px 7px; border-radius: 6px;">${r.revenuePct}% Share</span>
           </div>
 
-          <div style="font-size: 1.75rem; font-weight: 900; color: #ffffff !important; margin: 0.35rem 0; font-family: 'Outfit', sans-serif;">₹${revCr} Cr</div>
+          <div style="font-size: 1.65rem; font-weight: 900; color: #0f172a !important; margin: 0.35rem 0; font-family: 'Outfit', sans-serif; white-space: nowrap;">₹${revCr} Cr</div>
 
-          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #e2e8f0; font-weight: 700; margin-bottom: 0.5rem;">
-            <span>Gross Margin: <strong style="color: ${color}; font-weight: 900;">₹${marCr} Cr</strong></span>
-            <span>Rate: <strong style="color: #34d399; font-weight: 900;">${r.marginPct}%</strong></span>
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.78rem; color: #64748b; font-weight: 700; margin-bottom: 0.5rem; white-space: nowrap;">
+            <span>Margin: <strong style="color: #0f172a; font-weight: 900;">₹${marCr} Cr</strong></span>
+            <span class="badge" style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; font-weight: 850; font-size: 0.72rem; padding: 1px 6px; border-radius: 6px;">${r.marginPct}%</span>
           </div>
 
-          <div style="font-size: 0.78rem; color: #cbd5e1; margin-bottom: 0.65rem;">
-            📄 ${(r.invoices || 0).toLocaleString()} Invoice Order Lines
+          <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 600; margin-bottom: 0.65rem; display: flex; align-items: center; gap: 0.35rem;">
+            <span>📄</span> ${(r.invoices || 0).toLocaleString()} Invoice Order Lines
           </div>
 
-          <div style="width: 100%; background: rgba(255,255,255,0.15); height: 6px; border-radius: 3px; overflow: hidden;">
-            <div style="width: ${Math.min(100, r.revenuePct * 3.2)}%; background: ${color}; height: 100%; border-radius: 3px;"></div>
+          <div style="width: 100%; background: #f1f5f9; height: 6px; border-radius: 3px; overflow: hidden;">
+            <div style="width: ${Math.min(100, r.revenuePct * 2.2)}%; background: ${style.color}; height: 100%; border-radius: 3px;"></div>
           </div>
         </div>
       `;
@@ -704,56 +759,61 @@ window.AnalyticsPortal = {
 
   renderMakeDashboard(makeSales) {
     const grid = document.getElementById('make-cards-grid');
-    if (!makeSales) return;
+    if (!grid || !makeSales) return;
 
     const makeMeta = {
-      'MARUTI': { name: 'MARUTI SUZUKI', color: '#ff3838', img: 'images/makes/maruti.png', grp: 'MHMT Core' },
-      'HYUNDAI': { name: 'HYUNDAI MOTORS', color: '#38bdf8', img: 'images/makes/hyundai.png', grp: 'MHMT Core' },
-      'MAHINDRA': { name: 'MAHINDRA SUV', color: '#f59e0b', img: 'images/makes/mahindra.png', grp: 'MHMT Core' },
-      'TATA': { name: 'TATA MOTORS', color: '#a855f7', img: 'images/makes/tata.png', grp: 'MHMT Core' },
-      'HONDA': { name: 'HONDA CARS', color: '#ff5252', img: 'images/makes/honda.png', grp: 'Others' },
-      'TOYOTA': { name: 'TOYOTA KIRLOSKAR', color: '#38bdf8', img: 'images/makes/toyota.png', grp: 'Others' },
-      'FORD': { name: 'FORD INDIA', color: '#2563eb', img: 'images/makes/ford.png', grp: 'Others' },
-      'VOLKSWAGEN': { name: 'VOLKSWAGEN', color: '#0284c7', img: 'images/makes/volkswagen.jpg', grp: 'Others' },
-      'SKODA': { name: 'SKODA AUTO', color: '#16a34a', img: 'images/makes/skoda.jpg', grp: 'Others' },
-      'RENAULT': { name: 'RENAULT INDIA', color: '#eab308', img: 'images/makes/renault.png', grp: 'Others' },
-      'NISSAN': { name: 'NISSAN MOTORS', color: '#dc2626', img: 'images/makes/nissan.png', grp: 'Others' },
-      'OTHERS': { name: 'ALL OTHER MAKES', color: '#ec4899', img: 'images/brand_others.svg', grp: 'Others' }
+      'MARUTI': { name: 'MARUTI SUZUKI', brandColor: '#ea580c', borderColor: '#fed7aa', badgeBg: '#fff7ed', badgeColor: '#c2410c', img: 'images/makes/maruti.png', grp: 'MHMT Core' },
+      'HYUNDAI': { name: 'HYUNDAI MOTORS', brandColor: '#0284c7', borderColor: '#bfdbfe', badgeBg: '#eff6ff', badgeColor: '#0284c7', img: 'images/makes/hyundai.png', grp: 'MHMT Core' },
+      'MAHINDRA': { name: 'MAHINDRA SUV', brandColor: '#d97706', borderColor: '#fde68a', badgeBg: '#fefce8', badgeColor: '#b45309', img: 'images/makes/mahindra.png', grp: 'MHMT Core' },
+      'TATA': { name: 'TATA MOTORS', brandColor: '#7c3aed', borderColor: '#ddd6fe', badgeBg: '#f5f3ff', badgeColor: '#6d28d9', img: 'images/makes/tata.png', grp: 'MHMT Core' },
+      'HONDA': { name: 'HONDA CARS', brandColor: '#ef4444', borderColor: '#fecaca', badgeBg: '#fef2f2', badgeColor: '#b91c1c', img: 'images/makes/honda.png', grp: 'Others' },
+      'TOYOTA': { name: 'TOYOTA KIRLOSKAR', brandColor: '#0284c7', borderColor: '#bfdbfe', badgeBg: '#eff6ff', badgeColor: '#0284c7', img: 'images/makes/toyota.png', grp: 'Others' },
+      'FORD': { name: 'FORD INDIA', brandColor: '#2563eb', borderColor: '#bfdbfe', badgeBg: '#eff6ff', badgeColor: '#1d4ed8', img: 'images/makes/ford.png', grp: 'Others' },
+      'VOLKSWAGEN': { name: 'VOLKSWAGEN', brandColor: '#0284c7', borderColor: '#bfdbfe', badgeBg: '#eff6ff', badgeColor: '#0284c7', img: 'images/makes/volkswagen.jpg', grp: 'Others' },
+      'SKODA': { name: 'SKODA AUTO', brandColor: '#16a34a', borderColor: '#bbf7d0', badgeBg: '#f0fdf4', badgeColor: '#15803d', img: 'images/makes/skoda.jpg', grp: 'Others' },
+      'RENAULT': { name: 'RENAULT INDIA', brandColor: '#ca8a04', borderColor: '#fef08a', badgeBg: '#fefce8', badgeColor: '#a16207', img: 'images/makes/renault.png', grp: 'Others' },
+      'NISSAN': { name: 'NISSAN MOTORS', brandColor: '#dc2626', borderColor: '#fecaca', badgeBg: '#fef2f2', badgeColor: '#991b1b', img: 'images/makes/nissan.png', grp: 'Others' },
+      'OTHERS': { name: 'ALL OTHER MAKES', brandColor: '#db2777', borderColor: '#fbcfe8', badgeBg: '#fdf2f8', badgeColor: '#be185d', img: 'images/brand_others.svg', grp: 'Others' }
     };
 
     let items = (makeSales.items && makeSales.items.length > 0) ? makeSales.items : [];
     let htmlGrid = '';
     items.forEach((item, idx) => {
-      const meta = makeMeta[item.make] || { name: item.make, color: '#0284c7', img: 'images/brand_others.svg', grp: item.isMhmt ? 'MHMT Core' : 'Others' };
+      const meta = makeMeta[item.make] || { name: item.make, brandColor: '#0284c7', borderColor: '#bfdbfe', badgeBg: '#eff6ff', badgeColor: '#0284c7', img: 'images/brand_others.svg', grp: item.isMhmt ? 'MHMT Core' : 'Others' };
       const revCr = (item.revenue / 10000000).toFixed(2);
       const share = `${(item.sharePct || 0).toFixed(1)}%`;
       const num = String(idx + 1).padStart(2, '0');
       const units = item.units || 0;
       const marginPct = (item.marginPct || 0).toFixed(1);
+      const isOthersSpan = idx === 4 && items.length === 5;
 
       htmlGrid += `
-        <div class="card" style="background: linear-gradient(135deg, ${meta.color}15, rgba(15,23,42,0.96)) !important; border: 1.5px solid ${meta.color}50 !important; padding: 1.1rem; border-radius: 16px; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.18);">
-          <div style="position: absolute; top: 8px; left: 10px; font-size: 0.72rem; font-weight: 900; opacity: 0.45; color: #ffffff;">${num}</div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem; padding-left: 1.1rem; position: relative; z-index: 2;">
-            <div style="display: flex; align-items: center; gap: 0.45rem;">
-              <img src="${meta.img}" onerror="this.src='images/brand_others.svg'" alt="${meta.name}" style="height: 26px; max-width: 38px; object-fit: contain; background: #ffffff; padding: 2px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-              <span style="font-size: 0.82rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif;">${meta.name}</span>
+        <div class="card" style="${isOthersSpan ? 'grid-column: span 2;' : ''} background: #ffffff; border: 1.5px solid ${meta.borderColor || '#e2e8f0'}; padding: 1.15rem 1.25rem; border-radius: 16px; position: relative; overflow: hidden; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+              <div style="display: flex; align-items: center; gap: 0.55rem;">
+                <span style="font-size: 0.72rem; font-weight: 850; background: #f1f5f9; color: #475569; padding: 2px 6px; border-radius: 4px; font-family: monospace;">${num}</span>
+                <img src="${meta.img}" onerror="this.src='images/brand_others.svg'" alt="${meta.name}" style="height: 24px; max-width: 38px; object-fit: contain; background: #ffffff; padding: 1px; border-radius: 4px; border: 1px solid #e2e8f0;">
+                <span style="font-size: 0.88rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">${meta.name}</span>
+              </div>
+              <span class="badge" style="background: ${meta.badgeBg}; color: ${meta.badgeColor}; border: 1px solid ${meta.borderColor}; font-size: 0.76rem; font-weight: 850; padding: 0.2rem 0.55rem; border-radius: 12px;">${share}</span>
             </div>
-            <span class="badge" style="background: ${meta.color}35; color: ${meta.color}; border: 1px solid ${meta.color}60; font-size: 0.72rem; font-weight: 850;">${share}</span>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 0.4rem 0;">
+              <div style="font-size: 1.7rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; white-space: nowrap; line-height: 1.15;">₹${revCr} Cr</div>
+              <div style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 0.2rem 0.6rem; border-radius: 8px; font-weight: 850; font-size: 0.76rem; white-space: nowrap;">Margin: ${marginPct}%</div>
+            </div>
           </div>
 
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin: 0.25rem 0; position: relative; z-index: 2;">
-            <div style="font-size: 1.5rem; font-weight: 900; color: #ffffff !important; font-family: 'Outfit', sans-serif;">₹${revCr} Cr</div>
-            <div style="font-size: 0.76rem; font-weight: 850; color: #34d399;">Margin: ${marginPct}%</div>
-          </div>
+          <div style="margin-top: 0.4rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; color: #64748b; font-weight: 700; margin-bottom: 0.4rem;">
+              <span>Units Sold: <strong style="color: #0f172a;">${units.toLocaleString()}</strong></span>
+              <span style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; padding: 0.1rem 0.45rem; border-radius: 5px; font-size: 0.7rem; font-weight: 800;">${meta.grp}</span>
+            </div>
 
-          <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #cbd5e1; font-weight: 700; margin-bottom: 0.45rem; position: relative; z-index: 2;">
-            <span>Units Sold: <strong style="color: #ffffff;">${units.toLocaleString()}</strong></span>
-            <span style="color: ${meta.grp === 'MHMT Core' ? '#fed7aa' : '#cbd5e1'}; font-weight: 800;">${meta.grp}</span>
-          </div>
-
-          <div style="background: rgba(255,255,255,0.15); height: 5px; border-radius: 3px; overflow: hidden; position: relative; z-index: 2;">
-            <div style="background: ${meta.color}; height: 100%; width: ${Math.min(100, (item.sharePct || 0) * 2)}%;"></div>
+            <div style="background: #f1f5f9; height: 6px; border-radius: 3px; overflow: hidden;">
+              <div style="background: ${meta.brandColor}; height: 100%; width: ${Math.min(100, (item.sharePct || 0) * 2)}%; border-radius: 3px;"></div>
+            </div>
           </div>
         </div>
       `;
@@ -977,11 +1037,31 @@ window.AnalyticsPortal = {
       if (n.includes('filter') || n.includes('cleaner')) return 'pms_filters_3d.jpg';
       if (n.includes('clutch')) return 'pms_clutch_3d.jpg';
       if (n.includes('suspension')) return 'mech_suspension_3d.jpg';
+      if (n.includes('hvac') || n.includes('thermal') || n.includes('ac ') || n.includes('air conditioning')) return 'mech_hvac_3d.jpg';
+      if (n.includes('child')) return 'mech_childparts_3d.jpg';
+      if (n.includes('paint') || n.includes('consumable')) return 'mech_paints_3d.jpg';
       if (n.includes('lighting') || n.includes('electric')) return 'mech_lighting_3d.jpg';
       if (n.includes('steering')) return 'mech_steering_3d.jpg';
       if (n.includes('engine')) return 'mech_engine_3d.jpg';
-      return 'mech_engine_3d.jpg';
+      return 'mech_hero.jpg';
     }
+
+    const defaultTopDrivers = {
+      'CHILD PARTS': 'Fasteners, Clips & Mounting Hardware',
+      'HVAC/THERMAL': 'AC Compressor & Condenser Core',
+      'SUSPENSION': 'Lower Control Arm & Shock Absorber',
+      'BRAKE SYSTEM': 'Front Disc Brake Pads & Rotors',
+      'CLUTCH SYSTEM': 'Clutch Disc & Release Bearing Kit',
+      'FILTERS': 'Engine Oil & Cabin Air Filter Elements',
+      'FILTERS & CLEANERS': 'Engine Oil & Cabin Air Filter Elements',
+      'ENGINE': 'Timing Chain, Spark Plugs & Gasket Set',
+      'ENGINE MECHANICAL': 'Timing Belt, Tensioner & Valve Kit',
+      'PAINTS AND CONSUMABLES': 'Automotive Tints, Clear Coat & Putty',
+      'ELECTRICALS AND ELECTRONICS': 'Alternator & Starter Relay',
+      'LIGHTING & ELECTRICAL': 'Headlamp Assembly & Bulb Harness',
+      'FUEL SYSTEM': 'High Pressure Fuel Pump & Injectors',
+      'LUBES': 'Fully Synthetic 5W-30 Engine Oil'
+    };
 
     let html = '';
     items.forEach(item => {
@@ -991,6 +1071,10 @@ window.AnalyticsPortal = {
 
       const color = item.color || '#a78bfa';
       const bgImg = resolveMechBgImage(item.aggregate);
+      const aggKey = (item.aggregate || '').toUpperCase();
+      const topDriverName = (item.topComponent && item.topComponent !== 'Assembly')
+        ? item.topComponent
+        : (defaultTopDrivers[aggKey] || `${item.aggregate} Core Assemblies`);
 
       html += `
         <div class="card" style="padding: 1.15rem; position: relative; overflow: hidden; border: 1.5px solid ${color}80; border-radius: 14px; background: #0f172a; box-shadow: 0 4px 20px rgba(0,0,0,0.18);">
@@ -1012,7 +1096,7 @@ window.AnalyticsPortal = {
             </div>
             
             <div style="font-size: 0.74rem; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.5rem; text-shadow: 0 2px 4px #000;">
-              Top Driver: <strong style="color: #ffffff;">${item.topComponent || 'Assembly'}</strong>
+              Top Driver: <strong style="color: #ffffff;">${topDriverName}</strong>
             </div>
             
             <div style="background: rgba(255,255,255,0.2); height: 5px; border-radius: 3px; overflow: hidden;">

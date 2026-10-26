@@ -2373,6 +2373,13 @@
           </div>
 
           <div class="cat-hero-actions" style="display: flex; gap: 0.85rem; align-items: center; justify-content: flex-end; flex-wrap: wrap;">
+            <!-- Channel Switcher Toggle Control -->
+            <div style="display: flex; align-items: center; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(10px); padding: 0.25rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.25); box-shadow: 0 4px 14px rgba(0,0,0,0.25); gap: 0.25rem;">
+              <button type="button" class="channel-filter-btn active" data-channel="ALL" onclick="AnalyticsPortal.setChannel('ALL')" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; font-weight: 850; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: #059669; color: #fff;">🌐 Overall</button>
+              <button type="button" class="channel-filter-btn" data-channel="RF" onclick="AnalyticsPortal.setChannel('RF')" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; font-weight: 850; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: transparent; color: #cbd5e1;">🏬 RF Retail</button>
+              <button type="button" class="channel-filter-btn" data-channel="CF" onclick="AnalyticsPortal.setChannel('CF')" style="padding: 0.35rem 0.75rem; font-size: 0.8rem; font-weight: 850; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; background: transparent; color: #cbd5e1;">🏢 CF Fleet</button>
+            </div>
+
             <!-- Month Dropdown Selector -->
             <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(10px); padding: 0.45rem 0.95rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.25); box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
               <label style="font-size: 0.82rem; font-weight: 900; color: #fed7aa; font-family: 'Outfit', sans-serif;">📅 Month:</label>
@@ -2390,13 +2397,6 @@
               </select>
             </div>
 
-            <!-- Channel Filter Tabs (ALL, RF, CF) -->
-            <div style="display: flex; gap: 0.35rem; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(10px); padding: 0.35rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.25); box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
-              <button class="btn btn-secondary channel-filter-btn" data-channel="ALL" style="padding: 0.45rem 1rem; font-size: 0.82rem; font-weight: 850; border-radius: 8px;">ALL</button>
-              <button class="btn btn-secondary channel-filter-btn" data-channel="RF" style="padding: 0.45rem 1rem; font-size: 0.82rem; font-weight: 850; border-radius: 8px;">RF</button>
-              <button class="btn btn-secondary channel-filter-btn" data-channel="CF" style="padding: 0.45rem 1rem; font-size: 0.82rem; font-weight: 850; border-radius: 8px;">CF</button>
-            </div>
-
             <button type="button" class="btn-cat-hero-primary" onclick="AnalyticsPortal.exportSalesSummary();" style="padding: 0.65rem 1.15rem; font-size: 0.85rem; font-weight: 850; background: linear-gradient(135deg, #059669, #10b981); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; box-shadow: 0 4px 16px rgba(5, 150, 105, 0.4);">
               <span>📥</span> <span>Export Sales</span>
             </button>
@@ -2404,8 +2404,8 @@
         </div>
       </div>
 
-      <!-- Dedicated Franchisee Monthly Sales Upload Area -->
-      <div id="sales-upload-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+      <!-- Dedicated Franchisee Monthly Sales Upload Area (Hidden on Overall Sales, shown for RF/CF) -->
+      <div id="sales-upload-grid" style="display: none; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
         
         <!-- RF Sales Upload Card -->
         <div id="rf-upload-card-wrapper" class="card" style="border: 1.5px solid #fed7aa; background: #ffffff; border-radius: 16px; padding: 1.35rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);">
@@ -2446,88 +2446,100 @@
         TOP SALES METRIC TELEMETRY
       </div>
 
-      <!-- 4 CORE METRIC TELEMETRY CARDS (Styled with High-Contrast Master Catalogue KPI System) -->
-      <div id="sales-kpi-container" class="cat-kpi-grid" style="margin-bottom: 1.5rem;">
-        <!-- Card 1: Total Sales Revenue (Orange Card like Catalog Card 3) -->
-        <div class="card cat-kpi-card cat-kpi-card-orange">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-            <div>
-              <div class="card-title" style="color: #ffedd5; font-weight: 900; font-size: 0.76rem; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.8px;">💰 TOTAL SALES REVENUE</div>
-              <div id="kpi-total-revenue" class="cat-kpi-number" style="color: #ffffff !important; margin: 0.35rem 0 0.2rem;">₹13.09 Cr</div>
+      <!-- 4 CORE METRIC TELEMETRY CARDS (High-Contrast, Perfectly Aligned Studio System) -->
+      <div id="sales-kpi-container" class="cat-kpi-grid" style="margin-bottom: 1.5rem; align-items: stretch;">
+        <!-- Card 1: Total Sales Revenue -->
+        <div class="card cat-kpi-card" style="background: #ffffff; border: 1.5px solid #fed7aa; border-radius: 16px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); display: flex; flex-direction: column; justify-content: space-between; min-height: 168px; box-sizing: border-box;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+              <div style="display: flex; align-items: center; gap: 0.45rem;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: #fff7ed; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">💰</div>
+                <span style="color: #c2410c; font-weight: 900; font-size: 0.74rem; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.6px; white-space: nowrap;">TOTAL SALES REVENUE</span>
+              </div>
+              <span id="kpi-channel-badge" style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 850; white-space: nowrap; flex-shrink: 0;">RF + CF</span>
             </div>
-            <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">💰</div>
+            <div id="kpi-total-revenue" style="font-size: 1.95rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; margin: 0.25rem 0 0.35rem; line-height: 1.15; white-space: nowrap;">₹13.09 Cr</div>
           </div>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.4rem;">
-            <span id="kpi-mom-shift" style="background: rgba(255,255,255,0.22); color: #ffffff; border: 1px solid rgba(255,255,255,0.35); padding: 0.15rem 0.55rem; border-radius: 12px; font-size: 0.72rem; font-weight: 850;">September 2026 Consolidated</span>
-            <span style="font-size: 0.7rem; color: #ffedd5; font-weight: 750;">RF + CF</span>
+          <div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.4rem;">
+              <span id="kpi-mom-shift" style="background: #eff6ff; color: #0284c7; border: 1px solid #bfdbfe; padding: 0.2rem 0.65rem; border-radius: 12px; font-size: 0.72rem; font-weight: 800; white-space: nowrap;">-11.12% MoM Shift vs AUG</span>
+            </div>
+            <svg viewBox="0 0 200 36" style="width: 100%; height: 24px; display: block;" preserveAspectRatio="none">
+              <path d="M0,28 Q30,10 60,22 T120,16 T170,20 T200,6" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
           </div>
-          <svg viewBox="0 0 200 40" style="width: 100%; height: 28px; margin-top: 0.35rem; display: block;" preserveAspectRatio="none">
-            <path d="M0,32 Q30,12 60,25 T120,18 T170,22 T200,8" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
         </div>
 
-        <!-- Card 2: Gross Profit Margin (Green Card like Catalog Card 4) -->
-        <div class="card cat-kpi-card cat-kpi-card-green">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-            <div>
-              <div class="card-title" style="color: #d1fae5; font-weight: 900; font-size: 0.76rem; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.8px;">📈 GROSS PROFIT MARGIN</div>
-              <div id="kpi-total-margin" class="cat-kpi-number" style="color: #ffffff !important; margin: 0.35rem 0 0.2rem;">₹1.00 Cr</div>
+        <!-- Card 2: Gross Profit Margin -->
+        <div class="card cat-kpi-card" style="background: #ffffff; border: 1.5px solid #a7f3d0; border-radius: 16px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); display: flex; flex-direction: column; justify-content: space-between; min-height: 168px; box-sizing: border-box;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+              <div style="display: flex; align-items: center; gap: 0.45rem;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: #ecfdf5; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">📈</div>
+                <span style="color: #047857; font-weight: 900; font-size: 0.74rem; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.6px; white-space: nowrap;">GROSS PROFIT MARGIN</span>
+              </div>
+              <span style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 850; white-space: nowrap; flex-shrink: 0;">Live Margin</span>
             </div>
-            <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">📈</div>
+            <div id="kpi-total-margin" style="font-size: 1.95rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; margin: 0.25rem 0 0.35rem; line-height: 1.15; white-space: nowrap;">₹1.00 Cr</div>
           </div>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.4rem;">
-            <span id="kpi-margin-rate" style="background: rgba(255,255,255,0.22); color: #ffffff; border: 1px solid rgba(255,255,255,0.35); padding: 0.15rem 0.55rem; border-radius: 12px; font-size: 0.72rem; font-weight: 850;">7.64% Gross Margin Rate</span>
-            <span style="font-size: 0.7rem; color: #d1fae5; font-weight: 750;">Live Margin</span>
+          <div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.4rem;">
+              <span id="kpi-margin-rate" style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 0.2rem 0.65rem; border-radius: 12px; font-size: 0.72rem; font-weight: 800; white-space: nowrap;">7.64% Gross Margin Rate</span>
+            </div>
+            <svg viewBox="0 0 200 36" style="width: 100%; height: 24px; display: block;" preserveAspectRatio="none">
+              <path d="M0,24 Q40,32 80,16 T140,20 T180,10 T200,4" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
           </div>
-          <svg viewBox="0 0 200 40" style="width: 100%; height: 28px; margin-top: 0.35rem; display: block;" preserveAspectRatio="none">
-            <path d="M0,28 Q40,35 80,18 T140,24 T180,12 T200,6" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
         </div>
 
-        <!-- Card 3: MHMT Vehicle Make Share (Blue Card like Catalog Card 1) -->
-        <div class="card cat-kpi-card cat-kpi-card-blue" style="border: 1.5px solid #bfdbfe; background: #ffffff; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 0.65rem;">
-              <div style="width: 38px; height: 38px; border-radius: 10px; background: #eff6ff; display: flex; align-items: center; justify-content: center; color: #0284c7; font-size: 1.2rem; flex-shrink: 0;">🚗</div>
-              <div>
-                <div class="card-title" style="color: #0284c7; font-weight: 900; font-size: 0.76rem; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.6px;">MHMT VEHICLE MAKE SHARE</div>
-                <div id="kpi-mhmt-rev" class="cat-kpi-number" style="color: #0284c7; margin: 0.2rem 0 0;">52.69%</div>
+        <!-- Card 3: MHMT Vehicle Make Share -->
+        <div class="card cat-kpi-card" style="background: #ffffff; border: 1.5px solid #bfdbfe; border-radius: 16px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); display: flex; flex-direction: column; justify-content: space-between; min-height: 168px; box-sizing: border-box;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+              <div style="display: flex; align-items: center; gap: 0.45rem;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: #eff6ff; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">🏎️</div>
+                <span style="color: #0284c7; font-weight: 900; font-size: 0.74rem; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.6px; white-space: nowrap;">MHMT VEHICLE SHARE</span>
+              </div>
+              <!-- Mini row of OEM logos -->
+              <div style="display: flex; align-items: center; gap: 0.25rem; flex-shrink: 0;">
+                <img src="images/makes/maruti.png" alt="Maruti" style="width: 18px; height: 18px; object-fit: contain; border-radius: 50%; border: 1px solid #e2e8f0; padding: 1px; background: #fff;">
+                <img src="images/makes/hyundai.png" alt="Hyundai" style="width: 18px; height: 18px; object-fit: contain; border-radius: 50%; border: 1px solid #e2e8f0; padding: 1px; background: #fff;">
+                <img src="images/makes/mahindra.png" alt="Mahindra" style="width: 18px; height: 18px; object-fit: contain; border-radius: 50%; border: 1px solid #e2e8f0; padding: 1px; background: #fff;">
+                <img src="images/makes/tata.png" alt="Tata" style="width: 18px; height: 18px; object-fit: contain; border-radius: 50%; border: 1px solid #e2e8f0; padding: 1px; background: #fff;">
               </div>
             </div>
-            <!-- Mini grid of OEM badges -->
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.3rem;">
-              <span style="width: 22px; height: 22px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;" title="Maruti"><img src="images/makes/maruti.png" alt="Maruti" style="width: 100%; height: 100%; object-fit: contain;"></span>
-              <span style="width: 22px; height: 22px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;" title="Hyundai"><img src="images/makes/hyundai.png" alt="Hyundai" style="width: 100%; height: 100%; object-fit: contain;"></span>
-              <span style="width: 22px; height: 22px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;" title="Mahindra"><img src="images/makes/mahindra.png" alt="Mahindra" style="width: 100%; height: 100%; object-fit: contain;"></span>
-              <span style="width: 22px; height: 22px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 2px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;" title="Tata"><img src="images/makes/tata.png" alt="Tata" style="width: 100%; height: 100%; object-fit: contain;"></span>
+            <div id="kpi-mhmt-rev" style="font-size: 1.95rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; margin: 0.25rem 0 0.35rem; line-height: 1.15; white-space: nowrap;">₹6.90 Cr</div>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.4rem;">
+              <span id="kpi-mhmt-subtext" style="background: #eff6ff; color: #0284c7; border: 1px solid #bfdbfe; padding: 0.2rem 0.65rem; border-radius: 12px; font-size: 0.72rem; font-weight: 800; white-space: nowrap;">52.7% Core OEM Share</span>
             </div>
+            <svg viewBox="0 0 200 36" style="width: 100%; height: 24px; display: block;" preserveAspectRatio="none">
+              <path d="M0,26 Q40,12 80,20 T140,12 T180,18 T200,8" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
           </div>
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.45rem; font-size: 0.74rem; color: #64748b; font-weight: 700;">
-            <span id="kpi-mhmt-subtext">Maruti, Hyundai, Mahindra, Tata</span>
-          </div>
-          <svg viewBox="0 0 200 40" style="width: 100%; height: 28px; margin-top: 0.35rem; display: block;" preserveAspectRatio="none">
-            <path d="M0,30 Q40,15 80,24 T140,14 T180,20 T200,10" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
         </div>
 
-        <!-- Card 4: Invoice Line Volume (Purple Card like Catalog Card 2) -->
-        <div class="card cat-kpi-card cat-kpi-card-purple" style="border: 1.5px solid #ddd6fe; background: #ffffff; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);">
-          <div style="display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 0.65rem;">
-              <div style="width: 38px; height: 38px; border-radius: 10px; background: #f5f3ff; display: flex; align-items: center; justify-content: center; color: #7c3aed; font-size: 1.2rem; flex-shrink: 0;">📄</div>
-              <div>
-                <div class="card-title" style="color: #7c3aed; font-weight: 900; font-size: 0.76rem; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.6px;">TOTAL INVOICE LINES</div>
-                <div id="kpi-invoice-volume" class="cat-kpi-number" style="color: #0f172a; margin: 0.2rem 0 0;">59,006</div>
+        <!-- Card 4: Total Invoice Lines -->
+        <div class="card cat-kpi-card" style="background: #ffffff; border: 1.5px solid #ddd6fe; border-radius: 16px; padding: 1.15rem 1.25rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); display: flex; flex-direction: column; justify-content: space-between; min-height: 168px; box-sizing: border-box;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.45rem;">
+              <div style="display: flex; align-items: center; gap: 0.45rem;">
+                <div style="width: 32px; height: 32px; border-radius: 8px; background: #f5f3ff; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; flex-shrink: 0;">📄</div>
+                <span style="color: #6d28d9; font-weight: 900; font-size: 0.74rem; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.6px; white-space: nowrap;">TOTAL INVOICE LINES</span>
               </div>
+              <span id="kpi-month-badge" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 850; white-space: nowrap; flex-shrink: 0;">Sep '26</span>
             </div>
-            <span style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; padding: 0.2rem 0.55rem; border-radius: 12px; font-size: 0.7rem; font-weight: 850;">Sep '26</span>
+            <div id="kpi-invoice-volume" style="font-size: 1.95rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif; margin: 0.25rem 0 0.35rem; line-height: 1.15; white-space: nowrap;">59,006</div>
           </div>
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.45rem; font-size: 0.74rem; color: #64748b; font-weight: 700;">
-            <span id="kpi-units-volume">59,006 Invoice Lines (23.6K RF + 35.4K CF)</span>
+          <div>
+            <div style="display: flex; align-items: center; margin-bottom: 0.4rem;">
+              <span id="kpi-units-volume" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; padding: 0.2rem 0.65rem; border-radius: 12px; font-size: 0.72rem; font-weight: 800; white-space: nowrap;">142,518 Units Sold</span>
+            </div>
+            <svg viewBox="0 0 200 36" style="width: 100%; height: 24px; display: block;" preserveAspectRatio="none">
+              <path d="M0,24 Q40,30 80,16 T140,22 T180,10 T200,4" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
           </div>
-          <svg viewBox="0 0 200 40" style="width: 100%; height: 28px; margin-top: 0.35rem; display: block;" preserveAspectRatio="none">
-            <path d="M0,28 Q40,35 80,18 T140,24 T180,12 T200,6" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
         </div>
       </div>
 
@@ -2682,7 +2694,7 @@
           <span class="badge badge-info" style="background: #eff6ff; color: #0284c7; border: 1.5px solid #bfdbfe; font-weight: 850; border-radius: 8px;">Make Intelligence</span>
         </div>
         <div style="display: grid; grid-template-columns: 2.1fr 1fr; gap: 1.25rem; align-items: start;">
-          <div id="make-cards-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;"></div>
+          <div id="make-cards-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;"></div>
           <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 16px; padding: 1.25rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
               <div style="font-size: 0.95rem; font-weight: 900; color: #ea580c; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 0.4rem;">
@@ -2786,7 +2798,7 @@
   <script src="js/deviation-portal.js?v=72.0.0"></script>
   <script src="js/forecasting-portal.js?v=72.0.0"></script>
   <script src="js/component-image-resolver.js?v=72.0.0"></script>
-  <script src="js/overall-catalogue-portal.js?v=72.0.0"></script>
+  <script src="js/overall-catalogue-portal.js?v=73.0.0"></script>
   <script src="js/oem-oes-portal.js?v=72.0.0"></script>
   <script src="js/canvas-3d-car.js?v=72.0.0"></script>
   <script src="js/catalog-ai-chat.js?v=74.0.0"></script>
