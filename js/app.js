@@ -42,6 +42,11 @@ window.App = {
 
   bindEvents() {
     document.addEventListener('click', (e) => {
+      if (document.body.classList.contains('sidebar-mobile-open')) {
+        if (!e.target.closest('#app-sidebar') && !e.target.closest('#sidebar-toggle-btn')) {
+          document.body.classList.remove('sidebar-mobile-open');
+        }
+      }
       const tabBtn = e.target.closest('[data-tab]');
       if (tabBtn) {
         const targetTab = tabBtn.getAttribute('data-tab');
@@ -84,6 +89,9 @@ window.App = {
   },
 
   switchTab(tabId) {
+    if (window.innerWidth <= 900) {
+      document.body.classList.remove('sidebar-mobile-open');
+    }
     this.activeTab = tabId || 'home';
 
     // Route target tab and determine matching DOM section ID

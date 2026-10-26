@@ -2906,8 +2906,24 @@ input[type=checkbox]#login-remember {
 
 @media (max-width: 900px) {
   .mytvs-fullscreen-login-page {
-    justify-content: center;
-    padding-right: 0;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+  }
+  .login-left-hero-text,
+  .login-top-brand-badge,
+  .login-bottom-motto {
+    display: none !important;
+  }
+  .login-compact-card-wrapper {
+    width: 100% !important;
+    max-width: 350px !important;
+    margin: 0 auto !important;
+  }
+  .login-white-card {
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 }
 
@@ -4686,15 +4702,96 @@ body.sidebar-collapsed footer.app-footer {
 @media (max-width: 900px) {
   .app-sidebar {
     transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25) !important;
   }
   body.sidebar-mobile-open .app-sidebar {
     transform: translateX(0);
+  }
+  body.sidebar-mobile-open::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 1040;
+    pointer-events: auto;
   }
   #app-header,
   #main-app-content,
   footer.app-footer {
     margin-left: 0 !important;
     width: 100% !important;
+  }
+  #app-header {
+    padding: 0 1rem !important;
+  }
+  .header-user-welcome {
+    display: none !important;
+  }
+  .header-divider {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #main-app-content {
+    padding: 1rem 0.75rem 3.5rem !important;
+  }
+  #breadcrumb-section,
+  #breadcrumb-section + span {
+    display: none !important;
+  }
+  #breadcrumb-page {
+    font-size: 0.95rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 160px !important;
+  }
+  .hero-container {
+    padding: 30px 14px !important;
+    min-height: auto !important;
+  }
+  .video-stage {
+    height: 440px !important;
+    border-radius: 14px !important;
+  }
+  .hero-content {
+    max-width: 100% !important;
+    padding: 0 10px !important;
+    gap: 12px !important;
+  }
+  .hero-content .hero-headline,
+  [data-theme="light"] .hero-content .hero-headline,
+  [data-theme="light"] .hero-container h1,
+  .hero-container h1,
+  .hero-headline {
+    font-size: 1.22rem !important;
+    line-height: 1.25 !important;
+    word-break: normal !important;
+    padding: 0 4px !important;
+  }
+  .hero-content .hero-subtitle,
+  [data-theme="light"] .hero-content .hero-subtitle,
+  [data-theme="light"] .hero-container p,
+  .hero-subtitle {
+    font-size: 0.85rem !important;
+    line-height: 1.45 !important;
+  }
+  .status-pill {
+    font-size: 0.68rem !important;
+    padding: 0.3rem 0.6rem !important;
+    max-width: 95% !important;
+    text-align: center !important;
+  }
+  .quick-tags {
+    justify-content: center !important;
+    gap: 6px !important;
+  }
+  .hero-chip {
+    padding: 5px 9px !important;
+    font-size: 11px !important;
   }
 }
 
@@ -6133,19 +6230,21 @@ body.sidebar-collapsed footer.app-footer {
 [data-theme="light"] .hero-content .hero-headline,
 [data-theme="light"] .hero-container h1,
 .hero-headline {
-  font-size: clamp(2rem, 3.8vw, 3.1rem) !important;
+  font-size: clamp(1.08rem, 3.8vw, 3.1rem) !important;
   font-weight: 900 !important;
-  line-height: 1.18 !important;
+  line-height: 1.24 !important;
   color: #ffffff !important;
   text-shadow: 0 3px 25px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.8) !important;
   font-family: 'Outfit', sans-serif !important;
+  word-break: normal !important;
+  hyphens: auto !important;
 }
 
 .hero-content .hero-subtitle,
 [data-theme="light"] .hero-content .hero-subtitle,
 [data-theme="light"] .hero-container p,
 .hero-subtitle {
-  font-size: 1.05rem !important;
+  font-size: clamp(0.85rem, 1.8vw, 1.05rem) !important;
   color: #f1f5f9 !important;
   max-width: 640px !important;
   line-height: 1.55 !important;
