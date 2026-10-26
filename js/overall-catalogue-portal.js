@@ -399,7 +399,7 @@ window.OverallCataloguePortal = {
       
       return `
         <div class="visual-make-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectMakeVisual('${this.escapeJs(m.make)}')">
-          <img class="visual-make-logo" src="${logoUrl}" alt="${this.escapeHtml(m.displayName)}" onerror="this.src='images/brand_others.svg'">
+          <img class="visual-make-logo" src="${logoUrl}" alt="${this.escapeHtml(m.displayName)}" onerror="this.onerror=null; this.src='images/brand_others.svg'">
           <div class="visual-make-name">${this.escapeHtml(m.displayName)}</div>
           <div class="visual-make-count">${modelCount} Models • ${variantCount.toLocaleString('en-IN')} Variants</div>
         </div>
@@ -544,13 +544,24 @@ window.OverallCataloguePortal = {
     
     grid.innerHTML = modelsList.map(m => {
       const isSelected = this.selectedModel === m.name;
-      const imgUrl = m.image || 'images/brand_others.svg';
+      const imgUrl = (m.image || '').trim();
       const fuelsArr = Array.from(m.fuels || []).filter(Boolean);
       const fuelsText = fuelsArr.length > 0 ? fuelsArr.slice(0, 2).join(' / ') : 'Multi-Fuel';
       
+      const thumbHtml = imgUrl ? `
+        <img class="visual-model-thumb" src="${imgUrl}" alt="${this.escapeHtml(m.name)}" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+        <div class="visual-model-thumb-blank" style="display: none; height: 110px; width: 100%; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem; align-items: center; justify-content: center; border: 1px dashed #cbd5e1;">
+          <span style="color: #94a3b8; font-size: 0.72rem; font-weight: 700;">No photo available</span>
+        </div>
+      ` : `
+        <div class="visual-model-thumb-blank" style="height: 110px; width: 100%; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; border: 1px dashed #cbd5e1;">
+          <span style="color: #94a3b8; font-size: 0.72rem; font-weight: 700;">No photo available</span>
+        </div>
+      `;
+
       return `
         <div class="visual-model-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectVisualModel('${this.escapeJs(m.name)}')">
-          <img class="visual-model-thumb" src="${imgUrl}" alt="${this.escapeHtml(m.name)}" onerror="this.onerror=null; this.src='images/brand_others.svg';">
+          ${thumbHtml}
           <div>
             <div class="visual-model-name" title="${this.escapeHtml(m.name)}">${this.escapeHtml(m.name)}</div>
             <div class="visual-model-meta">
@@ -745,14 +756,25 @@ window.OverallCataloguePortal = {
     
     grid.innerHTML = variants.map(v => {
       const isSelected = this.selectedVariant === v.subModel;
-      const imgUrl = v.image || 'images/brand_others.svg';
+      const imgUrl = (v.image || '').trim();
       const subTitle = v.subModel || v.model;
       const fuel = v.fuelType || 'PETROL';
       const yrs = v.years || '';
       
+      const thumbHtml = imgUrl ? `
+        <img class="visual-variant-thumb" src="${imgUrl}" alt="${this.escapeHtml(subTitle)}" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+        <div class="visual-variant-thumb-blank" style="display: none; height: 90px; width: 100%; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem; align-items: center; justify-content: center; border: 1px dashed #cbd5e1;">
+          <span style="color: #94a3b8; font-size: 0.72rem; font-weight: 700;">No photo available</span>
+        </div>
+      ` : `
+        <div class="visual-variant-thumb-blank" style="height: 90px; width: 100%; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; border: 1px dashed #cbd5e1;">
+          <span style="color: #94a3b8; font-size: 0.72rem; font-weight: 700;">No photo available</span>
+        </div>
+      `;
+
       return `
         <div class="visual-variant-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectVariantVisual('${this.escapeJs(v.subModel)}', '${this.escapeJs(v.model)}', '${this.escapeJs(fuel)}', '${this.escapeJs(v.fromYear || '')}', '${this.escapeJs(v.toYear || '')}', '${this.escapeJs(imgUrl)}')">
-          <img class="visual-variant-thumb" src="${imgUrl}" alt="${this.escapeHtml(subTitle)}" onerror="this.onerror=null; this.src='images/brand_others.svg';">
+          ${thumbHtml}
           <div>
             <div class="visual-variant-name" title="${this.escapeHtml(subTitle)}">${this.escapeHtml(subTitle)}</div>
             <div class="visual-variant-specs">
@@ -812,7 +834,14 @@ window.OverallCataloguePortal = {
     const thumbEl = document.getElementById('v-selected-veh-thumb');
     const titleEl = document.getElementById('v-selected-veh-title');
     const metaEl = document.getElementById('v-selected-veh-meta');
-    if (thumbEl) thumbEl.src = imgUrl || 'images/brand_others.svg';
+    if (thumbEl) {
+      if (imgUrl) {
+        thumbEl.src = imgUrl;
+        thumbEl.style.display = 'block';
+      } else {
+        thumbEl.style.display = 'none';
+      }
+    }
     if (titleEl) titleEl.textContent = `${this.selectedMake} ${subModel}`;
     if (metaEl) metaEl.textContent = `Fuel: ${fuelType} • Applicable Years: ${this.selectedVariantYears || 'All Years'}`;
     

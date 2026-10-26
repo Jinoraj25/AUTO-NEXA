@@ -1,0 +1,6114 @@
+{
+  "ASHOK LEYLAND": [
+    {
+      "name": "BADA DOST",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2018,
+      "maxYear": 2023
+    },
+    {
+      "name": "DOST",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2026
+    },
+    {
+      "name": "DOST +",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2020
+    },
+    {
+      "name": "DOST LITE",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2023
+    },
+    {
+      "name": "DOST STRONG",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2023
+    },
+    {
+      "name": "STILE",
+      "image": "",
+      "variantCount": 9,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2025
+    }
+  ],
+  "AUDI": [
+    {
+      "name": "A3",
+      "image": "images/vehicles/AUDI/A3 1ST GEN (2013-2017).png",
+      "variantCount": 33,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2025
+    },
+    {
+      "name": "A4",
+      "image": "images/vehicles/AUDI/A4 (B7) 3RD GEN (2006-2008).png",
+      "variantCount": 114,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "A5",
+      "image": "images/vehicles/AUDI/A5 CABRIOLET (2017-2019).png",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2025
+    },
+    {
+      "name": "A6",
+      "image": "images/vehicles/AUDI/A6 (C7) 4TH GEN (2011-2015).png",
+      "variantCount": 51,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2025
+    },
+    {
+      "name": "A7",
+      "image": "images/vehicles/AUDI/A7 (C7) 1ST GEN (2011-2015).png",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2016
+    },
+    {
+      "name": "A8",
+      "image": "images/vehicles/AUDI/A8 (2011-2014).png",
+      "variantCount": 36,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2025
+    },
+    {
+      "name": "Q2",
+      "image": "images/vehicles/AUDI/Q2 (2020-NOW).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2022
+    },
+    {
+      "name": "Q3",
+      "image": "images/vehicles/AUDI/Q3 (2012-2015).png",
+      "variantCount": 22,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2025
+    },
+    {
+      "name": "Q5",
+      "image": "images/vehicles/AUDI/Q5 (8R) 1ST GEN F_L (2013-2017).png",
+      "variantCount": 47,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2025
+    },
+    {
+      "name": "Q7",
+      "image": "images/vehicles/AUDI/Q7 1ST GEN (2006-2010).png",
+      "variantCount": 22,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2025
+    },
+    {
+      "name": "Q8",
+      "image": "images/vehicles/AUDI/Q8 E-TRON (07.2021-NOW).png",
+      "variantCount": 5,
+      "fuels": [
+        "PETROL",
+        "ELECTRIC"
+      ],
+      "minYear": 2020,
+      "maxYear": 2025
+    },
+    {
+      "name": "R8",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2025
+    },
+    {
+      "name": "RS",
+      "image": "images/vehicles/AUDI/RS Q8 (08.2020-NOW).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2025
+    },
+    {
+      "name": "RS5",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2025
+    },
+    {
+      "name": "S4",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2017
+    },
+    {
+      "name": "S5",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2025
+    },
+    {
+      "name": "TT",
+      "image": "",
+      "variantCount": 13,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1998,
+      "maxYear": 2025
+    }
+  ],
+  "BMW": [
+    {
+      "name": "1",
+      "image": "images/vehicles/BMW/1' F20 (05.2013-02.2014).jpg",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2017
+    },
+    {
+      "name": "1 SERIES",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2016
+    },
+    {
+      "name": "3",
+      "image": "images/vehicles/BMW/3' E90 (09.2006-06.2008).jpg",
+      "variantCount": 27,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2025
+    },
+    {
+      "name": "3 SERIES",
+      "image": "",
+      "variantCount": 14,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2019
+    },
+    {
+      "name": "4",
+      "image": "images/vehicles/BMW/4' F82 M4 (02.2013-NOW).jpg",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2025
+    },
+    {
+      "name": "4 SERIES",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2020
+    },
+    {
+      "name": "5",
+      "image": "images/vehicles/BMW/5' E60 LCI (03.2007-12.2009).jpg",
+      "variantCount": 41,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2007,
+      "maxYear": 2025
+    },
+    {
+      "name": "5 SERIES",
+      "image": "",
+      "variantCount": 18,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2007,
+      "maxYear": 2016
+    },
+    {
+      "name": "6",
+      "image": "images/vehicles/BMW/6' F06 GC (05.2011-02.2015).jpg",
+      "variantCount": 7,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2025
+    },
+    {
+      "name": "6 SERIES",
+      "image": "",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2018
+    },
+    {
+      "name": "7",
+      "image": "images/vehicles/BMW/7' F02 (10.2011-NOW).jpg",
+      "variantCount": 17,
+      "fuels": [
+        "DIESEL",
+        "HYBRID",
+        "PETROL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2025
+    },
+    {
+      "name": "7 SERIES",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "DIESEL",
+        "HYBRID",
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2022
+    },
+    {
+      "name": "I8",
+      "image": "images/vehicles/BMW/i8 (03.2013-NOW).jpg",
+      "variantCount": 2,
+      "fuels": [
+        "HYBRID"
+      ],
+      "minYear": 2013,
+      "maxYear": 2024
+    },
+    {
+      "name": "IX",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2021,
+      "maxYear": 2025
+    },
+    {
+      "name": "X1",
+      "image": "images/vehicles/BMW/X1 E84 (09.2010-04.2015).png",
+      "variantCount": 12,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2025
+    },
+    {
+      "name": "X3",
+      "image": "images/vehicles/BMW/X3 F25 (01.2011-05.2016).jpg",
+      "variantCount": 12,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2025
+    },
+    {
+      "name": "X4",
+      "image": "",
+      "variantCount": 13,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG",
+        "HYBRID"
+      ],
+      "minYear": 2019,
+      "maxYear": 2025
+    },
+    {
+      "name": "X5",
+      "image": "images/vehicles/BMW/X5 E70 (02.2006-03.2010).jpg",
+      "variantCount": 15,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2025
+    },
+    {
+      "name": "X6",
+      "image": "images/vehicles/BMW/X6 E71 (10.2009-06.2014).jpg",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2025
+    },
+    {
+      "name": "X7",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2023,
+      "maxYear": 2025
+    },
+    {
+      "name": "Z4",
+      "image": "images/vehicles/BMW/Z4 E89 (01.2008-NOW).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2025
+    },
+    {
+      "name": "i8",
+      "image": "images/vehicles/BMW/i8 (03.2013-NOW).jpg",
+      "variantCount": 1,
+      "fuels": [
+        "HYBRID"
+      ],
+      "minYear": 2013,
+      "maxYear": 2020
+    }
+  ],
+  "BYD": [
+    {
+      "name": "ATTO",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2022,
+      "maxYear": 2025
+    },
+    {
+      "name": "ATTO 3",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2022,
+      "maxYear": 2025
+    },
+    {
+      "name": "SEAL",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2024,
+      "maxYear": 2025
+    }
+  ],
+  "CHEVROLET": [
+    {
+      "name": "AVEO",
+      "image": "images/vehicles/CHEVROLET/AVEO (09.2009-07.2012).png",
+      "variantCount": 7,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "HYBRID"
+      ],
+      "minYear": 2006,
+      "maxYear": 2013
+    },
+    {
+      "name": "AVEO U-VA",
+      "image": "images/vehicles/CHEVROLET/AVEO U-VA (12.2006-05.2012).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2013
+    },
+    {
+      "name": "BEAT",
+      "image": "images/vehicles/CHEVROLET/BEAT 1ST GEN (01.2010-02.2014).png",
+      "variantCount": 14,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/LPG",
+        "HYBRID"
+      ],
+      "minYear": 2010,
+      "maxYear": 2018
+    },
+    {
+      "name": "CAPTIVA",
+      "image": "images/vehicles/CHEVROLET/CAPTIVA 1ST GEN (01.2008-12.2011).png",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2018
+    },
+    {
+      "name": "CRUZE",
+      "image": "images/vehicles/CHEVROLET/CRUZE (10.2009-12.2017).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2018
+    },
+    {
+      "name": "ENJOY",
+      "image": "images/vehicles/CHEVROLET/ENJOY (03.2012-12.2017).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2018
+    },
+    {
+      "name": "FORESTER",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2007
+    },
+    {
+      "name": "OPTRA",
+      "image": "images/vehicles/CHEVROLET/OPTRA (07.2003-01.2006).jpg",
+      "variantCount": 10,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2012
+    },
+    {
+      "name": "OPTRA MAGNUM",
+      "image": "images/vehicles/CHEVROLET/OPTRA MAGNUM (01.2008-07.2012).jpg",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2013
+    },
+    {
+      "name": "OPTRA SRV",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2010
+    },
+    {
+      "name": "SAIL",
+      "image": "images/vehicles/CHEVROLET/SAIL (12.2012-12.2017).png",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2018
+    },
+    {
+      "name": "SAIL U-VA",
+      "image": "images/vehicles/CHEVROLET/SAIL U-VA (12.2012-12.2017).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2018
+    },
+    {
+      "name": "SPARK",
+      "image": "images/vehicles/CHEVROLET/SPARK (04.2007-12.2016).png",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "PETROL/LPG",
+        "HYBRID"
+      ],
+      "minYear": 2007,
+      "maxYear": 2017
+    },
+    {
+      "name": "TAVERA",
+      "image": "images/vehicles/CHEVROLET/TAVERA 1ST GEN (09.2008-12.2017).jpg",
+      "variantCount": 12,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2018
+    },
+    {
+      "name": "TRAILBLAZER",
+      "image": "images/vehicles/CHEVROLET/TRAILBLAZER (10.2016-12.2017).jpg",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2018
+    }
+  ],
+  "CITROEN": [
+    {
+      "name": "BASALT",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "C3",
+      "image": "",
+      "variantCount": 12,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2024
+    },
+    {
+      "name": "C5",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2025
+    },
+    {
+      "name": "C5 AIRCROSS",
+      "image": "",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2025
+    },
+    {
+      "name": "E-C3",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    }
+  ],
+  "DAEWOO": [
+    {
+      "name": "CIELO",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1994,
+      "maxYear": 2000
+    },
+    {
+      "name": "MATIZ",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2005
+    }
+  ],
+  "DATSUN": [
+    {
+      "name": "GO",
+      "image": "images/vehicles/DATSUN/GO 1ST GEN (03.2014-08.2018).png",
+      "variantCount": 20,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2020
+    },
+    {
+      "name": "GO+",
+      "image": "",
+      "variantCount": 16,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2020
+    },
+    {
+      "name": "REDI GO",
+      "image": "images/vehicles/DATSUN/REDI GO 1ST GEN (04.2016-04.2020).png",
+      "variantCount": 43,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2023
+    }
+  ],
+  "FIAT": [
+    {
+      "name": "500",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2020
+    },
+    {
+      "name": "ABARTH",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2020
+    },
+    {
+      "name": "ABARTH PUNTO",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2019
+    },
+    {
+      "name": "AVVENTURA",
+      "image": "",
+      "variantCount": 9,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2020
+    },
+    {
+      "name": "AVVENTURA URBAN CROSS",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2020
+    },
+    {
+      "name": "GRANDE PUNTO",
+      "image": "images/vehicles/FIAT/GRANDE PUNTO (06.2009-01.2014).png",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2014
+    },
+    {
+      "name": "LINEA",
+      "image": "images/vehicles/FIAT/LINEA 1ST GEN (01.2009-12.2011).jpg",
+      "variantCount": 17,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2020
+    },
+    {
+      "name": "LINEA CLASSIC",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2015
+    },
+    {
+      "name": "PALIO",
+      "image": "images/vehicles/FIAT/PALIO (09.2001-12.2007).jpg",
+      "variantCount": 35,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2001,
+      "maxYear": 2013
+    },
+    {
+      "name": "PALIO ADVENTURE WEEKEND",
+      "image": "images/vehicles/FIAT/PALIO ADVENTURE WEEKEND (05.2002-06.2005).png",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2006
+    },
+    {
+      "name": "PETRA",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2009
+    },
+    {
+      "name": "PUNTO",
+      "image": "images/vehicles/FIAT/GRANDE PUNTO (06.2009-01.2014).png",
+      "variantCount": 24,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2020
+    },
+    {
+      "name": "PUNTO EVO",
+      "image": "images/vehicles/FIAT/PUNTO EVO (02.2014-02.2019).jpg",
+      "variantCount": 5,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2019
+    },
+    {
+      "name": "PUNTO PURE",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2017
+    },
+    {
+      "name": "SIENA",
+      "image": "images/vehicles/FIAT/SIENA (02.1997-12.2003).jpg",
+      "variantCount": 11,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1995,
+      "maxYear": 2005
+    },
+    {
+      "name": "UNO",
+      "image": "images/vehicles/FIAT/UNO MONDO (01.1995-12.2005).jpg",
+      "variantCount": 9,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1995,
+      "maxYear": 2006
+    }
+  ],
+  "FORCE": [
+    {
+      "name": "GURKHA",
+      "image": "images/vehicles/FORCE MOTORS/GURKHA 1ST GEN (2008-2013).png",
+      "variantCount": 27,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2026
+    },
+    {
+      "name": "ONE",
+      "image": "images/vehicles/FORCE MOTORS/ONE (2011-2016).png",
+      "variantCount": 7,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2017
+    },
+    {
+      "name": "SHAKTIMAN",
+      "image": "images/vehicles/FORCE MOTORS/SHAKTIMAN 200 (2018-2020).jpg",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2007,
+      "maxYear": 2020
+    },
+    {
+      "name": "TRAVELLER",
+      "image": "images/vehicles/FORCE MOTORS/TRAVELLER (2006-NOW).png",
+      "variantCount": 15,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2026
+    },
+    {
+      "name": "TRAX",
+      "image": "images/vehicles/FORCE MOTORS/TRAX 1ST GEN (2002-2020).png",
+      "variantCount": 26,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2025
+    },
+    {
+      "name": "TRAX CRUISER",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2023
+    },
+    {
+      "name": "TRAX DELIVERY",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2023
+    },
+    {
+      "name": "TRAX KARGO KING",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2020
+    },
+    {
+      "name": "TRAX TOOFAN",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2023
+    },
+    {
+      "name": "TRUMP",
+      "image": "images/vehicles/FORCE MOTORS/TRUMP 15 (2010-2017).jpg",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2017
+    },
+    {
+      "name": "URBANIA",
+      "image": "images/vehicles/FORCE MOTORS/URBANIA LWB (2022-NOW).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2025
+    }
+  ],
+  "FORD": [
+    {
+      "name": "ECOSPORT",
+      "image": "images/vehicles/FORD/ECOSPORT 1ST GEN (06.2013-11.2017).jpg",
+      "variantCount": 58,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2021
+    },
+    {
+      "name": "ENDEAVOUR",
+      "image": "images/vehicles/FORD/ENDEAVOUR 1ST GEN (10.2003-12.2007).jpg",
+      "variantCount": 60,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2022
+    },
+    {
+      "name": "ESCORT",
+      "image": "images/vehicles/FORD/ESCORT (1995-2001).png",
+      "variantCount": 9,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1995,
+      "maxYear": 2001
+    },
+    {
+      "name": "FIESTA",
+      "image": "images/vehicles/FORD/FIESTA 1ST GEN (11.2005-02.2008).jpg",
+      "variantCount": 66,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2015
+    },
+    {
+      "name": "FIGO",
+      "image": "images/vehicles/FORD/FIGO 1ST GEN (03.2010-09.2012).png",
+      "variantCount": 115,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2022
+    },
+    {
+      "name": "FIGO ASPIRE",
+      "image": "images/vehicles/FORD/FIGO ASPIRE 1ST GEN (08.2015-03.2018).jpg",
+      "variantCount": 36,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2021
+    },
+    {
+      "name": "FREESTYLE",
+      "image": "images/vehicles/FORD/FREESTYLE (04.2018-07.2022).png",
+      "variantCount": 22,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2018,
+      "maxYear": 2022
+    },
+    {
+      "name": "FUSION",
+      "image": "images/vehicles/FORD/FUSION (11.2004-02.2010).jpg",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2010
+    },
+    {
+      "name": "IKON",
+      "image": "images/vehicles/FORD/IKON 1ST GEN (01.1999-12.2003).png",
+      "variantCount": 37,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 1999,
+      "maxYear": 2011
+    },
+    {
+      "name": "MONDEO",
+      "image": "images/vehicles/FORD/MONDEO (05.2001-08.2007).jpg",
+      "variantCount": 7,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2001,
+      "maxYear": 2007
+    },
+    {
+      "name": "MUSTANG",
+      "image": "images/vehicles/FORD/MUSTANG (07.2016-07.2021).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2021
+    }
+  ],
+  "HINDUSTAN MOTORS": [
+    {
+      "name": "AMBASSADOR",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG",
+        "HYBRID",
+        "PETROL/LPG"
+      ],
+      "minYear": 1975,
+      "maxYear": 2015
+    },
+    {
+      "name": "CONTESSA",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 1984,
+      "maxYear": 2006
+    },
+    {
+      "name": "CONTESSA CLASSIC (MJY)",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 1984,
+      "maxYear": 2005
+    },
+    {
+      "name": "MARK III",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1975,
+      "maxYear": 1980
+    },
+    {
+      "name": "MARK IV",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1979,
+      "maxYear": 1991
+    }
+  ],
+  "HONDA": [
+    {
+      "name": "ACCORD",
+      "image": "images/vehicles/HONDA/ACCORD 6TH GEN (2001-2002).jpg",
+      "variantCount": 24,
+      "fuels": [
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 2001,
+      "maxYear": 2017
+    },
+    {
+      "name": "AMAZE",
+      "image": "images/vehicles/HONDA/AMAZE 1ST GEN (2013-2016).jpg",
+      "variantCount": 116,
+      "fuels": [
+        "PETROL/CNG",
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2026
+    },
+    {
+      "name": "BR-V",
+      "image": "images/vehicles/HONDA/BR-V (2016-2020).png",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2020
+    },
+    {
+      "name": "BRIO",
+      "image": "images/vehicles/HONDA/BRIO 1ST GEN (2011-2016).jpg",
+      "variantCount": 27,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2019
+    },
+    {
+      "name": "CITY",
+      "image": "images/vehicles/HONDA/CITY 3RD GEN (1998-2003).png",
+      "variantCount": 109,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 1998,
+      "maxYear": 2026
+    },
+    {
+      "name": "CIVIC",
+      "image": "images/vehicles/HONDA/CIVIC 10TH GEN (2019-NOW).png",
+      "variantCount": 30,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2026
+    },
+    {
+      "name": "CR-V",
+      "image": "images/vehicles/HONDA/CR-V 2ND GEN (2004-2006).png",
+      "variantCount": 25,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2020
+    },
+    {
+      "name": "ELEVATE",
+      "image": "",
+      "variantCount": 11,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "JAZZ",
+      "image": "images/vehicles/HONDA/JAZZ 1ST GEN (2009-2012).jpg",
+      "variantCount": 52,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2026
+    },
+    {
+      "name": "MOBILIO",
+      "image": "images/vehicles/HONDA/MOBILIO (2014-2017).jpg",
+      "variantCount": 12,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2017
+    },
+    {
+      "name": "WR-V",
+      "image": "images/vehicles/HONDA/WR-V 1ST GEN (2017-2019).png",
+      "variantCount": 20,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "ZR-V",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "HYBRID"
+      ],
+      "minYear": 2026,
+      "maxYear": 2025
+    }
+  ],
+  "HYUNDAI": [
+    {
+      "name": "ACCENT",
+      "image": "images/vehicles/HYUNDAI/ACCENT (1999-2012).png",
+      "variantCount": 29,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/LPG"
+      ],
+      "minYear": 1999,
+      "maxYear": 2012
+    },
+    {
+      "name": "ALCAZAR",
+      "image": "images/vehicles/HYUNDAI/ALCAZAR 1ST GEN (04.2021-02.2023).png",
+      "variantCount": 110,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2026
+    },
+    {
+      "name": "AURA",
+      "image": "images/vehicles/HYUNDAI/AURA 1ST GEN (01.2020-01.2023).png",
+      "variantCount": 31,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2020,
+      "maxYear": 2026
+    },
+    {
+      "name": "CRETA",
+      "image": "images/vehicles/HYUNDAI/CRETA 1ST GEN (06.2015-05.2018).jpg",
+      "variantCount": 200,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "ELECTRIC"
+      ],
+      "minYear": 2015,
+      "maxYear": 2026
+    },
+    {
+      "name": "ELANTRA",
+      "image": "images/vehicles/HYUNDAI/ELANTRA 3RD GEN (04.2004-02.2007).png",
+      "variantCount": 64,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2022
+    },
+    {
+      "name": "ELANTRA FLUIDIC",
+      "image": "",
+      "variantCount": 13,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2016
+    },
+    {
+      "name": "EON",
+      "image": "images/vehicles/HYUNDAI/EON (01.2011-09.2019).png",
+      "variantCount": 30,
+      "fuels": [
+        "PETROL",
+        "PETROL/LPG"
+      ],
+      "minYear": 2011,
+      "maxYear": 2019
+    },
+    {
+      "name": "EXTER",
+      "image": "images/vehicles/HYUNDAI/EXTER (07.2023-NOW).png",
+      "variantCount": 28,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "GETZ",
+      "image": "images/vehicles/HYUNDAI/GETZ 1ST GEN (01.2004-02.2007).png",
+      "variantCount": 60,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2010
+    },
+    {
+      "name": "GRAND I10",
+      "image": "images/vehicles/HYUNDAI/GRAND I10 (08.2013-11.2016).png",
+      "variantCount": 82,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/LPG",
+        "PETROL/CNG"
+      ],
+      "minYear": 2013,
+      "maxYear": 2026
+    },
+    {
+      "name": "GRAND I10 NIOS",
+      "image": "images/vehicles/HYUNDAI/GRAND I10 NIOS (08.2019-12.2022).png",
+      "variantCount": 48,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "I10",
+      "image": "images/vehicles/HYUNDAI/GRAND I10 (08.2013-11.2016).png",
+      "variantCount": 53,
+      "fuels": [
+        "PETROL",
+        "PETROL/LPG"
+      ],
+      "minYear": 2007,
+      "maxYear": 2013
+    },
+    {
+      "name": "I20",
+      "image": "images/vehicles/HYUNDAI/I20 1ST GEN (09.2008-02.2012).png",
+      "variantCount": 213,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2026
+    },
+    {
+      "name": "IONIQ 5",
+      "image": "images/vehicles/HYUNDAI/IONIQ 5 (01.2023-NOW).png",
+      "variantCount": 1,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "KONA",
+      "image": "images/vehicles/HYUNDAI/KONA ELECTRIC (06.2019-06.2024).png",
+      "variantCount": 2,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2019,
+      "maxYear": 2025
+    },
+    {
+      "name": "SANTA FE",
+      "image": "images/vehicles/HYUNDAI/SANTA FE 2ND GEN (06.2009-09.2013).jpg",
+      "variantCount": 9,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2017
+    },
+    {
+      "name": "SANTRO",
+      "image": "images/vehicles/HYUNDAI/SANTRO 1ST GEN (09.1998-04.2003).png",
+      "variantCount": 117,
+      "fuels": [
+        "PETROL/LPG",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 1998,
+      "maxYear": 2022
+    },
+    {
+      "name": "SONATA",
+      "image": "images/vehicles/HYUNDAI/SONATA (EF-B) GOLD 4TH GEN (07.2001-12.2007).jpg",
+      "variantCount": 25,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2001,
+      "maxYear": 2015
+    },
+    {
+      "name": "TERRACAN",
+      "image": "images/vehicles/HYUNDAI/TERRACAN (01.2003-09.2005).png",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2005
+    },
+    {
+      "name": "TUCSON",
+      "image": "images/vehicles/HYUNDAI/TUCSON 1ST GEN (2004-2007).png",
+      "variantCount": 36,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2026
+    },
+    {
+      "name": "VENUE",
+      "image": "images/vehicles/HYUNDAI/VENUE 1ST GEN (05.2019-06.2022).png",
+      "variantCount": 199,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "VERNA",
+      "image": "images/vehicles/HYUNDAI/VERNA 3RD GEN (09.2006-03.2010).jpg",
+      "variantCount": 173,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2026
+    },
+    {
+      "name": "VERNA FLUIDIC",
+      "image": "images/vehicles/HYUNDAI/VERNA FLUIDIC 4TH GEN (05.2011-11.2014).jpg",
+      "variantCount": 22,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2017
+    },
+    {
+      "name": "XCENT",
+      "image": "images/vehicles/HYUNDAI/XCENT (08.2013-11.2016).jpg",
+      "variantCount": 57,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG",
+        "PETROL/LPG"
+      ],
+      "minYear": 2013,
+      "maxYear": 2020
+    }
+  ],
+  "ICML": [
+    {
+      "name": "EXTREME",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2024
+    },
+    {
+      "name": "RHINO",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2013
+    }
+  ],
+  "ISUZU": [
+    {
+      "name": "D-MAX",
+      "image": "images/vehicles/ISUZU/D-MAX (05.2014-04.2021).png",
+      "variantCount": 10,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2025
+    },
+    {
+      "name": "D-MAX V-CROSS",
+      "image": "images/vehicles/ISUZU/D-MAX V-CROSS (09.2014-12.2017).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2025
+    },
+    {
+      "name": "MU-7",
+      "image": "images/vehicles/ISUZU/MU-7 (12.2013-01.2017).jpg",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2018
+    },
+    {
+      "name": "MU-X",
+      "image": "",
+      "variantCount": 20,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2025
+    },
+    {
+      "name": "S-CAB",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2025
+    }
+  ],
+  "JAGUAR": [
+    {
+      "name": "F-PACE",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2025
+    },
+    {
+      "name": "F-TYPE",
+      "image": "",
+      "variantCount": 10,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2024
+    },
+    {
+      "name": "S-TYPE",
+      "image": "",
+      "variantCount": 5,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2009
+    },
+    {
+      "name": "X-TYPE",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2001,
+      "maxYear": 2010
+    },
+    {
+      "name": "XE",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2021
+    },
+    {
+      "name": "XF",
+      "image": "",
+      "variantCount": 19,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2025
+    },
+    {
+      "name": "XJ",
+      "image": "",
+      "variantCount": 13,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2020
+    },
+    {
+      "name": "XK",
+      "image": "",
+      "variantCount": 14,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1996,
+      "maxYear": 2024
+    },
+    {
+      "name": "XK 8",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1996,
+      "maxYear": 2005
+    }
+  ],
+  "JEEP": [
+    {
+      "name": "COMPASS",
+      "image": "images/vehicles/JEEP/COMPASS (2017-2021).png",
+      "variantCount": 42,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2025
+    },
+    {
+      "name": "GRAND CHEROKEE",
+      "image": "images/vehicles/JEEP/GRAND CHEROKEE (2016-2020).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2025
+    },
+    {
+      "name": "MERIDIAN",
+      "image": "",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2025
+    },
+    {
+      "name": "WRANGLER",
+      "image": "images/vehicles/JEEP/WRANGLER (2016-2020).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2025
+    }
+  ],
+  "KIA": [
+    {
+      "name": "CARENS",
+      "image": "images/vehicles/KIA/CARENS (02.2022-NOW).png",
+      "variantCount": 36,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    },
+    {
+      "name": "CARENS CLAVIS EV",
+      "image": "",
+      "variantCount": 18,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2025,
+      "maxYear": 2026
+    },
+    {
+      "name": "CARNIVAL",
+      "image": "images/vehicles/KIA/CARNIVAL (02.2020-NOW).png",
+      "variantCount": 9,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2026
+    },
+    {
+      "name": "EV6",
+      "image": "images/vehicles/KIA/EV6 ELECTRIC (04.2023-NOW).jpg",
+      "variantCount": 4,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    },
+    {
+      "name": "SELTOS",
+      "image": "images/vehicles/KIA/SELTOS (08.2019-07.2023).png",
+      "variantCount": 64,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "SONET",
+      "image": "images/vehicles/KIA/SONET (09.2020-12.2023).png",
+      "variantCount": 22,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2026
+    },
+    {
+      "name": "SYROS",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    }
+  ],
+  "LAND ROVER": [
+    {
+      "name": "DEFENDER",
+      "image": "",
+      "variantCount": 16,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "HYBRID"
+      ],
+      "minYear": 2021,
+      "maxYear": 2025
+    },
+    {
+      "name": "DISCOVERY",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2021
+    },
+    {
+      "name": "DISCOVERY SPORT",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2026
+    },
+    {
+      "name": "FREELANDER",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2016
+    },
+    {
+      "name": "RANGE ROVER",
+      "image": "",
+      "variantCount": 17,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2021
+    },
+    {
+      "name": "RANGE ROVER EVOQUE",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "HYBRID"
+      ],
+      "minYear": 2011,
+      "maxYear": 2026
+    },
+    {
+      "name": "RANGE ROVER III",
+      "image": "",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2013
+    },
+    {
+      "name": "RANGE ROVER IV",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2025
+    },
+    {
+      "name": "RANGE ROVER SPORT",
+      "image": "",
+      "variantCount": 18,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    },
+    {
+      "name": "RANGE ROVER VELAR",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2018,
+      "maxYear": 2025
+    }
+  ],
+  "LEXUS": [
+    {
+      "name": "ES",
+      "image": "images/vehicles/LEXUS/ES (03.2017-06.2018).png",
+      "variantCount": 3,
+      "fuels": [
+        "HYBRID"
+      ],
+      "minYear": 2017,
+      "maxYear": 2025
+    },
+    {
+      "name": "LC",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "HYBRID",
+        "PETROL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2025
+    },
+    {
+      "name": "LM",
+      "image": "images/vehicles/LEXUS/LM 350h (2024-NOW).png",
+      "variantCount": 2,
+      "fuels": [
+        "HYBRID"
+      ],
+      "minYear": 2024,
+      "maxYear": 2025
+    },
+    {
+      "name": "LS",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "HYBRID",
+        "PETROL"
+      ],
+      "minYear": 2018,
+      "maxYear": 2025
+    },
+    {
+      "name": "LX",
+      "image": "images/vehicles/LEXUS/LX 3RD GEN F_L (2017-2020).png",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2025
+    },
+    {
+      "name": "NX",
+      "image": "images/vehicles/LEXUS/NX (2019-NOW).png",
+      "variantCount": 5,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2025
+    },
+    {
+      "name": "RX",
+      "image": "images/vehicles/LEXUS/RX (2017-2023).png",
+      "variantCount": 10,
+      "fuels": [
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 2017,
+      "maxYear": 2025
+    }
+  ],
+  "MAHINDRA": [
+    {
+      "name": "ALFA",
+      "image": "images/vehicles/MAHINDRA/ALFA LOAD CARRIER (03.2017-NOW).jpg",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL/CNG",
+        "DIESEL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2025
+    },
+    {
+      "name": "ALFA E MINI",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "ALFA LOAD",
+      "image": "images/vehicles/MAHINDRA/ALFA LOAD CARRIER (03.2017-NOW).jpg",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "ALFA PASSENGER",
+      "image": "images/vehicles/MAHINDRA/ALFA PASSENGER (03.2017-NOW).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "ALTURAS G4",
+      "image": "images/vehicles/MAHINDRA/ALTURAS G4 (07.2018-12.2022).png",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2018,
+      "maxYear": 2022
+    },
+    {
+      "name": "ARMADA",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1993,
+      "maxYear": 2001
+    },
+    {
+      "name": "BE 6",
+      "image": "images/vehicles/MAHINDRA/BE 6 (11.2024-NOW).png",
+      "variantCount": 16,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "BOLERO",
+      "image": "images/vehicles/MAHINDRA/BOLERO 1ST GEN (05.2004-09.2011).png",
+      "variantCount": 103,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2026
+    },
+    {
+      "name": "BOLERO CAMPER",
+      "image": "images/vehicles/MAHINDRA/BOLERO CAMPER (01.2005-03.2013).jpg",
+      "variantCount": 7,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2026
+    },
+    {
+      "name": "BOLERO INVADER",
+      "image": "images/vehicles/MAHINDRA/BOLERO INVADER (03.2003-01.2010).png",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2010
+    },
+    {
+      "name": "BOLERO NEO",
+      "image": "images/vehicles/MAHINDRA/BOLERO NEO (07.2021-NOW).png",
+      "variantCount": 15,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2026
+    },
+    {
+      "name": "BOLERO PIK-UP",
+      "image": "images/vehicles/MAHINDRA/BOLERO PIK-UP 1ST GEN (09.2010-01.2019).jpg",
+      "variantCount": 18,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "COMMANDER",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2006
+    },
+    {
+      "name": "E-SUPRO",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "ELECTRIC",
+        "PETROL/CNG"
+      ],
+      "minYear": 2016,
+      "maxYear": 2021
+    },
+    {
+      "name": "E2O",
+      "image": "images/vehicles/MAHINDRA/E2O (03.2013-11.2016).png",
+      "variantCount": 2,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2013,
+      "maxYear": 2017
+    },
+    {
+      "name": "EVERITO",
+      "image": "images/vehicles/MAHINDRA/eVERITO (06.2016-NOW).png",
+      "variantCount": 9,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2016,
+      "maxYear": 2023
+    },
+    {
+      "name": "GENIO",
+      "image": "images/vehicles/MAHINDRA/GENIO DC (07.2011-01.2016).jpg",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2016
+    },
+    {
+      "name": "GIO",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2015
+    },
+    {
+      "name": "IMPERIO",
+      "image": "images/vehicles/MAHINDRA/IMPERIO DC (01.2016-03.2020).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2020
+    },
+    {
+      "name": "JEEP",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1995,
+      "maxYear": 2010
+    },
+    {
+      "name": "JEETO",
+      "image": "images/vehicles/MAHINDRA/JEETO (07.2015-NOW).png",
+      "variantCount": 52,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2015,
+      "maxYear": 2026
+    },
+    {
+      "name": "JEETO MINI VAN",
+      "image": "images/vehicles/MAHINDRA/JEETO MINI VAN (07.2017-07.2019).png",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2019
+    },
+    {
+      "name": "KUV 1",
+      "image": "",
+      "variantCount": 23,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2023
+    },
+    {
+      "name": "KUV 100",
+      "image": "images/vehicles/MAHINDRA/KUV 100 1ST GEN (01.2016-10.2017).png",
+      "variantCount": 26,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2016,
+      "maxYear": 2025
+    },
+    {
+      "name": "MAJOR",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1986,
+      "maxYear": 2000
+    },
+    {
+      "name": "MARAZZO",
+      "image": "images/vehicles/MAHINDRA/MARAZZO (09.2018-NOW).png",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2018,
+      "maxYear": 2024
+    },
+    {
+      "name": "MARSHAL",
+      "image": "images/vehicles/MAHINDRA/MARSHAL (01.1996-12.2008).jpg",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1996,
+      "maxYear": 2008
+    },
+    {
+      "name": "MAXI TRUCK",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2012,
+      "maxYear": 2025
+    },
+    {
+      "name": "MAXX",
+      "image": "images/vehicles/MAHINDRA/BOLERO MAXX PIK-UP CITY (08.2022-NOW).png",
+      "variantCount": 13,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    },
+    {
+      "name": "MAXX PICK UP",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2013
+    },
+    {
+      "name": "MAXX PIKUP CITY",
+      "image": "",
+      "variantCount": 10,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    },
+    {
+      "name": "MAXX PIKUP HEAVY DUTY",
+      "image": "",
+      "variantCount": 14,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    },
+    {
+      "name": "MAXXIMO",
+      "image": "images/vehicles/MAHINDRA/MAXXIMO MINI VAN (04.2011-10.2015).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL/CNG"
+      ],
+      "minYear": 2013,
+      "maxYear": 2015
+    },
+    {
+      "name": "MAXXIMO MINI VAN",
+      "image": "images/vehicles/MAHINDRA/MAXXIMO MINI VAN (04.2011-10.2015).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2011,
+      "maxYear": 2015
+    },
+    {
+      "name": "MAXXIMO PLUS",
+      "image": "images/vehicles/MAHINDRA/MAXXIMO PLUS (03.2013-10.2015).png",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2013,
+      "maxYear": 2015
+    },
+    {
+      "name": "NUVOSPORT",
+      "image": "images/vehicles/MAHINDRA/NUVOSPORT (04.2016-06.2018).png",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2018
+    },
+    {
+      "name": "QUANTO",
+      "image": "images/vehicles/MAHINDRA/QUANTO (09.2012-03.2016).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2016
+    },
+    {
+      "name": "REXTON",
+      "image": "images/vehicles/MAHINDRA/REXTON (06.2012-12.2018).jpg",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2018
+    },
+    {
+      "name": "SAVARI",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2012
+    },
+    {
+      "name": "SCORPIO",
+      "image": "images/vehicles/MAHINDRA/SCORPIO 1ST GEN (2002-2005).png",
+      "variantCount": 196,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2026
+    },
+    {
+      "name": "SCORPIO GATEWAY",
+      "image": "",
+      "variantCount": 10,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2019
+    },
+    {
+      "name": "SCORPIO GETAWAY",
+      "image": "images/vehicles/MAHINDRA/SCORPIO GETAWAY 1ST GEN (2007-2011).png",
+      "variantCount": 11,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2019
+    },
+    {
+      "name": "SCORPIO-N",
+      "image": "images/vehicles/MAHINDRA/SCORPIO-N (2022-NOW).png",
+      "variantCount": 62,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    },
+    {
+      "name": "SUPRO",
+      "image": "images/vehicles/MAHINDRA/SUPRO (10.2015-NOW).png",
+      "variantCount": 35,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2015,
+      "maxYear": 2026
+    },
+    {
+      "name": "SUPRO TRUCK",
+      "image": "images/vehicles/MAHINDRA/SUPRO TRUCK (10.2015-NOW).jpg",
+      "variantCount": 39,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2015,
+      "maxYear": 2026
+    },
+    {
+      "name": "THAR",
+      "image": "images/vehicles/MAHINDRA/THAR 1ST GEN (10.2010-07.2015).jpg",
+      "variantCount": 73,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "THAR ROXX",
+      "image": "images/vehicles/MAHINDRA/THAR ROXX (09.2024-NOW).png",
+      "variantCount": 37,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "TREO",
+      "image": "images/vehicles/MAHINDRA/TREO(10.2020-NOW).png",
+      "variantCount": 4,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2020,
+      "maxYear": 2026
+    },
+    {
+      "name": "TUV 3",
+      "image": "",
+      "variantCount": 13,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2021
+    },
+    {
+      "name": "TUV 300",
+      "image": "images/vehicles/MAHINDRA/TUV 300 (09.2015-06.2020).jpg",
+      "variantCount": 15,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2021
+    },
+    {
+      "name": "VEERO",
+      "image": "images/vehicles/MAHINDRA/VEERO (09.2024-NOW).png",
+      "variantCount": 10,
+      "fuels": [
+        "PETROL/CNG",
+        "DIESEL"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "VERITO",
+      "image": "images/vehicles/MAHINDRA/VERITO (01.2011-05.2012).png",
+      "variantCount": 12,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2018
+    },
+    {
+      "name": "VERITO VIBE",
+      "image": "images/vehicles/MAHINDRA/VERITO VIBE (06.2013-09.2016).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2016
+    },
+    {
+      "name": "XEV 9E",
+      "image": "images/vehicles/MAHINDRA/XEV 9e (11.2024-NOW).png",
+      "variantCount": 5,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "XEV 9S",
+      "image": "images/vehicles/MAHINDRA/XEV 9S (2025-NOW).jpg",
+      "variantCount": 6,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2025,
+      "maxYear": 2026
+    },
+    {
+      "name": "XEV 9e",
+      "image": "images/vehicles/MAHINDRA/XEV 9e (11.2024-NOW).png",
+      "variantCount": 1,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "XUV 3",
+      "image": "",
+      "variantCount": 18,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "XUV 300",
+      "image": "images/vehicles/MAHINDRA/XUV 300 (02.2019-NOW).png",
+      "variantCount": 40,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "XUV 3XO",
+      "image": "images/vehicles/MAHINDRA/XUV 3XO (04.2024-NOW).png",
+      "variantCount": 40,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "XUV 4",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "XUV 400",
+      "image": "images/vehicles/MAHINDRA/XUV 400 (01.2023-NOW).png",
+      "variantCount": 4,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "XUV 500",
+      "image": "images/vehicles/MAHINDRA/XUV 500 1ST GEN (10.2011-07.2015).jpg",
+      "variantCount": 57,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2022
+    },
+    {
+      "name": "XUV 700",
+      "image": "images/vehicles/MAHINDRA/XUV 700 (08.2021-01.2026).png",
+      "variantCount": 87,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2026
+    },
+    {
+      "name": "XUV 7XO",
+      "image": "images/vehicles/MAHINDRA/XUV 7XO (01.2026-NOW).png",
+      "variantCount": 32,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2026,
+      "maxYear": 2026
+    },
+    {
+      "name": "XYLO",
+      "image": "images/vehicles/MAHINDRA/XYLO 1ST GEN (01.2009-02.2012).jpg",
+      "variantCount": 43,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2020
+    },
+    {
+      "name": "ZOR",
+      "image": "images/vehicles/MAHINDRA/ZOR (10.2020-NOW).png",
+      "variantCount": 2,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2020,
+      "maxYear": 2026
+    },
+    {
+      "name": "eVERITO",
+      "image": "images/vehicles/MAHINDRA/eVERITO (06.2016-NOW).png",
+      "variantCount": 9,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2016,
+      "maxYear": 2023
+    }
+  ],
+  "MARUTI": [
+    {
+      "name": "1000",
+      "image": "images/vehicles/MARUTI SUZUKI/MARUTI 1000 (1990-2000).png",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1990,
+      "maxYear": 2000
+    },
+    {
+      "name": "800",
+      "image": "images/vehicles/MARUTI SUZUKI/800 1ST GEN SS80 (1983-1986).png",
+      "variantCount": 62,
+      "fuels": [
+        "PETROL",
+        "PETROL/LPG"
+      ],
+      "minYear": 1983,
+      "maxYear": 2014
+    },
+    {
+      "name": "A-STAR",
+      "image": "images/vehicles/MARUTI SUZUKI/A-STAR (2008-2013).png",
+      "variantCount": 17,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2013
+    },
+    {
+      "name": "ALTO",
+      "image": "images/vehicles/MARUTI SUZUKI/ALTO (2000-2012).png",
+      "variantCount": 161,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "ALTO 800",
+      "image": "images/vehicles/MARUTI SUZUKI/ALTO 800 1ST GEN (2012-2016).png",
+      "variantCount": 68,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2012,
+      "maxYear": 2024
+    },
+    {
+      "name": "ALTO K10",
+      "image": "images/vehicles/MARUTI SUZUKI/ALTO K10 1ST GEN (2010-2014).png",
+      "variantCount": 37,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "BALENO",
+      "image": "images/vehicles/MARUTI SUZUKI/BALENO 1ST GEN (1999-2007).png",
+      "variantCount": 106,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "DIESEL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2026
+    },
+    {
+      "name": "BALENO ALTURA",
+      "image": "images/vehicles/MARUTI SUZUKI/BALENO ALTURA (1999-2007).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2007
+    },
+    {
+      "name": "BALENO RS",
+      "image": "images/vehicles/MARUTI SUZUKI/BALENO RS (2016-2018).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2020
+    },
+    {
+      "name": "BREZZA",
+      "image": "images/vehicles/MARUTI SUZUKI/BREZZA (2022-NOW).png",
+      "variantCount": 48,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2016,
+      "maxYear": 2026
+    },
+    {
+      "name": "CELERIO",
+      "image": "images/vehicles/MARUTI SUZUKI/CELERIO 1ST GEN (2013-2017).png",
+      "variantCount": 73,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2026
+    },
+    {
+      "name": "CELERIO X",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2021
+    },
+    {
+      "name": "CIAZ",
+      "image": "images/vehicles/MARUTI SUZUKI/CIAZ 1ST GEN (2014-2018).png",
+      "variantCount": 32,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2026
+    },
+    {
+      "name": "DZIRE",
+      "image": "images/vehicles/MARUTI SUZUKI/SWIFT DZIRE 1ST GEN (2008-2012).png",
+      "variantCount": 29,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "EECO",
+      "image": "images/vehicles/MARUTI SUZUKI/EECO 1ST GEN (2010-2022).png",
+      "variantCount": 23,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "ERTIGA",
+      "image": "images/vehicles/MARUTI SUZUKI/ERTIGA 1ST GEN (2012-2015).png",
+      "variantCount": 193,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2012,
+      "maxYear": 2026
+    },
+    {
+      "name": "ESTEEM",
+      "image": "images/vehicles/MARUTI SUZUKI/ESTEEM TYPE-1 (1994-1997).png",
+      "variantCount": 21,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 1994,
+      "maxYear": 2008
+    },
+    {
+      "name": "FRONX",
+      "image": "images/vehicles/MARUTI SUZUKI/FRONX (2023-NOW).png",
+      "variantCount": 15,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "GRAND VITARA",
+      "image": "images/vehicles/MARUTI SUZUKI/GRAND VITARA 2ND GEN (2007-2015).png",
+      "variantCount": 24,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "HYBRID"
+      ],
+      "minYear": 2003,
+      "maxYear": 2026
+    },
+    {
+      "name": "GRAND VITARA XL7",
+      "image": "images/vehicles/MARUTI SUZUKI/GRAND VITARA XL7 1ST GEN (2003-2005).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2005
+    },
+    {
+      "name": "GYPSY",
+      "image": "images/vehicles/MARUTI SUZUKI/GYPSY (1985-1999).png",
+      "variantCount": 10,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1985,
+      "maxYear": 2019
+    },
+    {
+      "name": "GYPSY KING",
+      "image": "images/vehicles/MARUTI SUZUKI/GYPSY KING (1996-2019).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1996,
+      "maxYear": 2004
+    },
+    {
+      "name": "IGNIS",
+      "image": "images/vehicles/MARUTI SUZUKI/IGNIS 1ST GEN (2016-2020).png",
+      "variantCount": 39,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2026
+    },
+    {
+      "name": "INVICTO",
+      "image": "images/vehicles/MARUTI SUZUKI/INVICTO (2023-NOW).png",
+      "variantCount": 6,
+      "fuels": [
+        "HYBRID"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "JIMNY",
+      "image": "images/vehicles/MARUTI SUZUKI/JIMNY (2023-NOW).png",
+      "variantCount": 5,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "KIZASHI",
+      "image": "images/vehicles/MARUTI SUZUKI/KIZASHI (2011-2014).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2014
+    },
+    {
+      "name": "OMNI",
+      "image": "images/vehicles/MARUTI SUZUKI/OMNI TYPE 1 (1984-1998).png",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "PETROL/LPG"
+      ],
+      "minYear": 1984,
+      "maxYear": 2019
+    },
+    {
+      "name": "RITZ",
+      "image": "images/vehicles/MARUTI SUZUKI/RITZ 1ST GEN (2009-2012).png",
+      "variantCount": 46,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2017
+    },
+    {
+      "name": "S-CROSS",
+      "image": "images/vehicles/MARUTI SUZUKI/S-CROSS 1ST GEN (2015-2017).png",
+      "variantCount": 38,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2022
+    },
+    {
+      "name": "S-PRESSO",
+      "image": "images/vehicles/MARUTI SUZUKI/S-PRESSO (2019-NOW).png",
+      "variantCount": 25,
+      "fuels": [
+        "PETROL/CNG",
+        "PETROL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "STINGRAY",
+      "image": "images/vehicles/MARUTI SUZUKI/STINGRAY (2013-2017).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2017
+    },
+    {
+      "name": "SUPER CARRY",
+      "image": "images/vehicles/MARUTI SUZUKI/SUPER CARRY (2016-NOW).jpg",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2016,
+      "maxYear": 2026
+    },
+    {
+      "name": "SWIFT",
+      "image": "images/vehicles/MARUTI SUZUKI/SWIFT 1ST GEN (2005-2011).png",
+      "variantCount": 228,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2005,
+      "maxYear": 2026
+    },
+    {
+      "name": "SWIFT DZIRE",
+      "image": "images/vehicles/MARUTI SUZUKI/SWIFT DZIRE 1ST GEN (2008-2012).png",
+      "variantCount": 193,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2008,
+      "maxYear": 2025
+    },
+    {
+      "name": "SX4",
+      "image": "images/vehicles/MARUTI SUZUKI/SX4 1ST GEN (2007-2013).png",
+      "variantCount": 65,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "DIESEL"
+      ],
+      "minYear": 2007,
+      "maxYear": 2015
+    },
+    {
+      "name": "VERSA",
+      "image": "images/vehicles/MARUTI SUZUKI/VERSA (2000-2010).png",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2010
+    },
+    {
+      "name": "VICTORIS",
+      "image": "",
+      "variantCount": 23,
+      "fuels": [
+        "PETROL/CNG",
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 2025,
+      "maxYear": 2026
+    },
+    {
+      "name": "VITARA BREZZA",
+      "image": "images/vehicles/MARUTI SUZUKI/VITARA BREZZA 1ST GEN (2016-2020).png",
+      "variantCount": 19,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2022
+    },
+    {
+      "name": "WAGON R",
+      "image": "images/vehicles/MARUTI SUZUKI/WAGON R 1ST GEN (1999-2003).png",
+      "variantCount": 212,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "PETROL/LPG"
+      ],
+      "minYear": 1999,
+      "maxYear": 2026
+    },
+    {
+      "name": "XL6",
+      "image": "images/vehicles/MARUTI SUZUKI/XL6 1ST GEN (2019-2022).png",
+      "variantCount": 17,
+      "fuels": [
+        "PETROL/CNG",
+        "PETROL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "XL7",
+      "image": "images/vehicles/MARUTI SUZUKI/GRAND VITARA XL7 1ST GEN (2003-2005).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2006
+    },
+    {
+      "name": "ZEN",
+      "image": "images/vehicles/MARUTI SUZUKI/ZEN 1ST GEN F_L (1996-2002).png",
+      "variantCount": 55,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1993,
+      "maxYear": 2022
+    },
+    {
+      "name": "ZEN CLASSIC",
+      "image": "images/vehicles/MARUTI SUZUKI/ZEN CLASSIC (1999-2003).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2003
+    },
+    {
+      "name": "ZEN ESTILO",
+      "image": "images/vehicles/MARUTI SUZUKI/ZEN ESTILO 1ST GEN (2006-2009).png",
+      "variantCount": 37,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 1996,
+      "maxYear": 2013
+    },
+    {
+      "name": "e-VITARA",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "ELECTRIC",
+        "Electric"
+      ],
+      "minYear": 2025,
+      "maxYear": 2026
+    }
+  ],
+  "MARUTI SUZUKI": [
+    {
+      "name": "1000",
+      "image": "images/vehicles/MARUTI SUZUKI/MARUTI 1000 (1990-2000).png",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1990,
+      "maxYear": 2000
+    },
+    {
+      "name": "800",
+      "image": "images/vehicles/MARUTI SUZUKI/800 1ST GEN SS80 (1983-1986).png",
+      "variantCount": 62,
+      "fuels": [
+        "PETROL",
+        "PETROL/LPG"
+      ],
+      "minYear": 1983,
+      "maxYear": 2014
+    },
+    {
+      "name": "A-STAR",
+      "image": "images/vehicles/MARUTI SUZUKI/A-STAR (2008-2013).png",
+      "variantCount": 17,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2013
+    },
+    {
+      "name": "ALTO",
+      "image": "images/vehicles/MARUTI SUZUKI/ALTO (2000-2012).png",
+      "variantCount": 161,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "ALTO 800",
+      "image": "images/vehicles/MARUTI SUZUKI/ALTO 800 1ST GEN (2012-2016).png",
+      "variantCount": 68,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2012,
+      "maxYear": 2024
+    },
+    {
+      "name": "ALTO K10",
+      "image": "images/vehicles/MARUTI SUZUKI/ALTO K10 1ST GEN (2010-2014).png",
+      "variantCount": 37,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "BALENO",
+      "image": "images/vehicles/MARUTI SUZUKI/BALENO 1ST GEN (1999-2007).png",
+      "variantCount": 106,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "DIESEL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2026
+    },
+    {
+      "name": "BALENO ALTURA",
+      "image": "images/vehicles/MARUTI SUZUKI/BALENO ALTURA (1999-2007).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2007
+    },
+    {
+      "name": "BALENO RS",
+      "image": "images/vehicles/MARUTI SUZUKI/BALENO RS (2016-2018).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2020
+    },
+    {
+      "name": "BREZZA",
+      "image": "images/vehicles/MARUTI SUZUKI/BREZZA (2022-NOW).png",
+      "variantCount": 48,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2016,
+      "maxYear": 2026
+    },
+    {
+      "name": "CELERIO",
+      "image": "images/vehicles/MARUTI SUZUKI/CELERIO 1ST GEN (2013-2017).png",
+      "variantCount": 73,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2026
+    },
+    {
+      "name": "CELERIO X",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2021
+    },
+    {
+      "name": "CIAZ",
+      "image": "images/vehicles/MARUTI SUZUKI/CIAZ 1ST GEN (2014-2018).png",
+      "variantCount": 32,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2026
+    },
+    {
+      "name": "DZIRE",
+      "image": "images/vehicles/MARUTI SUZUKI/SWIFT DZIRE 1ST GEN (2008-2012).png",
+      "variantCount": 29,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "EECO",
+      "image": "images/vehicles/MARUTI SUZUKI/EECO 1ST GEN (2010-2022).png",
+      "variantCount": 23,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "ERTIGA",
+      "image": "images/vehicles/MARUTI SUZUKI/ERTIGA 1ST GEN (2012-2015).png",
+      "variantCount": 193,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2012,
+      "maxYear": 2026
+    },
+    {
+      "name": "ESTEEM",
+      "image": "images/vehicles/MARUTI SUZUKI/ESTEEM TYPE-1 (1994-1997).png",
+      "variantCount": 21,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 1994,
+      "maxYear": 2008
+    },
+    {
+      "name": "FRONX",
+      "image": "images/vehicles/MARUTI SUZUKI/FRONX (2023-NOW).png",
+      "variantCount": 15,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "GRAND VITARA",
+      "image": "images/vehicles/MARUTI SUZUKI/GRAND VITARA 2ND GEN (2007-2015).png",
+      "variantCount": 24,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "HYBRID"
+      ],
+      "minYear": 2003,
+      "maxYear": 2026
+    },
+    {
+      "name": "GRAND VITARA XL7",
+      "image": "images/vehicles/MARUTI SUZUKI/GRAND VITARA XL7 1ST GEN (2003-2005).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2005
+    },
+    {
+      "name": "GYPSY",
+      "image": "images/vehicles/MARUTI SUZUKI/GYPSY (1985-1999).png",
+      "variantCount": 10,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1985,
+      "maxYear": 2019
+    },
+    {
+      "name": "GYPSY KING",
+      "image": "images/vehicles/MARUTI SUZUKI/GYPSY KING (1996-2019).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1996,
+      "maxYear": 2004
+    },
+    {
+      "name": "IGNIS",
+      "image": "images/vehicles/MARUTI SUZUKI/IGNIS 1ST GEN (2016-2020).png",
+      "variantCount": 39,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2026
+    },
+    {
+      "name": "INVICTO",
+      "image": "images/vehicles/MARUTI SUZUKI/INVICTO (2023-NOW).png",
+      "variantCount": 6,
+      "fuels": [
+        "HYBRID"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "JIMNY",
+      "image": "images/vehicles/MARUTI SUZUKI/JIMNY (2023-NOW).png",
+      "variantCount": 5,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "KIZASHI",
+      "image": "images/vehicles/MARUTI SUZUKI/KIZASHI (2011-2014).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2014
+    },
+    {
+      "name": "OMNI",
+      "image": "images/vehicles/MARUTI SUZUKI/OMNI TYPE 1 (1984-1998).png",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "PETROL/LPG"
+      ],
+      "minYear": 1984,
+      "maxYear": 2019
+    },
+    {
+      "name": "RITZ",
+      "image": "images/vehicles/MARUTI SUZUKI/RITZ 1ST GEN (2009-2012).png",
+      "variantCount": 46,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2017
+    },
+    {
+      "name": "S-CROSS",
+      "image": "images/vehicles/MARUTI SUZUKI/S-CROSS 1ST GEN (2015-2017).png",
+      "variantCount": 38,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2022
+    },
+    {
+      "name": "S-PRESSO",
+      "image": "images/vehicles/MARUTI SUZUKI/S-PRESSO (2019-NOW).png",
+      "variantCount": 25,
+      "fuels": [
+        "PETROL/CNG",
+        "PETROL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "STINGRAY",
+      "image": "images/vehicles/MARUTI SUZUKI/STINGRAY (2013-2017).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2017
+    },
+    {
+      "name": "SUPER CARRY",
+      "image": "images/vehicles/MARUTI SUZUKI/SUPER CARRY (2016-NOW).jpg",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2016,
+      "maxYear": 2026
+    },
+    {
+      "name": "SWIFT",
+      "image": "images/vehicles/MARUTI SUZUKI/SWIFT 1ST GEN (2005-2011).png",
+      "variantCount": 228,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2005,
+      "maxYear": 2026
+    },
+    {
+      "name": "SWIFT DZIRE",
+      "image": "images/vehicles/MARUTI SUZUKI/SWIFT DZIRE 1ST GEN (2008-2012).png",
+      "variantCount": 193,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2008,
+      "maxYear": 2025
+    },
+    {
+      "name": "SX4",
+      "image": "images/vehicles/MARUTI SUZUKI/SX4 1ST GEN (2007-2013).png",
+      "variantCount": 65,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "DIESEL"
+      ],
+      "minYear": 2007,
+      "maxYear": 2015
+    },
+    {
+      "name": "VERSA",
+      "image": "images/vehicles/MARUTI SUZUKI/VERSA (2000-2010).png",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2010
+    },
+    {
+      "name": "VICTORIS",
+      "image": "",
+      "variantCount": 23,
+      "fuels": [
+        "PETROL/CNG",
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 2025,
+      "maxYear": 2026
+    },
+    {
+      "name": "VITARA BREZZA",
+      "image": "images/vehicles/MARUTI SUZUKI/VITARA BREZZA 1ST GEN (2016-2020).png",
+      "variantCount": 19,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2022
+    },
+    {
+      "name": "WAGON R",
+      "image": "images/vehicles/MARUTI SUZUKI/WAGON R 1ST GEN (1999-2003).png",
+      "variantCount": 212,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "PETROL/LPG"
+      ],
+      "minYear": 1999,
+      "maxYear": 2026
+    },
+    {
+      "name": "XL6",
+      "image": "images/vehicles/MARUTI SUZUKI/XL6 1ST GEN (2019-2022).png",
+      "variantCount": 17,
+      "fuels": [
+        "PETROL/CNG",
+        "PETROL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "XL7",
+      "image": "images/vehicles/MARUTI SUZUKI/GRAND VITARA XL7 1ST GEN (2003-2005).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2006
+    },
+    {
+      "name": "ZEN",
+      "image": "images/vehicles/MARUTI SUZUKI/ZEN 1ST GEN F_L (1996-2002).png",
+      "variantCount": 55,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1993,
+      "maxYear": 2022
+    },
+    {
+      "name": "ZEN CLASSIC",
+      "image": "images/vehicles/MARUTI SUZUKI/ZEN CLASSIC (1999-2003).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2003
+    },
+    {
+      "name": "ZEN ESTILO",
+      "image": "images/vehicles/MARUTI SUZUKI/ZEN ESTILO 1ST GEN (2006-2009).png",
+      "variantCount": 37,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 1996,
+      "maxYear": 2013
+    },
+    {
+      "name": "e-VITARA",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "ELECTRIC",
+        "Electric"
+      ],
+      "minYear": 2025,
+      "maxYear": 2026
+    }
+  ],
+  "MERCEDES-BENZ": [
+    {
+      "name": "57",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2012
+    },
+    {
+      "name": "A-CLASS",
+      "image": "",
+      "variantCount": 22,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2025
+    },
+    {
+      "name": "B-CLASS",
+      "image": "",
+      "variantCount": 5,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2025
+    },
+    {
+      "name": "C-CLASS",
+      "image": "",
+      "variantCount": 57,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "CLA",
+      "image": "images/vehicles/MERCEDES-BENZ/CLA CLASS (C117) 1ST GEN (2014-2016).png",
+      "variantCount": 29,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2020
+    },
+    {
+      "name": "CLS",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2011
+    },
+    {
+      "name": "E-CLASS",
+      "image": "",
+      "variantCount": 65,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1995,
+      "maxYear": 2025
+    },
+    {
+      "name": "E-CLASS CABRIOLET",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2025
+    },
+    {
+      "name": "E-CLASS COUPE",
+      "image": "",
+      "variantCount": 7,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2025
+    },
+    {
+      "name": "G-CLASS",
+      "image": "",
+      "variantCount": 22,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1989,
+      "maxYear": 2025
+    },
+    {
+      "name": "GL-CLASS",
+      "image": "",
+      "variantCount": 11,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2025
+    },
+    {
+      "name": "GLA-CLASS",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "HYBRID"
+      ],
+      "minYear": 2013,
+      "maxYear": 2025
+    },
+    {
+      "name": "GLC",
+      "image": "images/vehicles/MERCEDES-BENZ/GLC CLASS 1ST GEN (2016-2020).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2021
+    },
+    {
+      "name": "GLC-CLASS",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2020
+    },
+    {
+      "name": "GLE",
+      "image": "images/vehicles/MERCEDES-BENZ/GLE CLASS 3RD GEN (2015-2020).png",
+      "variantCount": 10,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2025
+    },
+    {
+      "name": "GLE-CLASS",
+      "image": "",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2023
+    },
+    {
+      "name": "GLS",
+      "image": "images/vehicles/MERCEDES-BENZ/GLS CLASS (X166) (2016-2019).png",
+      "variantCount": 15,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2025
+    },
+    {
+      "name": "M-CLASS",
+      "image": "",
+      "variantCount": 22,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "HYBRID"
+      ],
+      "minYear": 1997,
+      "maxYear": 2016
+    },
+    {
+      "name": "R-CLASS",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2015
+    },
+    {
+      "name": "R350",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2013
+    },
+    {
+      "name": "S-CLASS",
+      "image": "",
+      "variantCount": 40,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1998,
+      "maxYear": 2025
+    },
+    {
+      "name": "SLC",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2025
+    },
+    {
+      "name": "SLK",
+      "image": "images/vehicles/MERCEDES-BENZ/SLK CLASS (R171) (2011-2016).png",
+      "variantCount": 11,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2025
+    },
+    {
+      "name": "SLS AMG",
+      "image": "images/vehicles/MERCEDES-BENZ/SLS AMG (C197) (2010-2012).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2025
+    }
+  ],
+  "MINI": [
+    {
+      "name": "COUNTRYMAN",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2025
+    },
+    {
+      "name": "F55",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2024
+    },
+    {
+      "name": "F56",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2025
+    },
+    {
+      "name": "PACEMAN",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2025
+    },
+    {
+      "name": "R56",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2024
+    },
+    {
+      "name": "R59",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2015
+    },
+    {
+      "name": "R60",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2016
+    },
+    {
+      "name": "R61",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2025
+    },
+    {
+      "name": "ROADSTER",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2025
+    }
+  ],
+  "MITSUBISHI": [
+    {
+      "name": "CEDIA",
+      "image": "",
+      "variantCount": 12,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG",
+        "HYBRID"
+      ],
+      "minYear": 2001,
+      "maxYear": 2025
+    },
+    {
+      "name": "LANCER",
+      "image": "",
+      "variantCount": 16,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1995,
+      "maxYear": 2013
+    },
+    {
+      "name": "LANCER EVOLUTION",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2014
+    },
+    {
+      "name": "MONTERO",
+      "image": "",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2007,
+      "maxYear": 2019
+    },
+    {
+      "name": "OUTLANDER",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2007,
+      "maxYear": 2015
+    },
+    {
+      "name": "OUTLANDER XL",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2007,
+      "maxYear": 2012
+    },
+    {
+      "name": "PAJERO",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1997,
+      "maxYear": 2019
+    },
+    {
+      "name": "PAJERO SPORT",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2024
+    }
+  ],
+  "MORRIS GARAGES": [
+    {
+      "name": "ASTOR",
+      "image": "images/vehicles/MORRIS GARAGES/ASTOR 1ST GEN (2021-NOW).png",
+      "variantCount": 46,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2025
+    },
+    {
+      "name": "COMET EV",
+      "image": "images/vehicles/MORRIS GARAGES/COMET EV (2023-NOW).png",
+      "variantCount": 12,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2023,
+      "maxYear": 2025
+    },
+    {
+      "name": "CYBERSTER EV",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2025,
+      "maxYear": 2025
+    },
+    {
+      "name": "GLOSTER",
+      "image": "images/vehicles/MORRIS GARAGES/GLOSTER (2020-NOW).png",
+      "variantCount": 23,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2025
+    },
+    {
+      "name": "HECTOR",
+      "image": "images/vehicles/MORRIS GARAGES/HECTOR 1ST GEN (2019-2021).png",
+      "variantCount": 203,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "HYBRID"
+      ],
+      "minYear": 2019,
+      "maxYear": 2025
+    },
+    {
+      "name": "M9",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2025,
+      "maxYear": 2025
+    },
+    {
+      "name": "MAJESTOR",
+      "image": "images/vehicles/MORRIS GARAGES/MAJESTOR (2026-NOW).png",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2026,
+      "maxYear": 2025
+    },
+    {
+      "name": "WINDSOR",
+      "image": "images/vehicles/MORRIS GARAGES/WINDSOR EV (2024-NOW).png",
+      "variantCount": 1,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2024,
+      "maxYear": 2025
+    },
+    {
+      "name": "WINDSOR EV",
+      "image": "images/vehicles/MORRIS GARAGES/WINDSOR EV (2024-NOW).png",
+      "variantCount": 6,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2024,
+      "maxYear": 2025
+    },
+    {
+      "name": "ZS EV",
+      "image": "images/vehicles/MORRIS GARAGES/ZS EV 1ST GEN (2020-2022).png",
+      "variantCount": 13,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2020,
+      "maxYear": 2025
+    }
+  ],
+  "NISSAN": [
+    {
+      "name": "350Z",
+      "image": "images/vehicles/NISSAN/350Z (2003-2009).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2010
+    },
+    {
+      "name": "370Z",
+      "image": "images/vehicles/NISSAN/370Z (2010-2014).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2015
+    },
+    {
+      "name": "EVALIA",
+      "image": "images/vehicles/NISSAN/EVALIA (08.2012-06.2015).png",
+      "variantCount": 11,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2016
+    },
+    {
+      "name": "GT-R",
+      "image": "images/vehicles/NISSAN/GT-R (12.2008-NOW).jpg",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2025
+    },
+    {
+      "name": "KICKS",
+      "image": "images/vehicles/NISSAN/KICKS (12.2018-NOW).png",
+      "variantCount": 16,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2018,
+      "maxYear": 2025
+    },
+    {
+      "name": "MAGNITE",
+      "image": "",
+      "variantCount": 7,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2025
+    },
+    {
+      "name": "MICRA",
+      "image": "images/vehicles/NISSAN/MICRA (05.2010-04.2013).png",
+      "variantCount": 20,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2021
+    },
+    {
+      "name": "MICRA ACTIVE",
+      "image": "images/vehicles/NISSAN/MICRA ACTIVE (07.2013-01.2018).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2019
+    },
+    {
+      "name": "SUNNY",
+      "image": "images/vehicles/NISSAN/SUNNY (09.2011-06.2014).jpg",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2021
+    },
+    {
+      "name": "TEANA",
+      "image": "images/vehicles/NISSAN/TEANA (12.2005-12.2008).jpg",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2014
+    },
+    {
+      "name": "TERRANO",
+      "image": "images/vehicles/NISSAN/TERRANO (09.2013-05.2020).jpg",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2021
+    },
+    {
+      "name": "X-TRAIL",
+      "image": "images/vehicles/NISSAN/X-TRAIL (02.2009-07.2014).jpg",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2001,
+      "maxYear": 2025
+    }
+  ],
+  "OPEL": [
+    {
+      "name": "ASTRA",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1996,
+      "maxYear": 2003
+    },
+    {
+      "name": "CORSA",
+      "image": "",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2001,
+      "maxYear": 2007
+    },
+    {
+      "name": "CORSA SAIL",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2007
+    },
+    {
+      "name": "VECTRA",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2006
+    }
+  ],
+  "PORSCHE": [
+    {
+      "name": "911",
+      "image": "",
+      "variantCount": 10,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2023,
+      "maxYear": 2024
+    },
+    {
+      "name": "911 CARRERA & TARGA",
+      "image": "",
+      "variantCount": 10,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2023,
+      "maxYear": 2025
+    },
+    {
+      "name": "BOXSTER",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2025
+    },
+    {
+      "name": "CAYENNE",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "DIESEL",
+        "HYBRID",
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2025
+    },
+    {
+      "name": "CAYMAN",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    },
+    {
+      "name": "MACAN",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2025
+    },
+    {
+      "name": "PANAMERA",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2025
+    }
+  ],
+  "PREMIER": [
+    {
+      "name": "RIO",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2025
+    },
+    {
+      "name": "SIGMA",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2024
+    }
+  ],
+  "RENAULT": [
+    {
+      "name": "CAPTUR",
+      "image": "",
+      "variantCount": 9,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2021
+    },
+    {
+      "name": "DUSTER",
+      "image": "images/vehicles/RENAULT/DUSTER 1ST GEN (04.2012-03.2015).png",
+      "variantCount": 54,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2023
+    },
+    {
+      "name": "FLUENCE",
+      "image": "images/vehicles/RENAULT/FLUENCE (02.2010-01.2016).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2018
+    },
+    {
+      "name": "KIGER",
+      "image": "",
+      "variantCount": 26,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2025
+    },
+    {
+      "name": "KOLEOS",
+      "image": "images/vehicles/RENAULT/KOLEOS (09.2008-01.2016).png",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2017
+    },
+    {
+      "name": "KWID",
+      "image": "images/vehicles/RENAULT/KWID (02.2015-09.2019).png",
+      "variantCount": 15,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2025
+    },
+    {
+      "name": "LODGY",
+      "image": "images/vehicles/RENAULT/LODGY (04.2015-12.2019).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2020
+    },
+    {
+      "name": "LOGAN",
+      "image": "images/vehicles/RENAULT/LOGAN (01.2004-02.2012).png",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2013
+    },
+    {
+      "name": "PULSE",
+      "image": "images/vehicles/RENAULT/PULSE (01.2012-10.2017).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2020
+    },
+    {
+      "name": "SCALA",
+      "image": "images/vehicles/RENAULT/SCALA (01.2012-10.2017).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2018
+    },
+    {
+      "name": "TRIBER",
+      "image": "",
+      "variantCount": 22,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2025
+    }
+  ],
+  "SKODA": [
+    {
+      "name": "FABIA",
+      "image": "images/vehicles/SKODA/FABIA (01.2008-09.2010).png",
+      "variantCount": 21,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2013
+    },
+    {
+      "name": "KAROQ",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2022
+    },
+    {
+      "name": "KODIAQ",
+      "image": "images/vehicles/SKODA/KODIAQ (10.2017-03.2020).png",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2020
+    },
+    {
+      "name": "KUSHAQ",
+      "image": "images/vehicles/SKODA/KUSHAQ (2021-NOW).png",
+      "variantCount": 21,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2026
+    },
+    {
+      "name": "KYLAQ",
+      "image": "",
+      "variantCount": 16,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "LAURA",
+      "image": "images/vehicles/SKODA/LAURA (05.2009-12.2013).png",
+      "variantCount": 17,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2013
+    },
+    {
+      "name": "OCTAVIA",
+      "image": "images/vehicles/SKODA/OCTAVIA (5E3) 2ND GEN F_L (10.2017-03.2020).png",
+      "variantCount": 36,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2026
+    },
+    {
+      "name": "RAPID",
+      "image": "images/vehicles/SKODA/RAPID 1ST GEN (09.2011-09.2014).png",
+      "variantCount": 58,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2021
+    },
+    {
+      "name": "SLAVIA",
+      "image": "images/vehicles/SKODA/SLAVIA (04.2022-NOW).png",
+      "variantCount": 14,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    },
+    {
+      "name": "SUPERB",
+      "image": "images/vehicles/SKODA/SUPERB 1ST GEN (01.2004-02.2009).png",
+      "variantCount": 66,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2004,
+      "maxYear": 2026
+    },
+    {
+      "name": "YETI",
+      "image": "images/vehicles/SKODA/YETI (11.2010-11.2014).png",
+      "variantCount": 27,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2017
+    }
+  ],
+  "TATA": [
+    {
+      "name": "207",
+      "image": "",
+      "variantCount": 8,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1996,
+      "maxYear": 2021
+    },
+    {
+      "name": "ACE",
+      "image": "",
+      "variantCount": 66,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG",
+        "HYBRID"
+      ],
+      "minYear": 2000,
+      "maxYear": 2026
+    },
+    {
+      "name": "ACE DICOR",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2025
+    },
+    {
+      "name": "ALTROZ",
+      "image": "images/vehicles/TATA/ALTROZ 1ST GEN (01.2020-05.2025).png",
+      "variantCount": 163,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "DIESEL"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "ARIA",
+      "image": "images/vehicles/TATA/ARIA (10.2010-04.2014).png",
+      "variantCount": 12,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "BOLT",
+      "image": "images/vehicles/TATA/BOLT (01.2015-04.2019).jpg",
+      "variantCount": 6,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2015,
+      "maxYear": 2026
+    },
+    {
+      "name": "BUS",
+      "image": "",
+      "variantCount": 14,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "CURVV",
+      "image": "images/vehicles/TATA/CURVV (09.2024-NOW).png",
+      "variantCount": 80,
+      "fuels": [
+        "ELECTRIC",
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "ESTATE",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1992,
+      "maxYear": 2000
+    },
+    {
+      "name": "HARRIER",
+      "image": "images/vehicles/TATA/HARRIER 1ST GEN (01.2019-12.2019).png",
+      "variantCount": 148,
+      "fuels": [
+        "DIESEL",
+        "ELECTRIC"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "HAULAGE",
+      "image": "",
+      "variantCount": 335,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "HEXA",
+      "image": "images/vehicles/TATA/HEXA (01.2017-04.2020).png",
+      "variantCount": 10,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "ICV BUS",
+      "image": "",
+      "variantCount": 13,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "ICV HAULAGE",
+      "image": "",
+      "variantCount": 244,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "ICV TIPPER",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    },
+    {
+      "name": "INDICA",
+      "image": "images/vehicles/TATA/INDICA EV2 (05.2013-04.2018).jpg",
+      "variantCount": 66,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 1998,
+      "maxYear": 2026
+    },
+    {
+      "name": "INDIGO",
+      "image": "images/vehicles/TATA/INDIGO (06.2002-12.2009).jpg",
+      "variantCount": 184,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2002,
+      "maxYear": 2026
+    },
+    {
+      "name": "INDIGO MARINA",
+      "image": "images/vehicles/TATA/INDIGO MARINA (01.2003-12.2010).jpg",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2003,
+      "maxYear": 2010
+    },
+    {
+      "name": "INTRA",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2025
+    },
+    {
+      "name": "IRIS",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2007,
+      "maxYear": 2025
+    },
+    {
+      "name": "LCV BUS",
+      "image": "",
+      "variantCount": 48,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    },
+    {
+      "name": "LCV HAULAGE",
+      "image": "",
+      "variantCount": 109,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    },
+    {
+      "name": "LCV TIPPER",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    },
+    {
+      "name": "LP",
+      "image": "",
+      "variantCount": 102,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "M&HCV BUS",
+      "image": "",
+      "variantCount": 84,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "ELECTRIC",
+        "HYBRID"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "M&HCV HAULAGE",
+      "image": "",
+      "variantCount": 181,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "M&HCV TIPPER",
+      "image": "",
+      "variantCount": 76,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "M&HCV TRACTOR TRAILER",
+      "image": "",
+      "variantCount": 28,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    },
+    {
+      "name": "MAGIC",
+      "image": "",
+      "variantCount": 40,
+      "fuels": [
+        "PETROL/CNG",
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2026
+    },
+    {
+      "name": "MARCOPOLO",
+      "image": "",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2025
+    },
+    {
+      "name": "MOVUS",
+      "image": "images/vehicles/TATA/MOVUS (05.2014-04.2015).jpg",
+      "variantCount": 6,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2026
+    },
+    {
+      "name": "NANO",
+      "image": "images/vehicles/TATA/NANO (03.2009-09.2018).jpg",
+      "variantCount": 25,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2009,
+      "maxYear": 2026
+    },
+    {
+      "name": "NEXON",
+      "image": "images/vehicles/TATA/NEXON 1ST GEN (03.2017-12.2019).png",
+      "variantCount": 719,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "ELECTRIC",
+        "PETROL/CNG"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "PUNCH",
+      "image": "images/vehicles/TATA/PUNCH 1ST GEN (10.2021-12.2025).png",
+      "variantCount": 141,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "ELECTRIC"
+      ],
+      "minYear": 2021,
+      "maxYear": 2026
+    },
+    {
+      "name": "SAFARI",
+      "image": "images/vehicles/TATA/SAFARI 2ND GEN (02.2021-10.2023).png",
+      "variantCount": 285,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 1998,
+      "maxYear": 2026
+    },
+    {
+      "name": "SCV CARRIER",
+      "image": "",
+      "variantCount": 47,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2025
+    },
+    {
+      "name": "SIERRA",
+      "image": "images/vehicles/TATA/SIERRA (2025-NOW).png",
+      "variantCount": 40,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "ELECTRIC"
+      ],
+      "minYear": 1995,
+      "maxYear": 2026
+    },
+    {
+      "name": "SUMO",
+      "image": "images/vehicles/TATA/SUMO (01.1994 - 04.2019).jpg",
+      "variantCount": 60,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1994,
+      "maxYear": 2026
+    },
+    {
+      "name": "SUPER ACE",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2025
+    },
+    {
+      "name": "TELCOLINE",
+      "image": "",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2017
+    },
+    {
+      "name": "TIAGO",
+      "image": "images/vehicles/TATA/TIAGO (04.2016-06.2020).jpg",
+      "variantCount": 337,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG",
+        "ELECTRIC"
+      ],
+      "minYear": 2015,
+      "maxYear": 2026
+    },
+    {
+      "name": "TIGOR",
+      "image": "images/vehicles/TATA/TIGOR (03.2017-06.2020).jpg",
+      "variantCount": 148,
+      "fuels": [
+        "DIESEL",
+        "PETROL",
+        "PETROL/CNG",
+        "ELECTRIC"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "TIPPER",
+      "image": "",
+      "variantCount": 91,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2000,
+      "maxYear": 2025
+    },
+    {
+      "name": "TRACTOR",
+      "image": "",
+      "variantCount": 18,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    },
+    {
+      "name": "ULTRA",
+      "image": "",
+      "variantCount": 7,
+      "fuels": [
+        "DIESEL",
+        "ELECTRIC"
+      ],
+      "minYear": 2017,
+      "maxYear": 2025
+    },
+    {
+      "name": "VENTURE",
+      "image": "images/vehicles/TATA/VENTURE (01.2011-07.2017).jpg",
+      "variantCount": 24,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "WINGER",
+      "image": "images/vehicles/TATA/WINGER (05.2007-06.2016).jpg",
+      "variantCount": 84,
+      "fuels": [
+        "DIESEL",
+        "PETROL/CNG",
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 2005,
+      "maxYear": 2026
+    },
+    {
+      "name": "XENON",
+      "image": "images/vehicles/TATA/XENON XT (01.2009-12.2017).jpg",
+      "variantCount": 27,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2026
+    },
+    {
+      "name": "XPRES-T EV",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2021,
+      "maxYear": 2026
+    },
+    {
+      "name": "ZEST",
+      "image": "images/vehicles/TATA/ZEST (08.2014-04.2019).jpg",
+      "variantCount": 46,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2026
+    },
+    {
+      "name": "ZIP",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL/CNG"
+      ],
+      "minYear": 2010,
+      "maxYear": 2020
+    }
+  ],
+  "TOYOTA": [
+    {
+      "name": "CAMRY",
+      "image": "images/vehicles/TOYOTA/CAMRY (2019-2022).png",
+      "variantCount": 26,
+      "fuels": [
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 2001,
+      "maxYear": 2026
+    },
+    {
+      "name": "COROLLA",
+      "image": "images/vehicles/TOYOTA/COROLLA ALTIS E140 10TH GEN (2008-2011).jpg",
+      "variantCount": 38,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 1997,
+      "maxYear": 2020
+    },
+    {
+      "name": "COROLLA ALTIS",
+      "image": "images/vehicles/TOYOTA/COROLLA ALTIS E140 10TH GEN (2008-2011).jpg",
+      "variantCount": 56,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 1997,
+      "maxYear": 2020
+    },
+    {
+      "name": "EBELLA",
+      "image": "",
+      "variantCount": 3,
+      "fuels": [
+        "ELECTRIC"
+      ],
+      "minYear": 2026,
+      "maxYear": 2025
+    },
+    {
+      "name": "ETIOS",
+      "image": "images/vehicles/TOYOTA/ETIOS 1ST GEN (2010-2013).png",
+      "variantCount": 75,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2020
+    },
+    {
+      "name": "ETIOS CROSS",
+      "image": "images/vehicles/TOYOTA/ETIOS CROSS (2014-2020).jpg",
+      "variantCount": 4,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2014,
+      "maxYear": 2020
+    },
+    {
+      "name": "ETIOS LIVA",
+      "image": "images/vehicles/TOYOTA/ETIOS LIVA (2011-2016).png",
+      "variantCount": 37,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2020
+    },
+    {
+      "name": "FORTUNER",
+      "image": "images/vehicles/TOYOTA/FORTUNER 1ST GEN (2009-2011).png",
+      "variantCount": 60,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2026
+    },
+    {
+      "name": "GLANZA",
+      "image": "images/vehicles/TOYOTA/GLANZA 1ST GEN (2019-2021).png",
+      "variantCount": 20,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG",
+        "HYBRID"
+      ],
+      "minYear": 2019,
+      "maxYear": 2026
+    },
+    {
+      "name": "HIACE",
+      "image": "images/vehicles/TOYOTA/HIACE (2013-2021).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2025
+    },
+    {
+      "name": "HILUX",
+      "image": "images/vehicles/TOYOTA/HILUX (03.2022-NOW).png",
+      "variantCount": 9,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    },
+    {
+      "name": "INNOVA",
+      "image": "images/vehicles/TOYOTA/INNOVA 1ST GEN (2005-2008).jpg",
+      "variantCount": 127,
+      "fuels": [
+        "PETROL",
+        "DIESEL",
+        "HYBRID"
+      ],
+      "minYear": 2005,
+      "maxYear": 2026
+    },
+    {
+      "name": "INNOVA CRYSTA",
+      "image": "images/vehicles/TOYOTA/INNOVA CRYSTA 3RD GEN (2016-2020).jpg",
+      "variantCount": 43,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2026
+    },
+    {
+      "name": "INNOVA HYCROSS",
+      "image": "images/vehicles/TOYOTA/INNOVA HYCROSS (2022-NOW).png",
+      "variantCount": 44,
+      "fuels": [
+        "PETROL",
+        "HYBRID"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    },
+    {
+      "name": "LAND CRUISER",
+      "image": "images/vehicles/TOYOTA/LAND CRUISER 300 (2021-NOW).png",
+      "variantCount": 26,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 1995,
+      "maxYear": 2026
+    },
+    {
+      "name": "LAND CRUISER PRADO",
+      "image": "images/vehicles/TOYOTA/LAND CRUISER PRADO J120 (2002-2009).png",
+      "variantCount": 5,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2002,
+      "maxYear": 2020
+    },
+    {
+      "name": "PRIUS",
+      "image": "images/vehicles/TOYOTA/PRIUS 3RD GEN (2012-2015).jpg",
+      "variantCount": 2,
+      "fuels": [
+        "HYBRID",
+        "PETROL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2020
+    },
+    {
+      "name": "QUALIS",
+      "image": "images/vehicles/TOYOTA/QUALIS (1999-2004).jpg",
+      "variantCount": 11,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2004
+    },
+    {
+      "name": "RUMION",
+      "image": "images/vehicles/TOYOTA/RUMION (2023-NOW).png",
+      "variantCount": 11,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2023,
+      "maxYear": 2026
+    },
+    {
+      "name": "URBAN CRUISER",
+      "image": "images/vehicles/TOYOTA/URBAN CRUISER (2020-2022).png",
+      "variantCount": 9,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2020,
+      "maxYear": 2022
+    },
+    {
+      "name": "URBAN CRUISER HYRYDER",
+      "image": "images/vehicles/TOYOTA/URBAN CRUISER HYRYDER (2022-NOW).png",
+      "variantCount": 12,
+      "fuels": [
+        "PETROL",
+        "HYBRID",
+        "PETROL/CNG"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    },
+    {
+      "name": "URBAN CRUISER TAISOR",
+      "image": "images/vehicles/TOYOTA/URBAN CRUISER TAISOR (2024-NOW).png",
+      "variantCount": 18,
+      "fuels": [
+        "PETROL",
+        "PETROL/CNG"
+      ],
+      "minYear": 2024,
+      "maxYear": 2026
+    },
+    {
+      "name": "VELLFIRE",
+      "image": "images/vehicles/TOYOTA/VELLFIRE (2020-2023).png",
+      "variantCount": 3,
+      "fuels": [
+        "HYBRID"
+      ],
+      "minYear": 2020,
+      "maxYear": 2026
+    },
+    {
+      "name": "YARIS",
+      "image": "images/vehicles/TOYOTA/YARIS (2018-2021).png",
+      "variantCount": 21,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2018,
+      "maxYear": 2021
+    }
+  ],
+  "VOLKSWAGEN": [
+    {
+      "name": "AMEO",
+      "image": "images/vehicles/VW/AMEO (06.2016-04.2020).png",
+      "variantCount": 43,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2020
+    },
+    {
+      "name": "BEETLE",
+      "image": "images/vehicles/VW/BEETLE (12.2015-02.2018).png",
+      "variantCount": 18,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2019
+    },
+    {
+      "name": "CROSS POLO",
+      "image": "images/vehicles/VW/CROSS POLO (08.2013-01.2015).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2015
+    },
+    {
+      "name": "JETTA",
+      "image": "images/vehicles/VW/JETTA 1ST GEN (01.2008-08.2011).png",
+      "variantCount": 24,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2019
+    },
+    {
+      "name": "PASSAT",
+      "image": "images/vehicles/VW/PASSAT 6th GEN (2007-2010).png",
+      "variantCount": 17,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1996,
+      "maxYear": 2019
+    },
+    {
+      "name": "PHAETON",
+      "image": "images/vehicles/VW/PHAETON 1ST GEN (06.2010-10.2012).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2014
+    },
+    {
+      "name": "POLO",
+      "image": "images/vehicles/VW/CROSS POLO (08.2013-01.2015).png",
+      "variantCount": 46,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2022
+    },
+    {
+      "name": "T-ROC",
+      "image": "images/vehicles/VW/T-ROC (04.2021-12.2021).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2021
+    },
+    {
+      "name": "TAIGUN",
+      "image": "images/vehicles/VW/TAIGUN (09.2021-NOW).png",
+      "variantCount": 7,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2026
+    },
+    {
+      "name": "TAYRON R-LINE",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2026,
+      "maxYear": 2026
+    },
+    {
+      "name": "TIGUAN",
+      "image": "images/vehicles/VW/TIGUAN (04.2017-03.2019).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "TOUAREG",
+      "image": "images/vehicles/VW/TOUAREG 1ST GEN (01.2006-12.2010).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2014
+    },
+    {
+      "name": "VENTO",
+      "image": "images/vehicles/VW/VENTO 1ST GEN (08.2010-11.2013).png",
+      "variantCount": 29,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "VIRTUS",
+      "image": "images/vehicles/VW/VIRTUS (03.2022-NOW).png",
+      "variantCount": 11,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    }
+  ],
+  "VOLVO": [
+    {
+      "name": "S60",
+      "image": "images/vehicles/VOLVO/S60 1ST GEN (04.2010-12.2015).png",
+      "variantCount": 7,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2011,
+      "maxYear": 2025
+    },
+    {
+      "name": "S60 CROSS COUNTRY",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2025
+    },
+    {
+      "name": "S80",
+      "image": "images/vehicles/VOLVO/S80 1ST GEN (01.1999-12.2006).png",
+      "variantCount": 5,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2016
+    },
+    {
+      "name": "S90",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2025
+    },
+    {
+      "name": "V40",
+      "image": "images/vehicles/VOLVO/V40 (01.2013-12.2015).png",
+      "variantCount": 8,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2012,
+      "maxYear": 2019
+    },
+    {
+      "name": "V90",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2020
+    },
+    {
+      "name": "V90 CROSS COUNTRY",
+      "image": "",
+      "variantCount": 1,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2025
+    },
+    {
+      "name": "XC60",
+      "image": "images/vehicles/VOLVO/XC60 (01.2012-12.2015).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2025
+    },
+    {
+      "name": "XC90",
+      "image": "images/vehicles/VOLVO/XC90 (01.2005-12.2014).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2005,
+      "maxYear": 2025
+    }
+  ],
+  "VW": [
+    {
+      "name": "AMEO",
+      "image": "images/vehicles/VW/AMEO (06.2016-04.2020).png",
+      "variantCount": 43,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2016,
+      "maxYear": 2020
+    },
+    {
+      "name": "BEETLE",
+      "image": "images/vehicles/VW/BEETLE (12.2015-02.2018).png",
+      "variantCount": 18,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1999,
+      "maxYear": 2019
+    },
+    {
+      "name": "CROSS POLO",
+      "image": "images/vehicles/VW/CROSS POLO (08.2013-01.2015).png",
+      "variantCount": 3,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2013,
+      "maxYear": 2015
+    },
+    {
+      "name": "JETTA",
+      "image": "images/vehicles/VW/JETTA 1ST GEN (01.2008-08.2011).png",
+      "variantCount": 24,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 2008,
+      "maxYear": 2019
+    },
+    {
+      "name": "PASSAT",
+      "image": "images/vehicles/VW/PASSAT 6th GEN (2007-2010).png",
+      "variantCount": 17,
+      "fuels": [
+        "PETROL",
+        "DIESEL"
+      ],
+      "minYear": 1996,
+      "maxYear": 2019
+    },
+    {
+      "name": "PHAETON",
+      "image": "images/vehicles/VW/PHAETON 1ST GEN (06.2010-10.2012).png",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2014
+    },
+    {
+      "name": "POLO",
+      "image": "images/vehicles/VW/CROSS POLO (08.2013-01.2015).png",
+      "variantCount": 46,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2009,
+      "maxYear": 2022
+    },
+    {
+      "name": "T-ROC",
+      "image": "images/vehicles/VW/T-ROC (04.2021-12.2021).png",
+      "variantCount": 1,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2021
+    },
+    {
+      "name": "TAIGUN",
+      "image": "images/vehicles/VW/TAIGUN (09.2021-NOW).png",
+      "variantCount": 7,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2021,
+      "maxYear": 2026
+    },
+    {
+      "name": "TAYRON R-LINE",
+      "image": "",
+      "variantCount": 2,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2026,
+      "maxYear": 2026
+    },
+    {
+      "name": "TIGUAN",
+      "image": "images/vehicles/VW/TIGUAN (04.2017-03.2019).png",
+      "variantCount": 4,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2017,
+      "maxYear": 2026
+    },
+    {
+      "name": "TOUAREG",
+      "image": "images/vehicles/VW/TOUAREG 1ST GEN (01.2006-12.2010).png",
+      "variantCount": 3,
+      "fuels": [
+        "DIESEL"
+      ],
+      "minYear": 2006,
+      "maxYear": 2014
+    },
+    {
+      "name": "VENTO",
+      "image": "images/vehicles/VW/VENTO 1ST GEN (08.2010-11.2013).png",
+      "variantCount": 29,
+      "fuels": [
+        "DIESEL",
+        "PETROL"
+      ],
+      "minYear": 2010,
+      "maxYear": 2026
+    },
+    {
+      "name": "VIRTUS",
+      "image": "images/vehicles/VW/VIRTUS (03.2022-NOW).png",
+      "variantCount": 11,
+      "fuels": [
+        "PETROL"
+      ],
+      "minYear": 2022,
+      "maxYear": 2026
+    }
+  ]
+}

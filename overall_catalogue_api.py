@@ -147,12 +147,13 @@ def get_catalogue_filter_options(make=None, model=None, sub_model=None):
             params.append(sub_model)
 
         where = (" WHERE " + " AND ".join(clauses)) if clauses else ""
+        indexed_by = " INDEXED BY idx_cat_model" if model else ""
 
-        cur.execute(f"SELECT DISTINCT vehicle_fuel_type FROM overall_catalogue{where}", params)
+        cur.execute(f"SELECT DISTINCT vehicle_fuel_type FROM overall_catalogue{indexed_by}{where}", params)
         raw_fuels = [r[0] for r in cur.fetchall() if r[0] and str(r[0]).strip()]
         fuels = sorted(list(set(raw_fuels)))
 
-        cur.execute(f"SELECT DISTINCT vehicle_from_year, vehicle_to_year FROM overall_catalogue{where}", params)
+        cur.execute(f"SELECT DISTINCT vehicle_from_year, vehicle_to_year FROM overall_catalogue{indexed_by}{where}", params)
         year_pairs = cur.fetchall()
         conn.close()
 
@@ -437,7 +438,7 @@ def get_vehicle_images_index():
 def match_vehicle_image(make, model, sub_model, from_yr='', to_yr=''):
     img_index = get_vehicle_images_index()
     if not img_index:
-        return "images/home_menu_catalogue.jpg"
+        return ""
     
     make_clean = (make or "").upper().strip()
     if make_clean == 'MARUTI': make_clean = 'MARUTI SUZUKI'
@@ -453,21 +454,23 @@ def match_vehicle_image(make, model, sub_model, from_yr='', to_yr=''):
                 break
     
     if not make_folder:
-        return "images/home_menu_catalogue.jpg"
+        return ""
         
     imgs = img_index.get(make_folder, [])
     if not imgs:
-        return "images/home_menu_catalogue.jpg"
+        return ""
         
     model_str = (model or "").strip()
     sub_str = (sub_model or "").strip()
+    if not model_str:
+        return ""
+
+    model_upper = model_str.upper()
     full_str = f"{model_str} {sub_str} {from_yr} {to_yr}".upper()
     tokens = [t for t in re.findall(r'[A-Za-z0-9]+', full_str) if len(t) >= 2]
     
     gen_match = re.search(r'([1-9](?:ST|ND|RD|TH)\s+GEN)', full_str)
     gen_str = gen_match.group(1) if gen_match else ''
-    
-    model_clean = model_str.upper().replace(' ', '')
     
     best_img = None
     best_score = -1
@@ -476,8 +479,11 @@ def match_vehicle_image(make, model, sub_model, from_yr='', to_yr=''):
         img_upper = img.upper()
         img_no_ext = os.path.splitext(img_upper)[0]
         
-        # Must relate to model
-        if model_str.upper() not in img_upper and model_clean not in img_upper.replace(' ', ''):
+        # STRICT WORD BOUNDARY CHECK:
+        # Avoid false substring matches (e.g. 'ACE' must not match 'ALTROZ RACER', '207' must not match general numbers)
+        model_pattern = r'\b' + re.escape(model_upper) + r'\b'
+        model_pattern_underscore = r'\b' + re.escape(model_upper.replace(' ', '_')) + r'\b'
+        if not re.search(model_pattern, img_upper) and not re.search(model_pattern_underscore, img_upper):
             continue
             
         score = 10
@@ -505,14 +511,9 @@ def match_vehicle_image(make, model, sub_model, from_yr='', to_yr=''):
             best_score = score
             best_img = f"images/vehicles/{make_folder}/{img}"
             
-    if not best_img:
-        for img in imgs:
-            if model_str.upper() in img.upper():
-                return f"images/vehicles/{make_folder}/{img}"
-        if imgs:
-            best_img = f"images/vehicles/{make_folder}/{imgs[0]}"
-            
-    return best_img or "images/home_menu_catalogue.jpg"
+    # CRITICAL INSTRUCTION: IF ORIPARTS DOES NOT HAVE AN AUTHENTIC IMAGE FOR THIS VEHICLE,
+    # LEAVE IT BLANK! NEVER FALL BACK TO imgs[0] OR ASSUME ANY CAR IMAGE!
+    return best_img or ""
 
 _MAKES_CATALOG_CACHE = None
 
@@ -550,32 +551,109 @@ def get_makes_catalog():
     _MAKES_CATALOG_CACHE = stats_data
     return _MAKES_CATALOG_CACHE
 
+_MODELS_META_CACHE = {}
+_MODELS_META_CACHE_FILE = os.path.join(os.path.dirname(__file__), "data", "models_meta_cache.json")
+if os.path.exists(_MODELS_META_CACHE_FILE):
+    try:
+        with open(_MODELS_META_CACHE_FILE, "r", encoding="utf-8") as f:
+            _MODELS_META_CACHE = json.load(f)
+    except Exception as e:
+        logger.warning(f"Failed to load models_meta_cache: {e}")
+
+def get_cached_models_meta(make):
+    make_clean = (make or "").strip().upper()
+    if make_clean in ["MARUTI", "MARUTI SUZUKI"]:
+        return _MODELS_META_CACHE.get("MARUTI SUZUKI") or _MODELS_META_CACHE.get("MARUTI") or []
+    elif make_clean in ["VOLKSWAGEN", "VW"]:
+        return _MODELS_META_CACHE.get("VOLKSWAGEN") or _MODELS_META_CACHE.get("VW") or []
+    return _MODELS_META_CACHE.get(make_clean, [])
+
 def get_visual_variants(make, model=None, fuel_type=None, year=None, search=None, limit=120):
     conn = get_db()
     if not conn: return {"variants": [], "models": [], "totalCount": 0}
     try:
         cur = conn.cursor()
+        make_clean = (make or "").strip().upper()
         
-        # Model pills
-        make_clauses = ["(vehicle_make = ? OR vehicle_make = ?)"]
-        make_params = [make, make]
-        if make == "MARUTI" or make == "MARUTI SUZUKI":
-            make_clauses = ["(vehicle_make = 'MARUTI' OR vehicle_make = 'MARUTI SUZUKI')"]
-            make_params = []
-        elif make == "VOLKSWAGEN" or make == "VW":
-            make_clauses = ["(vehicle_make = 'VOLKSWAGEN' OR vehicle_make = 'VW')"]
-            make_params = []
+        # 1. Models metadata
+        cached_models = get_cached_models_meta(make)
+        
+        # If model is not specified (Step 2: Select Model)
+        if not model:
+            if cached_models:
+                conn.close()
+                all_models = [m["name"] for m in cached_models]
+                return {
+                    "variants": [],
+                    "models": all_models,
+                    "modelsMeta": cached_models,
+                    "availableFuels": [],
+                    "availableYears": [],
+                    "totalCount": len(cached_models)
+                }
             
-        cur.execute(f"SELECT DISTINCT vehicle_model FROM overall_catalogue WHERE {' AND '.join(make_clauses)} AND vehicle_model != '' ORDER BY vehicle_model ASC", make_params)
-        all_models = [r[0] for r in cur.fetchall()]
+            # Fallback if make wasn't in precomputed cache
+            make_clauses = ["(vehicle_make = ? OR vehicle_make = ?)"]
+            make_params = [make, make]
+            if make in ["MARUTI", "MARUTI SUZUKI"]:
+                make_clauses = ["(vehicle_make = 'MARUTI' OR vehicle_make = 'MARUTI SUZUKI')"]
+                make_params = []
+            elif make in ["VOLKSWAGEN", "VW"]:
+                make_clauses = ["(vehicle_make = 'VOLKSWAGEN' OR vehicle_make = 'VW')"]
+                make_params = []
+                
+            cur.execute(f"SELECT DISTINCT vehicle_model FROM overall_catalogue WHERE {' AND '.join(make_clauses)} AND vehicle_model != '' ORDER BY vehicle_model ASC", make_params)
+            all_models = [r[0] for r in cur.fetchall()]
+            
+            cur.execute(f"""
+                SELECT vehicle_model, COUNT(*) as variant_count,
+                       GROUP_CONCAT(DISTINCT vehicle_fuel_type) as fuels,
+                       MIN(CAST(vehicle_from_year AS INTEGER)) as min_yr,
+                       MAX(CAST(vehicle_to_year AS INTEGER)) as max_yr
+                FROM overall_catalogue
+                WHERE {' AND '.join(make_clauses)} AND vehicle_model != ''
+                GROUP BY vehicle_model
+                ORDER BY vehicle_model ASC
+            """, make_params)
+            model_rows = cur.fetchall()
+            conn.close()
+            models_meta = []
+            for mr in model_rows:
+                m_name = mr["vehicle_model"]
+                m_img = match_vehicle_image(make, m_name, "")
+                fuels_list = [f.strip() for f in (mr["fuels"] or "").split(",") if f.strip()]
+                models_meta.append({
+                    "name": m_name,
+                    "image": m_img,
+                    "variantCount": mr["variant_count"],
+                    "fuels": fuels_list,
+                    "minYear": mr["min_yr"],
+                    "maxYear": mr["max_yr"]
+                })
+            _MODELS_META_CACHE[make_clean] = models_meta
+            return {
+                "variants": [],
+                "models": all_models,
+                "modelsMeta": models_meta,
+                "availableFuels": [],
+                "availableYears": [],
+                "totalCount": len(models_meta)
+            }
+
+        # Step 3: Specific Model Selected (e.g. BOLT)
+        all_models = [m["name"] for m in cached_models] if cached_models else [model]
+        models_meta = cached_models
         
-        # Build variant query with cascading filters
-        clauses = list(make_clauses)
-        params = list(make_params)
-        
-        if model:
-            clauses.append("vehicle_model = ?")
-            params.append(model)
+        # Fast indexed variant lookup
+        clauses = ["vehicle_model = ?"]
+        params = [model]
+        if make in ["MARUTI", "MARUTI SUZUKI"]:
+            clauses.append("(vehicle_make = 'MARUTI' OR vehicle_make = 'MARUTI SUZUKI')")
+        elif make in ["VOLKSWAGEN", "VW"]:
+            clauses.append("(vehicle_make = 'VOLKSWAGEN' OR vehicle_make = 'VW')")
+        else:
+            clauses.append("vehicle_make = ?")
+            params.append(make)
             
         if fuel_type:
             clean_f = str(fuel_type).strip()
@@ -606,13 +684,14 @@ def get_visual_variants(make, model=None, fuel_type=None, year=None, search=None
         
         cur.execute(f"""
             SELECT DISTINCT vehicle_model, vehicle_sub_model, vehicle_fuel_type, vehicle_from_year, vehicle_to_year
-            FROM overall_catalogue
+            FROM overall_catalogue INDEXED BY idx_cat_model
             {where_str}
             ORDER BY vehicle_model ASC, vehicle_from_year DESC, vehicle_sub_model ASC
             LIMIT ?
         """, params + [limit])
         
         raw_rows = cur.fetchall()
+        conn.close()
         
         variants = []
         for r in raw_rows:
@@ -637,32 +716,6 @@ def get_visual_variants(make, model=None, fuel_type=None, year=None, search=None
                 "toYear": to_yr,
                 "years": yrs_str,
                 "image": img_url
-            })
-            
-        cur.execute(f"""
-            SELECT vehicle_model, COUNT(*) as variant_count,
-                   GROUP_CONCAT(DISTINCT vehicle_fuel_type) as fuels,
-                   MIN(CAST(vehicle_from_year AS INTEGER)) as min_yr,
-                   MAX(CAST(vehicle_to_year AS INTEGER)) as max_yr
-            FROM overall_catalogue
-            WHERE {' AND '.join(make_clauses)} AND vehicle_model != ''
-            GROUP BY vehicle_model
-            ORDER BY vehicle_model ASC
-        """, make_params)
-        model_rows = cur.fetchall()
-        conn.close()
-        models_meta = []
-        for mr in model_rows:
-            m_name = mr["vehicle_model"]
-            m_img = match_vehicle_image(make, m_name, "")
-            fuels_list = [f.strip() for f in (mr["fuels"] or "").split(",") if f.strip()]
-            models_meta.append({
-                "name": m_name,
-                "image": m_img,
-                "variantCount": mr["variant_count"],
-                "fuels": fuels_list,
-                "minYear": mr["min_yr"],
-                "maxYear": mr["max_yr"]
             })
 
         target_meta = next((m for m in models_meta if m["name"].upper() == (model or "").upper()), None)

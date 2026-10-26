@@ -8,6 +8,9 @@ import re
 import threading
 import urllib.parse
 import time
+import traceback
+import socket
+import socketserver
 
 try:
     import overall_catalogue_api
@@ -851,16 +854,35 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 else:
                     bot_res = {"reply": "Catalog AI service is initializing...", "step": "error"}
 
-                self.send_response(200)
-                self.send_header('Content-Type', 'application/json; charset=utf-8')
-                self.end_headers()
-                self.wfile.write(json.dumps(bot_res, ensure_ascii=False).encode('utf-8'))
+                try:
+                    resp_bytes = json.dumps(bot_res, ensure_ascii=False).encode('utf-8')
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/json; charset=utf-8')
+                    self.send_header('Content-Length', str(len(resp_bytes)))
+                    self.send_header('Connection', 'close')
+                    self.end_headers()
+                    self.wfile.write(resp_bytes)
+                except Exception:
+                    pass
                 return
             except Exception as e:
-                self.send_response(500)
-                self.send_header('Content-Type', 'application/json; charset=utf-8')
-                self.end_headers()
-                self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode('utf-8'))
+                print(f"[ERROR in POST /api/catalog-ai/chat]: {e}")
+                traceback.print_exc()
+                try:
+                    fallback_reply = {
+                        "reply": "I encountered a momentary delay connecting to the component database. Please try again or select your vehicle from the Master Catalogue.",
+                        "state": {},
+                        "cards": []
+                    }
+                    fallback_bytes = json.dumps(fallback_reply, ensure_ascii=False).encode('utf-8')
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'application/json; charset=utf-8')
+                    self.send_header('Content-Length', str(len(fallback_bytes)))
+                    self.send_header('Connection', 'close')
+                    self.end_headers()
+                    self.wfile.write(fallback_bytes)
+                except Exception:
+                    pass
                 return
 
         if self.path == '/api/overall-catalogue/smart-map':
@@ -1180,7 +1202,7 @@ if __name__ == '__main__':
             while True:
                 try:
                     httpd.serve_forever()
-                except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError, OSError) as cx:
+                except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError, OSError):
                     time.sleep(0.1)
                 except Exception as ex:
                     print(f"Transient server exception handled: {ex}")
