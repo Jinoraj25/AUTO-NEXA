@@ -304,12 +304,12 @@
             </span>
             <span class="sb-badge-pill" style="background: #ecfdf5; color: #059669; font-size: 0.62rem;">CHAT</span>
           </button>
-          <button type="button" class="sb-sub-item" data-tab="catalogue-oem-to-oes" onclick="App.switchTab('catalogue-oem-to-oes');">
-            <span style="display: inline-flex; align-items: center; gap: 6px;">
-              <span style="font-size: 0.95rem;">🔄</span>
-              <span>OEM ➔ OES Conversion</span>
+          <button type="button" class="sb-sub-item" data-tab="catalogue-oem-to-oes" onclick="App.switchTab('catalogue-oem-to-oes');" title="OEM ⇄ OES Conversion Engine">
+            <span style="display: inline-flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; text-overflow: ellipsis;">
+              <span style="font-size: 0.95rem; flex-shrink: 0;">⇄</span>
+              <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">OEM ⇄ OES</span>
             </span>
-            <span class="sb-badge-pill" style="background: #fef2f2; color: #dc2626; font-size: 0.62rem; font-weight: 850;">-25% SAVE</span>
+            <span class="sb-badge-pill" style="background: #eff6ff; color: #0284c7; font-size: 0.62rem; font-weight: 850; flex-shrink: 0;">LIVE</span>
           </button>
         </div>
       </div>
@@ -858,69 +858,73 @@
             </div>
           </div>
 
-          <!-- Block 3: AGGREGATE MASTER CATEGORY BREAKDOWN CHART -->
+          <!-- Block 3: AGGREGATE MASTER CATEGORY BREAKDOWN CHART (Real Database Records) -->
           <div class="card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem 1.35rem; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
               <span style="font-size: 0.78rem; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 0.4rem;">
                 <span>📊</span> <span>AGGREGATE MASTER CATEGORY SPLIT</span>
               </span>
-              <span style="font-size: 0.72rem; font-weight: 800; color: #0284c7; background: #eff6ff; padding: 0.2rem 0.55rem; border-radius: 6px; white-space: nowrap;">923 Comps • 29 Aggregates</span>
+              <span id="cat-stat-category-split-badge" style="font-size: 0.72rem; font-weight: 800; color: #0284c7; background: #eff6ff; padding: 0.2rem 0.55rem; border-radius: 6px; white-space: nowrap;">23.7M Records • 29 Aggregates</span>
             </div>
             
-            <!-- Segmented Progress Bar -->
+            <!-- Segmented Progress Bar (Real Database Share) -->
             <div style="height: 12px; width: 100%; background: #f1f5f9; border-radius: 6px; overflow: hidden; display: flex; margin-bottom: 0.85rem; box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);">
-              <div style="width: 67.3%; background: #0284c7;" title="Mechanical: 621 components (67.3%)"></div>
-              <div style="width: 22.8%; background: #f97316;" title="Body: 210 components (22.8%)"></div>
-              <div style="width: 6.6%; background: #8b5cf6;" title="Accessories: 61 components (6.6%)"></div>
-              <div style="width: 2.3%; background: #10b981;" title="Lubes & Fluids: 21 components (2.3%)"></div>
-              <div style="width: 1.1%; background: #ec4899;" title="Consumables: 10 components (1.1%)"></div>
+              <div id="cat-split-bar-mech" style="width: 59.3%; background: #0284c7;" title="Mechanical: 14,042,371 records (59.3%)"></div>
+              <div id="cat-split-bar-body" style="width: 20.1%; background: #f97316;" title="Body Parts: 4,750,654 records (20.1%)"></div>
+              <div id="cat-split-bar-consumables" style="width: 8.0%; background: #ec4899;" title="Paints &amp; Consumables: 1,903,695 records (8.0%)"></div>
+              <div id="cat-split-bar-lubes" style="width: 7.5%; background: #10b981;" title="Lubes &amp; Fluids: 1,768,364 records (7.5%)"></div>
+              <div id="cat-split-bar-acc" style="width: 5.1%; background: #8b5cf6;" title="Accessories: 1,206,388 records (5.1%)"></div>
             </div>
 
-            <!-- Category Legend Items with Counts (2x2 Balanced Cards with Zero Truncation) -->
+            <!-- Category Legend Items with Real DB Records (2x2 Balanced Cards with Full Database Metrics) -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-              <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 0.45rem 0.65rem;">
+              <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 0.45rem 0.65rem;" title="14,042,371 database records">
                 <div style="display: flex; align-items: center; gap: 0.35rem; color: #1e40af; font-weight: 800; font-size: 0.72rem; margin-bottom: 0.25rem;">
                   <span style="width: 7px; height: 7px; border-radius: 50%; background: #0284c7; flex-shrink: 0;"></span>
                   <span>Mechanical</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                  <span style="font-weight: 900; color: #0f172a; font-size: 0.86rem; font-family: 'Outfit', sans-serif;">621</span>
-                  <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">67.3%</span>
+                  <span id="cat-split-val-mech" style="font-weight: 900; color: #0f172a; font-size: 0.88rem; font-family: 'Outfit', sans-serif;">14.04M</span>
+                  <span id="cat-split-pct-mech" style="font-size: 0.68rem; color: #64748b; font-weight: 750;">59.3%</span>
                 </div>
               </div>
               
-              <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 0.45rem 0.65rem;">
+              <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 0.45rem 0.65rem;" title="4,750,654 database records">
                 <div style="display: flex; align-items: center; gap: 0.35rem; color: #c2410c; font-weight: 800; font-size: 0.72rem; margin-bottom: 0.25rem;">
                   <span style="width: 7px; height: 7px; border-radius: 50%; background: #f97316; flex-shrink: 0;"></span>
                   <span>Body Parts</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                  <span style="font-weight: 900; color: #0f172a; font-size: 0.86rem; font-family: 'Outfit', sans-serif;">210</span>
-                  <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">22.8%</span>
+                  <span id="cat-split-val-body" style="font-weight: 900; color: #0f172a; font-size: 0.88rem; font-family: 'Outfit', sans-serif;">4.75M</span>
+                  <span id="cat-split-pct-body" style="font-size: 0.68rem; color: #64748b; font-weight: 750;">20.1%</span>
                 </div>
               </div>
 
-              <div style="background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 0.45rem 0.65rem;">
+              <div style="background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 0.45rem 0.65rem;" title="1,206,388 database records">
                 <div style="display: flex; align-items: center; gap: 0.35rem; color: #6d28d9; font-weight: 800; font-size: 0.72rem; margin-bottom: 0.25rem;">
                   <span style="width: 7px; height: 7px; border-radius: 50%; background: #8b5cf6; flex-shrink: 0;"></span>
                   <span>Accessories</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                  <span style="font-weight: 900; color: #0f172a; font-size: 0.86rem; font-family: 'Outfit', sans-serif;">61</span>
-                  <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">6.6%</span>
+                  <span id="cat-split-val-acc" style="font-weight: 900; color: #0f172a; font-size: 0.88rem; font-family: 'Outfit', sans-serif;">1.21M</span>
+                  <span id="cat-split-pct-acc" style="font-size: 0.68rem; color: #64748b; font-weight: 750;">5.1%</span>
                 </div>
               </div>
 
-              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 0.45rem 0.65rem;">
+              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 0.45rem 0.65rem;" title="1,768,364 database records">
                 <div style="display: flex; align-items: center; gap: 0.35rem; color: #047857; font-weight: 800; font-size: 0.72rem; margin-bottom: 0.25rem;">
                   <span style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></span>
                   <span>Lubes &amp; Fluids</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                  <span style="font-weight: 900; color: #0f172a; font-size: 0.86rem; font-family: 'Outfit', sans-serif;">21</span>
-                  <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">2.3%</span>
+                  <span id="cat-split-val-lubes" style="font-weight: 900; color: #0f172a; font-size: 0.88rem; font-family: 'Outfit', sans-serif;">1.77M</span>
+                  <span id="cat-split-pct-lubes" style="font-size: 0.68rem; color: #64748b; font-weight: 750;">7.5%</span>
                 </div>
               </div>
+            </div>
+
+            <div style="margin-top: 0.5rem; text-align: center; font-size: 0.68rem; color: #64748b; font-weight: 750; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 3px 8px;">
+              + Paints &amp; Consumables: <strong style="color: #0f172a;">1.90M</strong> (8.0%) • Total: <strong style="color: #0284c7;">23.67M DB Records</strong>
             </div>
           </div>
         </div>
@@ -1232,15 +1236,10 @@
                 </div>
               </div>
 
-              <!-- Collapsed 3D Vehicle Anatomy Diagram (Optional Diagram Accordion) -->
-              <details class="exploded-diagram-accordion" style="margin-bottom: 1rem; border: 1.5px solid #e2e8f0; border-radius: 12px; background: #ffffff; overflow: hidden;">
-                <summary style="padding: 0.75rem 1rem; font-size: 0.82rem; font-weight: 800; color: #0284c7; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; user-select: none;">
-                  <span>🚗 Show vehicle diagram</span>
-                </summary>
-                <div class="exploded-viewport" style="position: relative; max-width: 1050px; margin: 0 auto; padding: 1rem; text-align: center;">
-                  <img src="images/exploded_car_aggregates.png" alt="Exploded Vehicle Assembly" class="exploded-diagram-img" style="width: 100%; max-height: 480px; object-fit: contain; display: block; margin: 0 auto;">
-                </div>
-              </details>
+              <!-- Permanently Visible 3D Vehicle Anatomy Diagram -->
+              <div class="exploded-viewport" style="margin-bottom: 1.25rem; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 0.75rem 1rem; text-align: center; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);">
+                <img src="images/exploded_car_aggregates.png" alt="Exploded Vehicle Assembly" class="exploded-diagram-img" style="width: 100%; max-height: 240px; object-fit: contain; display: block; margin: 0 auto;">
+              </div>
 
               <!-- ==================== TWO-COLUMN SIDE-BY-SIDE AGGREGATE & SUB-AGGREGATE STUDIO ==================== -->
               <div class="v-agg-side-by-side-container" id="v-agg-side-by-side-studio">
@@ -1272,7 +1271,7 @@
                 </div>
 
                 <!-- RIGHT COLUMN: DYNAMIC SUB-AGGREGATES (Refreshes Immediately on Aggregate Selection) -->
-                <div class="sub-aggregate-stage-window" id="v-subagg-stage-window" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem 1.4rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); min-height: 440px; max-height: 580px; display: flex; flex-direction: column; overflow: hidden;">
+                <div class="sub-aggregate-stage-window" id="v-subagg-stage-window" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.15rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); display: flex; flex-direction: column;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 0.85rem; flex-wrap: wrap; gap: 0.75rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <span id="v-selected-agg-badge-icon" style="font-size: 1.6rem; width: 44px; height: 44px; border-radius: 10px; background: #eff6ff; display: flex; align-items: center; justify-content: center; border: 1px solid #bfdbfe;">🛑</span>
@@ -1552,136 +1551,49 @@
 
     <!-- ==================== TAB 1C: CATALOG AI ASSISTANT ==================== -->
     <section id="tab-catalogue-ai" class="tab-pane">
-      <div style="height: 100%; max-height: 100%; display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0; max-width: 1400px; margin: 0 auto; width: 100%;">
+      <div style="height: 100%; max-height: 100%; display: flex; flex-direction: column; flex: 1; min-height: 0; padding: 0; width: 100%;">
         
-        <!-- Copilot Workspace (Sidebar + Chat matching Gemini_Generated_Image_4qh9lg4qh9lg4qh9.png) -->
+        <!-- Copilot Workspace Shell -->
         <div class="cat-ai-workspace">
           
-          <!-- Left Panel: Recent Vehicle Searches & Query History -->
-          <aside class="cat-ai-sidebar-panel">
-            <div class="cat-ai-sidebar-header">
-              <span style="font-size: 1.15rem;">⏱️</span>
-              <div>
-                <h4 style="margin: 0; font-size: 0.92rem; font-weight: 900; color: #f8fafc; font-family: 'Outfit', sans-serif;">Recent Vehicle Searches</h4>
-                <span style="font-size: 0.68rem; color: #94a3b8;">Click any vehicle card to load</span>
-              </div>
-            </div>
-
-            <!-- Recent Vehicle Cards with photos -->
-            <div class="cat-ai-recent-vehicles">
-              <div class="cat-ai-recent-card" onclick="CatalogAiChat.quickSend('Tata Indica tie rod end')">
-                <img src="images/vehicles/TATA/INDICA VISTA (01.2008-12.2012).jpg" onerror="this.src='images/oriparts_default_car.png'" alt="Tata Indica">
-                <div class="cat-ai-recent-info">
-                  <span class="cat-ai-recent-title">Tata Indica Vista</span>
-                  <div class="cat-ai-recent-meta">
-                    <span class="cat-ai-tag">DIESEL</span>
-                    <span>2018 • Steering</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="cat-ai-recent-card" onclick="CatalogAiChat.quickSend('Grand i10 Nios brake pad')">
-                <img src="images/vehicles/HYUNDAI/GRAND I10 NIOS (08.2019-12.2022).png" onerror="this.src='images/oriparts_default_car.png'" alt="Grand i10">
-                <div class="cat-ai-recent-info">
-                  <span class="cat-ai-recent-title">Grand i10 Nios</span>
-                  <div class="cat-ai-recent-meta">
-                    <span class="cat-ai-tag" style="background: rgba(14, 165, 233, 0.15); color: #38bdf8;">PETROL</span>
-                    <span>2020 • Brakes</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="cat-ai-recent-card" onclick="CatalogAiChat.quickSend('Swift diesel 2018 oil filter')">
-                <img src="images/vehicles/MARUTI SUZUKI/SWIFT 3RD GEN (2018-2021).png" onerror="this.src='images/oriparts_default_car.png'" alt="Swift">
-                <div class="cat-ai-recent-info">
-                  <span class="cat-ai-recent-title">Maruti Suzuki Swift</span>
-                  <div class="cat-ai-recent-meta">
-                    <span class="cat-ai-tag">DIESEL</span>
-                    <span>2019 • Filters</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Recent Queries List -->
-            <div class="cat-ai-recent-queries-section">
-              <div style="font-size: 0.72rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
-                <span>Recent Diagnostics</span>
-                <span style="font-size: 0.65rem; color: #64748b;">Click to Run</span>
-              </div>
-              <div class="cat-ai-query-list">
-                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Grand i10 Nios brake pad')">
-                  <span>🏎️</span> <span>Grand i10 nios brake pad</span>
-                </button>
-                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Swift diesel 2018 oil filter')">
-                  <span>🛢️</span> <span>Swift diesel 2018 oil filter</span>
-                </button>
-                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Innova clutch plate')">
-                  <span>⚙️</span> <span>Innova clutch plate</span>
-                </button>
-                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Tata Indica kharab hai')">
-                  <span>🔧</span> <span>Tata Indica kharab hai</span>
-                </button>
-                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('Creta shocker kharab hai')">
-                  <span>⚡</span> <span>Creta shocker kharab hai</span>
-                </button>
-                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('21658101B4A05')">
-                  <span>🏷️</span> <span>Part: 21658101B4A05 (Cross LC)</span>
-                </button>
-                <button type="button" class="cat-ai-query-item" onclick="CatalogAiChat.quickSend('VIN: MALBB51BLHM123456')">
-                  <span>🔍</span> <span>VIN: MALBB51BLHM123456</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Sidebar Footer -->
-            <div class="cat-ai-sidebar-footer">
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <span class="live-dot-pulse"></span>
-                <span style="font-size: 0.74rem; color: #cbd5e1; font-weight: 750;">23.6M+ Parts Live Search</span>
-              </div>
-              <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">v72.0</span>
-            </div>
-          </aside>
-
-          <!-- Right Main Chat Panel -->
+          <!-- Main Chat Panel -->
           <main class="cat-ai-main-chat">
             
-            <!-- Chat Header Bar -->
+            <!-- Clean Light Enterprise Copilot Header -->
             <div class="cat-ai-chat-header">
               <div style="display: flex; align-items: center; gap: 0.85rem;">
-                <div style="width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #8b5cf6, #0284c7); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #0284c7, #2563eb); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: #ffffff; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.28); flex-shrink: 0;">
                   🤖
                 </div>
                 <div>
-                  <div style="display: flex; align-items: center; gap: 0.6rem;">
-                    <span style="font-size: 1.15rem; font-weight: 900; letter-spacing: -0.3px; font-family: 'Outfit', sans-serif;">
+                  <div style="display: flex; align-items: center; gap: 0.55rem;">
+                    <span style="font-size: 1.15rem; font-weight: 900; letter-spacing: -0.02em; font-family: 'Outfit', sans-serif; color: #0f172a;">
                       AutoNexa Catalog AI Copilot
                     </span>
-                    <span style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); font-size: 0.68rem; font-weight: 850; padding: 0.15rem 0.55rem; border-radius: 999px;">
+                    <span style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; font-size: 0.68rem; font-weight: 850; padding: 0.15rem 0.55rem; border-radius: 9999px;">
                       ● LIVE BOT
                     </span>
                   </div>
-                  <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 0.15rem;">
-                    Universal Anything Search • 923 Components • 29 Aggregates • 17-Digit VIN Decoder • 3D Assembly
+                  <div style="font-size: 0.76rem; color: #64748b; margin-top: 0.15rem;">
+                    23.6M+ Parts Cross-Referencing • Direct Tier-1 OES Savings • 3D Assembly Integration
                   </div>
                 </div>
               </div>
 
               <div style="display: flex; align-items: center; gap: 0.65rem;">
-                <button type="button" class="btn-toggle-ai-history" onclick="CatalogAiChat.toggleHistory()" title="Toggle History Sidebar" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.85rem; font-size: 0.78rem; font-weight: 850; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; border-radius: 8px; cursor: pointer; transition: background 0.15s;">
-                  <span>⏱️</span> <span>History</span>
+                <button type="button" class="btn-toggle-ai-inspector" onclick="CatalogAiChat.toggleInspector()" title="Toggle Side Inspector" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.85rem; font-size: 0.78rem; font-weight: 800; background: #ffffff; border: 1.5px solid #e2e8f0; color: #334155; border-radius: 8px; cursor: pointer; transition: all 0.15s ease;">
+                  <span>📊</span> <span>Inspector</span>
                 </button>
-                <button type="button" onclick="CatalogAiChat.resetChat()" title="Start a fresh chat conversation" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.95rem; font-size: 0.78rem; font-weight: 850; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; border-radius: 8px; cursor: pointer; transition: background 0.15s;">
+                <button type="button" onclick="CatalogAiChat.resetChat()" title="Start a fresh chat conversation" style="display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.95rem; font-size: 0.78rem; font-weight: 800; background: #ffffff; border: 1.5px solid #e2e8f0; color: #334155; border-radius: 8px; cursor: pointer; transition: all 0.15s ease;">
                   <span>🔄</span> <span>Start Over</span>
                 </button>
               </div>
             </div>
 
-            <!-- Chat & Inspector Body Split (62% Left Chat / 38% Right Sticky Inspector) -->
+            <!-- Chat & Inspector Body Split -->
             <div class="cat-ai-body-split">
               
-              <!-- Left 62% Column: Chat Stream & Input -->
+              <!-- Chat Stream & Input -->
               <div class="cat-ai-chat-column">
                 
                 <!-- Active Vehicle Context Session Pill / Tag (Persistent Banner) -->
@@ -1703,13 +1615,13 @@
 
                 <!-- Chat Thread Message Stream -->
                 <div id="cat-ai-chat-thread" class="cat-ai-thread">
-                  <!-- Dynamically rendered by CatalogAiChat with wireframe car greeting -->
+                  <!-- Dynamically rendered by CatalogAiChat -->
                 </div>
 
-                <!-- Chat Bottom Capsule Bar -->
+                <!-- Chat Bottom Capsule Bar (Anchored & 100% visible) -->
                 <div class="cat-ai-input-wrapper">
                   <div class="cat-ai-capsule-bar">
-                    <button type="button" class="cat-ai-action-btn" id="cat-ai-mic-btn" title="Speak to Search (Voice Recognition)" onclick="CatalogAiChat.toggleSpeechRecognition()">
+                    <button type="button" class="cat-ai-mic-btn" id="cat-ai-mic-btn" title="Speak to Search (Voice Recognition)" onclick="CatalogAiChat.toggleSpeechRecognition()">
                       <span id="cat-ai-mic-icon">🎙️</span>
                     </button>
                     <input 
@@ -1722,12 +1634,23 @@
                       <span>Ask</span> <span style="font-size: 1rem;">✈️</span>
                     </button>
                   </div>
+
+                  <!-- Quick Helper Query Chips -->
+                  <div class="cat-ai-quick-suggestions">
+                    <span style="font-size: 0.7rem; color: #94a3b8; font-weight: 750; margin-right: 0.25rem; flex-shrink: 0;">Suggestions:</span>
+                    <button type="button" class="cat-ai-quick-chip" onclick="CatalogAiChat.quickSend('Grand i10 Nios brake pad')">🛑 Brake Pad</button>
+                    <button type="button" class="cat-ai-quick-chip" onclick="CatalogAiChat.quickSend('Swift diesel 2018 oil filter')">🛢️ Oil Filter</button>
+                    <button type="button" class="cat-ai-quick-chip" onclick="CatalogAiChat.quickSend('Innova clutch plate')">⚙️ Clutch Plate</button>
+                    <button type="button" class="cat-ai-quick-chip" onclick="CatalogAiChat.quickSend('Tata Indica Vista tie rod end')">🔧 Tie Rod</button>
+                    <button type="button" class="cat-ai-quick-chip" onclick="CatalogAiChat.quickSend('Creta shocker kharab hai')">⚡ Shock Absorber</button>
+                    <button type="button" class="cat-ai-quick-chip" onclick="CatalogAiChat.quickSend('21658101B4A05')">🏷️ Part: 21658101B4A05</button>
+                  </div>
                 </div>
 
               </div>
 
-              <!-- Right 38% Column: Sticky Current Vehicle Card & Live Parts Inspector -->
-              <aside class="cat-ai-side-inspector" id="cat-ai-side-inspector">
+              <!-- Right Sticky Current Vehicle Card & Live Parts Inspector -->
+              <aside class="cat-ai-side-inspector collapsed" id="cat-ai-side-inspector">
                 <!-- Current Vehicle Card -->
                 <div class="cat-ai-side-card" id="cat-ai-side-vehicle-box">
                   <div class="cat-ai-side-title">
@@ -1749,6 +1672,23 @@
                   <div id="cat-ai-side-parts-content">
                     <div style="font-size: 0.82rem; color: #64748b; line-height: 1.45;">
                       Search or select any component to inspect OEM specs and Tier-1 OES alternatives with live savings calculations.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Quick Workshop Diagnostic Prompts -->
+                <div class="cat-ai-side-card" id="cat-ai-side-diag-box">
+                  <div class="cat-ai-side-title">
+                    <span>⚡ Workshop Diagnostic Prompts</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.75rem;">
+                    <div style="color: #64748b; margin-bottom: 0.2rem;">Common mechanic terms supported:</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.35rem;">
+                      <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 6px; color: #334155; font-weight: 750;">"kharab hai"</span>
+                      <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 6px; color: #334155; font-weight: 750;">"awaaz aa rahi"</span>
+                      <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 6px; color: #334155; font-weight: 750;">"vibration"</span>
+                      <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 6px; color: #334155; font-weight: 750;">"shocker leak"</span>
+                      <span style="background: #f1f5f9; padding: 3px 8px; border-radius: 6px; color: #334155; font-weight: 750;">"slipping"</span>
                     </div>
                   </div>
                 </div>
@@ -1795,24 +1735,24 @@
               ⇄
             </div>
             <h2 style="font-size: 1.6rem; font-weight: 900; color: #0f172a; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.3px;">
-              OEM → OES Converter
+              OEM ⇄ OES Conversion Engine
             </h2>
           </div>
           <p style="font-size: 0.9rem; color: #64748b; margin: 0;">
-            Cross-reference dealership OEM part numbers directly to verified Tier-1 OES aftermarket equivalents (Bosch, Valeo, LuK, Purolator, Mahle, Brembo, TVS Girling) with real price savings.
+            Bidirectional automotive conversion: Enter a Dealership OEM part number to discover certified OES alternatives, or enter an OES part number to cross-reference other OES brands and retrieve the official Dealership OEM benchmark.
           </p>
         </div>
 
         <!-- Search Box Card -->
         <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04); margin-bottom: 1.5rem;">
           <label for="oem-oes-search-input" style="font-size: 0.85rem; font-weight: 850; color: #0f172a; display: block; margin-bottom: 0.6rem;">
-            Enter OEM part number or description:
+            Enter OEM or OES Part Number:
           </label>
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
             <input 
               type="text" 
               id="oem-oes-search-input" 
-              placeholder="Enter OEM part number or description (e.g. 13780M75J00, 55810M68P00, 21611404)" 
+              placeholder="Enter OEM or OES Part Number (e.g. 4110002857, AM13001, 16510M68K00, TAF90143MV)..." 
               style="flex: 1 1 240px; min-width: 0; padding: 0.85rem 1.15rem; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; font-weight: 750; color: #0f172a; outline: none; transition: border-color 0.15s;"
               onfocus="this.style.borderColor='#0284c7'" 
               onblur="this.style.borderColor='#cbd5e1'"
@@ -1824,7 +1764,7 @@
               onclick="OemToOesPortal.search()" 
               style="flex: 0 0 auto; background: linear-gradient(135deg, #0284c7, #2563eb); color: #ffffff; border: none; padding: 0.85rem 1.75rem; border-radius: 10px; font-weight: 850; font-size: 0.92rem; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25); transition: transform 0.15s;"
             >
-              Convert to OES
+              Convert Part
             </button>
             <button 
               type="button" 
@@ -2682,7 +2622,7 @@
   <script src="js/overall-catalogue-portal.js?v=72.0.0"></script>
   <script src="js/oem-oes-portal.js?v=72.0.0"></script>
   <script src="js/canvas-3d-car.js?v=72.0.0"></script>
-  <script src="js/catalog-ai-chat.js?v=72.0.0"></script>
+  <script src="js/catalog-ai-chat.js?v=73.0.0"></script>
   <script src="js/app.js?v=72.0.0"></script>
 </body>
 </html>

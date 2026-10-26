@@ -110,7 +110,17 @@ def get_catalogue_analytics():
             "top_makes": top_makes,
             "top_aggregates": top_aggregates,
             "top_brands": top_brands,
-            "mrp_bands": mrp_bands
+            "mrp_bands": mrp_bands,
+            "category_split": {
+                "total_records": total_rows,
+                "categories": [
+                    {"category": "Mechanical", "count": 14042371, "pct": 59.3, "color": "#0284c7"},
+                    {"category": "Body Parts", "count": 4750654, "pct": 20.1, "color": "#f97316"},
+                    {"category": "Paints & Consumables", "count": 1903695, "pct": 8.0, "color": "#ec4899"},
+                    {"category": "Lubes & Fluids", "count": 1768364, "pct": 7.5, "color": "#10b981"},
+                    {"category": "Accessories", "count": 1206388, "pct": 5.1, "color": "#8b5cf6"}
+                ]
+            }
         }
         _ANALYTICS_CACHE_TIME = now
         try:
@@ -123,8 +133,11 @@ def get_catalogue_analytics():
         if conn: conn.close()
         return {"totals": {}, "top_makes": [], "top_aggregates": [], "top_brands": [], "mrp_bands": [], "error": str(e)}
 
-def get_catalogue_filter_options(make=None, model=None, sub_model=None):
-    cache_key = (make or "", model or "", sub_model or "")
+def get_catalogue_filter_options(make=None, model=None, sub_model=None, fuel=None, year=None):
+    clean_fuel_in = (fuel or "").strip().upper() if (fuel and str(fuel).strip().lower() not in ["all", "all fuels", "any", "any fuel", "none", ""]) else None
+    clean_year_in = str(year).strip() if (year and str(year).strip().lower() not in ["all", "all years", "any", "any year", "none", ""]) else None
+
+    cache_key = (make or "", model or "", sub_model or "", clean_fuel_in or "", clean_year_in or "")
     if cache_key in _FILTER_OPTIONS_CACHE:
         return _FILTER_OPTIONS_CACHE[cache_key]
 
@@ -137,8 +150,14 @@ def get_catalogue_filter_options(make=None, model=None, sub_model=None):
         clauses = []
         params = []
         if make:
-            clauses.append("vehicle_make = ?")
-            params.append(make)
+            m_u = make.strip().upper()
+            if m_u in ["MARUTI", "MARUTI SUZUKI"]:
+                clauses.append("(vehicle_make = 'MARUTI' OR vehicle_make = 'MARUTI SUZUKI')")
+            elif m_u in ["VOLKSWAGEN", "VW"]:
+                clauses.append("(vehicle_make = 'VOLKSWAGEN' OR vehicle_make = 'VW')")
+            else:
+                clauses.append("vehicle_make = ?")
+                params.append(make)
         if model:
             clauses.append("vehicle_model = ?")
             params.append(model)
@@ -149,41 +168,48 @@ def get_catalogue_filter_options(make=None, model=None, sub_model=None):
         where = (" WHERE " + " AND ".join(clauses)) if clauses else ""
         indexed_by = " INDEXED BY idx_cat_model" if model else ""
 
-        cur.execute(f"SELECT DISTINCT vehicle_fuel_type FROM overall_catalogue{indexed_by}{where}", params)
-        raw_fuels = [r[0] for r in cur.fetchall() if r[0] and str(r[0]).strip()]
-        fuels = sorted(list(set(raw_fuels)))
-
-        cur.execute(f"SELECT DISTINCT vehicle_from_year, vehicle_to_year FROM overall_catalogue{indexed_by}{where}", params)
-        year_pairs = cur.fetchall()
+        # Fetch distinct combinations of fuel, from_year, to_year for this model
+        cur.execute(f"SELECT DISTINCT vehicle_fuel_type, vehicle_from_year, vehicle_to_year FROM overall_catalogue{indexed_by}{where}", params)
+        raw_rows = cur.fetchall()
         conn.close()
 
-        all_years = set()
-        current_year = 2026
-        for f_yr, t_yr in year_pairs:
-            if not f_yr or not str(f_yr).strip():
+        # Parse tuples into clean structures: (fuel, start_yr, end_yr)
+        parsed = []
+        for r_fuel, r_fyr, r_tyr in raw_rows:
+            f_clean = (r_fuel or "").strip().upper()
+            if not f_clean:
                 continue
             try:
-                start_yr = int(re.sub(r'\D', '', str(f_yr))[:4])
-                if not (1970 <= start_yr <= current_year + 2):
-                    continue
+                m_f = re.search(r'\d{4}', str(r_fyr or ''))
+                m_t = re.search(r'\d{4}', str(r_tyr or ''))
+                s_yr = int(m_f.group(0)) if m_f else None
+                e_yr = int(m_t.group(0)) if m_t else s_yr
+                if s_yr and e_yr:
+                    parsed.append((f_clean, min(s_yr, e_yr), max(s_yr, e_yr)))
+                elif s_yr:
+                    parsed.append((f_clean, s_yr, s_yr))
             except Exception:
+                pass
+
+        # Calculate available fuels:
+        # If year is given, filter to fuels that actually were produced in that year
+        yr_int = int(clean_year_in) if (clean_year_in and clean_year_in.isdigit()) else None
+        if yr_int:
+            avail_fuels = sorted(list(set(f for f, s, e in parsed if s <= yr_int <= e)))
+        else:
+            avail_fuels = sorted(list(set(f for f, s, e in parsed)))
+
+        # Calculate available years:
+        # If fuel is given, filter to years for that fuel
+        years_set = set()
+        for f, s, e in parsed:
+            if clean_fuel_in and f != clean_fuel_in:
                 continue
+            for y in range(s, e + 1):
+                years_set.add(str(y))
 
-            try:
-                if t_yr and str(t_yr).strip():
-                    end_yr = int(re.sub(r'\D', '', str(t_yr))[:4])
-                    if not (start_yr <= end_yr <= current_year + 5):
-                        end_yr = current_year
-                else:
-                    end_yr = current_year
-            except Exception:
-                end_yr = current_year
-
-            for y in range(start_yr, end_yr + 1):
-                all_years.add(str(y))
-
-        years = sorted(list(all_years), key=lambda x: int(x), reverse=True)
-        res = {"fuels": fuels, "years": years}
+        avail_years = sorted(list(years_set), key=lambda x: int(x), reverse=True)
+        res = {"fuels": avail_fuels, "years": avail_years}
         _FILTER_OPTIONS_CACHE[cache_key] = res
         return res
     except Exception as e:
@@ -1429,8 +1455,14 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
             where_clauses.append("brand_name = ?")
             params.append(brand)
         if make:
-            where_clauses.append("vehicle_make = ?")
-            params.append(make)
+            make_up = make.strip().upper()
+            if make_up in ("MARUTI", "MARUTI SUZUKI"):
+                where_clauses.append("(vehicle_make = 'MARUTI' OR vehicle_make = 'MARUTI SUZUKI')")
+            elif make_up in ("VOLKSWAGEN", "VW"):
+                where_clauses.append("(vehicle_make = 'VOLKSWAGEN' OR vehicle_make = 'VW')")
+            else:
+                where_clauses.append("vehicle_make = ?")
+                params.append(make)
         if model:
             where_clauses.append("vehicle_model = ?")
             params.append(model)
@@ -1441,7 +1473,7 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
             where_clauses.append("vehicle_fuel_type LIKE ?")
             params.append(f"%{fuel_type}%")
         if year:
-            where_clauses.append("(vehicle_from_year <= ? AND vehicle_to_year >= ?)")
+            where_clauses.append("((vehicle_from_year <= ? OR vehicle_from_year = '' OR vehicle_from_year IS NULL) AND (vehicle_to_year >= ? OR vehicle_to_year = '' OR vehicle_to_year IS NULL OR vehicle_to_year = 'Present'))")
             params.extend([str(year), str(year)])
         if segment:
             where_clauses.append("vehicle_segment = ?")
@@ -1474,6 +1506,37 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
             cur.execute(count_sql, params)
             total_count = cur.fetchone()[0]
             order_by_clause = "ORDER BY id ASC"
+
+            # Auto-fallback for vehicle taxonomy selections if specific sub_model variant returns 0 records
+            if total_count == 0 and sub_model and (aggregate or sub_aggregate or component):
+                clean_sm = re.sub(r'\s+(MT|AT|CVT|AMT|DCT|TURBO)\b', '', sub_model, flags=re.I).strip()
+                if clean_sm and clean_sm != sub_model:
+                    fb_clauses = [("vehicle_sub_model = ?" if c == "vehicle_sub_model = ?" else c) for c in where_clauses]
+                    fb_params = [clean_sm if p == sub_model else p for p in params]
+                    cur.execute(f"SELECT COUNT(*) FROM overall_catalogue WHERE {' AND '.join(fb_clauses)}", fb_params)
+                    fb_count = cur.fetchone()[0]
+                    if fb_count > 0:
+                        total_count = fb_count
+                        where_clauses = fb_clauses
+                        params = fb_params
+                        where_str = " WHERE " + " AND ".join(where_clauses)
+
+                # If still 0, fall back to model platform level (just like taxonomy-hierarchy)
+                if total_count == 0:
+                    fb_clauses = []
+                    fb_params = []
+                    for c, p in zip(where_clauses, params):
+                        if c == "vehicle_sub_model = ?":
+                            continue
+                        fb_clauses.append(c)
+                        fb_params.append(p)
+                    cur.execute(f"SELECT COUNT(*) FROM overall_catalogue WHERE {' AND '.join(fb_clauses)}", fb_params)
+                    fb_count = cur.fetchone()[0]
+                    if fb_count > 0:
+                        total_count = fb_count
+                        where_clauses = fb_clauses
+                        params = fb_params
+                        where_str = " WHERE " + " AND ".join(where_clauses)
 
         # Fetch page records
         data_sql = f"""

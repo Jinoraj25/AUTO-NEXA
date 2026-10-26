@@ -18,6 +18,13 @@ const CatalogAiChat = {
     }
   },
 
+  toggleInspector() {
+    const inspector = document.getElementById('cat-ai-side-inspector');
+    if (inspector) {
+      inspector.classList.toggle('collapsed');
+    }
+  },
+
   activeVehicleContext: null,
   state: {
     make: null,
@@ -31,7 +38,14 @@ const CatalogAiChat = {
   history: [],
   isWaiting: false,
 
+  _initialized: false,
   init() {
+    if (this._initialized) {
+      this.updateActiveVehicleBar();
+      return;
+    }
+    this._initialized = true;
+
     const thread = document.getElementById('cat-ai-chat-thread');
     if (!thread) return;
 
@@ -61,6 +75,16 @@ const CatalogAiChat = {
     }
     this.updateActiveVehicleBar();
     this.updateSideInspector(this.activeVehicleContext, null);
+
+    // Auto-run query if passed via URL parameter (e.g. ?tab=catalogue-ai&ai_query=...)
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryParam = urlParams.get('ai_query');
+      if (queryParam && queryParam.trim().length > 0) {
+        window.history.replaceState({}, document.title, window.location.pathname + '?autologin=1&tab=catalogue-ai');
+        setTimeout(() => this.quickSend(queryParam.trim()), 600);
+      }
+    } catch (e) {}
   },
 
   updateActiveVehicleBar() {
@@ -96,7 +120,7 @@ const CatalogAiChat = {
         if (clearBtn) clearBtn.style.display = 'inline-block';
         vehCard.innerHTML = `
           <div style="display: flex; gap: 0.75rem; align-items: center;">
-            <img src="${vImg}" alt="${this.escapeHtml(vTitle)}" style="width: 80px; height: 52px; object-fit: contain; border-radius: 8px; background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 3px;" onerror="this.src='images/oriparts_default_car.png'">
+            <img src="${vImg}" alt="${this.escapeHtml(vTitle)}" style="width: 80px; height: 52px; object-fit: contain; border-radius: 8px; background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 3px;" onerror="this.onerror=null; this.style.display='none';">
             <div>
               <div style="font-weight: 900; font-size: 0.95rem; color: #0f172a; font-family: 'Outfit', sans-serif;">${this.escapeHtml(vTitle)}</div>
               <div style="font-size: 0.76rem; font-weight: 750; color: #0284c7; margin-top: 0.15rem;">${this.escapeHtml(vMeta)}</div>
@@ -298,103 +322,11 @@ const CatalogAiChat = {
   },
 
   renderWelcomeGreeting() {
-    const welcomeHtml = `
-      <div class="chat-bot-bubble cat-ai-welcome-box" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 1.5rem; box-shadow: 0 4px 18px rgba(0,0,0,0.03); display: grid; grid-template-columns: 1.25fr 0.85fr; gap: 1.25rem; align-items: center;">
-        <!-- Left Column: Title, Instructions, and 6 Styled Example Cards -->
-        <div>
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem;">
-            <div style="width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, #ea580c, #f97316); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.25rem; font-weight: 900; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);">
-              AN
-            </div>
-            <div>
-              <div style="font-weight: 900; font-size: 1.15rem; color: #0f172a; font-family: 'Outfit', sans-serif;">
-                AN Copilot
-              </div>
-              <div style="font-size: 0.75rem; color: #059669; font-weight: 800; display: flex; align-items: center; gap: 0.35rem;">
-                <span style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
-                <span>Active Live Bot</span>
-              </div>
-            </div>
-          </div>
-
-          <div style="font-size: 0.86rem; color: #334155; line-height: 1.5; margin-bottom: 0.65rem;">
-            Hello! I am your AI spare parts specialist. You can ask me naturally in <strong>English, Hindi/Hinglish</strong>, or <strong>mechanic terms</strong>, or enter any raw OEM part number.
-          </div>
-
-          <div style="font-size: 0.76rem; font-weight: 850; color: #64748b; margin-bottom: 0.5rem;">
-            For example, try searching:
-          </div>
-
-          <!-- 6 Styled Example Diagnostic Cards (Matching Gemini_Generated_Image_4qh9lg4qh9lg4qh9.png) -->
-          <div class="cat-ai-diag-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.65rem;">
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Grand i10 Nios brake pad')" style="border: 1.5px solid #38bdf8; background: #f0f9ff; border-radius: 10px; padding: 0.65rem 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.65rem;">
-              <div style="font-size: 1.35rem;">🛑</div>
-              <div>
-                <div style="font-size: 0.82rem; font-weight: 850; color: #0f172a;">Grand i10 Nios</div>
-                <div style="font-size: 0.74rem; font-weight: 700; color: #0284c7;">brake pad</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Swift diesel 2018 oil filter')" style="border: 1.5px solid #fb923c; background: #fff7ed; border-radius: 10px; padding: 0.65rem 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.65rem;">
-              <div style="font-size: 1.35rem;">🛢️</div>
-              <div>
-                <div style="font-size: 0.82rem; font-weight: 850; color: #0f172a;">Swift diesel 2018</div>
-                <div style="font-size: 0.74rem; font-weight: 700; color: #ea580c;">oil filter</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Innova clutch plate')" style="border: 1.5px solid #c084fc; background: #faf5ff; border-radius: 10px; padding: 0.65rem 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.65rem;">
-              <div style="font-size: 1.35rem;">⚙️</div>
-              <div>
-                <div style="font-size: 0.82rem; font-weight: 850; color: #0f172a;">Innova</div>
-                <div style="font-size: 0.74rem; font-weight: 700; color: #9333ea;">clutch plate</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Tata Indica kharab hai')" style="border: 1.5px solid #60a5fa; background: #eff6ff; border-radius: 10px; padding: 0.65rem 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.65rem;">
-              <div style="font-size: 1.35rem;">🔧</div>
-              <div>
-                <div style="font-size: 0.82rem; font-weight: 850; color: #0f172a;">Tata Indica</div>
-                <div style="font-size: 0.74rem; font-weight: 700; color: #2563eb;">kharab hai</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Creta shocker kharab hai')" style="border: 1.5px solid #f87171; background: #fef2f2; border-radius: 10px; padding: 0.65rem 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.65rem;">
-              <div style="font-size: 1.35rem;">⚡</div>
-              <div>
-                <div style="font-size: 0.82rem; font-weight: 850; color: #0f172a;">Creta shocker</div>
-                <div style="font-size: 0.74rem; font-weight: 700; color: #dc2626;">kharab hai</div>
-              </div>
-            </div>
-
-            <div class="cat-ai-diag-card" onclick="CatalogAiChat.quickSend('Part No: 21658101B4A05')" style="border: 1.5px solid #fbbf24; background: #fffbeb; border-radius: 10px; padding: 0.65rem 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 0.65rem;">
-              <div style="font-size: 1.35rem;">🏷️</div>
-              <div>
-                <div style="font-size: 0.74rem; font-weight: 800; color: #b45309; text-transform: uppercase;">OEM Part:</div>
-                <div style="font-family: monospace; font-size: 0.8rem; font-weight: 850; color: #0f172a;">21658101B4A05</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: 3D Technical Wireframe Car with Light Container Matching Gemini Reference -->
-        <div class="cat-ai-wireframe-container" style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; min-height: 220px; box-shadow: inset 0 2px 6px rgba(0,0,0,0.02);">
-          <img src="images/wireframe_car_inspection.png" alt="3D Vehicle Wireframe Inspection" style="width: 100%; max-height: 180px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));">
-          <div style="margin-top: 0.75rem; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 999px; padding: 0.35rem 0.85rem; font-size: 0.74rem; font-weight: 850; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 0.35rem;">
-            <span>✨</span>
-            <span>Identified: tie rod end for tata indica vista</span>
-          </div>
-        </div>
-      </div>
-    `;
-
     const thread = document.getElementById('cat-ai-chat-thread');
-    if (thread) {
-      thread.innerHTML = welcomeHtml;
-      this.scrollToBottom();
-      this.saveState();
-    }
+    if (!thread) return;
+    thread.innerHTML = '';
   },
+
 
   isListening: false,
   recognition: null,
@@ -769,47 +701,56 @@ const CatalogAiChat = {
     let oemHtml = '';
     if (oem) {
       oemHtml = `
-        <div class="cat-ai-comp-card oem-highlight">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.85rem; flex-wrap: wrap;">
+        <div class="cat-ai-comp-card oem-highlight" style="background: #ffffff; border: 1.5px solid #86efac; border-left: 5px solid #16a34a; border-radius: 14px; padding: 1.25rem 1.4rem; box-shadow: 0 2px 12px rgba(22, 101, 52, 0.06); margin-bottom: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 260px;">
-              <div style="display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.35rem;">
-                <span class="cat-ai-oem-pill">⭐ OEM Dealership Genuine</span>
-                <span style="font-size: 0.72rem; color: #64748b; font-family: monospace;">Line Code ${this.escapeHtml(oem.lineCode || 'OE')}</span>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; font-weight: 900; background: #dcfce7; color: #166534; padding: 0.2rem 0.6rem; border-radius: 6px; border: 1px solid #bbf7d0; letter-spacing: 0.03em;">
+                  ⭐ OEM DEALERSHIP GENUINE
+                </span>
+                <span style="font-size: 0.74rem; color: #475569; font-family: monospace; font-weight: 750;">
+                  Line Code ${this.escapeHtml(oem.lineCode || 'OE')} • ${this.escapeHtml(oem.brand)} OE
+                </span>
               </div>
-              <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; margin-bottom: 0.2rem; font-family: 'Outfit', sans-serif;">
+
+              <div style="font-size: 1.15rem; font-weight: 900; color: #0f172a; margin-bottom: 0.35rem; font-family: 'Outfit', sans-serif;">
                 ${this.escapeHtml(oem.desc)}
               </div>
-              <div style="font-family: monospace; font-size: 0.95rem; font-weight: 850; color: #166534; margin-bottom: 0.45rem;">
-                Part No: <span style="background: #dcfce7; padding: 0.15rem 0.45rem; border-radius: 6px;">${this.escapeHtml(oem.partNo)}</span>
-                <button type="button" onclick="CatalogAiChat.copyToClipboard('${this.escapeJs(oem.partNo)}', this)" style="padding: 1px 6px; font-size: 0.7rem; border-radius: 4px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer; margin-left: 4px;">📋 Copy</button>
-                <span style="font-size: 0.78rem; font-weight: 750; color: #475569; margin-left: 0.4rem;">(${this.escapeHtml(oem.brand)} OE)</span>
+
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap;">
+                <span style="font-size: 0.8rem; font-weight: 750; color: #475569;">Part No:</span>
+                <span style="font-family: monospace; font-size: 1rem; font-weight: 900; color: #166534; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 0.2rem 0.6rem; border-radius: 6px; letter-spacing: 0.05em;">
+                  ${this.escapeHtml(oem.partNo)}
+                </span>
+                <button type="button" onclick="CatalogAiChat.copyToClipboard('${this.escapeJs(oem.partNo)}', this)" style="padding: 0.2rem 0.6rem; font-size: 0.72rem; font-weight: 800; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #334155; cursor: pointer; transition: all 0.15s;">
+                  📋 Copy
+                </button>
               </div>
-              
+
               <!-- Quick Status Badges -->
-              <div style="display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.45rem;">
-                <span class="cat-ai-badge-fitment">✔ Fitment Match: 100% Direct Match (${this.escapeHtml(oem.make)} ${this.escapeHtml(oem.model)})</span>
-                <span class="cat-ai-badge-stock">🟢 Stock Availability: In Stock (Dispatch 24h)</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.45rem;">
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 6px;">
+                  ✔ 100% Direct Fitment (${this.escapeHtml(oem.make)} ${this.escapeHtml(oem.model)})
+                </span>
+                <span style="display: inline-flex; align-items: center; gap: 0.35rem; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 6px;">
+                  🟢 In Stock (Dispatch Ready)
+                </span>
               </div>
             </div>
 
             <!-- Price & Actions Column -->
-            <div style="text-align: right; min-width: 200px;">
-              <div style="font-size: 0.72rem; color: #64748b; font-weight: 750;">Official Dealership MRP</div>
-              <div style="font-size: 1.45rem; font-weight: 900; color: #166534; font-family: 'Outfit', sans-serif;">
+            <div style="text-align: right; min-width: 180px;">
+              <div style="font-size: 0.72rem; color: #64748b; font-weight: 750; text-transform: uppercase; letter-spacing: 0.03em;">Official Dealership MRP</div>
+              <div style="font-size: 1.65rem; font-weight: 900; color: #166534; font-family: 'Outfit', sans-serif; margin-top: 0.1rem;">
                 ${oem.mrp && oem.mrp > 0 ? '₹' + Number(oem.mrp).toLocaleString('en-IN') : 'Price on Request'}
               </div>
-              <div style="display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.65rem;">
-                <button type="button" onclick="CatalogAiChat.addToOrder('${this.escapeJs(oem.partNo)}', '${this.escapeJs(oem.brand)}', '${this.escapeJs(oem.desc)}', ${oem.mrp || 0})" class="cat-ai-action-btn primary">
-                  <span>🛒 Add to Enquiry / Order</span>
+              <div style="display: flex; gap: 0.45rem; justify-content: flex-end; margin-top: 0.85rem; flex-wrap: wrap;">
+                <button type="button" onclick="CatalogAiChat.viewInDiagram('${this.escapeJs(compName)}', '${this.escapeJs(aggName)}')" class="cat-ai-action-btn secondary">
+                  <span>📐 View in 3D Diagram</span>
                 </button>
-                <div style="display: flex; gap: 0.35rem;">
-                  <button type="button" onclick="CatalogAiChat.viewInDiagram('${this.escapeJs(compName)}', '${this.escapeJs(aggName)}')" class="cat-ai-action-btn secondary" style="flex: 1;">
-                    <span>📐 View in Diagram</span>
-                  </button>
-                  <button type="button" onclick="CatalogAiChat.showFitmentModal('${this.escapeJs(oem.partNo)}')" class="cat-ai-action-btn secondary" style="flex: 1;">
-                    <span>🔍 Fitment</span>
-                  </button>
-                </div>
+                <button type="button" onclick="CatalogAiChat.showFitmentModal('${this.escapeJs(oem.partNo)}')" class="cat-ai-action-btn secondary">
+                  <span>🔍 Fitment &amp; Specs</span>
+                </button>
               </div>
             </div>
           </div>
@@ -846,44 +787,38 @@ const CatalogAiChat = {
                 : 25;
               const oesPrice = (p.mrp && p.mrp > 0) ? p.mrp : Math.round((oem?.mrp || 1500) * 0.75);
               return `
-                <div class="cat-ai-comp-card" style="display: flex; flex-direction: column; justify-content: space-between; margin-bottom: 0;">
+                <div class="cat-ai-comp-card" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 6px rgba(0,0,0,0.02); transition: border-color 0.15s;">
                   <div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                      <span style="font-size: 0.74rem; font-weight: 850; background: #eff6ff; color: #1e40af; padding: 0.15rem 0.5rem; border-radius: 6px; border: 1px solid #bfdbfe;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                      <span style="font-size: 0.74rem; font-weight: 850; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; padding: 0.15rem 0.5rem; border-radius: 6px;">
                         ${this.escapeHtml(p.brand)} (Tier-1 OES)
                       </span>
-                      <span style="font-size: 0.7rem; font-weight: 850; background: #ecfdf5; color: #059669; padding: 0.15rem 0.45rem; border-radius: 6px; border: 1px solid #a7f3d0;">
+                      <span style="font-size: 0.7rem; font-weight: 850; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 0.15rem 0.45rem; border-radius: 6px;">
                         Save ${diffPercent}% vs OEM
                       </span>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.3rem;">
                       <span style="font-family: monospace; font-size: 0.98rem; font-weight: 900; color: #0284c7;">${this.escapeHtml(p.partNo)}</span>
                       <button type="button" onclick="CatalogAiChat.copyToClipboard('${this.escapeJs(p.partNo)}', this)" style="padding: 1px 6px; font-size: 0.68rem; border-radius: 4px; border: 1px solid #cbd5e1; background: #fff; cursor: pointer;">📋 Copy</button>
                     </div>
                     <div style="font-size: 0.84rem; font-weight: 800; color: #1e293b; margin-top: 0.25rem;">
                       ${this.escapeHtml(p.desc)}
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem;">
-                      <span class="cat-ai-badge-fitment" style="font-size: 0.68rem; padding: 0.15rem 0.45rem;">✔ Fitment Match: 100% Form-Fit-Function</span>
-                      <span class="cat-ai-badge-stock" style="font-size: 0.68rem; padding: 0.15rem 0.45rem;">🟢 Stock: Ready for Dispatch</span>
+                    <div style="font-size: 0.72rem; color: #64748b; margin-top: 0.35rem;">
+                      Line Code: <strong>${this.escapeHtml(p.lineCode || 'OES')}</strong> • Fitment: <strong>100% Direct Match</strong>
                     </div>
                   </div>
 
-                  <div style="margin-top: 0.85rem; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                  <div style="margin-top: 0.85rem; padding-top: 0.65rem; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
                     <div>
-                      <div style="font-size: 0.68rem; color: #64748b; font-weight: 750;">OES Unit Price</div>
-                      <div style="font-size: 1.15rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif;">
+                      <div style="font-size: 0.68rem; color: #64748b; font-weight: 750;">OES Unit MRP</div>
+                      <div style="font-size: 1.2rem; font-weight: 900; color: #059669; font-family: 'Outfit', sans-serif;">
                         ₹${Number(oesPrice).toLocaleString('en-IN')}
                       </div>
                     </div>
-                    <div style="display: flex; gap: 0.35rem;">
-                      <button type="button" onclick="CatalogAiChat.addToOrder('${this.escapeJs(p.partNo)}', '${this.escapeJs(p.brand)}', '${this.escapeJs(p.desc)}', ${oesPrice})" class="cat-ai-action-btn primary" style="padding: 0.35rem 0.65rem; font-size: 0.74rem;">
-                        🛒 Order
-                      </button>
-                      <button type="button" onclick="CatalogAiChat.showFitmentModal('${this.escapeJs(p.partNo)}')" class="cat-ai-action-btn secondary" style="padding: 0.35rem 0.65rem; font-size: 0.74rem;">
-                        🔍 Fitment
-                      </button>
-                    </div>
+                    <button type="button" onclick="CatalogAiChat.showFitmentModal('${this.escapeJs(p.partNo)}')" class="cat-ai-action-btn secondary" style="padding: 0.35rem 0.85rem; font-size: 0.76rem;">
+                      🔍 View Fitment
+                    </button>
                   </div>
                 </div>
               `;
@@ -956,7 +891,7 @@ const CatalogAiChat = {
     ` : '';
 
     return `
-      <div class="cat-ai-comp-card oem-highlight" style="margin-top: 1rem;">
+      <div class="cat-ai-comp-card oem-highlight" style="background: #ffffff; border: 1.5px solid #86efac; border-left: 5px solid #16a34a; border-radius: 14px; padding: 1.25rem 1.4rem; box-shadow: 0 2px 12px rgba(22, 101, 52, 0.06); margin-top: 1rem;">
         ${lineCodeAlertHtml}
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.85rem;">
           <div style="flex: 1; min-width: 260px;">
@@ -980,18 +915,13 @@ const CatalogAiChat = {
             <div style="font-size: 1.45rem; font-weight: 900; color: #166534; font-family: 'Outfit', sans-serif;">
               ${p.mrp && p.mrp > 0 ? '₹' + Number(p.mrp).toLocaleString('en-IN') : 'Price on Request'}
             </div>
-            <div style="display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.65rem;">
-              <button type="button" onclick="CatalogAiChat.addToOrder('${this.escapeJs(p.partNo)}', '${this.escapeJs(p.brand || 'GENUINE')}', '${this.escapeJs(p.desc)}', ${p.mrp || 0})" class="cat-ai-action-btn primary">
-                <span>🛒 Add to Enquiry / Order</span>
+            <div style="display: flex; gap: 0.45rem; justify-content: flex-end; margin-top: 0.85rem; flex-wrap: wrap;">
+              <button type="button" onclick="CatalogAiChat.viewInDiagram('${this.escapeJs(p.components || p.desc)}', '${this.escapeJs(p.aggregate || 'BRAKE SYSTEM')}')" class="cat-ai-action-btn secondary">
+                <span>📐 View in Diagram</span>
               </button>
-              <div style="display: flex; gap: 0.35rem;">
-                <button type="button" onclick="CatalogAiChat.viewInDiagram('${this.escapeJs(p.components || p.desc)}', '${this.escapeJs(p.aggregate || 'BRAKE SYSTEM')}')" class="cat-ai-action-btn secondary" style="flex: 1;">
-                  <span>📐 View in Diagram</span>
-                </button>
-                <button type="button" onclick="CatalogAiChat.showFitmentModal('${this.escapeJs(p.partNo)}')" class="cat-ai-action-btn secondary" style="flex: 1;">
-                  <span>🔍 Fitment</span>
-                </button>
-              </div>
+              <button type="button" onclick="CatalogAiChat.showFitmentModal('${this.escapeJs(p.partNo)}')" class="cat-ai-action-btn secondary">
+                <span>🔍 Fitment &amp; Specs</span>
+              </button>
             </div>
           </div>
         </div>
@@ -1266,9 +1196,40 @@ const CatalogAiChat = {
   },
 
   escapeHtml(text) {
+    if (text === null || text === undefined) return '';
     const div = document.createElement('div');
-    div.textContent = text;
+    div.textContent = String(text);
     return div.innerHTML;
+  },
+
+  escapeJs(text) {
+    if (text === null || text === undefined) return '';
+    return String(text)
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'")
+      .replace(/"/g, '&quot;')
+      .replace(/\n/g, ' ')
+      .replace(/\r/g, '');
+  },
+
+  copyToClipboard(text, btn) {
+    if (!text) return;
+    navigator.clipboard.writeText(String(text)).then(() => {
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✓ Copied';
+        btn.style.color = '#16a34a';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.color = '';
+        }, 1500);
+      }
+      if (window.App && window.App.showToast) {
+        window.App.showToast(`Copied to clipboard: ${text}`, 'success');
+      }
+    }).catch(err => {
+      console.warn('Clipboard write error', err);
+    });
   },
 
   scrollToBottom() {

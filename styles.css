@@ -4113,23 +4113,6 @@ body.is-authenticated footer.app-footer {
   display: block !important;
 }
 
-/* ==================== LEFT SIDEBAR ENTERPRISE LAYOUT (AUTO NEXA STUDIO) ==================== */
-.app-sidebar {
-  width: 260px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1050;
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
-  border-right: 1px solid #e2e8f0;
-  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s ease;
-  overflow: hidden;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.04);
-}
-
 .app-sidebar {
   width: 260px;
   height: 100vh;
@@ -4142,8 +4125,10 @@ body.is-authenticated footer.app-footer {
   background: #ffffff !important;
   border-right: 1px solid #e2e8f0 !important;
   transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s ease;
-  overflow: hidden;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03);
+  box-sizing: border-box !important;
 }
 
 .sidebar-brand-box {
@@ -4233,18 +4218,29 @@ body.is-authenticated footer.app-footer {
 .sidebar-nav-container {
   flex: 1;
   overflow-y: auto;
-  padding: 0.85rem 0.65rem 1.25rem;
+  overflow-x: hidden !important;
+  padding: 0.85rem 0.6rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 .sidebar-nav-container::-webkit-scrollbar {
   width: 4px;
+  height: 0px !important;
+}
+.sidebar-nav-container::-webkit-scrollbar-track {
+  background: transparent;
 }
 .sidebar-nav-container::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
+  background: #cbd5e1;
   border-radius: 4px;
+}
+.sidebar-nav-container::-webkit-scrollbar-corner {
+  display: none !important;
 }
 
 /* Upgraded Sidebar Navigation Cards */
@@ -4377,10 +4373,13 @@ body.is-authenticated footer.app-footer {
   display: none;
   flex-direction: column;
   gap: 0.25rem;
-  padding: 0.35rem 0 0.5rem 0.75rem;
-  margin-left: 1.35rem;
+  padding: 0.35rem 0 0.5rem 0.65rem;
+  margin-left: 1.15rem;
   border-left: 2px solid #e2e8f0;
   position: relative;
+  box-sizing: border-box !important;
+  max-width: calc(100% - 1.15rem) !important;
+  overflow-x: hidden !important;
 }
 
 .sb-group.is-open .sb-sub-menu {
@@ -4391,10 +4390,10 @@ body.is-authenticated footer.app-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.55rem;
-  padding: 0.5rem 0.75rem;
+  gap: 0.45rem;
+  padding: 0.46rem 0.65rem;
   border-radius: 8px;
-  font-size: 0.82rem;
+  font-size: 0.81rem;
   font-weight: 700;
   color: #475569;
   background: transparent;
@@ -4403,13 +4402,33 @@ body.is-authenticated footer.app-footer {
   text-align: left;
   transition: all 0.18s ease;
   white-space: nowrap;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.sb-sub-item > span:first-child,
+.sb-sub-item > div:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.sb-sub-item .sb-badge-pill {
+  flex-shrink: 0 !important;
 }
 
 .sb-sub-item:hover {
   color: #0284c7;
   background: #f1f5f9;
   border-color: #e2e8f0;
-  transform: translateX(4px);
+  transform: translateX(2px);
 }
 
 .sb-sub-item.active {
@@ -5856,7 +5875,7 @@ body.sidebar-collapsed footer.app-footer {
 /* Two-Column Side-by-Side Aggregate Selection Studio */
 .v-agg-side-by-side-container {
   display: grid;
-  grid-template-columns: 35% calc(65% - 1.25rem);
+  grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
   align-items: start;
   margin-top: 1.25rem;
@@ -5868,45 +5887,52 @@ body.sidebar-collapsed footer.app-footer {
 }
 
 .agg-vertical-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  max-height: 480px;
-  overflow-y: auto;
-  padding-right: 0.35rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.35rem;
+  max-height: none;
+  overflow-y: visible;
+  padding-right: 0;
 }
-.agg-vertical-list::-webkit-scrollbar,
-.subagg-selection-grid::-webkit-scrollbar {
-  width: 6px;
-}
-.agg-vertical-list::-webkit-scrollbar-thumb,
-.subagg-selection-grid::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+@media (max-width: 500px) {
+  .agg-vertical-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .agg-vertical-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 0.95rem;
+  padding: 0.35rem 0.55rem;
   background: #ffffff;
   border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
+  border-radius: 9px;
   cursor: pointer;
   transition: all 0.15s ease;
   text-align: left;
+  min-height: 40px;
+  box-sizing: border-box;
+  gap: 0.3rem;
 }
 .agg-vertical-card:hover {
   background: #f8fafc;
   border-color: #0284c7;
-  transform: translateX(2px);
+  transform: translateY(-1px);
 }
 .agg-vertical-card.active {
   background: #eff6ff;
   border: 1.5px solid #0284c7;
-  border-left: 5px solid #0284c7;
+  border-left: 4px solid #0284c7;
   box-shadow: 0 3px 12px rgba(2, 132, 199, 0.16);
+}
+.agg-vcard-name {
+  font-size: 0.73rem;
+  font-weight: 800;
+  color: #0f172a;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.22;
 }
 .agg-vertical-card.active .agg-vcard-name {
   color: #0284c7 !important;
@@ -5914,7 +5940,7 @@ body.sidebar-collapsed footer.app-footer {
 }
 .agg-vertical-card.active .agg-vcard-arrow {
   color: #0284c7 !important;
-  transform: translateX(3px);
+  transform: translateX(2px);
 }
 
 /* Catalog AI Structured Component Cards */
@@ -6813,128 +6839,38 @@ body.sidebar-collapsed footer.app-footer {
   scroll-behavior: smooth;
 }
 
-/* Greeting split card */
+/* Greeting modern hero card - suppressed as per user request */
 .cat-ai-welcome-box {
-  background: #ffffff;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 1.5rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
-  margin-bottom: 1.25rem;
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 1.25rem;
-  align-items: center;
-}
-
-@media (max-width: 900px) {
-  .cat-ai-welcome-box {
-    grid-template-columns: 1fr;
-  }
+  display: none !important;
 }
 
 .cat-ai-diag-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.65rem;
-  margin-top: 1rem;
-}
-
-@media (max-width: 640px) {
-  .cat-ai-diag-grid {
-    grid-template-columns: 1fr;
-  }
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
+  gap: 0.75rem !important;
+  margin-top: 0.5rem !important;
 }
 
 .cat-ai-diag-card {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.65rem 0.85rem;
-  background: #ffffff;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  text-align: left;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.4rem !important;
+  padding: 0.85rem 1rem !important;
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  text-align: left !important;
 }
 
 .cat-ai-diag-card:hover {
-  border-color: #0284c7;
-  background: #f0f9ff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.12);
+  border-color: #2563eb !important;
+  background: #eff6ff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12) !important;
 }
 
-.cat-ai-diag-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-.cat-ai-diag-text {
-  font-size: 0.78rem;
-  font-weight: 850;
-  color: #0f172a;
-  line-height: 1.25;
-}
-
-.cat-ai-diag-sub {
-  font-size: 0.68rem;
-  color: #64748b;
-  font-weight: 600;
-}
-
-/* 3D Wireframe Car Container in Greeting */
-.cat-ai-wireframe-container {
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-  background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-  border: 1.5px solid #334155;
-  box-shadow: inset 0 0 30px rgba(2, 132, 199, 0.15), 0 8px 24px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem;
-  min-height: 220px;
-}
-
-.cat-ai-wireframe-img {
-  width: 100%;
-  max-height: 170px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.45));
-}
-
-.cat-ai-inspection-callout {
-  position: absolute;
-  bottom: 12px;
-  background: rgba(15, 23, 42, 0.92);
-  border: 1.5px solid #38bdf8;
-  color: #38bdf8;
-  font-size: 0.75rem;
-  font-weight: 850;
-  padding: 0.35rem 0.85rem;
-  border-radius: 999px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  animation: floatPulse 3s ease-in-out infinite;
-}
-
-@keyframes floatPulse {
-  0%, 100% { transform: translateY(0); box-shadow: 0 0 16px rgba(56, 189, 248, 0.35); }
-  50% { transform: translateY(-3px); box-shadow: 0 0 24px rgba(56, 189, 248, 0.6); }
-}
 
 /* Bottom Capsule Input Bar */
 .cat-ai-input-wrapper {
@@ -6975,7 +6911,7 @@ body.sidebar-collapsed footer.app-footer {
   font-weight: 550;
 }
 
-.cat-ai-action-btn {
+.cat-ai-mic-btn {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -6989,11 +6925,12 @@ body.sidebar-collapsed footer.app-footer {
   transition: all 0.15s;
 }
 
-.cat-ai-action-btn:hover {
+.cat-ai-mic-btn:hover {
   color: #0284c7;
   background: #f1f5f9;
   transform: scale(1.08);
 }
+
 
 .cat-ai-send-btn {
   background: linear-gradient(135deg, #f97316, #06b6d4);
@@ -7332,19 +7269,24 @@ body.sidebar-collapsed footer.app-footer {
 /* Sub-Aggregate Selection Grid */
 .subagg-selection-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.55rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
   margin-top: 0.65rem;
-  max-height: 480px;
-  overflow-y: auto;
-  padding-right: 0.35rem;
+  max-height: none;
+  overflow-y: visible;
+  padding-right: 0;
+}
+@media (max-width: 500px) {
+  .subagg-selection-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .subagg-rect-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.6rem 0.85rem;
+  padding: 0.35rem 0.55rem;
   background: #f8fafc;
   border: 1.5px solid #e2e8f0;
   border-radius: 8px;
@@ -7354,6 +7296,8 @@ body.sidebar-collapsed footer.app-footer {
   outline: none;
   width: 100%;
   box-sizing: border-box;
+  min-height: 38px;
+  gap: 0.3rem;
 }
 
 .subagg-rect-card:hover {
@@ -7371,12 +7315,12 @@ body.sidebar-collapsed footer.app-footer {
 }
 
 .subagg-rect-name {
-  font-size: 0.78rem;
-  font-weight: 850;
+  font-size: 0.74rem;
+  font-weight: 800;
   color: #0f172a;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.22;
   letter-spacing: -0.1px;
 }
 
@@ -7385,15 +7329,15 @@ body.sidebar-collapsed footer.app-footer {
 }
 
 .subagg-rect-count {
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   font-weight: 850;
   background: #eff6ff;
   color: #0284c7;
-  padding: 0.15rem 0.45rem;
+  padding: 0.15rem 0.4rem;
   border-radius: 6px;
   border: 1px solid #bfdbfe;
   flex-shrink: 0;
-  margin-left: 0.45rem;
+  margin-left: 0.35rem;
 }
 
 .subagg-rect-card.active .subagg-rect-count {
@@ -7429,126 +7373,55 @@ body.sidebar-collapsed footer.app-footer {
 }
 
 /* ==================== CATALOG AI WORKSPACE FIX (ZERO PAGE SCROLL) ==================== */
-#tab-catalogue-ai.active {
-  height: calc(100vh - 75px);
-  max-height: calc(100vh - 75px);
-  overflow: hidden !important;
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 0.5rem 1rem !important;
-  box-sizing: border-box !important;
-}
+/* ==========================================================================
+   CATALOG AI COPILOT: REDESIGNED CLEAN & SPACIOUS WORKSPACE
+   Zero viewport overflow • Fixed anchored input • Modern enterprise design
+   ========================================================================== */
 
-.cat-ai-workspace {
-  flex: 1 !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-height: 100% !important;
-  display: flex !important;
-  grid-template-columns: none !important;
-  gap: 0 !important;
-  background: #ffffff !important;
-  border: 1.5px solid #e2e8f0 !important;
-  border-radius: 16px !important;
-  overflow: hidden !important;
-  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06) !important;
-  position: relative !important;
-}
-
-.cat-ai-sidebar-panel {
-  width: 260px !important;
-  min-width: 260px !important;
-  flex-shrink: 0 !important;
-  height: 100% !important;
-  overflow-y: auto !important;
-  background: #0f172a !important;
-  color: #f8fafc !important;
-  border-right: 1.5px solid #1e293b !important;
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 1rem 0.9rem !important;
-  box-sizing: border-box !important;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-.cat-ai-workspace.history-collapsed .cat-ai-sidebar-panel {
-  width: 0 !important;
-  min-width: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border-right: none !important;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.cat-ai-main-chat {
-  flex: 1 !important;
-  min-width: 0 !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: hidden !important;
-  background: #ffffff !important;
-  position: relative !important;
-}
-
-.cat-ai-chat-header {
-  flex-shrink: 0 !important;
-  padding: 0.75rem 1.25rem !important;
-  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
-  color: #ffffff !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  border-bottom: 1.5px solid #334155 !important;
-  z-index: 5;
-}
-
-.cat-ai-thread {
-  flex: 1 !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  height: auto !important;
-  overflow-y: auto !important;
-  padding: 1.25rem 1.5rem !important;
-  background: #f8fafc !important;
-  scroll-behavior: smooth !important;
-}
-
-.cat-ai-input-wrapper {
-  flex-shrink: 0 !important;
-  position: sticky !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  background: #ffffff !important;
-  border-top: 1.5px solid #e2e8f0 !important;
-  padding: 0.75rem 1.25rem !important;
-  z-index: 10 !important;
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04) !important;
-}
-
-
-/* ==================== CATALOG AI ZERO SCROLL VIEWPORT FIX ==================== */
+/* 1. Viewport Lock & Container Sizing (Eliminates page scroll & input clipping) */
 body:has(#tab-catalogue-ai.active) {
   overflow: hidden !important;
 }
-body:has(#tab-catalogue-ai.active) .main-content {
-  padding: 0.5rem 1rem 0 !important;
-  margin: 0 auto !important;
-  height: calc(100vh - 66px) !important;
-  max-height: calc(100vh - 66px) !important;
-  overflow: hidden !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-body:has(#tab-catalogue-ai.active) .main-content > div:last-child {
-  display: none !important; /* Hide footer to prevent scroll overflow */
+
+body:has(#tab-catalogue-ai.active) .app-footer {
+  display: none !important;
 }
 
+body:has(#tab-catalogue-ai.active) #main-app-content {
+  height: calc(100vh - 64px) !important;
+  max-height: calc(100vh - 64px) !important;
+  padding: 0.65rem 1rem 0.75rem !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #f8fafc !important;
+  margin-left: 260px !important;
+  width: calc(100% - 260px) !important;
+}
+
+body.sidebar-collapsed:has(#tab-catalogue-ai.active) #main-app-content {
+  margin-left: 72px !important;
+  width: calc(100% - 72px) !important;
+}
+
+@media (max-width: 900px) {
+  body:has(#tab-catalogue-ai.active) #main-app-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 0.5rem !important;
+  }
+}
+
+/* Ensure toast never covers the input bar */
+body:has(#tab-catalogue-ai.active) .toast-container {
+  top: 76px !important;
+  bottom: auto !important;
+  right: 24px !important;
+}
+
+/* 2. Section Pane & Wrapper */
 #tab-catalogue-ai.active {
   height: 100% !important;
   max-height: 100% !important;
@@ -7558,6 +7431,7 @@ body:has(#tab-catalogue-ai.active) .main-content > div:last-child {
   display: flex !important;
   flex-direction: column !important;
   padding: 0 !important;
+  margin: 0 !important;
   box-sizing: border-box !important;
 }
 
@@ -7571,53 +7445,35 @@ body:has(#tab-catalogue-ai.active) .main-content > div:last-child {
   padding: 0 !important;
   max-width: 100% !important;
   width: 100% !important;
+  box-sizing: border-box !important;
 }
 
+/* 3. Main Workspace Shell */
 .cat-ai-workspace {
   flex: 1 !important;
   height: 100% !important;
   min-height: 0 !important;
   max-height: 100% !important;
   display: flex !important;
-  grid-template-columns: none !important;
-  gap: 0 !important;
   background: #ffffff !important;
   border: 1.5px solid #e2e8f0 !important;
   border-radius: 16px !important;
   overflow: hidden !important;
-  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05) !important;
   position: relative !important;
-}
-
-.cat-ai-sidebar-panel {
-  width: 260px !important;
-  min-width: 260px !important;
-  flex-shrink: 0 !important;
-  height: 100% !important;
-  overflow-y: auto !important;
-  background: #0f172a !important;
-  color: #f8fafc !important;
-  border-right: 1.5px solid #1e293b !important;
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 1rem 0.9rem !important;
   box-sizing: border-box !important;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.cat-ai-workspace.history-collapsed .cat-ai-sidebar-panel {
-  width: 0 !important;
-  min-width: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border-right: none !important;
-  opacity: 0;
-  pointer-events: none;
+/* 4. Left History Drawer Panel (Hidden for Ultra-Clean UI) */
+.cat-ai-sidebar-panel {
+  display: none !important;
 }
 
+/* 5. Right Main Chat Area */
 .cat-ai-main-chat {
   flex: 1 !important;
   min-width: 0 !important;
+  width: 100% !important;
   height: 100% !important;
   max-height: 100% !important;
   display: flex !important;
@@ -7625,20 +7481,66 @@ body:has(#tab-catalogue-ai.active) .main-content > div:last-child {
   overflow: hidden !important;
   background: #ffffff !important;
   position: relative !important;
+  box-sizing: border-box !important;
 }
 
+/* 6. Clean, Sleek Copilot Header (Light Theme Enterprise) */
 .cat-ai-chat-header {
   flex-shrink: 0 !important;
-  padding: 0.65rem 1.25rem !important;
-  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
-  color: #ffffff !important;
+  height: 60px !important;
+  padding: 0 1.5rem !important;
+  background: #ffffff !important;
+  border-bottom: 1.5px solid #e2e8f0 !important;
+  color: #0f172a !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  border-bottom: 1.5px solid #334155 !important;
-  z-index: 5;
+  z-index: 5 !important;
+  box-sizing: border-box !important;
 }
 
+/* 7. Active Vehicle Pinned Session Bar */
+.cat-ai-active-vehicle-bar {
+  display: none !important;
+}
+
+.cat-ai-active-vehicle-bar.has-vehicle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-shrink: 0 !important;
+  min-height: 44px !important;
+  height: 44px !important;
+  padding: 0 1.5rem !important;
+  background: #f0fdf4 !important;
+  border-bottom: 1.5px solid #86efac !important;
+  color: #166534 !important;
+  box-sizing: border-box !important;
+}
+
+/* 8. Body Split (Chat Column + Side Inspector) */
+.cat-ai-body-split {
+  flex: 1 !important;
+  display: flex !important;
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.cat-ai-chat-column {
+  flex: 1 !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  background: #ffffff !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+/* 9. Scrollable Message Thread */
 .cat-ai-thread {
   flex: 1 !important;
   min-height: 0 !important;
@@ -7646,94 +7548,171 @@ body:has(#tab-catalogue-ai.active) .main-content > div:last-child {
   height: auto !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  padding: 1.25rem 1.5rem !important;
+  padding: 1.5rem 1.5rem !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 1.25rem !important;
   background: #f8fafc !important;
+  box-sizing: border-box !important;
+  scroll-behavior: smooth !important;
 }
 
+.cat-ai-thread > * {
+  max-width: 960px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
+}
+
+.cat-ai-thread::-webkit-scrollbar {
+  width: 6px;
+}
+.cat-ai-thread::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
+}
+
+/* 10. Firmly Anchored Bottom Input Wrapper (Always 100% visible) */
 .cat-ai-input-wrapper {
   flex-shrink: 0 !important;
   margin-top: auto !important;
   background: #ffffff !important;
   border-top: 1.5px solid #e2e8f0 !important;
-  padding: 0.75rem 1.25rem !important;
-  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.03) !important;
-  z-index: 10;
+  padding: 0.85rem 1.5rem 1rem 1.5rem !important;
+  box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.04) !important;
+  z-index: 10 !important;
+  box-sizing: border-box !important;
 }
 
-/* Light styling for wireframe car container in Greeting */
-.cat-ai-wireframe-container {
-  position: relative !important;
-  border-radius: 14px !important;
-  overflow: hidden !important;
-  background: #f8fafc !important;
-  border: 1.5px solid #e2e8f0 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03) !important;
+.cat-ai-capsule-bar {
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
   display: flex !important;
-  flex-direction: column !important;
   align-items: center !important;
-  justify-content: center !important;
-  padding: 0.75rem !important;
-  min-height: 190px !important;
-}
-
-.cat-ai-inspection-callout {
-  position: absolute !important;
-  bottom: 10px !important;
+  gap: 0.65rem !important;
   background: #ffffff !important;
-  border: 1.5px solid #0284c7 !important;
-  color: #0284c7 !important;
-  font-size: 0.74rem !important;
-  font-weight: 850 !important;
-  padding: 0.3rem 0.75rem !important;
-  border-radius: 999px !important;
-  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.15) !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 0.4rem !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 9999px !important;
+  padding: 0.35rem 0.5rem 0.35rem 0.75rem !important;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Catalog AI Copilot Split Layout (62% Chat / 38% Sticky Inspector) */
-.cat-ai-body-split {
+.cat-ai-capsule-bar:focus-within {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), 0 4px 14px rgba(37, 99, 235, 0.08) !important;
+}
+
+.cat-ai-capsule-bar input {
   flex: 1 !important;
-  display: flex !important;
-  min-height: 0 !important;
-  height: 100% !important;
-  overflow: hidden !important;
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+  font-size: 0.92rem !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  padding: 0.45rem 0.5rem !important;
 }
 
-.cat-ai-chat-column {
-  flex: 0 0 62% !important;
-  max-width: 62% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  border-right: 1.5px solid #e2e8f0 !important;
-  background: #ffffff !important;
-  position: relative !important;
+.cat-ai-capsule-bar input::placeholder {
+  color: #94a3b8 !important;
+  font-weight: 500 !important;
 }
 
+.cat-ai-send-btn {
+  background: linear-gradient(135deg, #ea580c, #f97316) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  padding: 0.55rem 1.35rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 850 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  white-space: nowrap !important;
+}
+
+.cat-ai-send-btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.45) !important;
+}
+
+/* Quick Query Suggestions Bar under Input */
+.cat-ai-quick-suggestions {
+  max-width: 960px !important;
+  margin: 0.55rem auto 0 auto !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  overflow-x: auto !important;
+  padding-bottom: 2px !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.cat-ai-quick-suggestions::-webkit-scrollbar {
+  display: none !important;
+}
+
+.cat-ai-diag-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+  gap: 0.75rem !important;
+}
+
+
+.cat-ai-quick-chip {
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #475569 !important;
+  border-radius: 9999px !important;
+  padding: 0.25rem 0.75rem !important;
+  font-size: 0.72rem !important;
+  font-weight: 750 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all 0.15s ease !important;
+}
+
+.cat-ai-quick-chip:hover {
+  background: #eff6ff !important;
+  border-color: #93c5fd !important;
+  color: #2563eb !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 11. Right Sticky Inspector Column */
 .cat-ai-side-inspector {
-  flex: 0 0 38% !important;
-  max-width: 38% !important;
+  flex: 0 0 340px !important;
+  width: 340px !important;
+  max-width: 340px !important;
   height: 100% !important;
   overflow-y: auto !important;
   background: #f8fafc !important;
+  border-left: 1.5px solid #e2e8f0 !important;
   padding: 1.15rem 1rem !important;
   box-sizing: border-box !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 1rem !important;
+  transition: all 0.25s ease !important;
+}
+
+.cat-ai-side-inspector.collapsed {
+  display: none !important;
 }
 
 .cat-ai-side-card {
   background: #ffffff !important;
   border: 1.5px solid #e2e8f0 !important;
-  border-radius: 12px !important;
-  padding: 1rem !important;
+  border-radius: 14px !important;
+  padding: 1rem 1.15rem !important;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
 }
 
@@ -7749,24 +7728,55 @@ body:has(#tab-catalogue-ai.active) .main-content > div:last-child {
   padding-bottom: 0.45rem !important;
 }
 
+/* 12. Fix All Action Button Shapes & Overlaps */
+.cat-ai-action-btn,
+.cat-ai-card-btn {
+  border-radius: 8px !important;
+  font-weight: 850 !important;
+  font-size: 0.78rem !important;
+  padding: 0.45rem 0.95rem !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  border: 1px solid transparent !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.35rem !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+}
+
+.cat-ai-action-btn.primary,
+.cat-ai-card-btn.primary {
+  background: linear-gradient(135deg, #0284c7, #2563eb) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25) !important;
+}
+
+.cat-ai-action-btn.primary:hover,
+.cat-ai-card-btn.primary:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35) !important;
+}
+
+.cat-ai-action-btn.secondary,
+.cat-ai-card-btn.secondary {
+  background: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+.cat-ai-action-btn.secondary:hover,
+.cat-ai-card-btn.secondary:hover {
+  background: #eff6ff !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+}
+
+/* 13. Responsive Breakpoints */
 @media (max-width: 1100px) {
-  .cat-ai-body-split {
-    flex-direction: column !important;
-    overflow-y: auto !important;
-  }
   .cat-ai-side-inspector {
-    flex: none !important;
-    max-width: 100% !important;
-    order: -1 !important;
-    max-height: 280px !important;
-    border-bottom: 1.5px solid #e2e8f0 !important;
-    border-left: none !important;
-  }
-  .cat-ai-chat-column {
-    flex: 1 !important;
-    max-width: 100% !important;
-    border-right: none !important;
-    min-height: 480px !important;
+    display: none !important;
   }
 }
 
@@ -7778,11 +7788,12 @@ body:has(#tab-catalogue-ai.active) .main-content > div:last-child {
     top: 0 !important;
     bottom: 0 !important;
     z-index: 50 !important;
-    width: 260px !important;
+    width: 280px !important;
     box-shadow: 4px 0 16px rgba(0, 0, 0, 0.3) !important;
   }
   .cat-ai-sidebar-panel.mobile-open {
     display: flex !important;
   }
 }
+
 

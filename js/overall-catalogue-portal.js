@@ -661,6 +661,8 @@ window.OverallCataloguePortal = {
         if (this.selectedMake) foParams.append('make', this.selectedMake);
         if (this.selectedModel) foParams.append('model', this.selectedModel);
         if (this.selectedVariant) foParams.append('sub_model', this.selectedVariant);
+        if (fuel) foParams.append('fuel', fuel);
+        if (year) foParams.append('year', year);
         const foRes = await fetch(`/api/overall-catalogue/filter-options?${foParams.toString()}`);
         if (foRes.ok) {
           const foData = await foRes.json();
@@ -670,20 +672,24 @@ window.OverallCataloguePortal = {
           const fuelSel = document.getElementById('v-filter-fuel');
           if (fuelSel) {
             const curFuel = fuelSel.value;
-            let fuelOpts = `<option value="">All Fuels</option>`;
-            dbFuels.forEach(f => {
-              const isSel = (curFuel.toUpperCase() === f.toUpperCase()) ? 'selected' : '';
-              fuelOpts += `<option value="${this.escapeHtml(f)}" ${isSel}>${this.escapeHtml(f)}</option>`;
-            });
-            fuelSel.innerHTML = fuelOpts;
-            if (curFuel && !dbFuels.some(f => f.toUpperCase() === curFuel.toUpperCase())) {
-              fuelSel.value = '';
+            // If user hasn't selected a fuel, or if year filtered fuels, rebuild fuel options cleanly
+            if (!fuel || year) {
+              let fuelOpts = `<option value="">All Fuels</option>`;
+              dbFuels.forEach(f => {
+                const isSel = (curFuel.toUpperCase() === f.toUpperCase()) ? 'selected' : '';
+                fuelOpts += `<option value="${this.escapeHtml(f)}" ${isSel}>${this.escapeHtml(f)}</option>`;
+              });
+              fuelSel.innerHTML = fuelOpts;
+              if (curFuel && !dbFuels.some(f => f.toUpperCase() === curFuel.toUpperCase())) {
+                fuelSel.value = '';
+              }
             }
           }
 
           const yrSel = document.getElementById('v-filter-year');
           if (yrSel) {
             const curYr = yrSel.value;
+            // Always rebuild year options based on strict valid years for this model and fuel
             let yrOpts = `<option value="">All Years</option>`;
             dbYears.forEach(y => {
               const isSel = (curYr === y) ? 'selected' : '';
@@ -730,11 +736,11 @@ window.OverallCataloguePortal = {
     // When fuel changes, reset year to cascade strictly
     const yrSel = document.getElementById('v-filter-year');
     if (yrSel) yrSel.value = '';
-    this.loadVisualVariants();
+    return this.loadVisualVariants();
   },
 
   onYearFilterSelect() {
-    this.loadVisualVariants();
+    return this.loadVisualVariants();
   },
 
   renderVisualVariants(variants) {
@@ -902,18 +908,18 @@ window.OverallCataloguePortal = {
           <div class="agg-vertical-card ${isSelected ? 'active' : ''}" 
                data-agg-name="${this.escapeHtml(item.name)}"
                onclick="OverallCataloguePortal.selectAggregateVisual('${this.escapeJs(item.name)}', this)">
-            <div style="display: flex; align-items: center; gap: 0.65rem; min-width: 0;">
-              <span style="font-size: 1.25rem; flex-shrink: 0;">${iconChar}</span>
-              <div style="min-width: 0;">
-                <div class="agg-vcard-name" style="font-size: 0.82rem; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${this.escapeHtml(item.name)}">
+            <div style="display: flex; align-items: center; gap: 0.5rem; min-width: 0; flex: 1;">
+              <span style="font-size: 1.15rem; flex-shrink: 0;">${iconChar}</span>
+              <div style="min-width: 0; flex: 1;">
+                <div class="agg-vcard-name" title="${this.escapeHtml(item.name)}">
                   ${this.escapeHtml(item.name)}
                 </div>
-                <div style="font-size: 0.68rem; color: #64748b; font-weight: 650;">
+                <div style="font-size: 0.66rem; color: #64748b; font-weight: 700; margin-top: 1px;">
                   ${Number(item.count || 0).toLocaleString('en-IN')} SKUs
                 </div>
               </div>
             </div>
-            <span class="agg-vcard-arrow" style="color: ${isSelected ? '#0284c7' : '#94a3b8'}; font-size: 0.9rem; font-weight: 900; transition: transform 0.15s;">➔</span>
+            <span class="agg-vcard-arrow" style="color: ${isSelected ? '#0284c7' : '#94a3b8'}; font-size: 0.85rem; font-weight: 900; transition: transform 0.15s; flex-shrink: 0;">➔</span>
           </div>
         `;
       }).join('');
@@ -1096,51 +1102,62 @@ window.OverallCataloguePortal = {
     if (b.includes('ZF')) return 'images/brands/zf.svg';
 
     // Private Label (PL)
-    if (b.includes('MYTVS') || b === 'TVS') return 'images/brands/mytvs.svg';
+    if (b.includes('MYTVS') || b === 'TVS' || b.includes('TVS MOBILITY')) return 'images/brands/mytvs.svg';
     if (b.includes('UCAP')) return 'images/brands/ucap.svg';
 
     // Lubes / Castrol
     if (b.includes('CASTROL')) return 'images/brands/castrol.svg';
 
     // Secondary / Aftermarket
-    if (b.includes('HELLA')) return 'images/brands/hella.svg';
-    if (b.includes('SKF')) return 'images/brands/skf.svg';
-    if (b.includes('NGK')) return 'images/brands/ngk.svg';
-    if (b.includes('BREMBO')) return 'images/brands/brembo.svg';
     if (b.includes('PUROLATOR')) return 'images/brands/purolator.svg';
+    if (b.includes('ELOFIC')) return 'images/brands/elofic.svg';
     if (b.includes('MAHLE')) return 'images/brands/mahle.svg';
-    if (b.includes('OSRAM')) return 'images/brands/osram.svg';
-    if (b.includes('WURTH')) return 'images/brands/wurth.svg';
-    if (b.includes('MINDA')) return 'images/brands/minda.svg';
+    if (b.includes('BREMBO')) return 'images/brands/brembo.svg';
+    if (b.includes('GABRIEL')) return 'images/brands/gabriel.svg';
+    if (b.includes('TALBROS')) return 'images/brands/talbros.svg';
+    if (b.includes('SOFIMA')) return 'images/brands/sofima.svg';
+    if (b.includes('ZIP')) return 'images/brands/zip.svg';
+    if (b.includes('FAG')) return 'images/brands/fag.svg';
+    if (b.includes('BRAKES INDIA')) return 'images/brands/brakes_india.svg';
+    if (b.includes('FERODO')) return 'images/brands/ferodo.svg';
+    if (b.includes('CONTITECH')) return 'images/brands/contitech.svg';
+    if (b.includes('BANDO')) return 'images/brands/bando.svg';
+    if (b.includes('SKF')) return 'images/brands/skf.svg';
     if (b.includes('LUMAX')) return 'images/brands/lumax.svg';
+    if (b.includes('MINDA')) return 'images/brands/minda.svg';
+    if (b.includes('EXEDY')) return 'images/brands/exedy.svg';
+    if (b.includes('CEEKAY')) return 'images/brands/ceekay.svg';
+    if (b.includes('HELLA')) return 'images/brands/hella.svg';
+    if (b.includes('NGK')) return 'images/brands/ngk.svg';
+    if (b.includes('OSRAM')) return 'images/brands/osram.svg';
     if (b.includes('ROOTS')) return 'images/brands/roots.svg';
+    if (b.includes('SACHS')) return 'images/brands/sachs.svg';
     if (b.includes('TRW')) return 'images/brands/trw.svg';
     if (b.includes('TVS GIRLING')) return 'images/brands/tvs_girling.svg';
-    if (b.includes('CEEKAY')) return 'images/brands/ceekay.svg';
-    if (b.includes('ELOFIC')) return 'images/brands/elofic.svg';
-    if (b.includes('EXEDY')) return 'images/brands/exedy.svg';
-    if (b.includes('SACHS')) return 'images/brands/sachs.svg';
+    if (b.includes('WURTH')) return 'images/brands/wurth.svg';
 
-    // OEM Brands
-    if (b.includes('MARUTI') || b.includes('SUZUKI') || b.includes('NEXA')) return 'images/makes/maruti.png';
-    if (b.includes('HYUNDAI') || b.includes('MOBIS')) return 'images/makes/hyundai.png';
-    if (b.includes('TATA')) return 'images/makes/tata.png';
-    if (b.includes('MAHINDRA')) return 'images/makes/mahindra.png';
-    if (b.includes('TOYOTA')) return 'images/makes/toyota.png';
-    if (b.includes('HONDA')) return 'images/makes/honda.png';
-    if (b.includes('KIA')) return 'images/makes/kia.png';
-    if (b.includes('FORD')) return 'images/makes/ford.png';
-    if (b.includes('VOLKSWAGEN') || b === 'VW') return 'images/makes/volkswagen.jpg';
-    if (b.includes('SKODA')) return 'images/makes/skoda.jpg';
-    if (b.includes('RENAULT')) return 'images/makes/renault.png';
-    if (b.includes('NISSAN')) return 'images/makes/nissan.png';
+    // OEM Brands (Authentic SVGs)
+    if (b.includes('MARUTI') || b.includes('SUZUKI') || b.includes('NEXA')) return 'images/brands/maruti_suzuki.svg';
+    if (b.includes('HYUNDAI') || b.includes('MOBIS')) return 'images/brands/hyundai.svg';
+    if (b.includes('TATA')) return 'images/brands/tata.svg';
+    if (b.includes('MAHINDRA')) return 'images/brands/mahindra.svg';
+    if (b.includes('TOYOTA')) return 'images/brands/toyota.svg';
+    if (b.includes('HONDA')) return 'images/brands/honda.svg';
+    if (b.includes('KIA')) return 'images/brands/kia.svg';
+    if (b.includes('FORD')) return 'images/brands/ford.svg';
+    if (b.includes('VOLKSWAGEN') || b === 'VW') return 'images/brands/volkswagen.svg';
+    if (b.includes('SKODA')) return 'images/brands/skoda.svg';
+    if (b.includes('RENAULT')) return 'images/brands/renault.svg';
+    if (b.includes('NISSAN')) return 'images/brands/nissan.svg';
+    if (b.includes('MG') || b.includes('MORRIS')) return 'images/brands/mg.svg';
+
+    // Other vehicle makes fallback
     if (b.includes('BMW')) return 'images/makes/bmw.png';
     if (b.includes('MERCEDES')) return 'images/makes/mercedes.jpg';
     if (b.includes('AUDI')) return 'images/makes/audi.png';
     if (b.includes('CHEVROLET')) return 'images/makes/chevrolet.png';
     if (b.includes('FIAT')) return 'images/makes/fiat.jpg';
     if (b.includes('JEEP')) return 'images/makes/jeep.png';
-    if (b.includes('MG') || b.includes('MORRIS')) return 'images/makes/mg.png';
     if (b.includes('VOLVO')) return 'images/makes/volvo.png';
     if (b.includes('FORCE')) return 'images/makes/force.png';
     if (b.includes('ASHOK') || b.includes('LEYLAND')) return 'images/makes/ashok_leyland.png';
@@ -1350,6 +1367,36 @@ window.OverallCataloguePortal = {
       if (elHeroTotal) elHeroTotal.textContent = records ? Number(records).toLocaleString('en-IN') : '—';
       if (elHeroChipSkus) elHeroChipSkus.textContent = records ? `${Number(records).toLocaleString('en-IN')} SKUs` : '—';
       if (elHeroChipMakes) elHeroChipMakes.textContent = (makes && models) ? `${makes} Makes • ${models} Models` : '—';
+
+      // Update Category Split Block 3 with Database Record Totals
+      if (data.category_split && data.category_split.categories) {
+        const catMap = {};
+        data.category_split.categories.forEach(c => { catMap[c.category] = c; });
+        if (catMap['Mechanical']) {
+          const el = document.getElementById('cat-split-val-mech');
+          const elP = document.getElementById('cat-split-pct-mech');
+          if (el) el.textContent = (catMap['Mechanical'].count / 1000000).toFixed(2) + 'M';
+          if (elP) elP.textContent = catMap['Mechanical'].pct + '%';
+        }
+        if (catMap['Body Parts']) {
+          const el = document.getElementById('cat-split-val-body');
+          const elP = document.getElementById('cat-split-pct-body');
+          if (el) el.textContent = (catMap['Body Parts'].count / 1000000).toFixed(2) + 'M';
+          if (elP) elP.textContent = catMap['Body Parts'].pct + '%';
+        }
+        if (catMap['Accessories']) {
+          const el = document.getElementById('cat-split-val-acc');
+          const elP = document.getElementById('cat-split-pct-acc');
+          if (el) el.textContent = (catMap['Accessories'].count / 1000000).toFixed(2) + 'M';
+          if (elP) elP.textContent = catMap['Accessories'].pct + '%';
+        }
+        if (catMap['Lubes & Fluids']) {
+          const el = document.getElementById('cat-split-val-lubes');
+          const elP = document.getElementById('cat-split-pct-lubes');
+          if (el) el.textContent = (catMap['Lubes & Fluids'].count / 1000000).toFixed(2) + 'M';
+          if (elP) elP.textContent = catMap['Lubes & Fluids'].pct + '%';
+        }
+      }
     } catch (err) {
       console.error("Error loading catalogue stats:", err);
       ['cat-stat-records', 'cat-stat-parts', 'cat-stat-brands', 'cat-stat-makes', 'cat-stat-taxonomy', 'cat-stat-subaggregates', 'cat-stat-components', 'cat-sidebar-badge', 'header-stat-skus', 'cat-hero-total-skus', 'cat-hero-chip-skus', 'cat-hero-chip-makes'].forEach(id => {
@@ -2476,6 +2523,8 @@ window.OverallCataloguePortal = {
         ? ComponentImageResolver.generateSvgUri(compName, aggregate)
         : 'images/home_menu_catalogue.jpg';
 
+      const brandLogoUrl = this.getBrandLogo(brand);
+
       return `
         <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
           <td style="font-weight: 850; color: #0284c7; font-family: monospace; font-size: 0.88rem; padding: 0.85rem 1rem; width: 140px; word-break: break-all;">
@@ -2486,10 +2535,19 @@ window.OverallCataloguePortal = {
               </span>
             ` : ''}
           </td>
-          <td style="padding: 0.85rem 1rem; width: 130px;">
-            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-              ${this.getQualityTierBadge(brand)}
-              ${this.getFitmentBadge(r)}
+          <td style="padding: 0.75rem 0.95rem; width: 145px; vertical-align: middle;">
+            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+              <div style="display: flex; align-items: center; gap: 0.45rem;">
+                ${brandLogoUrl ? `
+                  <div style="width: 44px; height: 26px; background: #ffffff; border: 1.2px solid #e2e8f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 2px 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); flex-shrink: 0;">
+                    <img src="${brandLogoUrl}" alt="${this.escapeHtml(brand)}" style="max-width: 100%; max-height: 20px; object-fit: contain;">
+                  </div>
+                ` : ''}
+                <strong style="font-size: 0.76rem; color: #0f172a; font-family: 'Outfit', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2;" title="${this.escapeHtml(brand)}">
+                  ${this.escapeHtml(brand)}
+                </strong>
+              </div>
+              <div>${this.getQualityTierBadge(brand)}</div>
             </div>
           </td>
           <td style="padding: 0.75rem 0.85rem; width: 175px;">
@@ -2623,6 +2681,8 @@ window.OverallCataloguePortal = {
 
       let list = listVal != null && Number(listVal) > 0 ? `₹${Number(listVal).toLocaleString('en-IN', {minimumFractionDigits: 2})}` : 'N/A';
 
+      const brandLogoUrl = this.getBrandLogo(brand);
+
       modalBody.innerHTML = `
         <div style="background: #f8fafc; border-radius: 14px; padding: 1.35rem; border: 1px solid #e2e8f0; margin-bottom: 1.5rem;">
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
@@ -2632,8 +2692,13 @@ window.OverallCataloguePortal = {
             </div>
             <div>
               <span style="font-size: 0.72rem; color: #64748b; text-transform: uppercase; font-weight: 850; display: block;">Brand Manufacturer</span>
-              <div style="display: flex; align-items: center; gap: 0.4rem; margin-top: 0.2rem;">
-                <strong style="font-size: 1.05rem; color: #b45309;">${this.escapeHtml(brand)}</strong>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem; flex-wrap: wrap;">
+                ${brandLogoUrl ? `
+                  <div style="width: 52px; height: 28px; background: #ffffff; border: 1.2px solid #e2e8f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 2px 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); flex-shrink: 0;">
+                    <img src="${brandLogoUrl}" alt="${this.escapeHtml(brand)}" style="max-width: 100%; max-height: 22px; object-fit: contain;">
+                  </div>
+                ` : ''}
+                <strong style="font-size: 1.05rem; color: #0f172a;">${this.escapeHtml(brand)}</strong>
                 ${this.getQualityTierBadge(brand)}
               </div>
             </div>
@@ -2764,6 +2829,7 @@ window.OverallCataloguePortal = {
                   </tr>
                 ` : oesParts.map(o => {
                   const oBrand = o.brand || 'GENERIC';
+                  const oLogo = this.getBrandLogo(oBrand);
                   const oPartNo = o.partNo || '';
                   const oDesc = o.desc || '';
                   const oMrp = o.mrp > 0 ? `₹${Number(o.mrp).toLocaleString('en-IN', {minimumFractionDigits: 2})}` : 'Price on Request';
@@ -2771,8 +2837,15 @@ window.OverallCataloguePortal = {
 
                   return `
                     <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                      <td style="font-weight: 850; color: #b45309; padding: 0.75rem;">
-                        <span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.74rem;">${this.escapeHtml(oBrand)}</span>
+                      <td style="padding: 0.75rem; vertical-align: middle;">
+                        <div style="display: flex; align-items: center; gap: 0.4rem;">
+                          ${oLogo ? `
+                            <div style="width: 40px; height: 22px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 5px; display: flex; align-items: center; justify-content: center; padding: 2px 3px; flex-shrink: 0;">
+                              <img src="${oLogo}" alt="${this.escapeHtml(oBrand)}" style="max-width: 100%; max-height: 16px; object-fit: contain;">
+                            </div>
+                          ` : ''}
+                          <span class="badge" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 0.15rem 0.45rem; border-radius: 5px; font-size: 0.72rem; font-weight: 850;">${this.escapeHtml(oBrand)}</span>
+                        </div>
                       </td>
                       <td style="font-weight: 850; color: #0284c7; font-family: monospace; font-size: 0.88rem; padding: 0.75rem; cursor: pointer;" onclick="OverallCataloguePortal.showPartDetails('${this.escapeJs(oPartNo)}')">
                         ${this.escapeHtml(oPartNo)} 🔗

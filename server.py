@@ -432,11 +432,16 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 make_val = get_param('make')
                 model_val = get_param('model')
                 sub_model_val = get_param('sub_model') or get_param('variant')
-                res = overall_catalogue_api.get_catalogue_filter_options(make_val, model_val, sub_model_val) if overall_catalogue_api else {"fuels": [], "years": []}
+                fuel_val = get_param('fuel') or get_param('fuel_type')
+                year_val = get_param('year')
+                res = overall_catalogue_api.get_catalogue_filter_options(make_val, model_val, sub_model_val, fuel_val, year_val) if overall_catalogue_api else {"fuels": [], "years": []}
+                resp_bytes = json.dumps(res, ensure_ascii=False).encode('utf-8')
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
+                self.send_header('Content-Length', str(len(resp_bytes)))
+                self.send_header('Connection', 'close')
                 self.end_headers()
-                self.wfile.write(json.dumps(res, ensure_ascii=False).encode('utf-8'))
+                self.wfile.write(resp_bytes)
                 return
 
             if path_only == '/api/overall-catalogue/stats':
@@ -506,10 +511,12 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"components": res}, ensure_ascii=False).encode('utf-8'))
                 return
 
-            if path_only == '/api/oem-to-oes/convert':
+            if path_only in ('/api/oem-to-oes/convert', '/api/oem-to-oes/search'):
                 q_val = get_param('q') or get_param('query') or ''
-                import oem_to_oes_service
-                conv_res = oem_to_oes_service.convert_oem_to_oes(q_val)
+                m_val = get_param('model') or get_param('selected_model') or None
+                import importlib, oem_to_oes_service
+                importlib.reload(oem_to_oes_service)
+                conv_res = oem_to_oes_service.convert_oem_to_oes(q_val, selected_model=m_val)
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()
@@ -805,9 +812,10 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 content_length = int(self.headers.get('Content-Length', 0))
                 body_bytes = self.rfile.read(content_length)
                 payload = json.loads(body_bytes.decode('utf-8'))
-                query = payload.get('query') or payload.get('message') or ''
+                query = payload.get('query') or payload.get('message') or payload.get('q') or ''
+                model = payload.get('model') or payload.get('selected_model') or None
                 import oem_to_oes_service
-                conv_res = oem_to_oes_service.convert_oem_to_oes(query)
+                conv_res = oem_to_oes_service.convert_oem_to_oes(query, selected_model=model)
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json; charset=utf-8')
                 self.end_headers()

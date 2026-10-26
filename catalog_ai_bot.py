@@ -915,6 +915,63 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
             }
         }
 
+    # 1D. FUEL & YEAR COMMAND HANDLERS
+    if user_text.startswith("SET_FUEL:"):
+        fuel_val = user_text.replace("SET_FUEL:", "").strip()
+        session_state["fuel"] = fuel_val
+        curr_make = session_state.get("make")
+        curr_model = session_state.get("model")
+        curr_year = session_state.get("year")
+        import overall_catalogue_api
+        f_opts = overall_catalogue_api.get_catalogue_filter_options(curr_make, curr_model, fuel=fuel_val, year=curr_year)
+        fuel_options = f_opts.get("fuels") or [fuel_val]
+        year_options = f_opts.get("years") or []
+        if "All Years" not in year_options:
+            year_options.append("All Years")
+        return {
+            "reply": f"Selected **{fuel_val}** for **{curr_make} {curr_model}**. Select manufacturing year or explore trims below:",
+            "step": "ask_fuel_year",
+            "state": session_state,
+            "action": {
+                "type": "fuel_year_prompt",
+                "make": curr_make,
+                "model": curr_model,
+                "component": session_state.get("component"),
+                "selected_fuel": fuel_val,
+                "selected_year": curr_year,
+                "fuel_options": fuel_options,
+                "year_options": year_options
+            }
+        }
+
+    if user_text.startswith("SET_YEAR:"):
+        yr_val = user_text.replace("SET_YEAR:", "").strip()
+        session_state["year"] = yr_val if yr_val != "All Years" else None
+        curr_make = session_state.get("make")
+        curr_model = session_state.get("model")
+        curr_fuel = session_state.get("fuel")
+        import overall_catalogue_api
+        f_opts = overall_catalogue_api.get_catalogue_filter_options(curr_make, curr_model, fuel=curr_fuel, year=session_state["year"])
+        fuel_options = f_opts.get("fuels") or ["Petrol", "Diesel"]
+        year_options = f_opts.get("years") or []
+        if "All Years" not in year_options:
+            year_options.append("All Years")
+        return {
+            "reply": f"Selected Year **{yr_val}** for **{curr_make} {curr_model}**. Click 'Explore Variants' to continue:",
+            "step": "ask_fuel_year",
+            "state": session_state,
+            "action": {
+                "type": "fuel_year_prompt",
+                "make": curr_make,
+                "model": curr_model,
+                "component": session_state.get("component"),
+                "selected_fuel": curr_fuel,
+                "selected_year": yr_val,
+                "fuel_options": fuel_options,
+                "year_options": year_options
+            }
+        }
+
     # 2. CHECK IF COMPONENT WAS SELECTED VIA COMPANION RECOMMENDATION
     if user_text.startswith("SELECT_COMPANION:"):
         comp_target = user_text.replace("SELECT_COMPANION:", "").strip()
@@ -1003,6 +1060,9 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
     curr_make = session_state.get("make")
     curr_model = session_state.get("model")
     curr_comp = session_state.get("component")
+    curr_sub = session_state.get("sub_model")
+    curr_fuel = session_state.get("fuel")
+    curr_year = session_state.get("year")
 
     if curr_make and curr_model:
         # Case A: Variant (sub_model) IS KNOWN
@@ -1135,10 +1195,9 @@ def process_chat_message(user_message, session_state=None, vehicle_context=None)
         else:
             # Query live filter options from DB for this make & model
             import overall_catalogue_api
-            f_opts = overall_catalogue_api.get_catalogue_filter_options(curr_make, curr_model)
-            fuel_options = f_opts.get("fuels") or ["Petrol", "Diesel", "CNG"]
-            raw_years = f_opts.get("years") or []
-            year_options = raw_years[:10] if raw_years else ["2024", "2023", "2022", "2021", "2020"]
+            f_opts = overall_catalogue_api.get_catalogue_filter_options(curr_make, curr_model, fuel=curr_fuel, year=curr_year)
+            fuel_options = f_opts.get("fuels") or ["Petrol", "Diesel"]
+            year_options = f_opts.get("years") or []
             if "All Years" not in year_options:
                 year_options.append("All Years")
 
