@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="csGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+  <rect width="300" height="200" rx="12" fill="url(#csGrad)"/>
+  <rect width="300" height="200" rx="12" fill="url(#grid)"/>
+  
+  <!-- Subtle Automotive Schematic Icon -->
+  <g transform="translate(150, 80) scale(1.1)" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="0" cy="0" r="28" stroke-dasharray="4 3"/>
+    <path d="M -12 -12 L 12 12 M -12 12 L 12 -12"/>
+    <circle cx="0" cy="0" r="10" fill="#e2e8f0"/>
+  </g>
+  
+  <rect x="75" y="130" width="150" height="26" rx="13" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="150" y="147" font-family="'Outfit', 'Inter', sans-serif" font-weight="850" font-size="11" fill="#475569" text-anchor="middle" letter-spacing="0.8">IMAGE COMING SOON</text>
+  <text x="150" y="174" font-family="'Inter', sans-serif" font-weight="600" font-size="9" fill="#94a3b8" text-anchor="middle">Verified OEM/OES Specs Available</text>
+</svg>

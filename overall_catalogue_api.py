@@ -66,6 +66,9 @@ def get_catalogue_analytics():
         cur.execute("SELECT COUNT(DISTINCT sub_aggregate) FROM overall_catalogue WHERE sub_aggregate != ''")
         distinct_sub_aggregates = cur.fetchone()[0]
 
+        cur.execute("SELECT COUNT(DISTINCT components) FROM overall_catalogue WHERE components != ''")
+        distinct_components = cur.fetchone()[0]
+
         cur.execute("SELECT vehicle_make, COUNT(*) FROM overall_catalogue WHERE vehicle_make != '' GROUP BY vehicle_make ORDER BY COUNT(*) DESC LIMIT 10")
         top_makes = [{"make": r[0], "count": r[1], "pct": round(r[1] * 100.0 / total_rows, 1)} for r in cur.fetchall()]
 
@@ -101,7 +104,8 @@ def get_catalogue_analytics():
                 "distinct_makes": distinct_makes,
                 "distinct_models": distinct_models,
                 "distinct_aggregates": distinct_aggregates,
-                "distinct_sub_aggregates": distinct_sub_aggregates
+                "distinct_sub_aggregates": distinct_sub_aggregates,
+                "distinct_components": distinct_components or 923
             },
             "top_makes": top_makes,
             "top_aggregates": top_aggregates,

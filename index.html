@@ -776,24 +776,24 @@
 
         <div class="cat-datablocks-grid">
           <!-- Block 1: TAXONOMY STRUCTURE -->
-          <div class="card" style="background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 16px; padding: 1.25rem 1.25rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(225, 29, 72, 0.04); overflow: hidden;">
-            <div style="flex: 1; min-width: 0;">
+          <div class="card" style="background: #fff1f2; border: 1.5px solid #fecdd3; border-radius: 16px; padding: 1.25rem 1.15rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(225, 29, 72, 0.04); overflow: hidden;">
+            <div style="flex: 1; min-width: 0; padding-right: 0.65rem;">
               <div style="font-size: 0.72rem; font-weight: 900; color: #9f1239; text-transform: uppercase; letter-spacing: 0.8px;">TAXONOMY STRUCTURE</div>
-              <div style="display: flex; align-items: baseline; gap: 0.45rem; margin-top: 0.25rem;">
-                <span id="cat-stat-taxonomy" style="font-size: 2.2rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1;">—</span>
-                <span style="font-size: 1.05rem; font-weight: 900; color: #9f1239; font-family: 'Outfit', sans-serif;">System Aggregates</span>
+              <div style="display: flex; align-items: baseline; gap: 0.35rem; margin-top: 0.25rem;">
+                <span id="cat-stat-taxonomy" style="font-size: 2.1rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1;">29</span>
+                <span style="font-size: 0.95rem; font-weight: 900; color: #9f1239; font-family: 'Outfit', sans-serif; white-space: nowrap;">Aggregates</span>
               </div>
-              <div style="font-size: 0.72rem; color: #be123c; margin-top: 0.25rem; font-weight: 750;">Canonical Vehicle Systems</div>
+              <div style="font-size: 0.7rem; color: #be123c; margin-top: 0.25rem; font-weight: 750;">Canonical Vehicle Systems</div>
             </div>
             <!-- Clean Real Metrics Badge Strip -->
             <div style="display: flex; flex-direction: column; align-items: stretch; gap: 0.45rem; border-left: 2px dashed #fda4af; padding-left: 0.85rem; flex-shrink: 0;">
               <div style="background: #ffffff; border: 1.5px solid #fda4af; border-radius: 8px; padding: 0.3rem 0.6rem; text-align: center; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.06); min-width: 82px;">
-                <div id="cat-stat-subaggregates" style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">—</div>
+                <div id="cat-stat-subaggregates" style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">213</div>
                 <div style="font-size: 0.6rem; font-weight: 850; color: #9f1239; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.4px;">SUB-AGGREGATES</div>
               </div>
               <div style="background: #ffffff; border: 1.5px solid #fda4af; border-radius: 8px; padding: 0.3rem 0.6rem; text-align: center; box-shadow: 0 2px 6px rgba(225, 29, 72, 0.06); min-width: 82px;">
-                <div style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">LIVE</div>
-                <div style="font-size: 0.6rem; font-weight: 850; color: #9f1239; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.4px;">TAXONOMY</div>
+                <div id="cat-stat-components" style="font-size: 1.05rem; font-weight: 900; color: #e11d48; font-family: 'Outfit', sans-serif; line-height: 1.1;">923</div>
+                <div style="font-size: 0.6rem; font-weight: 850; color: #9f1239; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.4px;">COMPONENTS</div>
               </div>
             </div>
           </div>
@@ -876,31 +876,50 @@
               <div style="width: 1.1%; background: #ec4899;" title="Consumables: 10 components (1.1%)"></div>
             </div>
 
-            <!-- Category Legend Items with Counts (Balanced 2x2 Grid with No Wrapping) -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.74rem;">
-              <div style="display: flex; align-items: center; justify-content: space-between; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 0.45rem 0.65rem; min-height: 38px;">
-                <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #1e40af; font-weight: 800; white-space: nowrap;">
-                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #0284c7; flex-shrink: 0;"></span> Mechanical
-                </span>
-                <span style="font-weight: 850; color: #0f172a; white-space: nowrap; margin-left: 0.25rem;">621 <small style="color: #64748b; font-weight: 600;">(67.3%)</small></span>
+            <!-- Category Legend Items with Counts (2x2 Balanced Cards with Zero Truncation) -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+              <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 0.45rem 0.65rem;">
+                <div style="display: flex; align-items: center; gap: 0.35rem; color: #1e40af; font-weight: 800; font-size: 0.72rem; margin-bottom: 0.25rem;">
+                  <span style="width: 7px; height: 7px; border-radius: 50%; background: #0284c7; flex-shrink: 0;"></span>
+                  <span>Mechanical</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                  <span style="font-weight: 900; color: #0f172a; font-size: 0.86rem; font-family: 'Outfit', sans-serif;">621</span>
+                  <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">67.3%</span>
+                </div>
               </div>
-              <div style="display: flex; align-items: center; justify-content: space-between; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 0.45rem 0.65rem; min-height: 38px;">
-                <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #c2410c; font-weight: 800; white-space: nowrap;">
-                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #f97316; flex-shrink: 0;"></span> Body Parts
-                </span>
-                <span style="font-weight: 850; color: #0f172a; white-space: nowrap; margin-left: 0.25rem;">210 <small style="color: #64748b; font-weight: 600;">(22.8%)</small></span>
+              
+              <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 0.45rem 0.65rem;">
+                <div style="display: flex; align-items: center; gap: 0.35rem; color: #c2410c; font-weight: 800; font-size: 0.72rem; margin-bottom: 0.25rem;">
+                  <span style="width: 7px; height: 7px; border-radius: 50%; background: #f97316; flex-shrink: 0;"></span>
+                  <span>Body Parts</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                  <span style="font-weight: 900; color: #0f172a; font-size: 0.86rem; font-family: 'Outfit', sans-serif;">210</span>
+                  <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">22.8%</span>
+                </div>
               </div>
-              <div style="display: flex; align-items: center; justify-content: space-between; background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 0.45rem 0.65rem; min-height: 38px;">
-                <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #6d28d9; font-weight: 800; white-space: nowrap;">
-                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #8b5cf6; flex-shrink: 0;"></span> Accessories
-                </span>
-                <span style="font-weight: 850; color: #0f172a; white-space: nowrap; margin-left: 0.25rem;">61 <small style="color: #64748b; font-weight: 600;">(6.6%)</small></span>
+
+              <div style="background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 0.45rem 0.65rem;">
+                <div style="display: flex; align-items: center; gap: 0.35rem; color: #6d28d9; font-weight: 800; font-size: 0.72rem; margin-bottom: 0.25rem;">
+                  <span style="width: 7px; height: 7px; border-radius: 50%; background: #8b5cf6; flex-shrink: 0;"></span>
+                  <span>Accessories</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                  <span style="font-weight: 900; color: #0f172a; font-size: 0.86rem; font-family: 'Outfit', sans-serif;">61</span>
+                  <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">6.6%</span>
+                </div>
               </div>
-              <div style="display: flex; align-items: center; justify-content: space-between; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 0.45rem 0.65rem; min-height: 38px;">
-                <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #047857; font-weight: 800; white-space: nowrap;">
-                  <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></span> Lubes & Fluids
-                </span>
-                <span style="font-weight: 850; color: #0f172a; white-space: nowrap; margin-left: 0.25rem;">21 <small style="color: #64748b; font-weight: 600;">(2.3%)</small></span>
+
+              <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 0.45rem 0.65rem;">
+                <div style="display: flex; align-items: center; gap: 0.35rem; color: #047857; font-weight: 800; font-size: 0.72rem; margin-bottom: 0.25rem;">
+                  <span style="width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0;"></span>
+                  <span>Lubes &amp; Fluids</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                  <span style="font-weight: 900; color: #0f172a; font-size: 0.86rem; font-family: 'Outfit', sans-serif;">21</span>
+                  <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">2.3%</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1253,7 +1272,7 @@
                 </div>
 
                 <!-- RIGHT COLUMN: DYNAMIC SUB-AGGREGATES (Refreshes Immediately on Aggregate Selection) -->
-                <div class="sub-aggregate-stage-window" id="v-subagg-stage-window" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem 1.4rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); min-height: 520px; display: flex; flex-direction: column;">
+                <div class="sub-aggregate-stage-window" id="v-subagg-stage-window" style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 1.25rem 1.4rem; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04); min-height: 440px; max-height: 580px; display: flex; flex-direction: column; overflow: hidden;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 0.85rem; flex-wrap: wrap; gap: 0.75rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                       <span id="v-selected-agg-badge-icon" style="font-size: 1.6rem; width: 44px; height: 44px; border-radius: 10px; background: #eff6ff; display: flex; align-items: center; justify-content: center; border: 1px solid #bfdbfe;">🛑</span>

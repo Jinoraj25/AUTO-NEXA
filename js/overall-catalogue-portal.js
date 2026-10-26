@@ -831,14 +831,6 @@ window.OverallCataloguePortal = {
     
     // Load System Aggregates
     this.loadVisualAggregates();
-
-    // Smooth scroll directly to Step 4 Aggregate Selection Studio
-    setTimeout(() => {
-      const step4Stage = document.getElementById('v-exploded-stage') || document.getElementById('v-nav-step-4');
-      if (step4Stage) {
-        step4Stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
   },
 
   async loadVisualAggregates() {
@@ -1016,21 +1008,12 @@ window.OverallCataloguePortal = {
         subList.innerHTML = `<div style="text-align: center; padding: 2.5rem; color: #64748b; grid-column: 1 / -1;">All parts directly mapped to ${this.escapeHtml(aggName)}. Filtered below in Master Catalogue.</div>`;
       } else {
         subList.innerHTML = items.map(item => `
-          <div class="subagg-card-item ${this.selectedSubAggregate === item.name ? 'active' : ''}" 
-               onclick="OverallCataloguePortal.selectSubAggregateVisual('${this.escapeJs(item.name)}', this)">
-            <div style="display: flex; align-items: center; gap: 0.65rem; min-width: 0;">
-              <span style="font-size: 1.15rem; color: #0284c7; flex-shrink: 0;">📁</span>
-              <div style="min-width: 0;">
-                <strong style="font-size: 0.82rem; color: #0f172a; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${this.escapeHtml(item.name)}">
-                  ${this.escapeHtml(item.name)}
-                </strong>
-                <span style="font-size: 0.68rem; color: #64748b; font-weight: 700;">Sub-Aggregate Assembly</span>
-              </div>
-            </div>
-            <span class="count-badge" style="background: #eff6ff; color: #0284c7; font-size: 0.72rem; font-weight: 850; padding: 0.2rem 0.55rem; border-radius: 6px; border: 1px solid #bfdbfe; flex-shrink: 0;">
-              ${Number(item.count || 0).toLocaleString('en-IN')} SKUs
-            </span>
-          </div>
+          <button type="button" class="subagg-rect-card ${this.selectedSubAggregate === item.name ? 'active' : ''}" 
+                  onclick="OverallCataloguePortal.selectSubAggregateVisual('${this.escapeJs(item.name)}', this)"
+                  title="${this.escapeHtml(item.name)}">
+            <span class="subagg-rect-name">${this.escapeHtml(item.name)}</span>
+            <span class="subagg-rect-count">${Number(item.count || 0).toLocaleString('en-IN')} SKUs</span>
+          </button>
         `).join('');
       }
 
@@ -1051,7 +1034,7 @@ window.OverallCataloguePortal = {
     delete this.filters.component;
 
     // Highlight active card
-    document.querySelectorAll('#v-tax-subagg-list .subagg-card-item').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('#v-tax-subagg-list .subagg-rect-card').forEach(p => p.classList.remove('active'));
     if (elem) elem.classList.add('active');
 
     // Trigger catalogue query filtered to this sub-aggregate
@@ -1065,26 +1048,129 @@ window.OverallCataloguePortal = {
     }
   },
 
+  getBrandLogo(brandName) {
+    const b = (brandName || '').trim().toUpperCase();
+    if (!b) return '';
 
+    // Primary OES Brands (From Category Master)
+    if (b.includes('BOSCH')) return 'images/brands/bosch.svg';
+    if (b.includes('VALEO')) return 'images/brands/valeo.svg';
+    if (b.includes('DELPHI')) return 'images/brands/delphi.svg';
+    if (b.includes('DENSO')) return 'images/brands/denso.svg';
+    if (b.includes('FILTRON')) return 'images/brands/filtron.svg';
+    if (b.includes('INA')) return 'images/brands/ina.svg';
+    if (b.includes('JK TYRE') || b === 'JK') return 'images/brands/jk_tyre.svg';
+    if (b.includes('KK LIGHT') || b === 'KK') return 'images/brands/kk_lightings.svg';
+    if (b.includes('LUK')) return 'images/brands/luk.svg';
+    if (b.includes('MONROE')) return 'images/brands/monroe.svg';
+    if (b.includes('RANE')) return 'images/brands/rane.svg';
+    if (b.includes('ZF')) return 'images/brands/zf.svg';
+
+    // Private Label (PL)
+    if (b.includes('MYTVS') || b === 'TVS') return 'images/brands/mytvs.svg';
+    if (b.includes('UCAP')) return 'images/brands/ucap.svg';
+
+    // Lubes / Castrol
+    if (b.includes('CASTROL')) return 'images/brands/castrol.svg';
+
+    // Secondary / Aftermarket
+    if (b.includes('HELLA')) return 'images/brands/hella.svg';
+    if (b.includes('SKF')) return 'images/brands/skf.svg';
+    if (b.includes('NGK')) return 'images/brands/ngk.svg';
+    if (b.includes('BREMBO')) return 'images/brands/brembo.svg';
+    if (b.includes('PUROLATOR')) return 'images/brands/purolator.svg';
+    if (b.includes('MAHLE')) return 'images/brands/mahle.svg';
+    if (b.includes('OSRAM')) return 'images/brands/osram.svg';
+    if (b.includes('WURTH')) return 'images/brands/wurth.svg';
+    if (b.includes('MINDA')) return 'images/brands/minda.svg';
+    if (b.includes('LUMAX')) return 'images/brands/lumax.svg';
+    if (b.includes('ROOTS')) return 'images/brands/roots.svg';
+    if (b.includes('TRW')) return 'images/brands/trw.svg';
+    if (b.includes('TVS GIRLING')) return 'images/brands/tvs_girling.svg';
+    if (b.includes('CEEKAY')) return 'images/brands/ceekay.svg';
+    if (b.includes('ELOFIC')) return 'images/brands/elofic.svg';
+    if (b.includes('EXEDY')) return 'images/brands/exedy.svg';
+    if (b.includes('SACHS')) return 'images/brands/sachs.svg';
+
+    // OEM Brands
+    if (b.includes('MARUTI') || b.includes('SUZUKI') || b.includes('NEXA')) return 'images/makes/maruti.png';
+    if (b.includes('HYUNDAI') || b.includes('MOBIS')) return 'images/makes/hyundai.png';
+    if (b.includes('TATA')) return 'images/makes/tata.png';
+    if (b.includes('MAHINDRA')) return 'images/makes/mahindra.png';
+    if (b.includes('TOYOTA')) return 'images/makes/toyota.png';
+    if (b.includes('HONDA')) return 'images/makes/honda.png';
+    if (b.includes('KIA')) return 'images/makes/kia.png';
+    if (b.includes('FORD')) return 'images/makes/ford.png';
+    if (b.includes('VOLKSWAGEN') || b === 'VW') return 'images/makes/volkswagen.jpg';
+    if (b.includes('SKODA')) return 'images/makes/skoda.jpg';
+    if (b.includes('RENAULT')) return 'images/makes/renault.png';
+    if (b.includes('NISSAN')) return 'images/makes/nissan.png';
+    if (b.includes('BMW')) return 'images/makes/bmw.png';
+    if (b.includes('MERCEDES')) return 'images/makes/mercedes.jpg';
+    if (b.includes('AUDI')) return 'images/makes/audi.png';
+    if (b.includes('CHEVROLET')) return 'images/makes/chevrolet.png';
+    if (b.includes('FIAT')) return 'images/makes/fiat.jpg';
+    if (b.includes('JEEP')) return 'images/makes/jeep.png';
+    if (b.includes('MG') || b.includes('MORRIS')) return 'images/makes/mg.png';
+    if (b.includes('VOLVO')) return 'images/makes/volvo.png';
+    if (b.includes('FORCE')) return 'images/makes/force.png';
+    if (b.includes('ASHOK') || b.includes('LEYLAND')) return 'images/makes/ashok_leyland.png';
+
+    return '';
+  },
+
+  getComponentImage(desc, comp, agg) {
+    const text = `${desc || ''} ${comp || ''} ${agg || ''}`.toUpperCase();
+    if (text.includes('OIL FILTER') || (text.includes('FILTER') && text.includes('OIL'))) return 'images/components/oil_filter.jpg';
+    if (text.includes('AIR FILTER') || (text.includes('FILTER') && text.includes('AIR'))) return 'images/components/air_filter.jpg';
+    if (text.includes('FUEL FILTER') || text.includes('DIESEL FILTER') || text.includes('PETROL FILTER')) return 'images/components/fuel_filter.jpg';
+    if (text.includes('BRAKE PAD') || text.includes('PAD SET')) return 'images/components/brake_pad.jpg';
+    if (text.includes('BRAKE DISC') || text.includes('ROTOR') || text.includes('BRAKE DRUM')) return 'images/components/brake_disc.jpg';
+    if (text.includes('CLUTCH DISC') || text.includes('CLUTCH PLATE') || text.includes('CLUTCH COVER') || text.includes('CLUTCH SET')) return 'images/components/clutch_disc.jpg';
+    if (text.includes('SPARK PLUG') || text.includes('GLOW PLUG')) return 'images/components/spark_plug.jpg';
+    if (text.includes('BATTERY')) return 'images/components/battery.jpg';
+    if (text.includes('SHOCK ABSORBER') || text.includes('STRUT') || text.includes('DAMPER')) return 'images/components/shock_absorber.jpg';
+    if (text.includes('COOLANT') || text.includes('ANTIFREEZE')) return 'images/components/coolant.jpg';
+    if (text.includes('ENGINE OIL') || text.includes('SYNTHETIC OIL') || text.includes('MINERAL OIL') || text.includes('TRANSMISSION OIL') || text.includes('GEAR OIL') || text.includes('BRAKE FLUID')) return 'images/components/engine_oil.jpg';
+    if (text.includes('BULB') || text.includes('HEADLIGHT') || text.includes('LAMP') || text.includes('LIGHTING')) return 'images/components/bulb.jpg';
+    if (text.includes('STEERING') || text.includes('TIE ROD') || text.includes('RACK END') || text.includes('BALL JOINT') || text.includes('CONTROL ARM')) return 'images/components/steering.jpg';
+    return 'images/components/coming_soon.svg';
+  },
+
+  getBrandCategoryBadge(brand) {
+    const b = (brand || '').trim().toUpperCase();
+    
+    // PL (Private Label)
+    if (b === 'MYTVS' || b.includes('MYTVS') || b === 'UCAP') {
+      return `<span class="badge" style="background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe; font-size: 0.65rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px;">⭐ myTVS PL</span>`;
+    }
+    
+    // PRIMARY (Tier-1 OES)
+    const primaryList = ['BOSCH', 'DELPHI TECH', 'DENSO', 'FILTRON', 'INA', 'JK TYRE', 'KK LIGHTINGS', 'LUK', 'MONROE', 'RANE MADRAS LIMITED', 'VALEO', 'ZF'];
+    if (primaryList.some(p => b === p || b.includes(p))) {
+      return `<span class="badge" style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; font-size: 0.65rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px;">⚙️ Primary OES</span>`;
+    }
+
+    // OEM GENUINE
+    const oemList = ['MARUTI', 'HYUNDAI', 'TATA', 'MAHINDRA', 'TOYOTA', 'HONDA', 'KIA', 'FORD', 'VOLKSWAGEN', 'SKODA', 'RENAULT', 'NISSAN', 'BMW', 'MERCEDES', 'AUDI', 'CHEVROLET', 'FIAT', 'JEEP', 'MORRIS', 'VOLVO', 'FORCE', 'ASHOK LEYLAND', 'MITSUBISHI', 'GENUINE', 'MOBIS'];
+    if (oemList.some(o => b.includes(o))) {
+      return `<span class="badge" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-size: 0.65rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px;">🛡️ OEM Genuine</span>`;
+    }
+
+    // LUBES & FLUIDS / CASTROL
+    if (b.includes('CASTROL') || b.includes('SHELL') || b.includes('ADD LUB') || b.includes('MOBIL') || b.includes('LUBES')) {
+      return `<span class="badge" style="background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; font-size: 0.65rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px;">🛢️ Lubes & Castrol</span>`;
+    }
+
+    // SECONDARY (Aftermarket)
+    return `<span class="badge" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; font-size: 0.65rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px;">💎 Secondary Aftermarket</span>`;
+  },
 
   getQualityTierBadge(brand) {
-    const b = (brand || '').toUpperCase();
-    if (b.includes('GENUINE') || b.includes('MOBIS') || b.includes('OEM') || b.includes('MARUTI') || b.includes('HYUNDAI') || b.includes('TATA') || b.includes('TOYOTA')) {
-      return `<span class="badge tier-badge-oem">🛡️ OEM Genuine</span>`;
-    }
-    if (['BOSCH', 'VALEO', 'SCHAEFFLER', 'LUK', 'MONROE', 'GABRIEL', 'TVS', 'RANE', 'LUMAX', 'DENSO', 'SUBROS'].some(x => b.includes(x))) {
-      return `<span class="badge tier-badge-oes">⚙️ Tier-1 OES</span>`;
-    }
-    if (['MINDA', 'PUROLATOR', 'ELOFIC', 'BREMBO', 'NGK', 'EXIDE', 'AMARON', 'CASTROL', 'MOBIL', 'SHELL'].some(x => b.includes(x))) {
-      return `<span class="badge tier-badge-aftermarket">💎 Premium Aftermarket</span>`;
-    }
-    return `<span class="badge" style="background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-size: 0.65rem; font-weight: 800; padding: 0.12rem 0.4rem; border-radius: 4px;">📦 Certified Value</span>`;
+    return this.getBrandCategoryBadge(brand);
   },
 
   getFitmentBadge(row) {
-    if (this.selectedModel || this.filters.model || this.selectedVariant) {
-      return `<span class="badge badge-guaranteed-fitment">✅ Guaranteed Fit</span>`;
-    }
     return '';
   },
 
@@ -1148,6 +1234,13 @@ window.OverallCataloguePortal = {
     if (p3) p3.style.display = (stepNum === 3) ? 'block' : 'none';
     if (p4) p4.style.display = (stepNum === 4 || stepNum === 5) ? 'block' : 'none';
     
+    if (stepNum >= 2 && stepNum <= 4) {
+      const navContainer = document.getElementById('cat-visual-navigator');
+      if (navContainer) {
+        navContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    
     if (stepNum === 5) {
       const tableContainer = document.querySelector('.cat-recent-activity-card');
       if (tableContainer) {
@@ -1199,6 +1292,7 @@ window.OverallCataloguePortal = {
       const models = totals.distinct_models;
       const aggregates = totals.distinct_aggregates || 29;
       const subaggregates = totals.distinct_sub_aggregates || 213;
+      const components = totals.distinct_components || 923;
 
       const elRecords = document.getElementById('cat-stat-records');
       const elParts = document.getElementById('cat-stat-parts');
@@ -1206,6 +1300,7 @@ window.OverallCataloguePortal = {
       const elMakes = document.getElementById('cat-stat-makes');
       const elTaxonomy = document.getElementById('cat-stat-taxonomy');
       const elSubAgg = document.getElementById('cat-stat-subaggregates');
+      const elComponents = document.getElementById('cat-stat-components');
       const elSidebarBadge = document.getElementById('cat-sidebar-badge');
       const elHeaderSkus = document.getElementById('header-stat-skus');
       const elHeroTotal = document.getElementById('cat-hero-total-skus');
@@ -1218,6 +1313,7 @@ window.OverallCataloguePortal = {
       if (elMakes) elMakes.textContent = (makes && models) ? `${makes} Makes • ${models} Models` : '—';
       if (elTaxonomy) elTaxonomy.textContent = aggregates ? String(aggregates) : '—';
       if (elSubAgg) elSubAgg.textContent = subaggregates ? String(subaggregates) : '—';
+      if (elComponents) elComponents.textContent = components ? Number(components).toLocaleString('en-IN') : '923';
 
       const mCount = records ? (records / 1000000).toFixed(1) + 'M' : '—';
       if (elSidebarBadge) elSidebarBadge.textContent = mCount;
@@ -1227,7 +1323,7 @@ window.OverallCataloguePortal = {
       if (elHeroChipMakes) elHeroChipMakes.textContent = (makes && models) ? `${makes} Makes • ${models} Models` : '—';
     } catch (err) {
       console.error("Error loading catalogue stats:", err);
-      ['cat-stat-records', 'cat-stat-parts', 'cat-stat-brands', 'cat-stat-makes', 'cat-stat-taxonomy', 'cat-stat-subaggregates', 'cat-sidebar-badge', 'header-stat-skus', 'cat-hero-total-skus', 'cat-hero-chip-skus', 'cat-hero-chip-makes'].forEach(id => {
+      ['cat-stat-records', 'cat-stat-parts', 'cat-stat-brands', 'cat-stat-makes', 'cat-stat-taxonomy', 'cat-stat-subaggregates', 'cat-stat-components', 'cat-sidebar-badge', 'header-stat-skus', 'cat-hero-total-skus', 'cat-hero-chip-skus', 'cat-hero-chip-makes'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.textContent = '—';
       });
@@ -2217,18 +2313,32 @@ window.OverallCataloguePortal = {
       else if (aggUpper.includes('CLUTCH')) sysIcon = '🔄';
       else if (aggUpper.includes('BODY')) sysIcon = '🚗';
 
+      const brandLogoUrl = this.getBrandLogo(brand);
+      const compImgUrl = this.getComponentImage(desc, r.components, aggregate);
+
       return `
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s; position: relative; box-shadow: 0 2px 8px rgba(15,23,42,0.04);" onmouseover="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 8px 24px rgba(15,23,42,0.08)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 2px 8px rgba(15,23,42,0.04)'; this.style.transform='none'">
           
           <div>
-            <!-- Header Badges -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem;">
+            <!-- Header: Category Badge + Line Code on Left, Brand Logo on Right -->
+            <div style="display: flex; justify-content: space-between; align-items: center; min-height: 28px; margin-bottom: 0.5rem;">
               <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
-                ${this.getQualityTierBadge(brand)}
-                ${this.getFitmentBadge(r)}
-                ${lineCode ? `<span style="background: #e0f2fe; color: #0284c7; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-family: monospace; font-weight: 800;">LC ${this.escapeHtml(lineCode)}</span>` : ''}
+                ${this.getBrandCategoryBadge(brand)}
+                ${lineCode ? `<span style="background: #f1f5f9; color: #475569; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.68rem; font-family: monospace; font-weight: 800; border: 1px solid #e2e8f0;">LC ${this.escapeHtml(lineCode)}</span>` : ''}
               </div>
-              <span style="font-size: 1.35rem;" title="${this.escapeHtml(aggregate)}">${sysIcon}</span>
+              <div style="display: flex; align-items: center; justify-content: flex-end; max-width: 90px; height: 26px;">
+                ${brandLogoUrl ? `
+                  <img src="${brandLogoUrl}" alt="${this.escapeHtml(brand)}" style="max-height: 24px; max-width: 85px; object-fit: contain;" title="${this.escapeHtml(brand)}" onerror="this.onerror=null; this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline-block';">
+                  <span style="display: none; font-size: 0.72rem; font-weight: 800; color: #1e293b; background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.15rem 0.4rem; border-radius: 4px;">${this.escapeHtml(brand)}</span>
+                ` : `
+                  <span style="font-size: 0.72rem; font-weight: 800; color: #1e293b; background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.15rem 0.4rem; border-radius: 4px;">${this.escapeHtml(brand)}</span>
+                `}
+              </div>
+            </div>
+
+            <!-- Component Image Preview Frame -->
+            <div class="cat-comp-preview-frame">
+              <img src="${compImgUrl}" alt="${this.escapeHtml(desc || aggregate)}" class="cat-comp-preview-img" onerror="this.onerror=null; this.src='images/components/coming_soon.svg';">
             </div>
 
             <!-- Part Number & Description -->

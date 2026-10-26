@@ -1,365 +1,367 @@
 import sqlite3
-import os
 import re
+import os
+import json
+from collections import defaultdict
 
-# Comprehensive Verified OEM to Tier-1 OES Cross-Reference Knowledge Base
-# Based on actual OEM suppliers in Indian automotive industry
-VERIFIED_OEM_OES_MAP = {
-    # Maruti Suzuki Air Filter (Swift, Dzire, Ertiga)
-    "13780M75J00": {
-        "oem": {
-            "partNo": "13780M75J00",
-            "desc": "ELEMENT, AIR CLEANER (OEM GENUINE)",
-            "brand": "MARUTI SUZUKI GENUINE",
-            "mrp": 260,
-            "vehicle": "Maruti Suzuki Swift / Dzire (Petrol/Diesel)",
-            "component": "AIR FILTER",
-            "leadTime": "3-5 Days"
-        },
-        "recommended_oes": {
-            "partNo": "AF-1088",
-            "desc": "AIR FILTER ELEMENT (100% OE DUST RETENTION)",
-            "brand": "PUROLATOR / MAHLE (Tier-1 OE Supplier)",
-            "mrp": 195,
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "1 Year / 15,000 km",
-            "oeMatch": "100% Dimensional & Flow Rate Match"
-        },
-        "alternatives": [
-            {"partNo": "0986AF2411", "brand": "BOSCH AUTOMOTIVE", "desc": "High Efficiency Air Filter", "mrp": 205},
-            {"partNo": "EK-5178", "brand": "ELOFIC", "desc": "OE Replacement Air Cleaner", "mrp": 185},
-            {"partNo": "TVS-AF021", "brand": "TVS MOBILITY / MYTVS", "desc": "Multi-layer Synthetic Air Filter", "mrp": 190}
-        ]
-    },
-    "13780M68P00": {
-        "oem": {
-            "partNo": "13780M68P00",
-            "desc": "ELEMENT, AIR CLEANER (SWIFT DIESEL)",
-            "brand": "MARUTI SUZUKI GENUINE",
-            "mrp": 420,
-            "vehicle": "Maruti Suzuki Swift 3rd Gen (Diesel)",
-            "component": "AIR FILTER",
-            "leadTime": "3-5 Days"
-        },
-        "recommended_oes": {
-            "partNo": "AF-1092",
-            "desc": "HEAVY DUST AIR CLEANER CARTRIDGE",
-            "brand": "PUROLATOR (Tier-1 OE Supplier)",
-            "mrp": 295,
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "1 Year / 15,000 km",
-            "oeMatch": "100% OE Specification"
-        },
-        "alternatives": [
-            {"partNo": "0986AF2415", "brand": "BOSCH AUTOMOTIVE", "desc": "Bosch High Flow Air Filter", "mrp": 310},
-            {"partNo": "EK-6240", "brand": "ELOFIC", "desc": "Elofic Synthetic Air Cartridge", "mrp": 280}
-        ]
-    },
-    # Maruti Brake Pads
-    "55810M68P00": {
-        "oem": {
-            "partNo": "55810M68P00",
-            "desc": "PAD SET, FRONT DISC BRAKE",
-            "brand": "MARUTI SUZUKI GENUINE",
-            "mrp": 2250,
-            "vehicle": "Maruti Suzuki Swift / Dzire / Baleno",
-            "component": "BRAKE PAD",
-            "leadTime": "3-7 Days"
-        },
-        "recommended_oes": {
-            "partNo": "0986AB1234",
-            "desc": "FRONT DISC BRAKE PAD SET (LOW METALLIC)",
-            "brand": "BOSCH / TVS GIRLING (Tier-1 OE Supplier)",
-            "mrp": 1580,
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "2 Years / 30,000 km",
-            "oeMatch": "Identical OE Friction Formulation"
-        },
-        "alternatives": [
-            {"partNo": "PNT-8812", "brand": "BREMBO", "desc": "Premium Ceramic Low Dust Brake Pads", "mrp": 1690},
-            {"partNo": "TVG-BP5581", "brand": "TVS GIRLING", "desc": "OE Friction Disc Brake Pads", "mrp": 1520},
-            {"partNo": "KBX-3042", "brand": "KBX / CHASSIS BRAMS", "desc": "Front Disc Brake Pad Kit", "mrp": 1490}
-        ]
-    },
-    # Maruti Oil Filter
-    "16510M68K00": {
-        "oem": {
-            "partNo": "16510M68K00",
-            "desc": "FILTER ASSY, OIL (SPIN-ON)",
-            "brand": "MARUTI SUZUKI GENUINE",
-            "mrp": 380,
-            "vehicle": "Maruti Suzuki Swift / Dzire / Ertiga / Wagon R",
-            "component": "OIL FILTER",
-            "leadTime": "2-4 Days"
-        },
-        "recommended_oes": {
-            "partNo": "OC-1240",
-            "desc": "SPIN-ON ENGINE OIL FILTER (ANTI-DRAINBACK)",
-            "brand": "MAHLE / PUROLATOR (Tier-1 OE Supplier)",
-            "mrp": 260,
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "1 Year / 10,000 km",
-            "oeMatch": "Identical Bypass Valve Pressure"
-        },
-        "alternatives": [
-            {"partNo": "0986AF0059", "brand": "BOSCH AUTOMOTIVE", "desc": "Bosch Micro-Pore Oil Filter", "mrp": 270},
-            {"partNo": "EO-2210", "brand": "ELOFIC", "desc": "Full Flow Spin-On Oil Filter", "mrp": 240}
-        ]
-    },
-    # Hyundai Creta Brake Pads
-    "58101A6A00": {
-        "oem": {
-            "partNo": "58101-A6A00",
-            "desc": "FRONT DISC BRAKE PAD SET",
-            "brand": "HYUNDAI MOBIS GENUINE",
-            "mrp": 3850,
-            "vehicle": "Hyundai Creta 1.5L / 1.4L / 1.6L",
-            "component": "BRAKE PAD",
-            "leadTime": "4-7 Days"
-        },
-        "recommended_oes": {
-            "partNo": "P30064",
-            "desc": "FRONT CERAMIC DISC BRAKE PAD SET",
-            "brand": "BREMBO / KBX (Tier-1 OE Supplier)",
-            "mrp": 2690,
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "2 Years / 30,000 km",
-            "oeMatch": "100% OE Quiet Braking Formulation"
-        },
-        "alternatives": [
-            {"partNo": "0986AB1142", "brand": "BOSCH AUTOMOTIVE", "desc": "Bosch QuietCast Brake Pads", "mrp": 2750},
-            {"partNo": "TVG-HY300", "brand": "TVS GIRLING", "desc": "Heavy Fade-Resistant Brake Pad", "mrp": 2590}
-        ]
-    },
-    # Toyota Innova Crysta Brake Pads
-    "044650K260": {
-        "oem": {
-            "partNo": "04465-0K260",
-            "desc": "PAD KIT, DISC BRAKE FRONT",
-            "brand": "TOYOTA GENUINE",
-            "mrp": 4600,
-            "vehicle": "Toyota Innova Crysta / Fortuner",
-            "component": "BRAKE PAD",
-            "leadTime": "3-7 Days"
-        },
-        "recommended_oes": {
-            "partNo": "BP-TY884",
-            "desc": "PREMIUM FRONT BRAKE PAD SET",
-            "brand": "TVS GIRLING / BREMBO (Tier-1 OE Supplier)",
-            "mrp": 3250,
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "2 Years / 35,000 km",
-            "oeMatch": "OE Heavy Vehicle Stopping Spec"
-        },
-        "alternatives": [
-            {"partNo": "0986AB1238", "brand": "BOSCH AUTOMOTIVE", "desc": "Bosch Heavy Duty Brake Pads", "mrp": 3390},
-            {"partNo": "P83082N", "brand": "BREMBO", "desc": "Brembo Premium Ceramic Pads", "mrp": 3450}
-        ]
-    },
-    # Common cross part 21658101B4A05
-    "21658101B4A05": {
-        "oem": {
-            "partNo": "21658101B4A05",
-            "desc": "FRONT STRUT / SUSPENSION DAMPER ASSEMBLY",
-            "brand": "OEM DEALERSHIP GENUINE",
-            "mrp": 3450,
-            "vehicle": "Multi-Vehicle Standard Fitment",
-            "component": "SHOCK ABSORBER",
-            "leadTime": "5-8 Days"
-        },
-        "recommended_oes": {
-            "partNo": "G54102",
-            "desc": "TWIN-TUBE GAS CHARGED SHOCK ABSORBER",
-            "brand": "GABRIEL / MONROE (Tier-1 OE Supplier)",
-            "mrp": 2480,
-            "stock": "IN STOCK (Same Day Dispatch)",
-            "warranty": "2 Years / 40,000 km",
-            "oeMatch": "100% OE Valve Damping Curves"
-        },
-        "alternatives": [
-            {"partNo": "MN-8841", "brand": "MONROE", "desc": "Monroe OE Spectrum Strut", "mrp": 2550},
-            {"partNo": "0986SA1002", "brand": "BOSCH", "desc": "Bosch Hydraulic Damper", "mrp": 2520}
-        ]
-    }
-}
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CATALOG_DB = os.path.join(BASE_DIR, "data", "overall_catalogue.db")
+MASTER_BRAND_JSON = os.path.join(BASE_DIR, "data", "master_brand_categories.json")
+EXCEL_BRAND_FILE = r"C:\Users\SM0237\Downloads\unique_brand_names_Category Updated.xlsx"
 
-OES_BRANDS = [
-    'BOSCH', 'PUROLATOR', 'MAHLE', 'VALEO', 'LUK', 'BREMBO', 'TVS GIRLING',
-    'ELOFIC', 'GABRIEL', 'MONROE', 'RANE', 'DENSO', 'DELPHI', 'DELPHI TECH',
-    'MYTVS', 'LUCAS - TVS', 'ZF', 'TRW', 'CEEKAY', 'HELLA', 'NGK'
-]
+def load_master_brand_categories():
+    r"""
+    Loads brand classifications from C:\Users\SM0237\Downloads\unique_brand_names_Category Updated.xlsx
+    (cached in data/master_brand_categories.json):
+    - PRIMARY (12 brands): BOSCH, DELPHI TECH, DENSO, FILTRON, INA, JK TYRE, KK LIGHTINGS, LUK, MONROE, RANE MADRAS LIMITED, VALEO, ZF
+    - PL (2 brands): MYTVS, UCAP (and variations like MYTVS MOUNTING)
+    - SECONDARY (125+ brands): PUROLATOR, ELOFIC, SOFIMA, MAHLE, ZIP, DELPHI, BRAKES INDIA, GABRIEL, SKF, TALBROS, etc.
+    - OEM (24 brands): MARUTI SUZUKI, HYUNDAI, TATA, MAHINDRA, HONDA, TOYOTA, VOLKSWAGEN, SKODA, FORD, etc.
+    """
+    if os.path.exists(MASTER_BRAND_JSON):
+        try:
+            with open(MASTER_BRAND_JSON, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data.get('brand_to_category', {}), data.get('category_to_brands', {})
+        except Exception as e:
+            print(f"Warning: Could not read {MASTER_BRAND_JSON}: {e}")
 
-OEM_BRANDS = [
-    'MARUTI SUZUKI', 'MARUTI', 'HYUNDAI', 'TATA', 'TOYOTA', 'MAHINDRA',
-    'HONDA', 'FORD', 'VOLKSWAGEN', 'SKODA', 'RENAULT', 'NISSAN', 'KIA', 'MG'
-]
+    # Fallback to loading Excel file directly
+    if os.path.exists(EXCEL_BRAND_FILE):
+        try:
+            import openpyxl
+            wb = openpyxl.load_workbook(EXCEL_BRAND_FILE, read_only=True)
+            ws = wb['Unique Brands']
+            brand_to_cat = {}
+            cat_to_brands = defaultdict(list)
+            for row in ws.iter_rows(min_row=2, values_only=True):
+                bname = str(row[1] or '').strip().upper()
+                cat = str(row[2] or '').strip().upper()
+                if bname and cat:
+                    brand_to_cat[bname] = cat
+                    if bname not in cat_to_brands[cat]:
+                        cat_to_brands[cat].append(bname)
+            return brand_to_cat, dict(cat_to_brands)
+        except Exception as e:
+            print(f"Warning: Could not load Excel brand file: {e}")
+
+    return {}, {}
+
+BRAND_TO_CAT, CAT_TO_BRANDS = load_master_brand_categories()
+
+PRIMARY_BRANDS = set(CAT_TO_BRANDS.get('PRIMARY', [
+    'BOSCH', 'DELPHI TECH', 'DENSO', 'FILTRON', 'INA', 'JK TYRE',
+    'KK LIGHTINGS', 'LUK', 'MONROE', 'RANE MADRAS LIMITED', 'VALEO', 'ZF'
+]))
+
+PL_BRANDS = set(CAT_TO_BRANDS.get('PL', ['MYTVS', 'UCAP'])) | {'MYTVS MOUNTING', 'TVS MOBILITY', 'MY TVS'}
+
+OEM_BRANDS = set(CAT_TO_BRANDS.get('OEM', [
+    'MARUTI SUZUKI', 'MARUTI', 'HYUNDAI', 'TATA', 'MAHINDRA', 'HONDA', 'TOYOTA',
+    'VOLKSWAGEN', 'SKODA', 'FORD', 'RENAULT', 'NISSAN', 'CHEVROLET', 'FIAT', 'AUDI',
+    'BMW', 'MERCEDES BENZ', 'KIA', 'JEEP', 'MORRIS GARAGES', 'FORCE', 'MITSUBISHI', 'VOLVO'
+]))
 
 def clean_key(text):
     if not text: return ""
     return re.sub(r'[^A-Z0-9]', '', str(text).upper())
 
-def convert_oem_to_oes(query_str):
+def classify_brand(brand_name):
     """
-    Takes an OEM part number or search text and returns:
-    1. Verified Dealership OEM part specifications (genuine brand, price, description)
-    2. Recommended Tier-1 OES aftermarket alternative (Bosch, Purolator, Mahle, Valeo, LuK, Brembo, etc.)
-       with real 25-32% savings and 100% OE specification guarantee.
-    3. Alternative Tier-1 OES brands.
+    Classifies a brand into:
+    - 'PRIMARY': Tier 1 OE Brand (Priority 1)
+    - 'PL': Private Label - MyTVS / UCAP (Priority 2)
+    - 'SECONDARY': Tier 2 Secondary Aftermarket (Priority 3)
+    - 'OEM': Genuine Dealership OEM Brand
+    - 'OTHER': Other categories (Lubes, Paint, etc.)
     """
-    clean_q = clean_key(query_str)
+    if not brand_name:
+        return 'SECONDARY'
     
-    # 1. Check exact key in verified map
-    for k, data in VERIFIED_OEM_OES_MAP.items():
-        if k in clean_q or clean_q in k:
-            res = format_response(data)
-            res["found"] = True
-            return res
+    b_up = str(brand_name).strip().upper()
+    
+    # Exact lookup in master list
+    if b_up in BRAND_TO_CAT:
+        return BRAND_TO_CAT[b_up]
+        
+    # Check PL matches (e.g. MyTVS Mounting, TVS Mobility)
+    if any(pl in b_up for pl in PL_BRANDS):
+        return 'PL'
+        
+    # Check Primary matches
+    if any(p in b_up for p in PRIMARY_BRANDS):
+        return 'PRIMARY'
+        
+    # Check OEM matches
+    if any(o in b_up for o in OEM_BRANDS):
+        return 'OEM'
+        
+    return 'SECONDARY'
 
-    # 2. Query overall_catalogue.db
-    db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "overall_catalogue.db")
-    if not os.path.exists(db_path):
-        return {"status": "not_found", "found": False, "query": query_str}
+def convert_oem_to_oes(query_str, selected_model=None):
+    """
+    Production-grade OEM to OES Conversion Engine:
+    1. Fast indexed lookup on overall_catalogue.db (23.6M rows)
+    2. Multi-Model Resolution: Solves OEM mapping across multiple models of the same make
+    3. Strictly enforces Brand Priority Matrix from unique_brand_names_Category Updated.xlsx:
+       - Tier 1: PRIMARY Brands (Priority 1: Bosch, Delphi Tech, Denso, Filtron, INA, JK Tyre, KK Lightings, LuK, Monroe, Rane Madras Limited, Valeo, ZF)
+       - Tier 2: PL Brands (Priority 2: MyTVS, UCAP)
+       - Tier 3: SECONDARY Brands (Priority 3: Purolator, Elofic, Sofima, Mahle, Zip, Delphi, Brakes India, Gabriel, SKF, Talbros, etc.)
+    """
+    raw_q = str(query_str or '').strip()
+    clean_q = clean_key(raw_q)
+    if not clean_q:
+        return {"status": "error", "found": False, "message": "Empty part number query"}
 
-    import overall_catalogue_api
-    search_res = overall_catalogue_api.search_catalogue(q=query_str, limit=5)
-    items = search_res.get("items", [])
-    if not items:
-        # Try with clean query
-        search_res = overall_catalogue_api.search_catalogue(q=clean_q, limit=5)
-        items = search_res.get("items", [])
+    if not os.path.exists(CATALOG_DB):
+        return {"status": "error", "found": False, "message": "Catalogue database not found"}
 
-    if not items:
-        return {"status": "not_found", "found": False, "query": query_str}
-
-    oem_row = items[0]
-    oem_brand = (oem_row.get("brand") or "").strip().upper()
-    is_oem = any(ob in oem_brand for ob in OEM_BRANDS)
-    raw_mrp = oem_row.get("mrp")
-    mrp = float(raw_mrp) if raw_mrp and float(raw_mrp) > 0 else None
-
-    comp = oem_row.get("components") or oem_row.get("subAggregate") or "COMPONENT"
-    sub_agg = oem_row.get("subAggregate") or "ASSEMBLY"
-    make = oem_row.get("make") or ""
-    model = oem_row.get("model") or ""
-
-    oem_data = {
-        "partNo": oem_row.get("partNo") or query_str.upper(),
-        "desc": oem_row.get("desc") or f"{comp} ({make} {model})",
-        "brand": f"{oem_brand} GENUINE" if is_oem else f"{oem_brand} OEM",
-        "mrp": mrp,
-        "vehicle": f"{make} {model}".strip() or "Automotive Application",
-        "component": comp,
-        "leadTime": "3-5 Days"
-    }
-
-    # Search for real OES parts for this component/aggregate from other brands
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
+    conn = sqlite3.connect(CATALOG_DB)
     c = conn.cursor()
 
-    oes_candidates = []
-    c.execute("""
-        SELECT line_code_part_number, brand_name, part_description, mrp_price 
-        FROM overall_catalogue 
-        WHERE brand_name IN ('BOSCH', 'PUROLATOR', 'MAHLE', 'VALEO', 'LUK', 'BREMBO', 'TVS Girling', 'ELOFIC', 'GABRIEL', 'MONROE', 'RANE', 'DENSO', 'MYTVS', 'DELPHI TECH')
-          AND brand_name != ?
-          AND (components = ? OR sub_aggregate = ? OR part_description LIKE ?)
-          AND mrp_price > 0
-        ORDER BY mrp_price ASC
-        LIMIT 10
-    """, [oem_brand, comp, sub_agg, f"%{comp}%"])
+    # Fast indexed candidate array
+    candidate_pnos = list(dict.fromkeys([
+        raw_q,
+        raw_q.replace('-', ''),
+        clean_q,
+        f"216{clean_q}", f"216{raw_q}",
+        f"217{clean_q}", f"217{raw_q}",
+        f"201{clean_q}", f"201{raw_q}",
+        f"218{clean_q}", f"222{clean_q}", f"223{clean_q}", f"220{clean_q}"
+    ]))
 
-    for r in c.fetchall():
-        cand_mrp = float(r["mrp_price"]) if r["mrp_price"] else None
-        cand_saving = None
-        cand_pct = None
-        if mrp and cand_mrp and mrp > cand_mrp:
-            cand_saving = round(mrp - cand_mrp, 2)
-            cand_pct = round((cand_saving / mrp) * 100)
+    placeholders = ','.join(['?'] * len(candidate_pnos))
+    c.execute(f"""
+        SELECT line_code_part_number, brand_name, part_description, mrp_price,
+               vehicle_make, vehicle_model, vehicle_sub_model, vehicle_fuel_type,
+               vehicle_from_year, vehicle_to_year, components, aggregate
+        FROM overall_catalogue
+        WHERE line_code_part_number IN ({placeholders})
+    """, candidate_pnos)
 
-        oes_candidates.append({
-            "partNo": r["line_code_part_number"],
-            "brand": r["brand_name"],
-            "desc": r["part_description"] or f"OE Grade {comp}",
-            "mrp": cand_mrp,
-            "price": cand_mrp,
-            "saving_amount": cand_saving,
-            "saving_pct": cand_pct,
-            "availability": "In Stock"
+    rows = c.fetchall()
+    if not rows:
+        conn.close()
+        return {
+            "status": "not_found",
+            "found": False,
+            "query": query_str,
+            "message": f"Part number '{query_str}' not found in catalog."
+        }
+
+    # Separate OEM rows vs aftermarket rows
+    oem_rows = [r for r in rows if classify_brand(r[1]) == 'OEM']
+    if not oem_rows:
+        oem_rows = rows
+
+    ref_oem = oem_rows[0]
+    matched_pno = ref_oem[0]
+    oem_brand = ref_oem[1]
+    oem_desc = ref_oem[2]
+    oem_mrp = float(ref_oem[3] or 0)
+    oem_comp = ref_oem[10] or "COMPONENT"
+    oem_agg = ref_oem[11] or "AGGREGATE"
+
+    # Extract all mapped models and variants across the make
+    model_variants = defaultdict(lambda: {'fuel': set(), 'years': set(), 'variants': set()})
+    for r in oem_rows:
+        mk, mdl, sub, fuel, f_yr, t_yr = r[4], r[5], r[6], r[7], r[8], r[9]
+        if mdl:
+            if fuel: model_variants[(mk, mdl)]['fuel'].add(fuel)
+            if f_yr or t_yr: model_variants[(mk, mdl)]['years'].add(f"{f_yr or ''}-{t_yr or ''}".strip('-'))
+            if sub: model_variants[(mk, mdl)]['variants'].add(sub)
+
+    mapped_models = []
+    for (mk, mdl), d in model_variants.items():
+        mapped_models.append({
+            'make': mk,
+            'model': mdl,
+            'fuel_types': sorted(list(d['fuel'])),
+            'year_ranges': sorted(list(d['years'])),
+            'variant_count': len(d['variants']),
+            'sample_variants': sorted(list(d['variants']))[:4]
         })
 
+    # Determine target models for inherited compatibility
+    if selected_model and selected_model.upper() != 'ALL':
+        target_models = [selected_model.upper()]
+    else:
+        target_models = list({m['model'].upper() for m in mapped_models if m.get('model')})
+
+    # Component clustering to ensure kits and components match (e.g. Clutch Disc -> Clutch Kit / Set)
+    comp_cluster = [oem_comp]
+    if 'CLUTCH' in oem_comp:
+        comp_cluster = list(dict.fromkeys([oem_comp, 'CLUTCH DISC', 'CLUTCH SET', 'CLUTCH KIT', 'CLUTCH RELEASE BEARING']))
+    elif 'BRAKE PAD' in oem_comp:
+        comp_cluster = list(dict.fromkeys([oem_comp, 'BRAKE PAD SET FRONT', 'BRAKE PAD SET REAR', 'BRAKE PAD']))
+    elif 'BRAKE DISC' in oem_comp:
+        comp_cluster = list(dict.fromkeys([oem_comp, 'BRAKE DISC FRONT', 'BRAKE DISC REAR', 'BRAKE DISC']))
+
+    comp_placeholders = ','.join(['?'] * len(comp_cluster))
+
+    if target_models:
+        model_placeholders = ','.join(['?'] * len(target_models))
+        query_params = comp_cluster + [oem_brand] + target_models
+        c.execute(f"""
+            SELECT line_code_part_number, brand_name, part_description, mrp_price, vehicle_model, components
+            FROM overall_catalogue
+            WHERE components IN ({comp_placeholders})
+              AND brand_name != ?
+              AND vehicle_model IN ({model_placeholders})
+              AND mrp_price > 1.0
+            GROUP BY line_code_part_number
+            ORDER BY mrp_price ASC
+        """, query_params)
+    else:
+        query_params = comp_cluster + [oem_brand]
+        c.execute(f"""
+            SELECT line_code_part_number, brand_name, part_description, mrp_price, vehicle_model, components
+            FROM overall_catalogue
+            WHERE components IN ({comp_placeholders})
+              AND brand_name != ?
+              AND mrp_price > 1.0
+            GROUP BY line_code_part_number
+            ORDER BY mrp_price ASC
+            LIMIT 50
+        """, query_params)
+
+    candidate_rows = c.fetchall()
     conn.close()
 
-    if not oes_candidates:
-        return {"status": "not_found", "found": False, "query": query_str}
+    tier1_primary = []
+    tier2_pl = []
+    tier3_secondary = []
+    tier4_other = []
 
-    best = oes_candidates[0]
-    rec_oes = {
-        "partNo": best["partNo"],
-        "desc": best["desc"],
-        "brand": f"{best['brand']} (Tier-1 OE Supplier)",
-        "mrp": best["mrp"],
-        "stock": "IN STOCK (Same Day Dispatch)",
-        "warranty": "1-2 Years Manufacturer Warranty",
-        "oeMatch": "100% Certified OE Specification"
+    seen_parts = set()
+    for cr in candidate_rows:
+        cpno, cbrand, cdesc, cmrp, cmodel, ccomp = cr
+        if cpno in seen_parts: continue
+        seen_parts.add(cpno)
+
+        cbrand_clean = str(cbrand or '').strip()
+        cat = classify_brand(cbrand_clean)
+        cand_mrp = float(cmrp or 0)
+        saving_amount = round(oem_mrp - cand_mrp, 2) if (oem_mrp and cand_mrp and oem_mrp > cand_mrp) else None
+        saving_pct = round((saving_amount / oem_mrp) * 100) if (saving_amount and oem_mrp > 0) else None
+
+        item = {
+            'partNo': cpno,
+            'part_no': cpno,
+            'brand': cbrand_clean,
+            'desc': cdesc or f"OE Grade {ccomp}",
+            'description': cdesc or f"OE Grade {ccomp}",
+            'component': ccomp,
+            'mrp': cand_mrp,
+            'price': cand_mrp,
+            'verified_for_model': cmodel,
+            'saving_amount': saving_amount,
+            'saving_pct': saving_pct,
+            'savings_amount': saving_amount or 0,
+            'savings_pct': saving_pct or 0,
+            'availability': 'In Stock',
+            'warranty': '1-2 Years Warranty'
+        }
+
+        # Classify strictly into User's Master Priority Tiers
+        if cat == 'PRIMARY':
+            item['tier'] = 'Tier-1 Primary OES'
+            item['tier_rank'] = 1
+            tier1_primary.append(item)
+        elif cat == 'PL':
+            item['tier'] = 'Private Label (PL - MyTVS)'
+            item['tier_rank'] = 2
+            tier2_pl.append(item)
+        elif cat == 'SECONDARY':
+            item['tier'] = 'Tier-2 Secondary Aftermarket'
+            item['tier_rank'] = 3
+            tier3_secondary.append(item)
+        else:
+            item['tier'] = 'Other Aftermarket'
+            item['tier_rank'] = 4
+            tier4_other.append(item)
+
+    # Sort within each tier: highest savings percentage first, then lowest MRP
+    def sort_key(x):
+        return (-(x['savings_pct'] or 0), x['mrp'])
+
+    tier1_primary.sort(key=sort_key)
+    tier2_pl.sort(key=sort_key)
+    tier3_secondary.sort(key=sort_key)
+    tier4_other.sort(key=sort_key)
+
+    # Strict hierarchy selection: Tier 1 Primary > Tier 2 PL > Tier 3 Secondary > Other
+    best_candidate = None
+    if tier1_primary:
+        best_candidate = tier1_primary[0]
+    elif tier2_pl:
+        best_candidate = tier2_pl[0]
+    elif tier3_secondary:
+        best_candidate = tier3_secondary[0]
+    elif tier4_other:
+        best_candidate = tier4_other[0]
+
+    all_sorted_alternatives = tier1_primary + tier2_pl + tier3_secondary + tier4_other
+
+    # Vehicle display summary
+    model_summary = ', '.join([m['model'] for m in mapped_models[:3]])
+    if len(mapped_models) > 3:
+        model_summary += f" +{len(mapped_models) - 3} more"
+
+    oem_data = {
+        'partNo': matched_pno,
+        'part_no': matched_pno,
+        'desc': oem_desc,
+        'description': oem_desc,
+        'brand': f"{oem_brand} GENUINE" if oem_brand != 'OEM' else "OEM GENUINE",
+        'mrp': oem_mrp,
+        'vehicle': f"{model_summary} ({mapped_models[0]['make']})" if mapped_models else "Automotive Application",
+        'component': oem_comp,
+        'aggregate': oem_agg,
+        'leadTime': '3-5 Days'
     }
 
-    alts = oes_candidates[1:5]
-    best_saving = best.get("saving_amount") or 0
-    best_pct = best.get("saving_pct") or 0
+    rec_oes = {}
+    if best_candidate:
+        rec_oes = {
+            'partNo': best_candidate['partNo'],
+            'desc': best_candidate['desc'],
+            'brand': f"{best_candidate['brand']} ({best_candidate['tier']})",
+            'mrp': best_candidate['mrp'],
+            'tier': best_candidate['tier'],
+            'stock': 'IN STOCK (Same Day Dispatch)',
+            'warranty': '1-2 Years Manufacturer Warranty',
+            'oeMatch': '100% Certified OE Specification',
+            'saving_amount': best_candidate.get('saving_amount'),
+            'saving_pct': best_candidate.get('saving_pct')
+        }
 
     return {
-        "status": "success",
-        "found": True,
-        "oem": oem_data,
-        "recommended_oes": rec_oes,
-        "alternatives": alts,
-        "oes_alternatives": oes_candidates[:6],
-        "savings_amount": best_saving,
-        "savings_percentage": best_pct
+        'status': 'success',
+        'found': True,
+        'query': query_str,
+        'oem': oem_data,
+        'recommended_oes': rec_oes,
+        'alternatives': all_sorted_alternatives[1:6] if all_sorted_alternatives else [],
+        'oes_alternatives': all_sorted_alternatives[:20],
+        'mapped_models_count': len(mapped_models),
+        'mapped_models': mapped_models,
+        'brand_priority_applied': {
+            'priority_rule': 'PRIMARY > PL > SECONDARY',
+            'master_source_file': 'unique_brand_names_Category Updated.xlsx',
+            'primary_brands': sorted(list(PRIMARY_BRANDS)),
+            'pl_brands': sorted(list(PL_BRANDS)),
+            'secondary_count': len(CAT_TO_BRANDS.get('SECONDARY', []))
+        },
+        'tier_breakdown': {
+            'primary_oes_count': len(tier1_primary),
+            'pl_count': len(tier2_pl),
+            'secondary_count': len(tier3_secondary),
+            'other_count': len(tier4_other)
+        },
+        'savings_amount': best_candidate.get('saving_amount') if best_candidate else 0,
+        'savings_percentage': best_candidate.get('saving_pct') if best_candidate else 0
     }
 
-def format_response(data):
-    oem_mrp = data["oem"].get("mrp")
-    oes_mrp = data["recommended_oes"].get("mrp")
-    savings = (oem_mrp - oes_mrp) if (oem_mrp and oes_mrp and oem_mrp > oes_mrp) else 0
-    pct = round((savings / oem_mrp) * 100) if (oem_mrp and savings > 0) else 0
-
-    oes_alts = []
-    if "recommended_oes" in data:
-        r = data["recommended_oes"]
-        oes_alts.append({
-            "partNo": r.get("partNo"),
-            "brand": r.get("brand"),
-            "desc": r.get("desc"),
-            "price": r.get("mrp"),
-            "mrp": r.get("mrp"),
-            "saving_amount": savings if savings > 0 else None,
-            "saving_pct": pct if pct > 0 else None,
-            "availability": "In Stock"
-        })
-    for a in data.get("alternatives", []):
-        alt_mrp = a.get("mrp")
-        alt_saving = (oem_mrp - alt_mrp) if (oem_mrp and alt_mrp and oem_mrp > alt_mrp) else None
-        alt_pct = round((alt_saving / oem_mrp) * 100) if (oem_mrp and alt_saving and alt_saving > 0) else None
-        oes_alts.append({
-            "partNo": a.get("partNo"),
-            "brand": a.get("brand"),
-            "desc": a.get("desc"),
-            "price": alt_mrp,
-            "mrp": alt_mrp,
-            "saving_amount": alt_saving,
-            "saving_pct": alt_pct,
-            "availability": "In Stock"
-        })
-
-    return {
-        "status": "success",
-        "found": True,
-        "oem": data["oem"],
-        "recommended_oes": data["recommended_oes"],
-        "alternatives": data.get("alternatives", []),
-        "oes_alternatives": oes_alts,
-        "savings_amount": savings,
-        "savings_percentage": pct
-    }
+# Alias for backward compatibility
+get_oem_conversion = convert_oem_to_oes
