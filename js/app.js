@@ -327,8 +327,8 @@ window.App = {
   },
 
   checkAuth() {
-    const isLoggedIn = sessionStorage.getItem('mytvs_logged_in') === 'true';
-    const loginOverlay = document.getElementById('mytvs-login-screen');
+    const isLoggedIn = (sessionStorage.getItem('autonexa_logged_in') === 'true') || (sessionStorage.getItem('mytvs_logged_in') === 'true');
+    const loginOverlay = document.getElementById('autonexa-login-screen') || document.getElementById('mytvs-login-screen');
     const header = document.getElementById('app-header');
     const sidebar = document.getElementById('app-sidebar');
     const mainContent = document.getElementById('main-app-content');
@@ -344,7 +344,7 @@ window.App = {
       document.body.style.overflow = '';
     } else {
       document.body.classList.remove('is-authenticated');
-      if (loginOverlay) loginOverlay.style.setProperty('display', 'grid', 'important');
+      if (loginOverlay) loginOverlay.style.setProperty('display', 'flex', 'important');
       if (sidebar) sidebar.style.setProperty('display', 'none', 'important');
       if (header) header.style.setProperty('display', 'none', 'important');
       if (mainContent) mainContent.style.setProperty('display', 'none', 'important');
@@ -361,12 +361,13 @@ window.App = {
     let displayName = "Jino George";
     if (userCode === "SM0216") displayName = "Prasanna";
 
+    sessionStorage.setItem('autonexa_logged_in', 'true');
+    sessionStorage.setItem('autonexa_user_code', userCode);
+    sessionStorage.setItem('autonexa_user_name', displayName);
     sessionStorage.setItem('mytvs_logged_in', 'true');
-    sessionStorage.setItem('mytvs_user_code', userCode);
-    sessionStorage.setItem('mytvs_user_name', displayName);
 
     document.body.classList.add('is-authenticated');
-    const loginOverlay = document.getElementById('mytvs-login-screen');
+    const loginOverlay = document.getElementById('autonexa-login-screen') || document.getElementById('mytvs-login-screen');
     const sidebar = document.getElementById('app-sidebar');
     const header = document.getElementById('app-header');
     const mainContent = document.getElementById('main-app-content');
@@ -426,9 +427,13 @@ window.App = {
   },
 
   logout() {
+    sessionStorage.removeItem('autonexa_logged_in');
+    sessionStorage.removeItem('autonexa_user_code');
+    sessionStorage.removeItem('autonexa_user_name');
     sessionStorage.removeItem('mytvs_logged_in');
     sessionStorage.removeItem('mytvs_user_code');
     sessionStorage.removeItem('mytvs_user_name');
+    try { localStorage.removeItem('autonexa_logged_in'); } catch(e) {}
     try { localStorage.removeItem('mytvs_logged_in'); } catch(e) {}
     document.body.classList.remove('is-authenticated');
     window.location.reload();
@@ -461,10 +466,11 @@ if (document.readyState === 'loading') {
 window.loginDirect = function(e) {
   if (e && e.preventDefault) e.preventDefault();
   try {
+    sessionStorage.setItem('autonexa_logged_in', 'true');
     sessionStorage.setItem('mytvs_logged_in', 'true');
   } catch(err) {}
   document.body.classList.add('is-authenticated');
-  var overlay = document.getElementById('mytvs-login-screen');
+  var overlay = document.getElementById('autonexa-login-screen') || document.getElementById('mytvs-login-screen');
   if (overlay) {
     try { overlay.remove(); } catch(err) { overlay.style.display = 'none'; }
   }

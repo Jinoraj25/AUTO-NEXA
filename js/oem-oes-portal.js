@@ -228,7 +228,7 @@ const OemToOesPortal = {
       if (bCat === 'PRIMARY') {
         inTierBadge = `<span style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 3px 8px; border-radius: 6px; font-size: 0.70rem; font-weight: 850;">⭐ TIER 1: PRIMARY OE</span>`;
       } else if (bCat === 'PL') {
-        inTierBadge = `<span style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 3px 8px; border-radius: 6px; font-size: 0.70rem; font-weight: 850;">🏷️ TIER 2: PL (MYTVS)</span>`;
+        inTierBadge = `<span style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 3px 8px; border-radius: 6px; font-size: 0.70rem; font-weight: 850;">🏷️ TIER 2: PL (CERTIFIED OES)</span>`;
       } else {
         inTierBadge = `<span style="background: #faf5ff; color: #7e22ce; border: 1px solid #e9d5ff; padding: 3px 8px; border-radius: 6px; font-size: 0.70rem; font-weight: 850;">📦 TIER 3: SECONDARY AFTERMARKET</span>`;
       }
@@ -396,7 +396,7 @@ const OemToOesPortal = {
         if (tierStr.includes('Primary') || tierStr.includes('Tier-1')) {
           tierBadge = `<span style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; padding: 2px 7px; border-radius: 6px; font-size: 0.68rem; font-weight: 850; letter-spacing: 0.3px;">⭐ TIER 1: PRIMARY OE</span>`;
         } else if (tierStr.includes('PL') || tierStr.includes('Private Label') || tierStr.includes('MYTVS')) {
-          tierBadge = `<span style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 2px 7px; border-radius: 6px; font-size: 0.68rem; font-weight: 850; letter-spacing: 0.3px;">🏷️ TIER 2: PL (MYTVS)</span>`;
+          tierBadge = `<span style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; padding: 2px 7px; border-radius: 6px; font-size: 0.68rem; font-weight: 850; letter-spacing: 0.3px;">🏷️ TIER 2: PL (CERTIFIED OES)</span>`;
         } else if (tierStr.includes('Secondary')) {
           tierBadge = `<span style="background: #faf5ff; color: #7e22ce; border: 1px solid #e9d5ff; padding: 2px 7px; border-radius: 6px; font-size: 0.68rem; font-weight: 850; letter-spacing: 0.3px;">📦 TIER 3: SECONDARY</span>`;
         } else {
@@ -410,7 +410,7 @@ const OemToOesPortal = {
               <div style="font-weight: 800; font-size: 0.82rem; color: #0f172a; display: flex; align-items: center; gap: 4px;">
                 <span style="color: #047857;">⭐</span> Factory OE Supplier Grade
               </div>
-              <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">
+              <div style="font-size: 0.72rem; color: #64758b; margin-top: 2px;">
                 Exact engineering formulation certified to automotive new-car standards.
               </div>
             </div>
@@ -419,9 +419,9 @@ const OemToOesPortal = {
           prodClassHtml = `
             <div>
               <div style="font-weight: 800; font-size: 0.82rem; color: #1d4ed8; display: flex; align-items: center; gap: 4px;">
-                <span style="color: #1d4ed8;">🏷️</span> TVS Mobility Quality Choice
+                <span style="color: #1d4ed8;">🏷️</span> Enterprise Quality Benchmark
               </div>
-              <div style="font-size: 0.72rem; color: #64748b; margin-top: 2px;">
+              <div style="font-size: 0.72rem; color: #64758b; margin-top: 2px;">
                 Private label engineered for durability with high retail workshop margins.
               </div>
             </div>

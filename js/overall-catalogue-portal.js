@@ -1221,7 +1221,7 @@ window.OverallCataloguePortal = {
     
     // PL (Private Label)
     if (b === 'MYTVS' || b.includes('MYTVS') || b === 'UCAP') {
-      return `<span class="badge" style="background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe; font-size: 0.65rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px;">⭐ myTVS PL</span>`;
+      return `<span class="badge" style="background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe; font-size: 0.65rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px;">⭐ CERTIFIED PL</span>`;
     }
     
     // PRIMARY (Tier-1 OES)

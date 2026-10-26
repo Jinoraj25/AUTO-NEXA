@@ -1,4 +1,4 @@
-/* AUTO NEXA - TVS MOBILITY INVENTORY INTELLIGENCE & TELEMETRY PORTAL */
+/* AUTO NEXA - ENTERPRISE INVENTORY INTELLIGENCE & TELEMETRY PORTAL */
 
 window.InventoryPortal = {
   inventoryData: null,
@@ -923,16 +923,16 @@ window.InventoryPortal = {
         { category: 'Secondary OES', inv_val_cr: 67.54, inv_pct: 33.1, cat_records: 3905792, cat_pct: 16.5, index_ratio: 2.01, strategy: 'Core High-Margin Aftermarket Holding (2.0x overweight for gross margin maximization)', badge: 'High Margin Focus', color: '#0284c7' },
         { category: 'Primary OES', inv_val_cr: 52.60, inv_pct: 25.8, cat_records: 4308207, cat_pct: 18.2, index_ratio: 1.42, strategy: 'Tier-1 OE Equivalent (Bosch, Valeo, LuK) ready for Dealership OEM conversion', badge: 'OEM Conversion Ready', color: '#2563eb' },
         { category: 'OEM Genuine', inv_val_cr: 31.09, inv_pct: 15.2, cat_records: 9941018, cat_pct: 42.0, index_ratio: 0.36, strategy: 'Lean JIT stock policy — minimize working capital lock-in on dealership spares', badge: 'Lean / JIT Replenishment', color: '#10b981' },
-        { category: 'Private Label (MyTVS)', inv_val_cr: 22.80, inv_pct: 11.2, cat_records: 1704352, cat_pct: 7.2, index_ratio: 1.56, strategy: 'TVS In-House Brand strategic overweight (Highest gross margin realization per unit)', badge: 'Strategic House Brand', color: '#8b5cf6' },
+        { category: 'Private Label (Certified PL)', inv_val_cr: 22.80, inv_pct: 11.2, cat_records: 1704352, cat_pct: 7.2, index_ratio: 1.56, strategy: 'Private Label strategic overweight (Highest gross margin realization per unit)', badge: 'Strategic House Brand', color: '#8b5cf6' },
         { category: 'Paints & Consumables', inv_val_cr: 18.19, inv_pct: 8.9, cat_records: 1903695, cat_pct: 8.0, index_ratio: 1.11, strategy: 'Balanced Bodyshop Demand Alignment (Asian PPG Tints, 3M, Wurth)', badge: 'Demand Balanced', color: '#ec4899' },
-        { category: 'Lubes & Fluids', inv_val_cr: 10.20, inv_pct: 5.0, cat_records: 1768364, cat_pct: 7.5, index_ratio: 0.67, strategy: 'High-Rotation Fast Turnover Bulk Consumables (Castrol, TVS Lubes)', badge: 'High Turnover', color: '#f59e0b' },
+        { category: 'Lubes & Fluids', inv_val_cr: 10.20, inv_pct: 5.0, cat_records: 1768364, cat_pct: 7.5, index_ratio: 0.67, strategy: 'High-Rotation Fast Turnover Bulk Consumables (Castrol, Premium Lubes)', badge: 'High Turnover', color: '#f59e0b' },
         { category: 'Uncategorised', inv_val_cr: 1.77, inv_pct: 0.8, cat_records: 140044, cat_pct: 0.6, index_ratio: 1.33, strategy: 'Warehouse operational assets & pending brand mapping lines under review', badge: 'Audit & Review', color: '#64748b' }
       ],
       top_brands: [
         { brand: 'DELPHI TECH', inv_val_cr: 31.84, color: '#0284c7', type: 'Primary OES' },
         { brand: 'PIS NON BRAND', inv_val_cr: 21.85, color: '#38bdf8', type: 'Secondary OES' },
         { brand: 'ASIAN PPG TINTS', inv_val_cr: 18.01, color: '#ec4899', type: 'Paints' },
-        { brand: 'MYTVS', inv_val_cr: 10.51, color: '#8b5cf6', type: 'Private Label' },
+        { brand: 'UCAP / PL', inv_val_cr: 10.51, color: '#8b5cf6', type: 'Private Label' },
         { brand: 'CASTROL', inv_val_cr: 8.11, color: '#10b981', type: 'Lubes' },
         { brand: 'MAHINDRA', inv_val_cr: 7.82, color: '#ef4444', type: 'OEM' },
         { brand: 'FILTRON', inv_val_cr: 6.57, color: '#6366f1', type: 'Secondary OES' },

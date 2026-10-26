@@ -10,6 +10,7 @@
     try {
       var params = new URLSearchParams(window.location.search);
       if (params.get('autologin') === '1' || params.get('login') === '1') {
+        sessionStorage.setItem('autonexa_logged_in', 'true');
         sessionStorage.setItem('mytvs_logged_in', 'true');
         window._initialTab = params.get('tab') || 'home';
       }
@@ -25,12 +26,13 @@
     function loginDirect(e) {
       if (e && e.preventDefault) e.preventDefault();
       try {
+        sessionStorage.setItem('autonexa_logged_in', 'true');
         sessionStorage.setItem('mytvs_logged_in', 'true');
       } catch(err) {}
 
       document.body.classList.add('is-authenticated');
 
-      var overlay = document.getElementById('mytvs-login-screen');
+      var overlay = document.getElementById('autonexa-login-screen') || document.getElementById('mytvs-login-screen');
       if (overlay) {
         overlay.remove(); // Deletes login overlay from DOM
       }
@@ -121,7 +123,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=26.0.0">
+  <link rel="stylesheet" href="styles.css?v=26.0.1">
 
   <!-- Local JS Libraries -->
   <script src="lib/chart.umd.min.js"></script>
@@ -130,13 +132,13 @@
 <body>
 
   <!-- Welcome Pop-Up Notification (1-2 Sec Auto-fading Toast) -->
-  <div id="mytvs-welcome-popup" class="welcome-toast-popup" style="display: none;">
+  <div id="autonexa-welcome-popup" class="welcome-toast-popup" style="display: none;">
     <span class="welcome-toast-icon">👋</span>
     <span id="welcome-user-heading" class="welcome-toast-text">Welcome Jino George</span>
   </div>
 
-  <!-- Standalone myTVS Full-Screen Login Page with 3D Video Background -->
-  <div id="mytvs-login-screen" class="mytvs-fullscreen-login-page">
+  <!-- Standalone AUTO NEXA Full-Screen Login Page with 3D Video Background -->
+  <div id="autonexa-login-screen" class="autonexa-fullscreen-login-page mytvs-fullscreen-login-page">
     <div class="login-kinetic-bg" style="background-image: url('images/mytvs_login_car_sunset.jpg');"></div>
     <video
       id="loginHeroVideo"
@@ -150,37 +152,40 @@
       style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;"
     >
       <source src="videos/gemini_generated_video_21b992eb.mp4" type="video/mp4" />
-      <img class="login-fullscreen-bg-img" src="images/mytvs_login_car_sunset.jpg" alt="myTVS Automotive Hub">
+      <img class="login-fullscreen-bg-img" src="images/mytvs_login_car_sunset.jpg" alt="AUTO NEXA Automotive Hub">
     </video>
     <div class="login-fullscreen-overlay" style="z-index: 2;"></div>
     
     <!-- Top Left Brand Badge -->
     <div class="login-top-brand-badge">
-      <div class="mytvs-logo-row">
-        <span class="mytvs-my-text">my</span><span class="mytvs-tvs-text">TVS</span>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="brand-crest-emblem" style="width: 38px; height: 38px; font-size: 1.15rem; background: linear-gradient(135deg, #ff4757 0%, #ff6b35 50%, #ffa502 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; box-shadow: 0 0 16px rgba(255, 107, 53, 0.5);">⚡</div>
+        <div class="brand-text-block">
+          <span class="brand-title-auto" style="font-size: 1.35rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">AUTO <span class="brand-title-nexa" style="background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NEXA</span></span>
+          <span style="font-size: 0.65rem; color: #94a3b8; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 800;">Enterprise Automotive Intelligence</span>
+        </div>
       </div>
-      <div class="mytvs-sub-tagline"><span class="t-org">Trusted.</span> <span class="t-org">Tested.</span> <span class="t-blu">True.</span></div>
     </div>
 
     <!-- Left Side Hero Content (Fills empty dark background space) -->
     <div class="login-left-hero-text">
-      <div class="login-tagline-quote">"Better Parts. Smoother Journeys."</div>
+      <div class="login-tagline-quote">"Precision Parts. Intelligent Operations."</div>
       <div class="login-kicker-tag">AUTOMOTIVE PARTS INTELLIGENCE PLATFORM</div>
       <h1 class="login-hero-headline">
         Smarter Decisions.<br>
         <span class="highlight-orange">Stronger Performance.</span>
       </h1>
       <p class="login-hero-desc">
-        Access real-time insights, streamline operations and drive growth with myTVS.
+        Access 23.6M+ multi-OEM fitment records, cross-reference certified OES alternatives, and optimize aftermarket inventory.
       </p>
       <div class="login-feature-pills-row">
         <span class="pill-chip">📦 Smarter Inventory</span>
         <span class="pill-chip">📊 Data-Driven Sales</span>
-        <span class="pill-chip">📅 Efficient Planning</span>
-        <span class="pill-chip">📄 Accurate Catalogue</span>
+        <span class="pill-chip">🔄 OEM ⇄ OES Engine</span>
+        <span class="pill-chip">📄 Master Parts Matrix</span>
       </div>
       <div class="login-hero-footer-tag">
-        <span class="mytvs-bold-orange">myTVS</span> Empowering the Automotive Aftermarket with Intelligence.
+        <span class="autonexa-bold-blue" style="font-family: 'Outfit', sans-serif; font-weight: 900; color: #38bdf8;">AUTO NEXA</span> Empowering the Automotive Aftermarket with Intelligence.
       </div>
     </div>
 
@@ -188,14 +193,17 @@
     <div class="login-compact-card-wrapper">
       <div class="login-white-card">
         <div class="white-card-logo">
-          <span class="card-mytvs-my">my</span><span class="card-mytvs-tvs">TVS</span>
-          <div class="card-tagline">Trusted. Tested. True.</div>
+          <div style="display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; margin-bottom: 0.25rem;">
+            <div class="brand-crest-emblem" style="width: 30px; height: 30px; font-size: 0.95rem; border-radius: 9px; background: linear-gradient(135deg, #ff4757 0%, #ff6b35 50%, #ffa502 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; box-shadow: 0 0 12px rgba(255, 107, 53, 0.45);">⚡</div>
+            <span style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 900; color: #0f172a; letter-spacing: -0.02em;">AUTO <span style="background: linear-gradient(135deg, #2563eb, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NEXA</span></span>
+          </div>
+          <div class="card-tagline" style="color: #64748b; font-size: 8.5px; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase;">ENTERPRISE AUTOMOTIVE PLATFORM</div>
         </div>
 
         <h2 class="card-heading">Welcome Back</h2>
         <p class="card-subheading">Sign in to your account to access the platform</p>
 
-        <form id="mytvs-login-form" action="javascript:void(0);" onsubmit="return loginDirect(event);">
+        <form id="autonexa-login-form" action="javascript:void(0);" onsubmit="return loginDirect(event);">
           <div class="input-group-modern">
             <label for="login-username">Username or Employee Code</label>
             <div class="input-field-wrapper">
@@ -466,7 +474,7 @@
           <div class="home-pulse-card p-purple" onclick="App.switchTab('catalogue-mapping')">
             <div class="home-pulse-label">AI Match Accuracy</div>
             <div class="home-pulse-val">99.4%</div>
-            <small style="color: #7c3aed; font-size: 0.72rem; font-weight: 750;">TVS Taxonomy Standards</small>
+            <small style="color: #7c3aed; font-size: 0.72rem; font-weight: 750;">Standardized Taxonomy Standards</small>
           </div>
           <div class="home-pulse-card p-green" onclick="App.switchTab('inventory-dashboard')">
             <div class="home-pulse-label">Inventory Health</div>
@@ -1436,10 +1444,10 @@
                 <span>⚙️ SMART CATALOGUE & MAPPING STUDIO</span>
               </div>
               <h1 style="font-size: 2.2rem; font-weight: 900; color: #0f172a; line-height: 1.15; margin: 0 0 0.5rem 0; font-family: 'Outfit', sans-serif;">
-                TVS Aggregate Master Studio & Auto-Mapping Engine
+                AutoNexa Aggregate Master Studio & Auto-Mapping Engine
               </h1>
               <p style="font-size: 0.92rem; color: #64758b; max-width: 680px; margin: 0; line-height: 1.5;">
-                Ingest catalogue dumps, invoices or stock lists to automatically map aggregates, sub-aggregates and components using 923 official TVS rules and the 23.6M record cross-referencing engine.
+                Ingest catalogue dumps, invoices or stock lists to automatically map aggregates, sub-aggregates and components using 923 standardized rules and the 23.6M record cross-referencing engine.
               </p>
             </div>
 
@@ -1503,7 +1511,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
             <div>
               <h3 style="font-size: 1.15rem; font-weight: 900; color: #0f172a; margin: 0; font-family: 'Outfit', sans-serif;">
-                📘 923 Official TVS Aggregate Master Taxonomy Rules
+                📘 923 Standardized Aggregate Master Taxonomy Rules
               </h3>
               <p style="font-size: 0.8rem; color: #64758b; margin: 0.2rem 0 0 0;">
                 Pre-trained mapping dictionary defining Component ➔ Sub-Aggregate ➔ Aggregate relationships.
@@ -1523,7 +1531,7 @@
                 </tr>
               </thead>
               <tbody id="master-rules-list">
-                <tr><td colspan="4" style="text-align: center; padding: 2rem; color: #64758b;">Loading 923 TVS Master Rules...</td></tr>
+                <tr><td colspan="4" style="text-align: center; padding: 2rem; color: #64758b;">Loading 923 Standardized Master Rules...</td></tr>
               </tbody>
             </table>
           </div>
@@ -1734,7 +1742,7 @@
               📦
             </div>
             <div>
-              <div style="font-weight: 900; font-size: 1.05rem; color: #0f172a; font-family: 'Outfit', sans-serif; letter-spacing: -0.01em;">TVS MOBILITY INVENTORY INTELLIGENCE</div>
+              <div style="font-weight: 900; font-size: 1.05rem; color: #0f172a; font-family: 'Outfit', sans-serif; letter-spacing: -0.01em;">AUTONEXA INVENTORY INTELLIGENCE</div>
               <div style="font-size: 0.78rem; color: #64758b; margin-top: 0.1rem;">
                 Live Oracle ERP stock telemetry • October 2026 Audit
               </div>
@@ -1776,7 +1784,7 @@
             <span>AUTO-SYNC WATCHER ACTIVE</span>
           </span>
           <div style="font-size: 0.82rem; color: #1e293b;">
-            <strong style="color: #0f172a;">TVS Morning Share Folder Daemon:</strong> Monitoring morning stock drops at <strong>08:30 AM Daily</strong>.
+            <strong style="color: #0f172a;">Automated Morning Sync Daemon:</strong> Monitoring morning stock drops at <strong>08:30 AM Daily</strong>.
           </div>
           <span style="font-size: 0.78rem; color: #059669; background: #ecfdf5; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 750; border: 1px solid #a7f3d0;" id="inv-sync-files-badge">
             18 October Snapshots Ingested
@@ -1893,7 +1901,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
             <div>
               <div style="font-size: 1.05rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">🏷️ CATEGORY WISE HOLDING</div>
-              <div style="font-size: 0.78rem; color: #64758b;">Valuation share across 6 TVS business categories</div>
+              <div style="font-size: 0.78rem; color: #64758b;">Valuation share across 6 core business categories</div>
             </div>
             <span class="badge badge-amber" style="font-weight: 800; font-size: 0.75rem;" id="category-holding-date-badge">22-Oct-2026</span>
           </div>
@@ -2074,10 +2082,10 @@
             <div style="font-size: 1.5rem; font-weight: 900; color: #fff; font-family: 'Outfit', sans-serif; line-height: 1.1;" id="conv-kpi-oes">₹120.14 Cr</div>
             <div style="font-size: 0.75rem; color: #bae6fd; margin-top: 0.35rem; line-height: 1.4;">58.9% Inventory Share<br>Ready for Dealership OEM Substitution</div>
           </div>
-          <!-- Card 3: MyTVS Private Label -->
+          <!-- Card 3: Certified Private Label -->
           <div style="background: linear-gradient(135deg, #6d28d9, #7c3aed); border-radius: 16px; padding: 1.2rem 1.25rem; position: relative; overflow: hidden; box-shadow: 0 6px 20px rgba(124,58,237,0.28);">
             <div style="position: absolute; top: -12px; right: -12px; width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.06);"></div>
-            <div style="font-size: 0.72rem; font-weight: 850; color: #ddd6fe; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem;">🏷️ MYTVS PRIVATE LABEL</div>
+            <div style="font-size: 0.72rem; font-weight: 850; color: #ddd6fe; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem;">🏷️ CERTIFIED PRIVATE LABEL (PL)</div>
             <div style="font-size: 1.5rem; font-weight: 900; color: #fff; font-family: 'Outfit', sans-serif; line-height: 1.1;" id="conv-kpi-pl">₹22.80 Cr</div>
             <div style="font-size: 0.75rem; color: #ddd6fe; margin-top: 0.35rem; line-height: 1.4;">11.2% Inv Share vs 7.2% Cat Share<br>Index 1.56x — Strategic House Brand</div>
           </div>
@@ -2111,7 +2119,7 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
               <div>
                 <div style="font-size: 1rem; font-weight: 900; color: #0f172a; font-family: 'Outfit', sans-serif;">🏆 Top Brands — Inventory Value (₹ Cr)</div>
-                <div style="font-size: 0.75rem; color: #64748b;">Delphi, Asian PPG, MyTVS, Castrol, OEMs</div>
+                <div style="font-size: 0.75rem; color: #64748b;">Delphi, Asian PPG, UCAP, Castrol, OEMs</div>
               </div>
             </div>
             <div style="height: 240px; position: relative;">

@@ -441,7 +441,7 @@ def convert_oem_to_oes(query_str, selected_model=None):
             item['tier_rank'] = 1
             tier1_primary.append(item)
         elif cat == 'PL':
-            item['tier'] = 'Private Label (PL - MyTVS)'
+            item['tier'] = 'Private Label (PL - Certified OES)'
             item['tier_rank'] = 2
             tier2_pl.append(item)
         elif cat == 'SECONDARY':

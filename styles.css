@@ -1974,6 +1974,7 @@ body:not(.is-authenticated) .app-footer {
   display: none !important;
 }
 
+body.is-authenticated #autonexa-login-screen,
 body.is-authenticated #mytvs-login-screen {
   display: none !important;
 }
@@ -2905,10 +2906,14 @@ input[type=checkbox]#login-remember {
 }
 
 @media (max-width: 900px) {
-  .mytvs-fullscreen-login-page {
+  .mytvs-fullscreen-login-page,
+  .autonexa-fullscreen-login-page,
+  #autonexa-login-screen,
+  #mytvs-login-screen {
+    display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    padding: 20px !important;
+    padding: 16px !important;
     box-sizing: border-box !important;
   }
   .login-left-hero-text,
@@ -2917,13 +2922,30 @@ input[type=checkbox]#login-remember {
     display: none !important;
   }
   .login-compact-card-wrapper {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
     width: 100% !important;
-    max-width: 350px !important;
+    max-width: 330px !important;
     margin: 0 auto !important;
+    box-sizing: border-box !important;
+    z-index: 100 !important;
   }
   .login-white-card {
     width: 100% !important;
+    max-width: 100% !important;
     box-sizing: border-box !important;
+    padding: 20px 16px !important;
+  }
+  .link-forgot {
+    font-size: 10px !important;
+    white-space: nowrap !important;
+  }
+  .checkbox-remember {
+    font-size: 10.5px !important;
   }
 }
 
@@ -4069,14 +4091,67 @@ select option {
 
 
 /* CLEAN AUTHENTICATION OVERLAY & VISIBILITY RULES */
+#autonexa-login-screen,
 #mytvs-login-screen {
   position: fixed !important;
   inset: 0 !important;
   z-index: 99999 !important;
-  display: grid;
-  background: #0b0f19 !important;
+  display: flex !important;
+  align-items: center !important;
+  background: #040a14 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
 }
 
+@media (min-width: 901px) {
+  #autonexa-login-screen,
+  #mytvs-login-screen {
+    justify-content: flex-end !important;
+    padding-right: 7vw !important;
+  }
+  .login-compact-card-wrapper {
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    margin: 0 !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  #autonexa-login-screen,
+  #mytvs-login-screen,
+  .mytvs-fullscreen-login-page,
+  .autonexa-fullscreen-login-page {
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 16px !important;
+  }
+  .login-compact-card-wrapper {
+    position: relative !important;
+    margin: 0 auto !important;
+    max-width: 320px !important;
+    width: 100% !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+  .login-left-hero-text,
+  .login-top-brand-badge,
+  .login-bottom-motto {
+    display: none !important;
+  }
+}
+
+body.is-authenticated #autonexa-login-screen,
 body.is-authenticated #mytvs-login-screen {
   display: none !important;
 }
@@ -4094,6 +4169,7 @@ footer.app-footer {
 }
 
 /* FINAL BULLETPROOF AUTHENTICATION RULES */
+body.is-authenticated #autonexa-login-screen,
 body.is-authenticated #mytvs-login-screen {
   display: none !important;
   opacity: 0 !important;
