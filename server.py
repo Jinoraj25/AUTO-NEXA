@@ -542,6 +542,8 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 if get_param('fuel') or get_param('fuel_type'): vc['fuel'] = get_param('fuel') or get_param('fuel_type')
                 if get_param('year'): vc['year'] = get_param('year')
                 if catalog_ai_bot:
+                    import importlib
+                    importlib.reload(catalog_ai_bot)
                     bot_res = catalog_ai_bot.process_chat_message(q_val, vehicle_context=vc)
                 else:
                     bot_res = {"reply": "Catalog AI service is initializing...", "step": "error"}
@@ -858,6 +860,8 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 vehicle_context = payload.get('vehicle_context') or payload.get('activeVehicleContext') or {}
 
                 if catalog_ai_bot:
+                    import importlib
+                    importlib.reload(catalog_ai_bot)
                     bot_res = catalog_ai_bot.process_chat_message(message, session_state=state, vehicle_context=vehicle_context)
                 else:
                     bot_res = {"reply": "Catalog AI service is initializing...", "step": "error"}

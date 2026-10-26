@@ -64,6 +64,14 @@ def stream_parse_october_file(fpath, date_str, is_latest=False):
         if not sheets:
             return None
         sheet_name = sheets[0]
+        shared_strings = []
+        if 'xl/sharedStrings.xml' in z.namelist():
+            with z.open('xl/sharedStrings.xml') as sf:
+                for s_evt, s_elem in ET.iterparse(sf, events=('end',)):
+                    if s_elem.tag.endswith('si'):
+                        t_node = s_elem.find('.//{*}t')
+                        shared_strings.append(t_node.text if t_node is not None and t_node.text else '')
+                        s_elem.clear()
 
         total_skus = 0
         total_qty = 0.0
@@ -101,14 +109,21 @@ def stream_parse_october_file(fpath, date_str, is_latest=False):
                         elem.clear()
                         continue
 
-                    # Extract cell values
+                    # Extract cell values with sharedStrings resolution
                     row_data = {}
                     for cell in elem:
                         ref = cell.attrib.get('r', '')
                         col = ''.join([c for c in ref if c.isalpha()])
+                        t_attr = cell.attrib.get('t')
                         v = cell.find('{http://schemas.openxmlformats.org/spreadsheetml/2006/main}v')
                         if v is not None and v.text:
-                            row_data[col] = v.text
+                            if t_attr == 's' and shared_strings:
+                                try:
+                                    row_data[col] = shared_strings[int(v.text)]
+                                except (IndexError, ValueError):
+                                    row_data[col] = v.text
+                            else:
+                                row_data[col] = v.text
                         else:
                             t = cell.find('.//{http://schemas.openxmlformats.org/spreadsheetml/2006/main}t')
                             if t is not None and t.text:

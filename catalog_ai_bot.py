@@ -611,6 +611,8 @@ def fetch_parts_for_component(make, model, sub_model=None, component=None, fuel_
                 clauses.append("(components LIKE '%BRAKE PAD%' OR part_description LIKE '%PAD KIT%')")
             elif "BRAKE DISC" in clean_c:
                 clauses.append("(components LIKE '%BRAKE DISC%' OR part_description LIKE '%BRAKE DISC%' OR part_description LIKE '%ROTOR%')")
+            elif "BRAKE SHOE" in clean_c or "BRAKE LINER" in clean_c:
+                clauses.append("(components LIKE '%BRAKE SHOE%' OR part_description LIKE '%BRAKE SHOE%' OR part_description LIKE '%SHOE LINED%' OR part_description LIKE '%BRAKE LINING%')")
             elif "CLUTCH" in clean_c:
                 clauses.append("(components LIKE ? OR part_description LIKE ?)")
                 params.extend([f"%{clean_c}%", f"%{clean_c}%"])
@@ -758,6 +760,77 @@ def fetch_parts_for_component(make, model, sub_model=None, component=None, fuel_
             except Exception as e:
                 print("Tier-1 OES fallback fetch error:", e)
 
+        # Smart Architecture Check: If OEM part was not found for BRAKE SHOE (e.g. on 4-wheel disc vehicles like Scorpio-N)
+        if not oem_part and component and ("BRAKE SHOE" in component.upper() or "BRAKE LINER" in component.upper()):
+            pad_sql = """
+            SELECT line_code_part_number, brand_name, part_description, mrp_price, list_price,
+                   tax_rate, line_code, vehicle_make, vehicle_model, vehicle_sub_model,
+                   vehicle_fuel_type, vehicle_from_year, vehicle_to_year, components, aggregate
+            FROM overall_catalogue
+            WHERE vehicle_make = ? AND (vehicle_model = ? OR vehicle_model LIKE ?)
+              AND UPPER(brand_name) = ?
+              AND aggregate = 'BRAKE SYSTEM'
+              AND (components LIKE '%BRAKE PAD%' OR part_description LIKE '%PAD%')
+            ORDER BY CASE WHEN UPPER(part_description) LIKE '%REAR%' THEN 0 ELSE 1 END,
+                     CASE WHEN mrp_price > 0 THEN 0 ELSE 1 END,
+                     mrp_price ASC
+            LIMIT 5
+            """
+            cur.execute(pad_sql, [make, model, f"%{model}%", (make or '').upper()])
+            pad_rows = cur.fetchall()
+            if pad_rows:
+                pr = pad_rows[0]
+                oem_part = {
+                    "partNo": pr["line_code_part_number"],
+                    "brand": pr["brand_name"] or (make or "MAHINDRA"),
+                    "desc": f"{pr['part_description']} (Scorpio-N Disc Brake Architecture)",
+                    "mrp": float(pr["mrp_price"] or 0),
+                    "listPrice": float(pr["list_price"] or 0),
+                    "lineCode": pr["line_code"] or "",
+                    "make": pr["vehicle_make"] or make,
+                    "model": pr["vehicle_model"] or model,
+                    "subModel": pr["vehicle_sub_model"] or "",
+                    "fuelType": pr["vehicle_fuel_type"] or "",
+                    "years": f"{pr['vehicle_from_year'] or ''} - {pr['vehicle_to_year'] or ''}".strip(" -"),
+                    "component": "BRAKE PAD",
+                    "aggregate": pr["aggregate"] or "BRAKE SYSTEM",
+                    "isOem": True,
+                    "technicalNote": f"Note: {model} is factory-built with All-Wheel Disc Brakes (Front & Rear). Mahindra Genuine OEM uses Brake Pads ({pr['part_description']}), not drum shoes."
+                }
+                # Also ensure OES disc brake pads are included
+                oes_pad_sql = """
+                SELECT line_code_part_number, brand_name, part_description, mrp_price, list_price,
+                       tax_rate, line_code, vehicle_make, vehicle_model, vehicle_sub_model,
+                       vehicle_fuel_type, vehicle_from_year, vehicle_to_year, components, aggregate
+                FROM overall_catalogue
+                WHERE vehicle_make = ? AND (vehicle_model = ? OR vehicle_model LIKE ?)
+                  AND UPPER(brand_name) != ?
+                  AND aggregate = 'BRAKE SYSTEM'
+                  AND (components LIKE '%BRAKE PAD%' OR part_description LIKE '%PAD%')
+                ORDER BY CASE WHEN UPPER(part_description) LIKE '%REAR%' THEN 0 ELSE 1 END,
+                         mrp_price ASC
+                LIMIT 5
+                """
+                cur.execute(oes_pad_sql, [make, model, f"%{model}%", (make or '').upper()])
+                for opr in cur.fetchall():
+                    p_no = opr["line_code_part_number"]
+                    if p_no not in seen_part_nos:
+                        seen_part_nos.add(p_no)
+                        oes_parts.insert(0, {
+                            "partNo": p_no,
+                            "brand": opr["brand_name"] or "BOSCH",
+                            "desc": opr["part_description"] or "Brake Pad Set",
+                            "mrp": float(opr["mrp_price"] or 0),
+                            "listPrice": float(opr["list_price"] or 0),
+                            "lineCode": opr["line_code"] or "OES",
+                            "make": opr["vehicle_make"] or make,
+                            "model": opr["vehicle_model"] or model,
+                            "subModel": opr["vehicle_sub_model"] or "",
+                            "component": "BRAKE PAD",
+                            "aggregate": "BRAKE SYSTEM",
+                            "isOem": False
+                        })
+
         conn.close()
         return {"oem": oem_part, "oes": oes_parts[:10]}
     except Exception as e:
@@ -783,6 +856,8 @@ def get_mechanic_translation_note(query_text, comp_name):
     c = (comp_name or "").upper()
     if "BRAKE PAD" in c:
         return "Mechanic Translation: Front Brake Pad (Disc Shoe / Chimta Pad) matches Front Axle Disc Brake Caliper assembly."
+    elif "BRAKE SHOE" in c:
+        return "Mechanic Translation: Brake Shoe / Liner matches Rear Drum Brake assembly. Note: Vehicles with 4-wheel disc brakes (like Scorpio-N, XUV700) use Rear Disc Brake Pads instead of Drum Shoes."
     elif "BRAKE DISC" in c:
         return "Mechanic Translation: Brake Disc (Rotor / Tawa) matches Front Axle Braking surface."
     elif "SHOCK ABSORBER" in c:

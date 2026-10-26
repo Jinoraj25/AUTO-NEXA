@@ -762,30 +762,17 @@ window.OverallCataloguePortal = {
     
     grid.innerHTML = variants.map(v => {
       const isSelected = this.selectedVariant === v.subModel;
-      const imgUrl = (v.image || '').trim();
       const subTitle = v.subModel || v.model;
       const fuel = v.fuelType || 'PETROL';
       const yrs = v.years || '';
-      
-      const thumbHtml = imgUrl ? `
-        <img class="visual-variant-thumb" src="${imgUrl}" alt="${this.escapeHtml(subTitle)}" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
-        <div class="visual-variant-thumb-blank" style="display: none; height: 90px; width: 100%; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem; align-items: center; justify-content: center; border: 1px dashed #cbd5e1;">
-          <span style="color: #94a3b8; font-size: 0.72rem; font-weight: 700;">No photo available</span>
-        </div>
-      ` : `
-        <div class="visual-variant-thumb-blank" style="height: 90px; width: 100%; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; border: 1px dashed #cbd5e1;">
-          <span style="color: #94a3b8; font-size: 0.72rem; font-weight: 700;">No photo available</span>
-        </div>
-      `;
 
       return `
-        <div class="visual-variant-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectVariantVisual('${this.escapeJs(v.subModel)}', '${this.escapeJs(v.model)}', '${this.escapeJs(fuel)}', '${this.escapeJs(v.fromYear || '')}', '${this.escapeJs(v.toYear || '')}', '${this.escapeJs(imgUrl)}')">
-          ${thumbHtml}
-          <div>
-            <div class="visual-variant-name" title="${this.escapeHtml(subTitle)}">${this.escapeHtml(subTitle)}</div>
-            <div class="visual-variant-specs">
-              <span class="visual-variant-fuel-badge">${this.escapeHtml(fuel)}</span>
-              ${yrs ? `<span>${this.escapeHtml(yrs)}</span>` : ''}
+        <div class="visual-variant-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectVariantVisual('${this.escapeJs(v.subModel)}', '${this.escapeJs(v.model)}', '${this.escapeJs(fuel)}', '${this.escapeJs(v.fromYear || '')}', '${this.escapeJs(v.toYear || '')}')">
+          <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; min-height: 58px;">
+            <div class="visual-variant-name" title="${this.escapeHtml(subTitle)}" style="font-size: 0.86rem; font-weight: 850; color: #0f172a; line-height: 1.3; margin-bottom: 0.4rem;">${this.escapeHtml(subTitle)}</div>
+            <div class="visual-variant-specs" style="display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; flex-wrap: wrap;">
+              <span class="visual-variant-fuel-badge" style="background: #e0f2fe; color: #0369a1; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-weight: 800;">${this.escapeHtml(fuel)}</span>
+              ${yrs ? `<span style="font-size: 0.70rem; color: #64748b; font-weight: 700;">${this.escapeHtml(yrs)}</span>` : ''}
             </div>
           </div>
         </div>
@@ -822,12 +809,11 @@ window.OverallCataloguePortal = {
     this.loadVisualVariants();
   },
 
-  selectVariantVisual(subModel, model, fuelType, fromYr, toYr, imgUrl) {
+  selectVariantVisual(subModel, model, fuelType, fromYr, toYr) {
     this.selectedVariant = subModel;
     this.selectedModel = model;
     this.selectedVariantFuel = fuelType;
     this.selectedVariantYears = (fromYr || toYr) ? `${fromYr} - ${toYr || 'Present'}` : '';
-    this.selectedVariantImage = imgUrl;
     
     // Update filters on OverallCataloguePortal
     this.filters.make = this.selectedMake;
@@ -840,9 +826,10 @@ window.OverallCataloguePortal = {
     const thumbEl = document.getElementById('v-selected-veh-thumb');
     const titleEl = document.getElementById('v-selected-veh-title');
     const metaEl = document.getElementById('v-selected-veh-meta');
+    const makeLogo = this.getMakeLogo(this.selectedMake);
     if (thumbEl) {
-      if (imgUrl) {
-        thumbEl.src = imgUrl;
+      if (makeLogo) {
+        thumbEl.src = makeLogo;
         thumbEl.style.display = 'block';
       } else {
         thumbEl.style.display = 'none';
@@ -1166,21 +1153,8 @@ window.OverallCataloguePortal = {
   },
 
   getComponentImage(desc, comp, agg) {
-    const text = `${desc || ''} ${comp || ''} ${agg || ''}`.toUpperCase();
-    if (text.includes('OIL FILTER') || (text.includes('FILTER') && text.includes('OIL'))) return 'images/components/oil_filter.jpg';
-    if (text.includes('AIR FILTER') || (text.includes('FILTER') && text.includes('AIR'))) return 'images/components/air_filter.jpg';
-    if (text.includes('FUEL FILTER') || text.includes('DIESEL FILTER') || text.includes('PETROL FILTER')) return 'images/components/fuel_filter.jpg';
-    if (text.includes('BRAKE PAD') || text.includes('PAD SET')) return 'images/components/brake_pad.jpg';
-    if (text.includes('BRAKE DISC') || text.includes('ROTOR') || text.includes('BRAKE DRUM')) return 'images/components/brake_disc.jpg';
-    if (text.includes('CLUTCH DISC') || text.includes('CLUTCH PLATE') || text.includes('CLUTCH COVER') || text.includes('CLUTCH SET')) return 'images/components/clutch_disc.jpg';
-    if (text.includes('SPARK PLUG') || text.includes('GLOW PLUG')) return 'images/components/spark_plug.jpg';
-    if (text.includes('BATTERY')) return 'images/components/battery.jpg';
-    if (text.includes('SHOCK ABSORBER') || text.includes('STRUT') || text.includes('DAMPER')) return 'images/components/shock_absorber.jpg';
-    if (text.includes('COOLANT') || text.includes('ANTIFREEZE')) return 'images/components/coolant.jpg';
-    if (text.includes('ENGINE OIL') || text.includes('SYNTHETIC OIL') || text.includes('MINERAL OIL') || text.includes('TRANSMISSION OIL') || text.includes('GEAR OIL') || text.includes('BRAKE FLUID')) return 'images/components/engine_oil.jpg';
-    if (text.includes('BULB') || text.includes('HEADLIGHT') || text.includes('LAMP') || text.includes('LIGHTING')) return 'images/components/bulb.jpg';
-    if (text.includes('STEERING') || text.includes('TIE ROD') || text.includes('RACK END') || text.includes('BALL JOINT') || text.includes('CONTROL ARM')) return 'images/components/steering.jpg';
-    return 'images/components/coming_soon.svg';
+    // All component images removed per user request - clean data-driven UI
+    return '';
   },
 
   getBrandCategoryBadge(brand) {
@@ -2390,14 +2364,13 @@ window.OverallCataloguePortal = {
       else if (aggUpper.includes('BODY')) sysIcon = '🚗';
 
       const brandLogoUrl = this.getBrandLogo(brand);
-      const compImgUrl = this.getComponentImage(desc, r.components, aggregate);
 
       return `
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.15rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s; position: relative; box-shadow: 0 2px 8px rgba(15,23,42,0.04);" onmouseover="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 8px 24px rgba(15,23,42,0.08)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 2px 8px rgba(15,23,42,0.04)'; this.style.transform='none'">
           
           <div>
             <!-- Header: Category Badge + Line Code on Left, Brand Logo on Right -->
-            <div style="display: flex; justify-content: space-between; align-items: center; min-height: 28px; margin-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; min-height: 28px; margin-bottom: 0.75rem;">
               <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
                 ${this.getBrandCategoryBadge(brand)}
                 ${lineCode ? `<span style="background: #f1f5f9; color: #475569; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.68rem; font-family: monospace; font-weight: 800; border: 1px solid #e2e8f0;">LC ${this.escapeHtml(lineCode)}</span>` : ''}
@@ -2412,13 +2385,8 @@ window.OverallCataloguePortal = {
               </div>
             </div>
 
-            <!-- Component Image Preview Frame -->
-            <div class="cat-comp-preview-frame">
-              <img src="${compImgUrl}" alt="${this.escapeHtml(desc || aggregate)}" class="cat-comp-preview-img" onerror="this.onerror=null; this.src='images/components/coming_soon.svg';">
-            </div>
-
             <!-- Part Number & Description -->
-            <div style="font-family: monospace; font-size: 0.96rem; font-weight: 900; color: #0284c7; margin-bottom: 0.3rem; letter-spacing: -0.2px;">
+            <div style="font-family: monospace; font-size: 1rem; font-weight: 900; color: #0284c7; margin-bottom: 0.35rem; letter-spacing: -0.2px;">
               ${this.escapeHtml(partNo)}
             </div>
             ${r.crossLineCodeResolved ? `
@@ -2427,7 +2395,7 @@ window.OverallCataloguePortal = {
                 <span>Avl in LC ${this.escapeHtml(r.lineCode || '')} (${this.escapeHtml(brand)})</span>
               </div>
             ` : ''}
-            <div style="font-size: 0.84rem; font-weight: 700; color: #0f172a; line-height: 1.35; height: 2.7em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 0.75rem;">
+            <div style="font-size: 0.86rem; font-weight: 700; color: #0f172a; line-height: 1.4; height: 2.8em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 0.85rem;">
               ${this.escapeHtml(desc || aggregate)}
             </div>
           </div>
@@ -2519,10 +2487,6 @@ window.OverallCataloguePortal = {
       const vehicleInfo = [make, model, subModel].filter(Boolean).join(' ') || 'Universal / Multi-fit';
       const fuelYears = [fuelType, years].filter(Boolean).join(' | ');
 
-      const compSvg = (window.ComponentImageResolver && ComponentImageResolver.generateSvgUri) 
-        ? ComponentImageResolver.generateSvgUri(compName, aggregate)
-        : 'images/home_menu_catalogue.jpg';
-
       const brandLogoUrl = this.getBrandLogo(brand);
 
       return `
@@ -2551,16 +2515,13 @@ window.OverallCataloguePortal = {
             </div>
           </td>
           <td style="padding: 0.75rem 0.85rem; width: 175px;">
-            <div style="display: flex; align-items: center; gap: 0.55rem;">
-              <img src="${compSvg}" alt="${this.escapeHtml(compName)}" style="width: 44px; height: 32px; object-fit: contain; border-radius: 6px; background: #ffffff; border: 1px solid #e2e8f0; padding: 2px; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-              <div style="min-width: 0;">
-                <span style="font-weight: 850; font-size: 0.78rem; color: #0f172a; display: block; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${this.escapeHtml(compName)}">
-                  ${this.escapeHtml(compName)}
-                </span>
-                <span style="font-size: 0.66rem; color: #64748b; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">
-                  ${this.escapeHtml(aggregate)}
-                </span>
-              </div>
+            <div style="min-width: 0;">
+              <span style="font-weight: 850; font-size: 0.82rem; color: #0f172a; display: block; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${this.escapeHtml(compName)}">
+                ${this.escapeHtml(compName)}
+              </span>
+              <span style="font-size: 0.68rem; color: #64748b; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">
+                ${this.escapeHtml(aggregate)}
+              </span>
             </div>
           </td>
           <td style="font-weight: 600; color: #1e293b; font-size: 0.82rem; width: 250px; white-space: normal; line-height: 1.35; padding: 0.85rem 1rem; word-break: break-word;">${this.escapeHtml(desc)}</td>
