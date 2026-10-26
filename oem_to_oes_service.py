@@ -233,15 +233,43 @@ def convert_oem_to_oes(query_str, selected_model=None):
     tier3_secondary = []
     tier4_other = []
 
+    # Known competitor model names per make to detect mis-tagged catalogue records
+    COMPETITOR_MODELS = {
+        'HYUNDAI': {'SWIFT', 'BALENO', 'ERTIGA', 'BREZZA', 'CIAZ', 'CELERIO', 'DZIRE', 'WAGON R', 'WAGONR', 'ALTO', 'EECO', 'ECCO', 'POLO', 'VENTO', 'CITY', 'AMAZE', 'ETIOS', 'INNOVA', 'BOLERO', 'SCORPIO', 'NEXON', 'TIAGO', 'MICRA', 'SUNNY'},
+        'MARUTI': {'SANTRO', 'I10', 'I20', 'CRETA', 'VERNA', 'VENUE', 'POLO', 'VENTO', 'CITY', 'AMAZE', 'ETIOS', 'INNOVA', 'BOLERO', 'SCORPIO', 'NEXON', 'TIAGO'},
+        'MARUTI SUZUKI': {'SANTRO', 'I10', 'I20', 'CRETA', 'VERNA', 'VENUE', 'POLO', 'VENTO', 'CITY', 'AMAZE', 'ETIOS', 'INNOVA', 'BOLERO', 'SCORPIO', 'NEXON', 'TIAGO'},
+        'TATA': {'SWIFT', 'BALENO', 'SANTRO', 'I10', 'I20', 'CRETA', 'VERNA', 'POLO', 'CITY'},
+        'MAHINDRA': {'SWIFT', 'BALENO', 'SANTRO', 'I10', 'I20', 'CRETA', 'VERNA', 'POLO', 'CITY'},
+        'HONDA': {'SWIFT', 'BALENO', 'SANTRO', 'I10', 'I20', 'CRETA', 'VERNA', 'POLO', 'BOLERO'}
+    }
+
+    oem_make_clean = str(mapped_models[0]['make'] if mapped_models else '').upper().strip()
+    competitors = COMPETITOR_MODELS.get(oem_make_clean, set())
+
     seen_parts = set()
     for cr in candidate_rows:
         cpno, cbrand, cdesc, cmrp, cmodel, ccomp = cr
         if cpno in seen_parts: continue
         seen_parts.add(cpno)
 
+        cand_mrp = float(cmrp or 0)
+        cdesc_upper = str(cdesc or '').upper()
+
+        # Guardrail 1: Price Anomaly / Master Pack wholesale box filter
+        # If OES candidate price is > 3.5x OEM MRP and > 10,000, it is a master carton pack or price blunder
+        if oem_mrp > 0 and cand_mrp > (oem_mrp * 3.5) and cand_mrp > 10000.0:
+            continue
+
+        # Guardrail 2: Cross-Make Model Description Blunder Filter
+        # If the database row says Santro/Verna, but description explicitly says 'SWIFT', 'BALENO', 'POLO', 'CITY', etc.
+        if competitors and any(re.search(r'\b' + re.escape(c_mod) + r'\b', cdesc_upper) for c_mod in competitors):
+            # Check if it also mentions any model of the current make
+            current_models = {m['model'].upper() for m in mapped_models}
+            if not any(re.search(r'\b' + re.escape(cur_mod) + r'\b', cdesc_upper) for cur_mod in current_models):
+                continue
+
         cbrand_clean = str(cbrand or '').strip()
         cat = classify_brand(cbrand_clean)
-        cand_mrp = float(cmrp or 0)
         saving_amount = round(oem_mrp - cand_mrp, 2) if (oem_mrp and cand_mrp and oem_mrp > cand_mrp) else None
         saving_pct = round((saving_amount / oem_mrp) * 100) if (saving_amount and oem_mrp > 0) else None
 
