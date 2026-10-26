@@ -762,17 +762,30 @@ window.OverallCataloguePortal = {
     
     grid.innerHTML = variants.map(v => {
       const isSelected = this.selectedVariant === v.subModel;
+      const imgUrl = (v.image || '').trim();
       const subTitle = v.subModel || v.model;
       const fuel = v.fuelType || 'PETROL';
       const yrs = v.years || '';
 
+      const thumbHtml = imgUrl ? `
+        <img class="visual-variant-thumb" src="${imgUrl}" alt="${this.escapeHtml(subTitle)}" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+        <div class="visual-variant-thumb-blank" style="display: none; height: 90px; width: 100%; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem; align-items: center; justify-content: center; border: 1px dashed #cbd5e1;">
+          <span style="color: #94a3b8; font-size: 0.72rem; font-weight: 700;">No photo available</span>
+        </div>
+      ` : `
+        <div class="visual-variant-thumb-blank" style="height: 90px; width: 100%; background: #f8fafc; border-radius: 8px; margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; border: 1px dashed #cbd5e1;">
+          <span style="color: #94a3b8; font-size: 0.72rem; font-weight: 700;">No photo available</span>
+        </div>
+      `;
+
       return `
-        <div class="visual-variant-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectVariantVisual('${this.escapeJs(v.subModel)}', '${this.escapeJs(v.model)}', '${this.escapeJs(fuel)}', '${this.escapeJs(v.fromYear || '')}', '${this.escapeJs(v.toYear || '')}')">
-          <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; min-height: 58px;">
-            <div class="visual-variant-name" title="${this.escapeHtml(subTitle)}" style="font-size: 0.86rem; font-weight: 850; color: #0f172a; line-height: 1.3; margin-bottom: 0.4rem;">${this.escapeHtml(subTitle)}</div>
-            <div class="visual-variant-specs" style="display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; flex-wrap: wrap;">
-              <span class="visual-variant-fuel-badge" style="background: #e0f2fe; color: #0369a1; padding: 0.15rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-weight: 800;">${this.escapeHtml(fuel)}</span>
-              ${yrs ? `<span style="font-size: 0.70rem; color: #64748b; font-weight: 700;">${this.escapeHtml(yrs)}</span>` : ''}
+        <div class="visual-variant-card ${isSelected ? 'selected' : ''}" onclick="OverallCataloguePortal.selectVariantVisual('${this.escapeJs(v.subModel)}', '${this.escapeJs(v.model)}', '${this.escapeJs(fuel)}', '${this.escapeJs(v.fromYear || '')}', '${this.escapeJs(v.toYear || '')}', '${this.escapeJs(imgUrl)}')">
+          ${thumbHtml}
+          <div>
+            <div class="visual-variant-name" title="${this.escapeHtml(subTitle)}">${this.escapeHtml(subTitle)}</div>
+            <div class="visual-variant-specs">
+              <span class="visual-variant-fuel-badge">${this.escapeHtml(fuel)}</span>
+              ${yrs ? `<span>${this.escapeHtml(yrs)}</span>` : ''}
             </div>
           </div>
         </div>
@@ -809,11 +822,12 @@ window.OverallCataloguePortal = {
     this.loadVisualVariants();
   },
 
-  selectVariantVisual(subModel, model, fuelType, fromYr, toYr) {
+  selectVariantVisual(subModel, model, fuelType, fromYr, toYr, imgUrl) {
     this.selectedVariant = subModel;
     this.selectedModel = model;
     this.selectedVariantFuel = fuelType;
     this.selectedVariantYears = (fromYr || toYr) ? `${fromYr} - ${toYr || 'Present'}` : '';
+    this.selectedVariantImage = imgUrl;
     
     // Update filters on OverallCataloguePortal
     this.filters.make = this.selectedMake;
@@ -826,13 +840,18 @@ window.OverallCataloguePortal = {
     const thumbEl = document.getElementById('v-selected-veh-thumb');
     const titleEl = document.getElementById('v-selected-veh-title');
     const metaEl = document.getElementById('v-selected-veh-meta');
-    const makeLogo = this.getMakeLogo(this.selectedMake);
     if (thumbEl) {
-      if (makeLogo) {
-        thumbEl.src = makeLogo;
+      if (imgUrl) {
+        thumbEl.src = imgUrl;
         thumbEl.style.display = 'block';
       } else {
-        thumbEl.style.display = 'none';
+        const makeLogo = this.getMakeLogo(this.selectedMake);
+        if (makeLogo) {
+          thumbEl.src = makeLogo;
+          thumbEl.style.display = 'block';
+        } else {
+          thumbEl.style.display = 'none';
+        }
       }
     }
     if (titleEl) titleEl.textContent = `${this.selectedMake} ${subModel}`;
