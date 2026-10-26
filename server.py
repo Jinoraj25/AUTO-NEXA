@@ -7,6 +7,7 @@ import glob
 import re
 import threading
 import urllib.parse
+import time
 
 try:
     import overall_catalogue_api
@@ -1176,6 +1177,13 @@ if __name__ == '__main__':
     with socketserver.ThreadingTCPServer(("", PORT), CustomHandler) as httpd:
         httpd.daemon_threads = True
         try:
-            httpd.serve_forever()
+            while True:
+                try:
+                    httpd.serve_forever()
+                except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError, OSError) as cx:
+                    time.sleep(0.1)
+                except Exception as ex:
+                    print(f"Transient server exception handled: {ex}")
+                    time.sleep(0.5)
         except KeyboardInterrupt:
             print("\nServer stopped cleanly.")
