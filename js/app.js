@@ -356,10 +356,12 @@ window.App = {
   handleLogin(e) {
     if (e && e.preventDefault) e.preventDefault();
     const userCodeInput = document.getElementById('login-username');
-    const userCode = (userCodeInput && userCodeInput.value ? userCodeInput.value : 'SM0237').trim().toUpperCase();
+    const userCode = (userCodeInput && userCodeInput.value ? userCodeInput.value : 'DEMO').trim().toUpperCase();
 
     let displayName = "Jino George";
-    if (userCode === "SM0216") displayName = "Prasanna";
+    if (userCode === "DEMO" || userCode === "DEMOGUEST" || userCode === "GUEST") {
+      displayName = "Guest Recruiter";
+    }
 
     sessionStorage.setItem('autonexa_logged_in', 'true');
     sessionStorage.setItem('autonexa_user_code', userCode);
@@ -498,4 +500,30 @@ window.togglePasswordDirect = function() {
   if (pwInput) {
     pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
   }
+};
+
+window.loginDemo = function(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  var u = document.getElementById('login-username');
+  var p = document.getElementById('login-password');
+  if (u) u.value = 'DemoGuest';
+  if (p) p.value = '••••••••';
+  return window.loginDirect(e);
+};
+
+window.loginSubmit = function(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  var u = document.getElementById('login-username');
+  var p = document.getElementById('login-password');
+  var userVal = (u && u.value ? u.value : '').trim();
+  var passVal = (p && p.value ? p.value : '').trim();
+  if (!userVal || !passVal) {
+    if (window.App && window.App.showToast) {
+      window.App.showToast('Please click "1-Click Live Demo" below to explore the platform.', 'info');
+    } else {
+      alert('Please click "1-Click Live Demo" below to explore the platform.');
+    }
+    return false;
+  }
+  return window.loginDirect(e);
 };

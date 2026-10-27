@@ -38,6 +38,32 @@
       }
     }
 
+    function loginDemo(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      var u = document.getElementById('login-username');
+      var p = document.getElementById('login-password');
+      if (u) u.value = 'DemoGuest';
+      if (p) p.value = '••••••••';
+      return loginDirect(e);
+    }
+
+    function loginSubmit(e) {
+      if (e && e.preventDefault) e.preventDefault();
+      var u = document.getElementById('login-username');
+      var p = document.getElementById('login-password');
+      var userVal = (u && u.value ? u.value : '').trim();
+      var passVal = (p && p.value ? p.value : '').trim();
+      if (!userVal || !passVal) {
+        if (window.App && window.App.showToast) {
+          window.App.showToast('Please click "1-Click Live Demo" below to explore the platform.', 'info');
+        } else {
+          alert('Please click "1-Click Live Demo" below to explore the platform.');
+        }
+        return false;
+      }
+      return loginDirect(e);
+    }
+
     function loginDirect(e) {
       if (e && e.preventDefault) e.preventDefault();
       try {
@@ -257,12 +283,12 @@
         <h2 class="card-heading">Welcome Back</h2>
         <p class="card-subheading">Sign in to your account to access the platform</p>
 
-        <form id="autonexa-login-form" action="javascript:void(0);" onsubmit="return loginDirect(event);">
+        <form id="autonexa-login-form" action="javascript:void(0);" onsubmit="return loginSubmit(event);">
           <div class="input-group-modern">
-            <label for="login-username">Username or Employee Code</label>
+            <label for="login-username">Username</label>
             <div class="input-field-wrapper">
               <span class="field-icon">👤</span>
-              <input type="text" id="login-username" value="SM0237" placeholder="e.g. SM0237 or SM0216" required>
+              <input type="text" id="login-username" value="" placeholder="Enter username or click Demo below" autocomplete="username">
             </div>
           </div>
 
@@ -270,7 +296,7 @@
             <label for="login-password">Password</label>
             <div class="input-field-wrapper">
               <span class="field-icon">🔒</span>
-              <input type="password" id="login-password" value="Catalog@2026" placeholder="Enter password" required>
+              <input type="password" id="login-password" value="" placeholder="Enter password or click Demo below" autocomplete="current-password">
               <button type="button" class="btn-toggle-pw" onclick="togglePasswordDirect();">👁️</button>
             </div>
           </div>
@@ -280,19 +306,19 @@
               <input type="checkbox" id="login-remember" checked>
               <span>Remember me</span>
             </label>
-            <a href="#" onclick="if(window.App && window.App.showToast){ window.App.showToast('Demo Mode: Click Explore Live Demo below to enter without password.', 'info'); } else { alert('Demo Mode: Click Explore Live Demo below to enter without password.'); } return false;" class="link-forgot">Forgot Password?</a>
+            <a href="#" onclick="if(window.App && window.App.showToast){ window.App.showToast('Demo Mode: Click 1-Click Live Demo below to enter without credentials.', 'info'); } else { alert('Demo Mode: Click 1-Click Live Demo below to enter without credentials.'); } return false;" class="link-forgot">Forgot Password?</a>
           </div>
 
-          <button type="button" id="btn-login-submit" class="btn-gradient-submit" onclick="loginDirect(event);">
+          <button type="button" id="btn-login-submit" class="btn-gradient-submit" onclick="loginSubmit(event);">
             <span>Sign In</span> <span class="arrow-icon">→</span>
           </button>
 
-          <button type="button" id="btn-guest-login" class="btn-guest-demo" onclick="loginDirect(event);" style="width: 100%; margin-top: 0.65rem; padding: 0.75rem 1rem; border-radius: 10px; background: linear-gradient(135deg, #0284c7, #2563eb); border: none; color: #ffffff; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); transition: transform 0.2s;">
+          <button type="button" id="btn-guest-login" class="btn-guest-demo" onclick="loginDemo(event);" style="width: 100%; margin-top: 0.65rem; padding: 0.75rem 1rem; border-radius: 10px; background: linear-gradient(135deg, #0284c7, #2563eb); border: none; color: #ffffff; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); transition: transform 0.2s;">
             <span>🚀 1-Click Live Demo (Recruiter & Guest Access)</span>
           </button>
 
           <div class="login-card-footer-text" style="margin-top: 1rem; text-align: center;">
-            Candidate Portfolio: <strong style="color: #0284c7;">Jino George • Catalog Analyst</strong>
+            Candidate Portfolio: <strong style="color: #0284c7;">Jino George • Automotive Data Analyst</strong>
           </div>
         </form>
       </div>
@@ -427,7 +453,7 @@
         <span class="profile-avatar" style="width: 32px; height: 32px; border-radius: 8px; background: #1765c1; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.82rem; color: #fff; flex-shrink: 0;">JG</span>
         <div class="profile-info" style="min-width: 0; line-height: 1.2;">
           <strong style="color: #0f172a; font-size: 0.82rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Jino George</strong>
-          <small style="color: #1765c1; font-size: 0.72rem; font-weight: 750;">SM0237 • Catalog Analyst</small>
+          <small style="color: #1765c1; font-size: 0.72rem; font-weight: 750;">Automotive Data Analyst</small>
         </div>
       </div>
       <button type="button" onclick="App.logout()" title="Logout" style="background: #f1f5f9; border: 1px solid #e2e8f0; color: #475569; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.95rem;">
