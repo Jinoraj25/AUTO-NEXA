@@ -2,6 +2,21 @@
 <html lang="en" data-theme="light">
 <head>
   <script>
+    (function() {
+      var host = window.location.hostname;
+      var isLocal = host === 'localhost' || host === '127.0.0.1' || host === '' || host.startsWith('192.168.') || host.startsWith('10.');
+      var root = document.documentElement;
+      if (isLocal) {
+        root.classList.add('env-local');
+        root.classList.remove('env-render');
+        document.title = "myTVS | Automotive Parts Intelligence Platform";
+      } else {
+        root.classList.add('env-render');
+        root.classList.remove('env-local');
+        document.title = "AUTO NEXA | Automotive Parts Intelligence Platform";
+      }
+      window.__IS_LOCAL_ENV__ = isLocal;
+    })();
     try {
       localStorage.setItem('auto-nexa-theme', 'light');
       localStorage.setItem('theme', 'light');
@@ -158,7 +173,18 @@
     
     <!-- Top Left Brand Badge -->
     <div class="login-top-brand-badge">
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <!-- Localhost: myTVS Branding -->
+      <div class="show-on-local-flex" style="align-items: center; gap: 0.75rem;">
+        <div class="mytvs-logo-row">
+          <span class="mytvs-my-text" style="font-family: 'Outfit', sans-serif; font-size: 30px; font-weight: 900; color: #FF6600; letter-spacing: -0.04em;">my</span><span class="mytvs-tvs-text" style="font-family: 'Outfit', sans-serif; font-size: 30px; font-weight: 900; color: #2B549A; letter-spacing: -0.02em;">TVS</span>
+        </div>
+        <div class="brand-text-block">
+          <span style="font-size: 8px; font-weight: 900; color: #ffffff; letter-spacing: 0.12em; text-transform: uppercase;">TRUSTED. TESTED. TRUE.</span>
+          <span style="font-size: 0.62rem; color: #94a3b8; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 800;">Enterprise Automotive Intelligence</span>
+        </div>
+      </div>
+      <!-- Render: AUTO NEXA Branding -->
+      <div class="show-on-render-flex" style="align-items: center; gap: 0.75rem;">
         <div class="brand-crest-emblem" style="width: 38px; height: 38px; font-size: 1.15rem; background: linear-gradient(135deg, #ff4757 0%, #ff6b35 50%, #ffa502 100%); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; box-shadow: 0 0 16px rgba(255, 107, 53, 0.5);">⚡</div>
         <div class="brand-text-block">
           <span class="brand-title-auto" style="font-size: 1.35rem; font-weight: 900; color: #ffffff; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">AUTO <span class="brand-title-nexa" style="background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NEXA</span></span>
@@ -169,7 +195,8 @@
 
     <!-- Left Side Hero Content (Fills empty dark background space) -->
     <div class="login-left-hero-text">
-      <div class="login-tagline-quote">"Precision Parts. Intelligent Operations."</div>
+      <div class="login-tagline-quote show-on-local-only">"Trusted. Tested. True."</div>
+      <div class="login-tagline-quote show-on-render-only">"Precision Parts. Intelligent Operations."</div>
       <div class="login-kicker-tag">AUTOMOTIVE PARTS INTELLIGENCE PLATFORM</div>
       <h1 class="login-hero-headline">
         Smarter Decisions.<br>
@@ -184,7 +211,10 @@
         <span class="pill-chip">🔄 OEM ⇄ OES Engine</span>
         <span class="pill-chip">📄 Master Parts Matrix</span>
       </div>
-      <div class="login-hero-footer-tag">
+      <div class="login-hero-footer-tag show-on-local-only">
+        <span class="footer-mytvs-bold" style="font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 900; color: #FF6600;">my<span style="color: #2B549A;">TVS</span></span> Mobility Inventory Intelligence Platform
+      </div>
+      <div class="login-hero-footer-tag show-on-render-only">
         <span class="autonexa-bold-blue" style="font-family: 'Outfit', sans-serif; font-weight: 900; color: #38bdf8;">AUTO NEXA</span> Empowering the Automotive Aftermarket with Intelligence.
       </div>
     </div>
@@ -193,11 +223,21 @@
     <div class="login-compact-card-wrapper">
       <div class="login-white-card">
         <div class="white-card-logo">
-          <div style="display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; margin-bottom: 0.25rem;">
-            <div class="brand-crest-emblem" style="width: 30px; height: 30px; font-size: 0.95rem; border-radius: 9px; background: linear-gradient(135deg, #ff4757 0%, #ff6b35 50%, #ffa502 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; box-shadow: 0 0 12px rgba(255, 107, 53, 0.45);">⚡</div>
-            <span style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 900; color: #0f172a; letter-spacing: -0.02em;">AUTO <span style="background: linear-gradient(135deg, #2563eb, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NEXA</span></span>
+          <!-- Localhost: myTVS White Card Logo -->
+          <div class="show-on-local-only" style="text-align: center;">
+            <div style="display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.15rem;">
+              <span class="card-mytvs-my" style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 900; color: #FF6600; letter-spacing: -0.04em;">my</span><span class="card-mytvs-tvs" style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 900; color: #2B549A; letter-spacing: -0.02em;">TVS</span>
+            </div>
+            <div class="card-tagline" style="color: #64748b; font-size: 8.5px; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase;">TRUSTED. TESTED. TRUE.</div>
           </div>
-          <div class="card-tagline" style="color: #64748b; font-size: 8.5px; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase;">ENTERPRISE AUTOMOTIVE PLATFORM</div>
+          <!-- Render: AUTO NEXA White Card Logo -->
+          <div class="show-on-render-only" style="text-align: center;">
+            <div style="display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; margin-bottom: 0.25rem;">
+              <div class="brand-crest-emblem" style="width: 30px; height: 30px; font-size: 0.95rem; border-radius: 9px; background: linear-gradient(135deg, #ff4757 0%, #ff6b35 50%, #ffa502 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; box-shadow: 0 0 12px rgba(255, 107, 53, 0.45);">⚡</div>
+              <span style="font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 900; color: #0f172a; letter-spacing: -0.02em;">AUTO <span style="background: linear-gradient(135deg, #2563eb, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NEXA</span></span>
+            </div>
+            <div class="card-tagline" style="color: #64748b; font-size: 8.5px; font-weight: 850; letter-spacing: 0.12em; text-transform: uppercase;">ENTERPRISE AUTOMOTIVE PLATFORM</div>
+          </div>
         </div>
 
         <h2 class="card-heading">Welcome Back</h2>
@@ -255,18 +295,29 @@
   <aside id="app-sidebar" class="app-sidebar">
     <!-- Brand / Logo Area (AUTO NEXA Signature Brand Box) -->
     <!-- Brand / Logo Area (AUTO NEXA Elevated Signature Brand Box) -->
-    <div class="sidebar-brand-box" onclick="App.switchTab('home')" title="AUTO NEXA Enterprise OS">
-      <div class="brand-crest-emblem">
-        ⚡
-      </div>
-      <div class="brand-text-block">
-        <div style="display: flex; align-items: baseline; gap: 4px;">
-          <span class="brand-title-auto">AUTO</span>
-          <span class="brand-title-nexa">NEXA</span>
+    <div class="sidebar-brand-box" onclick="App.switchTab('home')" title="Enterprise Studio">
+      <!-- Localhost: myTVS Brand -->
+      <div class="show-on-local-flex" style="align-items: center; gap: 10px;">
+        <div style="display: flex; align-items: center; line-height: 1;">
+          <span style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 900; color: #FF6600; letter-spacing: -0.04em;">my</span><span style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 900; color: #2B549A; letter-spacing: -0.02em;">TVS</span>
         </div>
-        <div class="brand-sub-badge">
+        <div class="brand-sub-badge" style="margin-left: 2px;">
           <span class="brand-live-dot"></span>
-          <span>ENTERPRISE OS • v25.4</span>
+          <span style="font-size: 0.65rem; color: #cbd5e1; font-weight: 800;">ENTERPRISE OS</span>
+        </div>
+      </div>
+      <!-- Render: AUTO NEXA Brand -->
+      <div class="show-on-render-flex" style="align-items: center; gap: 0.85rem;">
+        <div class="brand-crest-emblem">⚡</div>
+        <div class="brand-text-block">
+          <div style="display: flex; align-items: baseline; gap: 4px;">
+            <span class="brand-title-auto">AUTO</span>
+            <span class="brand-title-nexa">NEXA</span>
+          </div>
+          <div class="brand-sub-badge">
+            <span class="brand-live-dot"></span>
+            <span>ENTERPRISE OS • v25.4</span>
+          </div>
         </div>
       </div>
     </div>
@@ -625,7 +676,8 @@
         <div class="scenic-aftermarket-banner">
           <div class="aftermarket-copy">
             <h2>Built for the Automotive Aftermarket.</h2>
-            <p>From catalogue to customer, AUTO NEXA brings together everything you need in one powerful platform.</p>
+            <p class="show-on-local-only">From catalogue to customer, myTVS brings together everything you need in one powerful platform.</p>
+            <p class="show-on-render-only">From catalogue to customer, AUTO NEXA brings together everything you need in one powerful platform.</p>
           </div>
           <div class="aftermarket-brands-wall">
             <span style="display: inline-flex; align-items: center; gap: 0.4rem;"><img src="images/makes/maruti.png" alt="Maruti" style="height: 18px; object-fit: contain;"> MARUTI SUZUKI</span>
@@ -659,7 +711,8 @@
             <div>
               <div class="cat-hero-pill">
                 <span class="brand-live-dot"></span>
-                <span>AUTO NEXA ENTERPRISE CATALOGUE INTELLIGENCE • LIVE FTS5 INDEX</span>
+                <span class="show-on-local-inline">myTVS ENTERPRISE CATALOGUE INTELLIGENCE • LIVE FTS5 INDEX</span>
+                <span class="show-on-render-inline">AUTO NEXA ENTERPRISE CATALOGUE INTELLIGENCE • LIVE FTS5 INDEX</span>
               </div>
               <h1 class="cat-hero-title">
                 Master Catalogue Intelligence Dashboard
@@ -2252,7 +2305,8 @@
           <div style="max-width: 680px;">
             <div class="cat-hero-pill" style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(234, 88, 12, 0.22); border: 1px solid rgba(253, 186, 116, 0.4); color: #fed7aa; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.74rem; font-weight: 850; letter-spacing: 0.08em; text-transform: uppercase; backdrop-filter: blur(8px);">
               <span class="brand-live-dot" style="background: #ea580c; box-shadow: 0 0 12px #ea580c; width: 7px; height: 7px; border-radius: 50%;"></span>
-              <span>AUTO NEXA SALES INTELLIGENCE &amp; PERFORMANCE ANALYTICS • LIVE DUMP</span>
+              <span class="show-on-local-inline">myTVS MOBILITY SALES INTELLIGENCE &amp; PERFORMANCE ANALYTICS • LIVE DUMP</span>
+              <span class="show-on-render-inline">AUTO NEXA SALES INTELLIGENCE &amp; PERFORMANCE ANALYTICS • LIVE DUMP</span>
             </div>
             <h1 class="cat-hero-title" style="font-family: 'Outfit', sans-serif !important; font-size: 2.1rem !important; font-weight: 900 !important; color: #ffffff !important; margin: 0.4rem 0 0.45rem !important; letter-spacing: -0.5px !important; text-shadow: 0 3px 20px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.8) !important;">
               Sales Intelligence &amp; Performance Analytics

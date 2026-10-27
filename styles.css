@@ -8351,5 +8351,32 @@ body:has(#tab-catalogue-ai.active) .toast-container {
 .cat-card-acc { border: 1.5px solid rgba(239, 68, 68, 0.5) !important; }
 .cat-card-acc:hover { border-color: rgba(248, 113, 113, 0.8) !important; box-shadow: 0 12px 30px rgba(239, 68, 68, 0.35) !important; }
 
+/* ==========================================================================
+   DUAL ENVIRONMENT BRANDING & DATA SWITCHER (Localhost vs Render)
+   - Localhost: Authentic myTVS Enterprise branding, logos, and typography
+   - Render: Complete AUTO NEXA brand identity, zero myTVS occurrences
+   ========================================================================== */
+.show-on-local-only { display: none !important; }
+.show-on-render-only { display: block !important; }
+.show-on-local-flex { display: none !important; }
+.show-on-render-flex { display: flex !important; }
+.show-on-local-inline { display: none !important; }
+.show-on-render-inline { display: inline !important; }
+
+html.env-local .show-on-local-only { display: block !important; }
+html.env-local .show-on-render-only { display: none !important; }
+html.env-local .show-on-local-flex { display: flex !important; }
+html.env-local .show-on-render-flex { display: none !important; }
+html.env-local .show-on-local-inline { display: inline !important; }
+html.env-local .show-on-render-inline { display: none !important; }
+
+html.env-render .show-on-local-only { display: none !important; }
+html.env-render .show-on-render-only { display: block !important; }
+html.env-render .show-on-local-flex { display: none !important; }
+html.env-render .show-on-render-flex { display: flex !important; }
+html.env-render .show-on-local-inline { display: none !important; }
+html.env-render .show-on-render-inline { display: inline !important; }
+
+
 
 

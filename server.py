@@ -58,8 +58,13 @@ def get_mysql_connection():
     return None
 
 def get_db_connection():
-    if os.path.exists(DB_PATH):
+    if os.path.exists(DB_PATH) and os.path.getsize(DB_PATH) > 1000:
         conn = sqlite3.connect(DB_PATH)
+        conn.row_factory = sqlite3.Row
+        return conn
+    compact = os.path.join(BASE_DIR, 'data', 'autonexa_catalog.db')
+    if os.path.exists(compact):
+        conn = sqlite3.connect(compact)
         conn.row_factory = sqlite3.Row
         return conn
     return None
@@ -681,7 +686,9 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
 
             if path_only == '/api/inventory/sync-status':
                 try:
-                    conn = sqlite3.connect(os.path.join("data", "autonexa.db"))
+                    conn = get_db_connection()
+                    if not conn:
+                        raise Exception("Inventory database not found")
                     cur = conn.cursor()
                     cur.execute("SELECT COUNT(*), MAX(snapshot_date) FROM inventory_daily_snapshots")
                     row = cur.fetchone()
@@ -715,8 +722,9 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 offset_val = (page_val - 1) * limit_val
 
                 try:
-                    conn = sqlite3.connect(os.path.join("data", "autonexa.db"))
-                    conn.row_factory = sqlite3.Row
+                    conn = get_db_connection()
+                    if not conn:
+                        raise Exception("Inventory database not found")
                     cur = conn.cursor()
 
                     clauses = []

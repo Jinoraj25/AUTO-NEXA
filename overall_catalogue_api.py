@@ -11,7 +11,7 @@ DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "over
 COMPACT_DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "autonexa_catalog.db")
 
 def get_db():
-    if os.path.exists(DB_PATH) and os.path.getsize(DB_PATH) > 1000:
+    if os.path.exists(DB_PATH) and os.path.getsize(DB_PATH) > 100 * 1024 * 1024:
         conn = sqlite3.connect(DB_PATH)
         conn.row_factory = sqlite3.Row
         return conn
@@ -1531,7 +1531,17 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
                     where_clauses.append(f"id IN ({id_placeholders})")
                     params.extend(fts_ids)
                 else:
-                    where_clauses.append("1 = 0")
+                    # Fallback to SQL LIKE search so text search never returns empty unnecessarily
+                    tokens_to_match = meaningful_tokens or fts_tokens
+                    if tokens_to_match:
+                        term_clauses = []
+                        for tok in tokens_to_match[:3]:
+                            term_clauses.append("(line_code_part_number LIKE ? OR part_description LIKE ? OR brand_name LIKE ? OR vehicle_model LIKE ?)")
+                            params.extend([f"%{tok}%", f"%{tok}%", f"%{tok}%", f"%{tok}%"])
+                        where_clauses.append("(" + " AND ".join(term_clauses) + ")")
+                    else:
+                        where_clauses.append("(line_code_part_number LIKE ? OR part_description LIKE ?)")
+                        params.extend([f"%{q}%", f"%{q}%"])
 
         if brand:
             where_clauses.append("brand_name = ?")
@@ -1593,7 +1603,8 @@ def search_catalogue(q="", brand="", make="", model="", sub_model="", fuel_type=
         # Count total matching records
         cur = conn.cursor()
         if not where_str:
-            total_count = 23671472
+            cur.execute("SELECT COUNT(*) FROM overall_catalogue")
+            total_count = cur.fetchone()[0]
             order_by_clause = "ORDER BY id ASC"
         else:
             count_sql = f"SELECT COUNT(*) FROM overall_catalogue{where_str}"

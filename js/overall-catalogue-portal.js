@@ -1165,11 +1165,14 @@ window.OverallCataloguePortal = {
     if (b.includes('BREMBO')) return 'images/brands/brembo.svg';
     if (b.includes('SKF')) return 'images/brands/skf.svg';
     if (b.includes('CONTITECH')) return 'images/brands/contitech.svg';
-    if (b.includes('MYTVS') || b === 'TVS' || b.includes('TVS MOBILITY')) return 'images/brands/mytvs.svg';
+    if (b === 'AUTONEXA' || b.startsWith('AUTONEXA')) return 'images/icons/menu_home.jpg';
+    if (b.includes('MYTVS') || b === 'TVS' || b.includes('TVS MOBILITY')) {
+      return (window.__IS_LOCAL_ENV__) ? 'images/brands/mytvs.svg' : 'images/icons/menu_home.jpg';
+    }
     if (b.includes('CASTROL')) return 'images/brands/castrol.svg';
 
     // Authentic OEM Logos (From images/makes/ - Real Manufacturer Logos)
-    if (b.includes('MARUTI') || b.includes('SUZUKI') || b.includes('NEXA')) return 'images/makes/maruti.png';
+    if (b.includes('MARUTI') || b.includes('SUZUKI') || (b.includes('NEXA') && !b.includes('AUTONEXA'))) return 'images/makes/maruti.png';
     if (b.includes('HYUNDAI') || b.includes('MOBIS')) return 'images/makes/hyundai.png';
     if (b.includes('TATA')) return 'images/makes/tata.png';
     if (b.includes('MAHINDRA')) return 'images/makes/mahindra.png';
@@ -1220,7 +1223,7 @@ window.OverallCataloguePortal = {
     const b = (brand || '').trim().toUpperCase();
     
     // PL (Private Label)
-    if (b === 'MYTVS' || b.includes('MYTVS') || b === 'UCAP') {
+    if (b === 'MYTVS' || b.includes('MYTVS') || b === 'AUTONEXA' || b.includes('AUTONEXA') || b === 'UCAP') {
       return `<span class="badge" style="background: #f3e8ff; color: #7e22ce; border: 1px solid #d8b4fe; font-size: 0.65rem; font-weight: 850; padding: 0.15rem 0.45rem; border-radius: 4px;">⭐ CERTIFIED PL</span>`;
     }
     

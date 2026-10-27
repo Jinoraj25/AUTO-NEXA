@@ -172,7 +172,7 @@ def seed_knowledge_base(conn):
         ("AF-1088", "PUROLATOR", "OES_TIER1", "Filters", "AIR FILTER ELEMENT (100% OE DUST RETENTION)", 195, "images/brands/purolator.png"),
         ("0986AF2411", "BOSCH", "OES_TIER1", "Filters", "High Efficiency Air Filter", 205, "images/brands/bosch.png"),
         ("EK-5178", "ELOFIC", "OES_TIER1", "Filters", "OE Replacement Air Cleaner", 185, "images/brands/elofic.png"),
-        ("TVS-AF021", "TVS MOBILITY", "OES_TIER1", "Filters", "Multi-layer Synthetic Air Filter", 190, "images/brands/mytvs.png")
+        ("NEXA-AF021", "AUTONEXA", "OES_TIER1", "Filters", "Multi-layer Synthetic Air Filter", 190, "images/icons/menu_home.jpg")
     ]
 
     for pn, brand, btype, agg, desc, mrp, logo in parts_c2:
@@ -259,7 +259,7 @@ def seed_knowledge_base(conn):
         ("OC-1240", "MAHLE", "OES_TIER1", "Filters", "OE Pleated Synthetic Oil Filter", 265, "images/brands/mahle.png"),
         ("0986AF0058", "BOSCH", "OES_TIER1", "Filters", "Bosch Spin-on Clean Oil Filter", 275, "images/brands/bosch.png"),
         ("EK-6112", "ELOFIC", "OES_TIER1", "Filters", "Elofic Heavy Duty Oil Cartridge", 240, "images/brands/elofic.png"),
-        ("TVS-OF011", "TVS MOBILITY", "OES_TIER1", "Filters", "myTVS Multi-Valve Oil Filter", 250, "images/brands/mytvs.png")
+        ("NEXA-OF011", "AUTONEXA", "OES_TIER1", "Filters", "AutoNexa Multi-Valve Oil Filter", 250, "images/icons/menu_home.jpg")
     ]
 
     for pn, brand, btype, agg, desc, mrp, logo in parts_c4:
@@ -451,10 +451,12 @@ def resolve_from_catalogue_db(raw_query, norm_query):
     that hasn't been manually curated into a group yet.
     """
     cat_db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "overall_catalogue.db")
-    if not os.path.exists(cat_db_path):
+    compact_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "autonexa_catalog.db")
+    db_to_use = cat_db_path if os.path.exists(cat_db_path) else compact_path
+    if not os.path.exists(db_to_use):
         return {"error": "Catalogue DB not found", "results": None}
 
-    conn = sqlite3.connect(cat_db_path)
+    conn = sqlite3.connect(db_to_use)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
 
